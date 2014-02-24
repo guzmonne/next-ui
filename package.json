@@ -1,0 +1,18 @@
+{
+    "scripts": [
+        "src/base.js",
+        "src/class.js",
+        "src/Comparable.js",
+        "src/Deferrable.js",
+        "src/Iterable.js",
+        "src/Observable.js",
+        "src/Serializable.js",
+        "src/data/Collection.js",
+        "src/data/Dictionary.js",
+        "src/data/ObservableObject.js",
+        "src/data/ObservableCollection.js",
+        "src/data/ObservableDictionary.js",
+        "src/data/Query.js"
+    ]
+    
+}
