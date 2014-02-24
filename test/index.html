@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <title>Test for NeXt UI</title>
+    <link type="text/css" rel="stylesheet" href="qunit/qunit-1.12.0.css">
+    <script type="text/javascript" src="qunit/qunit-1.12.0.js"></script>
+    <script type="text/javascript" src="qunit/qunit-reporter-junit.js"></script>
+    <script type="text/javascript" src="../lib/next/next-core.js"></script>
+    <script type="text/javascript" src="../src/js/Env.js"></script>
+    <script type="text/javascript" src="../src/js/Util.js"></script>
+    <script type="text/javascript" src="../src/js/dom/Node.js"></script>
+    <script type="text/javascript" src="../src/js/dom/Text.js"></script>
+    <script type="text/javascript" src="../src/js/dom/Fragment.js"></script>
+    <script type="text/javascript" src="../src/js/dom/Element.js"></script>
+    <script type="text/javascript" src="../src/js/dom/Document.js"></script>
+    <script type="text/javascript" src="../src/js/ui/AbstractComponent.js"></script>
+    <script type="text/javascript" src="../src/js/ui/Component.js"></script>
+    <script type="text/javascript" src="../src/js/ui/Application.js"></script>
+    <!--<script type="text/javascript" src="ComponentBase.js"></script>-->
+    <!--<script type="text/javascript" src="UIComponent.js"></script>-->
+</head>
+<body>
+<div id="qunit"></div>
+<div id="qunit-fixture"></div>
+<script>
+var User = nx.define(nx.Observable, {
+    properties: {
+        firstName: {
+            value: null
+        },
+        lastName: {
+            value: null
+        },
+        fullName: {
+            dependencies: ['firstName', 'lastName'],
+            get: function () {
+                return this._firstName + ' ' + this._lastName;
+            }
+        },
+        color: {
+            value: '#666'
+        }
+    },
+    methods: {
+        init: function (data) {
+            this.inherited();
+            this.sets(data);
+        }
+    }
+});
+
+var mars = new User({
+    firstName: 'Mars',
+    lastName: 'Wu',
+    color: '#800000'
+});
+
+var fei = new User({
+    firstName: 'Fei',
+    lastName: 'Zheng'
+});
+
+var kai = new User({
+    firstName: 'Kai',
+    lastName: 'Liu'
+});
+
+var abu = new User({
+    firstName: 'Abu',
+    lastName: 'Aikepaer'
+});
+
+var wei = new User({
+    firstName: 'Wei',
+    lastName: 'Qiao'
+});
+
+var bao = new User({
+    firstName: 'XiaoBao',
+    lastName: 'Shi'
+});
+
+var col = new nx.data.ObservableCollection([mars, kai, fei]);
+
+var dict = new nx.data.ObservableDictionary({
+    site: 'Site Name',
+    node: 'Node Name',
+    interface: 'Interface Name'
+});
+
+var MyPanel = nx.define(nx.ui.Component, {
+    view: {
+        tag: 'div',
+        props: {
+            'class': 'panel'
+        }
+    }
+});
+
+var MyParagraph = nx.define(nx.ui.Component, {
+    view: {
+        tag: 'p',
+        props: {
+            'class': 'paragraph'
+        },
+        content: 'paragraph'
+    }
+});
+
+var MyComp = nx.define(nx.ui.Component, {
+    view: [
+        {
+            tag: 'p',
+            content: {
+                tag: 'span',
+                content: [
+                    {
+                        tag: 'a',
+                        props: {
+                            href: '#'
+                        },
+                        content: 'hello'
+                    },
+                    {
+                        tag: 'i',
+                        content: 'world'
+                    }
+                ]
+            }
+        },
+        {
+            type: MyPanel,
+            content: {
+                type: MyParagraph
+            }
+        },
+        {
+            tag: 'ul',
+            name: 'ul',
+            props: {
+                template: [
+                    {
+                        tag: 'li',
+                        props: {
+                            'class': 'a b c',
+                            style: 'color:red;font-weight:bold'
+                        },
+                        content: {
+                            tag: 'input',
+                            props: {
+                                value: '{firstName}'
+                            }
+                        }
+                    },
+                    {
+                        tag: 'li',
+                        props: {
+                            'class': ['xx', '{firstName}', 'y'],
+                            style: {
+                                color: 'blue',
+                                'font-size': '12px'
+                            }
+                        },
+                        content: '{lastName}'
+                    },
+                    {
+                        tag: 'li',
+                        props: {
+                            style: {
+                                color: '{color}',
+                                'font-family': 'consolas'
+                            }
+                        },
+                        content: new nx.Binding({
+                            sourcePath: 'model.fullName',
+                            converter: function (value) {
+                                return value && value.toUpperCase();
+                            }
+                        })
+                    }
+                ],
+                items: '{#items}'
+            }
+        },
+        {
+            tag: 'dl',
+            props: {
+                template: [
+                    {
+                        tag: 'dt',
+                        content: '{key}'
+                    },
+                    {
+                        tag: 'dd',
+                        content: '{value}'
+                    }
+                ],
+                items: '{#dict}'
+            }
+        },
+        {
+            tag: 'button',
+            events: {
+                click: '{#onClick}'
+            },
+            content: 'click me'
+        },
+        {
+            tag: 'svg:svg',
+            content: [
+                {
+                    tag: "svg:rect",
+                    props: {
+                        width: '100px',
+                        height: '100px',
+                        fill: '#800000'
+                    }
+                }
+            ]
+        }
+    ],
+    properties: {
+        items: null,
+        dict: null
+    },
+    methods: {
+        onClick: function (sender, event) {
+            console.log('onClick', sender, event);
+        }
+    }
+});
+
+var app = new nx.ui.Application();
+var comp = new MyComp();
+comp.attach(app);
+comp.items(col);
+comp.dict(dict);
+
+function load() {
+    comp = new MyComp();
+    comp.attach(app);
+    comp.items(col);
+
+    setTimeout(unload, 100);
+}
+
+function unload() {
+    comp.detach();
+    comp.destroy();
+    comp.items(null);
+    setTimeout(load, 100);
+}
+
+//load();
+
+</script>
+</body>
+</html>

@@ -1,0 +1,208 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script type="text/javascript" src="../lib/next/next-core.js"></script>
+    <script type="text/javascript" src="../src/js/Environment.js"></script>
+    <script type="text/javascript" src="../src/js/dom/Node.js"></script>
+    <script type="text/javascript" src="../src/js/dom/Element.js"></script>
+    <script type="text/javascript" src="../src/js/dom/Document.js"></script>
+    <script type="text/javascript" src="../src/js/dom/Text.js"></script>
+    <style type="text/css" id="nx-style">
+        .cl1{ font-size:12px;}
+        .cl2{ color:#f00;}
+        .cl3{ width:100px;height: 200px;}
+        .cl4{ background: #eee;}
+    </style>
+</head>
+<body>
+<script type="text/javascript">
+    nx.dom.Document.ready(function () {
+        console.log('nx ready1!!!');
+    });
+
+
+    nx.dom.Document.ready(function (){
+        console.log('nx ready2!!!');
+    });
+
+
+    nx.dom.Document.ready(function () {
+        console.log('nx ready3!!!');
+    });
+</script>
+
+<div id="testDiv" class="cl1 cl2 cl3 cl4">
+    test so much content..
+</div>
+
+<iframe src="http://www.google.com.hk" frameborder="0"></iframe>
+<img src="http://images.cnblogs.com/cnblogs_com/rubylouvre/199042/o_s005.jpg" alt="图片1"/>
+<img src="http://images.cnblogs.com/cnblogs_com/rubylouvre/199042/o_s006.jpg" alt="图片2"/>
+<img src="http://images.cnblogs.com/cnblogs_com/rubylouvre/199042/o_s007.jpg" alt="图片3"/>
+<img src="http://images.cnblogs.com/cnblogs_com/rubylouvre/199042/o_s008.jpg" alt="图片4"/>
+<img src="http://images.cnblogs.com/cnblogs_com/rubylouvre/199042/o_s009.jpg" alt="图片5"/>
+<table class="filament_table" cellspacing="0" width="700" rules="cols">
+
+    <thead>
+    <tr>
+        <th>
+            参数
+        </th>
+        <th>
+            描述
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>
+            scrollbarDown
+        </td>
+        <td>
+            Default. Down scroll arrow is at the specified location
+        </td>
+    </tr>
+    <tr>
+        <td>
+            scrollbarHThumb
+        </td>
+        <td>
+            Horizontal scroll thumb or box is at the specified location
+        </td>
+    </tr>
+    <tr>
+        <td>
+            scrollbarLeft
+        </td>
+        <td>
+            Left scroll arrow is at the specified location
+        </td>
+    </tr>
+    <tr>
+        <td>
+            scrollbarPageDown
+        </td>
+        <td>
+            Page-down scroll bar shaft is at the specified location
+        </td>
+    </tr>
+    <tr>
+        <td>
+            scrollbarPageLeft
+        </td>
+        <td>
+            Page-left scroll bar shaft is at the specified location
+        </td>
+    </tr>
+    <tr>
+        <td>
+            scrollbarPageRight
+        </td>
+        <td>
+            Page-right scroll bar shaft is at the specified location
+        </td>
+    </tr>
+    <tr>
+        <td>
+            scrollbarPageUp
+        </td>
+        <td>
+            Page-up scroll bar shaft is at the specified location
+        </td>
+    </tr>
+    <tr>
+        <td>
+            scrollbarRight
+        </td>
+        <td>
+            Right scroll arrow is at the specified location
+        </td>
+    </tr>
+    <tr>
+        <td>
+            scrollbarUp
+        </td>
+        <td>
+            Up scroll arrow is at the specified location
+        </td>
+    </tr>
+    <tr>
+        <td>
+            scrollbarVThumb
+        </td>
+        <td>
+            Vertical scroll thumb or box is at the specified location
+        </td>
+    </tr>
+    <tr>
+        <td>
+            down
+        </td>
+        <td>
+            Composite reference to scrollbarDown
+        </td>
+    </tr>
+    <tr>
+        <td>
+            left
+        </td>
+        <td>
+            Composite reference to scrollbarLeft
+        </td>
+    </tr>
+    <tr>
+        <td>
+            pageDown
+        </td>
+        <td>
+            Composite reference to scrollbarPageDown.
+        </td>
+    </tr>
+    <tr>
+        <td>
+            pageLeft
+        </td>
+        <td>
+            Composite reference to scrollbarPageLeft.
+        </td>
+    </tr>
+    <tr>
+        <td>
+            pageRight
+        </td>
+        <td>
+            Composite reference to scrollbarPageRight.
+        </td>
+    </tr>
+    <tr>
+        <td>
+            pageUp
+        </td>
+        <td>
+            Composite reference to scrollbarPageUp.
+        </td>
+    </tr>
+    <tr>
+        <td>
+            right
+        </td>
+        <td>
+            Composite reference to scrollbarRight.
+        </td>
+    </tr>
+    <tr>
+        <td>
+            up
+        </td>
+        <td>
+            Composite reference to scrollbarUp.
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<p>我们添加了些图片与表格延缓页面的加载速度</p>
+</body>
+</html>

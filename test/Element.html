@@ -1,0 +1,103 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script type="text/javascript" src="../../../../next/3rdParty/jquery/jquery-1.9.1.js"></script>
+    <script type="text/javascript" src="../lib/next/next-core.js"></script>
+    <script type="text/javascript" src="../src/js/Env.js"></script>
+    <script type="text/javascript" src="../src/js/Util.js"></script>
+    <script type="text/javascript" src="../src/js/dom/Node.js"></script>
+    <script type="text/javascript" src="../src/js/dom/Element.js"></script>
+    <script type="text/javascript" src="../src/js/dom/Document.js"></script>
+    <script type="text/javascript" src="../src/js/dom/Text.js"></script>
+    <style type="text/css" id='nx-style'>
+        #testTb {
+            width: 80%;
+            height: 400px;
+        }
+
+        #testTb td {
+            background: #ccc;
+            padding: 20px;
+        }
+
+        .cl1 {
+            font-size: 14px;
+        }
+
+        .cl2 {
+            border: 1px solid #000;
+        }
+
+        .cl3 {
+            background: #fce;
+        }
+
+        .cl4 {
+            width: 300px;
+            height: 300px;
+        }
+
+        .cl5 {
+
+        }
+
+        #outer {
+            padding: 50px;
+            background: #eee;
+        }
+
+        #cur {
+            padding: 30px;
+            background: #ccc;
+        }
+
+        #inner {
+            padding: 10px;
+            background: #000;
+        }
+    </style>
+</head>
+<body>
+<!--<table id="testTb"-->
+<!--style="float:left; opacity: 0.8; -webkit-user-select:none; user-select:none; box-shadow: 10px 10px 5px #888888;-o-transform:scale(1.6);-webkit-transform:scale(1.6); transform:scale(1.6)">-->
+<!--<tr>-->
+<!--<td>Test td1</td>-->
+<!--<td>Test td2</td>-->
+<!--</tr>-->
+<!--<tr>-->
+<!--<td>Test td3</td>-->
+<!--<td>Test td4</td>-->
+<!--</tr>-->
+<!--</table>-->
+
+<div id="testDiv" class="cl1 cl2 cl3 cl4">
+    test so much content..
+</div>
+
+<div id="test2" style="border:1px solid #f00">test content....</div>
+
+<div id="outer">
+    <div id="cur">
+        <div id="inner">
+            Inner Box
+        </div>
+    </div>
+</div>
+
+
+<ul id="navlist">
+<li><a href="#li1">test1 content</a></li>
+<li><a href="#li2">test2 content</a></li>
+<li><a href="#li3">test3 content</a></li>
+<li><a href="#li4">test4 content</a></li>
+</ul>
+
+
+<script type="text/javascript">
+    var el = document.createElement('div');
+    var nxEl=new nx.dom.Element(test2);
+</script>
+</body>
+</html>
