@@ -28,7 +28,7 @@
             getCssText: function (inStyles) {
                 var cssText = [''];
                 nx.each(inStyles,function (styleValue,styleName) {
-                    cssText.push(styleName + ':' + this.getStyleValue(styleName,styleValue));
+                    cssText.push(this.getStyleProperty(styleName,true) + ':' + this.getStyleValue(styleName,styleValue));
                 },this);
                 return cssText.join(';');
             },
