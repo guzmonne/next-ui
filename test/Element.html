@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <title></title>
     <script type="text/javascript" src="../../../../next/3rdParty/jquery/jquery-1.9.1.js"></script>
+    <link type="text/css" rel="stylesheet" href="qunit/qunit-1.12.0.css">
+    <script type="text/javascript" src="qunit/qunit-1.12.0.js"></script>
+    <script type="text/javascript" src="qunit/qunit-reporter-junit.js"></script>
     <script type="text/javascript" src="../lib/next/next-core.js"></script>
     <script type="text/javascript" src="../src/js/Env.js"></script>
     <script type="text/javascript" src="../src/js/Util.js"></script>
@@ -58,8 +61,15 @@
             background: #000;
         }
     </style>
+
 </head>
 <body>
+<div id="qunit"></div>
+<div id="qunit-fixture"></div>
+
+
+
+
 <!--<table id="testTb"-->
 <!--style="float:left; opacity: 0.8; -webkit-user-select:none; user-select:none; box-shadow: 10px 10px 5px #888888;-o-transform:scale(1.6);-webkit-transform:scale(1.6); transform:scale(1.6)">-->
 <!--<tr>-->
@@ -76,11 +86,11 @@
     test so much content..
 </div>
 
-<div id="test2" style="border:1px solid #f00">test content....</div>
+<div id="test2" style="border:1px solid #f00; font-size:30px; ">test content....</div>
 
 <div id="outer">
     <div id="cur">
-        <div id="inner">
+        <div id="inner" style="color:#fff;">
             Inner Box
         </div>
     </div>
@@ -88,16 +98,17 @@
 
 
 <ul id="navlist">
-<li><a href="#li1">test1 content</a></li>
-<li><a href="#li2">test2 content</a></li>
-<li><a href="#li3">test3 content</a></li>
-<li><a href="#li4">test4 content</a></li>
+    <li><a href="#li1">test1 content</a></li>
+    <li><a href="#li2">test2 content</a></li>
+    <li><a href="#li3">test3 content</a></li>
+    <li><a href="#li4">test4 content</a></li>
 </ul>
 
-
 <script type="text/javascript">
-    var el = document.createElement('div');
-    var nxEl=new nx.dom.Element(test2);
+    var nxElement=new nx.dom.Element(test2);
+
 </script>
+
+
 </body>
 </html>

@@ -43,9 +43,9 @@
                 return value;
             },
             getStyleProperty: function (inName,isLowerCase) {
-                var property = inName;
+                var property = this.lowerCamelCase(inName);
                 if (property in tempStyle) {
-                    property = this.lowerCamelCase(inName);
+                    property = this.deCamelCase(inName);
                 } else {
                     if (isLowerCase) {
                         property = env.prefix()[1] + inName;
