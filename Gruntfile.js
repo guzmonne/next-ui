@@ -51,8 +51,7 @@ module.exports = function (grunt) {
             compile: {
                 options: {
                     paths: ['src'],
-//                themedir: 'path/to/custom/theme/',
-                    outdir: 'doc'
+                    outdir: 'dest/doc'
                 }
             }
         }
