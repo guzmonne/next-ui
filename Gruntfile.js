@@ -63,6 +63,6 @@ module.exports = function (grunt) {
     if (target == 'build') {
         grunt.loadNpmTasks('grunt-qunit-junit');
     }
-
+    grunt.registerTask('test', ['clean', 'jshint', 'qunit_junit', 'qunit', 'concat', 'yuidoc', 'uglify']);
     grunt.registerTask('default', ['clean', 'jshint', 'qunit', 'concat', 'yuidoc', 'uglify']);
 };
