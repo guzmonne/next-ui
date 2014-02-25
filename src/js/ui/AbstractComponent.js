@@ -398,7 +398,11 @@
                 binding: {
                     direction: '<>'
                 }
+            },
+            states: {
+                value: null
             }
+
         },
         methods: {
             init: function (tag, text) {
@@ -542,21 +546,73 @@
                     else {
                         container.appendChild(root);
                     }
+
+                    var states = this.states();
+                    var enterState = null;
+                    if (states) {
+                        enterState = states.enter;
+                    }
+
+                    if (enterState) {
+                        var cssText = root.$dom.style.cssText;
+                        root.setStyles(nx.extend({
+                            transition: 'all 0.5s'
+                        }, enterState));
+                        this.upon('transitionend', function () {
+                            root.removeStyle('transition');
+                        });
+                        setTimeout(function () {
+                            root.$dom.style.cssText = cssText + ';transition: all 0.5s';
+                        });
+                    }
                 }
             },
             onDetach: function (parent) {
                 var root = this.resolve('@root');
                 if (root) {
                     var tag = this.resolve('@tag');
+                    var self = this;
+
                     if (tag === 'fragment') {
-                        nx.each(this.content(), function (child) {
+                        nx.each(self.content(), function (child) {
                             root.appendChild(child.resolve('@root'));
                         });
                     }
                     else {
-                        parent.getContainer().removeChild(root);
+                        var states = this.states();
+                        var leaveState = null;
+                        if (states) {
+                            leaveState = states.leave;
+                        }
+
+                        if (leaveState) {
+                            var cssText = root.$dom.style.cssText;
+                            root.setStyle('transition', 'all 0.5s');
+                            setTimeout(function () {
+                                root.setStyles(leaveState);
+                            });
+                            this.upon('transitionend', function () {
+                                root.$dom.style.cssText = cssText;
+                                parent.getContainer().removeChild(root);
+                            });
+                        }
+                        else {
+                            parent.getContainer().removeChild(root);
+                        }
                     }
                 }
+            },
+            goToState: function (name) {
+                var states = this.states();
+                if (states) {
+                    var state = states[name];
+
+//                    if (state) {
+//                        css
+//                    }
+                }
+
+
             },
             _attachDomListener: function (name) {
                 var domListeners = this._domListeners;
