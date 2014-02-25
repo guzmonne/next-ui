@@ -142,17 +142,20 @@ var MyComp = nx.define(nx.ui.Component, {
                         tag: 'ul',
                         props: {
                             style: {
-                                width: '100px',
-                                height: '100px',
-//                                transform: 'rotate(90deg)'
+                                display: 'inline-block',
+                                background: '#ffeeee',
+                                'margin-right': '10px'
                             },
                             states: {
                                 enter: {
-//                                    opacity: 0,
-                                    transform: 'rotate(180deg)'
+                                    opacity: 0,
+                                    transform: 'rotateY(180deg)',
+                                    duration: 800
                                 },
                                 leave: {
-                                    opacity: 0
+                                    opacity: 0,
+                                    transform: 'scale(0)',
+                                    duration: 800
                                 }
                             }
                         },

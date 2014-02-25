@@ -555,15 +555,16 @@
 
                     if (enterState) {
                         var cssText = root.$dom.style.cssText;
+                        var transition = 'all ' + (enterState.duration || 500) + 'ms';
                         root.setStyles(nx.extend({
-                            transition: 'all 0.5s'
+                            transition: transition
                         }, enterState));
                         this.upon('transitionend', function () {
                             root.removeStyle('transition');
                         });
                         setTimeout(function () {
-                            root.$dom.style.cssText = cssText + ';transition: all 0.5s';
-                        });
+                            root.$dom.style.cssText = cssText + ';transition: ' + transition;
+                        }, 0);
                     }
                 }
             },
@@ -587,10 +588,11 @@
 
                         if (leaveState) {
                             var cssText = root.$dom.style.cssText;
-                            root.setStyle('transition', 'all 0.5s');
+                            var transition = 'all ' + (leaveState.duration || 500) + 'ms';
+                            root.setStyle('transition', transition);
                             setTimeout(function () {
                                 root.setStyles(leaveState);
-                            });
+                            }, 0);
                             this.upon('transitionend', function () {
                                 root.$dom.style.cssText = cssText;
                                 parent.getContainer().removeChild(root);
@@ -601,18 +603,6 @@
                         }
                     }
                 }
-            },
-            goToState: function (name) {
-                var states = this.states();
-                if (states) {
-                    var state = states[name];
-
-//                    if (state) {
-//                        css
-//                    }
-                }
-
-
             },
             _attachDomListener: function (name) {
                 var domListeners = this._domListeners;
