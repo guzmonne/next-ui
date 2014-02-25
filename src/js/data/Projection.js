@@ -17,7 +17,7 @@
                     if (nx.is(range, 'Array')) {
                         this._input = range;
                     } else {
-                        this._input = [0, parseInt(range)];
+                        this._input = [0, parseInt(range, 10)];
                     }
                     this.rate("force");
                 },
@@ -35,7 +35,7 @@
                     if (nx.is(range, 'Array')) {
                         this._output = range;
                     } else {
-                        this._output = [0, parseInt(range)];
+                        this._output = [0, parseInt(range, 10)];
                     }
                     this.rate("force");
                 },

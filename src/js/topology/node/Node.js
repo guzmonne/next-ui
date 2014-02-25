@@ -310,7 +310,7 @@
                 var size = this.getSize();
                 hint.offset({x: size.width, y: size.height});
 
-                var textDirection = ["right", "bottom", "bottom", "left", "left", "top", "top", "right"][parseInt(this._labelAngle / 45)];
+                var textDirection = ["right", "bottom", "bottom", "left", "left", "top", "top", "right"][parseInt(this._labelAngle / 45, 10)];
                 if (hint.direction() === textDirection) {
                     hint.gap(25);
                 } else {

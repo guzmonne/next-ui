@@ -128,7 +128,7 @@
                     paddingStart = paddingEnd = pathPadding;
                 }
                 if (typeof paddingStart == 'string' && paddingStart.indexOf('%') > 0) {
-                    paddingStart = line1.length() * parseInt(paddingStart) / 100;
+                    paddingStart = line1.length() * parseInt(paddingStart, 10) / 100;
                 }
 
                 if (pathWidth === "auto") {
@@ -161,7 +161,7 @@
                 }
 
                 if (typeof paddingEnd == 'string' && paddingEnd.indexOf('%') > 0) {
-                    paddingEnd = line2.length() * parseInt(paddingEnd) / 100;
+                    paddingEnd = line2.length() * parseInt(paddingEnd, 10) / 100;
                 }
 
                 if (arrow == 'cap') {

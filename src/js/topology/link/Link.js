@@ -512,7 +512,7 @@
 
                         hint.gap(10);
                         if (!hint.userDirection()) {
-                            direction = ['bottom', 'right', 'left', 'top', 'bottom', 'right', 'left', 'top' ][parseInt(this.line().circumferentialAngle() / 45)];
+                            direction = ['bottom', 'right', 'left', 'top', 'bottom', 'right', 'left', 'top' ][parseInt(this.line().circumferentialAngle() / 45, 10)];
                             hint.direction(direction);
                         }
 
@@ -526,7 +526,7 @@
                         hint.position({x: point.x, y: point.y});
                         hint.gap(10);
                         if (!hint.userDirection()) {
-                            direction = ['bottom', 'right', 'left', 'top', 'bottom', 'right', 'left', 'top' ][parseInt(this.line().circumferentialAngle() / 45)];
+                            direction = ['bottom', 'right', 'left', 'top', 'bottom', 'right', 'left', 'top' ][parseInt(this.line().circumferentialAngle() / 45, 10)];
                             hint.direction(direction);
                         }
                         hint.update();
@@ -538,7 +538,7 @@
                         hint.position({x: point.x, y: point.y});
                         hint.gap(10);
                         if (!hint.userDirection()) {
-                            direction = ['bottom', 'right', 'left', 'top', 'bottom', 'right', 'left', 'top' ][parseInt(this.line().circumferentialAngle() / 45)];
+                            direction = ['bottom', 'right', 'left', 'top', 'bottom', 'right', 'left', 'top' ][parseInt(this.line().circumferentialAngle() / 45, 10)];
                             hint.direction(direction);
                         }
                         hint.update();
