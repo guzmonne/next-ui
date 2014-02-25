@@ -1,0 +1,123 @@
+(function (nx, util, global) {
+    nx.define("nx.graphic.Topology.LayerMixin", {
+        events: [],
+        properties: {
+            /**
+             * @property layersMap
+             */
+            layersMap: {
+                value: {}
+            },
+            /**
+             * @property layers
+             */
+            layers: {
+                value: function () {
+                    return [];
+                }
+            }
+        },
+        methods: {
+            init: function () {
+                this.layersMap({});
+                this.layers([]);
+            },
+            initLayer: function () {
+                //this.attachLayer("groups", "nx.graphic.Topology.GroupsLayer");
+                //this.attachLayer("aggregationLayer", "nx.graphic.Topology.AggregationLayer");
+                this.attachLayer("links", "nx.graphic.Topology.LinksLayer");
+                this.attachLayer("nodes", "nx.graphic.Topology.NodesLayer");
+                //this.attachLayer("pathLayer", "nx.graphic.Topology.PathLayer");
+            },
+            /**
+             * To generate a layer
+             * @param name
+             * @param layer
+             * @returns {*}
+             * @private
+             */
+            _generateLayer: function (name, layer) {
+                var layerObj;
+                if (name && layer) {
+                    if (nx.is(layer, "String")) {
+                        var cls = nx.path(global, layer);
+                        if (cls) {
+                            layerObj = new cls();
+                        }
+                    } else {
+                        layerObj = layer;
+                    }
+                    layerObj.topology(this);
+                    layerObj.model(this.model());
+                }
+                return layerObj;
+            },
+            /**
+             * Get a layer reference by name
+             * @method getLayer
+             * @param name {String} The name you pass to topology when you attacherLayer/prependLayer/insertLayerAfter
+             * @returns {*} Instance of a layer
+             */
+            getLayer: function (name) {
+                var layersMap = this.layersMap();
+                return layersMap[name];
+            },
+            /**
+             * attach a layer to topology, that should be subclass of nx.graphic.Topology.Layer
+             * @method attachLayer
+             * @param name {String} handler to get this layer
+             * @param layer <String,nx.graphic.Topology.Layer> Could be string of a layer's class name, or a reference of a layer
+             */
+            attachLayer: function (name, layer) {
+                var layersMap = this.layersMap();
+                var layers = this.layers();
+                var layerObj = this._generateLayer(name, layer);
+                if (layerObj) {
+                    layerObj.attach(this.stage());
+                    layersMap[name] = layerObj;
+                    layers.push(layerObj);
+                }
+            },
+            /**
+             * Prepend a layer to topology, that should be subclass of nx.graphic.Topology.Layer
+             * @method prependLayer
+             * @param name {String} handler to get this layer
+             * @param layer <String,nx.graphic.Topology.Layer> Could be string of a layer's class name, or a reference of a layer
+             */
+            prependLayer: function (name, layer) {
+                var layersMap = this.layersMap();
+                var layers = this.layers();
+                var layerObj = this._generateLayer(name, layer);
+                if (layerObj) {
+                    layerObj.attach(this.stage(), 0);
+                    layersMap[name] = layerObj;
+                    layers.unshift(layerObj);
+                }
+            },
+            /**
+             * Insert a layer under a certain layer, that should be subclass of nx.graphic.Topology.Layer
+             * @method insertLayerAfter
+             * @param name  {String} handler to get this layer
+             * @param layer <String,Object> Could be string of a layer's class name, or a reference of a layer
+             * @param upsideLayerName {String} name of upside layer
+             */
+            insertLayerAfter: function (name, layer, upsideLayerName) {
+                var layersMap = this.layersMap();
+                var layers = this.layers();
+                var layerObj = this._generateLayer(name, layer);
+                var afterLayer = layersMap[upsideLayerName];
+                if (layerObj && afterLayer) {
+                    var index = layersMap.indexOf(afterLayer);
+                    layerObj.attach(this.stage(), index + 1);
+                    layersMap[name] = layerObj;
+                    layers.splice(index + 1, 0, layerObj);
+                }
+            },
+            clear: function () {
+                nx.each(this.layers(), function (layer) {
+                    layer.clear();
+                });
+            }
+        }
+    });
+})(nx, nx.graphic.util, nx.global);

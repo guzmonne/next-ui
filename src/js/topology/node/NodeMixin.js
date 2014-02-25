@@ -1,0 +1,227 @@
+(function (nx, util, global) {
+
+    nx.define("nx.graphic.Topology.NodeMixin", {
+        events: [],
+        properties: {
+            /**
+             * @property showIcon
+             */
+            autoToggleIcon: {
+                value: true
+            },
+            showIcon: {
+                value: true
+            },
+            /**
+             * @property selectedNodes
+             */
+            selectedNodes: {
+                value: function () {
+                    return new nx.data.ObservableCollection();
+                }
+            },
+            /**
+             * @property nodeLabelPath
+             */
+            nodeLabelPath: {
+                value: 'id'
+            },
+            /**
+             * @property iconTypePath
+             */
+            iconTypePath: {
+                value: null
+            },
+            /**
+             * @property
+             */
+            nodeDraggable: {
+                value: true
+            },
+            nodeInstanceClass: {
+                value: 'nx.graphic.Topology.Node'
+            },
+            useSmartLabel:{
+                value:true
+            }
+        },
+        methods: {
+            initNode: function () {
+                this.selectedNodes().on('collectionChanged', function (sender, args) {
+                    if (args.action == 'add') {
+                        args.item.selected(true);
+                    } else if (args.action == 'remove') {
+                        args.item.selected(false);
+                    } else if (args.action == "reset") {
+                        args.items.forEach(function (node) {
+                            node.selected(false);
+                        });
+                    }
+                });
+
+
+                this.watch("showIcon", function () {
+                    this.adjustLayout();
+                }, this);
+            },
+
+            getBoundByNodes: function (inNodes, isNotIncludeLabel) {
+
+                var boundAry = [];
+
+                var lastIndex = inNodes.length - 1;
+
+                nx.each(inNodes, function (node) {
+                    if (isNotIncludeLabel) {
+                        boundAry.push(node.getIconBound());
+                    } else {
+                        boundAry.push(node.getBound());
+                    }
+                });
+
+
+                var bound = {
+                    left: 0,
+                    top: 0,
+                    x: 0,
+                    y: 0,
+                    width: 0,
+                    height: 0,
+                    maxX: 0,
+                    maxY: 0
+                };
+                //
+                boundAry.sort(function (a, b) {
+                    return a.left - b.left;
+                });
+
+                bound.x = bound.left = boundAry[0].left;
+                bound.maxX = boundAry[lastIndex].left;
+
+                boundAry.sort(function (a, b) {
+                    return (a.left + a.width) - (b.left + b.width);
+                });
+
+                bound.width = boundAry[lastIndex].left + boundAry[lastIndex].width - bound.x;
+
+
+                //
+                boundAry.sort(function (a, b) {
+                    return a.top - b.top;
+                });
+
+                bound.y = bound.top = boundAry[0].top;
+                bound.maxY = boundAry[lastIndex].top;
+
+                boundAry.sort(function (a, b) {
+                    return (a.top + a.height) - (b.top + b.height);
+                });
+
+                bound.height = boundAry[lastIndex].top + boundAry[lastIndex].height - bound.y;
+
+                return bound;
+
+
+            },
+
+            /**
+             * Add a node to topology
+             * @param obj
+             * @param inOption
+             * @returns {*}
+             */
+            addNode: function (obj, inOption) {
+                var vertex = this.model().addVertex(obj, inOption);
+                this.adjustLayout();
+                this.fire("addNode", this.getNode(vertex.id()));
+                return this.getNode(vertex.id());
+            },
+            /**
+             * Add a nodeSet
+             * @param obj
+             * @param inOption
+             * @returns {*}
+             */
+            addNodeSet: function (obj, inOption) {
+                var vertex = this.model().addVertexSet(obj, inOption);
+                this.adjustLayout();
+                this.fire("addNodeSet", this.getNode(vertex.id()));
+                return this.getNode(vertex.id());
+            },
+            aggregationNodes: function (inNodes, inName) {
+
+                var vertexSet = {nodes: []};
+
+                nx.each(inNodes, function (node) {
+                    vertexSet.nodes.push(node.id());
+                });
+
+                vertexSet.label = inName;
+                if (!inName) {
+                    vertexSet.label = [inNodes[0].label(), inNodes[inNodes.length - 1].label()].sort().join("-");
+                }
+
+                vertexSet.x = inNodes[0].model().x();
+                vertexSet.y = inNodes[0].model().y();
+
+
+                this.addNodeSet(vertexSet);
+            },
+            /**
+             * Remove a node
+             * @param inNode
+             * @param inOption
+             * @returns {boolean}
+             */
+            removeNode: function (inNode, inOption) {
+                var vertex;
+                if (inNode instanceof  nx.graphic.Topology.Node) {
+                    vertex = inNode.model();
+                } else if (inNode instanceof  nx.Graph.Vertex) {
+                    vertex = inNode;
+                } else {
+                    return false;
+                }
+
+                this.model().removeVertex(vertex, inOption);
+                this.adjustLayout();
+                this.fire("removeNode");
+                return true;
+            },
+
+            removeNodeByID: function (id, inOption) {
+                var node = this.getNode(id);
+                if (node) {
+                    return this.removeNode(node, inOption);
+                } else {
+                    return false;
+                }
+
+            },
+            /**
+             * Traverse each node
+             * @method eachNode
+             * @param fn
+             * @param context
+             */
+            eachNode: function (fn, context) {
+                this.getLayer("nodes").eachNode(fn, context || this);
+            },
+            /**
+             * Get node by node id
+             * @method getNode
+             * @param id
+             * @returns {*}
+             */
+            getNode: function (id) {
+                return this.getLayer("nodes").getNode(id);
+            },
+
+            getNodes: function () {
+                return this.getLayer("nodes").nodes();
+            }
+        }
+    });
+
+
+})(nx, nx.graphic.util, nx.global);

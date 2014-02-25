@@ -1,0 +1,56 @@
+{
+    "scripts": [
+        "src/js/util/util.js",
+        "src/js/core/DragManager.js",
+        "src/js/core/Component.js",
+        "src/js/render/svg/SVGComponent.js",
+        "src/js/render/svg/Icons.js",
+        "src/js/render/svg/Components.js",
+        "src/js/data/Vector.js",
+        "src/js/data/Line.js",
+
+        "src/js/data/QuadTree.js",
+        "src/js/data/NeXtForce.js",
+        "src/js/data/Convex.js",
+
+        "src/js/data/Vertex.js",
+        "src/js/data/Edge.js",
+        "src/js/data/VertexSet.js",
+        "src/js/data/EdgeSet.js",
+
+        "src/js/data/processor/Force.js",
+        "src/js/data/processor/Quick.js",
+        "src/js/data/processor/Circle.js",
+        "src/js/data/ObservableGraph.js",
+        "src/js/data/Projection.js",
+
+
+        "src/js/topology/core/Config.js",
+        "src/js/topology/core/Projection.js",
+        "src/js/topology/core/Model.js",
+        "src/js/topology/node/NodeMixin.js",
+        "src/js/topology/link/LinkMixin.js",
+        "src/js/topology/layer/LayerMixin.js",
+        "src/js/topology/core/StageMixin.js",
+        "src/js/topology/core/Topology.js",
+        "src/js/topology/core/Stage.js",
+
+        "src/js/topology/layer/Layer.js",
+        "src/js/topology/node/AbstractNode.js",
+        "src/js/topology/node/Node.js",
+        "src/js/topology/node/NodesLayer.js",
+
+        "src/js/topology/link/AbstractLink.js",
+        "src/js/topology/link/Link.js",
+        "src/js/topology/link/LinkSet.js",
+        "src/js/topology/link/LinksLayer.js",
+
+        "src/js/topology/layout/NeXtForceLayout.js",
+
+
+        "src/js/topology/tooltip/TooltipManager.js"
+
+
+
+    ]
+}
