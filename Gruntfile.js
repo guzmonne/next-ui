@@ -1,7 +1,21 @@
 module.exports = function (grunt) {
     // Project configuration.
+
+    var srcFiles = [
+        "src/js/Env.js",
+        "src/js/Util.js",
+        "src/js/dom/Node.js",
+        "src/js/dom/Text.js",
+        "src/js/dom/Element.js",
+        "src/js/dom/Fragment.js",
+        "src/js/dom/Document.js",
+        "src/js/ui/AbstractComponent.js",
+        "src/js/ui/Component.js",
+        "src/js/ui/Application.js"
+    ];
+
+
     grunt.initConfig({
-        pkg: grunt.file.readJSON('package.json'),
         clean: {
             all: {
                 src: ['dest']
@@ -36,7 +50,7 @@ module.exports = function (grunt) {
         },
         jshint: {
             base: {
-                src: '<%= pkg.scripts %>'
+                src: srcFiles
             }
         },
         qunit: {
@@ -44,7 +58,7 @@ module.exports = function (grunt) {
         },
         concat: {
             base: {
-                src: '<%= pkg.scripts %>',
+                src: srcFiles,
                 dest: 'dest/js/next-ui.js'
             }
         },
@@ -69,6 +83,11 @@ module.exports = function (grunt) {
     });
 
     grunt.loadNpmTasks('grunt-contrib');
-    grunt.loadNpmTasks('grunt-qunit-junit');
-    grunt.registerTask('default', ['clean', 'less', 'cssmin', 'copy', 'qunit_junit','qunit', 'jshint', 'concat', 'yuidoc', 'uglify']);
+    var target = grunt.option('target') || 'dev';
+    if (target == 'build') {
+        grunt.loadNpmTasks('grunt-qunit-junit');
+    }
+
+    grunt.registerTask('default', ['clean', 'less', 'cssmin', 'copy', 'qunit', 'jshint', 'concat', 'yuidoc', 'uglify']);
+
 };
