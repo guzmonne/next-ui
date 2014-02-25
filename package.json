@@ -1,18 +1,20 @@
 {
-    "scripts": [
-        "src/base.js",
-        "src/class.js",
-        "src/Comparable.js",
-        "src/Deferrable.js",
-        "src/Iterable.js",
-        "src/Observable.js",
-        "src/Serializable.js",
-        "src/data/Collection.js",
-        "src/data/Dictionary.js",
-        "src/data/ObservableObject.js",
-        "src/data/ObservableCollection.js",
-        "src/data/ObservableDictionary.js",
-        "src/data/Query.js"
-    ]
-    
+  "name": "next-core",
+  "version": "0.0.0",
+  "description": "Core library for NeXt framework.",
+  "scripts": {
+    "test": "test/index.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://10.75.161.174/root/next-core.git"
+  },
+  "keywords": [
+    "JavaScript",
+    "OOP"
+  ],
+  "devDependencies": {
+    "grunt": "~0.4.2",
+    "grunt-contrib": "~0.9.0"
+  }
 }

@@ -1,7 +1,23 @@
 module.exports = function (grunt) {
     // Project configuration.
+
+    var srcFiles = [
+        "src/base.js",
+        "src/class.js",
+        "src/Comparable.js",
+        "src/Deferrable.js",
+        "src/Iterable.js",
+        "src/Observable.js",
+        "src/Serializable.js",
+        "src/data/Collection.js",
+        "src/data/Dictionary.js",
+        "src/data/ObservableObject.js",
+        "src/data/ObservableCollection.js",
+        "src/data/ObservableDictionary.js",
+        "src/data/Query.js"
+    ];
+
     grunt.initConfig({
-        pkg: grunt.file.readJSON('package.json'),
         clean: {
             base: {
                 src: ['dest', 'doc']
@@ -9,7 +25,7 @@ module.exports = function (grunt) {
         },
         jshint: {
             base: {
-                src: '<%= pkg.scripts %>'
+                src: srcFiles
             }
         },
         qunit: {
@@ -17,7 +33,7 @@ module.exports = function (grunt) {
         },
         concat: {
             base: {
-                src: '<%= pkg.scripts %>',
+                src: srcFiles,
                 dest: 'dest/next-core.js'
             }
         },
@@ -43,7 +59,10 @@ module.exports = function (grunt) {
     });
 
     grunt.loadNpmTasks('grunt-contrib');
-    grunt.loadNpmTasks('grunt-qunit-junit');
-    grunt.registerTask('default', ['clean', 'jshint', 'qunit_junit', 'qunit', 'concat', 'yuidoc', 'uglify']);
-    grunt.registerTask('4test', ['jshint', 'qunit_junit', 'qunit']);
+    var target = grunt.option('target') || 'dev';
+    if (target == 'build') {
+        grunt.loadNpmTasks('grunt-qunit-junit');
+    }
+
+    grunt.registerTask('default', ['clean', 'jshint', 'qunit', 'concat', 'yuidoc', 'uglify']);
 };
