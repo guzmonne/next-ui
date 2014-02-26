@@ -76,7 +76,7 @@
             return (inEvent || global.event).type === 'load';
         },
         isReady: function () {
-            return document.addEventListener || readyService.getHasReady() || document.readyState === "complete";
+            return readyService.getHasReady() || document.readyState === "complete";
         },
         detach: function () {
             if (document.addEventListener) {
