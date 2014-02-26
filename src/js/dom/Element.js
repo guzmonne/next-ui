@@ -1,6 +1,7 @@
 (function (nx) {
     var global = nx.global,
         document = global.document,
+        env = nx.Env,
         util = nx.Util;
     var Collection = nx.data.Collection;
     //======attrHooks start======//
@@ -134,6 +135,47 @@
             },
             toggleClass: function (inClassName) {
                 return  this.$dom.classList.toggle(inClassName);
+            },
+            getDocument: function () {
+                var element = this.$dom;
+                var doc = document;
+                if (element) {
+                    doc = (element.nodeType === 9) ? element : // element === document
+                        element.ownerDocument || // element === DOM node
+                            element.document;// element === window
+                }
+                return doc;
+            },
+            getWindow: function () {
+                var doc = this.getDocument();
+                return doc.defaultView || doc.parentWindow || global;
+            },
+            getRoot: function () {
+                return env.strict() ? document.documentElement : document.body;
+            },
+            getBound: function () {
+                var box = this.$dom.getBoundingClientRect(),
+                    root = this.getRoot(),
+                    clientTop = root.clientTop || 0,
+                    clientLeft = root.clientLeft || 0;
+                return {
+                    top: box.top - clientTop,
+                    right: box.right,
+                    bottom: box.bottom,
+                    left: box.left - clientLeft,
+                    width: box.width,
+                    height: box.height
+                };
+            },
+            margin: function (inDirection) {
+            },
+            padding: function (inDirection) {
+            },
+            border: function (inDirection) {
+            },
+            hasStyle: function (inName) {
+                var cssText = this.$dom.style.cssText;
+                return cssText.indexOf(inName + ':') > -1;
             },
             getStyle: function (inName) {
                 var styles = getComputedStyle(this.$dom,null);
