@@ -179,13 +179,13 @@
                 };
             },
             margin: function (inDirection) {
-                return this._getBoxWidth(MARGIN,this.$dom,inDirection);
+                return this._getBoxWidth(MARGIN,inDirection);
             },
             padding: function (inDirection) {
-                return this._getBoxWidth(PADDING,this.$dom,inDirection);
+                return this._getBoxWidth(PADDING,inDirection);
             },
             border: function (inDirection) {
-                return this._getBoxWidth(BORDER,this.$dom,inDirection);
+                return this._getBoxWidth(BORDER,inDirection);
             },
             getOffset: function () {
                 var box = this.$dom.getBoundingClientRect(),
@@ -286,8 +286,9 @@
             removeEventListener: function (name,listener,useCapture) {
                 this.$dom.removeEventListener(name,listener,useCapture || false);
             },
-            _getBoxWidth: function (inBox,inElement,inDirection) {
+            _getBoxWidth: function (inBox,inDirection) {
                 var boxWidth, styleResult;
+                var element=this.$dom;
                 switch (inBox) {
                     case PADDING:
                     case MARGIN:
@@ -297,7 +298,7 @@
                     default:
                         styleResult = this.getStyle('border-' + inDirection + '-width');
                         if (isGecko) {
-                            if (rTableElement.test(inElement.tagName)) {
+                            if (rTableElement.test(element.tagName)) {
                                 styleResult = 0;
                             }
                         }
