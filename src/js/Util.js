@@ -68,6 +68,9 @@
                 return inName.replace(rDeCameCase,function (match,group1) {
                     return '-' + group1.toLowerCase();
                 });
+            },
+            capitalize: function (inString) {
+                return inString.charAt(0).toUpperCase() + inString.slice(1);
             }
         }
     });

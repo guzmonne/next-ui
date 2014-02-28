@@ -1,20 +1,51 @@
-
 <!DOCTYPE HTML>
 <html>
 <head>
     <meta charset="UTF-8">
     <title></title>
-    <link type="text/css" rel="stylesheet" href="qunit/qunit-1.12.0.css">
-    <script type="text/javascript" src="qunit/qunit-1.12.0.js"></script>
-    <script type="text/javascript" src="qunit/qunit-reporter-junit.js"></script>
-    <script type="text/javascript" src="../lib/next/next-core.js"></script>
-    <script type="text/javascript" src="../src/js/Env.js"></script>
-    <script type="text/javascript" src="../src/js/Util.js"></script>
-    <script type="text/javascript" src="../src/js/dom/Node.js"></script>
-    <script type="text/javascript" src="../src/js/dom/Element.js"></script>
-    <script type="text/javascript" src="../src/js/dom/Document.js"></script>
-    <script type="text/javascript" src="../src/js/dom/Text.js"></script>
+    <!--NeXt start-->
+    <script type="text/javascript"
+            src="http://10.75.161.96:8080/jenkins/job/DailyBuild/lastSuccessfulBuild/artifact/dest/next-core.js"></script>
+    <link rel="stylesheet" type="text/css"
+          href="http://10.75.161.96:8080/jenkins/job/nextui/lastSuccessfulBuild/artifact/dest/css/next-blue.css"/>
+    <script type="text/javascript"
+            src="http://10.75.161.96:8080/jenkins/job/nextui/lastSuccessfulBuild/artifact/dest/js/next-ui.js"></script>
+    <!--NeXt end-->
+
+    <!--Popup start-->
+    <script type="text/javascript" src="../../src/js/Util.js"></script>
+    <script type="text/javascript" src="../../src/js/widget/ZIndexManager.js"></script>
+    <script type="text/javascript" src="../../src/js/widget/AbstractPopup.js"></script>
+    <script type="text/javascript" src="../../src/js/widget/InnerPopup.js"></script>
+    <script type="text/javascript" src="../../src/js/widget/OuterPopup.js"></script>
+    <!--Popup end-->
+    <script type="text/javascript">
+        /*
+         //TOP:
+         this.targetBound().bottom
+         this.targetBound().top
+         this.targetBound().top - this.size().height
+         this.targetBound().top + 0.5 * (this.targetBound().height - this.size().height)
+         this.targetBound().bottom - this.size().height
+
+         //LEFT:
+         this.targetBound().left
+         this.targetBound().left + 0.5 * (this.targetBound().width - this.size().width)
+         this.targetBound().right + -this.size().width
+         this.targetBound().right
+         */
+    </script>
+
+
     <style type="text/css" id='nx-style'>
+        .nx-widget-InnerPopup{
+            border:1px solid #f00;
+            padding:10px;
+            background: #eee;
+        }
+        .nx-widget-OuterPopup{
+            border:2px solid #00f;
+        }
         #testTb {
             width: 80%;
             height: 400px;
@@ -63,7 +94,7 @@
     </style>
 
 </head>
-<body style="height: 2000px; width:5000px;">
+<body>
 <div id="qunit"></div>
 <div id="qunit-fixture"></div>
 
