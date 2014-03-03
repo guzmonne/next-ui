@@ -1,5 +1,6 @@
 (function (nx,global) {
-    var zIndexMgr = nx.widget.ZIndexManager;
+    var zIndexMgr = nx.widget.ZIndexManager,
+        util = nx.Util;
     nx.define('nx.widget.AbstractPopup',nx.ui.Component,{
         view: {
             props: {
@@ -41,29 +42,44 @@
             direction: {
                 set: function (inValue) {
                     this._direction = inValue || 'center';
-                    this[this._getDirectionAction(this._direction)].call(this);
+                    this.position(this._getDirectionPosition(this._direction));
                 },
                 get: function () {
                     return this._direction;
                 }
             },
-            _opened: {}
+            position: {
+                set: function (inValue) {
+                    this._root.setStyles(this._getPosition(inValue));
+                    this._position = inValue;
+                },
+                get: function () {
+                    return this._position;
+                }
+            },
+            opened: {
+                set: function (inValue) {
+                    if (inValue) {
+                        this.open();
+                    } else {
+                        this.close();
+                    }
+                    this._opened = inValue;
+                },
+                get: function () {
+                    return this._opened;
+                }
+            }
         },
         methods: {
             init: function () {
                 this.inherited();
                 this._root = this.resolve('@root');
                 this._boxSizing = this._root.getStyle('box-sizing');
-                this._root.setStyles({
-                    'z-index': zIndexMgr.getIndex(),
-                    position: 'absolute'
-                });
-                nx.dom.Document.body().appendChild(this._root);
+                this._init();
             },
             open: function () {
-                if (!this._opened()) {
-                    this.onBeforeOpen();
-                }
+                this.onBeforeOpen();
                 this.onOpen();
                 this.onAfterOpen();
             },
@@ -73,8 +89,6 @@
                 this.onAfterClose();
             },
             onBeforeOpen: function () {
-                this._hide();
-                this._opened(true);
             },
             onOpen: function () {
                 this._show();
@@ -92,6 +106,14 @@
                 this._root = null;
                 this._boxSizing = null;
             },
+            _init: function () {
+                this._root.setStyles({
+                    'display': 'none',
+                    'z-index': zIndexMgr.getIndex(),
+                    position: 'absolute'
+                });
+                nx.dom.Document.body().appendChild(this._root);
+            },
             _show: function () {
                 this._root.setStyles({
                     display: 'block',
@@ -101,7 +123,18 @@
             _hide: function () {
                 this._root.setStyle('display','none');
             },
-            _getDirectionAction: function (inDirection) {
+            _getDirectionPosition: function (inDirection) {
+                var action = '_direction' + util.capitalize(inDirection);
+                return this[action]();
+            },
+            _getPosition: function (inValue) {
+                var positionStyle = inValue,
+                    docRect = nx.dom.Document.docRect();
+                if (!this.fixed()) {
+                    positionStyle.top = inValue.top + docRect.scrollY;
+                    positionStyle.left = inValue.left + docRect.scrollX;
+                }
+                return positionStyle;
             }
         }
     });

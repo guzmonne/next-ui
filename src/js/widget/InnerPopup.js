@@ -21,15 +21,6 @@
                     return this._container;
                 }
             },
-            position: {
-                set: function (inValue) {
-                    this.fixed() ? this._positionWithFix() : this._positionWithoutFix();
-                    this._position = inValue;
-                },
-                get: function () {
-                    return this._position;
-                }
-            },
             docRect: {
                 get: function () {
                     return nx.dom.Document.docRect();
@@ -37,159 +28,83 @@
             }
         },
         methods: {
-            onBeforeOpen: function () {
-                var size = this.size();
-                this._root.setStyles({
-                    width: size.width,
-                    height: size.height
-                });
-            },
             /*------top  start-------*/
             //tl
-            _directionTlWithFix: function () {
-                this._root.setStyles({
+            _directionTl: function () {
+                return {
                     top: 0,
                     left: 0
-                });
-            },
-            _directionTlWithoutFix: function () {
-                this._root.setStyles({
-                    top: this.docRect().scrollY,
-                    left: this.docRect().scrollX
-                });
+                };
             },
             //t
-            _directionTWithFix: function () {
-                this._root.setStyles({
+            _directionT: function () {
+                return {
                     top: 0,
                     left: 0.5 * (this.docRect().width - this.size().width)
-                });
-            },
-            _directionTWithoutFix: function () {
-                this._root.setStyles({
-                    top: this.docRect().scrollY,
-                    left: 0.5 * (this.docRect().width - this.size().width) + this.docRect().scrollX
-                });
+                };
             },
             //tr
-            _directionTrWithFix: function () {
-                this._root.setStyles({
+            _directionTr: function () {
+                return {
                     top: 0,
                     left: this.docRect().width - this.size().width
-                });
-            },
-            _directionTrWithoutFix: function () {
-                this._root.setStyles({
-                    top: this.docRect().scrollY,
-                    left: this.docRect().width - this.size().width + this.docRect().scrollX
-                });
+                };
             },
             /*------top  end-------*/
 
             /*------right  start-------*/
             //r
-            _directionRWithFix: function () {
-                this._root.setStyles({
+            _directionR: function () {
+                return {
                     top: 0.5 * (this.docRect().height - this.size().height),
                     left: this.docRect().width - this.size().width
-                });
-            },
-            _directionRWithoutFix: function () {
-                this._root.setStyles({
-                    top: 0.5 * (this.docRect().height - this.size().height) + this.docRect().scrollY,
-                    left: this.docRect().width - this.size().width + this.docRect().scrollX
-                });
+                };
             },
             /*------right  end-------*/
 
             /*------bottom  start-------*/
             //bl
-            _directionBlWithFix: function () {
-                this._root.setStyles({
+            _directionBl: function () {
+                return {
                     top: this.docRect().height - this.size().height,
                     left: 0
-                });
-            },
-            _directionBlWithoutFix: function () {
-                this._root.setStyles({
-                    top: this.docRect().height - this.size().height + this.docRect().scrollY,
-                    left: this.docRect().scrollX
-                });
+                };
             },
             //b
-            _directionBWithFix: function () {
-                this._root.setStyles({
+            _directionB: function () {
+                return {
                     top: this.docRect().height - this.size().height,
                     left: 0.5 * (this.docRect().width - this.size().width)
-                });
-            },
-            _directionBWithoutFix: function () {
-                this._root.setStyles({
-                    top: this.docRect().height - this.size().height + this.docRect().scrollY,
-                    left: 0.5 * (this.docRect().width - this.size().width) + this.docRect().scrollX
-                });
+                };
             },
             //br
-            _directionBrWithFix: function () {
-                this._root.setStyles({
+            _directionBr: function () {
+                return {
                     top: this.docRect().height - this.size().height,
                     left: this.docRect().width - this.size().width
-                });
-            },
-            _directionBrWithoutFix: function () {
-                this._root.setStyles({
-                    top: this.docRect().height - this.size().height + this.docRect().scrollY,
-                    left: this.docRect().width - this.size().width + this.docRect().scrollX
-                });
+                };
             },
             /*------bottom  end-------*/
 
             /*------left  start-------*/
             //l
-            _directionLWithFix: function () {
-                this._root.setStyles({
+            _directionL: function () {
+                return {
                     top: 0.5 * (this.docRect().height - this.size().height),
                     left: 0
-                });
-            },
-            _directionLWithoutFix: function () {
-                this._root.setStyles({
-                    top: 0.5 * (this.docRect().height - this.size().height) + this.docRect().scrollY,
-                    left: this.docRect().scrollX
-                });
+                };
             },
             /*------left  end-------*/
 
             /*------center  start-------*/
             //center
-            _directionCenterWithFix: function () {
-                this._root.setStyles({
+            _directionCenter: function () {
+                return {
                     top: 0.5 * (this.docRect().height - this.size().height),
                     left: 0.5 * (this.docRect().width - this.size().width)
-                });
-            },
-            _directionCenterWithoutFix: function () {
-                this._root.setStyles({
-                    top: 0.5 * (this.docRect().height - this.size().height) + this.docRect().scrollY,
-                    left: 0.5 * (this.docRect().width - this.size().width) + this.docRect().scrollX
-                });
-            },
-            /*------center  end-------*/
-
-            _positionWithFix: function () {
-                this._root.setStyles(this.position());
-            },
-            _positionWithoutFix: function () {
-                var position = this.position(),
-                    docRect = this.docRect();
-                position.left = position.left + docRect.scrollX;
-                position.top = position.top + docRect.scrollY;
-                this._root.setStyles(position);
-            },
-            _getDirectionAction: function (inDirection) {
-                var fixedSuffix = this.fixed() ? 'WithFix' : 'WithoutFix';
-                return '_direction' + util.capitalize(inDirection) + fixedSuffix;
+                };
             }
+            /*------center  end-------*/
         }
     });
 }(nx,nx.global));
