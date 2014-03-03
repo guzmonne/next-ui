@@ -1,7 +1,21 @@
 (function (nx) {
     var global = nx.global,
         document = global.document,
+        env = nx.Env,
         util = nx.Util;
+    var rTableElement = /^t(?:able|d|h)$/i,
+        borderMap = {
+            thin: '2px',
+            medium: '4px',
+            thick: '6px'
+        },
+        isGecko = env.engine().name === 'gecko';
+    var MARGIN = 'margin',
+        PADDING = 'padding',
+        BORDER = 'border',
+        POSITION = 'position',
+        FIXED = 'fixed';
+
     var Collection = nx.data.Collection;
     //======attrHooks start======//
     var attrHooks = {
@@ -40,8 +54,6 @@
         disabled: 'disabled',
         checked: 'checked'
     };
-
-
     //registerAttrHooks for Element
     (function registerAttrHooks() {
 
@@ -135,6 +147,74 @@
             toggleClass: function (inClassName) {
                 return  this.$dom.classList.toggle(inClassName);
             },
+            getDocument: function () {
+                var element = this.$dom;
+                var doc = document;
+                if (element) {
+                    doc = (element.nodeType === 9) ? element : // element === document
+                        element.ownerDocument || // element === DOM node
+                            element.document;// element === window
+                }
+                return doc;
+            },
+            getWindow: function () {
+                var doc = this.getDocument();
+                return doc.defaultView || doc.parentWindow || global;
+            },
+            getRoot: function () {
+                return env.strict() ? document.documentElement : document.body;
+            },
+            getBound: function () {
+                var box = this.$dom.getBoundingClientRect(),
+                    root = this.getRoot(),
+                    clientTop = root.clientTop || 0,
+                    clientLeft = root.clientLeft || 0;
+                return {
+                    top: box.top - clientTop,
+                    right: box.right,
+                    bottom: box.bottom,
+                    left: box.left - clientLeft,
+                    width: box.width,
+                    height: box.height
+                };
+            },
+            margin: function (inDirection) {
+                return this._getBoxWidth(MARGIN,inDirection);
+            },
+            padding: function (inDirection) {
+                return this._getBoxWidth(PADDING,inDirection);
+            },
+            border: function (inDirection) {
+                return this._getBoxWidth(BORDER,inDirection);
+            },
+            getOffset: function () {
+                var box = this.$dom.getBoundingClientRect(),
+                    root = this.getRoot(),
+                    clientTop = root.clientTop || 0,
+                    clientLeft = root.clientLeft || 0;
+                return {
+                    'top': box.top + (global.pageYOffset || root.scrollTop ) - clientTop,
+                    'left': box.left + (global.pageXOffset || root.scrollLeft ) - clientLeft
+                };
+            },
+            setOffset: function (inStyleObj) {
+                var elPosition = this.getStyle(POSITION), styleObj = inStyleObj;
+                var scrollXY = {
+                    left: Math.max((global.pageXOffset || 0),root.scrollLeft),
+                    top: Math.max((global.pageYOffset || 0),root.scrollTop)
+                };
+                if (elPosition === FIXED) {
+                    styleObj = {
+                        left: parseFloat(styleObj) + scrollXY.scrollX,
+                        top: parseFloat(styleObj) + scrollXY.scrollY
+                    };
+                }
+                this.setStyles(styleObj);
+            },
+            hasStyle: function (inName) {
+                var cssText = this.$dom.style.cssText;
+                return cssText.indexOf(inName + ':') > -1;
+            },
             getStyle: function (inName) {
                 var styles = getComputedStyle(this.$dom,null);
                 var property = util.getStyleProperty(inName);
@@ -205,6 +285,26 @@
             },
             removeEventListener: function (name,listener,useCapture) {
                 this.$dom.removeEventListener(name,listener,useCapture || false);
+            },
+            _getBoxWidth: function (inBox,inDirection) {
+                var boxWidth, styleResult;
+                var element=this.$dom;
+                switch (inBox) {
+                    case PADDING:
+                    case MARGIN:
+                        styleResult = this.getStyle(inBox + "-" + inDirection);
+                        boxWidth = parseFloat(styleResult);
+                        break;
+                    default:
+                        styleResult = this.getStyle('border-' + inDirection + '-width');
+                        if (isGecko) {
+                            if (rTableElement.test(element.tagName)) {
+                                styleResult = 0;
+                            }
+                        }
+                        boxWidth = parseFloat(styleResult) || borderMap[styleResult];
+                }
+                return boxWidth || 0;
             }
         }
     });

@@ -76,7 +76,7 @@
             return (inEvent || global.event).type === 'load';
         },
         isReady: function () {
-            return document.addEventListener || readyService.getHasReady() || document.readyState === "complete";
+            return readyService.getHasReady() || document.readyState === "complete";
         },
         detach: function () {
             if (document.addEventListener) {
@@ -137,6 +137,11 @@
                     return nxCssStyleSheet;
                 }
             },
+            root: {
+                get: function () {
+                    return document.documentElement;
+                }
+            },
             body: {
                 get: function () {
                     return new Element(document.body);
@@ -194,6 +199,27 @@
                 else {
 
                 }
+            },
+            docRect: function () {
+                var root = this.root(),
+                    height = global.innerHeight || 0,
+                    width = global.innerWidth || 0,
+                    scrollW = root.scrollWidth,
+                    scrollH = root.scrollHeight,
+                    scrollXY = {
+                        left: Math.max((global.pageXOffset || 0),root.scrollLeft),
+                        top: Math.max((global.pageYOffset || 0),root.scrollTop)
+                    };
+                scrollW = Math.max(scrollW,width);
+                scrollH = Math.max(scrollH,height);
+                return {
+                    width: width,
+                    height: height,
+                    scrollWidth: scrollW,
+                    scrollHeight: scrollH,
+                    scrollX: scrollXY.left,
+                    scrollY: scrollXY.top
+                };
             },
             ready: function (inHandler) {
                 //add handler to queue:
