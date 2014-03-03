@@ -14,17 +14,18 @@
             },
             size: {
                 set: function (inValue) {
-                    var paddingX = this._root.padding('left') + this._root.padding('right'),
-                        paddingY = this._root.padding('top') + this._root.padding('bottom'),
-                        borderX = this._root.border('left') + this._root.border('right'),
-                        borderY = this._root.border('top') + this._root.border('bottom'),
+                    var root = this._root,
+                        paddingX = root.padding('left') + root.padding('right'),
+                        paddingY = root.padding('top') + root.padding('bottom'),
+                        borderX = root.border('left') + root.border('right'),
+                        borderY = root.border('top') + root.border('bottom'),
                         width = inValue.width,
                         height = inValue.height;
                     if (this._boxSizing === 'content-box') {
                         width = width - paddingX - borderX;
                         height = height - paddingY - borderY;
                     }
-                    this._root.setStyles({
+                    root.setStyles({
                         width: width,
                         height: height
                     });
