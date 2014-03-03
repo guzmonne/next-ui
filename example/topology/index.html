@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Example</title>
+    <script type="text/javascript" src="../../lib/NeXt/next-core/next-core.js"></script>
+    <script type="text/javascript" src="../../lib/NeXt/next-ui/js/next-ui.js"></script>
+    <script type="text/javascript" src="../../lib/GraphGenerator.js"></script>
+    <!--<script type="text/javascript" src="../../src/js/next-graphic.js"></script>-->
+    <script type="text/javascript" src="../../src/js/util/util.js"></script>
+    <script type="text/javascript" src="../../src/js/util/Animation.js"></script>
+    <script type="text/javascript" src="../../src/js/core/DragManager.js"></script>
+    <script type="text/javascript" src="../../src/js/core/Component.js"></script>
+    <script type="text/javascript" src="../../src/js/render/svg/SVGComponent.js"></script>
+    <script type="text/javascript" src="../../src/js/render/svg/Icons.js"></script>
+    <script type="text/javascript" src="../../src/js/render/svg/Components.js"></script>
+    <script type="text/javascript" src="../../src/js/data/Vector.js"></script>
+    <script type="text/javascript" src="../../src/js/data/Line.js"></script>
+    <script type="text/javascript" src="../../src/js/data/QuadTree.js"></script>
+    <script type="text/javascript" src="../../src/js/data/NeXtForce.js"></script>
+    <script type="text/javascript" src="../../src/js/data/Convex.js"></script>
+    <script type="text/javascript" src="../../src/js/data/Vertex.js"></script>
+    <script type="text/javascript" src="../../src/js/data/Edge.js"></script>
+    <script type="text/javascript" src="../../src/js/data/VertexSet.js"></script>
+    <script type="text/javascript" src="../../src/js/data/EdgeSet.js"></script>
+    <script type="text/javascript" src="../../src/js/data/processor/Force.js"></script>
+    <script type="text/javascript" src="../../src/js/data/processor/Quick.js"></script>
+    <script type="text/javascript" src="../../src/js/data/processor/Circle.js"></script>
+    <script type="text/javascript" src="../../src/js/data/ObservableGraph.js"></script>
+    <script type="text/javascript" src="../../src/js/data/Projection.js"></script>
+    <script type="text/javascript" src="../../src/js/topology/core/Config.js"></script>
+    <script type="text/javascript" src="../../src/js/topology/core/Projection.js"></script>
+    <script type="text/javascript" src="../../src/js/topology/core/Model.js"></script>
+    <script type="text/javascript" src="../../src/js/topology/core/Event.js"></script>
+    <script type="text/javascript" src="../../src/js/topology/node/NodeMixin.js"></script>
+    <script type="text/javascript" src="../../src/js/topology/link/LinkMixin.js"></script>
+    <script type="text/javascript" src="../../src/js/topology/layer/LayerMixin.js"></script>
+    <script type="text/javascript" src="../../src/js/topology/core/StageMixin.js"></script>
+    <script type="text/javascript" src="../../src/js/topology/scene/SceneMixin.js"></script>
+    <script type="text/javascript" src="../../src/js/topology/core/Topology.js"></script>
+    <script type="text/javascript" src="../../src/js/topology/core/Stage.js"></script>
+    <script type="text/javascript" src="../../src/js/topology/layer/Layer.js"></script>
+    <script type="text/javascript" src="../../src/js/topology/node/AbstractNode.js"></script>
+    <script type="text/javascript" src="../../src/js/topology/node/Node.js"></script>
+    <script type="text/javascript" src="../../src/js/topology/node/NodesLayer.js"></script>
+    <script type="text/javascript" src="../../src/js/topology/link/AbstractLink.js"></script>
+    <script type="text/javascript" src="../../src/js/topology/link/Link.js"></script>
+    <script type="text/javascript" src="../../src/js/topology/link/LinksLayer.js"></script>
+    <script type="text/javascript" src="../../src/js/topology/link/LinkSet.js"></script>
+    <script type="text/javascript" src="../../src/js/topology/link/LinkSetLayer.js"></script>
+    <script type="text/javascript" src="../../src/js/topology/layout/NeXtForceLayout.js"></script>
+    <script type="text/javascript" src="../../src/js/topology/tooltip/TooltipManager.js"></script>
+    <script type="text/javascript" src="../../src/js/topology/scene/Scene.js"></script>
+    <script type="text/javascript" src="../../src/js/topology/scene/DefaultScene.js"></script>
+    <script type="text/javascript" src="../../src/js/topology/scene/SelectionScene.js"></script>
+    <script type="text/javascript" src="../../src/js/topology/scene/ZoomBySelection.js"></script>
+    <link rel="stylesheet" href="../../lib/NeXt/next-ui/css/next-blue.css">
+
+</head>
+<body>
+<style>
+    .prev > div {
+        min-height: 600px;
+    }
+</style>
+<div class="container bs-docs-container">
+    <h1>Topology</h1>
+
+    <div id="demos"></div>
+</div>
+
+<script type="text/javascript">
+
+    var topo;
+
+    var Demo = nx.define(nx.ui.Component, {
+        properties: {
+            categories: {
+                value: function () {
+                    return new nx.data.ObservableDictionary();
+                }
+            },
+            currentItem: null,
+            jsfiles: {
+                value: function () {
+                    return new nx.data.ObservableDictionary();
+                }
+            }
+        },
+        view: {
+            props: {
+                'class': 'row'
+            },
+            content: [
+                {
+                    props: {
+                        items: '{#jsfiles}',
+                        template: {
+                            tag: 'script',
+                            props: {
+                                'type': 'text/javascript',
+                                'data-demo-name': '{key}',
+                                src: '{value}'
+                            }
+                        }
+                    }
+                },
+                {
+                    props: {
+                        'class': 'col-md-4'
+                    },
+                    content: {
+                        props: {
+                            items: '{#categories}',
+                            template: {
+                                props: {
+                                    'class': 'panel panel-default'
+                                },
+                                content: [
+                                    {
+                                        props: {
+                                            'class': 'panel-heading'
+                                        },
+                                        content: '{key}'
+
+                                    },
+                                    {
+                                        props: {
+                                            'class': 'list-group',
+                                            items: '{value}',
+                                            template: {
+                                                tag: 'a',
+                                                props: {
+                                                    'class': 'list-group-item'
+                                                },
+                                                content: '{key}',
+                                                events: {
+                                                    'click': '{#_load}'
+                                                }
+                                            }
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                {
+                    name: 'prev',
+                    props: {
+                        'class': 'col-md-8 prev'
+                    }
+                }
+            ]
+        },
+        methods: {
+            init: function (args) {
+                this.inherited(args);
+                this.addItem('Basic', 'base', 'basic/base.js', 'Base.Base');
+               // this.addItem('Basic', 'Auto Layout', 'basic/autolayout.js', 'Base.AutoLayout');
+                setTimeout(function () {
+                    this._parseURL();
+                }.bind(this), 200);
+
+            },
+            _parseURL: function () {
+                var url = window.location.href.split("#");
+                if (url[1]) {
+                    var params = url[1].split("&");
+                    var category = params[0].split('=').pop();
+                    var item = params[1].split('=').pop();
+
+                    if (category && item) {
+                        this.loadDemo(category, this.categories().getItem(category).getItem(item), item);
+                    }
+                }
+            },
+            addItem: function (category, name, url, className) {
+                var categories = this.categories();
+                if (!categories.contains(category)) {
+                    categories.setItem(category, new nx.data.ObservableDictionary());
+                }
+                var items = categories.getItem(category);
+                items.setItem(name, className);
+
+                nx.each(nx.is(url, 'Array') ? url : [url], function (u) {
+                    this.jsfiles().setItem(name, u);
+                }, this);
+            },
+            _load: function (sender, event) {
+                this.loadDemo(sender.parent().model().key, sender.model().value, sender.model().key);
+            },
+            loadDemo: function (category, clz, itemKey) {
+                if (nx.is(clz, 'String')) {
+                    clz = nx.path(nx.global, clz);
+                }
+                if (this.currentItem()) {
+                    this.currentItem().dispose();
+                }
+
+                var demo = new clz();
+                demo.attach(this.resolve('prev'));
+
+                if (demo.resolve('topo')) {
+                    topo = demo.resolve('topo');
+                }
+
+                this.currentItem(demo);
+
+                var siteRootUrl = window.location.href.split("#").shift();
+                window.location.href = siteRootUrl + '#' + 'category=' + category + '&item=' + itemKey;
+            }
+        }
+    });
+
+    var demo = new Demo();
+    var app = new nx.ui.Application();
+    app.getContainer = function () {
+        return new nx.dom.Element(document.getElementById('demos'));
+    };
+    demo.attach(app);
+
+</script>
+</body>
+</html>
