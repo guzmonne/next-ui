@@ -2,11 +2,6 @@
     var zIndexMgr = nx.widget.ZIndexManager,
         util = nx.Util;
     nx.define('nx.widget.AbstractPopup',nx.ui.Component,{
-        view: {
-            props: {
-                'class': 'nx-widget-AbstractPopup'
-            }
-        },
         properties: {
             fixed: {
                 set: function (inValue) {
