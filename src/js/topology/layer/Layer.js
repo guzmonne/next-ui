@@ -4,7 +4,7 @@
      * @class nx.graphic.Topology.Layer
      * @extend nx.graphic.Component
      */
-    nx.define("nx.graphic.Topology.Layer", nx.graphic.Component, {
+    nx.define("nx.graphic.Topology.Layer", nx.graphic.Group, {
         view: {
             type: 'nx.graphic.Group'
         },

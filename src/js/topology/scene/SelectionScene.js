@@ -104,7 +104,7 @@
                 nx.dom.removeClass(document.body, "n-userselect n-dragCursor");
             },
             _getRectBound: function () {
-                var rectbound = this.rect.getBoundingClientRect()
+                var rectbound = this.rect.getBoundingClientRect();
                 var topoBound = this.topology().getBound();
                 return {
                     top: rectbound.top - topoBound.top,
@@ -113,7 +113,7 @@
                     height: rectbound.height,
                     bottom: rectbound.bottom - topoBound.top,
                     right: rectbound.right - topoBound.left
-                }
+                };
             }
         }
     });

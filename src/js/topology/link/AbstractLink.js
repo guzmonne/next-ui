@@ -7,7 +7,7 @@
      * @class nx.graphic.Topology.AbstractLink
      * @extend nx.graphic.Shape
      */
-    nx.define("nx.graphic.Topology.AbstractLink", nx.graphic.Component, {
+    nx.define("nx.graphic.Topology.AbstractLink", nx.graphic.Group, {
         events: ["hide", "show"],
         properties: {
             /**
@@ -30,6 +30,26 @@
                     var topo = this.topology();
                     var id = this.model().target().id();
                     return topo.getNode(id);
+                }
+            },
+            sourcePosition: {
+                get: function () {
+                    return this.sourceNode().position();
+                }
+            },
+            targetPosition: {
+                get: function () {
+                    return this.targetNode().position();
+                }
+            },
+            sourceNodeID: {
+                get: function () {
+                    return this.model().source().id();
+                }
+            },
+            targetNodeID: {
+                get: function () {
+                    return this.model().target().id();
                 }
             },
             /**
@@ -86,18 +106,18 @@
                     return this.targetNode().vector();
                 }
             },
-            sourcePosition: {
+            position: {
                 get: function () {
-                    return this.sourceNode().position();
+                    var sourceNode = this.sourceNode().position();
+                    var targetNode = this.targetNode().position();
+                    return {
+                        x1: sourceNode.x || 0,
+                        x2: sourceNode.y || 0,
+                        y1: targetNode.x || 0,
+                        y2: targetNode.y || 0
+                    };
                 }
             },
-            targetPosition: {
-                get: function () {
-                    return this.targetNode().position();
-                }
-            },
-
-
             line: {
                 get: function () {
                     return  new Line(this.sourceVector(), this.targetVector());
@@ -129,42 +149,12 @@
                 }
             },
             /**
-             * Get/set link's usability
-             * @property enable
-             */
-            enable: {
-                get: function () {
-                    return this._enable !== undefined ? this._enable : true;
-                },
-                set: function (value) {
-//                    this._enable = value;
-//                    if (!value) {
-//                        this.fadeOut();
-//                    } else {
-//                        this.fadeIn();
-//                    }
-                }
-            },
-            /**
              * Get topology's scale
              * @property scale
              */
             scale: {
                 get: function () {
                     return this.topology().scale() || 1;
-                }
-            },
-            fadeValue: {
-                value: 0.3
-            },
-            sourceNodeID: {
-                get: function () {
-                    return this.model().source().id();
-                }
-            },
-            targetNodeID: {
-                get: function () {
-                    return this.model().target().id();
                 }
             },
             id: {
@@ -177,33 +167,37 @@
                     return this.model().linkKey();
                 }
             },
+            reverse: {
+                get: function () {
+                    return this.model().reverse();
+                }
+            },
             centerPoint: {
                 get: function () {
                     return this.line().center();
                 }
+            },
+            /**
+             * Get/set link's usability
+             * @property enable
+             */
+            enable: {
+                value: true
+            },
+            fade: {
+                value: false
             }
 
         },
         methods: {
             attach: function (args) {
-
                 this.inherited(args);
-
-
-                topo.on("projectionChange", this._projectionChangeFN = function (sender, event) {
-                    this.update();
-                }, this);
-
             },
             /**
              * Factory function , will be call when set model
              */
-            setModel: function (model) {
-                var topo = this.topology();
-
+            setModel: function (model, isUpdate) {
                 this.model(model);
-
-
                 model.source().watch("position", function (prop, value) {
                     this.notify("sourcePosition");
                     this.update();
@@ -214,19 +208,23 @@
                     this.update();
                 }, this);
 
-                this.watch("visible", function (prop, value) {
-                    if (value) {
-                        this.fire("show", this);
-                    } else {
-                        this.fire("hide", this);
-                    }
-                }, this);
+                //todo
 
+//                this.watch("visible", function (prop, value) {
+//                    if (value) {
+//                        this.fire("show", this);
+//                    } else {
+//                        this.fire("hide", this);
+//                    }
+//                }, this);
+//
+//
+//                //bind model's visible with element's visible
+                this.setBinding("visible", "model.visible,direction=<>", this);
 
-                //bind model's visible with element's visible
-                this.setBinding("visible", "visible");
-                this.update();
-
+                if (isUpdate !== false) {
+                    this.update();
+                }
             },
 
 
@@ -237,78 +235,32 @@
 
 
             },
-            getSourceNode: function () {
-                return this.sourceNode();
-            },
-            getTargetNode: function () {
-                return this.targetNode();
-            },
-            position: function () {
-                var sourceNode = this.sourceNode().position();
-                var targetNode = this.targetNode().position();
-                return {
-                    x1: sourceNode.x || 0,
-                    x2: sourceNode.y || 0,
-                    y1: targetNode.x || 0,
-                    y2: targetNode.y || 0
-                };
-            },
             /**
-             * Fade out a link
-             * @param force
+             * Fade out a node
              * @method fadeOut
              */
-            fadeOut: function (force) {
-                var fadeValue = this.fadeValue();
-                this.resolve().opacity(fadeValue);
-                if (force) {
-                    this.fade(true);
-                }
+            fadeOut: function () {
+                this.resolve("@root").setStyle('opacity', this.fadeValue());
+                this.fade(true);
             },
             /**
              * Fade in a link
-             * @param force
              * @method fadeIn
              */
-            fadeIn: function (force) {
-
+            fadeIn: function () {
                 if (this.enable()) {
                     var sourceNode = this.sourceNode();
                     var targetNode = this.targetNode();
 
                     if (!sourceNode.enable() || !targetNode.enable() || sourceNode.fade() || targetNode.fade()) {
                         this.fadeOut();
-                    } else if (this.fade() && !force) {
-                        this.fadeOut();
                     } else {
-                        this.lighting();
-                    }
-
-                    if (force) {
+                        this.resolve("@root").setStyle('opacity', 1);
                         this.fade(false);
                     }
-
                 } else {
                     this.fadeOut();
                 }
-
-            },
-            /**
-             * Just highlight link , not change it's statues
-             * @method lighting
-             */
-            lighting: function () {
-                this.resolve().opacity(1);
-            },
-            destroy: function () {
-
-                this.inherited();
-
-                var topo = this.topology();
-                topo.unwatch("projectionX", this._watchScaleX, this);
-
-                topo.unwatch("projectionY", this._watchScaleY, this);
-
             }
         }
     });

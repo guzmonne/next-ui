@@ -6,7 +6,7 @@
      * @class nx.graphic.Topology.AbstractNode
      * @extend nx.graphic.Shape
      */
-    nx.define("nx.graphic.Topology.AbstractNode", nx.graphic.Component, {
+    nx.define("nx.graphic.Topology.AbstractNode", nx.graphic.Group, {
         properties: {
             /**
              * Get  node's absolute position
@@ -41,8 +41,11 @@
                     }
 
                     if (isModified) {
+                        //this.notify('position');
+                        this.notify('vector');
                         this.update();
                     }
+
 
                     return isModified;
 
@@ -107,7 +110,7 @@
              */
             projectionY: {
                 get: function () {
-                    return this.owner().topology().projectionY();
+                    return this.topology().projectionY();
                 }
             },
 
@@ -117,15 +120,8 @@
              */
             scale: {
                 get: function () {
-                    return this.owner() && this.owner().topology().scale() || 1;
+                    return this.topology().scale() || 1;
                 }
-            },
-            /**
-             * Get/set node's usablity
-             * @property enable
-             */
-            enable: {
-                value: true
             },
             /**
              * Get  node's vector
@@ -141,6 +137,23 @@
                     return this.model().id();
                 }
             },
+            visible: {
+                set: function (value) {
+                    if (value) {
+                        this.fire("show", this);
+                    } else {
+                        this.fire("hide", this);
+                    }
+                    this._visible = value;
+                }
+            },
+            /**
+             * Get/set node's usablity
+             * @property enable
+             */
+            enable: {
+                value: true
+            },
             fade: {
                 value: false
             },
@@ -149,17 +162,6 @@
             }
         },
         methods: {
-            init: function (args) {
-                this.inherited(args);
-
-                this.watch("visible", function (prop, value) {
-                    if (value) {
-                        this.fire("show", this);
-                    } else {
-                        this.fire("hide", this);
-                    }
-                }, this);
-            },
             /**
              * Factory function , will be call when set model
              */
@@ -183,7 +185,7 @@
 //                }, this);
 
 
-                this.setBinding("visible", "visible");
+                this.setBinding("visible", "model.visible");
 
                 this.position({
                     x: projectionX.get(model.get("x")),
@@ -191,17 +193,10 @@
                 });
 
 
-
             },
             update: function () {
 
             },
-
-
-            getPosition: function () {
-                return this.position();
-            },
-
 
             move: function (x, y) {
                 var position = this.position();
@@ -227,56 +222,23 @@
                     this.position({x: x, y: y});
                 }
             },
-
-            /**
-             * Just highlight a node , not change node's statues
-             * @method lighting
-             */
-            lighting: function () {
-                this.resolve().opacity(1);
-            },
             /**
              * Fade out a node
-             * @param force
              * @method fadeOut
              */
-            fadeOut: function (force) {
-                var fadeValue = this.fadeValue();
-                this.resolve().opacity(fadeValue);
-                if (force) {
-                    this.fade(true);
-                }
-
+            fadeOut: function () {
+                this.root().addClass('n-transition');
+                this.resolve("@root").setStyle('opacity', this.fadeValue());
+                this.fade(true);
             },
             /**
              * Fade in a node
-             * @param force
              * @method fadeIn
              */
-            fadeIn: function (force) {
+            fadeIn: function () {
                 if (this.enable()) {
-                    if (this.fade() && !force) {
-                        this.fadeOut(false);
-                    } else {
-                        this.lighting();
-                    }
-                    if (force) {
-                        this.fade(false);
-                    }
-                } else {
-                    this.fadeOut(false);
-                }
-            },
-            /**
-             * Toggle  node's fade statues
-             * @param force
-             * @method fadeToggle
-             */
-            fadeToggle: function (force) {
-                if (this.fade()) {
-                    this.fadeIn(force);
-                } else {
-                    this.fadeOut(force);
+                    this.resolve("@root").setStyle('opacity', 1);
+                    this.fade(false);
                 }
             },
             /**
@@ -342,9 +304,6 @@
                     var id = vertex.id();
                     fn.call(context || this, topo.getNode(id), id);
                 }, this);
-            },
-            destroy: function () {
-                this.inherited();
             }
         }
     });

@@ -137,6 +137,14 @@
                         y2: this.target().get("y")
                     };
                 }
+            },
+            /**
+             * Is this link is a reverse link
+             * @property reverse {Boolean}
+             * @readOnly
+             */
+            reverse: {
+                value: false
             }
         },
         methods: {

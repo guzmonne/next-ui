@@ -1,7 +1,7 @@
 (function (nx, util, global) {
 
     nx.define("nx.graphic.Topology.Projection", {
-        events: ['projectionChange'],
+        events: ['projectionChange', 'zooming', 'zoomend'],
         properties: {
             /**
              * @property maxScale
@@ -30,7 +30,7 @@
                     if (scale !== this._scale) {
                         this._zoom(scale, this._scale || 1);
                         this._scale = scale;
-                        this.adjustLayout();
+//                        this.adjustLayout();
                     }
                 },
                 get: function () {
@@ -94,8 +94,8 @@
              */
             _setProjection: function (force, isNotify) {
                 var graph = this.model();
-                var visibleContainerWidth = this.visibleContainerWidth();
-                var visibleContainerHeight = this.visibleContainerHeight();
+                var visibleContainerWidth = this.containerWidth();
+                var visibleContainerHeight = this.containerHeight();
 
                 //
 
@@ -253,13 +253,10 @@
                     var height = this.height() - this.paddingTop() * 2;
                     var translateX = stage.translateX();
                     var translateY = stage.translateY();
+                    var _translateX, _translateY;
 
                     var step = newValue - oldValue;
 
-
-                    stage.scale(newValue / prevScale);
-
-                    //this._setProjection();
                     var _zoomCenterPointX = this._zoomCenterPointX();
                     var _zoomCenterPointY = this._zoomCenterPointY();
 
@@ -268,17 +265,21 @@
                         var x = (_zoomCenterPointX - translateX) / oldValue * step;
                         var y = (_zoomCenterPointY - translateY) / oldValue * step;
 
-                        stage.translateX(translateX - x);
-                        stage.translateY(translateY - y);
+                        _translateX = translateX - x;
+                        _translateY = translateY - y;
 
                     } else {
 
                         var pl = (width) * step / 2;
                         var pt = (height) * step / 2;
 
-                        stage.translateX(translateX - pl);
-                        stage.translateY(translateY - pt);
+                        _translateX = translateX - pl;
+                        _translateY = translateY - pt;
                     }
+
+
+                    stage.setTransform(_translateX, _translateY, newValue / prevScale);
+
 
                     this.fire("zooming");
 
@@ -287,49 +288,53 @@
 
 
                     clearTimeout(timer);
-                    timer = util.timeout(function () {
+                    timer = setTimeout(function () {
 
 
-                        if (ani) {
-                            ani.stop();
-                        }
-                        if (this.useZoomingAnimation()) {
-                            if (Math.abs(newValue - prevScale) < 1.4) {
-                                this._setProjection();
-                                stage.scale(1);
-                                this.adjustLayout();
-                                this.fire("zoomend");
-                                stage.setStyle("opacity", 1);
+//                        if (ani) {
+//                            ani.stop();
+//                        }
+//                        if (this.useZoomingAnimation()) {
+//                            if (Math.abs(newValue - prevScale) < 1.4) {
+//                                this._setProjection();
+//                                stage.scale(1);
+//                                this.adjustLayout();
+//                                this.fire("zoomend");
+//                                stage.setStyle("opacity", 1);
+//
+//                            } else {
+//                                new nx.util.Animation({
+//                                    duration: 600,
+//                                    autoStart: true,
+//                                    context: this,
+//                                    callback: function (index) {
+//                                        stage.setStyle("opacity", 1 - index);
+//                                    },
+//                                    complete: function () {
+//                                        this._setProjection();
+//                                        stage.scale(1);
+//                                        this.adjustLayout();
+//                                        this.fire("zoomend");
+//                                        stage.setStyle("opacity", 1);
+//                                    }
+//                                });
+//                            }
+//
+//                        } else {
+//
+//                            this.adjustLayout();
+//                            this.fire("zoomend");
+//                            stage.setStyle("opacity", 1);
+//                        }
 
-                            } else {
-                                new nx.util.Animation({
-                                    duration: 600,
-                                    autoStart: true,
-                                    context: this,
-                                    callback: function (index) {
-                                        stage.setStyle("opacity", 1 - index);
-                                    },
-                                    complete: function () {
-                                        this._setProjection();
-                                        stage.scale(1);
-                                        this.adjustLayout();
-                                        this.fire("zoomend");
-                                        stage.setStyle("opacity", 1);
-                                    }
-                                });
-                            }
+//
 
-                        } else {
-                            this._setProjection();
-                            stage.scale(1);
-                            this.adjustLayout();
-                            this.fire("zoomend");
-                            stage.setStyle("opacity", 1);
-                        }
-
-
+                        this._setProjection();
+                        stage.setTransform(null, null, 1);
+                        this.fire("zoomend");
                         prevScale = newValue;
-                    }, 300, this);
+
+                    }.bind(this), 300);
                 };
             })(),
             /**

@@ -4,13 +4,13 @@
             nx.graphic.Topology.Config,
             nx.graphic.Topology.Projection,
             nx.graphic.Topology.Model,
-//            nx.graphic.Topology.Event,
+            nx.graphic.Topology.Event,
             nx.graphic.Topology.StageMixin,
             nx.graphic.Topology.NodeMixin,
             nx.graphic.Topology.LinkMixin,
             nx.graphic.Topology.LayerMixin,
 //            nx.graphic.Topology.LayoutMixin,
-            //nx.graphic.Topology.SceneMixin,
+            nx.graphic.Topology.SceneMixin,
             //nx.graphic.Topology.Categories
         ],
         view: {
@@ -53,10 +53,10 @@
                         translateY: '{#paddingTop}'
                     },
                     events: {
-//                        'mousedown': '{#_pressStage}',
-//                        'touchstart': '{#_clickStage}',
-//                        'mousewheel': '{#_mousewheel}',
-//                        'touchmove': '{#_mousewheel}'
+                        'mouseup': '{#_clickStage}',
+                        'touchstart': '{#_clickStage}',
+                        'mousewheel': '{#_mousewheel}',
+                        'touchmove': '{#_mousewheel}'
                     }
                 },
                 {
@@ -70,6 +70,14 @@
 //                        visible: "{#showThumbnail}"
 //
 //                    }
+                },
+                {
+                    name: 'img',
+                    tag: 'img'
+                },
+                {
+                    name: 'canvas',
+                    tag: 'canvas'
                 }
 
             ],
@@ -82,34 +90,38 @@
         methods: {
             init: function (args) {
                 this.inherited(args);
-
-//                nx.each(this.__properties__, function (prop) {
-//                    var value = this[prop].__meta__.value;
-//                    if (value) {
-//                        this.set(prop, nx.is(value, 'Function') ? value.call(this) : value);
-//                    }
-//                }, this);
-
-
                 this.sets(args);
-
                 this.initLayer();
                 this.initModel();
+                this.initScene();
             },
             onInit: function () {
-                this.initStage();
-                this.initLayer();
-                this.initModel();
 
                 //this.initScene();
-                //this.activateScene("default");
+                //
 
 
             },
             attach: function (args) {
                 this.inherited(args);
-
                 this._adaptiveTimer();
+            },
+            draw: function () {
+                var start = new Date();
+                var serializer = new XMLSerializer();
+                var svg = serializer.serializeToString(this.stage().resolve("@root").$dom.querySelector('.stage'));
+                var defs = serializer.serializeToString(this.stage().resolve("@root").$dom.querySelector('defs'));
+                var svgString = '<svg width="' + this.width() + '" height="' + this.height() + '" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >' + defs + svg + "</svg>";
+                var b64 = window.btoa(svgString);
+                var img = this.resolve("img").resolve("@root").$dom;
+                //var canvas = this.resolve("canvas").resolve("@root").$dom;
+                img.setAttribute('width', this.width());
+                img.setAttribute('height', this.height());
+                img.setAttribute('src', 'data:image/svg+xml;base64,' + b64);
+//                var ctx = canvas.getContext("2d");
+//                ctx.drawImage(img, 10, 10);
+                this.resolve("stage").resolve("@root").setStyle("display", "none");
+                console.log('Generate image', new Date() - start);
             }
         }
     });

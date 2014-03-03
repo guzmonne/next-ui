@@ -3,17 +3,17 @@
         events: [],
         properties: {
             /**
-             * @property scenes
+             * @property scenesMap
              */
-            scenes: {
+            scenesMap: {
                 value: function () {
                     return {};
                 }
             },
             /**
-             * @property scenesQueue
+             * @property scenes
              */
-            scenesQueue: {
+            scenes: {
                 value: function () {
                     return [];
                 }
@@ -22,16 +22,12 @@
         },
         methods: {
             initScene: function () {
-                this.watch("mode", function (prop, value) {
-                    this.activateScene(value || "default");
-                }, this);
-
-
                 this.registerScene("default", "nx.graphic.Topology.DefaultScene");
                 this.registerScene("selection", "nx.graphic.Topology.SelectionScene");
-                this.registerScene("threeD", "nx.graphic.Topology.ThreeDLayer");
                 this.registerScene("selectionNode", "nx.graphic.Topology.SelectionNodeScene");
                 this.registerScene("zoomBySelection", "nx.graphic.Topology.ZoomBySelection");
+
+                this.activateScene('default');
 
             },
             /**
@@ -44,21 +40,22 @@
                 var cls;
                 if (name && inClass) {
                     var scene;
+                    var scenesMap = this.scenesMap();
                     var scenes = this.scenes();
-                    var scenesQueue = this.scenesQueue();
-                    if (!util.isString(inClass)) {
+                    if (!nx.is(inClass, 'String')) {
                         scene = inClass;
                     } else {
-                        cls = util.getByPath(inClass, global);
-                        scene = new cls();
+                        cls = nx.path(global, inClass);
+                        if (cls) {
+                            scene = new cls();
+                        } else {
+                            //nx.logger.log('wrong scene name');
+                        }
                     }
-                    if (scene && scene.$type) {
+                    if (scene) {
                         scene.topology(this);
-                        scenes[name] = {
-                            content: scene,
-                            index: scenesQueue.length
-                        };
-                        scenesQueue.push(scene);
+                        scenesMap[name] = scene;
+                        scenes.push(scene);
                     }
                 }
             },
@@ -68,15 +65,15 @@
              * @param name {String} Scene name which be passed at registerScene
              */
             activateScene: function (name) {
-                var scenes = this.scenes();
+                var scenesMap = this.scenesMap();
                 var sceneName = name || 'default';
-                var scene = scenes[sceneName] || scenes["default"];
+                var scene = scenesMap[sceneName] || scenesMap["default"];
                 //
                 this.deactivateScene();
                 this.currentScene = scene;
                 this.currentSceneName(sceneName);
 
-                scene.content.activate();
+                scene.activate();
                 this.fire("switchScene", {
                     name: name,
                     scene: scene
@@ -87,30 +84,11 @@
              * @method deactivateScene
              */
             deactivateScene: function () {
-                if (this.currentScene && this.currentScene.content.deactivate) {
-                    this.currentScene.content.deactivate();
+                if (this.currentScene && this.currentScene.deactivate) {
+                    this.currentScene.deactivate();
 
                 }
                 this.currentScene = null;
-//                var sceneEventMaps = this.sceneEventMaps();
-//                nx.each(sceneEventMaps, function (eve) {
-//                    if (eve.owner == this) {
-//
-//                    } else {
-//                        eve.owner.off(eve.name, eve.handler, eve.context);
-//                    }
-//                }, this);
-//                //
-//                this.sceneEventMaps([]);
-            },
-            /**
-             * Show 3D topology view
-             * @method show3DTopology
-             */
-            show3DTopology: function () {
-                if (this.topologyDataCollection().length() != 1 && this.show3D() && THREE && window.WebGLRenderingContext) {
-                    this.activateScene("threeD");
-                }
             }
         }
     });

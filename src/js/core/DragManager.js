@@ -8,6 +8,11 @@
             dragging: {value: false}
         },
         methods: {
+            init: function () {
+                window.addEventListener('mousedown', this._capture_mousedown.bind(this), true);
+                window.addEventListener('mousemove', this._capture_mousemove.bind(this), true);
+                window.addEventListener('mouseup', this._capture_mouseup.bind(this), true);
+            },
             start: function (evt) {
                 return function (node) {
                     // make sure only one node can capture the "drag" event
@@ -61,6 +66,23 @@
                     offset: [current[0] - origin[0], current[1] - origin[1]],
                     delta: [current[0] - last[0], current[1] - last[1]]
                 };
+            },
+            _capture_mousedown: function (evt) {
+                if (evt.captureDrag) {
+                    this._lastDragCapture = evt.captureDrag;
+                }
+                if (evt.type === "mousedown") {
+                    evt.captureDrag = this.start(evt);
+                } else {
+                    evt.captureDrag = function () {
+                    };
+                }
+            },
+            _capture_mousemove: function (evt) {
+                this.move(evt);
+            },
+            _capture_mouseup: function (evt) {
+                this.end(evt);
             }
         }
     });

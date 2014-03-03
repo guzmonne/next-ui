@@ -64,6 +64,12 @@
              * @default undefined
              */
             yMutatorMethod: {},
+            width: {
+                value: 100
+            },
+            height: {
+                value: 100
+            },
             ObservableVertex: {},
             ObservableEdge: {}
         },
@@ -161,7 +167,7 @@
                 if (dataProcessor) {
                     var processor = GRAPH.dataProcessor[dataProcessor];
                     if (processor) {
-                        return processor.process(data, identityKey);
+                        return processor.process(data, identityKey, this);
                     } else {
                         return data;
                     }
@@ -327,7 +333,7 @@
 
             _addEdgeSet: function (config) {
                 var edgeSet = new nx.data.EdgeSet();
-                var id = edgeSet.$id;
+                var id = edgeSet.__id__;
                 edgeSet.sets(config);
                 edgeSet.id(id);
                 this._edgeSetMap[config.linkKey] = edgeSet;
@@ -467,7 +473,7 @@
 
 
                     var edge = new nx.data.Edge(data);
-                    var id = data.id === undefined ? edge.$id : data.id;
+                    var id = data.id === undefined ? edge.__id__ : data.id;
 
                     edge.sets({
                         source: source,
@@ -507,6 +513,7 @@
 
                     edgeSet.addEdge(edge);
                     edge.parentEdgeSet(edgeSet);
+                    edge.reverse(linkKey !== edgeSet.linkKey());
 
 
                     return edge;

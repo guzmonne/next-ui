@@ -26,7 +26,29 @@
                 value: function () {
                     return {};
                 }
+            },
+            highlightedLinks: {
+                value: function () {
+                    return [];
+                }
             }
+        },
+        view: {
+            type: 'nx.graphic.Group',
+            content: [
+                {
+                    name: 'activated',
+                    type: 'nx.graphic.Group'
+                },
+                {
+                    name: 'static',
+                    type: 'nx.graphic.Group',
+                    props: {
+                        style: 'transition: opacity 0.5s;'
+                    }
+                }
+
+            ]
         },
         methods: {
             /**
@@ -39,7 +61,7 @@
                 var id = edge.id();
                 var link = this._generateLink(edge);
 
-                link.attach(this);
+                link.attach(this.resolve('static'));
                 this.links().push(link);
                 this.linksMap()[id] = link;
                 return link;
@@ -63,28 +85,33 @@
                 }
             },
 
-            removeNode: function (vertex) {
-                var linkSetMap = this.linkSetMap();
-                vertex.eachEdge(function (edge) {
-                    var linkKey = edge.linkKey();
-                    var reverseLinkKey = edge.reverseLinkKey();
-                    var linkSet = linkSetMap[linkKey] || linkSetMap[reverseLinkKey];
-                    if (linkSet) {
-                        linkSet.destroy();
-                        delete linkSetMap[linkSet.model().linkKey()];
-                    }
-                });
-            },
-
             _generateLink: function (edge) {
                 var id = edge.id();
                 var topo = this.topology();
-                var multipleLinkType = topo.multipleLinkType();
 
                 var link = new nx.graphic.Topology.Link({
                     topology: topo
                 });
-                link.setModel(edge);
+                link.setModel(edge, false);
+                link.resolve("@root").set("class", "link");
+                link.resolve("@root").set("data-link-id", id);
+                link.resolve("@root").set("data-linkKey", edge.linkKey());
+                link.resolve("@root").set("data-source-node-id", edge.source().id());
+                link.resolve("@root").set("data-target-node-id", edge.target().id());
+
+                link.setProperty('linkType', topo.linkType());
+                link.setProperty('gutter', topo.linkGutter());
+                link.setProperty('label', topo.linkLabel());
+                link.setProperty('sourceLabel', topo.linkSourceLabel());
+                link.setProperty('targetLabel', topo.linkTargetLabel());
+                link.setProperty('color', topo.linkColor());
+                link.setProperty('width', topo.linkWidth());
+                link.setProperty('dotted', topo.linkDotted());
+                link.setProperty('style', topo.linkStyle());
+                link.setProperty('drawMethod', topo.linkDrawMethod());
+
+                link.update();
+
 
                 //'click', 'mouseout', 'mouseover', 'mousedown'
 
@@ -135,32 +162,31 @@
                 return this.linksMap()[id];
             },
             /**
-             * Fade out all links
-             * @param force
+             * Fade out all nodes
              * @method fadeOut
              */
-            fadeOut: function (force) {
-                this.eachLink(function (link) {
-                    link.fadeOut(force);
-                });
-
-                this.eachLinkSet(function (link) {
-                    link.fadeOut(force);
-                });
+            fadeOut: function (fn, context) {
+                var el = this.resolve("static");
+                el.upon('transitionend', function () {
+                    if (fn) {
+                        fn.call(context || this);
+                    }
+                }, this);
+                el.root().setStyle('opacity', 0.1);
             },
             /**
-             * Fade in all links
-             * @param force
+             * Fade in all nodes
              * @method fadeIn
              */
-            fadeIn: function (force) {
-                this.eachLink(function (link) {
-                    link.fadeIn(force);
-                });
+            fadeIn: function (fn, context) {
+                var el = this.resolve("static");
+                el.upon('transitionend', function () {
+                    if (fn) {
+                        fn.call(context || this);
+                    }
+                }, this);
 
-                this.eachLinkSet(function (link) {
-                    link.fadeIn(force);
-                });
+                el.root().setStyle('opacity', 1);
             },
             /**
              * Recover all links statues
@@ -168,13 +194,19 @@
              * @method recover
              */
             recover: function (force) {
-                this.eachLink(function (link) {
-                    link.recover(force);
-                });
-
-                this.eachLinkSet(function (link) {
-                    link.recover(force);
-                });
+                this.fadeIn(function () {
+                    nx.each(this.highlightedLinks(), function (link) {
+                        link.append(this.resolve('static'));
+                    }, this);
+                    this.highlightedLinks([]);
+                }, this);
+            },
+            highlightLinks: function (links) {
+                nx.each(links, function (link) {
+                    this.highlightedLinks().push(link);
+                    link.append(this.resolve('activated'));
+                }, this);
+                this.fadeOut();
             },
             /**
              * Clear links layer
@@ -187,7 +219,9 @@
 
                 this.links([]);
                 this.linksMap({});
-                this.inherited();
+                this.$('activated').empty();
+                this.$('static').empty();
+                this.$("static").setStyle('opacity', 1);
             }
         }
     });

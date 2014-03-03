@@ -1,0 +1,214 @@
+.n-topology-nav {
+  position: absolute;
+  top: 0px;
+  left: 8px;
+  .user-select(none);
+
+  & > ul {
+    padding: 0px;
+    margin-top: 30px;
+  }
+
+  & > ul > li {
+    list-style: none;
+    margin-top: 10px;
+  }
+
+  &-mode {
+    padding: 0px;
+    position: relative;
+    width: 34px;
+
+    & > li {
+      width: 34px;
+      height: 32px;
+      line-height: 32px;
+      display: inline-block;
+      text-align: center;
+      cursor: pointer;
+      margin-top: -1px;
+      span {
+        display: inline-block;
+      }
+    }
+
+    &-selected {
+      .n-icon-move-mode {
+        .n-icon-move-mode-selected;
+      }
+      .n-icon-select-node {
+        .n-icon-select-node-selected;
+      }
+    }
+  }
+
+  &-zoom {
+    position: relative;
+    width: 30px;
+    height: 118px;
+    & > span {
+      display: inline-block;
+      position: absolute;
+    }
+
+    &-out {
+      .n-icon-topology-zoom-in-x20();
+
+      left: 5px;
+      cursor: pointer;
+      opacity: 0.7;
+      &:hover {
+        opacity: 1;
+      }
+    }
+
+    &-in {
+      .n-icon-topology-zoom-out-x20();
+      top: 97px;
+      left: 5px;
+      cursor: pointer;
+      opacity: 0.7;
+      &:hover {
+        opacity: 1;
+      }
+    }
+
+    &-ball {
+      .n-icon-topology-zoom-ball();
+      top: 21px;
+      left: 7px;
+    }
+
+    &-bar {
+      .n-icon-topology-zoom-bar();
+      top: 20px;
+      left: 12px;
+      opacity: 0.7;
+    }
+  }
+
+  &-zoom-selection {
+    margin-left: 3px;
+    cursor: pointer;
+    //opacity: 0.3;
+  }
+
+  &-fit {
+    .n-icon-topology-fit;
+    margin-left: 3px;
+    cursor: pointer;
+    opacity: 0.7;
+    &:hover {
+      opacity: 1;
+    }
+  }
+
+  &-search {
+    .n-icon-topology-serach-normal;
+    margin-left: 3px;
+    cursor: pointer;
+    opacity: 0.7;
+    &:hover {
+      opacity: 1;
+    }
+
+    &-active {
+      .n-icon-topology-serach-active;
+    }
+  }
+
+  &-agr {
+    margin-left: 6px;
+    cursor: pointer;
+  }
+
+  &-full {
+    .n-icon-full-screen-x16;
+    margin-left: 6px;
+    cursor: pointer;
+    opacity: 0.7;
+    &:hover {
+      opacity: 1;
+    }
+  }
+
+  &-topo3d {
+    .n-icon-topology-3d;
+    margin-left: 5px;
+    //    cursor: pointer;
+    opacity: 0.3;
+  }
+
+  &-topo3d-show-true {
+    opacity: 1;
+    cursor: pointer;
+  }
+
+  &-setting {
+    width: 24px;
+    height: 24px;
+    margin-left: 5px;
+    cursor: pointer;
+    position: relative;
+
+    &-icon {
+      display: inline-block;
+      .n-icon-topology-setting;
+    }
+    &-open {
+      .n-topology-nav-setting-icon {
+        .n-icon-topology-setting-selected;
+      }
+
+      .n-topology-nav-setting-panel {
+        width: 240px;
+        min-height: 80px;
+        height: auto;
+        opacity: 1;
+        padding: 10px;
+        pointer-events: all;
+      }
+
+    }
+
+    &-panel {
+      //      overflow: hidden;
+      background-color: rgba(255, 255, 255, 0.83);
+      .box-shadow(0px 0px 5px 0px rgba(0, 0, 0, 0.08));
+      .transition(all 0.3s);
+      width: 240px;
+      line-height: 24px;
+      height: auto;
+      opacity: 0;
+      padding: 10px;
+      min-height: 0px;
+      position: absolute;
+      top: 0px;
+      left: 24px;
+      border: solid 1px #ccc;
+      pointer-events: none;
+      h3 {
+        margin: 4px 0px 6px 0px;
+      }
+
+      .n-radio {
+        margin-right: 12px;
+        font-weight: normal;
+
+        span {
+          margin-left: 3px;
+        }
+      }
+
+      &-content {
+      }
+
+      &-label {
+        display: inline-block;
+        margin-right: 20px;
+      }
+    }
+
+  }
+
+}

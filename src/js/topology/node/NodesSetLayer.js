@@ -56,6 +56,23 @@
                 }
             }
         },
+        view: {
+            type: 'nx.graphic.Group',
+            content: [
+                {
+                    name: 'activated',
+                    type: 'nx.graphic.Group'
+                },
+                {
+                    name: 'static',
+                    type: 'nx.graphic.Group',
+                    props: {
+                        'class': 'n-transition'
+                    }
+                }
+
+            ]
+        },
         methods: {
             onAppend: function () {
                 var topo = this.topology();

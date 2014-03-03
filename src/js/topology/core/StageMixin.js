@@ -79,7 +79,7 @@
              */
             stage: {
                 get: function () {
-                    return this.resolve('stage').stage();
+                    return this.resolve('stage');
                 }
             }
         },
@@ -98,7 +98,7 @@
                     this.fire('ready');
                 } else {
                     var timer = setInterval(function () {
-                        if (nx.dom.Document.body().contains(self._element)) {
+                        if (nx.dom.Document.body().contains(self.resolve("@root"))) {
                             //
                             clearInterval(timer);
                             self._adaptToContainer();
@@ -109,7 +109,7 @@
                 }
             },
             _adaptToContainer: function () {
-                var bound = this.parent().getBound();
+                var bound = this.resolve("@root").parentNode().getBound();
                 if (bound.width === 0 || bound.height === 0) {
                     nx.logger.log("Please set height*width to topology's parent container");
                 }
@@ -128,16 +128,6 @@
 //                }
 //                this.fire('updating');
 //                util.defer(this.adjustLayout.bind(this));
-            },
-
-            _onReady: function (fn) {
-                if (this.status() == 'appended') {
-                    fn.call(this);
-                } else {
-                    this.on('ready', function () {
-                        fn.call(this);
-                    }, this);
-                }
             },
             /**
              * Append a graphic element

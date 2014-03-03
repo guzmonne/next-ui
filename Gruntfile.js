@@ -10,6 +10,9 @@ module.exports = function (grunt) {
         jshint: {
             base: {
                 src: '<%= pkg.scripts %>'
+            },
+            options: {
+                eqnull: true
             }
         },
         qunit: {
@@ -39,5 +42,5 @@ module.exports = function (grunt) {
 
     grunt.loadNpmTasks('grunt-contrib');
 
-    grunt.registerTask('default', ['clean',  'jshint', 'concat', 'yuidoc', 'uglify']);
+    grunt.registerTask('default', ['clean', 'jshint', 'concat', 'yuidoc', 'uglify']);
 };

@@ -4,87 +4,30 @@
      * @class nx.graphic.Topology.Node
      * @extend nx.graphic.Topology.AbstractNode
      */
-    nx.define("nx.graphic.Topology.Node", nx.graphic.Topology.AbstractNode, {
-        /**
-         * @event mouseup
-         */
-        /**
-         * @event mouseleave
-         */
-        /**
-         * @event mouseenter
-         */
-        /**
-         * @event dragstart
-         */
-        /**
-         * @event drag
-         */
-        /**
-         * @event dragend
-         */
-        events: ['mouseup', 'mouseleave', 'mouseenter', 'dragstart', 'drag', 'dragend', 'mousedown', 'hide', 'show'],
+    nx.define('nx.graphic.Topology.Node', nx.graphic.Topology.AbstractNode, {
+        events: ['nodemousedown', 'nodemouseup', 'nodemouseenter', 'nodemouseleave', 'nodedragstart', 'nodedrag', 'nodedragend', 'nodeselected'],
         properties: {
-            /**
-             * Get dot's radius
-             * @property dotRadius
-             */
-            dotRadius: {
-                value: 5
+            nodeScale: {
+                value: 1
             },
-            ringRadius: {
-                get: function () {
-                    var radius = 0;
-                    if (this.selected() && this.enable()) {
-                        var size = this.getSize();
-                        radius = Math.min(size.height, size.width) * 0.75;
-                    }
-                    return radius;
-                }
+            radius: {
+                value: 4
             },
-            /**
-             * Get node's iconType
-             * @property iconType
-             */
             iconType: {
-                get: function () {
-                    return this._iconType || 'unknown';
-                },
-                set: function (value) {
-                    var type = value;
-                    var model = this.model();
-                    if (value) {
-                        if (nx.is(value, 'Function')) {
-                            type = value.call(this, model, this);
-                        } else if (model.get(value) !== undefined) {
-                            type = model.get(value);
-                        }
-                    }
-                    this._iconType = type;
-                }
+                value: 'unknown'
+            },
+            fontSize: {
+                value: 12
             },
             /**
              * Get node's label
              * @property text
              */
             label: {
-                get: function () {
-                    return this._label;
-                },
-                set: function (value) {
-                    var label = value;
-                    var model = this.model();
-                    var el = this.resolve("label");
-                    if (value) {
-                        if (nx.is(value, 'Function')) {
-                            label = value.call(this, model, this);
-                        } else if (model.get(value) !== undefined) {
-                            label = model.get(value);
-                        }
-                    }
-
+                set: function (label) {
+                    var el = this.resolve('label');
                     if (label !== undefined) {
-                        el.set("text", label);
+                        el.set('text', label);
                         el.append();
                         this.calcLabelPosition();
                     } else {
@@ -93,65 +36,76 @@
                     this._label = label;
                 }
             },
-            /**
-             * Get/set icon's show icon status
-             * @property showIcon
-             */
+            labelVisible: {
+                set: function (value) {
+                    var el = this.resolve('label');
+                    el.visible(value);
+                    this._labelVisible = value;
+                }
+            },
             showIcon: {
-                watch: function (prop, value) {
-                    var icon = this.resolve("iconContainer");
-                    var dot = this.resolve("dot");
+                set: function (value) {
+                    var icon = this.resolve('iconContainer');
+                    var dot = this.resolve('dot');
                     if (value) {
-                        icon.set("iconType", this.iconType());
+                        icon.set('iconType', this.iconType());
                         icon.append();
                         dot.remove();
                     } else {
                         icon.remove();
                         dot.append();
                     }
+
+                    this._showIcon = value;
                     this.calcLabelPosition();
+
+
                 }
             },
-            /**
-             * Get node's label size
-             * @property fontSize
-             */
-            fontSize: {
-                value: 12
-            },
+
             /**
              * Get/set node's selected statues
              * @property selected
              */
             selected: {
-                watch: function (prop, value) {
-//                    var selectedNodes = this.topology().selectedNodes();
-//                    if (value) {
-//                        if (selectedNodes.indexOf(this) == -1) {
-//                            selectedNodes.add(this);
-//                        }
-//                    } else {
-//                        selectedNodes.remove(this);
-//                    }
-
-                    var el = this.resolve("selectedBG");
+                get: function () {
+                    return this._selected || false;
+                },
+                set: function (value) {
+                    var el = this.resolve('selectedBG');
                     if (value) {
-                        el.set("r", this.selectedBG());
+                        var radius;
+                        if (this.showIcon()) {
+                            var size = this.resolve('icon').size();
+                            radius = Math.max(size.height, size.width) / 2;
+                        } else {
+                            radius = this._radius;
+                        }
+                        el.set('r', radius * 1.5);
                         el.append();
-                        this.calcLabelPosition();
                     } else {
                         el.remove();
                     }
+
+                    this._selected = value;
+
+                    this.fire('nodeselected', value);
+                }
+            },
+            color: {
+                set: function (value) {
+                    this.$('dot').setStyle('fill', value);
+                    this.$('label').setStyle('fill', value);
                 }
             },
             parentNodeSet: {
                 get: function () {
-                    var parentVertexSet = this.model().parentVertexSet();
-                    if (parentVertexSet) {
-                        return this.owner().getNode(parentVertexSet.id());
-                    } else {
-                        return null;
-                    }
+//                    var parentVertexSet = this.model().parentVertexSet();
+//                    if (parentVertexSet) {
+//                        return this.owner().getNode(parentVertexSet.id());
+//                    } else {
+//                        return null;
+//                    }
 
                 }
             },
@@ -160,20 +114,24 @@
             }
         },
         view: {
-            type: "nx.graphic.Group",
+            type: 'nx.graphic.Group',
             props: {
-                translateX: "{#x}",
-                translateY: "{#y}",
+                translate: '{#position}',
+                'node-x': '{#x}',
+                'node-y': '{#y}',
                 'class': 'node'
             },
             content: [
                 {
-                    type: "nx.graphic.Group",
-                    name: "graphic",
+                    type: 'nx.graphic.Group',
+                    name: 'graphic',
+                    props: {
+                        scale: '{#nodeScale}'
+                    },
                     content: [
                         {
                             name: 'selectedBG',
-                            type: "nx.graphic.Circle",
+                            type: 'nx.graphic.Circle',
                             props: {
                                 x: 0,
                                 y: 0,
@@ -182,9 +140,9 @@
                         },
                         {
                             name: 'dot',
-                            type: "nx.graphic.Circle",
+                            type: 'nx.graphic.Circle',
                             props: {
-                                r: '{#dotRadius}',
+                                r: '{#radius}',
                                 x: 0,
                                 y: 0,
                                 'class': 'dot'
@@ -192,10 +150,10 @@
                         },
                         {
                             name: 'iconContainer',
-                            type: "nx.graphic.Group",
+                            type: 'nx.graphic.Group',
                             content: {
                                 name: 'icon',
-                                type: "nx.graphic.Icon",
+                                type: 'nx.graphic.Icon',
                                 props: {
                                     'class': 'icon',
                                     iconType: 'unknown'
@@ -204,16 +162,22 @@
                         }
                     ],
                     events: {
-//                            'mousedown': '{#_mousedown}',
-//                            'mouseup': '{#_mouseup}',
-//                            'touchstart': '{#_mousedown}',
-//                            'mouseenter': '{#_mouseenter}',
-//                            'mouseleave': '{#_mouseleave}'
+                        'mousedown': '{#_mousedown}',
+                        'mouseup': '{#_mouseup}',
+                        'touchstart': '{#_mousedown}',
+                        'touchend': '{#_mouseup}',
+
+                        'mouseenter': '{#_mouseenter}',
+                        'mouseleave': '{#_mouseleave}',
+
+                        'dragstart': '{#_dragstart}',
+                        'dragmove': '{#_drag}',
+                        'dragend': '{#_dragend}'
                     }
                 },
                 {
-                    name: "label",
-                    type: "nx.graphic.Text",
+                    name: 'label',
+                    type: 'nx.graphic.Text',
                     props: {
                         'class': 'node-label',
                         'alignment-baseline': 'central',
@@ -227,31 +191,22 @@
         methods: {
             setModel: function (model) {
                 this.inherited(model);
-                var topo = this.topology();
-                this.useSmartLabel(topo.useSmartLabel());
-                this.selected(false);
-                this.iconType(topo.iconTypePath());
-                this.showIcon(topo.showIcon());
-                this.label(topo.nodeLabelPath());
             },
-//            _setDotRadius: function () {
-//                var radius = 0;
-//                if (!this.showIcon()) {
-//                    var scale = this.scale();
-//                    if (scale <= 1) {
-//                        radius = Math.floor(scale * 2 + 3);
-//                    } else {
-//                        radius = 5;
-//                    }
-//                }
-//                this.resolve("dot").radius(radius);
-//                this.dotRadius(radius);
-//            },
-//            _setLabelFontSize: function (size) {
-//                this.resolve("label").setStyle("fontSize", size);
-//            },
-
-
+            setProperty: function (key, value) {
+                var propValue;
+                var rpatt = /(?={)\{([^{}]+?)\}(?!})/;
+                if (value !== undefined) {
+                    var model = this.model();
+                    if (nx.is(value, 'Function')) {
+                        propValue = value.call(this, model, this);
+                    } else if (nx.is(value, 'String') && rpatt.test(value)) {
+                        this.setBinding(key, 'model.' + RegExp.$1.slice(0), this);
+                    } else {
+                        propValue = value;
+                    }
+                    this.set(key, propValue);
+                }
+            },
             /**
              * Get node's size beside label
              * @returns {*}
@@ -259,167 +214,56 @@
              */
             getSize: function () {
                 var showIcon = this.showIcon();
+                var scale = this.nodeScale();
                 if (showIcon) {
-                    var icon = this.resolve("icon");
-                    return icon.size();
+                    var size = this.resolve('icon').size();
+                    return {
+                        width: size.width * scale,
+                        height: size.height * scale
+                    };
                 } else {
                     return {
-                        width: this.dotRadius() * 2,
-                        height: this.dotRadius() * 2
+                        width: this.radius() * scale * 2,
+                        height: this.radius() * scale * 2
                     };
                 }
             },
-
-            /**
-             * Set hit to a node
-             * @param inText
-             * @param direction
-             * @param inConfig
-             * @returns {*}
-             * @method setHint
-             */
-            setHint: function (inText, direction, inConfig) {
-
-                var hint = this._hint;
-
-                if (!hint) {
-                    hint = this._hint = new nx.graphic.Hint();
-                    this.appendChild(hint);
-                }
-
-                hint.sets({
-                    text: inText,
-                    direction: direction,
-                    style: inConfig
-                });
-
-                hint.update();
-
-                this._setHintPosition();
-
-                return hint;
-
-            },
-            _setHintPosition: function () {
-                var hint = this._hint;
-                if (!hint) {
-                    return;
-                }
-
-
-                var size = this.getSize();
-                hint.offset({x: size.width, y: size.height});
-
-                var textDirection = ["right", "bottom", "bottom", "left", "left", "top", "top", "right"][parseInt(this._labelAngle / 45, 10)];
-                if (hint.direction() === textDirection) {
-                    hint.gap(25);
-                } else {
-                    hint.gap(12);
-                }
-
-                hint.update();
+            _mousedown: function (sender, event) {
+                this._prevPosition = this.position();
+                event.captureDrag(this.resolve('graphic'));
+                this.fire('nodemousedown', event);
             },
             _mouseup: function (sender, event) {
-                if (this.topology().nodeDraggable() === false) {
-                    if (this.enable()) {
-                        this.fire("mouseup", event);
-                    }
+                var _position = this.position();
+                if (_position.x === this._prevPosition.x && _position.y === this._prevPosition.y) {
+                    this.fire('nodemouseup', event);
                 }
-            },
-            mouseup: function (sender, event) {
-                if (!this._isMoving()) {
-                    if (this.enable()) {
-                        this.fire("mouseup", event);
-                    }
-                }
-            },
-            _mouseleave: function (sender, event) {
-                this.fire("mouseleave", event);
-                event.stop();
             },
             _mouseenter: function (sender, event) {
-                this.fire("mouseenter", event);
-                event.stop();
-            },
-            _mousedown: function (sender, event) {
-                if (this.enable()) {
-                    if (this.topology().nodeDraggable() !== false) {
-                        var self = this;
-                        var _nodeX = self.x();
-                        var _nodeY = self.y();
-
-                        var _pageXY = event.getPageXY();
-                        var px = _nodeX - _pageXY.x;
-                        var py = _nodeY - _pageXY.y;
-                        var startDrag = true;
-                        var isFireDragStart = false;
-
-
-                        console.log(_nodeX, _nodeY);
-
-                        var lockXAxle = this.lockXAxle();
-                        var lockYAxle = this.lockYAxle();
-
-                        var fn = function (sender, event) {
-                            if (startDrag) {
-                                if (!isFireDragStart) {
-                                    self.fire("dragstart", event);
-                                    self._isMoving(true);
-                                    isFireDragStart = true;
-                                }
-                                var pageXY = event.getPageXY();
-
-                                if (!lockXAxle) {
-                                    self.move(pageXY.x - _pageXY.x);
-                                }
-
-                                if (!lockYAxle) {
-                                    self.move(null, pageXY.y - _pageXY.y);
-                                }
-
-
-                                _pageXY = pageXY;
-                            }
-                            self.fire("drag", event);
-                            event.stop();
-                        };
-                        var fn2 = function (sender, event) {
-                            startDrag = false;
-                            if (_nodeX !== self.x() || _nodeY !== self.y()) {
-                                self.fire("dragend", event);
-                                self._updateConnectedNodeLabelPosition();
-                            } else {
-                                self.mouseup(sender, event);
-                            }
-
-
-                            nx.app.off("mousemove", fn);
-                            nx.app.off("mouseup", fn2);
-
-                            nx.app.off("touchmove", fn);
-                            nx.app.off("touchend", fn2);
-
-                            nx.dom.removeClass(document.body, "n-userselect n-dragCursor");
-
-                            self._isMoving(false);
-
-                            event.stop();
-                        };
-
-                        nx.app.on("mousemove", fn);
-                        nx.app.on("mouseup", fn2);
-
-                        nx.app.on("touchmove", fn);
-                        nx.app.on("touchend", fn2);
-
-                        nx.dom.addClass(document.body, "n-userselect n-dragCursor");
-
-                        event.stop();
-                    }
+                if (!this.__enter) {
+                    this.fire('nodemouseenter', event);
+                    this.__enter = true;
                 }
-                this.fire("mousedown", event);
-                event.stop();
+
+
             },
+            _mouseleave: function (sender, event) {
+                if (this.__enter) {
+                    this.fire('nodemouseleave', event);
+                    this.__enter = false;
+                }
+            },
+            _dragstart: function (sender, event) {
+                this.fire('nodedragstart', event);
+            },
+            _drag: function (sender, event) {
+                this.fire('nodedrag', event);
+            },
+            _dragend: function (sender, event) {
+                this.fire('nodedragend', event);
+                this._updateConnectedNodeLabelPosition();
+            },
+
             _updateConnectedNodeLabelPosition: function () {
                 this.calcLabelPosition();
                 this.eachConnectedNodes(function (node) {
@@ -437,7 +281,7 @@
                     }
                     this._centralizedTextTimer = setTimeout(function () {
                         this._centralizedText();
-                        this._setHintPosition();
+                        //this._setHintPosition();
                     }.bind(this), 100);
                 } else {
                     this.updateByMaxObtuseAngle(90);
@@ -505,22 +349,23 @@
 
 
                 this._labelAngle = labelAngle;
-
                 this.updateByMaxObtuseAngle(labelAngle);
-
-
             },
+            /**
+             * @method updateByMaxObtuseAngle
+             * @param angle
+             */
             updateByMaxObtuseAngle: function (angle) {
 
-                var el = this.resolve("label");
+                var el = this.resolve('label');
 
                 // find out the quadrant
                 var quadrant = Math.floor(angle / 60);
-                var anchor = "middle";
+                var anchor = 'middle';
                 if (quadrant === 5 || quadrant === 0) {
-                    anchor = "start";
+                    anchor = 'start';
                 } else if (quadrant === 2 || quadrant === 3) {
-                    anchor = "end";
+                    anchor = 'end';
                 }
 
                 //
@@ -529,27 +374,13 @@
                 var labelVector = new nx.math.Vector(radius, 0).rotate(angle);
 
 
-                el.set("x", labelVector.x);
-                el.set("y", labelVector.y);
+                el.set('x', labelVector.x);
+                el.set('y', labelVector.y);
                 //
 
-                el.set("text-anchor", anchor);
+                el.set('text-anchor', anchor);
 
-            },
-            destroy: function () {
-//                var topo = this.topology();
-//                topo.unwatch("revisionScale", this._watchRevisionScale, this);
-//                topo.unwatch("showIcon", this._watchShowIcon, this);
-//                topo.unwatch("scale", this._watchScale, this);
-//                this.inherited();
             }
         }
-    })
-    ;
+    });
 })(nx, nx.graphic.util, nx.global);
-
-
-//fill="#1F6EEE"
-//fill="#1F6EEE" class="bg"
-//stroke="#1F6EEE"
-//stroke="#1F6EEE" class="stroke"

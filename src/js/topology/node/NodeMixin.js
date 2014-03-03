@@ -3,15 +3,31 @@
     nx.define("nx.graphic.Topology.NodeMixin", {
         events: [],
         properties: {
+            nodeInstanceClass: {
+                value: 'nx.graphic.Topology.Node'
+            },
             /**
              * @property showIcon
              */
             autoToggleIcon: {
                 value: true
             },
-            showIcon: {
+            nodeDraggable: {
                 value: true
             },
+            useSmartLabel: {
+                value: true
+            },
+            nodeScale: {},
+            nodeRadius: {},
+            nodeIconType: {},
+            nodeLabel: {},
+            nodeShowIcon: {},
+            nodeSelected: {
+                value: false
+            },
+            nodeColor: {},
+
             /**
              * @property selectedNodes
              */
@@ -19,30 +35,6 @@
                 value: function () {
                     return new nx.data.ObservableCollection();
                 }
-            },
-            /**
-             * @property nodeLabelPath
-             */
-            nodeLabelPath: {
-                value: 'id'
-            },
-            /**
-             * @property iconTypePath
-             */
-            iconTypePath: {
-                value: null
-            },
-            /**
-             * @property
-             */
-            nodeDraggable: {
-                value: true
-            },
-            nodeInstanceClass: {
-                value: 'nx.graphic.Topology.Node'
-            },
-            useSmartLabel:{
-                value:true
             }
         },
         methods: {

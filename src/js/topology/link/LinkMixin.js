@@ -5,22 +5,32 @@
         properties: {
             /**
              * Set multipleLinkType ,parallel / curve
-             * @property multipleLinkType
+             * @property linkType
              */
-            multipleLinkType: {
+            linkType: {
                 value: 'parallel' //parallel / curve
             },
-            /**
-             * @property linkLabelPath
-             */
-            linkLabelPath: {},
-            linkSourceLabelPath: {},
-            linkTargetLabelPath: {},
-            showLinkLabel: {
-                value: false
+            linkGutter: {
+                value: 0
             },
-            linkSetDrawMethod: {},
-            linkDrawMethod: {}
+            linkLabel: {
+                value: null
+            },
+            linkSourceLabel: {
+                value: null
+            },
+            linkTargetLabel: {
+                value: null
+            },
+            linkColor: {},
+            linkWidth: {},
+            linkDotted: {},
+            linkStyle: {},
+            linkDrawMethod: {},
+            supportMultipleLink: {
+                value: true
+            },
+            linkSetDrawMethod: {}
         },
         methods: {
 

@@ -15,7 +15,7 @@
     nx.data.Force = function (inWidth, inHeight) {
         var width = inWidth || 800;
         var height = inHeight || 800;
-        var strength = 0.6;
+        var strength = 4;
         var distance = 100;
         var gravity = 0.01;
         this.charge = 1200;
@@ -138,7 +138,7 @@
         };
         this._calculateCenterGravitation = function () {
             var nodes = this.nodes;
-            var node,  x, y;
+            var node, x, y;
             var length = nodes.length;
 
             var k = 0.5 * gravity;
@@ -154,7 +154,7 @@
             var links = this.links;
             var nodeMap = this.nodeMap;
             var weightMap = this.weightMap;
-            var i, length , link, source, target, dx, dy, d2, d, dk, k, sWeight, tWeight;
+            var i, length , link, source, target, dx, dy, d2, d, dk, k, sWeight, tWeight, totalWeight;
             if (links) {
                 length = links.length;
                 for (i = 0; i < length; ++i) {
@@ -177,12 +177,13 @@
                         dy *= dk;
                         sWeight = weightMap[source.id];
                         tWeight = weightMap[target.id];
-                        k = sWeight / (tWeight + sWeight);
-                        target.dx -= dx * k;
-                        target.dy -= dy * k;
+                        totalWeight = sWeight + tWeight;
+                        k = sWeight / totalWeight;
+                        target.dx -= (dx * k)/totalWeight;
+                        target.dy -= (dy * k)/totalWeight;
                         k = 1 - k;
-                        source.dx += dx * k;
-                        source.dy += dy * k;
+                        source.dx += (dx * k)/totalWeight;
+                        source.dy += (dy * k)/totalWeight;
                     }
                 }
             }

@@ -9,13 +9,7 @@
             autoLayout: {
                 value: false
             },
-            /**
-             * Set/get topology mode move/selection
-             * @property mode
-             */
-            mode: {
-                value: "move" // move/selection
-            },
+
             /**
              * 0: not start,1:drawing,2 :finished,3 start and padding adaptive
              * @property status

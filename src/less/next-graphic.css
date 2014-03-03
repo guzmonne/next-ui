@@ -1,0 +1,270 @@
+.n-svg {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+    fill: transparent;
+}
+
+.n-transition {
+    -webkit-transition: all 0.6s;
+    /* For Safari 3.1 to 6.0 */
+
+    transition: all 0.6s;
+}
+
+.n-topology.n-topology-blue {
+    position: relative;
+    overflow: hidden;
+    background: #ffffff;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+
+.n-topology.n-topology-blue g {
+    pointer-events: all;
+}
+
+.n-topology.n-topology-blue-cursor-zoom-in {
+    cursor: crosshair;
+}
+
+.n-topology.n-topology-blue .n-svg {
+    border: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+
+.n-topology.n-topology-blue .link_dotted {
+    opacity: 0;
+}
+
+.n-topology.n-topology-blue text.node-label {
+    font-family: "Cisco Sans Reg";
+    fill: #0386d2;
+    pointer-events: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+    opacity: 1;
+}
+
+.n-topology.n-topology-blue text.hint {
+    font-size: 12px;
+}
+
+.n-topology.n-topology-blue .link path,
+.n-topology.n-topology-blue .link line {
+    fill: #5bc1df;
+    stroke: #5bc1df;
+    stroke-width: 1px;
+    opacity: 0.6;
+}
+
+.n-topology.n-topology-blue .link .linkLabel {
+    font-family: "Cisco Sans Reg";
+    fill: #0386d2;
+    font-size: 12px;
+}
+
+.n-topology.n-topology-blue .link .linkSourceLabel {
+    font-family: "Cisco Sans Reg";
+    fill: #0386d2;
+    opacity: 0.8;
+    font-size: 12px;
+}
+
+.n-topology.n-topology-blue .link .linkTargetLabel {
+    font-family: "Cisco Sans Reg";
+    fill: #0386d2;
+    opacity: 0.8;
+    font-size: 12px;
+}
+
+.n-topology.n-topology-blue .link-selected path {
+    fill: #0386d2;
+    stroke: #0386d2;
+    stroke-width: 2px;
+}
+
+.n-topology.n-topology-blue .links.fadeOut g {
+    opacity: 0.5;
+}
+
+.n-topology.n-topology-blue defs .bg {
+    fill: #0386d2;
+}
+
+.n-topology.n-topology-blue defs .stroke {
+    stroke: #0386d2;
+}
+
+.n-topology.n-topology-blue .icon .bg {
+    fill: #0386d2;
+}
+
+.n-topology.n-topology-blue .icon .stroke {
+    stroke: #0386d2;
+}
+
+.n-topology.n-topology-blue .group {
+    opacity: 0.5;
+}
+
+.n-topology.n-topology-blue .groupLabel {
+    cursor: pointer;
+    font-size: 18px;
+    font-family: "Cisco Sans Reg";
+}
+
+.n-topology.n-topology-blue .groupLabel:hover ~ .group {
+    opacity: 0.7;
+}
+
+.n-topology.n-topology-blue .mapPah {
+    fill: #ffffff;
+    stroke: #ffffff;
+    stroke-width: 1;
+}
+
+.n-topology.n-topology-blue .selectionRect {
+    stroke: #0386d2;
+    fill: #0386d2;
+    fill-opacity: 0.1;
+}
+
+.n-topology.n-topology-blue .link-set-bg {
+    stroke: #0386d2;
+    stroke-width: 2px;
+}
+
+.n-topology.n-topology-blue .link-set-circle {
+    fill: #0386d2;
+    stroke: #0386d2;
+    stroke-width: 16px;
+    stroke-linejoin: round;
+}
+
+.n-topology.n-topology-blue .link-set-text {
+    fill: #ffffff;
+    text-anchor: middle;
+    dominant-baseline: central;
+    font-size: 13px;
+    pointer-events: none;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+    .n-topology.n-topology-blue {
+        /* Safari only override */
+
+    }
+
+    .n-topology.n-topology-blue ::i-block-chrome,
+    .n-topology.n-topology-blue .link-set-circle {
+        stroke-width: 8px !important;
+    }
+}
+
+.n-topology.n-topology-blue .nodeset .plusIcon {
+    fill: #ffffff;
+    pointer-events: none;
+}
+
+.n-topology.n-topology-blue .node .selectedBG {
+    fill: transparent;
+    opacity: 0.8;
+    stroke: #f2ad4e;
+    stroke-width: 3;
+}
+
+.n-topology.n-topology-blue .node .dot {
+    fill: #0386d2;
+}
+
+.n-topology.n-topology-blue .nodeset .dot {
+    fill: #0386d2;
+}
+
+.n-topology.n-topology-blue-setting {
+    max-width: none !important;
+}
+
+.n-topology.n-topology-blue .aggregationGroup .aggregationText {
+    fill: #0386d2;
+    font-size: 12px;
+}
+
+.n-topology.n-topology-blue .aggregationGroup .aggregationRect {
+    fill: #0386d2;
+    opacity: 0.2;
+    stroke: #0386d2;
+    stroke-width: 3;
+    stroke-linejoin: round;
+    pointer-events: none;
+}
+
+.clearfix:before,
+.clearfix:after {
+    content: " ";
+    /* 1 */
+
+    display: table;
+    /* 2 */
+
+}
+
+.clearfix:after {
+    clear: both;
+}
+
+.center-block {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.pull-right {
+    float: right !important;
+}
+
+.pull-left {
+    float: left !important;
+}
+
+.hide {
+    display: none !important;
+}
+
+.show {
+    display: block !important;
+}
+
+.invisible {
+    visibility: hidden;
+}
+
+.text-hide {
+    font: 0/0 a;
+    color: transparent;
+    text-shadow: none;
+    background-color: transparent;
+    border: 0;
+}
+
+.hidden {
+    display: none !important;
+    visibility: hidden !important;
+}
+
+.affix {
+    position: fixed;
+}

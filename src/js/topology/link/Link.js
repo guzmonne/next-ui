@@ -7,21 +7,9 @@
      * @extend nx.graphic.Topology.AbstractLink
      */
 
-    nx.define('nx.graphic.Topology.Link', nx.graphic.Topology.AbstractLink, {
+    var gutterStep = 5;
 
-        /**
-         * @event click
-         */
-        /**
-         * @event mouseout
-         */
-        /**
-         * @event mouseover
-         */
-        /**
-         * @event mousedown
-         */
-        events: ['click', 'mouseout', 'mouseover', 'mousedown'],
+    nx.define('nx.graphic.Topology.Link', nx.graphic.Topology.AbstractLink, {
         properties: {
             /**
              * Get link type 'curve' / 'parallel'
@@ -31,107 +19,92 @@
                 value: 'curve'
             },
             /**
-             * Get link's gutter
-             * @property gutterNumber
-             */
-            gutterNumber: {
-                value: 6
-            },
-            /**
              * Get link's gutter percentage
              * @property gutter
              */
             gutter: {
                 value: 0
             },
-            /**
-             * Get/set link's selected statues
-             * @property selected
-             */
-            selected: {
-                get: function () {
-                    return this._selected || false;
-                },
-                set: function (value) {
-                    if (value) {
-                        this.setAttribute('class', 'link link-selected');
-                    } else {
-                        this.setAttribute('class', 'link');
-                    }
-                }
-            },
             label: {
-                set: function (value) {
-                    var label = value;
-                    var el = this.resolve('label');
-                    if (value) {
-                        if (nx.is(value, 'Function')) {
-                            label = value.call(this, model, this);
-                        } else if (model.get(value) !== undefined) {
-                            label = model.get(value);
-                        }
-                    }
-
-                    if (label !== undefined) {
+                set: function (label) {
+                    var el = this.resolve("label");
+                    /*jshint -W083*/
+                    if (label != null) {
+                        var _gutter = this.gutter() * gutterStep;
+                        var line = this.line();
+                        var n = line.normal().multiply(_gutter);
+                        var point = line.center().add(n);
+                        el.set('x', point.x);
+                        el.set('y', point.y);
                         el.set('text', label);
                         el.append();
-                        this._updateLabel();
                     } else {
                         el.remove();
                     }
                     this._label = label;
                 }
             },
+            labelPosition: {
 
+            },
             sourceLabel: {
-                get: function () {
-                    return this._sourceLabel;
-                },
-                set: function (value) {
-                    var label = value;
-                    var el = this.resolve('sourceLabel');
-                    if (value) {
-                        if (nx.is(value, 'Function')) {
-                            label = value.call(this, model, this);
-                        } else if (model.get(value) !== undefined) {
-                            label = model.get(value);
-                        }
-                    }
-
-                    if (label !== undefined) {
+                set: function (label) {
+                    var el = this.resolve("sourceLabel");
+                    if (label != null) {
+                        var point = this.sourcePoint();
+                        el.set('x', point.x);
+                        el.set('y', point.y);
                         el.set('text', label);
                         el.append();
-                        this._updateLabel();
                     } else {
                         el.remove();
                     }
                     this._sourceLabel = label;
                 }
             },
-
             targetLabel: {
-                get: function () {
-                    return this._targetLabel;
-                },
-                set: function (value) {
-                    var label = value;
-                    var el = this.resolve('targetLabel');
-                    if (value) {
-                        if (nx.is(value, 'Function')) {
-                            label = value.call(this, model, this);
-                        } else if (model.get(value) !== undefined) {
-                            label = model.get(value);
-                        }
-                    }
-
-                    if (label !== undefined) {
+                set: function (label) {
+                    var el = this.resolve("targetLabel");
+                    if (label != null) {
+                        var point = this.targetPoint();
+                        el.set('x', point.x);
+                        el.set('y', point.y);
                         el.set('text', label);
                         el.append();
-                        this._updateLabel();
                     } else {
                         el.remove();
                     }
-                    this._targetLabel = label;
+                    this._sourceLabel = label;
+                }
+            },
+            color: {
+                set: function (value) {
+                    this.$('line').setStyle('stroke', value);
+                    this.$('path').setStyle('stroke', value);
+                    this._color = value;
+                }
+            },
+            width: {
+                set: function (value) {
+                    this.$('line').setStyle('stroke-width', value);
+                    this.$('path').setStyle('stroke-width', value);
+                    this._color = value;
+                }
+            },
+            dotted: {
+                set: function (value) {
+                    if (value) {
+                        this.$('path').setStyle('stroke-dasharray', '2, 5');
+                    } else {
+                        this.$('path').setStyle('stroke-dasharray', '');
+                    }
+                    this._dotted = value;
+                }
+            },
+            style: {
+                set: function (value) {
+                    this.$('line').setStyles(value);
+                    this.$('path').setStyles(value);
                 }
             },
             fade: {
@@ -139,13 +112,6 @@
             },
             fadeValue: {
                 value: 0.2
-            },
-            /**
-             * Get link's direction
-             * @property reverse
-             */
-            reverse: {
-                value: false
             },
             parentLinkSet: {
 
@@ -164,7 +130,11 @@
             },
             enable: {
                 value: true
+            },
+            drawMethod: {
+
             }
+
         },
         view: {
             type: 'nx.graphic.Group',
@@ -176,7 +146,8 @@
                     name: 'path',
                     type: 'nx.graphic.Path',
                     props: {
-                        'class': 'link'
+                        'class': 'link',
+                        style: 'stroke:#5BC1DF'
                     },
                     events: {
                         'click': '{#_click}',
@@ -191,7 +162,8 @@
                     name: 'line',
                     type: 'nx.graphic.Line',
                     props: {
-                        'class': 'link'
+                        'class': 'link',
+                        style: 'stroke:#5BC1DF'
                     },
                     events: {
                         'click': '{#_click}',
@@ -208,8 +180,7 @@
                     props: {
                         'alignment-baseline': 'text-before-edge',
                         'text-anchor': 'middle',
-                        'class': 'linkLabel',
-                        visible: false
+                        'class': 'linkLabel'
                     }
                 },
                 {
@@ -218,8 +189,7 @@
                     props: {
                         'alignment-baseline': 'text-before-edge',
                         'text-anchor': 'start',
-                        'class': 'linkSourceLabel',
-                        visible: false
+                        'class': 'linkSourceLabel'
                     }
                 },
                 {
@@ -228,8 +198,7 @@
                     props: {
                         'alignment-baseline': 'text-before-edge',
                         'text-anchor': 'end',
-                        'class': 'linkTargetLabel',
-                        visible: false
+                        'class': 'linkTargetLabel'
                     }
                 }
             ]
@@ -237,41 +206,41 @@
         methods: {
             attach: function (args) {
                 this.inherited(args);
-
-                var topo = this.topology();
-                topo.watch('showIcon', this._watchShowIcon = function (prop, value) {
-                    this._updateLabel();
-                    this._setHintPosition();
-                }, this);
             },
-            setModel: function (model) {
-
-
-                var topo = this.topology();
-                this.linkType(topo.multipleLinkType());
-                this.label(topo.linkLabelPath() || null);
-                this.sourceLabel(topo.linkSourceLabelPath() || null);
-                this.targetLabel(topo.linkTargetLabelPath() || null);
-
-                this.inherited(model);
-
+            setModel: function (model, isUpdate) {
+                this.inherited(model, isUpdate);
+            },
+            setProperty: function (key, value) {
+                var propValue;
+                var rpatt = /(?={)\{([^{}]+?)\}(?!})/;
+                if (value !== undefined) {
+                    var model = this.model();
+                    if (nx.is(value, 'Function')) {
+                        propValue = value.call(this, model, this);
+                    } else if (nx.is(value, 'String') && rpatt.test(value)) {
+                        this.setBinding(key, 'model.' + RegExp.$1.slice(0), this);
+                    } else {
+                        propValue = value;
+                    }
+                    this.set(key, propValue);
+                }
             },
             /**
              * Update link's path
              * @method update
              */
             update: function () {
-
-
-                if (this.topology().linkDrawMethod()) {
-                    this.topology().linkDrawMethod().call(this);
-                    return;
+                if (this.drawMethod()) {
+                    this.drawMethod().call(this);
                 } else {
                     var path = [], d;
-                    var _gutter = this.getGutter();
+                    var _gutter = this.gutter() * gutterStep;
                     var gutter = new Vector(0, _gutter);
-                    var line = this.getLine();
+                    var line = this.line();
                     var n, point;
+                    if (this.reverse()) {
+                        line = line.negate();
+                    }
                     if (this.linkType() == 'curve') {
                         _gutter = _gutter * 3;
                         n = line.normal().multiply(_gutter);
@@ -287,58 +256,21 @@
                     } else {
                         var lineEl = this.resolve('line');
                         var newLine = line.translate(gutter);
-//                        path.push('M', newLine.start.x, newLine.start.y);
-//                        path.push('L', newLine.end.x, newLine.end.y);
-//                        path.push('Z');
-//                        d = path.join(' ');
-
                         lineEl.sets({
                             x1: newLine.start.x,
                             y1: newLine.start.y,
                             x2: newLine.end.x,
                             y2: newLine.end.y
                         });
-
-
                         this.resolve('path').remove();
                         this.resolve('line').append();
-                    }
-
-
-                    if (this.model().virtual() === true) {
-                        this.dotted();
                     }
                 }
                 // this._updateLabel();
                 //  this._setHintPosition();
             },
-            /**
-             * get link's gutter from the center position
-             * @returns {number}
-             * @method getGutter
-             */
-            getGutter: function () {
-                var gutterNumber = this.gutterNumber();
-                return this.gutter() * gutterNumber;
-            },
-            /**
-             * Get link's line object
-             * @returns {nx.math.Line}
-             * @method getLine
-             */
-            getLine: function () {
-                var line;
-                var sourceVector = this.sourceVector();
-                var targetVector = this.targetVector();
-                if (this.reverse()) {
-                    line = new Line(sourceVector, targetVector);
-                } else {
-                    line = new Line(targetVector, sourceVector);
-                }
-                return line;
-            },
             getPaddingLine: function () {
-                var _gutter = this.getGutter();
+                var _gutter = this.gutter() * gutterStep;
                 var sourceSize = this.sourceNode().getSize();
                 var sourceRadius = Math.max(sourceSize.width, sourceSize.height) / 1.3;
                 var targetSize = this.targetNode().getSize();
@@ -346,15 +278,6 @@
                 var line = this.line().pad(sourceRadius, targetRadius);
                 var n = line.normal().multiply(_gutter);
                 return line.translate(n);
-            },
-            /**
-             * Change a link's style. (Developing)
-             * @param inColor
-             * @param inStrokeWidth
-             * @param force
-             * @method highlight
-             */
-            highlight: function (inColor, inStrokeWidth, force) {
             },
             /**
              * Recover link's statues
@@ -384,58 +307,6 @@
                 this.selected(false);
                 this.fadeIn(force);
             },
-            /**
-             * Change link's style to dotted
-             * @method dotted
-             */
-            dotted: function () {
-                this.resolve('path').setAttribute('stroke-dasharray', '2, 5');
-            },
-            /**
-             * Get link svg element's Bound
-             * @returns {*}
-             */
-            getBound: function () {
-                return this.resolve('path').getBBox();
-            },
-            _updateLabel: function () {
-
-                var line = this.getLine();
-                var label, n, point;
-                if (this.label() !== undefined) {
-                    var _gutter = this.getGutter();
-                    label = this.resolve('label');
-                    n = line.normal().multiply(_gutter);
-                    point = line.center().add(n);
-                    label.visible(true);
-                    label.x(point.x);
-                    label.y(point.y);
-                    //label.set('rotate', [Math.atan(slope) / Math.PI * 180, point.x, point.y].join(' '));
-                }
-
-
-                if (this.sourceLabel() !== undefined) {
-                    label = this.resolve('sourceLabel');
-                    point = this.sourcePoint();
-                    label.visible(true);
-                    label.x(point.x);
-                    label.y(point.y);
-                    //label.set('rotate', [Math.atan(slope) / Math.PI * 180, point.x, point.y].join(' '));
-                }
-
-                if (this.targetLabel() !== undefined) {
-                    label = this.resolve('targetLabel');
-                    point = this.targetPoint();
-                    label.visible(true);
-                    label.x(point.x);
-                    label.y(point.y);
-                    //label.set('rotate', [Math.atan(slope) / Math.PI * 180, point.x, point.y].join(' '));
-
-                }
-
-            },
-
-
             setHint: function (inText, inConfig, direction) {
                 var hint = this._hint;
                 if (!hint) {
@@ -546,31 +417,9 @@
 
                 }, 10, this);
             },
-
-            _click: function (sender, event) {
-                if (this.enable()) {
-                    this.fire('click', event);
-                }
-
-            },
-            _mouseout: function (sender, event) {
-                if (this.enable()) {
-                    this.fire('mouseout', event);
-                }
-            },
-            _mousedown: function (sender, event) {
-                if (this.enable()) {
-                    this.fire('mousedown', event);
-                }
-            },
-            _mouseover: function (sender, event) {
-                if (this.enable()) {
-                    this.fire('mouseover', event);
-                }
-            },
             destroy: function () {
                 var topo = this.topology();
-                topo.unwatch('internalShowIcon', this._watchShowIcon, this);
+                //topo.unwatch('internalShowIcon', this._watchShowIcon, this);
                 this.inherited();
             }
         }

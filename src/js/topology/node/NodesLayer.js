@@ -1,12 +1,12 @@
 (function (nx, util, global) {
     /**
      * Nodes layer
-     Could use topo.getLayer("nodesLayer") get this
+     Could use topo.getLayer('nodesLayer') get this
      * @class nx.graphic.Topology.NodesLayer
      * @extend nx.graphic.Topology.Layer
      *
      */
-    nx.define("nx.graphic.Topology.NodesLayer", nx.graphic.Topology.Layer, {
+    nx.define('nx.graphic.Topology.NodesLayer', nx.graphic.Topology.Layer, {
         /**
          * @event clickNode
          */
@@ -25,7 +25,24 @@
         /**
          * @event dragNodeEnd
          */
-        events: ["clickNode", 'enterNode', 'leaveNode', 'dragNodeStart', 'dragNode', 'dragNodeEnd', 'hideNode', 'pressNode'],
+        events: ['clickNode', 'enterNode', 'leaveNode', 'dragNodeStart', 'dragNode', 'dragNodeEnd', 'hideNode', 'pressNode', 'selectNode', 'updateNodeCoordinate'],
+        view: {
+            type: 'nx.graphic.Group',
+            content: [
+                {
+                    name: 'activated',
+                    type: 'nx.graphic.Group'
+                },
+                {
+                    name: 'static',
+                    type: 'nx.graphic.Group',
+                    props: {
+                        style: 'transition: fill-opacity 0.5s;'
+                    }
+                }
+
+            ]
+        },
         properties: {
             /**
              * Get all nodes
@@ -44,68 +61,35 @@
                 value: function () {
                     return {};
                 }
+            },
+            highlightedNodes: {
+                value: function () {
+                    return [];
+                }
             }
         },
         methods: {
             attach: function (args) {
-
                 this.inherited(args);
-
-
                 var topo = this.topology();
-//                topo.watch("revisionScale", this._watchRevisionScale = function (prop, value) {
-//
-//                }, this);
-//
-//
-//                topo.watch("showIcon", this._watchShowIcon = function (prop, value) {
-//                    this.eachNode(function (node) {
-//                        node.showIcon(value);
-//                    }, this);
-//                }, this);
-//
-//                var updateNodesByScale = util.debounce(function (scale) {
-//                    var showLabel = scale > 0.5;
-//                    var fontSize = Math.min(Math.floor(7 + 5 * scale), 13);
-//                    var radius;
-//                    if (scale <= 1) {
-//                        radius = Math.round(scale * 5);
-//                    } else {
-//                        radius = 5;
-//                    }
-//                    this.eachNode(function (node) {
-//                        node.resolve("label").visible(showLabel);
-//                        node.dotRadius(radius);
-//                        node.fontSize(fontSize);
-//                    }, this);
-//                }.bind(this), 100);
-//
-//
-//                topo.watch("scale", this._watchScale = function (prop, value) {
-//                    updateNodesByScale(value);
-//                    //
-//                }, this);
-
-
-//                model.watch("position", function (prop, value) {
-//                    this.position({x: projectionX.get(value.x), y: projectionY.get(value.y)});
-//                }, this);
-
-                topo.on("projectionChange", this._projectionChangeFN = function (sender, event) {
+                topo.on('projectionChange', this._projectionChangeFN = function (sender, event) {
                     var projectionX = topo.projectionX();
                     var projectionY = topo.projectionY();
                     var nodes = this.nodes();
                     nx.each(nodes, function (node) {
                         var model = node.model();
                         node.position({
-                            x: projectionX.get(model.get("x")),
-                            y: projectionY.get(model.get("y"))
+                            x: projectionX.get(model.get('x')),
+                            y: projectionY.get(model.get('y'))
                         });
                     }, this);
                 }, this);
             },
+            draw: function () {
+
+            },
             /**
-             * Add node a layer
+             * Add node a nodes layer
              * @param vertex
              * @method addNode
              */
@@ -115,10 +99,10 @@
                 var id = vertex.id();
 
                 var node = this._generateNode(vertex);
+
                 nodes.push(node);
                 nodesMap[id] = node;
-
-                node.attach(this);
+                node.attach(this.resolve('static'));
             },
 
 
@@ -127,8 +111,8 @@
                 var nodes = this.nodes();
                 var id = vertex.id();
                 var node = nodesMap[id];
-                node.dispose();
 
+                node.dispose();
                 nodes.splice(nodes.indexOf(node), 1);
                 delete nodesMap[id];
             },
@@ -141,79 +125,94 @@
                 //nodesMap[vertex.id()].fadeOut();
             },
             _generateNode: function (vertex) {
+                var clz;
+                //get node class
                 var topo = this.topology();
                 var nodeInstanceClass = topo.nodeInstanceClass();
-                var clz = nx.path(global, nodeInstanceClass);
+                if (nx.is(nodeInstanceClass, 'Function')) {
+                    clz = nodeInstanceClass.call(this, vertex);
+                    if (nx.is(clz, 'String')) {
+                        clz = nx.path(global, clz);
+                    }
+                } else {
+                    clz = nx.path(global, nodeInstanceClass);
+                }
 
                 var node = new clz();
-                node.sets({
-                    owner: this,
-                    topology: topo
-                });
+                node.set('topology', topo);
                 node.setModel(vertex);
 
-                node.set("class", "node");
+                node.set('class', 'node');
+                node.resolve('@root').set('data-node-id', node.id());
+                node.setProperty('nodeScale', topo.nodeScale());
+                node.setProperty('radius', topo.nodeRadius());
+                node.setProperty('useSmartLabel', topo.useSmartLabel());
+                node.setProperty('iconType', topo.nodeIconType());
+                node.setProperty('showIcon', topo.nodeShowIcon());
+                node.setProperty('selected', topo.nodeSelected());
+                node.setProperty('color', topo.nodeColor());
 
-//                node.on("mousedown", function (sender, event) {
-//                    nx.eventObject = event;
-//                    this.fire("pressNode", node);
-//                    event.stop();
-//                }, this);
-//
-//                node.on("mouseup", function (sender, event) {
-//                    nx.eventObject = event;
-//                    this.fire("clickNode", node);
-//                    event.stop();
-//                }, this);
-//
-//                node.on("mouseenter", function (sender, event) {
-//                    nx.eventObject = event;
-//                    this.fire("enterNode", node);
-//                }, this);
-//
-//                node.on("mouseleave", function (sender, event) {
-//                    nx.eventObject = event;
-//                    this.fire("leaveNode", node);
-//                }, this);
-//
-//                node.on("hide", function (sender, event) {
-//                    this.fire("hideNode", node);
-//                }, this);
-//
-//                node.on("dragstart", function (sender, event) {
-//                    nx.eventObject = event;
-//
-//                    this._dragNodeStartOffset = event.getPageXY();
-//
-//                    this.fire("dragNodeStart", node);
-//                }, this);
-//
-//                node.on("drag", function (sender, event) {
-//                    nx.eventObject = event;
-//
-//                    this._moveSelectionNodes(event, node);
-//
-//                    this.fire("dragNode", node);
-//                    this.topology().fire("updating");
-//                }, this);
-//
-//                node.on("dragend", function (sender, event) {
-//                    nx.eventObject = event;
-//
-//                    this._dragNodeStartOffset = null;
-//
-//                    this.fire("dragNodeEnd", node);
-//                }, this);
+                node.setProperty('label', topo.nodeLabel());
+                node.on('nodemousedown', function (sender, event) {
+                    this.fire('pressNode', node);
+                }, this);
 
-                node.set("data-node-id", vertex.id());
+                node.on('nodemouseup', function (sender, event) {
+                    node.selected(!node.selected());
+                    this.fire('clickNode', node);
+                }, this);
 
+                node.on('nodemouseenter', function (sender, event) {
+                    this.fire('enterNode', node);
+
+                }, this);
+
+                node.on('nodemouseleave', function (sender, event) {
+                    this.fire('leaveNode', node);
+                }, this);
+
+                node.on('nodeselected', function (sender, event) {
+                    if (node.selected()) {
+                        topo.selectedNodes().add(node);
+                    } else {
+                        topo.selectedNodes().remove(node);
+                    }
+
+                    this.fire('selectNode', node);
+                }, this);
+
+                node.on('hide', function (sender, event) {
+                    this.fire('hideNode', node);
+                }, this);
+
+                node.on('nodedragstart', function (sender, event) {
+                    this._moveSelectionNodes(event, node);
+                    this.fire('dragNodeStart', node);
+                }, this);
+
+                node.on('nodedrag', function (sender, event) {
+                    this._moveSelectionNodes(event, node);
+                    this.fire('dragNode', node);
+                }, this);
+
+                node.on('nodedragend', function (sender, event) {
+                    this.fire('dragNodeEnd', node);
+                }, this);
+
+                vertex.on('updateCoordinate', function (sender, position) {
+                    this.fire('updateNodeCoordinate', node);
+                }, this);
+
+
+                node.set('data-node-id', vertex.id());
                 return node;
             },
+
             /**
-             * Traverse all nodes
+             * Iterate all nodes
+             * @method eachNode
              * @param fn
              * @param context
-             * @method eachNode
              */
             eachNode: function (fn, context) {
                 nx.each(this.nodes(), fn, context || this);
@@ -230,79 +229,100 @@
             },
             /**
              * Fade out all nodes
-             * @param force
              * @method fadeOut
              */
-            fadeOut: function (force) {
-                this.eachNode(function (node) {
-                    if (node.fadeOut) {
-                        node.fadeOut(force);
+            fadeOut: function (fn, context) {
+                var el = this.resolve('static');
+                el.upon('transitionend', function () {
+                    if (fn) {
+                        fn.call(context || this);
                     }
-                });
+                }, this);
+                el.root().setStyle('fill-opacity', 0.2);
             },
             /**
              * Fade in all nodes
-             * @param force
              * @method fadeIn
              */
-            fadeIn: function (force) {
-                this.eachNode(function (node) {
-                    if (node.fadeIn) {
-                        node.fadeIn(force);
+            fadeIn: function (fn, context) {
+                var el = this.resolve('static');
+                el.upon('transitionend', function () {
+                    if (fn) {
+                        fn.call(context || this);
                     }
-                });
+                }, this);
+
+                el.root().setStyle('fill-opacity', 1);
+
+                //topo.getLayer('links').fadeIn();
+                this.topology().getLayer('links').fadeIn();
+
+
             },
-            /**
-             * Lighting all nodes
-             * @method lighting
-             */
-            lighting: function () {
-                this.eachNode(function (node) {
-                    if (node.lighting) {
-                        node.lighting();
-                    }
-                });
+            highlightNode: function (node) {
+                var highlightedNodes = this.highlightedNodes();
+                var el = this.resolve('activated');
+
+                this.highlightedNodes().push(node);
+                node.append(el);
+                node.eachConnectedNodes(function (node) {
+                    this.highlightedNodes().push(node);
+                    node.append(el);
+                }, this);
+
+                var topo = this.topology();
+                topo.getLayer('links').highlightLinks(node.getLinks());
+                topo.getLayer('links').fadeOut();
+                this.fadeOut();
+            },
+            highlightNodes: function (nodes) {
+                this.recover();
+                nx.each(nodes, function (node) {
+                    this.highlightedNodes().push(node);
+                    node.append(this.resolve('activated'));
+                }, this);
+
+
+                var topo = this.topology();
+                topo.getLayer('links').highlightLinks(node.getLinks());
+                topo.getLayer('links').fadeOut();
+
+                this.fadeOut();
             },
             /**
              * Recover all nodes status
-             * @param force
              * @method recover
              */
-            recover: function (force) {
-                this.eachNode(function (node) {
-                    if (node.fadeIn) {
-                        node.fadeIn(force);
-                    }
-                });
+            recover: function () {
+                this.fadeIn(function () {
+                    nx.each(this.highlightedNodes(), function (node) {
+                        node.append(this.resolve('static'));
+                    }, this);
+                    this.highlightedNodes([]);
+                }, this);
             },
             clear: function () {
-
-                this.topology().off("projectionChange", this._projectionChangeFN, this);
-
+                //this.topology().off('projectionChange', this._projectionChangeFN, this);
                 nx.each(this.nodes(), function (node) {
                     node.dispose();
                 });
+
                 this.nodes([]);
                 this.nodesMap({});
-                this.inherited();
+                this.$('activated').empty();
+                this.$('static').empty();
+                this.$('static').setStyle('fill-opacity', 1);
             },
             _moveSelectionNodes: function (event, node) {
                 var topo = this.topology();
-                var nodes = topo.selectedNodes();
-                if (nodes.indexOf(node) !== -1) {
-                    nodes = util.without(nodes.toArray(), node);
-
-                    var startOffset = this._dragNodeStartOffset;
-                    var offset = event.getPageXY();
-                    if (startOffset) {
-                        var x = offset.x - startOffset.x;
-                        var y = offset.y - startOffset.y;
-                        nx.each(nodes, function (node) {
-                            node.move(x, y);
-                        });
-                    }
-                    this._dragNodeStartOffset = offset;
+                var nodes = topo.selectedNodes().toArray();
+                if (nodes.indexOf(node) === -1) {
+                    nodes.push(node);
                 }
+
+                nx.each(nodes, function (node) {
+                    node.move(event.drag.delta[0], event.drag.delta[1]);
+                });
             }
         }
     });

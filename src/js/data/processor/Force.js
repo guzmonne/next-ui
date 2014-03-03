@@ -1,7 +1,7 @@
 (function (nx, util, global, logger) {
     nx.define("nx.data.ObservableGraph.ForceProcessor", {
         methods: {
-            process: function (data, key) {
+            process: function (data, key, model) {
                 var forceStartDate = new Date();
 
                 var _data = {nodes: data.nodes, links: []};
@@ -13,7 +13,7 @@
 
                 // if source and target is not number, force will search node
                 nx.each(data.links, function (link) {
-                    if (!nx.is(link.source, 'Object') && nodeIndexMap[link.source] !== undefined && !nx.is(link.target,'Object') && nodeIndexMap[link.target] !== undefined) {
+                    if (!nx.is(link.source, 'Object') && nodeIndexMap[link.source] !== undefined && !nx.is(link.target, 'Object') && nodeIndexMap[link.target] !== undefined) {
                         _data.links.push({
                             source: nodeIndexMap[link.source],
                             target: nodeIndexMap[link.target]
@@ -39,7 +39,7 @@
                     }
                 }
 
-                logger.log("topology force:", new Date() - forceStartDate);
+                return data;
             }
         }
     });

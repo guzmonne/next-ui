@@ -1,13 +1,43 @@
 (function (nx, util, global) {
 
     nx.define("nx.graphic.Topology.Model", {
-        events: [],
+        events: ['beforeSetData', 'afterSetData', 'insertData'],
         properties: {
             /**
              * @property identityKey
              */
             identityKey: {
                 value: "index"
+            },
+            data: {
+                get: function () {
+                    return this.model().getData();
+
+                },
+                set: function (value) {
+
+                    var fn = function (data) {
+                        this.fire("beforeSetData", data);
+                        this.clear();
+                        this.model().sets({
+                            width: this.visibleContainerWidth(),
+                            height: this.visibleContainerHeight()
+                        });
+                        // set Data;
+                        this.model().setData(data);
+                        //
+                        this.fire("afterSetData", data);
+                    };
+
+
+                    if (this.status() === 'appended') {
+                        fn.call(this, value);
+                    } else {
+                        this.on('ready', function () {
+                            fn.call(this, value);
+                        }, this);
+                    }
+                }
             },
             xMutatorMethod: {},
             yMutatorMethod: {},
@@ -31,6 +61,7 @@
                 var nodesLayer = this.getLayer("nodes");
                 var linksLayer = this.getLayer("links");
                 var linkSetLayer = this.getLayer("linkSet");
+
                 graph.on("addVertex", function (sender, vertex) {
                     nodesLayer.addNode(vertex);
                 }, this);
@@ -59,7 +90,9 @@
 
                 }, this);
                 graph.on("addEdgeSet", function (sender, edgeSet) {
-
+                    if (this.supportMultipleLink()) {
+                        linkSetLayer.addLinkSet(edgeSet);
+                    }
                 }, this);
 
                 graph.on("removeEdgeSet", function (sender, edgeSet) {
@@ -103,7 +136,9 @@
 
 
                 graph.on("startGenerate", function (sender, event) {
+                    //console.log(new Date() - start);
                     this._setProjection();
+                    //console.log(new Date() - start);
                 }, this);
 
 
@@ -161,31 +196,8 @@
              * @param name {String} name for this data
              * @param ignore {Boolean} is add this data to data collection
              */
-            setData: function (data, name, ignore) {
-
-                this._onReady(function () {
-
-
-                    this.fire("beforeSetData", data);
-
-
-                    this.clear();
-
-                    // set Data;
-                    this.model().setData(data);
-
-
-                    //this.fit();
-                    //this.adjustLayout();
-
-                    this.fire("afterSetData", data);
-
-
-//                    nx.each(this.layersQueue(), function (layer) {
-//                        layer.draw();
-//                    });
-
-                });
+            setData: function (data) {
+                this.data(data);
             },
 
             insertData: function (data) {
@@ -201,7 +213,7 @@
              * @returns {nx.ObservableGraph}
              */
             getData: function () {
-                return this.model().getData();
+                return this.data();
             },
 
 

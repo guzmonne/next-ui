@@ -5,28 +5,38 @@
 
 
     nx.define("nx.graphic.Topology.LinkSet", nx.graphic.Topology.AbstractLink, {
-        statics: {
-            autoCollapse: true
-        },
-        events: ['click', 'mouseout', 'mouseover', 'mousedown', 'clickNumber', 'leaveNumber'],
         properties: {
+
             links: {
                 value: function () {
                     return [];
                 }
             },
-            virtualLinks: {
-                value: function () {
-                    return [];
+            autoCollapse: {
+                value: true
+            },
+            color: {
+                set: function (value) {
+                    this.$('numBg').setStyle('fill', value);
+                    this.$('path').setStyle('stroke', value);
+                    this._color = value;
                 }
             },
-            linkSets: {
-                value: function () {
-                    return [];
+            collapsed: {
+                set: function (value) {
+                    if (this._collapsed != value) {
+                        this._collapsed = value;
+                        if (value) {
+                            this.update();
+                        } else {
+                            this.remove();
+                        }
+                        return true;
+                    } else {
+                        return false;
+                    }
+
                 }
-            },
-            selected: {
-                value: false
             },
             enable: {
                 get: function () {
@@ -41,136 +51,109 @@
             },
             fade: {
                 value: false
-            },
-            radian: {
-                value: 1
-            },
-            reverse: {
-                value: false
-            },
-            linkNumber: {
-                value: 0
-            },
-            active: {
-                value: false
             }
         },
-        meta: {
-            view: {
-                content: [
-                    {
-                        name: 'sum',
-                        props: {
-                            visible: '{#active}',
-                            'data-type': 'links-sum',
-                            'class': 'link-set'
-                        },
-                        content: [
-                            {
-                                name: 'path',
-                                type: "nx.graphic.Path",
-                                props: {
-                                    'class': 'link-set-bg'
-                                }
-                            },
-                            {
-                                name: 'numBg',
-                                type: 'nx.graphic.Rect',
-                                props: {
-                                    'class': 'link-set-circle',
-                                    height: 1
-                                },
-                                events: {
-                                    'mousedown': '{#_number_mouseup}',
-                                    'mouseleave': '{#_number_mouseleave}'
-                                }
-                            },
-                            {
-                                name: 'num',
-                                type: 'nx.graphic.Text',
-                                props: {
-                                    'class': 'link-set-text',
-                                    text: '{#linkNumber}'
-                                }
-                            }
-                        ]
-                    },
-                    {
-                        name: 'links',
-                        props: {
-                            'data-type': 'links'
-                        }
+        view: {
+            type: 'nx.graphic.Group',
+            props: {
+                'data-type': 'links-sum',
+                'class': 'link-set'
+            },
+            content: [
+                {
+                    name: 'path',
+                    type: "nx.graphic.Line",
+                    props: {
+                        'class': 'link-set-bg'
                     }
-
-
-                ]
-            }
+                },
+                {
+                    name: 'numBg',
+                    type: 'nx.graphic.Rect',
+                    props: {
+                        'class': 'link-set-circle',
+                        height: 1
+                    },
+                    events: {
+                        //'mousedown': '{#_number_mouseup}',
+                        //'mouseleave': '{#_number_mouseleave}'
+                    }
+                },
+                {
+                    name: 'num',
+                    type: 'nx.graphic.Text',
+                    props: {
+                        'class': 'link-set-text'
+                    }
+                }
+            ]
         },
         methods: {
-            onInit: function () {
-                this.watch("active", function (prop, value) {
-                    if (value) {
-                        this.activate();
-                    } else {
-                        this.deactivate();
-                    }
-                    this.update();
-                }, this);
-            },
-            onSetModel: function (model) {
-                this.inherited(model);
-                this.notify("active");
+            setModel: function (model, isUpdate) {
+                this.inherited(model, isUpdate);
+                this.setBinding('collapsed', 'model.activated,direction=<>', this);
             },
             update: function () {
-                if (this.active()) {
 
-                    if (this.topology().linkSetDrawMethod()) {
-                        this.topology().linkSetDrawMethod().call(this);
-                        return;
-                    }
+                if (this.collapsed()) {
 
-
-                    var path = [];
+                    var lineEl = this.resolve('path');
                     var line = this.line();
-                    path.push("M", line.start.x, line.start.y);
-                    path.push("L", line.end.x, line.end.y);
-                    path.push("Z");
-                    var d = path.join(" ");
-                    this.resolve("path").set("d", d);
-
+                    lineEl.sets({
+                        x1: line.start.x,
+                        y1: line.start.y,
+                        x2: line.end.x,
+                        y2: line.end.y
+                    });
+                    this.append();
 
                     //num
                     var centerPoint = this.centerPoint();
 
-                    this.resolve("num").x(centerPoint.x);
-                    this.resolve("num").y(centerPoint.y);
+                    this.$("num").set('x', centerPoint.x);
+                    this.$("num").set('y', centerPoint.y);
 
+                    this.$("numBg").set('x', centerPoint.x);
+                    this.$("numBg").set('y', centerPoint.y);
 
-                    this.resolve("numBg").set("x", centerPoint.x);
-                    this.resolve("numBg").set("y", centerPoint.y);
-
-//                //todo fix browser issue;
-                    if (nx.browser.chrome) {
-//                    this.resolve("sum").hide();
-//                    this.resolve("sum").show();
-//                    if (!this.activated) {
-//                        this.resolve("sum").hide();
-//                    }
-                    }
                 }
 
             },
+            collapse: function () {
+                this.collapsed(true);
 
+            },
+            expand: function () {
+                this.collapsed(false);
+
+                //this.resolve("links").empty();
+
+            },
+
+            _updateLinkNumber: function () {
+                var edges = this.links();
+                this.$("num").set('text', edges.length);
+
+                var bound = this.resolve("num").getBound();
+                var width = Math.max(bound.width - 8, 1);
+
+                this.$("numBg").set('width', width);
+                this.$("numBg").set("translateX", width / -2);
+
+            },
 
             eachLink: function (fn, context) {
-                nx.each(this.getLinks(), fn, context || this);
+                nx.each(this.links(), fn, context || this);
             },
-            getLinks: function () {
-                var links = [];
-                var linksLayer = this.owner();
+            updateLinks: function () {
+                var links = this.links();
+                links.length = 0;
+                var topo = this.topology();
                 nx.each(this.model().getEdges(null, true), function (edge) {
-                    links.push(linksLayer.getLink(edge.id()));
+                    links.push(topo.getLink(edge.id()));
                 });
+                this._updateLinkNumber();
+                this.updateLinksGutter();
                 return links;
             },
             updateLink: function (link) {
@@ -178,36 +161,9 @@
                 this.updateLinks();
                 return link;
             },
-            addLink: function (link, isAppend) {
-                if (isAppend !== false) {
-                    this.resolve("links").appendChild(link);
-                    link.owner(this);
-
-                }
-            },
-            removeLink: function (link) {
-                this.resolve("links").removeChild(link);
-            },
-            updateLinks: function () {
-                var links = [];
-                var linksLayer = this.owner();
-                nx.each(this.model().getEdges(null, true), function (edge) {
-                    var link = linksLayer.getLink(edge.id());
-                    if (!link) {
-                        link = linksLayer.addLink(edge);
-                    }
-                    links.push(link);
-                });
-
-                if (nx.graphic.Topology.LinkSet.autoCollapse === false) {
-                    this.activate();
-                } else if (this.model().containEdgeSet()) {
-                    this.activate();
-                } else {
-                    var topo = this.topology();
-                    var multipleLinkType = topo.multipleLinkType();
-                    var maxLinkNumber = multipleLinkType === "curve" ? 9 : 5;
-
+            updateLinksGutter: function () {
+                var links = this.links();
+                if (links.length > 1 && !this.model().containEdgeSet()) {
                     // reset all links gutter
                     if (links.length > 1) {
                         var offset = (links.length - 1) / 2;
@@ -216,69 +172,41 @@
                             link.update();
                         });
                     }
+                }
+            },
 
-                    // less than max link number
-                    if (links.length <= maxLinkNumber) {
-                        if (this.activated) {
-                            this.deactivate();
-                        }
+            adjust: function () {
+                if (!this.autoCollapse()) {
+                    this.expand();
+                } else if (this.model().containEdgeSet()) {
+                    this.collapse();
+                } else {
+                    var linkType;
+                    var topo = this.topology();
+                    var links = this.links();
+                    if (links[0]) {
+                        linkType = links[0].linkType();
                     } else {
-                        this.activate();
+                        linkType = topo.linkType();
+                    }
+                    var maxLinkNumber = linkType === "curve" ? 9 : 5;
+                    if (links.length <= maxLinkNumber) {
+                        this.expand();
+                    } else {
+                        this.collapse();
                     }
                 }
+
+
             },
 
 
-            activate: function () {
-                this.active(true);
-                this.resolve("links").remove();
-                this.resolve("sum").append();
-
-                this._updateLinkNumber();
-
-            },
-            deactivate: function () {
-                this.active(false);
-
-                this.resolve("sum").remove();
-                this.resolve("links").append();
-                //this.resolve("links").empty();
-
+            fadeOut: function () {
+                this.inherited();
             },
 
-            _updateLinkNumber: function () {
-                var edges = this.model().getEdges(null, true);
-                this.resolve("num").text(edges.length);
-
-                var bound = this.resolve("num").getBound();
-                var width = Math.max(bound.width - 8, 1);
-
-                this.resolve("numBg").width(width);
-                this.resolve("numBg").set("translateX", width / -2);
-
-            },
-            fadeOut: function (force) {
-                if (this.active()) {
-                    this.inherited(force);
-                }
-            },
-
-            fadeIn: function (force) {
-                if (this.active()) {
-                    this.inherited(force);
-                }
-            },
-            recover: function (force) {
-                this.selected(false);
-                this.fadeIn(force);
-            },
-
-            /**
-             * Get link svg element's Bound
-             * @returns {*}
-             */
-            getBound: function () {
-                return this.resolve("path").getBBox();
+            fadeIn: function () {
+                this.inherited();
             },
             _click: function (sender, event) {
                 if (this.enable()) {
@@ -309,14 +237,10 @@
             _number_mouseleave: function (sender, event) {
                 this.fire("leaveNumber", event);
             },
-            destroy: function () {
-                var layer = this.owner();
-                nx.each(this.model().edges(), function (edge) {
-                    var link = layer.getLink(edge.id());
-                    link.destroy();
-                });
-                this.inherited();
+            addLink: function (link, isAppend) {
 
+            },
+            removeLink: function (link) {
             }
         }
     });

@@ -216,7 +216,10 @@
             tag: 'svg:svg',
             props: {
                 width: '{#width}',
-                height: '{#height}'
+                height: '{#height}',
+                version: '1.1',
+                xmlns: "http://www.w3.org/2000/svg",
+                'xmlns:xlink': 'http://www.w3.org/1999/xlink'
             },
             content: [
                 {
@@ -227,6 +230,7 @@
                     name: 'stage',
                     type: 'nx.graphic.Group',
                     props: {
+                        'class': 'stage',
                         scale: '{#scale}',
                         translateX: '{#translateX}',
                         translateY: '{#translateY}'
@@ -234,13 +238,10 @@
                 }
             ],
             events: {
-                ':mousedown': '{#_capture_mousedown}',
-                ':mousemove': '{#_capture_mousemove}',
-                ':mouseup': '{#_capture_mouseup}',
-                ':touchstart': '{#_capture_mousedown}',
-                ':touchmove': '{#_capture_mousemove}',
-                ':touchend': '{#_capture_mouseup}'
-
+                'mousedown': '{#_mousedown}',
+                'dragstart': '{#_dragstart}',
+                'dragmove': '{#_drag}',
+                'dragend': '{#_dragend}'
             }
         },
         properties: {
@@ -265,33 +266,30 @@
             addDefString: function (str) {
                 this.resolve("defs").resolve("@root").$dom.appendChild(new DOMParser().parseFromString(str, "text/xml").documentElement);
             },
+            _mousedown: function (sender, event) {
+                event.captureDrag(sender);
+            },
+            _dragstart: function (sender, event) {
+                this.resolve("stage").resolve("@root").setStyle('pointer-events', 'none');
+            },
+            _drag: function (sender, event) {
+//                console.log(this.translateX(), this.translateY())
+//                this.translateX(this.translateX() + event.drag.delta[0]);
+//                this.translateY(this.translateY() + event.drag.delta[1]);
 
-            _capture_mousedown: function (sender, evt) {
-                var dragman = nx.graphic.DragManager;
-                if (evt.captureDrag) {
-                    dragman._lastDragCapture = evt.captureDrag;
-                }
-                if (evt.type === "mousedown") {
-                    evt.captureDrag = dragman.start(evt);
-                } else {
-                    evt.captureDrag = function () {
-                    };
-                }
+                this.setTransform(this._translateX + event.drag.delta[0], this._translateY + event.drag.delta[1]);
+
             },
-            _capture_mousemove: function (sender, evt) {
-                nx.graphic.DragManager.move(evt);
+            _dragend: function (sender, event) {
+                this.resolve("stage").resolve("@root").setStyle('pointer-events', 'all');
             },
-            _capture_mouseup: function (sender, evt) {
-                nx.graphic.DragManager.end(evt);
-            },
-            _handle_mousedown: function (sender, evt) {
-                var dragman = nx.graphic.DragManager;
-                if (dragman._lastDragCapture) {
-                    evt.captureDrag = dragman._lastDragCapture;
-                    delete dragman._lastDragCapture;
-                } else {
-                    delete evt.captureDrag;
-                }
+            setTransform: function (translateX, translateY, scale) {
+                var transform = 'translate(' + (translateX || this._translateX) + 'px, ' + (translateY || this._translateY) + 'px) scale(' + (scale || this._scale) + ') ';
+                this.stage().resolve("@root").$dom.style.cssText = "transition:none 0;-webkit-transform:" + transform;
+                //this.stage().root().setStyle('transition', 'none 0');
+                this._translateX = translateX || this._translateX;
+                this._translateY = translateY || this._translateY;
+                this._scale = scale || this._scale;
             }
         }
     });
