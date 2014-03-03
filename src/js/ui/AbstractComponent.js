@@ -209,6 +209,10 @@
                     parent.content().remove(this);
                     this.parent(null);
                     this.owner(null);
+                    this.fire('leave', {
+                        parent: parent,
+                        owner: owner
+                    });
                     this._attached = false;
                 }
             },
