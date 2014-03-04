@@ -4,6 +4,7 @@
         env = nx.Env,
         util = nx.Util;
     var rTableElement = /^t(?:able|d|h)$/i,
+        rBlank = /\s+/,
         borderMap = {
             thin: '2px',
             medium: '4px',
@@ -137,8 +138,12 @@
                 return this.$dom.classList.contains(inClassName);
             },
             addClass: function () {
-                var classList = this.$dom.classList;
-                return classList.add.apply(classList,arguments);
+                var args = arguments,
+                    classList = this.$dom.classList;
+                if (args.length === 1 && args[0].search(rBlank) > -1) {
+                    args = args[0].split(rBlank);
+                }
+                return classList.add.apply(classList,args);
             },
             removeClass: function () {
                 var classList = this.$dom.classList;
@@ -288,7 +293,7 @@
             },
             _getBoxWidth: function (inBox,inDirection) {
                 var boxWidth, styleResult;
-                var element=this.$dom;
+                var element = this.$dom;
                 switch (inBox) {
                     case PADDING:
                     case MARGIN:
