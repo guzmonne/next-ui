@@ -162,7 +162,7 @@
                 this.detach();
 
                 if (nx.is(parent, AbstractComponent)) {
-                    var container = parent.getContainer();
+                    var container = parent.getContainer(this);
 
                     if (container) {
                         var name = this.resolve('@name');
@@ -240,11 +240,11 @@
                     return resources[name];
                 }
             },
-            getContainer: function () {
+            getContainer: function (comp) {
                 if (this.resolve('@tag') === 'fragment') {
                     var parent = this.parent();
                     if (parent) {
-                        return parent.getContainer();
+                        return parent.getContainer(comp);
                     }
                 }
 
@@ -531,7 +531,7 @@
             onAttach: function (parent, index) {
                 var root = this.resolve('@root');
                 if (root) {
-                    var container = parent.getContainer();
+                    var container = parent.getContainer(this);
 
                     if (index >= 0) {
                         var ref = parent.content().getItem(index);
@@ -568,7 +568,7 @@
                         });
                         setTimeout(function () {
                             root.$dom.style.cssText = cssText + ';transition: ' + transition;
-                        }, 0);
+                        }, 10);
                     }
                 }
             },
@@ -596,14 +596,14 @@
                             root.setStyle('transition', transition);
                             setTimeout(function () {
                                 root.setStyles(leaveState);
-                            }, 0);
+                            }, 10);
                             this.upon('transitionend', function () {
                                 root.$dom.style.cssText = cssText;
-                                parent.getContainer().removeChild(root);
+                                parent.getContainer(this).removeChild(root);
                             });
                         }
                         else {
-                            parent.getContainer().removeChild(root);
+                            parent.getContainer(this).removeChild(root);
                         }
                     }
                 }
