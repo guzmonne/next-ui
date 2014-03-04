@@ -10,6 +10,7 @@
             nx.graphic.Topology.LinkMixin,
             nx.graphic.Topology.LayerMixin,
 //            nx.graphic.Topology.LayoutMixin,
+            nx.graphic.Topology.TooltipMixin,
             nx.graphic.Topology.SceneMixin,
             //nx.graphic.Topology.Categories
         ],
@@ -93,6 +94,7 @@
                 this.sets(args);
                 this.initLayer();
                 this.initModel();
+                this.initNode();
                 this.initScene();
             },
             onInit: function () {

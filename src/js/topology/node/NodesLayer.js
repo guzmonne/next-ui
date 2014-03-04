@@ -172,6 +172,7 @@
                 }, this);
 
                 node.on('nodeselected', function (sender, event) {
+                    topo.selectedNodes().clear();
                     if (node.selected()) {
                         topo.selectedNodes().add(node);
                     } else {

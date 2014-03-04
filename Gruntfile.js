@@ -7,6 +7,22 @@ module.exports = function (grunt) {
                 src: ['dest']
             }
         },
+        less: {
+            themes: {
+                files: {
+                    "dest/css/next-graphic.css": "src/less/next-graphic.less"
+                }
+            }
+        },
+        cssmin: {
+            themes: {
+                expand: true,
+                cwd: 'dest/css',
+                src: ['*.css', '!*.min.css'],
+                dest: 'dest/css',
+                ext: '.min.css'
+            }
+        },
         jshint: {
             base: {
                 src: '<%= pkg.scripts %>'
@@ -34,7 +50,7 @@ module.exports = function (grunt) {
             compile: {
                 options: {
                     paths: ['src/js'],
-                    outdir: 'doc'
+                    outdir: 'dest/doc'
                 }
             }
         }
@@ -42,5 +58,5 @@ module.exports = function (grunt) {
 
     grunt.loadNpmTasks('grunt-contrib');
 
-    grunt.registerTask('default', ['clean', 'jshint', 'concat', 'yuidoc', 'uglify']);
+    grunt.registerTask('default', ['clean', 'less', 'cssmin', 'jshint', 'concat', 'yuidoc', 'uglify']);
 };

@@ -19,7 +19,7 @@
         /**
          * @event closeLinkToolTip
          */
-        events: ['openNodeToolTip', 'closeNodeToolTip', 'openLinkToolTip', 'closeLinkToolTip','closeLinkSetToolTip'],
+        events: ['openNodeToolTip', 'closeNodeToolTip', 'openLinkToolTip', 'closeLinkToolTip', 'closeLinkSetToolTip'],
         properties: {
             /**
              * Get topology
@@ -28,22 +28,51 @@
             topology: {
                 value: null
             },
+            tooltips: {
+                value: function () {
+                    return new nx.data.ObservableDictionary();
+                }
+            },
             /**
              * Get node's tooltip
              * @property nodeTooltip
              */
-            nodeTooltip: {
-                value: null
-            },
+            nodeTooltip: {},
             /**
              * Get link's tooltip
              * @property linkTooltip
              */
-            linkTooltip: {
-                value: null
-            },
-            linkSetTooltip:{
+            linkTooltip: {},
+            linkSetTooltip: {},
+            nodeSetTooltip: {},
 
+            nodeTooltipClass: {
+                value: 'nx.graphic.Topology.Tooltip'
+            },
+
+            linkTooltipClass: {
+                value: 'nx.graphic.Topology.Tooltip'
+            },
+            linkSetTooltipClass: {
+                value: 'nx.graphic.Topology.Tooltip'
+            },
+
+            nodeSetTooltipClass: {
+                value: 'nx.graphic.Topology.Tooltip'
+            },
+            nodeTooltipContentClass: {
+                value: 'nx.graphic.Topology.NodeTooltipContent'
+            },
+
+            linkTooltipContentClass: {
+                value: 'nx.graphic.Topology.linkTooltipContent'
+            },
+            linkSetTooltipContentClass: {
+                value: 'nx.graphic.Topology.linkSetTooltipContent'
+            },
+
+            nodeSetTooltipContentClass: {
+                value: 'nx.graphic.Topology.nodeSetTooltipContent'
             },
             /**
              * Show/hide node's tooltip
@@ -61,93 +90,186 @@
             showLinkTooltip: {
                 value: true
             },
-            showLinkSetTooltip:{
-                value:true
-            }
+            showLinkSetTooltip: {
+                value: true
+            },
+            showNodeSetTooltip: {
+                value: true
+            },
+            tooltipPolicyClass: {
+                value: 'nx.graphic.Topology.TooltipPolicy'
+            },
+            tooltipPolicy: {}
         },
         methods: {
 
-            init: function (args) {
-                this.sets(args);
+            init: function () {
 
-                return;
-
-//                var nodeTooltip = new nx.graphic.NodeTooltip;
-//
-//                nodeTooltip.on("close", function () {
-//                    this.fire("closeNodeToolTip");
-//                }, this);
-//
-//                this.nodeTooltip(nodeTooltip);
-//
-//
-//                var linkTooltip = new nx.graphic.LinkTooltip();
-//                linkTooltip.on("close", function () {
-//                    this.fire("closeLinkToolTip", linkTooltip);
-//                }, this);
-//                this.linkTooltip(linkTooltip);
-//
-//
-//
-//                var linkSetTooltip = new nx.graphic.LinkSetTooltip();
-//                linkSetTooltip.on("close", function () {
-//                    this.fire("closeLinkSetToolTip", linkSetTooltip);
-//                }, this);
-//                this.linkSetTooltip(linkSetTooltip);
+                this.registerTooltip('nodeTooltip', this.nodeTooltipClass());
+                this.registerTooltip('linkTooltip', this.linkTooltipClass());
+                this.registerTooltip('linkSetTooltip', this.linkSetTooltipClass());
+                this.registerTooltip('nodeSetTooltip', this.nodeSetTooltipClass());
 
 
+                //build in tooltips
+
+
+                var nodeTooltip = this.getTooltip('nodeTooltip');
+                nodeTooltip.on("close", function () {
+                    this.fire("closeNodeToolTip");
+                }, this);
+
+                this.nodeTooltip(nodeTooltip);
+
+
+                var linkTooltip = this.getTooltip('linkTooltip');
+                linkTooltip.on("close", function () {
+                    this.fire("closeLinkToolTip", linkTooltip);
+                }, this);
+                this.linkTooltip(linkTooltip);
+
+
+                var linkSetTooltip = this.getTooltip('linkSetTooltip');
+                linkSetTooltip.on("close", function () {
+                    this.fire("closeLinkSetToolTip", linkSetTooltip);
+                }, this);
+                this.linkSetTooltip(linkSetTooltip);
+
+
+                var nodeSetTooltip = this.getTooltip('nodeSetTooltip');
+                nodeSetTooltip.on("close", function () {
+                    this.fire("closeNodeSetToolTip");
+                }, this);
+                this.nodeSetTooltip(nodeSetTooltip);
+
+
+                var topology = this.topology();
+                var tooltipPolicyClass = nx.path(global, this.tooltipPolicyClass());
+                if (tooltipPolicyClass) {
+                    var tooltipPolicy = new tooltipPolicyClass({
+                        topology: topology,
+                        tooltipManager: this
+                    });
+                    this.tooltipPolicy(tooltipPolicy);
+                }
+            },
+
+            registerTooltip: function (name, tooltipClass) {
+                var tooltips = this.tooltips();
+                var topology = this.topology();
+                var clz = tooltipClass;
+                if (nx.is(clz, 'String')) {
+                    clz = nx.path(global, tooltipClass);
+                }
+                var instance = new clz({
+                    topology: topology,
+                    tooltipManager: this
+                });
+                tooltips.setItem(name, instance);
+            },
+
+            getTooltip: function (name) {
+                var tooltips = this.tooltips();
+                return tooltips.getItem(name);
+            },
+
+            executeAction: function (action, data) {
+                var tooltipPolicy = this.tooltipPolicy();
+                if (tooltipPolicy && tooltipPolicy[action]) {
+                    tooltipPolicy[action].call(tooltipPolicy, data);
+                }
+            },
+            _getNodeAbsolutePosition: function (node) {
+                var position = node.position();
+                var topologyOffset = topo.resolve('@root').getOffset();
+                var stageTranslate = topo.stage().translate();
+                return {
+                    x: position.x + topologyOffset.left + stageTranslate.x,
+                    y: position.y + topologyOffset.top + stageTranslate.y
+                };
             },
             /**
              * Open a node's tooltip
-             * @param node
+             * @param node {nx.graphic.Topology.Node}
+             * @param position {Object}
              * @method openNodeTooltip
              */
-            openNodeTooltip: function (node) {
+            openNodeTooltip: function (node, position) {
+                var topo = this.topology();
                 var nodeTooltip = this.nodeTooltip();
-                nodeTooltip.close(true);
 
+                nodeTooltip.close(true);
 
                 if (this.showNodeTooltip() === false) {
                     return;
                 }
 
 
-                var topo = this.topology();
-                var position = node.getPosition();
+                var pos = position || this._getNodeAbsolutePosition(node);
+
+                var contentClass = nx.path(global, this.nodeTooltipContentClass());
+                if (contentClass) {
+                    content = new contentClass({
+                        topology: topo,
+                        node: node
+                    });
+                }
+
+                if (content) {
+                    nodeTooltip.content(null);
+                    content.attach(nodeTooltip);
+                }
+
                 var size = node.getSize();
 
-                var topologyOffset = nx.position.getOffset(topo._element);
-                var stageTranslate = topo.stage().getTranslate();
-
-                this._nodeToolTipContentGenerator.call(this, node, nodeTooltip);
-
                 nodeTooltip.open({
-                    target: {
-                        x: position.x + topologyOffset.left,
-                        y: position.y + topologyOffset.top
-                    },
-                    offset: Math.max(size.height, size.width) / 2,
-                    offsetX: stageTranslate.x,
-                    offsetY: stageTranslate.y
+                    target: pos,
+                    offset: Math.max(size.height, size.width) / 2
                 });
 
                 this.fire("openNodeToolTip", node);
             },
             /**
-             * Get node's tooltip content
-             * @param fn
-             * @method setNodeToolTipContent
+             * Open a nodeSet's tooltip
+             * @param nodeSet {nx.graphic.Topology.NodeSet}
+             * @param position {Object}
+             * @method openNodeTooltip
              */
-            setNodeToolTipContent: function (fn) {
-                this._nodeToolTipContentGenerator = fn;
-            },
-            _nodeToolTipContentGenerator: function (node, nodeTooltip) {
-                var model = node.model();
-                var tooltipContent = new nx.graphic.NodeTooltipContent();
-                tooltipContent.model(model);
-                nodeTooltip.setContent(tooltipContent);
-            },
+            openNodeSetTooltip: function (nodeSet, position) {
+                var topo = this.topology();
+                var nodeSetTooltip = this.nodeSetTooltip();
+                var content;
 
+                nodeSetTooltip.close(true);
+
+                if (this.showNodeSetTooltip() === false) {
+                    return;
+                }
+
+
+                var pos = position || this._getNodeAbsolutePosition(nodeSet);
+
+                var contentClass = nx.path(global, this.nodeSetTooltipContentClass());
+                if (contentClass) {
+                    content = new contentClass({
+                        nodeSet: nodeSet,
+                        topology: topo
+                    });
+                }
+
+                if (content) {
+                    content.attach(nodeSetTooltip);
+                }
+
+                var size = nodeSet.getSize();
+
+                nodeSetTooltip.open({
+                    target: pos,
+                    offset: Math.max(size.height, size.width) / 2
+                });
+
+                this.fire("openNodeSetToolTip", nodeSet);
+            },
             /**
              * open a link's tooltip
              * @param link
@@ -157,133 +279,67 @@
             openLinkTooltip: function (link, position) {
                 var topo = this.topology();
                 var linkTooltip = this.linkTooltip();
-                linkTooltip.close(true);
+                var content;
 
+                linkTooltip.close(true);
 
                 if (this.showLinkTooltip() === false) {
                     return;
                 }
 
+                var pos = position || link.centerPoint();
 
-                if (!position) {
-                    position = nx.eventObject.getPageXY();
+                var contentClass = nx.path(global, this.linkTooltipContentClass());
+                if (contentClass) {
+                    content = new contentClass({
+                        link: link,
+                        topology: topo
+                    });
                 }
 
+                if (content) {
+                    content.attach(linkTooltip);
+                }
 
-                this._linkToolTipContentGenerator.call(this, link, linkTooltip);
                 linkTooltip.open({
-                    target: {
-                        x: position.x,
-                        y: position.y
-                    },
+                    target: pos,
                     offset: 4
                 });
 
-
                 this.fire("openLinkToolTip", link);
-
-
-            },
-            /**
-             * Set link's tooltip's content
-             * @param fn
-             * @method setLinkToolTipContent
-             */
-            setLinkToolTipContent: function (fn) {
-                this._linkToolTipContentGenerator = fn;
-            },
-            _linkToolTipContentGenerator: function (link, linkTooltip) {
-                var model = link.model();
-                var tooltipContent = new nx.graphic.LinkTooltipContent();
-                tooltipContent.model(model);
-                linkTooltip.setContent(tooltipContent);
             },
             openLinkSetTooltip: function (linkSet, position) {
                 var topo = this.topology();
                 var linkSetTooltip = this.linkSetTooltip();
-                linkSetTooltip.close(true);
+                var content;
 
+                linkSetTooltip.close(true);
 
                 if (this.showLinkSetTooltip() === false) {
                     return;
                 }
 
+                var pos = position || linkSet.centerPoint();
 
-                if (!position) {
-                    position = nx.eventObject.getPageXY();
+                var contentClass = nx.path(global, this.linkSetTooltipContentClass());
+                if (contentClass) {
+                    content = new contentClass({
+                        linkSet: linkSet,
+                        topology: topo
+                    });
                 }
 
-
-                this._linkSetToolTipContentGenerator.call(this, linkSet, linkSetTooltip);
-
-                linkSetTooltip.title(linkSet.model().linkKey());
-
+                if (content) {
+                    content.attach(linkSetTooltip);
+                }
 
                 linkSetTooltip.open({
-                    target: {
-                        x: position.x,
-                        y: position.y
-                    },
+                    target: pos,
                     offset: 4
                 });
 
 
                 this.fire("openLinkSetToolTip", linkSet);
-
-
-            },
-            /**
-             * Set link's tooltip's content
-             * @param fn
-             * @method setLinkToolTipContent
-             */
-            setLinkSetToolTipContent: function (fn) {
-                this._linkSetToolTipContentGenerator = fn;
-            },
-            _linkSetToolTipContentGenerator: function (linkSet, linkSetTooltip) {
-                var model = linkSet.model();
-                var tooltipContent = new nx.graphic.LinkSetTooltipContent();
-                tooltipContent.linkSet(linkSet);
-                linkSetTooltip.setContent(tooltipContent);
-            }
-        }
-    });
-
-
-    /**
-     * Basic tooltip class for topology
-     * @class nx.graphic.Tooltip
-     * @extend nx.ui.Popover
-     */
-    nx.define("nx.graphic.Tooltip", nx.ui.Component, {
-//        view: function () {
-//            var root = this.resolve();
-//            root.props.class += " n-topology-node-tootltip";
-//        },
-        properties: {
-            /**
-             * Lazy closing a tooltip
-             * @type Boolean
-             * @property lazyClose
-             */
-            lazyClose: {
-                value: false
-            },
-            /**
-             * Pin a tooltip
-             * @type Boolean
-             * @property pin
-             */
-            pin: {
-                value: false
-            },
-            /**
-             * Is tooltip response to resize event
-             * @type Boolean
-             * @property listenWindow
-             */
-            listenWindow: {
-                value: true
             }
         }
     });

@@ -13,9 +13,6 @@
                 this._nodesLayer = this._topo.getLayer("nodes");
                 this._linksLayer = this._topo.getLayer("links");
                 this._tooltipManager = this._topo.tooltipManager();
-                this._linkTooltip = this._tooltipManager.linkTooltip();
-                this._nodeTooltip = this._tooltipManager.nodeTooltip();
-                this._linkSetTooltip = this._tooltipManager.linkSetTooltip();
                 this._nodeDragging = false;
                 this._sceneTimer = null;
                 this._updatingTimer = null;
@@ -151,8 +148,7 @@
              * @method clickNode
              */
             clickNode: function (sender, node) {
-
-
+                this._tooltipManager.executeAction('clickNode', node);
             },
             hideNode: function (sender, node) {
 

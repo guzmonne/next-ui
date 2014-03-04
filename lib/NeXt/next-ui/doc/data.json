@@ -1,0 +1,817 @@
+{
+    "project": {},
+    "files": {
+        "src/js/ui/AbstractComponent.js": {
+            "name": "src/js/ui/AbstractComponent.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/js/widget/AbstractPopup.js": {
+            "name": "src/js/widget/AbstractPopup.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/js/widget/InnerPopup.js": {
+            "name": "src/js/widget/InnerPopup.js",
+            "modules": {},
+            "classes": {
+                "nx.widget.InnerPopup": 1
+            },
+            "fors": {},
+            "namespaces": {
+                "nx.widget": 1
+            }
+        },
+        "src/js/widget/OuterPopup.js": {
+            "name": "src/js/widget/OuterPopup.js",
+            "modules": {},
+            "classes": {
+                "nx.widget.OuterPopup": 1
+            },
+            "fors": {},
+            "namespaces": {
+                "nx.widget": 1
+            }
+        }
+    },
+    "modules": {},
+    "classes": {
+        "nx.widget.InnerPopup": {
+            "name": "nx.widget.InnerPopup",
+            "shortname": "nx.widget.InnerPopup",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "namespace": "nx.widget",
+            "file": "src/js/widget/InnerPopup.js",
+            "line": 2,
+            "description": "inner popup,must be extend."
+        },
+        "nx.widget.OuterPopup": {
+            "name": "nx.widget.OuterPopup",
+            "shortname": "nx.widget.OuterPopup",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "namespace": "nx.widget",
+            "file": "src/js/widget/OuterPopup.js",
+            "line": 2,
+            "description": "outer popup,must be extend."
+        }
+    },
+    "classitems": [
+        {
+            "file": "src/js/ui/AbstractComponent.js",
+            "line": 493,
+            "description": "Trigger an event.",
+            "itemtype": "method",
+            "name": "fire",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "data",
+                    "description": "",
+                    "type": "*",
+                    "optional": true
+                }
+            ],
+            "class": "nx.widget.InnerPopup"
+        },
+        {
+            "file": "src/js/widget/AbstractPopup.js",
+            "line": 6,
+            "description": "Popup's style.position ==='fixed'",
+            "class": "nx.widget.InnerPopup"
+        },
+        {
+            "file": "src/js/widget/AbstractPopup.js",
+            "line": 18,
+            "description": "Popup's real size.",
+            "class": "nx.widget.InnerPopup"
+        },
+        {
+            "file": "src/js/widget/AbstractPopup.js",
+            "line": 44,
+            "description": "Use string to set/get the popup's position.",
+            "class": "nx.widget.InnerPopup"
+        },
+        {
+            "file": "src/js/widget/AbstractPopup.js",
+            "line": 56,
+            "description": "Use object to set/get popup's position.",
+            "class": "nx.widget.InnerPopup"
+        },
+        {
+            "file": "src/js/widget/AbstractPopup.js",
+            "line": 68,
+            "description": "If a popup is opened.",
+            "class": "nx.widget.InnerPopup"
+        },
+        {
+            "file": "src/js/widget/AbstractPopup.js",
+            "line": 86,
+            "description": "Init some variable.",
+            "class": "nx.widget.InnerPopup"
+        },
+        {
+            "file": "src/js/widget/AbstractPopup.js",
+            "line": 95,
+            "description": "Open a popup.",
+            "class": "nx.widget.InnerPopup"
+        },
+        {
+            "file": "src/js/widget/AbstractPopup.js",
+            "line": 103,
+            "description": "Close a popup.",
+            "class": "nx.widget.InnerPopup"
+        },
+        {
+            "file": "src/js/widget/AbstractPopup.js",
+            "line": 111,
+            "description": "Before a popup open.",
+            "class": "nx.widget.InnerPopup"
+        },
+        {
+            "file": "src/js/widget/AbstractPopup.js",
+            "line": 116,
+            "description": "When a popup open.",
+            "class": "nx.widget.InnerPopup"
+        },
+        {
+            "file": "src/js/widget/AbstractPopup.js",
+            "line": 122,
+            "description": "Template method\nAfter a popup open.",
+            "class": "nx.widget.InnerPopup"
+        },
+        {
+            "file": "src/js/widget/AbstractPopup.js",
+            "line": 128,
+            "description": "Before a popup close.",
+            "class": "nx.widget.InnerPopup"
+        },
+        {
+            "file": "src/js/widget/AbstractPopup.js",
+            "line": 133,
+            "description": "When a popup close.",
+            "class": "nx.widget.InnerPopup"
+        },
+        {
+            "file": "src/js/widget/AbstractPopup.js",
+            "line": 139,
+            "description": "After a popup close.",
+            "class": "nx.widget.InnerPopup"
+        },
+        {
+            "file": "src/js/widget/AbstractPopup.js",
+            "line": 144,
+            "description": "Destroy unused variable.",
+            "class": "nx.widget.InnerPopup"
+        },
+        {
+            "file": "src/js/widget/AbstractPopup.js",
+            "line": 151,
+            "description": "When popup init.",
+            "access": "private",
+            "tagname": "",
+            "class": "nx.widget.InnerPopup"
+        },
+        {
+            "file": "src/js/widget/AbstractPopup.js",
+            "line": 163,
+            "description": "Display popup.",
+            "access": "private",
+            "tagname": "",
+            "class": "nx.widget.InnerPopup"
+        },
+        {
+            "file": "src/js/widget/AbstractPopup.js",
+            "line": 173,
+            "description": "Hide popup.",
+            "access": "private",
+            "tagname": "",
+            "class": "nx.widget.InnerPopup"
+        },
+        {
+            "file": "src/js/widget/AbstractPopup.js",
+            "line": 180,
+            "description": "Get direction position action.",
+            "params": [
+                {
+                    "name": "inDirection",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "*"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "nx.widget.InnerPopup"
+        },
+        {
+            "file": "src/js/widget/AbstractPopup.js",
+            "line": 190,
+            "description": "Get style position information.",
+            "params": [
+                {
+                    "name": "inValue",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "*"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "nx.widget.InnerPopup"
+        },
+        {
+            "file": "src/js/widget/InnerPopup.js",
+            "line": 9,
+            "description": "Container is the wrapper of the popup,every inner popup should have a container.",
+            "class": "nx.widget.InnerPopup",
+            "namespace": "nx.widget"
+        },
+        {
+            "file": "src/js/widget/InnerPopup.js",
+            "line": 23,
+            "description": "Get document rect information.",
+            "class": "nx.widget.InnerPopup",
+            "namespace": "nx.widget"
+        },
+        {
+            "file": "src/js/widget/InnerPopup.js",
+            "line": 33,
+            "description": "Get top,left position coordinate.",
+            "return": {
+                "description": "}",
+                "type": "Top: number, left: number"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "nx.widget.InnerPopup",
+            "namespace": "nx.widget"
+        },
+        {
+            "file": "src/js/widget/InnerPopup.js",
+            "line": 44,
+            "description": "Get top,center position coordinate.",
+            "return": {
+                "description": "}",
+                "type": "Top: number, left: number"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "nx.widget.InnerPopup",
+            "namespace": "nx.widget"
+        },
+        {
+            "file": "src/js/widget/InnerPopup.js",
+            "line": 55,
+            "description": "Get top,right position coordinate.",
+            "return": {
+                "description": "}",
+                "type": "Top: number, left: number"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "nx.widget.InnerPopup",
+            "namespace": "nx.widget"
+        },
+        {
+            "file": "src/js/widget/InnerPopup.js",
+            "line": 66,
+            "description": "Get right,center position coordinate.",
+            "return": {
+                "description": "}",
+                "type": "Top: number, left: number"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "nx.widget.InnerPopup",
+            "namespace": "nx.widget"
+        },
+        {
+            "file": "src/js/widget/InnerPopup.js",
+            "line": 78,
+            "description": "Get bottom,left position coordinate.",
+            "return": {
+                "description": "}",
+                "type": "Top: number, left: number"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "nx.widget.InnerPopup",
+            "namespace": "nx.widget"
+        },
+        {
+            "file": "src/js/widget/InnerPopup.js",
+            "line": 89,
+            "description": "Get bottom,center position coordinate.",
+            "return": {
+                "description": "}",
+                "type": "Top: number, left: number"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "nx.widget.InnerPopup",
+            "namespace": "nx.widget"
+        },
+        {
+            "file": "src/js/widget/InnerPopup.js",
+            "line": 100,
+            "description": "Get bottom,right position coordinate.",
+            "return": {
+                "description": "}",
+                "type": "Top: number, left: number"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "nx.widget.InnerPopup",
+            "namespace": "nx.widget"
+        },
+        {
+            "file": "src/js/widget/InnerPopup.js",
+            "line": 112,
+            "description": "Get left,center position coordinate.",
+            "return": {
+                "description": "}",
+                "type": "Top: number, left: number"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "nx.widget.InnerPopup",
+            "namespace": "nx.widget"
+        },
+        {
+            "file": "src/js/widget/InnerPopup.js",
+            "line": 123,
+            "description": "Get center position coordinate.",
+            "return": {
+                "description": "}",
+                "type": "Top: number, left: number"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "nx.widget.InnerPopup",
+            "namespace": "nx.widget"
+        },
+        {
+            "file": "src/js/widget/OuterPopup.js",
+            "line": 44,
+            "description": "Get top,left position coordinate.",
+            "return": {
+                "description": "}",
+                "type": "Top: number, left: number"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "nx.widget.OuterPopup",
+            "namespace": "nx.widget"
+        },
+        {
+            "file": "src/js/widget/OuterPopup.js",
+            "line": 55,
+            "description": "Get top,center position coordinate.",
+            "return": {
+                "description": "}",
+                "type": "Top: number, left: number"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "nx.widget.OuterPopup",
+            "namespace": "nx.widget"
+        },
+        {
+            "file": "src/js/widget/OuterPopup.js",
+            "line": 66,
+            "description": "Get top,right position coordinate.",
+            "return": {
+                "description": "}",
+                "type": "Top: number, left: number"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "nx.widget.OuterPopup",
+            "namespace": "nx.widget"
+        },
+        {
+            "file": "src/js/widget/OuterPopup.js",
+            "line": 77,
+            "description": "Get right,top position coordinate.",
+            "return": {
+                "description": "}",
+                "type": "Top: number, left: number"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "nx.widget.OuterPopup",
+            "namespace": "nx.widget"
+        },
+        {
+            "file": "src/js/widget/OuterPopup.js",
+            "line": 88,
+            "description": "Get right,center position coordinate.",
+            "return": {
+                "description": "}",
+                "type": "Top: number, left: number"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "nx.widget.OuterPopup",
+            "namespace": "nx.widget"
+        },
+        {
+            "file": "src/js/widget/OuterPopup.js",
+            "line": 99,
+            "description": "Get right,bottom position coordinate.",
+            "return": {
+                "description": "}",
+                "type": "Top: number, left: number"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "nx.widget.OuterPopup",
+            "namespace": "nx.widget"
+        },
+        {
+            "file": "src/js/widget/OuterPopup.js",
+            "line": 110,
+            "description": "Get bottom,left position coordinate.",
+            "return": {
+                "description": "}",
+                "type": "Top: number, left: number"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "nx.widget.OuterPopup",
+            "namespace": "nx.widget"
+        },
+        {
+            "file": "src/js/widget/OuterPopup.js",
+            "line": 121,
+            "description": "Get bottom,center position coordinate.",
+            "return": {
+                "description": "}",
+                "type": "Top: number, left: number"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "nx.widget.OuterPopup",
+            "namespace": "nx.widget"
+        },
+        {
+            "file": "src/js/widget/OuterPopup.js",
+            "line": 132,
+            "description": "Get bottom,right position coordinate.",
+            "return": {
+                "description": "}",
+                "type": "Top: number, left: number"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "nx.widget.OuterPopup",
+            "namespace": "nx.widget"
+        },
+        {
+            "file": "src/js/widget/OuterPopup.js",
+            "line": 143,
+            "description": "Get left,top position coordinate.",
+            "return": {
+                "description": "}",
+                "type": "Top: number, left: number"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "nx.widget.OuterPopup",
+            "namespace": "nx.widget"
+        },
+        {
+            "file": "src/js/widget/OuterPopup.js",
+            "line": 154,
+            "description": "Get left,center position coordinate.",
+            "return": {
+                "description": "}",
+                "type": "Top: number, left: number"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "nx.widget.OuterPopup",
+            "namespace": "nx.widget"
+        },
+        {
+            "file": "src/js/widget/OuterPopup.js",
+            "line": 165,
+            "description": "Get left,bottom position coordinate.",
+            "return": {
+                "description": "}",
+                "type": "Top: number, left: number"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "nx.widget.OuterPopup",
+            "namespace": "nx.widget"
+        },
+        {
+            "file": "src/js/widget/OuterPopup.js",
+            "line": 176,
+            "description": "Dispose the unused variable.",
+            "return": {
+                "description": "}",
+                "type": "Top: number, left: number"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "nx.widget.OuterPopup",
+            "namespace": "nx.widget"
+        }
+    ],
+    "warnings": [
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/widget/AbstractPopup.js:180"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/widget/AbstractPopup.js:190"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/widget/InnerPopup.js:33"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/widget/InnerPopup.js:44"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/widget/InnerPopup.js:55"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/widget/InnerPopup.js:66"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/widget/InnerPopup.js:78"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/widget/InnerPopup.js:89"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/widget/InnerPopup.js:100"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/widget/InnerPopup.js:112"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/widget/InnerPopup.js:123"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/widget/OuterPopup.js:44"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/widget/OuterPopup.js:55"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/widget/OuterPopup.js:66"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/widget/OuterPopup.js:77"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/widget/OuterPopup.js:88"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/widget/OuterPopup.js:99"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/widget/OuterPopup.js:110"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/widget/OuterPopup.js:121"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/widget/OuterPopup.js:132"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/widget/OuterPopup.js:143"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/widget/OuterPopup.js:154"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/widget/OuterPopup.js:165"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/widget/OuterPopup.js:176"
+        },
+        {
+            "message": "Missing item type\nPopup's style.position ==='fixed'",
+            "line": " src/js/widget/AbstractPopup.js:6"
+        },
+        {
+            "message": "Missing item type\nPopup's real size.",
+            "line": " src/js/widget/AbstractPopup.js:18"
+        },
+        {
+            "message": "Missing item type\nUse string to set/get the popup's position.",
+            "line": " src/js/widget/AbstractPopup.js:44"
+        },
+        {
+            "message": "Missing item type\nUse object to set/get popup's position.",
+            "line": " src/js/widget/AbstractPopup.js:56"
+        },
+        {
+            "message": "Missing item type\nIf a popup is opened.",
+            "line": " src/js/widget/AbstractPopup.js:68"
+        },
+        {
+            "message": "Missing item type\nInit some variable.",
+            "line": " src/js/widget/AbstractPopup.js:86"
+        },
+        {
+            "message": "Missing item type\nOpen a popup.",
+            "line": " src/js/widget/AbstractPopup.js:95"
+        },
+        {
+            "message": "Missing item type\nClose a popup.",
+            "line": " src/js/widget/AbstractPopup.js:103"
+        },
+        {
+            "message": "Missing item type\nBefore a popup open.",
+            "line": " src/js/widget/AbstractPopup.js:111"
+        },
+        {
+            "message": "Missing item type\nWhen a popup open.",
+            "line": " src/js/widget/AbstractPopup.js:116"
+        },
+        {
+            "message": "Missing item type\nTemplate method\nAfter a popup open.",
+            "line": " src/js/widget/AbstractPopup.js:122"
+        },
+        {
+            "message": "Missing item type\nBefore a popup close.",
+            "line": " src/js/widget/AbstractPopup.js:128"
+        },
+        {
+            "message": "Missing item type\nWhen a popup close.",
+            "line": " src/js/widget/AbstractPopup.js:133"
+        },
+        {
+            "message": "Missing item type\nAfter a popup close.",
+            "line": " src/js/widget/AbstractPopup.js:139"
+        },
+        {
+            "message": "Missing item type\nDestroy unused variable.",
+            "line": " src/js/widget/AbstractPopup.js:144"
+        },
+        {
+            "message": "Missing item type\nWhen popup init.",
+            "line": " src/js/widget/AbstractPopup.js:151"
+        },
+        {
+            "message": "Missing item type\nDisplay popup.",
+            "line": " src/js/widget/AbstractPopup.js:163"
+        },
+        {
+            "message": "Missing item type\nHide popup.",
+            "line": " src/js/widget/AbstractPopup.js:173"
+        },
+        {
+            "message": "Missing item type\nGet direction position action.",
+            "line": " src/js/widget/AbstractPopup.js:180"
+        },
+        {
+            "message": "Missing item type\nGet style position information.",
+            "line": " src/js/widget/AbstractPopup.js:190"
+        },
+        {
+            "message": "Missing item type\nContainer is the wrapper of the popup,every inner popup should have a container.",
+            "line": " src/js/widget/InnerPopup.js:9"
+        },
+        {
+            "message": "Missing item type\nGet document rect information.",
+            "line": " src/js/widget/InnerPopup.js:23"
+        },
+        {
+            "message": "Missing item type\nGet top,left position coordinate.",
+            "line": " src/js/widget/InnerPopup.js:33"
+        },
+        {
+            "message": "Missing item type\nGet top,center position coordinate.",
+            "line": " src/js/widget/InnerPopup.js:44"
+        },
+        {
+            "message": "Missing item type\nGet top,right position coordinate.",
+            "line": " src/js/widget/InnerPopup.js:55"
+        },
+        {
+            "message": "Missing item type\nGet right,center position coordinate.",
+            "line": " src/js/widget/InnerPopup.js:66"
+        },
+        {
+            "message": "Missing item type\nGet bottom,left position coordinate.",
+            "line": " src/js/widget/InnerPopup.js:78"
+        },
+        {
+            "message": "Missing item type\nGet bottom,center position coordinate.",
+            "line": " src/js/widget/InnerPopup.js:89"
+        },
+        {
+            "message": "Missing item type\nGet bottom,right position coordinate.",
+            "line": " src/js/widget/InnerPopup.js:100"
+        },
+        {
+            "message": "Missing item type\nGet left,center position coordinate.",
+            "line": " src/js/widget/InnerPopup.js:112"
+        },
+        {
+            "message": "Missing item type\nGet center position coordinate.",
+            "line": " src/js/widget/InnerPopup.js:123"
+        },
+        {
+            "message": "Missing item type\nGet top,left position coordinate.",
+            "line": " src/js/widget/OuterPopup.js:44"
+        },
+        {
+            "message": "Missing item type\nGet top,center position coordinate.",
+            "line": " src/js/widget/OuterPopup.js:55"
+        },
+        {
+            "message": "Missing item type\nGet top,right position coordinate.",
+            "line": " src/js/widget/OuterPopup.js:66"
+        },
+        {
+            "message": "Missing item type\nGet right,top position coordinate.",
+            "line": " src/js/widget/OuterPopup.js:77"
+        },
+        {
+            "message": "Missing item type\nGet right,center position coordinate.",
+            "line": " src/js/widget/OuterPopup.js:88"
+        },
+        {
+            "message": "Missing item type\nGet right,bottom position coordinate.",
+            "line": " src/js/widget/OuterPopup.js:99"
+        },
+        {
+            "message": "Missing item type\nGet bottom,left position coordinate.",
+            "line": " src/js/widget/OuterPopup.js:110"
+        },
+        {
+            "message": "Missing item type\nGet bottom,center position coordinate.",
+            "line": " src/js/widget/OuterPopup.js:121"
+        },
+        {
+            "message": "Missing item type\nGet bottom,right position coordinate.",
+            "line": " src/js/widget/OuterPopup.js:132"
+        },
+        {
+            "message": "Missing item type\nGet left,top position coordinate.",
+            "line": " src/js/widget/OuterPopup.js:143"
+        },
+        {
+            "message": "Missing item type\nGet left,center position coordinate.",
+            "line": " src/js/widget/OuterPopup.js:154"
+        },
+        {
+            "message": "Missing item type\nGet left,bottom position coordinate.",
+            "line": " src/js/widget/OuterPopup.js:165"
+        },
+        {
+            "message": "Missing item type\nDispose the unused variable.",
+            "line": " src/js/widget/OuterPopup.js:176"
+        }
+    ]
+}

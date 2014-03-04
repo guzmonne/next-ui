@@ -72,24 +72,31 @@
                     return this._selected || false;
                 },
                 set: function (value) {
-                    var el = this.resolve('selectedBG');
-                    if (value) {
-                        var radius;
-                        if (this.showIcon()) {
-                            var size = this.resolve('icon').size();
-                            radius = Math.max(size.height, size.width) / 2;
+                    if (this._selected != value) {
+                        var el = this.resolve('selectedBG');
+                        if (value) {
+                            var radius;
+                            if (this.showIcon()) {
+                                var size = this.resolve('icon').size();
+                                radius = Math.max(size.height, size.width) / 2;
+                            } else {
+                                radius = this._radius;
+                            }
+                            el.set('r', radius * 1.5 * this._nodeScale);
+                            el.append();
                         } else {
-                            radius = this._radius;
+                            el.remove();
                         }
-                        el.set('r', radius * 1.5);
-                        el.append();
+
+                        this._selected = value;
+
+                        this.fire('nodeselected', value);
+
+                        return true;
                     } else {
-                        el.remove();
+                        return false;
                     }
 
-                    this._selected = value;
-
-                    this.fire('nodeselected', value);
                 }
             },
             color: {
@@ -123,21 +130,33 @@
             },
             content: [
                 {
+                    name: 'label',
+                    type: 'nx.graphic.Text',
+                    props: {
+                        'class': 'node-label',
+                        'alignment-baseline': 'central',
+                        x: 0,
+                        y: 12,
+                        'font-size': '{#fontSize}'
+                    }
+                },
+                {
+                    name: 'selectedBG',
+                    type: 'nx.graphic.Circle',
+                    props: {
+                        x: 0,
+                        y: 0,
+                        'class': 'selectedBG'
+                    }
+                },
+                {
                     type: 'nx.graphic.Group',
                     name: 'graphic',
                     props: {
                         scale: '{#nodeScale}'
                     },
                     content: [
-                        {
-                            name: 'selectedBG',
-                            type: 'nx.graphic.Circle',
-                            props: {
-                                x: 0,
-                                y: 0,
-                                'class': 'selectedBG'
-                            }
-                        },
+
                         {
                             name: 'dot',
                             type: 'nx.graphic.Circle',
@@ -174,18 +193,9 @@
                         'dragmove': '{#_drag}',
                         'dragend': '{#_dragend}'
                     }
-                },
-                {
-                    name: 'label',
-                    type: 'nx.graphic.Text',
-                    props: {
-                        'class': 'node-label',
-                        'alignment-baseline': 'central',
-                        x: 0,
-                        y: 12,
-                        'font-size': '{#fontSize}'
-                    }
                 }
+
+
             ]
         },
         methods: {

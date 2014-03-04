@@ -39,6 +39,12 @@
                     }
                 }
             },
+            /**
+             * @property autoLayout
+             */
+            autoLayout: {
+                value: false
+            },
             xMutatorMethod: {},
             yMutatorMethod: {},
             dataProcessor: {}
@@ -136,55 +142,8 @@
 
 
                 graph.on("startGenerate", function (sender, event) {
-                    //console.log(new Date() - start);
                     this._setProjection();
-                    //console.log(new Date() - start);
                 }, this);
-
-
-//
-//
-//                graph.on("addVertex", function (sender, vertex) {
-//                    nodesLayer.addNode(vertex);
-//                }, this);
-//
-//                graph.on("removeVertex", function (sender, vertex) {
-//                    nodesLayer.removeNode(vertex);
-//                    //linksLayer.removeNode(vertex);
-//                }, this);
-//
-//                graph.on("updateVertex", function (sender, vertex) {
-//                    nodesLayer.updateNode(vertex);
-//
-//                }, this);
-//
-//                graph.on("addEdge", function (sender, edge) {
-////                    if (this.lazyRenderingLink() || graph.vertices.length > 100) {
-////                        util.delay(function () {
-////                            linksLayer.addLink(edge)
-////                        }, 5 * this._lazyRenderingLinkStep++);
-////                    } else {
-////                        linksLayer.addLink(edge);
-////                    }
-//
-//                    linksLayer.addLink(edge)
-//                }, this);
-//
-//                graph.on('removeEdge', function (sender, edge) {
-//                    linksLayer.removeLink(edge);
-//                }, this);
-//
-//                graph.on("updateEdge", function (sender, edge) {
-//                    linksLayer.updateLink(edge);
-//                }, this);
-//
-//
-//
-//                graph.on("clear", function (sender, edge) {
-//                    this._lazyRenderingLinkStep = 1;
-//                    this.clear();
-//                }, this);
-
 
                 this.model(graph);
 
@@ -193,8 +152,6 @@
              * Set whole network data to draw a topology
              * @method setData
              * @param data {Object} should be {nodes:[],links:[]}
-             * @param name {String} name for this data
-             * @param ignore {Boolean} is add this data to data collection
              */
             setData: function (data) {
                 this.data(data);

@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>src/js/widget/AbstractPopup.js</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+            
+                <h1><img src="../assets/css/logo.png" title=""></h1>
+            
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: </em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+    <h2 class="off-left">APIs</h2>
+    <div id="api-tabview" class="tabview">
+        <ul class="tabs">
+            <li><a href="#api-classes">Classes</a></li>
+            <li><a href="#api-modules">Modules</a></li>
+        </ul>
+
+        <div id="api-tabview-filter">
+            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+        </div>
+
+        <div id="api-tabview-panel">
+            <ul id="api-classes" class="apis classes">
+            
+                <li><a href="../classes/nx.widget.InnerPopup.html">nx.widget.InnerPopup</a></li>
+            
+                <li><a href="../classes/nx.widget.OuterPopup.html">nx.widget.OuterPopup</a></li>
+            
+            </ul>
+
+            <ul id="api-modules" class="apis modules">
+            
+            </ul>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+        Show:
+        <label for="api-show-inherited">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </div>
+
+
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <h1 class="file-heading">File: src/js/widget/AbstractPopup.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+(function (nx,global) {
+    var zIndexMgr = nx.widget.ZIndexManager,
+        util = nx.Util;
+    nx.define(&#x27;nx.widget.AbstractPopup&#x27;,nx.ui.Component,{
+        properties: {
+            /**
+             * Popup&#x27;s style.position ===&#x27;fixed&#x27;
+             */
+            fixed: {
+                set: function (inValue) {
+                    this._fixed = inValue ? &#x27;fixed&#x27; : &#x27;absolute&#x27;;
+                    this._root.setStyle(&#x27;position&#x27;,this._fixed);
+                },
+                get: function () {
+                    return this._fixed === &#x27;fixed&#x27;;
+                }
+            },
+            /**
+             * Popup&#x27;s real size.
+             */
+            size: {
+                set: function (inValue) {
+                    var root = this._root,
+                        paddingX = root.padding(&#x27;left&#x27;) + root.padding(&#x27;right&#x27;),
+                        paddingY = root.padding(&#x27;top&#x27;) + root.padding(&#x27;bottom&#x27;),
+                        borderX = root.border(&#x27;left&#x27;) + root.border(&#x27;right&#x27;),
+                        borderY = root.border(&#x27;top&#x27;) + root.border(&#x27;bottom&#x27;),
+                        width = inValue.width,
+                        height = inValue.height;
+                    if (this._boxSizing === &#x27;content-box&#x27;) {
+                        width = width - paddingX - borderX;
+                        height = height - paddingY - borderY;
+                    }
+                    root.setStyles({
+                        width: width,
+                        height: height
+                    });
+                    this._size = inValue;
+                },
+                get: function () {
+                    return this._size;
+                }
+            },
+            /**
+             * Use string to set/get the popup&#x27;s position.
+             */
+            direction: {
+                set: function (inValue) {
+                    this._direction = inValue || &#x27;center&#x27;;
+                    this.position(this._getDirectionPosition(this._direction));
+                },
+                get: function () {
+                    return this._direction;
+                }
+            },
+            /**
+             * Use object to set/get popup&#x27;s position.
+             */
+            position: {
+                set: function (inValue) {
+                    this._root.setStyles(this._getPosition(inValue));
+                    this._position = inValue;
+                },
+                get: function () {
+                    return this._position;
+                }
+            },
+            /**
+             * If a popup is opened.
+             */
+            opened: {
+                set: function (inValue) {
+                    if (inValue) {
+                        this.open();
+                    } else {
+                        this.close();
+                    }
+                    this._opened = inValue;
+                },
+                get: function () {
+                    return this._opened;
+                }
+            }
+        },
+        methods: {
+            /**
+             * Init some variable.
+             */
+            init: function () {
+                this.inherited();
+                this._root = this.resolve(&#x27;@root&#x27;);
+                this._boxSizing = this._root.getStyle(&#x27;box-sizing&#x27;);
+                this._init();
+            },
+            /**
+             * Open a popup.
+             */
+            open: function () {
+                this.onBeforeOpen();
+                this.onOpen();
+                this.onAfterOpen();
+            },
+            /**
+             * Close a popup.
+             */
+            close: function () {
+                this.onBeforeClose();
+                this.onClose();
+                this.onAfterClose();
+            },
+            /**
+             * Before a popup open.
+             */
+            onBeforeOpen: function () {
+            },
+            /**
+             * When a popup open.
+             */
+            onOpen: function () {
+                this._show();
+            },
+            /**
+             * Template method
+             * After a popup open.
+             */
+            onAfterOpen: function () {
+            },
+            /**
+             * Before a popup close.
+             */
+            onBeforeClose: function () {
+            },
+            /**
+             * When a popup close.
+             */
+            onClose: function () {
+                this.hide();
+            },
+            /**
+             * After a popup close.
+             */
+            onAfterClose: function () {
+            },
+            /**
+             * Destroy unused variable.
+             */
+            dispose: function () {
+                this._root = null;
+                this._boxSizing = null;
+            },
+            /**
+             * When popup init.
+             * @private
+             */
+            _init: function () {
+                this._root.setStyles({
+                    &#x27;display&#x27;: &#x27;none&#x27;,
+                    &#x27;z-index&#x27;: zIndexMgr.getIndex(),
+                    position: &#x27;absolute&#x27;
+                });
+                nx.dom.Document.body().appendChild(this._root);
+            },
+            /**
+             * Display popup.
+             * @private
+             */
+            _show: function () {
+                this._root.setStyles({
+                    display: &#x27;block&#x27;,
+                    &#x27;z-index&#x27;: zIndexMgr.getIndex()
+                });
+            },
+            /**
+             * Hide popup.
+             * @private
+             */
+            _hide: function () {
+                this._root.setStyle(&#x27;display&#x27;,&#x27;none&#x27;);
+            },
+            /**
+             * Get direction position action.
+             * @param inDirection
+             * @returns {*}
+             * @private
+             */
+            _getDirectionPosition: function (inDirection) {
+                var action = &#x27;_direction&#x27; + util.capitalize(inDirection);
+                return this[action]();
+            },
+            /**
+             * Get style position information.
+             * @param inValue
+             * @returns {*}
+             * @private
+             */
+            _getPosition: function (inValue) {
+                var positionStyle = inValue,
+                    docRect = nx.dom.Document.docRect();
+                if (!this.fixed()) {
+                    positionStyle.top = inValue.top + docRect.scrollY;
+                    positionStyle.left = inValue.left + docRect.scrollX;
+                }
+                return positionStyle;
+            }
+        }
+    });
+}(nx,nx.global));
+
+    </pre>
+</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

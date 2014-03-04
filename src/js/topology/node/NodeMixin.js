@@ -39,13 +39,13 @@
         },
         methods: {
             initNode: function () {
-                this.selectedNodes().on('collectionChanged', function (sender, args) {
+                this.selectedNodes().on('change', function (sender, args) {
                     if (args.action == 'add') {
-                        args.item.selected(true);
+                        args.items[0].selected(true);
                     } else if (args.action == 'remove') {
-                        args.item.selected(false);
-                    } else if (args.action == "reset") {
-                        args.items.forEach(function (node) {
+                        args.items[0].selected(false);
+                    } else if (args.action == "clear") {
+                        nx.each(args.items, function (node) {
                             node.selected(false);
                         });
                     }

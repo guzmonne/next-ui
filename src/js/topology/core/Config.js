@@ -4,13 +4,6 @@
         events: [],
         properties: {
             /**
-             * @property autoLayout
-             */
-            autoLayout: {
-                value: false
-            },
-
-            /**
              * 0: not start,1:drawing,2 :finished,3 start and padding adaptive
              * @property status
              */
@@ -26,28 +19,12 @@
             showNavigation: {
                 value: true
             },
-            /**
-             * @property tooltipManager
-             */
-            tooltipManager: {
-                value: function () {
-                    return new nx.graphic.Topology.TooltipManager({topology: this});
-                }
-            },
+
             /**
              * @property showModeSwitch
              */
             showModeSwitch: {
                 value: true
-            },
-            /**
-             * @property show3D
-             */
-            show3D: {
-                value: false
-            },
-            internalshow3D: {
-                value: false
             },
             /**
              * Set show/hide thumbnail
@@ -60,8 +37,7 @@
                 get: function () {
                     return this.resolve("nav").resolve("customize");
                 }
-            },
-            searchMath: {}
+            }
         },
         methods: {
         }

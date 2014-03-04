@@ -250,6 +250,20 @@
             scale: {value: 1},
             translateX: {value: 0},
             translateY: {value: 0},
+            translate: {
+                get: function () {
+                    return{
+                        x: this._translateX,
+                        y: this._translateY
+                    };
+                },
+                set: function (value) {
+                    if (value && value.x != null && value.y != null) {
+                        this.translateX(value.x);
+                        this.translateY(value.y);
+                    }
+                }
+            },
             stage: {
                 get: function () {
                     return this.resolve("stage");
