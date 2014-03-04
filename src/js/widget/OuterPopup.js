@@ -1,11 +1,10 @@
 (function (nx,global) {
-    //todo:optimize...
+    /**
+     * @class   OuterPopup
+     * @namespace nx.widget
+     * @description outer popup,must be extend.
+     */
     nx.define('nx.widget.OuterPopup',nx.widget.AbstractPopup,{
-        view: {
-            props: {
-                'class': 'nx-widget-OuterPopup'
-            }
-        },
         properties: {
             target: {
                 set: function (inValue) {
@@ -42,95 +41,143 @@
             }
         },
         methods: {
-            /*------top start-------*/
-            //tl
+            /**
+             * Get top,left position coordinate.
+             * @returns {{top: number, left: number}}
+             * @private
+             */
             _directionTl: function () {
                 return {
                     top: this.targetBound().top - this.size().height,
                     left: this.targetBound().left
                 };
             },
-            //t
+            /**
+             * Get top,center position coordinate.
+             * @returns {{top: number, left: number}}
+             * @private
+             */
             _directionT: function () {
                 return {
                     top: this.targetBound().top - this.size().height,
                     left: this.targetBound().left + 0.5 * (this.targetBound().width - this.size().width)
                 };
             },
-            //tr
+            /**
+             * Get top,right position coordinate.
+             * @returns {{top: number, left: number}}
+             * @private
+             */
             _directionTr: function () {
                 return {
                     top: this.targetBound().top - this.size().height,
                     left: this.targetBound().right + -this.size().width
                 };
             },
-            /*------top end-------*/
-
-            /*-----right start-------*/
-            //rt
+            /**
+             * Get right,top position coordinate.
+             * @returns {{top: number, left: number}}
+             * @private
+             */
             _directionRt: function () {
                 return {
                     top: this.targetBound().top,
                     left: this.targetBound().right
                 };
             },
-            //r
+            /**
+             * Get right,center position coordinate.
+             * @returns {{top: number, left: number}}
+             * @private
+             */
             _directionR: function () {
                 return {
                     top: this.targetBound().top + 0.5 * (this.targetBound().height - this.size().height),
                     left: this.targetBound().right
                 };
             },
-            //rb
+            /**
+             * Get right,bottom position coordinate.
+             * @returns {{top: number, left: number}}
+             * @private
+             */
             _directionRb: function () {
                 return {
                     top: this.targetBound().bottom - this.size().height,
                     left: this.targetBound().right
                 };
             },
-            /*-----right end-------*/
-
-            /*-----bottom start-------*/
+            /**
+             * Get bottom,left position coordinate.
+             * @returns {{top: number, left: number}}
+             * @private
+             */
             _directionBl: function () {
                 return {
                     top: this.targetBound().bottom,
                     left: this.targetBound().left
                 };
             },
+            /**
+             * Get bottom,center position coordinate.
+             * @returns {{top: number, left: number}}
+             * @private
+             */
             _directionB: function () {
                 return {
                     top: this.targetBound().bottom,
                     left: this.targetBound().left + 0.5 * (this.targetBound().width - this.size().width)
                 };
             },
+            /**
+             * Get bottom,right position coordinate.
+             * @returns {{top: number, left: number}}
+             * @private
+             */
             _directionBr: function () {
                 return {
                     top: this.targetBound().bottom,
                     left: this.targetBound().right + -this.size().width
                 };
             },
-            /*-----bottom end-------*/
-
-            /*-----left start-------*/
+            /**
+             * Get left,top position coordinate.
+             * @returns {{top: number, left: number}}
+             * @private
+             */
             _directionLt: function () {
                 return {
                     top: this.targetBound().top,
                     left: this.targetBound().left - this.size().width
                 };
             },
+            /**
+             * Get left,center position coordinate.
+             * @returns {{top: number, left: number}}
+             * @private
+             */
             _directionL: function () {
                 return {
                     top: this.targetBound().top + 0.5 * (this.targetBound().height - this.size().height),
                     left: this.targetBound().left - this.size().width
                 };
             },
+            /**
+             * Get left,bottom position coordinate.
+             * @returns {{top: number, left: number}}
+             * @private
+             */
             _directionLb: function () {
                 return {
                     top: this.targetBound().bottom - this.size().height,
                     left: this.targetBound().left - this.size().width
                 };
             },
-            /*-----left end-------*/
+            /**
+             * Dispose the unused variable.
+             * @returns {{top: number, left: number}}
+             * @private
+             */
             dispose: function () {
                 this.inherited();
                 this._targetPosition = null;

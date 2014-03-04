@@ -1,19 +1,18 @@
 (function (nx,global) {
-    var document = global.document,
-        util = nx.Util;
-
-    //todo:optimize...
+    /**
+     * @class   InnerPopup
+     * @namespace nx.widget
+     * @description inner popup,must be extend.
+     */
     nx.define('nx.widget.InnerPopup',nx.widget.AbstractPopup,{
-        view: {
-            props: {
-                'class': 'nx-widget-InnerPopup'
-            }
-        },
         properties: {
+            /**
+             * Container is the wrapper of the popup,every inner popup should have a container.
+             */
             container: {
                 set: function (inValue) {
                     if (inValue) {
-                        this._container = inValue || document;
+                        this._container = inValue || global.document;
                         this._container.setStyle('position','relative');
                     }
                 },
@@ -21,6 +20,9 @@
                     return this._container;
                 }
             },
+            /**
+             * Get document rect information.
+             */
             docRect: {
                 get: function () {
                     return nx.dom.Document.docRect();
@@ -28,83 +30,107 @@
             }
         },
         methods: {
-            /*------top  start-------*/
-            //tl
+            /**
+             * Get top,left position coordinate.
+             * @returns {{top: number, left: number}}
+             * @private
+             */
             _directionTl: function () {
                 return {
                     top: 0,
                     left: 0
                 };
             },
-            //t
+            /**
+             * Get top,center position coordinate.
+             * @returns {{top: number, left: number}}
+             * @private
+             */
             _directionT: function () {
                 return {
                     top: 0,
                     left: 0.5 * (this.docRect().width - this.size().width)
                 };
             },
-            //tr
+            /**
+             * Get top,right position coordinate.
+             * @returns {{top: number, left: number}}
+             * @private
+             */
             _directionTr: function () {
                 return {
                     top: 0,
                     left: this.docRect().width - this.size().width
                 };
             },
-            /*------top  end-------*/
-
-            /*------right  start-------*/
-            //r
+            /**
+             * Get right,center position coordinate.
+             * @returns {{top: number, left: number}}
+             * @private
+             */
             _directionR: function () {
                 return {
                     top: 0.5 * (this.docRect().height - this.size().height),
                     left: this.docRect().width - this.size().width
                 };
             },
-            /*------right  end-------*/
 
-            /*------bottom  start-------*/
-            //bl
+            /**
+             * Get bottom,left position coordinate.
+             * @returns {{top: number, left: number}}
+             * @private
+             */
             _directionBl: function () {
                 return {
                     top: this.docRect().height - this.size().height,
                     left: 0
                 };
             },
-            //b
+            /**
+             * Get bottom,center position coordinate.
+             * @returns {{top: number, left: number}}
+             * @private
+             */
             _directionB: function () {
                 return {
                     top: this.docRect().height - this.size().height,
                     left: 0.5 * (this.docRect().width - this.size().width)
                 };
             },
-            //br
+            /**
+             * Get bottom,right position coordinate.
+             * @returns {{top: number, left: number}}
+             * @private
+             */
             _directionBr: function () {
                 return {
                     top: this.docRect().height - this.size().height,
                     left: this.docRect().width - this.size().width
                 };
             },
-            /*------bottom  end-------*/
 
-            /*------left  start-------*/
-            //l
+            /**
+             * Get left,center position coordinate.
+             * @returns {{top: number, left: number}}
+             * @private
+             */
             _directionL: function () {
                 return {
                     top: 0.5 * (this.docRect().height - this.size().height),
                     left: 0
                 };
             },
-            /*------left  end-------*/
-
-            /*------center  start-------*/
-            //center
+            /**
+             * Get center position coordinate.
+             * @returns {{top: number, left: number}}
+             * @private
+             */
             _directionCenter: function () {
                 return {
                     top: 0.5 * (this.docRect().height - this.size().height),
                     left: 0.5 * (this.docRect().width - this.size().width)
                 };
             }
-            /*------center  end-------*/
         }
     });
 }(nx,nx.global));
