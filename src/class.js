@@ -485,16 +485,16 @@
 
                 this.__initializing__ = true;
 
-                nx.each(Class.__defaults__, function (value, name) {
-                    this['_' + name] = nx.is(value, 'Function') ? value.call(this) : value;
-                }, this);
-
                 for (var i = 0, length = mixins.length; i < length; i++) {
                     var ctor = mixins[i].__ctor__;
                     if (ctor) {
                         ctor.call(this);
                     }
                 }
+
+                nx.each(Class.__defaults__, function (value, name) {
+                    this['_' + name] = nx.is(value, 'Function') ? value.call(this) : value;
+                }, this);
 
                 if (this.__ctor__) {
                     this.__ctor__.apply(this, arguments);

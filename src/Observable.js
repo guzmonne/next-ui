@@ -421,9 +421,6 @@
             dispose: function () {
                 var target = this._target;
                 this._rebind(0, null);
-                if (target.unwatch) {
-                    target.unwatch('propertyChanged', this._onTargetChanged, this);
-                }
             },
             _rebind: function (index, value) {
                 var watchers = this._watchers;
