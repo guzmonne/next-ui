@@ -36,33 +36,41 @@
             activate: function (args) {
                 this.__construct();
                 var topo = this._topo;
-                topo.on("clickStage", this.clickStage, this);
-                topo.on('projectionChange', this.projectionChange, this);
-                topo.on('zooming', this.zooming, this);
-                topo.on('zoomend', this.zoomend, this);
-                topo.on('beforeSetData', this.beforeSetData, this);
-                topo.on('afterSetData', this.afterSetData, this);
-                topo.on('insertData', this.insertData, this);
-                topo.on('ready', this.ready, this);
 
-                this._nodesLayer.on("enterNode", this.enterNode, this);
-                this._nodesLayer.on("clickNode", this.clickNode, this);
-                this._nodesLayer.on("leaveNode", this.leaveNode, this);
-                this._nodesLayer.on("hideNode", this.hideNode, this);
-                this._nodesLayer.on("dragNodeStart", this.dragNodeStart, this);
-                this._nodesLayer.on("dragNode", this.dragNode, this);
-                this._nodesLayer.on("dragNodeEnd", this.dragNodeEnd, this);
-                this._nodesLayer.on("pressNode", this.pressNode, this);
-                this._nodesLayer.on("selectNode", this.selectNode, this);
-                this._nodesLayer.on("updateNodeCoordinate", this.updateNodeCoordinate, this);
+                nx.each(topo.__events__, function (eventName) {
+                    topo.on(eventName, function (sender, data) {
+                        this._dispatch(eventName, sender, data);
+                    }, this);
+                }, this);
 
 
-                this._linksLayer.on("enterLink", this.link_enterLink, this);
-                this._linksLayer.on("leaveLink", this.link_leaveLink, this);
-
-
-                topo.on("clickLinkSetNumber", this.linkSet_click, this);
-                topo.on("leaveLinkSetNumber", this.linkSet_leave, this);
+//                topo.on("clickStage", this.clickStage, this);
+//                topo.on('projectionChange', this.projectionChange, this);
+//                topo.on('zooming', this.zooming, this);
+//                topo.on('zoomend', this.zoomend, this);
+//                topo.on('beforeSetData', this.beforeSetData, this);
+//                topo.on('afterSetData', this.afterSetData, this);
+//                topo.on('insertData', this.insertData, this);
+//                topo.on('ready', this.ready, this);
+//
+//                this._nodesLayer.on("enterNode", this.enterNode, this);
+//                this._nodesLayer.on("clickNode", this.clickNode, this);
+//                this._nodesLayer.on("leaveNode", this.leaveNode, this);
+//                this._nodesLayer.on("hideNode", this.hideNode, this);
+//                this._nodesLayer.on("dragNodeStart", this.dragNodeStart, this);
+//                this._nodesLayer.on("dragNode", this.dragNode, this);
+//                this._nodesLayer.on("dragNodeEnd", this.dragNodeEnd, this);
+//                this._nodesLayer.on("pressNode", this.pressNode, this);
+//                this._nodesLayer.on("selectNode", this.selectNode, this);
+//                this._nodesLayer.on("updateNodeCoordinate", this.updateNodeCoordinate, this);
+//
+//
+//                this._linksLayer.on("enterLink", this.link_enterLink, this);
+//                this._linksLayer.on("leaveLink", this.link_leaveLink, this);
+//
+//
+//                topo.on("clickLinkSetNumber", this.linkSet_click, this);
+//                topo.on("leaveLinkSetNumber", this.linkSet_leave, this);
 
             },
             /**
@@ -74,11 +82,22 @@
 
                 this.__destruct();
             },
+
+            _dispatch: function (eventName, sender, data) {
+                if (this[eventName]) {
+                    this._tooltipManager.executeAction(eventName, data);
+                    this[eventName].call(this, sender, data);
+                }
+            },
+            pressStage: function (sender,event) {
+                console.log('pressStage');
+            },
             /**
              * Click stage handler
              * @method clickStage
              */
             clickStage: function () {
+                console.log('clickStage');
             },
 
             projectionChange: function () {
@@ -148,7 +167,7 @@
              * @method clickNode
              */
             clickNode: function (sender, node) {
-                this._tooltipManager.executeAction('clickNode', node);
+                console.log('clickNode');
             },
             hideNode: function (sender, node) {
 
@@ -179,7 +198,7 @@
             },
 
             pressNode: function () {
-
+                console.log('pressNode');
             },
             selectNode: function () {
 

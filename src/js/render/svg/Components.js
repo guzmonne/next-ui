@@ -297,9 +297,13 @@
             _dragend: function (sender, event) {
                 this.resolve("stage").resolve("@root").setStyle('pointer-events', 'all');
             },
-            setTransform: function (translateX, translateY, scale) {
+            setTransform: function (translateX, translateY, scale, durtion) {
                 var transform = 'translate(' + (translateX || this._translateX) + 'px, ' + (translateY || this._translateY) + 'px) scale(' + (scale || this._scale) + ') ';
-                this.stage().resolve("@root").$dom.style.cssText = "transition:none 0;-webkit-transform:" + transform;
+                var csstext = '-webkit-transform:' + transform + ';';
+                if (durtion) {
+                    csstext += ';transition:all ' + durtion + 's linear;';
+                }
+                this.stage().resolve("@root").$dom.style.cssText = csstext;
                 //this.stage().root().setStyle('transition', 'none 0');
                 this._translateX = translateX || this._translateX;
                 this._translateY = translateY || this._translateY;

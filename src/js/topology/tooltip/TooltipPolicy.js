@@ -11,6 +11,10 @@
                 this.inherited(args);
                 this.sets(args);
             },
+            pressStage: function () {
+                var tooltipManager = this.tooltipManager();
+                tooltipManager.closeeAll();
+            },
             clickNode: function (node) {
                 var tooltipManager = this.tooltipManager();
                 tooltipManager.openNodeTooltip(node);

@@ -49,13 +49,14 @@
                     props: {
                         width: "{#width}",
                         height: "{#height}",
-                        //scale: '{#scale}',
                         translateX: '{#paddingLeft}',
                         translateY: '{#paddingTop}'
                     },
                     events: {
+                        ':mousedown': '{#_pressStage}',
+                        ':touchstart': '{#_pressStage}',
                         'mouseup': '{#_clickStage}',
-                        'touchstart': '{#_clickStage}',
+                        'touchend': '{#_clickStage}',
                         'mousewheel': '{#_mousewheel}',
                         'touchmove': '{#_mousewheel}'
                     }

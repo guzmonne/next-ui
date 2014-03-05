@@ -1,7 +1,7 @@
 (function (nx, util, global) {
 
-    nx.define("nx.graphic.Topology.Event", {
-        events: ['clickStage'],
+    nx.define('nx.graphic.Topology.Event', {
+        events: ['clickStage','pressStage'],
         properties: {
         },
         methods: {
@@ -38,11 +38,14 @@
                 return false;
             },
             _contextmenu: function (sender, event) {
-                event.stop();
+                event.preventDefault();
+            },
+            _clickStage: function (sender, event) {
+                this.fire('clickStage', event);
+            },
+            _pressStage: function (sender, event) {
+                this.fire('pressStage', event);
             }
-        },
-        _clickStage: function (sender, event) {
-            this.fire("clickStage", event);
         }
     });
 

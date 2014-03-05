@@ -330,10 +330,9 @@
 //
 
                         this._setProjection();
-                        stage.setTransform(null, null, 1);
+                        stage.setTransform(null, null, 1, 0);
                         this.fire("zoomend");
                         prevScale = newValue;
-
                     }.bind(this), 300);
                 };
             })(),
