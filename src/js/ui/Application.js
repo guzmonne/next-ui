@@ -8,9 +8,9 @@
                 this.inherited();
                 var startFn = this.start;
                 var self = this;
-                this.start = function () {
+                this.start = function (options) {
                     Document.ready(function () {
-                        startFn.call(self);
+                        startFn.call(self, options);
                     });
                     return this;
                 };
