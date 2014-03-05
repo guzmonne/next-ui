@@ -466,7 +466,7 @@
                 }
             },
             get: function (name) {
-                if (this.has(name)) {
+                if (this.has(name) || name.indexOf(':') >= 0) {
                     return this.inherited(name);
                 }
                 else {
@@ -474,7 +474,7 @@
                 }
             },
             set: function (name, value) {
-                if (this.has(name)) {
+                if (this.has(name) || name.indexOf(':') >= 0) {
                     this.inherited(name, value);
                 }
                 else {
