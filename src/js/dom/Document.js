@@ -98,7 +98,7 @@
             readyController.doScrollCheck();
         },
         readyMain: function () {
-            if (!document.body) {
+            if (document.readyState === "complete") {
                 return setTimeout(readyController.readyMain);
             } else {
                 if (document.addEventListener) {
