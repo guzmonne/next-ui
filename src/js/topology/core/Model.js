@@ -7,12 +7,17 @@
              * @property identityKey
              */
             identityKey: {
-                value: "index"
+                get: function () {
+                    return this._identiyKey || 'index';
+                },
+                set: function (value) {
+                    this._identiyKey = value;
+                    this.model().set('identityKey', value);
+                }
             },
             data: {
                 get: function () {
                     return this.model().getData();
-
                 },
                 set: function (value) {
 
@@ -43,15 +48,54 @@
              * @property autoLayout
              */
             autoLayout: {
-                value: false
+                get: function () {
+                    return this._autoLayout || false;
+                },
+                set: function (value) {
+                    this._autoLayout = value;
+                    if (value) {
+                        this.model().dataProcessor("force");
+                    } else {
+                        this.model().dataProcessor("");
+                    }
+                }
             },
-            xMutatorMethod: {},
-            yMutatorMethod: {},
-            dataProcessor: {}
+            xMutatorMethod: {
+                get: function () {
+                    return this._xMutatorMethod || false;
+                },
+                set: function (value) {
+                    this._xMutatorMethod = value;
+                    this.model().set('xMutatorMethod', value);
+                }
+            },
+            yMutatorMethod: {
+                get: function () {
+                    return this._yMutatorMethod || false;
+                },
+                set: function (value) {
+                    this._yMutatorMethod = value;
+                    this.model().set('yMutatorMethod', value);
+                }
+            },
+            dataProcessor: {
+                get: function () {
+                    return this._dataProcessor || false;
+                },
+                set: function (value) {
+                    this._dataProcessor = value;
+                    this.model().set('dataProcessor', value);
+                }
+            },
+            model: {
+                value: function () {
+                    return new nx.data.ObservableGraph();
+                }
+            }
         },
         methods: {
             initModel: function () {
-                var graph = new nx.data.ObservableGraph();
+                var graph = this.model();
                 graph.sets({
                     xMutatorMethod: this.xMutatorMethod(),
                     yMutatorMethod: this.yMutatorMethod(),
@@ -144,8 +188,6 @@
                 graph.on("startGenerate", function (sender, event) {
                     this._setProjection();
                 }, this);
-
-                this.model(graph);
 
             },
             /**
