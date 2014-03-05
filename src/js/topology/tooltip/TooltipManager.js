@@ -6,7 +6,7 @@
      * @class nx.graphic.Topology.TooltipManager
      * @extend nx.data.ObservableObject
      */
-    nx.define("nx.graphic.Topology.TooltipManager", nx.data.ObservableObject, {
+    nx.define("nx.graphic.Topology.TooltipManager", {
         /**
          * @event openNodeToolTip
          */
@@ -103,7 +103,11 @@
         },
         methods: {
 
-            init: function () {
+            init: function (args) {
+
+                this.inherited(args);
+
+                this.sets(args);
 
                 this.registerTooltip('nodeTooltip', this.nodeTooltipClass());
                 this.registerTooltip('linkTooltip', this.linkTooltipClass());
@@ -180,6 +184,7 @@
                 }
             },
             _getNodeAbsolutePosition: function (node) {
+                var topo = this.topology();
                 var position = node.position();
                 var topologyOffset = topo.resolve('@root').getOffset();
                 var stageTranslate = topo.stage().translate();
