@@ -102,7 +102,7 @@
              * @returns {*}
              */
             clear: function () {
-                var items = this._data;
+                var items = this._data.slice();
 
                 this._data.length = 0;
                 return items;
