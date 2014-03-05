@@ -165,9 +165,11 @@
                 if (nx.is(clz, 'String')) {
                     clz = nx.path(global, tooltipClass);
                 }
-                var instance = new clz({
+                var instance = new clz();
+                instance.sets({
                     topology: topology,
-                    tooltipManager: this
+                    tooltipManager: this,
+                    model:topology.dataModel()
                 });
                 tooltips.setItem(name, instance);
             },
@@ -202,6 +204,7 @@
             openNodeTooltip: function (node, position) {
                 var topo = this.topology();
                 var nodeTooltip = this.nodeTooltip();
+                var content;
 
                 nodeTooltip.close(true);
 
@@ -214,9 +217,11 @@
 
                 var contentClass = nx.path(global, this.nodeTooltipContentClass());
                 if (contentClass) {
-                    content = new contentClass({
+                    content = new contentClass();
+                    content.sets({
                         topology: topo,
-                        node: node
+                        node: node,
+                        model:topo.dataModel()
                     });
                 }
 
@@ -256,9 +261,11 @@
 
                 var contentClass = nx.path(global, this.nodeSetTooltipContentClass());
                 if (contentClass) {
-                    content = new contentClass({
+                    content = new contentClass();
+                    content.sets({
+                        topology: topo,
                         nodeSet: nodeSet,
-                        topology: topo
+                        model:topo.dataModel()
                     });
                 }
 
@@ -296,9 +303,11 @@
 
                 var contentClass = nx.path(global, this.linkTooltipContentClass());
                 if (contentClass) {
-                    content = new contentClass({
+                    content = new contentClass();
+                    content.sets({
+                        topology: topo,
                         link: link,
-                        topology: topo
+                        model:topo.dataModel()
                     });
                 }
 
@@ -328,9 +337,11 @@
 
                 var contentClass = nx.path(global, this.linkSetTooltipContentClass());
                 if (contentClass) {
-                    content = new contentClass({
+                    content = new contentClass();
+                    content.sets({
+                        topology: topo,
                         linkSet: linkSet,
-                        topology: topo
+                        model:topo.dataModel()
                     });
                 }
 

@@ -22,7 +22,9 @@
             nodeRadius: {},
             nodeIconType: {},
             nodeLabel: {},
-            nodeShowIcon: {},
+            nodeShowIcon: {
+                value: false
+            },
             nodeSelected: {
                 value: false
             },

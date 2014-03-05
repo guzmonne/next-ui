@@ -175,7 +175,7 @@
                                 type: 'nx.graphic.Icon',
                                 props: {
                                     'class': 'icon',
-                                    iconType: 'unknown'
+                                    iconType: '{iconType}'
                                 }
                             }
                         }

@@ -88,9 +88,21 @@
                 }
             },
             model: {
-                value: function () {
-                    return new nx.data.ObservableGraph();
+                get: function () {
+                    if (!this._model) {
+                        this._model = new nx.data.ObservableGraph();
+                    }
+                    return this._model;
+                },
+                set: function (value) {
+                    if (!this._model) {
+                        this._model = new nx.data.ObservableGraph();
+                    }
+                    this._dataModel = value;
                 }
+            },
+            dataModel: {
+
             }
         },
         methods: {
