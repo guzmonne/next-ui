@@ -4,8 +4,14 @@
     <title>Example</title>
     <script type="text/javascript" src="../../lib/NeXt/next-core/next-core.js"></script>
     <script type="text/javascript" src="../../lib/NeXt/next-ui/js/next-ui.js"></script>
-    <script type="text/javascript" src="../../lib/GraphGenerator.js"></script>
+    <script type="text/javascript" src="../../lib/NeXt/next-ui-components/js/next-components.js"></script>
+    <script type="text/javascript" src="../../src/js/next-graphic.js"></script>
+    <link rel="stylesheet" href="../../lib/NeXt/next-ui/css/next-blue.css"/>
+    <link rel="stylesheet" href="../../src/less/next-graphic.css"/>
     <!--<script type="text/javascript" src="../../src/js/next-graphic.js"></script>-->
+    <script type="text/javascript" src="../../lib/NeXt/next-core/next-core.js"></script>
+    <script type="text/javascript" src="../../lib/NeXt/next-ui/js/next-ui.js"></script>
+    <script type="text/javascript" src="../../lib/NeXt/next-ui-components/js/next-components.js"></script>
     <script type="text/javascript" src="../../src/js/util/util.js"></script>
     <script type="text/javascript" src="../../src/js/util/Animation.js"></script>
     <script type="text/javascript" src="../../src/js/core/DragManager.js"></script>
@@ -35,9 +41,9 @@
     <script type="text/javascript" src="../../src/js/topology/link/LinkMixin.js"></script>
     <script type="text/javascript" src="../../src/js/topology/layer/LayerMixin.js"></script>
     <script type="text/javascript" src="../../src/js/topology/core/StageMixin.js"></script>
+    <script type="text/javascript" src="../../src/js/topology/tooltip/TooltipMixin.js"></script>
     <script type="text/javascript" src="../../src/js/topology/scene/SceneMixin.js"></script>
     <script type="text/javascript" src="../../src/js/topology/core/Topology.js"></script>
-    <script type="text/javascript" src="../../src/js/topology/core/Stage.js"></script>
     <script type="text/javascript" src="../../src/js/topology/layer/Layer.js"></script>
     <script type="text/javascript" src="../../src/js/topology/node/AbstractNode.js"></script>
     <script type="text/javascript" src="../../src/js/topology/node/Node.js"></script>
@@ -48,13 +54,14 @@
     <script type="text/javascript" src="../../src/js/topology/link/LinkSet.js"></script>
     <script type="text/javascript" src="../../src/js/topology/link/LinkSetLayer.js"></script>
     <script type="text/javascript" src="../../src/js/topology/layout/NeXtForceLayout.js"></script>
+    <script type="text/javascript" src="../../src/js/topology/tooltip/TooltipPolicy.js"></script>
+    <script type="text/javascript" src="../../src/js/topology/tooltip/TopologyTooltip.js"></script>
+    <script type="text/javascript" src="../../src/js/topology/tooltip/NodeTooltip.js"></script>
     <script type="text/javascript" src="../../src/js/topology/tooltip/TooltipManager.js"></script>
     <script type="text/javascript" src="../../src/js/topology/scene/Scene.js"></script>
     <script type="text/javascript" src="../../src/js/topology/scene/DefaultScene.js"></script>
     <script type="text/javascript" src="../../src/js/topology/scene/SelectionScene.js"></script>
     <script type="text/javascript" src="../../src/js/topology/scene/ZoomBySelection.js"></script>
-    <link rel="stylesheet" href="../../lib/NeXt/next-ui/css/next-blue.css">
-
 </head>
 <body>
 <style>
@@ -156,7 +163,7 @@
             init: function (args) {
                 this.inherited(args);
                 this.addItem('Basic', 'base', 'basic/base.js', 'Base.Base');
-               // this.addItem('Basic', 'Auto Layout', 'basic/autolayout.js', 'Base.AutoLayout');
+                // this.addItem('Basic', 'Auto Layout', 'basic/autolayout.js', 'Base.AutoLayout');
                 setTimeout(function () {
                     this._parseURL();
                 }.bind(this), 200);
