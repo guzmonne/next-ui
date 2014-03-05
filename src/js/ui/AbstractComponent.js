@@ -3,7 +3,7 @@
     var Binding = nx.Binding;
     var Collection = nx.data.Collection;
     var Document = nx.dom.Document;
-    var rpatt = /(?={)\{([^{}]+?)\}(?!})/;
+    var rpatt = /(?={)\{([^{}]*?)\}(?!})/;
 
     function setProperty(target, name, value, owner) {
         if (nx.is(value, Binding)) {
