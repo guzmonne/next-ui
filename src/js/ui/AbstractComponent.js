@@ -12,12 +12,12 @@
             }));
         }
         else if (nx.is(value, 'String') && rpatt.test(value)) {
-            var expr = RegExp.$1 + ',bindingType=property';
+            var expr = RegExp.$1;
             if (expr[0] === '#') {
-                target.setBinding(name, 'owner.' + expr.slice(1), owner || target);
+                target.setBinding(name, 'owner.' + expr.slice(1) + ',bindingType=property', owner || target);
             }
             else {
-                target.setBinding(name, expr ? 'model.' + expr : 'model', owner || target);
+                target.setBinding(name, (expr ? 'model.' + expr : 'model') + ',bindingType=property', owner || target);
             }
         }
         else {
@@ -30,12 +30,12 @@
             target.setBinding(name, value.gets());
         }
         else if (nx.is(value, 'String') && rpatt.test(value)) {
-            var expr = RegExp.$1 + ',bindingType=event';
+            var expr = RegExp.$1;
             if (expr[0] === '#') {
-                target.setBinding(name, 'owner.' + expr.slice(1), owner || target);
+                target.setBinding(name, 'owner.' + expr.slice(1) + ',bindingType=event', owner || target);
             }
             else {
-                target.setBinding(name, expr ? 'model.' + expr : 'model', owner || target);
+                target.setBinding(name, (expr ? 'model.' + expr : 'model') + ',bindingType=event', owner || target);
             }
         }
         else {
