@@ -7,12 +7,19 @@
             init: function () {
                 this.inherited();
                 var startFn = this.start;
+                var stopFn = this.stop;
                 var self = this;
                 this.start = function (options) {
                     Document.ready(function () {
+                        nx.app = self;
                         startFn.call(self, options);
                     });
                     return this;
+                };
+
+                this.stop = function () {
+                    nx.app = null;
+                    stopFn.call(self);
                 };
 
                 this._globalListeners = {};

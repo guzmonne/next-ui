@@ -405,8 +405,12 @@
             },
             states: {
                 value: null
+            },
+            dom: {
+                get: function () {
+                    return this.resolve('@root');
+                }
             }
-
         },
         methods: {
             init: function (tag, text) {
