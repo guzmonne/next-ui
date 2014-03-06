@@ -10,15 +10,11 @@ module("Component.js", {teardown: function () {
 
 
 nx.define("wq.button", nx.ui.Component, {
+    events:['aclick','bclick'],
     view: {
         tag: 'button',
-        content: '{test}',
-        events: {
-            'aclick': function () {
-                this.owner().aclickflag(true)
-            },
-            'bclick': '{#bclick}'
-        }
+        content: '{test}'
+
     },
     properties: {
         aclickflag: false,
@@ -66,7 +62,13 @@ nx.define("wq.container", nx.ui.Component, {
         content: [
             {
                 name: "wqbtn",
-                type: "wq.button"
+                type: "wq.button",
+                events: {
+                    'aclick': function () {
+                        this.aclickflag(true);
+                    },
+                    'bclick': function (){this.bclick();}
+                }
             },
             {
                 type: input
@@ -78,7 +80,13 @@ nx.define("wq.container", nx.ui.Component, {
                 name: "emptyContainer",
                 content: {
                     name: "wqbtn2",
-                    type: "wq.button"
+                    type: "wq.button",
+                    events: {
+                        'aclick': function () {
+                            this.aclickflag(true);
+                        },
+                        'bclick': function (){this.bclick();}
+                    }
                 }
             }
         ]
@@ -139,11 +147,16 @@ test('type logic', function () {
     })
     obj.wprop("ccccc");
     strictEqual(count, 1, "notify in prop");
-    obj.resolve('wqbtn')._innerComp.fire('aclick');
+    obj.resolve('wqbtn').fire('aclick');
     ok(obj.resolve('wqbtn').aclickflag(), "invoke inner component event");
     strictEqual(obj.resolve('wqbtn').count(), 1, "notify func in the inner component");
-    obj.resolve('wqbtn')._innerComp.fire('bclick');
+    obj.resolve('wqbtn').fire('bclick');
     ok(obj.resolve('wqbtn').bclickflag(), "invoke inner component event");
+
+    ok(!obj.resolve('wqbtn2').aclickflag(), "no conflict with other comp");
+    strictEqual(obj.resolve('wqbtn2').count(), 0, "no conflict with other comp");
+    ok(!obj.resolve('wqbtn2').bclickflag(), "no conflict with other comp");
+
     obj.destroy();
     strictEqual(obj.model(), null, "check model after destroy");
 })
@@ -467,4 +480,64 @@ test('template-ObservableObject-add', function () {
     strictEqual(obj.resolve('test').content().getItem(2).content().getItem(1).resolve("@root").$dom.outerHTML,'<li>6</li>','')
     obj.destroy()
 })
+
+
+
+nx.define("qw.template_template", nx.ui.Component, {
+    view: [{
+        tag: 'ul',
+        name: 'test',
+        props: {
+            template: [
+                {
+                    tag: 'li',
+                    props: {
+                        style: 'color:red'
+                    },
+                    content: '{0}'
+                },
+                {
+                    tag: 'li',
+                    props: {
+                        template: [
+                            {
+                                tag: 'li',
+                                props: {
+                                    style: 'color:blue'
+                                },
+                                content: '{}'
+                            }
+                        ],
+                        items: '{}'
+                    }
+                }
+            ],
+            items: '{#items}'
+
+        }
+    }],
+    properties: {
+        items: null,
+        test: 'abc'
+    },
+    method:{
+        refresh: function(){
+            var tmp = this.items;
+            this.items(null);
+            this.items(tmp);
+
+        }
+    }
+});
+
+test('template-template', function () {
+    var obj = new qw.template_template()
+    var data = [[1,['a1','a2','a3'],3],[4,['b1','b2','b3'],6]]
+    obj.attach(app)
+    obj.items(data)
+    console.log(obj)
+    //obj.destroy()
+})
+
+
 
