@@ -122,7 +122,7 @@
                 nodeTooltip.on("close", function () {
                     this.fire("closeNodeToolTip");
                 }, this);
-
+                nodeTooltip.resolve('@root').addClass('n-topology-node-tootltip');
                 this.nodeTooltip(nodeTooltip);
 
 
@@ -169,7 +169,7 @@
                 instance.sets({
                     topology: topology,
                     tooltipManager: this,
-                    model:topology.dataModel()
+                    model: topology.dataModel()
                 });
                 tooltips.setItem(name, instance);
             },
@@ -221,7 +221,7 @@
                     content.sets({
                         topology: topo,
                         node: node,
-                        model:topo.dataModel()
+                        model: topo.dataModel()
                     });
                 }
 
@@ -265,7 +265,7 @@
                     content.sets({
                         topology: topo,
                         nodeSet: nodeSet,
-                        model:topo.dataModel()
+                        model: topo.dataModel()
                     });
                 }
 
@@ -307,7 +307,7 @@
                     content.sets({
                         topology: topo,
                         link: link,
-                        model:topo.dataModel()
+                        model: topo.dataModel()
                     });
                 }
 
@@ -341,7 +341,7 @@
                     content.sets({
                         topology: topo,
                         linkSet: linkSet,
-                        model:topo.dataModel()
+                        model: topo.dataModel()
                     });
                 }
 

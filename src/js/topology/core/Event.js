@@ -14,7 +14,7 @@
              */
             _mousewheel: function (sender, event) {
                 if (this.scalable()) {
-                    var step = 8000;
+                    var step = 6000;
                     var data = 0;
                     if (event.touches && event.touches.length == 2) {
                         this._zoomCenterPointX(0);

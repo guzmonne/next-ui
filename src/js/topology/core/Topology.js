@@ -16,7 +16,7 @@
         ],
         view: {
             props: {
-                'class': 'n-topology n-topology-blue',
+                'class': ['n-topology', '{#themeClass}'],
                 style: {
                     width: "{#width}",
                     height: "{#height}"

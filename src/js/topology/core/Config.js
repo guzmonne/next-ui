@@ -11,7 +11,18 @@
                 value: 0 //0: not start,1:drawing,2 :finished,3 start and padding adaptive
             },
             theme: {
-                value: "blue"
+                get: function () {
+                    return this._theme || 'blue';
+                },
+                set: function (value) {
+                    this._theme = value;
+                    this.notify('themeClass');
+                }
+            },
+            themeClass: {
+                get: function () {
+                    return 'n-topology-' + this.theme();
+                }
             },
             /**
              * @property showNavigation

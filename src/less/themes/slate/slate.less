@@ -1,9 +1,4 @@
-@import "variables";
-@primarySelectedColor :@brand-primary;
-@secondaryColor : @brand-info;
-@nodeSelectedBGColor : @brand-warning;
-@topologyBackgroundColor : @body-bg;
-@secondBackgroundColor : @component-active-color;
 .n-topology.n-topology-slate{
-  .n-topology;
+  @import "variables";
+  .n-topology(@brand-primary,@brand-info,@body-bg,@component-active-color,@brand-warning) ;
 }

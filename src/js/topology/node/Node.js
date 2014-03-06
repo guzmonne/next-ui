@@ -245,7 +245,7 @@
             },
             _mouseup: function (sender, event) {
                 var _position = this.position();
-                if (_position.x === this._prevPosition.x && _position.y === this._prevPosition.y) {
+                if (this._prevPosition && _position.x === this._prevPosition.x && _position.y === this._prevPosition.y) {
                     this.fire('nodemouseup', event);
                 }
             },

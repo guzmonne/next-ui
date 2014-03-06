@@ -278,7 +278,7 @@
                     }
 
 
-                    stage.setTransform(_translateX, _translateY, newValue / prevScale);
+                    stage.setTransform(_translateX, _translateY, newValue / prevScale,0);
 
 
                     this.fire("zooming");
@@ -333,7 +333,7 @@
                         stage.setTransform(null, null, 1, 0);
                         this.fire("zoomend");
                         prevScale = newValue;
-                    }.bind(this), 300);
+                    }.bind(this), 30000);
                 };
             })(),
             /**
