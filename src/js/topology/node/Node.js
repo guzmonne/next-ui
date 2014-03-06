@@ -175,7 +175,7 @@
                                 type: 'nx.graphic.Icon',
                                 props: {
                                     'class': 'icon',
-                                    iconType: '{iconType}'
+                                    iconType: '{#iconType}'
                                 }
                             }
                         }
@@ -207,10 +207,11 @@
                 var rpatt = /(?={)\{([^{}]+?)\}(?!})/;
                 if (value !== undefined) {
                     var model = this.model();
+                    var path = value.split('.');
                     if (nx.is(value, 'Function')) {
                         propValue = value.call(this, model, this);
-                    } else if (nx.is(value, 'String') && rpatt.test(value)) {
-                        this.setBinding(key, 'model.' + RegExp.$1.slice(0), this);
+                    } else if (path.length == 2 && path[0] == 'model') {
+                        this.setBinding(key, value, this);
                     } else {
                         propValue = value;
                     }
