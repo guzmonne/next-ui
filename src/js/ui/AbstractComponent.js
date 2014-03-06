@@ -3,7 +3,7 @@
     var Binding = nx.Binding;
     var Collection = nx.data.Collection;
     var Document = nx.dom.Document;
-    var rpatt = /(?={)\{([^{}]+?)\}(?!})/;
+    var rpatt = /(?={)\{([^{}]*?)\}(?!})/;
 
     function setProperty(target, name, value, owner) {
         if (nx.is(value, Binding)) {
@@ -162,7 +162,7 @@
                 this.detach();
 
                 if (nx.is(parent, AbstractComponent)) {
-                    var container = parent.getContainer();
+                    var container = parent.getContainer(this);
 
                     if (container) {
                         var name = this.resolve('@name');
@@ -209,6 +209,10 @@
                     parent.content().remove(this);
                     this.parent(null);
                     this.owner(null);
+                    this.fire('leave', {
+                        parent: parent,
+                        owner: owner
+                    });
                     this._attached = false;
                 }
             },
@@ -236,11 +240,11 @@
                     return resources[name];
                 }
             },
-            getContainer: function () {
+            getContainer: function (comp) {
                 if (this.resolve('@tag') === 'fragment') {
                     var parent = this.parent();
                     if (parent) {
-                        return parent.getContainer();
+                        return parent.getContainer(comp);
                     }
                 }
 
@@ -398,7 +402,11 @@
                 binding: {
                     direction: '<>'
                 }
+            },
+            states: {
+                value: null
             }
+
         },
         methods: {
             init: function (tag, text) {
@@ -458,7 +466,7 @@
                 }
             },
             get: function (name) {
-                if (this.has(name)) {
+                if (this.has(name) || name.indexOf(':') >= 0) {
                     return this.inherited(name);
                 }
                 else {
@@ -466,7 +474,7 @@
                 }
             },
             set: function (name, value) {
-                if (this.has(name)) {
+                if (this.has(name) || name.indexOf(':') >= 0) {
                     this.inherited(name, value);
                 }
                 else {
@@ -523,7 +531,7 @@
             onAttach: function (parent, index) {
                 var root = this.resolve('@root');
                 if (root) {
-                    var container = parent.getContainer();
+                    var container = parent.getContainer(this);
 
                     if (index >= 0) {
                         var ref = parent.content().getItem(index);
@@ -542,19 +550,61 @@
                     else {
                         container.appendChild(root);
                     }
+
+                    var states = this.states();
+                    var enterState = null;
+                    if (states) {
+                        enterState = states.enter;
+                    }
+
+                    if (enterState) {
+                        var cssText = root.$dom.style.cssText;
+                        var transition = 'all ' + (enterState.duration || 500) + 'ms';
+                        root.setStyles(nx.extend({
+                            transition: transition
+                        }, enterState));
+                        this.upon('transitionend', function () {
+                            root.removeStyle('transition');
+                        });
+                        setTimeout(function () {
+                            root.$dom.style.cssText = cssText + ';transition: ' + transition;
+                        }, 10);
+                    }
                 }
             },
             onDetach: function (parent) {
                 var root = this.resolve('@root');
                 if (root) {
                     var tag = this.resolve('@tag');
+                    var self = this;
+
                     if (tag === 'fragment') {
-                        nx.each(this.content(), function (child) {
+                        nx.each(self.content(), function (child) {
                             root.appendChild(child.resolve('@root'));
                         });
                     }
                     else {
-                        parent.getContainer().removeChild(root);
+                        var states = this.states();
+                        var leaveState = null;
+                        if (states) {
+                            leaveState = states.leave;
+                        }
+
+                        if (leaveState) {
+                            var cssText = root.$dom.style.cssText;
+                            var transition = 'all ' + (leaveState.duration || 500) + 'ms';
+                            root.setStyle('transition', transition);
+                            setTimeout(function () {
+                                root.setStyles(leaveState);
+                            }, 10);
+                            this.upon('transitionend', function () {
+                                root.$dom.style.cssText = cssText;
+                                parent.getContainer(this).removeChild(root);
+                            });
+                        }
+                        else {
+                            parent.getContainer(this).removeChild(root);
+                        }
                     }
                 }
             },

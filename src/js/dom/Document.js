@@ -65,7 +65,7 @@
                     // http://javascript.nwbox.com/IEContentLoaded/
                     topFrame.doScroll("left");
                 } catch (e) {
-                    return setTimeout(readyController.doScrollCheck, 50);
+                    return setTimeout(readyController.doScrollCheck,50);
                 }
 
                 // and execute any waiting functions
@@ -76,26 +76,39 @@
             return (inEvent || global.event).type === 'load';
         },
         isReady: function () {
-            return document.addEventListener || readyService.getHasReady() || document.readyState === "complete";
+            return readyService.getHasReady() || document.readyState === "complete";
         },
         detach: function () {
             if (document.addEventListener) {
-                document.removeEventListener("DOMContentLoaded", readyController.completed, false);
-                global.removeEventListener("load", readyController.completed, false);
+                document.removeEventListener("DOMContentLoaded",readyController.completed,false);
+                global.removeEventListener("load",readyController.completed,false);
             } else {
-                document.detachEvent("onreadystatechange", readyController.completed);
-                global.detachEvent("onload", readyController.completed);
+                document.detachEvent("onreadystatechange",readyController.completed);
+                global.detachEvent("onload",readyController.completed);
             }
         },
         w3cReady: function () {
-            document.addEventListener('DOMContentLoaded', readyController.completed, false);
-            global.addEventListener('load', readyController.completed, false);
+            document.addEventListener('DOMContentLoaded',readyController.completed,false);
+            global.addEventListener('load',readyController.completed,false);
         },
         ieReady: function () {
-            document.attachEvent("onreadystatechange", readyController.completed);
-            global.attachEvent("onload", readyController.completed);
+            document.attachEvent("onreadystatechange",readyController.completed);
+            global.attachEvent("onload",readyController.completed);
             readyController.setTopFrame();
             readyController.doScrollCheck();
+        },
+        readyMain: function () {
+            if (document.readyState === "complete") {
+                return setTimeout(readyController.readyMain);
+            } else {
+                if (document.addEventListener) {
+                    //w3c
+                    readyController.w3cReady();
+                } else {
+                    //old ie
+                    readyController.ieReady();
+                }
+            }
         },
         completed: function (inEvent) {
             if (readyController.isReady() || readyController.isOnLoad(inEvent)) {
@@ -111,7 +124,7 @@
         xlink: "http://www.w3.org/1999/xlink"
     };
 
-    var Document = nx.define('nx.dom.Document', {
+    var Document = nx.define('nx.dom.Document',{
         static: true,
         properties: {
             cssStyleSheet: {
@@ -124,6 +137,11 @@
                     return nxCssStyleSheet;
                 }
             },
+            root: {
+                get: function () {
+                    return document.documentElement;
+                }
+            },
             body: {
                 get: function () {
                     return new Element(document.body);
@@ -131,26 +149,26 @@
             }
         },
         methods: {
-            on: function (name, handler, context) {
+            on: function (name,handler,context) {
                 this._attachDocumentListeners(name);
-                this.inherited(name, handler, context);
+                this.inherited(name,handler,context);
             },
-            upon: function (name, handler, context) {
+            upon: function (name,handler,context) {
                 this._attachDocumentListeners(name);
-                this.inherited(name, handler, context);
+                this.inherited(name,handler,context);
             },
             _attachDocumentListeners: function (name) {
                 var documentListeners = this._documentListeners;
                 if (!(name in documentListeners)) {
                     var self = this;
                     var listener = documentListeners[name] = function (event) {
-                        self.fire(name, event);
+                        self.fire(name,event);
                     };
 
-                    document.addEventListener(name, listener);
+                    document.addEventListener(name,listener);
                 }
             },
-            registerNS: function (key, value) {
+            registerNS: function (key,value) {
                 nsMap[key] = value;
             },
             resolveNS: function (key) {
@@ -165,53 +183,68 @@
             createText: function (text) {
                 return new Text(document.createTextNode(text));
             },
-            createElementNS: function (ns, tag) {
+            createElementNS: function (ns,tag) {
                 var uri = Document.resolveNS(ns);
                 if (uri) {
-                    return new Element(document.createElementNS(uri, tag));
+                    return new Element(document.createElementNS(uri,tag));
                 }
                 else {
                     throw new Error('The namespace ' + ns + ' is not registered.');
                 }
             },
             wrap: function (dom) {
-                if (nx.is(dom, Node)) {
+                if (nx.is(dom,Node)) {
                     return dom;
                 }
                 else {
 
                 }
             },
+            docRect: function () {
+                var root = this.root(),
+                    height = global.innerHeight || 0,
+                    width = global.innerWidth || 0,
+                    scrollW = root.scrollWidth,
+                    scrollH = root.scrollHeight,
+                    scrollXY = {
+                        left: Math.max((global.pageXOffset || 0),root.scrollLeft),
+                        top: Math.max((global.pageYOffset || 0),root.scrollTop)
+                    };
+                scrollW = Math.max(scrollW,width);
+                scrollH = Math.max(scrollH,height);
+                return {
+                    width: width,
+                    height: height,
+                    scrollWidth: scrollW,
+                    scrollHeight: scrollH,
+                    scrollX: scrollXY.left,
+                    scrollY: scrollXY.top
+                };
+            },
             ready: function (inHandler) {
                 //add handler to queue:
                 if (readyController.initReady(inHandler)) {
-                    setTimeout(readyController.fireReady, 1);
+                    setTimeout(readyController.fireReady,1);
                 } else {
-                    if (document.addEventListener) {
-                        //w3c
-                        readyController.w3cReady();
-                    } else {
-                        //old ie
-                        readyController.ieReady();
-                    }
+                    readyController.readyMain();
                 }
             },
-            addRule: function (inSelector, inCssText, inIndex) {
-                return this._ruleAction('add', [inSelector, inCssText, inIndex]);
+            addRule: function (inSelector,inCssText,inIndex) {
+                return this._ruleAction('add',[inSelector,inCssText,inIndex]);
             },
-            insertRule: function (inFullCssText, inIndex) {
-                return this._ruleAction('insert', [inFullCssText, inIndex]);
+            insertRule: function (inFullCssText,inIndex) {
+                return this._ruleAction('insert',[inFullCssText,inIndex]);
             },
             deleteRule: function (inIndex) {
-                return this._ruleAction('delete', [inIndex]);
+                return this._ruleAction('delete',[inIndex]);
             },
-            removeRule: function (inSelector, inIndex) {
-                return this._ruleAction('remove', [inSelector, inIndex]);
+            removeRule: function (inSelector,inIndex) {
+                return this._ruleAction('remove',[inSelector,inIndex]);
             },
             addRules: function (inRules) {
-                nx.each(inRules, function (rule, selector) {
-                    this.addRule(selector, util.getCssText(rule), null);
-                }, this);
+                nx.each(inRules,function (rule,selector) {
+                    this.addRule(selector,util.getCssText(rule),null);
+                },this);
             },
             deleteRules: function () {
                 var defLength = this.cssStyleSheet().rules.length;
@@ -219,15 +252,15 @@
                     this.deleteRule(0);
                 }
             },
-            _ruleAction: function (inAction, inArgs) {
+            _ruleAction: function (inAction,inArgs) {
                 var styleSheet = this.cssStyleSheet();
                 var lastIndex = inArgs.length - 1;
                 //set default index
-                inArgs[lastIndex] = this._defRuleIndex(styleSheet, inArgs[lastIndex]);
-                styleSheet[inAction + 'Rule'].apply(styleSheet, inArgs);
-                return this._defRuleIndex(styleSheet, null);
+                inArgs[lastIndex] = this._defRuleIndex(styleSheet,inArgs[lastIndex]);
+                styleSheet[inAction + 'Rule'].apply(styleSheet,inArgs);
+                return this._defRuleIndex(styleSheet,null);
             },
-            _defRuleIndex: function (inStyleSheet, inIndex) {
+            _defRuleIndex: function (inStyleSheet,inIndex) {
                 return inIndex === null ? inStyleSheet.rules.length : inIndex;
             },
             _createStyleNode: function () {

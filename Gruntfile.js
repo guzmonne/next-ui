@@ -76,7 +76,7 @@ module.exports = function (grunt) {
             compile: {
                 options: {
                     paths: ['src/js'],
-                    outdir: 'doc'
+                    outdir: 'dest/doc'
                 }
             }
         }

@@ -3,17 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <title></title>
-    <script type="text/javascript" src="../lib/next/next-core.js"></script>
-    <script type="text/javascript" src="../src/js/Environment.js"></script>
-    <script type="text/javascript" src="../src/js/dom/Node.js"></script>
-    <script type="text/javascript" src="../src/js/dom/Element.js"></script>
-    <script type="text/javascript" src="../src/js/dom/Document.js"></script>
-    <script type="text/javascript" src="../src/js/dom/Text.js"></script>
+    <script type="text/javascript" src="../../lib/jquery/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="../../lib/next/next-core.js"></script>
+    <script type="text/javascript" src="../../src/js/Env.js"></script>
+    <script type="text/javascript" src="../../src/js/dom/Node.js"></script>
+    <script type="text/javascript" src="../../src/js/dom/Element.js"></script>
+    <script type="text/javascript" src="../../src/js/dom/Document.js"></script>
+    <script type="text/javascript" src="../../src/js/dom/Text.js"></script>
     <style type="text/css" id="nx-style">
-        .cl1{ font-size:12px;}
-        .cl2{ color:#f00;}
-        .cl3{ width:100px;height: 200px;}
-        .cl4{ background: #eee;}
+        .cl1 {
+            font-size: 12px;
+        }
+
+        .cl2 {
+            color: #f00;
+        }
+
+        .cl3 {
+            width: 100px;
+            height: 200px;
+        }
+
+        .cl4 {
+            background: #eee;
+        }
     </style>
 </head>
 <body>
@@ -23,7 +36,7 @@
     });
 
 
-    nx.dom.Document.ready(function (){
+    nx.dom.Document.ready(function () {
         console.log('nx ready2!!!');
     });
 
@@ -31,6 +44,18 @@
     nx.dom.Document.ready(function () {
         console.log('nx ready3!!!');
     });
+
+    nx.dom.Document.ready(function () {
+        var script = document.createElement('script');
+        script.src = "js/loadScript.js";
+        document.head.appendChild(script);
+        console.log('ready..?');
+    });
+
+    nx.dom.Document.ready(function(){
+        console.log(3);
+    });
+
 </script>
 
 <div id="testDiv" class="cl1 cl2 cl3 cl4">
@@ -38,11 +63,11 @@
 </div>
 
 <iframe src="http://www.google.com.hk" frameborder="0"></iframe>
-<img src="http://images.cnblogs.com/cnblogs_com/rubylouvre/199042/o_s005.jpg" alt="图片1"/>
-<img src="http://images.cnblogs.com/cnblogs_com/rubylouvre/199042/o_s006.jpg" alt="图片2"/>
+<!--<img src="http://images.cnblogs.com/cnblogs_com/rubylouvre/199042/o_s005.jpg" alt="图片1"/>-->
+<!--<img src="http://images.cnblogs.com/cnblogs_com/rubylouvre/199042/o_s006.jpg" alt="图片2"/>-->
 <img src="http://images.cnblogs.com/cnblogs_com/rubylouvre/199042/o_s007.jpg" alt="图片3"/>
-<img src="http://images.cnblogs.com/cnblogs_com/rubylouvre/199042/o_s008.jpg" alt="图片4"/>
-<img src="http://images.cnblogs.com/cnblogs_com/rubylouvre/199042/o_s009.jpg" alt="图片5"/>
+<!--<img src="http://images.cnblogs.com/cnblogs_com/rubylouvre/199042/o_s008.jpg" alt="图片4"/>-->
+<!--<img src="http://images.cnblogs.com/cnblogs_com/rubylouvre/199042/o_s009.jpg" alt="图片5"/>-->
 <table class="filament_table" cellspacing="0" width="700" rules="cols">
 
     <thead>

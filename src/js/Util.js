@@ -28,7 +28,7 @@
             getCssText: function (inStyles) {
                 var cssText = [''];
                 nx.each(inStyles,function (styleValue,styleName) {
-                    cssText.push(styleName + ':' + this.getStyleValue(styleName,styleValue));
+                    cssText.push(this.getStyleProperty(styleName,true) + ':' + this.getStyleValue(styleName,styleValue));
                 },this);
                 return cssText.join(';');
             },
@@ -43,9 +43,9 @@
                 return value;
             },
             getStyleProperty: function (inName,isLowerCase) {
-                var property = inName;
+                var property = this.lowerCamelCase(inName);
                 if (property in tempStyle) {
-                    property = this.lowerCamelCase(inName);
+                    property = this.deCamelCase(inName);
                 } else {
                     if (isLowerCase) {
                         property = env.prefix()[1] + inName;
@@ -68,6 +68,9 @@
                 return inName.replace(rDeCameCase,function (match,group1) {
                     return '-' + group1.toLowerCase();
                 });
+            },
+            capitalize: function (inString) {
+                return inString.charAt(0).toUpperCase() + inString.slice(1);
             }
         }
     });

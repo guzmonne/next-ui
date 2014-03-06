@@ -1,0 +1,203 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <!--NeXt start-->
+    <script type="text/javascript"
+            src="http://10.75.161.96:8080/jenkins/job/DailyBuild/lastSuccessfulBuild/artifact/dest/next-core.js"></script>
+    <link rel="stylesheet" type="text/css"
+          href="http://10.75.161.96:8080/jenkins/job/nextui/lastSuccessfulBuild/artifact/dest/css/next-blue.css"/>
+    <script type="text/javascript"
+            src="http://10.75.161.96:8080/jenkins/job/nextui/lastSuccessfulBuild/artifact/dest/js/next-ui.js"></script>
+    <!--NeXt end-->
+
+    <!--Popup start-->
+    <script type="text/javascript" src="../../src/js/Util.js"></script>
+    <script type="text/javascript" src="../../src/js/widget/ZIndexManager.js"></script>
+    <script type="text/javascript" src="../../src/js/widget/AbstractPopup.js"></script>
+    <script type="text/javascript" src="../../src/js/widget/InnerPopup.js"></script>
+    <script type="text/javascript" src="../../src/js/widget/OuterPopup.js"></script>
+    <!--Popup end-->
+    <script type="text/javascript">
+        /*
+         //TOP:
+         this.targetBound().bottom
+         this.targetBound().top
+         this.targetBound().top - this.size().height
+         this.targetBound().top + 0.5 * (this.targetBound().height - this.size().height)
+         this.targetBound().bottom - this.size().height
+
+         //LEFT:
+         this.targetBound().left
+         this.targetBound().left + 0.5 * (this.targetBound().width - this.size().width)
+         this.targetBound().right + -this.size().width
+         this.targetBound().right
+         */
+    </script>
+
+
+    <style type="text/css" id='nx-style'>
+        .nx-widget-InnerPopup {
+            border: 1px solid #f00;
+            padding: 10px;
+            background: #eee;
+        }
+
+        .nx-widget-OuterPopup {
+            border: 2px solid #00f;
+        }
+
+        #testTb {
+            width: 80%;
+            height: 400px;
+        }
+
+        #testTb td {
+            background: #ccc;
+            padding: 20px;
+        }
+
+        .cl1 {
+            font-size: 14px;
+        }
+
+        .cl2 {
+            border: 1px solid #000;
+        }
+
+        .cl3 {
+            background: #fce;
+        }
+
+        .cl4 {
+            width: 300px;
+            height: 300px;
+        }
+
+        .cl5 {
+
+        }
+
+        #outer {
+            padding: 50px;
+            background: #eee;
+        }
+
+        #cur {
+            padding: 30px;
+            background: #ccc;
+        }
+
+        #inner {
+            padding: 10px;
+            background: #000;
+        }
+    </style>
+
+</head>
+<body>
+<div id="qunit"></div>
+<div id="qunit-fixture"></div>
+
+
+<!--<table id="testTb"-->
+<!--style="float:left; opacity: 0.8; -webkit-user-select:none; user-select:none; box-shadow: 10px 10px 5px #888888;-o-transform:scale(1.6);-webkit-transform:scale(1.6); transform:scale(1.6)">-->
+<!--<tr>-->
+<!--<td>Test td1</td>-->
+<!--<td>Test td2</td>-->
+<!--</tr>-->
+<!--<tr>-->
+<!--<td>Test td3</td>-->
+<!--<td>Test td4</td>-->
+<!--</tr>-->
+<!--</table>-->
+
+<div id="testDiv" class="cl1 cl2 cl3 cl4">
+    test so much content..
+</div>
+
+<div id="test2" style="border:1px solid #f00; font-size:30px; transform:scale(2); padding:10px;">test content....</div>
+
+<div id="outer">
+    <div id="cur">
+        <div id="inner" style="color:#fff;">
+            Inner Box
+        </div>
+    </div>
+</div>
+
+
+<ul id="navlist">
+    <li><a href="#li1">test1 content</a></li>
+    <li><a href="#li2">test2 content</a></li>
+    <li><a href="#li3">test3 content</a></li>
+    <li><a href="#li4">test4 content</a></li>
+</ul>
+
+<script type="text/javascript">
+    var nxElement = new nx.dom.Element(test2);
+
+    /**
+     * Demo Inner Popup
+     */
+
+    nx.define('DemoInnerPopup',nx.widget.InnerPopup,{
+        view: {
+            props: {
+                'class': 'nx-widget-InnerPopup'
+            }
+        }
+    });
+
+    var pt = new DemoInnerPopup();
+
+    var nxTarget = new nx.dom.Element(testDiv);
+
+    pt.sets({
+        opened: true,
+        size: {
+            width: 200,
+            height: 300
+        },
+        fixed: false
+    });
+
+    pt.direction("center");
+
+
+    /**
+     * Demo for OuterPopup
+     */
+    nx.define('DemoOuterPopup',nx.widget.OuterPopup,{
+        view: {
+            props: {
+                'class': 'nx-widget-OuterPopup'
+            }
+        }
+    });
+    var pto = new DemoOuterPopup();
+
+    var nxTarget = new nx.dom.Element(testDiv);
+    nxTarget.setStyles({
+        position: 'absolute',
+        left: 300,
+        top: 140
+
+    });
+    pto.sets({
+        opened: true,
+        target: nxTarget,
+        size: {
+            width: 20,
+            height: 20
+
+        }
+    });
+    pto.direction("rt")
+
+</script>
+
+
+</body>
+</html>
