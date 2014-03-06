@@ -215,11 +215,16 @@
                 var rpatt = /(?={)\{([^{}]+?)\}(?!})/;
                 if (value !== undefined) {
                     var model = this.model();
-                    var path = value.split('.');
+
                     if (nx.is(value, 'Function')) {
                         propValue = value.call(this, model, this);
-                    } else if (path.length == 2 && path[0] == 'model') {
-                        this.setBinding(key, value, this);
+                    } else if (nx.is(value, 'String')) {
+                        var path = value.split('.');
+                        if (path.length == 2 && path[0] == 'model') {
+                            this.setBinding(key, value, this);
+                        } else {
+                            propValue = value;
+                        }
                     } else {
                         propValue = value;
                     }
