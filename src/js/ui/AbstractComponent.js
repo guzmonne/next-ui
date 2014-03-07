@@ -647,7 +647,7 @@
             _onItemsChange: function (sender, event) {
                 var action = event.action;
                 var index = event.index;
-                index = index > 0 ? index : 0;
+                index = index >= 0 ? index : -1;
                 if (action === 'add') {
                     nx.each(event.items, function (item) {
                         var comp = createComponent(this._template, this.owner());
