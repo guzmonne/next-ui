@@ -717,4 +717,5 @@ test('style', function () {
     obj.model(new styleObj({width:'11px',height:'20px'}));
     equal(dom.children[4].getAttribute('style').trim(), 'width: 11px; height: 20px;', 'check style model observable');
     obj.destroy();
+    ok(false)
 })
