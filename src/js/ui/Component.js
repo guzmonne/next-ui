@@ -15,7 +15,7 @@
                         this._model = value;
                     }
 
-                    this._innerComp.model(value, true);
+                    this.view().model(value, true);
 
                     this._content.each(function (c) {
                         if (!nx.is(c, 'String')) {
@@ -30,7 +30,7 @@
                 this.inherited();
                 var view = this['@view'];
                 if (view) {
-                    var comp = this._innerComp = AbstractComponent.createComponent(view, this);
+                    var comp = AbstractComponent.createComponent(view, this);
                     this.register('@root', comp.resolve('@root'));
                     this.register('@tag', comp.resolve('@tag'));
                     this.register('@comp', comp);
@@ -87,11 +87,11 @@
                 }
             },
             dispose: function () {
-                var innerComp = this._innerComp;
-                if (innerComp) {
-                    innerComp.dispose();
+                var comp = this.view();
+                if (comp) {
+                    comp.dispose();
                 }
-                this._innerComp = null;
+
                 this.inherited();
             }
         }
