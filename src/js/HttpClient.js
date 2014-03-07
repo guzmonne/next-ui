@@ -22,7 +22,7 @@
                 };
 
                 xhr.setRequestHeader('Content-Type', 'application/json');
-                xhr.send(options.data);
+                xhr.send(nx.is(options.data, 'object') ? JSON.stringify(options.data) : options.data);
             },
             GET: function (url, callback) {
                 this.send({
