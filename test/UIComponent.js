@@ -560,3 +560,161 @@ test('template-template', function () {
 
 
 
+test('class', function () {
+    var def = nx.define("qw.class", nx.ui.Component, {
+        view: {
+            tag:'button',
+            props:{
+                id:'comp',
+                class:'a b c'
+            },
+            content:[
+                {
+                    tag:'span',
+                    props:{class:['e', 'f', 'g', 1]}
+                },
+                {
+                    tag:'span',
+                    props:{class:'{class}'}
+                },
+                {
+                    tag:'span',
+                    props:{class:'{#class}'}
+                }
+            ]
+        },
+        properties: {
+            class:'orignal'
+        },
+        method:{
+        }
+    });
+    var obj = new def();
+    obj.attach(app);
+    obj.model({class:'test'});
+    var comp_obj = obj.view();
+    var dom = document.getElementById('comp');
+    ok(comp_obj.dom().$dom == dom, 'check dom');
+    equal(dom.getAttribute('class'), 'a b c', 'check class(String)');
+    equal(dom.children[0].getAttribute('class'), 'e f g 1', 'check class(array)');
+    equal(dom.children[1].getAttribute('class'), 'test', 'check class(model-single class)');
+
+    obj.model({class:'a b c'});
+    equal(dom.children[1].getAttribute('class'), 'a b c', 'check class(model class string multiple class)');
+    obj.model({class:['e', 'f', 'g', 1]});
+    equal(dom.children[1].getAttribute('class'), 'e f g 1', 'check class(model class array)');
+
+    equal(dom.children[2].getAttribute('class'), 'orignal', 'check class(prop single string)');
+    obj.class('a b c');
+    equal(dom.children[2].getAttribute('class'), 'a b c', 'check class(prop single string)');
+    obj.class(['e', 'f', 'g', 1]);
+    equal(dom.children[2].getAttribute('class'), 'e f g 1', 'check class(prop array)');
+
+
+    obj.destroy();
+})
+
+
+
+
+test('style', function () {
+    var def = nx.define("qw.class", nx.ui.Component, {
+        view: {
+            tag:'button',
+            props:{
+                id:'comp',
+                style:'width: 1px; height: 2px;'
+            },
+            content:[
+                {
+                    tag:'span',
+                    props:{
+                        style:{
+                            width: '1px',
+                            height: '2px'
+                        }
+                    }
+                },
+                {
+                    tag:'span',
+                    props:{style:'{style}'}
+                },
+                {
+                    tag:'span',
+                    props:{style:'{#style}'}
+                },
+                {
+                    tag:'span',
+                    props:{
+                        style:{
+                            width : '{#style.width}',
+                            height : '{#style.height}'
+                        }
+                    }
+                },
+                {
+                    tag:'span',
+                    props:{
+                        style:{
+                            width : '{width}',
+                            height : '{height}'
+                        }
+                    }
+                }
+            ]
+        },
+        properties: {
+            style:'width: 0px;'
+        },
+        method:{
+        }
+    });
+
+    var styleObj = nx.define(nx.Observable, {
+        properties: {
+            width: {
+                value: null
+            },
+            height:{
+                value: null
+            }
+        },
+        methods: {
+            init: function (data) {
+                this.inherited();
+                this.sets(data);
+            }
+        }
+    });
+
+    var obj = new def();
+    obj.attach(app);
+    obj.model({style:'width: 2px; height: 2px;'});
+    var comp_obj = obj.view();
+    var dom = document.getElementById('comp');
+    ok(comp_obj.dom().$dom == dom, 'check dom');
+    equal(dom.getAttribute('style').trim(), 'width: 1px; height: 2px;', 'check style(String)');
+    equal(dom.children[0].getAttribute('style').trim(), 'width: 1px; height: 2px;', 'check style(array)');
+    equal(dom.children[1].getAttribute('style').trim(), 'width: 2px; height: 2px;', 'check style(model-single class)');
+    //model test
+    obj.model({style:{
+        width: '2px',
+        height: '3px'
+    }});
+    equal(dom.children[1].getAttribute('style').trim(), 'width: 2px; height: 3px;', 'check style(model class array)');
+    equal(dom.children[2].getAttribute('style').trim(), 'width: 0px;', 'check class(prop single string)');
+    obj.style('width: 2px; height: 2px;');
+    equal(dom.children[2].getAttribute('style').trim(), 'width: 2px; height: 2px;', 'check style(prop single string)');
+    obj.style({
+        width: '2px',
+        height: '3px'
+    });
+    equal(dom.children[2].getAttribute('style').trim(), 'width: 2px; height: 3px;', 'check style(prop array)');
+    //observable obj test
+    obj.style(new styleObj({width:'11px',height:'20px'}))
+    equal(dom.children[3].getAttribute('style').trim(), 'width: 11px; height: 20px;', 'check style observable');
+    //model observable obj test
+    obj.model(new styleObj({width:'11px',height:'20px'}));
+    equal(dom.children[4].getAttribute('style').trim(), 'width: 11px; height: 20px;', 'check style model observable');
+    obj.destroy();
+})
