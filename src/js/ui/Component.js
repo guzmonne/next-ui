@@ -33,20 +33,41 @@
                     var comp = this._innerComp = AbstractComponent.createComponent(view, this);
                     this.register('@root', comp.resolve('@root'));
                     this.register('@tag', comp.resolve('@tag'));
+                    this.register('@comp', comp);
+                }
+            },
+            view: function (name) {
+                return this.resolve(name || '@comp');
+            },
+            get: function (name) {
+                if (this.has(name)) {
+                    return this.inherited(name);
+                }
+                else {
+                    return this.view().get(name);
+                }
+            },
+            set: function (name, value) {
+                if (this.has(name)) {
+                    this.inherited(name, value);
+                }
+                else {
+                    this.view().set(name, value);
+                    this.notify(name);
                 }
             },
             onAttach: function (parent, index) {
-                this._innerComp.onAttach(parent, index);
+                this.view().onAttach(parent, index);
             },
             onDetach: function () {
-                this._innerComp.onDetach(this.parent());
+                this.view().onDetach(this.parent());
             },
             on: function (name, handler, context) {
                 if (this.can(name)) {
                     this.inherited(name, handler, context);
                 }
                 else {
-                    this._innerComp.on(name, handler, context);
+                    this.view().on(name, handler, context);
                 }
             },
             upon: function (name, handler, context) {
@@ -54,7 +75,7 @@
                     this.inherited(name, handler, context);
                 }
                 else {
-                    this._innerComp.upon(name, handler, context);
+                    this.view().upon(name, handler, context);
                 }
             },
             off: function (name, handler, context) {
@@ -62,7 +83,7 @@
                     this.inherited(name, handler, context);
                 }
                 else {
-                    this._innerComp.off(name, handler, context);
+                    this.view().off(name, handler, context);
                 }
             },
             dispose: function () {
