@@ -4,6 +4,7 @@ module.exports = function (grunt) {
     var srcFiles = [
         "src/js/Env.js",
         "src/js/Util.js",
+        "src/js/HttpClient.js",
         "src/js/dom/Node.js",
         "src/js/dom/Text.js",
         "src/js/dom/Element.js",
@@ -87,7 +88,7 @@ module.exports = function (grunt) {
     if (target == 'build') {
         grunt.loadNpmTasks('grunt-qunit-junit');
     }
-    grunt.registerTask('test', ['clean', 'less', 'cssmin', 'copy', 'qunit_junit','qunit', 'jshint', 'concat', 'yuidoc', 'uglify']);
+    grunt.registerTask('test', ['clean', 'less', 'cssmin', 'copy', 'qunit_junit', 'qunit', 'jshint', 'concat', 'yuidoc', 'uglify']);
     grunt.registerTask('default', ['clean', 'less', 'cssmin', 'copy', 'qunit', 'jshint', 'concat', 'yuidoc', 'uglify']);
 
 };
