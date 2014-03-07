@@ -649,10 +649,10 @@
                 var index = event.index;
                 index = index >= 0 ? index : -1;
                 if (action === 'add') {
-                    nx.each(event.items, function (item) {
+                    nx.each(event.items, function (item, i) {
                         var comp = createComponent(this._template, this.owner());
                         comp.model(item);
-                        comp.attach(this, index);
+                        comp.attach(this, index + i);
                     }, this);
                 }
                 else if (action === 'remove') {
