@@ -693,28 +693,28 @@ test('style', function () {
     var comp_obj = obj.view();
     var dom = document.getElementById('comp');
     ok(comp_obj.dom().$dom == dom, 'check dom');
-    equal(trim(dom.getAttribute('style')), 'width: 1px; height: 2px;', 'check style(String)');
-    equal(trim(dom.children[0].getAttribute('style')), 'width: 1px; height: 2px;', 'check style(array)');
-    equal(trim(dom.children[1].getAttribute('style')), 'width: 2px; height: 2px;', 'check style(model-single class)');
+    equal(dom.getAttribute('style').trim(), 'width: 1px; height: 2px;', 'check style(String)');
+    equal(dom.children[0].getAttribute('style').trim(), 'width: 1px; height: 2px;', 'check style(array)');
+    equal(dom.children[1].getAttribute('style').trim(), 'width: 2px; height: 2px;', 'check style(model-single class)');
     //model test
     obj.model({style:{
         width: '2px',
         height: '3px'
     }});
-    equal(trim(dom.children[1].getAttribute('style')), 'width: 2px; height: 3px;', 'check style(model class array)');
-    equal(trim(dom.children[2].getAttribute('style')), 'width: 0px;', 'check class(prop single string)');
+    equal(dom.children[1].getAttribute('style').trim(), 'width: 2px; height: 3px;', 'check style(model class array)');
+    equal(dom.children[2].getAttribute('style').trim(), 'width: 0px;', 'check class(prop single string)');
     obj.style('width: 2px; height: 2px;');
-    equal(trim(dom.children[2].getAttribute('style')), 'width: 2px; height: 2px;', 'check style(prop single string)');
+    equal(dom.children[2].getAttribute('style').trim(), 'width: 2px; height: 2px;', 'check style(prop single string)');
     obj.style({
         width: '2px',
         height: '3px'
     });
-    equal(trim(dom.children[2].getAttribute('style')), 'width: 2px; height: 3px;', 'check style(prop array)');
+    equal(dom.children[2].getAttribute('style').trim(), 'width: 2px; height: 3px;', 'check style(prop array)');
     //observable obj test
     obj.style(new styleObj({width:'11px',height:'20px'}))
-    equal(trim(dom.children[3].getAttribute('style')), 'width: 11px; height: 20px;', 'check style observable');
+    equal(dom.children[3].getAttribute('style').trim(), 'width: 11px; height: 20px;', 'check style observable');
     //model observable obj test
     obj.model(new styleObj({width:'11px',height:'20px'}));
-    equal(trim(dom.children[4].getAttribute('style')), 'width: 11px; height: 20px;', 'check style model observable');
+    equal(dom.children[4].getAttribute('style').trim(), 'width: 11px; height: 20px;', 'check style model observable');
     obj.destroy();
 })
