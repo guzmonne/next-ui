@@ -3,7 +3,7 @@
     var Binding = nx.Binding;
     var Collection = nx.data.Collection;
     var Document = nx.dom.Document;
-    var rpatt = /(?={)\{([^{}]+?)\}(?!})/;
+    var rpatt = /(?={)\{([^{}]*?)\}(?!})/;
 
     function setProperty(target, name, value, owner) {
         if (nx.is(value, Binding)) {
@@ -12,12 +12,12 @@
             }));
         }
         else if (nx.is(value, 'String') && rpatt.test(value)) {
-            var expr = RegExp.$1 + ',bindingType=property';
+            var expr = RegExp.$1;
             if (expr[0] === '#') {
-                target.setBinding(name, 'owner.' + expr.slice(1), owner || target);
+                target.setBinding(name, 'owner.' + expr.slice(1) + ',bindingType=property', owner || target);
             }
             else {
-                target.setBinding(name, expr ? 'model.' + expr : 'model', owner || target);
+                target.setBinding(name, (expr ? 'model.' + expr : 'model') + ',bindingType=property', owner || target);
             }
         }
         else {
@@ -30,12 +30,12 @@
             target.setBinding(name, value.gets());
         }
         else if (nx.is(value, 'String') && rpatt.test(value)) {
-            var expr = RegExp.$1 + ',bindingType=event';
+            var expr = RegExp.$1;
             if (expr[0] === '#') {
-                target.setBinding(name, 'owner.' + expr.slice(1), owner || target);
+                target.setBinding(name, 'owner.' + expr.slice(1) + ',bindingType=event', owner || target);
             }
             else {
-                target.setBinding(name, expr ? 'model.' + expr : 'model', owner || target);
+                target.setBinding(name, (expr ? 'model.' + expr : 'model') + ',bindingType=event', owner || target);
             }
         }
         else {
@@ -162,7 +162,7 @@
                 this.detach();
 
                 if (nx.is(parent, AbstractComponent)) {
-                    var container = parent.getContainer();
+                    var container = parent.getContainer(this);
 
                     if (container) {
                         var name = this.resolve('@name');
@@ -240,11 +240,11 @@
                     return resources[name];
                 }
             },
-            getContainer: function () {
+            getContainer: function (comp) {
                 if (this.resolve('@tag') === 'fragment') {
                     var parent = this.parent();
                     if (parent) {
-                        return parent.getContainer();
+                        return parent.getContainer(comp);
                     }
                 }
 
@@ -405,8 +405,12 @@
             },
             states: {
                 value: null
+            },
+            dom: {
+                get: function () {
+                    return this.resolve('@root');
+                }
             }
-
         },
         methods: {
             init: function (tag, text) {
@@ -466,7 +470,7 @@
                 }
             },
             get: function (name) {
-                if (this.has(name)) {
+                if (this.has(name) || name.indexOf(':') >= 0) {
                     return this.inherited(name);
                 }
                 else {
@@ -474,7 +478,7 @@
                 }
             },
             set: function (name, value) {
-                if (this.has(name)) {
+                if (this.has(name) || name.indexOf(':') >= 0) {
                     this.inherited(name, value);
                 }
                 else {
@@ -531,7 +535,7 @@
             onAttach: function (parent, index) {
                 var root = this.resolve('@root');
                 if (root) {
-                    var container = parent.getContainer();
+                    var container = parent.getContainer(this);
 
                     if (index >= 0) {
                         var ref = parent.content().getItem(index);
@@ -568,7 +572,7 @@
                         });
                         setTimeout(function () {
                             root.$dom.style.cssText = cssText + ';transition: ' + transition;
-                        }, 0);
+                        }, 10);
                     }
                 }
             },
@@ -596,14 +600,14 @@
                             root.setStyle('transition', transition);
                             setTimeout(function () {
                                 root.setStyles(leaveState);
-                            }, 0);
+                            }, 10);
                             this.upon('transitionend', function () {
                                 root.$dom.style.cssText = cssText;
-                                parent.getContainer().removeChild(root);
+                                parent.getContainer(this).removeChild(root);
                             });
                         }
                         else {
-                            parent.getContainer().removeChild(root);
+                            parent.getContainer(this).removeChild(root);
                         }
                     }
                 }
@@ -642,12 +646,13 @@
             },
             _onItemsChange: function (sender, event) {
                 var action = event.action;
-                var index = event.index || -1;
+                var index = event.index;
+                index = index >= 0 ? index : -1;
                 if (action === 'add') {
-                    nx.each(event.items, function (item) {
+                    nx.each(event.items, function (item, i) {
                         var comp = createComponent(this._template, this.owner());
                         comp.model(item);
-                        comp.attach(this, index);
+                        comp.attach(this, index + i);
                     }, this);
                 }
                 else if (action === 'remove') {
