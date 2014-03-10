@@ -427,7 +427,7 @@
                         wscript.SendKeys("{F11}");
                     }
                 }
-                return false
+                return false;
             },
             toggleFull: function () {
                 var elem = document.body; // Make the body go full screen.

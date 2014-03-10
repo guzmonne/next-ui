@@ -11,7 +11,7 @@
         },
         methods: {
             dragStageEnd: function (sender, event) {
-                var bound = this.rect.getBound()
+                var bound = this.rect.getBound();
                 this.inherited(sender, event);
                 this.fire('finish', bound);
             }

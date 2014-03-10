@@ -126,7 +126,7 @@
             }
 
         }
-    })
+    });
 
 
 })(nx, nx.graphic.util, nx.global);

@@ -251,7 +251,7 @@
                     _zoomCenterPoint = {
                         x: width / 2 + this.paddingLeft(),
                         y: height / 2 + this.paddingTop()
-                    }
+                    };
                 }
 
                 var x = (_zoomCenterPoint.x - translateX) / _scale * step;
@@ -260,7 +260,7 @@
                 return{
                     x: translateX - x,
                     y: translateY - y
-                }
+                };
             },
 
             _zoom: function (inScale, inAnimationTime, inFN) {
@@ -344,7 +344,7 @@
              * @method zoom
              */
             zoom: function (value) {
-                this._zoom(value, .6);
+                this._zoom(value, 0.6);
             },
 
             /**
