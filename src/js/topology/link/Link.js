@@ -30,13 +30,6 @@
                     var el = this.resolve("label");
                     /*jshint -W083*/
                     if (label != null) {
-                        var _gutter = this.gutter() * gutterStep;
-                        var line = this.line();
-                        var n = line.normal().multiply(_gutter);
-                        var point = line.center().add(n);
-                        el.set('x', point.x);
-                        el.set('y', point.y);
-                        el.set('text', label);
                         el.append();
                     } else {
                         el.remove();
@@ -51,10 +44,6 @@
                 set: function (label) {
                     var el = this.resolve("sourceLabel");
                     if (label != null) {
-                        var point = this.sourcePoint();
-                        el.set('x', point.x);
-                        el.set('y', point.y);
-                        el.set('text', label);
                         el.append();
                     } else {
                         el.remove();
@@ -66,15 +55,11 @@
                 set: function (label) {
                     var el = this.resolve("targetLabel");
                     if (label != null) {
-                        var point = this.targetPoint();
-                        el.set('x', point.x);
-                        el.set('y', point.y);
-                        el.set('text', label);
                         el.append();
                     } else {
                         el.remove();
                     }
-                    this._sourceLabel = label;
+                    this._targetLabel = label;
                 }
             },
             color: {
@@ -129,7 +114,19 @@
                 }
             },
             enable: {
-                value: true
+                get: function () {
+                    return this._enable != null ? this._enable : true;
+                },
+                set: function (value) {
+                    this._enable = value;
+                    if (value) {
+                        this.resolve("disableLabel").remove();
+
+                    } else {
+                        this.resolve('disableLabel').append();
+                        this.root().addClass('disable');
+                    }
+                }
             },
             drawMethod: {
 
@@ -180,7 +177,7 @@
                     props: {
                         'alignment-baseline': 'text-before-edge',
                         'text-anchor': 'middle',
-                        'class': 'linkLabel'
+                        'class': 'link-label'
                     }
                 },
                 {
@@ -189,7 +186,7 @@
                     props: {
                         'alignment-baseline': 'text-before-edge',
                         'text-anchor': 'start',
-                        'class': 'linkSourceLabel'
+                        'class': 'source-label'
                     }
                 },
                 {
@@ -198,7 +195,17 @@
                     props: {
                         'alignment-baseline': 'text-before-edge',
                         'text-anchor': 'end',
-                        'class': 'linkTargetLabel'
+                        'class': 'target-label'
+                    }
+                },
+                {
+                    name: 'disableLabel',
+                    type: 'nx.graphic.Text',
+                    props: {
+                        'alignment-baseline': 'central',
+                        'text-anchor': 'middle',
+                        'class': 'disable-label',
+                        text: 'x'
                     }
                 }
             ]
@@ -272,7 +279,7 @@
                         this.resolve('line').append();
                     }
                 }
-                // this._updateLabel();
+                this._updateLabel();
                 //  this._setHintPosition();
             },
             getPaddingLine: function () {
@@ -284,6 +291,45 @@
                 var line = this.line().pad(sourceRadius, targetRadius);
                 var n = line.normal().multiply(_gutter);
                 return line.translate(n);
+            },
+            _updateLabel: function () {
+                var el, point;
+                var _gutter = this.gutter() * gutterStep;
+                var line = this.line();
+                var n = line.normal().multiply(_gutter);
+                if (this._label != null) {
+                    el = this.resolve("label");
+                    point = line.center().add(n);
+                    el.set('x', point.x);
+                    el.set('y', point.y);
+                    el.set('text', this._label);
+                }
+
+                if (this._sourceLabel) {
+                    el = this.resolve("sourceLabel");
+                    point = this.sourcePoint();
+                    el.set('x', point.x);
+                    el.set('y', point.y);
+                    el.set('text', this._sourceLabel);
+                }
+
+
+                if (this._targetLabel) {
+                    el = this.resolve("targetLabel");
+                    point = this.targetPoint();
+                    el.set('x', point.x);
+                    el.set('y', point.y);
+                    el.set('text', this._targetLabel);
+                }
+
+
+                if (!this.enable()) {
+                    el = this.resolve("disableLabel");
+                    point = line.center().add(n);
+                    el.set('x', point.x);
+                    el.set('y', point.y);
+                }
+
             },
             /**
              * Recover link's statues

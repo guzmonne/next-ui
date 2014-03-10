@@ -96,7 +96,6 @@
                     } else {
                         return false;
                     }
-
                 }
             },
             color: {
@@ -118,6 +117,19 @@
             },
             useSmartLabel: {
                 value: true
+            },
+            enable: {
+                get: function () {
+                    return this._enable != null ? this._enable : true;
+                },
+                set: function (value) {
+                    this._enable = value;
+                    if (value) {
+                        this.root().removeClass('disable');
+                    } else {
+                        this.root().addClass('disable');
+                    }
+                }
             }
         },
         view: {
@@ -136,6 +148,17 @@
                         'class': 'node-label',
                         'alignment-baseline': 'central',
                         x: 0,
+                        y: 12,
+                        'font-size': '{#fontSize}'
+                    }
+                },
+                {
+                    name: 'disableLabel',
+                    type: 'nx.graphic.Text',
+                    props: {
+                        'class': 'node-disable-label',
+                        'alignment-baseline': 'central',
+                        x: 12,
                         y: 12,
                         'font-size': '{#fontSize}'
                     }
@@ -170,14 +193,16 @@
                         {
                             name: 'iconContainer',
                             type: 'nx.graphic.Group',
-                            content: {
-                                name: 'icon',
-                                type: 'nx.graphic.Icon',
-                                props: {
-                                    'class': 'icon',
-                                    iconType: '{#iconType}'
+                            content: [
+                                {
+                                    name: 'icon',
+                                    type: 'nx.graphic.Icon',
+                                    props: {
+                                        'class': 'icon',
+                                        iconType: '{#iconType}'
+                                    }
                                 }
-                            }
+                            ]
                         }
                     ],
                     events: {
@@ -245,39 +270,53 @@
                 }
             },
             _mousedown: function (sender, event) {
-                this._prevPosition = this.position();
-                event.captureDrag(this.resolve('graphic'));
-                this.fire('nodemousedown', event);
+                if (this.enable()) {
+                    this._prevPosition = this.position();
+                    event.captureDrag(this.resolve('graphic'));
+                    this.fire('nodemousedown', event);
+                }
             },
             _mouseup: function (sender, event) {
-                var _position = this.position();
-                if (this._prevPosition && _position.x === this._prevPosition.x && _position.y === this._prevPosition.y) {
-                    this.fire('nodemouseup', event);
+                if (this.enable()) {
+                    var _position = this.position();
+                    if (this._prevPosition && _position.x === this._prevPosition.x && _position.y === this._prevPosition.y) {
+                        this.fire('nodemouseup', event);
+                    }
                 }
             },
             _mouseenter: function (sender, event) {
-                if (!this.__enter) {
-                    this.fire('nodemouseenter', event);
-                    this.__enter = true;
+                if (this.enable()) {
+                    if (!this.__enter) {
+                        this.fire('nodemouseenter', event);
+                        this.__enter = true;
+                    }
                 }
 
 
             },
             _mouseleave: function (sender, event) {
-                if (this.__enter) {
-                    this.fire('nodemouseleave', event);
-                    this.__enter = false;
+                if (this.enable()) {
+                    if (this.__enter) {
+                        this.fire('nodemouseleave', event);
+                        this.__enter = false;
+                    }
                 }
             },
             _dragstart: function (sender, event) {
-                this.fire('nodedragstart', event);
+                if (this.enable()) {
+                    this.fire('nodedragstart', event);
+                }
             },
             _drag: function (sender, event) {
-                this.fire('nodedrag', event);
+                if (this.enable()) {
+                    this.fire('nodedrag', event);
+                }
             },
             _dragend: function (sender, event) {
-                this.fire('nodedragend', event);
-                this._updateConnectedNodeLabelPosition();
+                if (this.enable()) {
+                    this.fire('nodedragend', event);
+                    this._updateConnectedNodeLabelPosition();
+                }
             },
 
             _updateConnectedNodeLabelPosition: function () {
@@ -396,6 +435,9 @@
 
                 el.set('text-anchor', anchor);
 
+            },
+            getIconBound: function () {
+                return this.resolve('graphic').getBound();
             }
         }
     });

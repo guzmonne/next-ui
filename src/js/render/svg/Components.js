@@ -212,9 +212,11 @@
     });
 
     nx.define("nx.graphic.Stage", nx.ui.Component, {
+        events: ['dragStageStart', 'dragStage', 'dragStageEnd'],
         view: {
             tag: 'svg:svg',
             props: {
+                'class': 'n-svg',
                 width: '{#width}',
                 height: '{#height}',
                 version: '1.1',
@@ -285,16 +287,15 @@
             },
             _dragstart: function (sender, event) {
                 this.resolve("stage").resolve("@root").setStyle('pointer-events', 'none');
+                this.fire('dragStageStart', event);
             },
             _drag: function (sender, event) {
-//                console.log(this.translateX(), this.translateY())
-//                this.translateX(this.translateX() + event.drag.delta[0]);
-//                this.translateY(this.translateY() + event.drag.delta[1]);
-
-                this.setTransform(this._translateX + event.drag.delta[0], this._translateY + event.drag.delta[1]);
+                this.fire('dragStage', event);
+                //this.setTransform(this._translateX + event.drag.delta[0], this._translateY + event.drag.delta[1]);
 
             },
             _dragend: function (sender, event) {
+                this.fire('dragStageEnd', event);
                 this.resolve("stage").resolve("@root").setStyle('pointer-events', 'all');
             },
             setTransform: function (translateX, translateY, scale, durtion) {
@@ -317,6 +318,33 @@
         methods: {
             init: function (args) {
                 this.inherited(args);
+
+
+                var linearGradient = document.createElementNS("http://www.w3.org/2000/svg", "linearGradient");
+                linearGradient.setAttribute("id", "disable");
+                linearGradient.setAttribute("x1", "0%");
+                linearGradient.setAttribute("y1", "0%");
+                linearGradient.setAttribute("x2", "100%");
+                linearGradient.setAttribute("y2", "100%");
+
+
+                var stop = document.createElementNS("http://www.w3.org/2000/svg", "stop");
+                stop.setAttribute("offset", "0%");
+                stop.setAttribute("style", "stop-color:rgb(255,255,0);stop-opacity:1");
+
+
+                var stop2 = document.createElementNS("http://www.w3.org/2000/svg", "stop");
+                stop2.setAttribute("offset", "100%");
+                stop2.setAttribute("style", "stop-color:rgb(255,0,0);stop-opacity:1");
+
+
+                linearGradient.appendChild(stop);
+                linearGradient.appendChild(stop2);
+
+                this.resolve("defs").resolve("@root").$dom.appendChild(linearGradient);
+
+
+
                 nx.each(nx.graphic.Icons.icons, function (iconObj, key) {
                     if (iconObj.icon) {
                         var icon = iconObj.icon.cloneNode(true);
@@ -328,6 +356,7 @@
                         this.addDef(icon);
                     }
                 }, this);
+
             }
         }
     });

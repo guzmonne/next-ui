@@ -1,35 +1,35 @@
 (function (nx, util, global) {
 
 
-    nx.ui.define("nx.graphic.Topology.Search", {
+    nx.define("nx.graphic.Topology.Search", nx.ui.Component, {
         events: ['openSearchPanel', 'closeSearchPanel', 'changeSearch', 'executeSearch'],
         properties: {
             topology: {},
             math: {}
         },
         view: {
-            content: [
-                {
-                    name: 'searchPopup',
-                    type: 'nx.ui.Popup',
-                    props: {
-                        direction: "right"
-                    },
-                    content: {
-                        name: 'searchCombo',
-                        type: 'nx.ui.ComboBox',
-                        props: {
-                            labelPath: 'label',
-                            width: 160,
-                            showArrow: false
-                        },
-                        events: {
-                            'change': '{#_change}',
-                            'execute': '{#_execute}'
-                        }
-                    }
-                }
-            ]
+//            content: [
+//                {
+//                    name: 'searchPopup',
+//                    type: 'nx.ui.Popup',
+//                    props: {
+//                        direction: "right"
+//                    },
+//                    content: {
+//                        name: 'searchCombo',
+//                        type: 'nx.ui.ComboBox',
+//                        props: {
+//                            labelPath: 'label',
+//                            width: 160,
+//                            showArrow: false
+//                        },
+//                        events: {
+//                            'change': '{#_change}',
+//                            'execute': '{#_execute}'
+//                        }
+//                    }
+//                }
+//            ]
         },
         methods: {
             onInit: function () {

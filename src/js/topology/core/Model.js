@@ -125,7 +125,9 @@
                 var linkSetLayer = this.getLayer("linkSet");
 
                 graph.on("addVertex", function (sender, vertex) {
+                    //  var start = new Date();
                     nodesLayer.addNode(vertex);
+                    //console.log(new Date() - start);
                 }, this);
 
                 graph.on("removeVertex", function (sender, vertex) {
@@ -198,7 +200,9 @@
 
 
                 graph.on("startGenerate", function (sender, event) {
+//                    console.log(new Date() - start);
                     this._setProjection();
+//                    console.log(new Date() - start);
                 }, this);
 
             },

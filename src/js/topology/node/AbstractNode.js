@@ -22,7 +22,7 @@
                 set: function (obj) {
                     var isModified = false;
                     var model = this.model();
-                    if (obj.x) {
+                    if (obj.x != null) {
                         if (!this._lockXAxle && this._x !== obj.x) {
                             this._x = obj.x;
                             model.set("x", this.projectionX().invert(obj.x));
@@ -31,7 +31,7 @@
                         }
                     }
 
-                    if (obj.y) {
+                    if (obj.y != null) {
                         if (!this._lockYAxle && this._y !== obj.y) {
                             this._y = obj.y;
                             model.set("y", this.projectionY().invert(obj.y));

@@ -2,6 +2,8 @@
   position: relative;
   overflow: hidden;
   background: @topologyBackgroundColor;
+  -webkit-transition: all 0.6s; /* For Safari 3.1 to 6.0 */
+  transition: all 0.6s;
   .user-select(none);
 
   g {
@@ -17,7 +19,7 @@
   }
 
   defs [fill*='#FFFFFF'] {
-    fill:@topologyBackgroundColor;
+    fill: @topologyBackgroundColor;
   }
 
   .n-svg {
@@ -48,6 +50,12 @@
       pointer-events: none;
       .user-select(none);
     }
+
+    &.disable {
+      opacity: 0.3;
+      stroke: #ccc;
+    }
+
   }
 
   .link {
@@ -55,32 +63,45 @@
     path, line {
       stroke: @secondaryColor;
       stroke-width: 1px;
+      fill:transparent;
     }
 
-    .linkLabel {
+    .link-label {
       font-family: "Cisco Sans Reg";
       fill: @primaryColor;
       font-size: 12px;
     }
-    .linkSourceLabel {
+    .source-abel {
       font-family: "Cisco Sans Reg";
       fill: @primaryColor;
       opacity: 0.8;
       font-size: 12px;
     }
-    .linkTargetLabel {
+    .target-label {
       font-family: "Cisco Sans Reg";
       fill: @primaryColor;
       opacity: 0.8;
       font-size: 12px;
+    }
+
+    .disable-label {
+      fill: @brand-danger;
+    }
+
+    &.disable {
+      path, line {
+        stroke: #ccc !important;
+        stroke-width: 1px;
+      }
     }
 
     &.link-selected {
       path, line {
-        stroke: @primaryColor;
+        stroke: #ccc;
         stroke-width: 2px;
       }
     }
+
   }
 
   .group {

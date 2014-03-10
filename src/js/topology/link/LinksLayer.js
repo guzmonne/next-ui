@@ -109,6 +109,7 @@
                 link.setProperty('dotted', topo.linkDotted());
                 link.setProperty('style', topo.linkStyle());
                 link.setProperty('drawMethod', topo.linkDrawMethod());
+                link.setProperty('enable', topo.linkEnable());
 
                 link.update();
 

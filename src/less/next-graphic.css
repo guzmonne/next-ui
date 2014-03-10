@@ -16,6 +16,10 @@
   position: relative;
   overflow: hidden;
   background: #ffffff;
+  -webkit-transition: all 0.6s;
+  /* For Safari 3.1 to 6.0 */
+
+  transition: all 0.6s;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -65,31 +69,44 @@
   -o-user-select: none;
   user-select: none;
 }
+.n-topology.n-topology-blue .node.disable {
+  opacity: 0.3;
+  stroke: #ccc;
+}
 .n-topology.n-topology-blue .link path,
 .n-topology.n-topology-blue .link line {
   stroke: #5bc1df;
   stroke-width: 1px;
+  fill: transparent;
 }
-.n-topology.n-topology-blue .link .linkLabel {
+.n-topology.n-topology-blue .link .link-label {
   font-family: "Cisco Sans Reg";
   fill: #0386d2;
   font-size: 12px;
 }
-.n-topology.n-topology-blue .link .linkSourceLabel {
+.n-topology.n-topology-blue .link .source-abel {
+  font-family: "Cisco Sans Reg";
+  fill: #0386d2;
+  opacity: 0.8;
+  font-size: 12px;
+}
+.n-topology.n-topology-blue .link .target-label {
   font-family: "Cisco Sans Reg";
   fill: #0386d2;
   opacity: 0.8;
   font-size: 12px;
 }
-.n-topology.n-topology-blue .link .linkTargetLabel {
-  font-family: "Cisco Sans Reg";
-  fill: #0386d2;
-  opacity: 0.8;
-  font-size: 12px;
+.n-topology.n-topology-blue .link .disable-label {
+  fill: #da534f;
+}
+.n-topology.n-topology-blue .link.disable path,
+.n-topology.n-topology-blue .link.disable line {
+  stroke: #ccc !important;
+  stroke-width: 1px;
 }
 .n-topology.n-topology-blue .link.link-selected path,
 .n-topology.n-topology-blue .link.link-selected line {
-  stroke: #0386d2;
+  stroke: #ccc;
   stroke-width: 2px;
 }
 .n-topology.n-topology-blue .group .bg {
@@ -155,10 +172,224 @@
   stroke-linejoin: round;
   pointer-events: none;
 }
+.n-topology.n-topology-blue .n-topology-nav {
+  position: absolute;
+  top: 0px;
+  left: 8px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+.n-topology.n-topology-blue .n-topology-nav li {
+  list-style: none;
+  padding: 0px;
+}
+.n-topology.n-topology-blue .n-topology-nav ul {
+  padding: 0px;
+  margin: 0px;
+}
+.n-topology.n-topology-blue .n-topology-nav span {
+  -webkit-transition: all 0.6s;
+  /* For Safari 3.1 to 6.0 */
+
+  transition: all 0.6s;
+}
+.n-topology.n-topology-blue .n-topology-nav > ul {
+  padding: 0px;
+  margin-top: 30px;
+  width: 32px;
+}
+.n-topology.n-topology-blue .n-topology-nav > ul > li {
+  display: inline-block;
+  list-style: none;
+  margin-top: 5px;
+  width: 32px;
+  -webkit-transition: all 0.6s;
+  /* For Safari 3.1 to 6.0 */
+
+  transition: all 0.6s;
+}
+.n-topology.n-topology-blue .n-topology-nav-mode {
+  padding: 0px;
+  position: relative;
+  width: 32px;
+}
+.n-topology.n-topology-blue .n-topology-nav-mode li {
+  width: 32px;
+  height: 32px;
+  line-height: 32px;
+  display: inline-block;
+  text-align: center;
+  cursor: pointer;
+  -webkit-transition: all 0.6s;
+  /* For Safari 3.1 to 6.0 */
+
+  transition: all 0.6s;
+  background: #f2f2f2;
+}
+.n-topology.n-topology-blue .n-topology-nav-mode li:hover {
+  background: #e6e6e6;
+}
+.n-topology.n-topology-blue .n-topology-nav-mode li:hover span {
+  color: #0ca4fc;
+}
+.n-topology.n-topology-blue .n-topology-nav-mode span {
+  color: #333333;
+  display: inline-block;
+  font-size: 16px;
+}
+.n-topology.n-topology-blue .n-topology-nav-mode-selected {
+  background: #0386d2 !important;
+}
+.n-topology.n-topology-blue .n-topology-nav-mode-selected span {
+  color: #ffffff;
+}
+.n-topology.n-topology-blue .n-topology-nav-mode-selected:hover {
+  background: #0386d2 !important;
+}
+.n-topology.n-topology-blue .n-topology-nav-mode-selected:hover span {
+  color: #ffffff !important;
+}
+.n-topology.n-topology-blue .n-topology-nav-zoom {
+  position: relative;
+  height: 118px;
+}
+.n-topology.n-topology-blue .n-topology-nav-zoom > span {
+  display: inline-block;
+  position: absolute;
+  text-align: center;
+  font-size: 16px;
+  color: #333333;
+  opacity: 0.7;
+}
+.n-topology.n-topology-blue .n-topology-nav-zoom-out {
+  left: 8px;
+  cursor: pointer;
+  color: rgba(51, 51, 51, 0.4);
+}
+.n-topology.n-topology-blue .n-topology-nav-zoom-out:hover {
+  opacity: 1;
+  color: #0396eb;
+}
+.n-topology.n-topology-blue .n-topology-nav-zoom-in {
+  top: 105px;
+  left: 6px;
+  cursor: pointer;
+  color: rgba(51, 51, 51, 0.4);
+}
+.n-topology.n-topology-blue .n-topology-nav-zoom-in:hover {
+  opacity: 1;
+  color: #0396eb;
+}
+.n-topology.n-topology-blue .n-topology-nav-zoom-ball {
+  top: 21px;
+  left: 10px;
+  width: 0px;
+  height: 0px;
+  border: 5px solid #8c8c8c;
+  border-radius: 5px;
+  opacity: 1 !important;
+}
+.n-topology.n-topology-blue .n-topology-nav-zoom-bar {
+  top: 20px;
+  left: 14px;
+  opacity: 0.7;
+  background: rgba(51, 51, 51, 0.4);
+  width: 3px;
+  height: 77px;
+}
+.n-topology.n-topology-blue .n-topology-nav-zoom-selection {
+  margin-top: 0px !important;
+  cursor: pointer;
+  line-height: 32px;
+  text-align: center;
+  font-size: 16px;
+  height: 32px;
+  color: rgba(51, 51, 51, 0.8);
+}
+.n-topology.n-topology-blue .n-topology-nav-zoom-selection:hover {
+  opacity: 1;
+  color: #0396eb;
+}
+.n-topology.n-topology-blue .n-topology-nav-zoom-selection-selected {
+  color: #0ca4fc;
+}
+.n-topology.n-topology-blue .n-topology-nav-fit {
+  margin-top: 0px !important;
+  cursor: pointer;
+  line-height: 32px;
+  text-align: center;
+  font-size: 16px;
+  height: 32px;
+  color: rgba(51, 51, 51, 0.8);
+}
+.n-topology.n-topology-blue .n-topology-nav-fit:hover {
+  opacity: 1;
+  color: #0396eb;
+}
+.n-topology.n-topology-blue .n-topology-nav-search {
+  margin-left: 3px;
+  cursor: pointer;
+  opacity: 0.7;
+}
+.n-topology.n-topology-blue .n-topology-nav-search:hover {
+  opacity: 1;
+}
+.n-topology.n-topology-blue .n-topology-nav-agr {
+  margin-left: 6px;
+  cursor: pointer;
+}
+.n-topology.n-topology-blue .n-topology-nav-full {
+  margin-top: 0px !important;
+  cursor: pointer;
+  line-height: 32px;
+  text-align: center;
+  font-size: 16px;
+  height: 32px;
+  color: rgba(51, 51, 51, 0.8);
+}
+.n-topology.n-topology-blue .n-topology-nav-full:hover {
+  opacity: 1;
+  color: #0396eb;
+}
+.n-topology.n-topology-blue .n-topology-nav-topo3d {
+  margin-left: 5px;
+  opacity: 0.3;
+}
+.n-topology.n-topology-blue .n-topology-nav-topo3d-show-true {
+  opacity: 1;
+  cursor: pointer;
+}
+.n-topology.n-topology-blue .n-topology-nav-setting {
+  margin-top: 0px !important;
+  cursor: pointer;
+  line-height: 32px;
+  text-align: center;
+  font-size: 16px;
+  height: 32px;
+  color: rgba(51, 51, 51, 0.8);
+  -webkit-transition: none 0 !important;
+  /* For Safari 3.1 to 6.0 */
+
+  transition: none 0 !important;
+}
+.n-topology.n-topology-blue .n-topology-nav-setting:hover {
+  opacity: 1;
+  color: #0396eb;
+}
+.n-topology.n-topology-blue .n-topology-nav-setting-icon-selected {
+  color: #0396eb;
+}
 .n-topology.n-topology-dark {
   position: relative;
   overflow: hidden;
   background: #000000;
+  -webkit-transition: all 0.6s;
+  /* For Safari 3.1 to 6.0 */
+
+  transition: all 0.6s;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -208,31 +439,44 @@
   -o-user-select: none;
   user-select: none;
 }
+.n-topology.n-topology-dark .node.disable {
+  opacity: 0.3;
+  stroke: #ccc;
+}
 .n-topology.n-topology-dark .link path,
 .n-topology.n-topology-dark .link line {
   stroke: #09cadd;
   stroke-width: 1px;
+  fill: transparent;
 }
-.n-topology.n-topology-dark .link .linkLabel {
+.n-topology.n-topology-dark .link .link-label {
   font-family: "Cisco Sans Reg";
   fill: #00a9ff;
   font-size: 12px;
 }
-.n-topology.n-topology-dark .link .linkSourceLabel {
+.n-topology.n-topology-dark .link .source-abel {
+  font-family: "Cisco Sans Reg";
+  fill: #00a9ff;
+  opacity: 0.8;
+  font-size: 12px;
+}
+.n-topology.n-topology-dark .link .target-label {
   font-family: "Cisco Sans Reg";
   fill: #00a9ff;
   opacity: 0.8;
   font-size: 12px;
 }
-.n-topology.n-topology-dark .link .linkTargetLabel {
-  font-family: "Cisco Sans Reg";
-  fill: #00a9ff;
-  opacity: 0.8;
-  font-size: 12px;
+.n-topology.n-topology-dark .link .disable-label {
+  fill: #b51525;
+}
+.n-topology.n-topology-dark .link.disable path,
+.n-topology.n-topology-dark .link.disable line {
+  stroke: #ccc !important;
+  stroke-width: 1px;
 }
 .n-topology.n-topology-dark .link.link-selected path,
 .n-topology.n-topology-dark .link.link-selected line {
-  stroke: #00a9ff;
+  stroke: #ccc;
   stroke-width: 2px;
 }
 .n-topology.n-topology-dark .group .bg {
@@ -298,10 +542,224 @@
   stroke-linejoin: round;
   pointer-events: none;
 }
+.n-topology.n-topology-dark .n-topology-nav {
+  position: absolute;
+  top: 0px;
+  left: 8px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+.n-topology.n-topology-dark .n-topology-nav li {
+  list-style: none;
+  padding: 0px;
+}
+.n-topology.n-topology-dark .n-topology-nav ul {
+  padding: 0px;
+  margin: 0px;
+}
+.n-topology.n-topology-dark .n-topology-nav span {
+  -webkit-transition: all 0.6s;
+  /* For Safari 3.1 to 6.0 */
+
+  transition: all 0.6s;
+}
+.n-topology.n-topology-dark .n-topology-nav > ul {
+  padding: 0px;
+  margin-top: 30px;
+  width: 32px;
+}
+.n-topology.n-topology-dark .n-topology-nav > ul > li {
+  display: inline-block;
+  list-style: none;
+  margin-top: 5px;
+  width: 32px;
+  -webkit-transition: all 0.6s;
+  /* For Safari 3.1 to 6.0 */
+
+  transition: all 0.6s;
+}
+.n-topology.n-topology-dark .n-topology-nav-mode {
+  padding: 0px;
+  position: relative;
+  width: 32px;
+}
+.n-topology.n-topology-dark .n-topology-nav-mode li {
+  width: 32px;
+  height: 32px;
+  line-height: 32px;
+  display: inline-block;
+  text-align: center;
+  cursor: pointer;
+  -webkit-transition: all 0.6s;
+  /* For Safari 3.1 to 6.0 */
+
+  transition: all 0.6s;
+  background: #000000;
+}
+.n-topology.n-topology-dark .n-topology-nav-mode li:hover {
+  background: #000000;
+}
+.n-topology.n-topology-dark .n-topology-nav-mode li:hover span {
+  color: #33baff;
+}
+.n-topology.n-topology-dark .n-topology-nav-mode span {
+  color: #cccccc;
+  display: inline-block;
+  font-size: 16px;
+}
+.n-topology.n-topology-dark .n-topology-nav-mode-selected {
+  background: #00a9ff !important;
+}
+.n-topology.n-topology-dark .n-topology-nav-mode-selected span {
+  color: #000000;
+}
+.n-topology.n-topology-dark .n-topology-nav-mode-selected:hover {
+  background: #00a9ff !important;
+}
+.n-topology.n-topology-dark .n-topology-nav-mode-selected:hover span {
+  color: #000000 !important;
+}
+.n-topology.n-topology-dark .n-topology-nav-zoom {
+  position: relative;
+  height: 118px;
+}
+.n-topology.n-topology-dark .n-topology-nav-zoom > span {
+  display: inline-block;
+  position: absolute;
+  text-align: center;
+  font-size: 16px;
+  color: #cccccc;
+  opacity: 0.7;
+}
+.n-topology.n-topology-dark .n-topology-nav-zoom-out {
+  left: 8px;
+  cursor: pointer;
+  color: rgba(204, 204, 204, 0.4);
+}
+.n-topology.n-topology-dark .n-topology-nav-zoom-out:hover {
+  opacity: 1;
+  color: #1ab2ff;
+}
+.n-topology.n-topology-dark .n-topology-nav-zoom-in {
+  top: 105px;
+  left: 6px;
+  cursor: pointer;
+  color: rgba(204, 204, 204, 0.4);
+}
+.n-topology.n-topology-dark .n-topology-nav-zoom-in:hover {
+  opacity: 1;
+  color: #1ab2ff;
+}
+.n-topology.n-topology-dark .n-topology-nav-zoom-ball {
+  top: 21px;
+  left: 10px;
+  width: 0px;
+  height: 0px;
+  border: 5px solid #ffffff;
+  border-radius: 5px;
+  opacity: 1 !important;
+}
+.n-topology.n-topology-dark .n-topology-nav-zoom-bar {
+  top: 20px;
+  left: 14px;
+  opacity: 0.7;
+  background: rgba(204, 204, 204, 0.4);
+  width: 3px;
+  height: 77px;
+}
+.n-topology.n-topology-dark .n-topology-nav-zoom-selection {
+  margin-top: 0px !important;
+  cursor: pointer;
+  line-height: 32px;
+  text-align: center;
+  font-size: 16px;
+  height: 32px;
+  color: rgba(204, 204, 204, 0.8);
+}
+.n-topology.n-topology-dark .n-topology-nav-zoom-selection:hover {
+  opacity: 1;
+  color: #1ab2ff;
+}
+.n-topology.n-topology-dark .n-topology-nav-zoom-selection-selected {
+  color: #33baff;
+}
+.n-topology.n-topology-dark .n-topology-nav-fit {
+  margin-top: 0px !important;
+  cursor: pointer;
+  line-height: 32px;
+  text-align: center;
+  font-size: 16px;
+  height: 32px;
+  color: rgba(204, 204, 204, 0.8);
+}
+.n-topology.n-topology-dark .n-topology-nav-fit:hover {
+  opacity: 1;
+  color: #1ab2ff;
+}
+.n-topology.n-topology-dark .n-topology-nav-search {
+  margin-left: 3px;
+  cursor: pointer;
+  opacity: 0.7;
+}
+.n-topology.n-topology-dark .n-topology-nav-search:hover {
+  opacity: 1;
+}
+.n-topology.n-topology-dark .n-topology-nav-agr {
+  margin-left: 6px;
+  cursor: pointer;
+}
+.n-topology.n-topology-dark .n-topology-nav-full {
+  margin-top: 0px !important;
+  cursor: pointer;
+  line-height: 32px;
+  text-align: center;
+  font-size: 16px;
+  height: 32px;
+  color: rgba(204, 204, 204, 0.8);
+}
+.n-topology.n-topology-dark .n-topology-nav-full:hover {
+  opacity: 1;
+  color: #1ab2ff;
+}
+.n-topology.n-topology-dark .n-topology-nav-topo3d {
+  margin-left: 5px;
+  opacity: 0.3;
+}
+.n-topology.n-topology-dark .n-topology-nav-topo3d-show-true {
+  opacity: 1;
+  cursor: pointer;
+}
+.n-topology.n-topology-dark .n-topology-nav-setting {
+  margin-top: 0px !important;
+  cursor: pointer;
+  line-height: 32px;
+  text-align: center;
+  font-size: 16px;
+  height: 32px;
+  color: rgba(204, 204, 204, 0.8);
+  -webkit-transition: none 0 !important;
+  /* For Safari 3.1 to 6.0 */
+
+  transition: none 0 !important;
+}
+.n-topology.n-topology-dark .n-topology-nav-setting:hover {
+  opacity: 1;
+  color: #1ab2ff;
+}
+.n-topology.n-topology-dark .n-topology-nav-setting-icon-selected {
+  color: #1ab2ff;
+}
 .n-topology.n-topology-green {
   position: relative;
   overflow: hidden;
   background: #ffffff;
+  -webkit-transition: all 0.6s;
+  /* For Safari 3.1 to 6.0 */
+
+  transition: all 0.6s;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -351,31 +809,44 @@
   -o-user-select: none;
   user-select: none;
 }
+.n-topology.n-topology-green .node.disable {
+  opacity: 0.3;
+  stroke: #ccc;
+}
 .n-topology.n-topology-green .link path,
 .n-topology.n-topology-green .link line {
   stroke: #5edadd;
   stroke-width: 1px;
+  fill: transparent;
 }
-.n-topology.n-topology-green .link .linkLabel {
+.n-topology.n-topology-green .link .link-label {
   font-family: "Cisco Sans Reg";
   fill: #26999e;
   font-size: 12px;
 }
-.n-topology.n-topology-green .link .linkSourceLabel {
+.n-topology.n-topology-green .link .source-abel {
+  font-family: "Cisco Sans Reg";
+  fill: #26999e;
+  opacity: 0.8;
+  font-size: 12px;
+}
+.n-topology.n-topology-green .link .target-label {
   font-family: "Cisco Sans Reg";
   fill: #26999e;
   opacity: 0.8;
   font-size: 12px;
 }
-.n-topology.n-topology-green .link .linkTargetLabel {
-  font-family: "Cisco Sans Reg";
-  fill: #26999e;
-  opacity: 0.8;
-  font-size: 12px;
+.n-topology.n-topology-green .link .disable-label {
+  fill: #da534f;
+}
+.n-topology.n-topology-green .link.disable path,
+.n-topology.n-topology-green .link.disable line {
+  stroke: #ccc !important;
+  stroke-width: 1px;
 }
 .n-topology.n-topology-green .link.link-selected path,
 .n-topology.n-topology-green .link.link-selected line {
-  stroke: #26999e;
+  stroke: #ccc;
   stroke-width: 2px;
 }
 .n-topology.n-topology-green .group .bg {
@@ -441,10 +912,224 @@
   stroke-linejoin: round;
   pointer-events: none;
 }
+.n-topology.n-topology-green .n-topology-nav {
+  position: absolute;
+  top: 0px;
+  left: 8px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+.n-topology.n-topology-green .n-topology-nav li {
+  list-style: none;
+  padding: 0px;
+}
+.n-topology.n-topology-green .n-topology-nav ul {
+  padding: 0px;
+  margin: 0px;
+}
+.n-topology.n-topology-green .n-topology-nav span {
+  -webkit-transition: all 0.6s;
+  /* For Safari 3.1 to 6.0 */
+
+  transition: all 0.6s;
+}
+.n-topology.n-topology-green .n-topology-nav > ul {
+  padding: 0px;
+  margin-top: 30px;
+  width: 32px;
+}
+.n-topology.n-topology-green .n-topology-nav > ul > li {
+  display: inline-block;
+  list-style: none;
+  margin-top: 5px;
+  width: 32px;
+  -webkit-transition: all 0.6s;
+  /* For Safari 3.1 to 6.0 */
+
+  transition: all 0.6s;
+}
+.n-topology.n-topology-green .n-topology-nav-mode {
+  padding: 0px;
+  position: relative;
+  width: 32px;
+}
+.n-topology.n-topology-green .n-topology-nav-mode li {
+  width: 32px;
+  height: 32px;
+  line-height: 32px;
+  display: inline-block;
+  text-align: center;
+  cursor: pointer;
+  -webkit-transition: all 0.6s;
+  /* For Safari 3.1 to 6.0 */
+
+  transition: all 0.6s;
+  background: #f2f2f2;
+}
+.n-topology.n-topology-green .n-topology-nav-mode li:hover {
+  background: #e6e6e6;
+}
+.n-topology.n-topology-green .n-topology-nav-mode li:hover span {
+  color: #30c1c7;
+}
+.n-topology.n-topology-green .n-topology-nav-mode span {
+  color: #333333;
+  display: inline-block;
+  font-size: 16px;
+}
+.n-topology.n-topology-green .n-topology-nav-mode-selected {
+  background: #26999e !important;
+}
+.n-topology.n-topology-green .n-topology-nav-mode-selected span {
+  color: #ffffff;
+}
+.n-topology.n-topology-green .n-topology-nav-mode-selected:hover {
+  background: #26999e !important;
+}
+.n-topology.n-topology-green .n-topology-nav-mode-selected:hover span {
+  color: #ffffff !important;
+}
+.n-topology.n-topology-green .n-topology-nav-zoom {
+  position: relative;
+  height: 118px;
+}
+.n-topology.n-topology-green .n-topology-nav-zoom > span {
+  display: inline-block;
+  position: absolute;
+  text-align: center;
+  font-size: 16px;
+  color: #333333;
+  opacity: 0.7;
+}
+.n-topology.n-topology-green .n-topology-nav-zoom-out {
+  left: 8px;
+  cursor: pointer;
+  color: rgba(51, 51, 51, 0.4);
+}
+.n-topology.n-topology-green .n-topology-nav-zoom-out:hover {
+  opacity: 1;
+  color: #2badb3;
+}
+.n-topology.n-topology-green .n-topology-nav-zoom-in {
+  top: 105px;
+  left: 6px;
+  cursor: pointer;
+  color: rgba(51, 51, 51, 0.4);
+}
+.n-topology.n-topology-green .n-topology-nav-zoom-in:hover {
+  opacity: 1;
+  color: #2badb3;
+}
+.n-topology.n-topology-green .n-topology-nav-zoom-ball {
+  top: 21px;
+  left: 10px;
+  width: 0px;
+  height: 0px;
+  border: 5px solid #8c8c8c;
+  border-radius: 5px;
+  opacity: 1 !important;
+}
+.n-topology.n-topology-green .n-topology-nav-zoom-bar {
+  top: 20px;
+  left: 14px;
+  opacity: 0.7;
+  background: rgba(51, 51, 51, 0.4);
+  width: 3px;
+  height: 77px;
+}
+.n-topology.n-topology-green .n-topology-nav-zoom-selection {
+  margin-top: 0px !important;
+  cursor: pointer;
+  line-height: 32px;
+  text-align: center;
+  font-size: 16px;
+  height: 32px;
+  color: rgba(51, 51, 51, 0.8);
+}
+.n-topology.n-topology-green .n-topology-nav-zoom-selection:hover {
+  opacity: 1;
+  color: #2badb3;
+}
+.n-topology.n-topology-green .n-topology-nav-zoom-selection-selected {
+  color: #30c1c7;
+}
+.n-topology.n-topology-green .n-topology-nav-fit {
+  margin-top: 0px !important;
+  cursor: pointer;
+  line-height: 32px;
+  text-align: center;
+  font-size: 16px;
+  height: 32px;
+  color: rgba(51, 51, 51, 0.8);
+}
+.n-topology.n-topology-green .n-topology-nav-fit:hover {
+  opacity: 1;
+  color: #2badb3;
+}
+.n-topology.n-topology-green .n-topology-nav-search {
+  margin-left: 3px;
+  cursor: pointer;
+  opacity: 0.7;
+}
+.n-topology.n-topology-green .n-topology-nav-search:hover {
+  opacity: 1;
+}
+.n-topology.n-topology-green .n-topology-nav-agr {
+  margin-left: 6px;
+  cursor: pointer;
+}
+.n-topology.n-topology-green .n-topology-nav-full {
+  margin-top: 0px !important;
+  cursor: pointer;
+  line-height: 32px;
+  text-align: center;
+  font-size: 16px;
+  height: 32px;
+  color: rgba(51, 51, 51, 0.8);
+}
+.n-topology.n-topology-green .n-topology-nav-full:hover {
+  opacity: 1;
+  color: #2badb3;
+}
+.n-topology.n-topology-green .n-topology-nav-topo3d {
+  margin-left: 5px;
+  opacity: 0.3;
+}
+.n-topology.n-topology-green .n-topology-nav-topo3d-show-true {
+  opacity: 1;
+  cursor: pointer;
+}
+.n-topology.n-topology-green .n-topology-nav-setting {
+  margin-top: 0px !important;
+  cursor: pointer;
+  line-height: 32px;
+  text-align: center;
+  font-size: 16px;
+  height: 32px;
+  color: rgba(51, 51, 51, 0.8);
+  -webkit-transition: none 0 !important;
+  /* For Safari 3.1 to 6.0 */
+
+  transition: none 0 !important;
+}
+.n-topology.n-topology-green .n-topology-nav-setting:hover {
+  opacity: 1;
+  color: #2badb3;
+}
+.n-topology.n-topology-green .n-topology-nav-setting-icon-selected {
+  color: #2badb3;
+}
 .n-topology.n-topology-slate {
   position: relative;
   overflow: hidden;
   background: #223343;
+  -webkit-transition: all 0.6s;
+  /* For Safari 3.1 to 6.0 */
+
+  transition: all 0.6s;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -494,31 +1179,44 @@
   -o-user-select: none;
   user-select: none;
 }
+.n-topology.n-topology-slate .node.disable {
+  opacity: 0.3;
+  stroke: #ccc;
+}
 .n-topology.n-topology-slate .link path,
 .n-topology.n-topology-slate .link line {
   stroke: #49a9bf;
   stroke-width: 1px;
+  fill: transparent;
 }
-.n-topology.n-topology-slate .link .linkLabel {
+.n-topology.n-topology-slate .link .link-label {
   font-family: "Cisco Sans Reg";
   fill: #ffffff;
   font-size: 12px;
 }
-.n-topology.n-topology-slate .link .linkSourceLabel {
+.n-topology.n-topology-slate .link .source-abel {
+  font-family: "Cisco Sans Reg";
+  fill: #ffffff;
+  opacity: 0.8;
+  font-size: 12px;
+}
+.n-topology.n-topology-slate .link .target-label {
   font-family: "Cisco Sans Reg";
   fill: #ffffff;
   opacity: 0.8;
   font-size: 12px;
 }
-.n-topology.n-topology-slate .link .linkTargetLabel {
-  font-family: "Cisco Sans Reg";
-  fill: #ffffff;
-  opacity: 0.8;
-  font-size: 12px;
+.n-topology.n-topology-slate .link .disable-label {
+  fill: #c8003f;
+}
+.n-topology.n-topology-slate .link.disable path,
+.n-topology.n-topology-slate .link.disable line {
+  stroke: #ccc !important;
+  stroke-width: 1px;
 }
 .n-topology.n-topology-slate .link.link-selected path,
 .n-topology.n-topology-slate .link.link-selected line {
-  stroke: #ffffff;
+  stroke: #ccc;
   stroke-width: 2px;
 }
 .n-topology.n-topology-slate .group .bg {
@@ -584,6 +1282,216 @@
   stroke-linejoin: round;
   pointer-events: none;
 }
+.n-topology.n-topology-slate .n-topology-nav {
+  position: absolute;
+  top: 0px;
+  left: 8px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+.n-topology.n-topology-slate .n-topology-nav li {
+  list-style: none;
+  padding: 0px;
+}
+.n-topology.n-topology-slate .n-topology-nav ul {
+  padding: 0px;
+  margin: 0px;
+}
+.n-topology.n-topology-slate .n-topology-nav span {
+  -webkit-transition: all 0.6s;
+  /* For Safari 3.1 to 6.0 */
+
+  transition: all 0.6s;
+}
+.n-topology.n-topology-slate .n-topology-nav > ul {
+  padding: 0px;
+  margin-top: 30px;
+  width: 32px;
+}
+.n-topology.n-topology-slate .n-topology-nav > ul > li {
+  display: inline-block;
+  list-style: none;
+  margin-top: 5px;
+  width: 32px;
+  -webkit-transition: all 0.6s;
+  /* For Safari 3.1 to 6.0 */
+
+  transition: all 0.6s;
+}
+.n-topology.n-topology-slate .n-topology-nav-mode {
+  padding: 0px;
+  position: relative;
+  width: 32px;
+}
+.n-topology.n-topology-slate .n-topology-nav-mode li {
+  width: 32px;
+  height: 32px;
+  line-height: 32px;
+  display: inline-block;
+  text-align: center;
+  cursor: pointer;
+  -webkit-transition: all 0.6s;
+  /* For Safari 3.1 to 6.0 */
+
+  transition: all 0.6s;
+  background: #192632;
+}
+.n-topology.n-topology-slate .n-topology-nav-mode li:hover {
+  background: #111921;
+}
+.n-topology.n-topology-slate .n-topology-nav-mode li:hover span {
+  color: #ffffff;
+}
+.n-topology.n-topology-slate .n-topology-nav-mode span {
+  color: #eeeeee;
+  display: inline-block;
+  font-size: 16px;
+}
+.n-topology.n-topology-slate .n-topology-nav-mode-selected {
+  background: #ffffff !important;
+}
+.n-topology.n-topology-slate .n-topology-nav-mode-selected span {
+  color: #223343;
+}
+.n-topology.n-topology-slate .n-topology-nav-mode-selected:hover {
+  background: #ffffff !important;
+}
+.n-topology.n-topology-slate .n-topology-nav-mode-selected:hover span {
+  color: #223343 !important;
+}
+.n-topology.n-topology-slate .n-topology-nav-zoom {
+  position: relative;
+  height: 118px;
+}
+.n-topology.n-topology-slate .n-topology-nav-zoom > span {
+  display: inline-block;
+  position: absolute;
+  text-align: center;
+  font-size: 16px;
+  color: #eeeeee;
+  opacity: 0.7;
+}
+.n-topology.n-topology-slate .n-topology-nav-zoom-out {
+  left: 8px;
+  cursor: pointer;
+  color: rgba(238, 238, 238, 0.4);
+}
+.n-topology.n-topology-slate .n-topology-nav-zoom-out:hover {
+  opacity: 1;
+  color: #ffffff;
+}
+.n-topology.n-topology-slate .n-topology-nav-zoom-in {
+  top: 105px;
+  left: 6px;
+  cursor: pointer;
+  color: rgba(238, 238, 238, 0.4);
+}
+.n-topology.n-topology-slate .n-topology-nav-zoom-in:hover {
+  opacity: 1;
+  color: #ffffff;
+}
+.n-topology.n-topology-slate .n-topology-nav-zoom-ball {
+  top: 21px;
+  left: 10px;
+  width: 0px;
+  height: 0px;
+  border: 5px solid #ffffff;
+  border-radius: 5px;
+  opacity: 1 !important;
+}
+.n-topology.n-topology-slate .n-topology-nav-zoom-bar {
+  top: 20px;
+  left: 14px;
+  opacity: 0.7;
+  background: rgba(238, 238, 238, 0.4);
+  width: 3px;
+  height: 77px;
+}
+.n-topology.n-topology-slate .n-topology-nav-zoom-selection {
+  margin-top: 0px !important;
+  cursor: pointer;
+  line-height: 32px;
+  text-align: center;
+  font-size: 16px;
+  height: 32px;
+  color: rgba(238, 238, 238, 0.8);
+}
+.n-topology.n-topology-slate .n-topology-nav-zoom-selection:hover {
+  opacity: 1;
+  color: #ffffff;
+}
+.n-topology.n-topology-slate .n-topology-nav-zoom-selection-selected {
+  color: #ffffff;
+}
+.n-topology.n-topology-slate .n-topology-nav-fit {
+  margin-top: 0px !important;
+  cursor: pointer;
+  line-height: 32px;
+  text-align: center;
+  font-size: 16px;
+  height: 32px;
+  color: rgba(238, 238, 238, 0.8);
+}
+.n-topology.n-topology-slate .n-topology-nav-fit:hover {
+  opacity: 1;
+  color: #ffffff;
+}
+.n-topology.n-topology-slate .n-topology-nav-search {
+  margin-left: 3px;
+  cursor: pointer;
+  opacity: 0.7;
+}
+.n-topology.n-topology-slate .n-topology-nav-search:hover {
+  opacity: 1;
+}
+.n-topology.n-topology-slate .n-topology-nav-agr {
+  margin-left: 6px;
+  cursor: pointer;
+}
+.n-topology.n-topology-slate .n-topology-nav-full {
+  margin-top: 0px !important;
+  cursor: pointer;
+  line-height: 32px;
+  text-align: center;
+  font-size: 16px;
+  height: 32px;
+  color: rgba(238, 238, 238, 0.8);
+}
+.n-topology.n-topology-slate .n-topology-nav-full:hover {
+  opacity: 1;
+  color: #ffffff;
+}
+.n-topology.n-topology-slate .n-topology-nav-topo3d {
+  margin-left: 5px;
+  opacity: 0.3;
+}
+.n-topology.n-topology-slate .n-topology-nav-topo3d-show-true {
+  opacity: 1;
+  cursor: pointer;
+}
+.n-topology.n-topology-slate .n-topology-nav-setting {
+  margin-top: 0px !important;
+  cursor: pointer;
+  line-height: 32px;
+  text-align: center;
+  font-size: 16px;
+  height: 32px;
+  color: rgba(238, 238, 238, 0.8);
+  -webkit-transition: none 0 !important;
+  /* For Safari 3.1 to 6.0 */
+
+  transition: none 0 !important;
+}
+.n-topology.n-topology-slate .n-topology-nav-setting:hover {
+  opacity: 1;
+  color: #ffffff;
+}
+.n-topology.n-topology-slate .n-topology-nav-setting-icon-selected {
+  color: #ffffff;
+}
 .n-topology-node-tootltip {
   padding: 0px;
   opacity: 0.8 !important;
@@ -628,6 +1536,28 @@
 }
 .n-topology-node-tootltip .popover-content {
   padding: 5px 10px;
+}
+.n-topology-setting-panel {
+  max-width: 260px;
+}
+.n-topology-setting-panel .popover-content {
+  width: 260px;
+  line-height: 24px;
+  height: auto;
+}
+.n-topology-setting-panel .popover-content h3 {
+  margin: 4px 0px 6px 0px;
+}
+.n-topology-setting-panel .popover-content .n-radio {
+  margin-right: 12px;
+  font-weight: normal;
+}
+.n-topology-setting-panel .popover-content .n-radio span {
+  margin-left: 3px;
+}
+.n-topology-setting-panel .popover-content-label {
+  display: inline-block;
+  margin-right: 20px;
 }
 .clearfix:before,
 .clearfix:after {

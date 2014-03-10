@@ -36,42 +36,16 @@
             activate: function (args) {
                 this.__construct();
                 var topo = this._topo;
+                var tooltipManager = this._tooltipManager;
 
-                nx.each(topo.__events__, function (eventName) {
-                    topo.on(eventName, function (sender, data) {
-                        this._dispatch(eventName, sender, data);
+                nx.each(topo.__events__, this._aop = function (eventName) {
+                    topo.upon(eventName, function (sender, data) {
+                        if (this[eventName]) {
+                            tooltipManager.executeAction(eventName, data);
+                            this[eventName].call(this, sender, data);
+                        }
                     }, this);
                 }, this);
-
-
-//                topo.on("clickStage", this.clickStage, this);
-//                topo.on('projectionChange', this.projectionChange, this);
-//                topo.on('zooming', this.zooming, this);
-//                topo.on('zoomend', this.zoomend, this);
-//                topo.on('beforeSetData', this.beforeSetData, this);
-//                topo.on('afterSetData', this.afterSetData, this);
-//                topo.on('insertData', this.insertData, this);
-//                topo.on('ready', this.ready, this);
-//
-//                this._nodesLayer.on("enterNode", this.enterNode, this);
-//                this._nodesLayer.on("clickNode", this.clickNode, this);
-//                this._nodesLayer.on("leaveNode", this.leaveNode, this);
-//                this._nodesLayer.on("hideNode", this.hideNode, this);
-//                this._nodesLayer.on("dragNodeStart", this.dragNodeStart, this);
-//                this._nodesLayer.on("dragNode", this.dragNode, this);
-//                this._nodesLayer.on("dragNodeEnd", this.dragNodeEnd, this);
-//                this._nodesLayer.on("pressNode", this.pressNode, this);
-//                this._nodesLayer.on("selectNode", this.selectNode, this);
-//                this._nodesLayer.on("updateNodeCoordinate", this.updateNodeCoordinate, this);
-//
-//
-//                this._linksLayer.on("enterLink", this.link_enterLink, this);
-//                this._linksLayer.on("leaveLink", this.link_leaveLink, this);
-//
-//
-//                topo.on("clickLinkSetNumber", this.linkSet_click, this);
-//                topo.on("leaveLinkSetNumber", this.linkSet_leave, this);
-
             },
             /**
              * Deactivate scene
@@ -79,6 +53,11 @@
             deactivate: function () {
                 var topo = this._topo;
 
+                nx.each(topo.__events__, function (eventName) {
+                    topo.off(eventName, this._aop, this);
+                }, this);
+
+                this._tooltipManager.closeAll();
 
                 this.__destruct();
             },
@@ -89,28 +68,44 @@
                     this[eventName].call(this, sender, data);
                 }
             },
-            pressStage: function (sender,event) {
-                console.log('pressStage');
+            pressStage: function (sender, event) {
+                this._topo.selectedNodes().clear();
             },
             /**
              * Click stage handler
              * @method clickStage
              */
             clickStage: function () {
-                console.log('clickStage');
             },
 
+            dragStageStart: function (sender, event) {
+                var nodes = this._topo.getLayer('nodes').nodes().length;
+                if (nodes > 300) {
+                    this._topo.getLayer('links').root().setStyle('display', 'none');
+                }
+
+            },
+            dragStage: function (sender, event) {
+                var stage = this._topo.stage();
+                stage.setTransform(stage._translateX + event.drag.delta[0], stage._translateY + event.drag.delta[1]);
+            },
+            dragStageEnd: function (sender, event) {
+                this._topo.getLayer('links').root().setStyle('display', 'block');
+            },
             projectionChange: function () {
 
             },
 
 
             zooming: function () {
-
+                var nodes = this._topo.getLayer('nodes').nodes().length;
+                if (nodes > 300) {
+                   this._topo.getLayer('links').root().setStyle('display', 'none');
+                }
             },
 
             zoomend: function () {
-
+                this._topo.getLayer('links').root().setStyle('display', 'block');
             },
 
             beforeSetData: function () {
@@ -167,7 +162,6 @@
              * @method clickNode
              */
             clickNode: function (sender, node) {
-                console.log('clickNode');
             },
             hideNode: function (sender, node) {
 
@@ -197,11 +191,16 @@
                 this._nodeDragging = false;
             },
 
-            pressNode: function () {
-                console.log('pressNode');
+            pressNode: function (sender, node) {
+                node.selected(!node.selected());
             },
-            selectNode: function () {
-
+            selectNode: function (sender, node) {
+                this._topo.selectedNodes().clear();
+                if (node.selected()) {
+                    this._topo.selectedNodes().add(node);
+                } else {
+                    this._topo.selectedNodes().remove(node);
+                }
             },
 
             updateNodeCoordinate: function () {

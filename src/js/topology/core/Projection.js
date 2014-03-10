@@ -25,16 +25,14 @@
              * @property scale
              */
             scale: {
-                set: function (value) {
-                    var scale = Math.max(Math.min(this.maxScale(), value), this.minScale());
-                    if (scale !== this._scale) {
-                        this._zoom(scale, this._scale || 1);
-                        this._scale = scale;
-//                        this.adjustLayout();
-                    }
-                },
                 get: function () {
                     return this._scale || 1;
+                },
+                set: function (value) {
+                    var scale = Math.max(Math.min(this._maxScale, value), this._minScale);
+                    if (scale !== this._scale) {
+                        this._zoom(scale);
+                    }
                 }
             },
             /**
@@ -77,13 +75,7 @@
             },
             projectionYRange: {
             },
-            _zoomCenterPointX: {
-                value: 0
-            },
-            _zoomCenterPointY: {
-                value: 0
-            },
-            useZoomingAnimation: {
+            enableGradualScaling: {
                 value: true
             }
         },
@@ -242,127 +234,183 @@
                 return this.projectionY().get(value) || value;
             },
 
+            _getScaleTranslate: function () {
+                var stage = this.stage();
+                var width = this.visibleContainerWidth();
+                var height = this.visibleContainerHeight();
+                var scale = this._scale = Math.max(Math.min(this._maxScale, this._scale), this._minScale);
+                var _scale = this._prevScale || 1;
+                var finialScale = this._finialScale || 1;
+                var step = scale - _scale;
+                var translateX = stage.translateX();
+                var translateY = stage.translateY();
+                var _translateX, _translateY;
+                var _zoomCenterPoint = this._zoomCenterPoint;
 
-            _zoom: (function () {
-                var timer;
-                var prevScale = 1;
-                var ani;
-                return function (newValue, oldValue) {
-                    var stage = this.stage();
-                    var width = this.width() - this.paddingLeft() * 2;
-                    var height = this.height() - this.paddingTop() * 2;
-                    var translateX = stage.translateX();
-                    var translateY = stage.translateY();
-                    var _translateX, _translateY;
+                if (!_zoomCenterPoint) {
+                    _zoomCenterPoint = {
+                        x: width / 2 + this.paddingLeft(),
+                        y: height / 2 + this.paddingTop()
+                    }
+                }
 
-                    var step = newValue - oldValue;
+                var x = (_zoomCenterPoint.x - translateX) / _scale * step;
+                var y = (_zoomCenterPoint.y - translateY) / _scale * step;
 
-                    var _zoomCenterPointX = this._zoomCenterPointX();
-                    var _zoomCenterPointY = this._zoomCenterPointY();
+                return{
+                    x: translateX - x,
+                    y: translateY - y
+                }
+            },
+
+            _zoom: function (inScale, inAnimationTime, inFN) {
+                var stage = this.stage();
+                var scale = this._scale = Math.max(Math.min(this._maxScale, inScale), this._minScale);
+                var finialScale = this._finialScale || 1;
+                var translate = this._getScaleTranslate();
+
+                if (this.__zoomTimer) {
+                    clearTimeout(this.__zoomTimer);
+                }
+
+                var completeFN = function () {
+                    this._setProjection();
+                    stage.setTransform(translate.x, translate.y, 1, 0);
+                    this._finialScale = this._scale;
+                    if (inFN) {
+                        inFN.call(this);
+                    }
+                    this.fire("zoomend");
+                }.bind(this);
+
+                this.fire("zooming");
+
+                stage.setTransform(translate.x, translate.y, scale / finialScale, inAnimationTime || 0);
+
+                if (inAnimationTime) {
+                    stage.upon('transitionend', completeFN, this);
+                } else {
+                    this.__zoomTimer = setTimeout(completeFN, 50);
+                }
+                this._prevScale = scale;
 
 
-                    if (_zoomCenterPointX && _zoomCenterPointY) {
-                        var x = (_zoomCenterPointX - translateX) / oldValue * step;
-                        var y = (_zoomCenterPointY - translateY) / oldValue * step;
+                this.notify('scale');
+            },
+            _gradualZoom: function () {
+                var stage = this.stage();
+                var scale = this._scale = Math.max(Math.min(this._maxScale, this._scale), this._minScale);
+                var finialScale = this._finialScale || 1;
+                var translate = this._getScaleTranslate();
 
-                        _translateX = translateX - x;
-                        _translateY = translateY - y;
+                if (this.__zoomTimer) {
+                    clearTimeout(this.__zoomTimer);
+                }
 
+
+                if (!this.__zoomIndex) {
+                    this.__zoomIndex = 1;
+                }
+
+
+                var resetScaleFN = function () {
+                    this._setProjection();
+                    stage.setTransform(translate.x, translate.y, 1, 0);
+                    this._finialScale = this._scale;
+                };
+
+
+                if (this.__zooming) {
+                    this.fire("zooming");
+                    if ((++this.__zoomIndex) % 10 !== 0) {
+                        stage.setTransform(translate.x, translate.y, scale / finialScale, 0);
                     } else {
-
-                        var pl = (width) * step / 2;
-                        var pt = (height) * step / 2;
-
-                        _translateX = translateX - pl;
-                        _translateY = translateY - pt;
+                        resetScaleFN.call(this);
                     }
 
 
-                    stage.setTransform(_translateX, _translateY, newValue / prevScale,0);
+                    this.__zoomTimer = setTimeout(this._gradualZoom.bind(this), 50);
+                    this._prevScale = this._scale;
+                } else {
+                    resetScaleFN.call(this);
+                    this.__zoomIndex = 0;
+                    this.fire('zoomend');
+                }
+            },
 
-
-                    this.fire("zooming");
-
-
-                    //return;
-
-
-                    clearTimeout(timer);
-                    timer = setTimeout(function () {
-
-
-//                        if (ani) {
-//                            ani.stop();
-//                        }
-//                        if (this.useZoomingAnimation()) {
-//                            if (Math.abs(newValue - prevScale) < 1.4) {
-//                                this._setProjection();
-//                                stage.scale(1);
-//                                this.adjustLayout();
-//                                this.fire("zoomend");
-//                                stage.setStyle("opacity", 1);
-//
-//                            } else {
-//                                new nx.util.Animation({
-//                                    duration: 600,
-//                                    autoStart: true,
-//                                    context: this,
-//                                    callback: function (index) {
-//                                        stage.setStyle("opacity", 1 - index);
-//                                    },
-//                                    complete: function () {
-//                                        this._setProjection();
-//                                        stage.scale(1);
-//                                        this.adjustLayout();
-//                                        this.fire("zoomend");
-//                                        stage.setStyle("opacity", 1);
-//                                    }
-//                                });
-//                            }
-//
-//                        } else {
-//
-//                            this.adjustLayout();
-//                            this.fire("zoomend");
-//                            stage.setStyle("opacity", 1);
-//                        }
-
-//
-
-                        this._setProjection();
-                        stage.setTransform(null, null, 1, 0);
-                        this.fire("zoomend");
-                        prevScale = newValue;
-                    }.bind(this), 30000);
-                };
-            })(),
             /**
              * Zoom topology
              * @param value
              * @method zoom
              */
             zoom: function (value) {
-                var scale = this.scale();
-                var gap = value - scale;
-                var index = 0;
-                var self = this;
-
-                if (gap) {
-
-                    new nx.util.Animation({
-                        duration: 600,
-                        autoStart: true,
-                        context: this,
-                        callback: function (index) {
-                            self.scale(scale + gap * index);
-                        }
-                    });
-                }
+                this._zoom(value, .6);
             },
 
+            /**
+             * Make topology fit stage
+             * @method fit
+             */
+            fit: function (isNotify) {
+
+                var proX = this.projectionX();
+                var proY = this.projectionY();
+                var bound = this.model().getBound();
+
+                var _x = proX.get(bound.x);
+                var _y = proY.get(bound.y);
+                var _width = proX.get(bound.maxX) - _x;
+                var _height = proY.get(bound.maxY) - _y;
+
+                var stage = this.stage();
+                var width = this.visibleContainerWidth();
+                var height = this.visibleContainerHeight();
+
+                stage.upon('transitionend', this._fit, this);
+
+
+                var wScale = width / _width;
+                var hScale = height / _height;
+                var scale = Math.min(wScale, hScale);
+
+
+                if (width / height < _width / _height) {
+                    var paddingTop = this.paddingTop() + (height - height * scale) / 2;
+                    stage.setTransform(this.paddingLeft() - proX.get(bound.x) * scale, paddingTop, scale, 0.3);
+                } else {
+                    var paddingLeft = this.paddingLeft() + (width - width * scale) / 2 - (width - _width) / 2;
+                    stage.setTransform(paddingLeft, this.paddingTop() - proY.get(bound.y) * scale, scale, 0.3);
+                }
+
+
+                delete  this._prevScale;
+                delete this._finialScale;
+
+            },
+            _fit: function (inForce) {
+                var force = inForce != null ? inForce : true;
+                this._scale = 1;
+                this.stage().setTransform(this.paddingLeft(), this.paddingTop(), 1, 0);
+                this._setProjection(force);
+            },
             zoomByBound: function (bound) {
 
-                var self = this;
+
+//                this._zoomCenterPoint = {
+//                    x: bound.left + bound.width / 2,
+//                    y: bound.top + bound.height / 2
+//                };
+//
+//                var width = this.visibleContainerWidth();
+//                var height = this.visibleContainerHeight();
+//
+//                var scale = Math.min(width / bound.width, height / bound.height);
+//
+//
+//                this._zoom(scale, 0.6);
+//                this._zoomCenterPoint = null;
+
+
                 var offset = Math.max(bound.width, bound.height) * 0.05;
                 var scale = this.scale();
                 var tx = this.stage().translateX();
@@ -372,20 +420,20 @@
                 var bw = bound.width + offset * 2;
                 var bh = bound.height + offset * 2;
 
-                var scaleH = this.height() / (bh / scale);
-                var scaleW = this.width() / (bw / scale);
+                var scaleH = this.visibleContainerHeight() / (bh / scale);
+                var scaleW = this.visibleContainerWidth() / (bw / scale);
 
 
-                scaleH = Math.max(Math.min(this.maxScale(), scaleH), this.minScale());
-                scaleW = Math.max(Math.min(this.maxScale(), scaleW), this.minScale());
+                scaleH = Math.max(Math.min(this._maxScale, scaleH), this._minScale);
+                scaleW = Math.max(Math.min(this._maxScale, scaleW), this._minScale);
 
-                var scaleI;
+                var scaleI, x, y;
 
-                if (this.rect) {
-                    this.rect.destroy();
-                }
-
-                //for debugger
+//                if (this.rect) {
+//                    this.rect.destroy();
+//                }
+//
+//
 //                if (1) {
 //
 //                    var rect = this.rect = new nx.graphic.Rect({
@@ -397,67 +445,34 @@
 //                        fill: "#f00"
 //                    });
 //
-//
-//                    this.stage().prependChild(rect);
+//                    rect.attach(this.stage());
 //                }
 
 
                 if (scaleH > scaleW) {
                     scaleI = scaleW;
-                    this._zoomCenterPointX(((bl - tx) / scale * scaleI + tx) / (scaleI - scale) * scale + tx);
-                    this._zoomCenterPointY(( ty + (bt - ty + bh / 2) / scale * scaleI - this.height() / 2) / (scaleI - scale) * scale + ty);
+                    x = ((bl - tx) / scale * scaleI + tx) / (scaleI - scale) * scale + tx;
+                    y = ( ty + (bt - ty + bh / 2) / scale * scaleI - this.visibleContainerHeight() / 2) / (scaleI - scale) * scale + ty;
 
 
                 } else {
                     scaleI = scaleH;
-                    this._zoomCenterPointY(((bt - ty) / scale * scaleI + ty) / (scaleI - scale) * scale + ty);
-                    this._zoomCenterPointX(( tx + (bl - tx + bw / 2) / scale * scaleI - this.width() / 2) / (scaleI - scale) * scale + tx);
+                    x = ((bt - ty) / scale * scaleI + ty) / (scaleI - scale) * scale + ty;
+                    y = ( tx + (bl - tx + bw / 2) / scale * scaleI - this.visibleContainerWidth() / 2) / (scaleI - scale) * scale + tx;
 
                 }
 
-                // console.log(bound, scaleI);
 
-                var index = 0.1;
-                if (this._zoomAnimation) {
-                    this.stopZoomAnimation();
-                }
+                this._zoomCenterPoint = {x: x, y: y};
 
+                this._zoom(scaleI, 0.6);
 
-                this._zoomAnimation = new nx.util.Animation({
-                    duration: 900,
-                    autoStart: true,
-                    context: this,
-                    callback: function (index) {
-                        //topo.scale(scale + (scaleI - scale) * index);
-                        //topo.scale(scale + (scaleI - scale) * Math.sqrt(index));
-                        // var rate = Math.pow(index, 3);
-                        //this.scale(scale + (scaleI - scale) * rate);
-                        var rate;
-                        if (( index *= 2 ) < 1) {
-                            rate = 0.5 * index * index;
-                        } else {
-                            rate = -0.5 * ( --index * ( index - 2 ) - 1 );
-                        }
-
-                        this.scale(scale + (scaleI - scale) * rate);
-
-                        //this.scale(scale + (scaleI - scale) * Math.sin(index * Math.PI / 2));
-                    },
-                    complete: function () {
-                        this._zoomAnimation = null;
-                        this._zoomCenterPointX(0);
-                        this._zoomCenterPointY(0);
-                    }
-                });
-
-            },
-            stopZoomAnimation: function () {
-                this._zoomAnimation.stop();
                 this._zoomAnimation = null;
-                this._zoomCenterPointX(0);
-                this._zoomCenterPointY(0);
-            },
 
+                delete  this._prevScale;
+                delete this._finialScale;
+
+            },
             zoomByNodes: function (nodes) {
                 var bound = this.getBoundByNodes(nodes);
                 this.zoomByBound(bound);

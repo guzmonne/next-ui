@@ -2,11 +2,11 @@
 <html>
 <head>
     <title>Example</title>
-    <script type="text/javascript" src="../../lib/NeXt/next-core/next-core.js"></script>
-    <script type="text/javascript" src="../../lib/NeXt/next-ui/js/next-ui.js"></script>
-    <script type="text/javascript" src="../../lib/NeXt/next-ui-components/js/next-components.js"></script>
+    <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/DailyBuild/lastSuccessfulBuild/artifact/dest/next-core.js"></script>
+    <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/nextui/lastSuccessfulBuild/artifact/dest/js/next-ui.js"></script>
+    <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/UI_Component/lastSuccessfulBuild/artifact/dest/js/next-components.js"></script>
+    <link rel="stylesheet" href="http://10.75.161.96:8080/jenkins/job/nextui/lastSuccessfulBuild/artifact/dest/css/next-blue.css"/>
     <script type="text/javascript" src="../../src/js/next-graphic.js"></script>
-    <link rel="stylesheet" href="../../lib/NeXt/next-ui/css/next-blue.css"/>
     <link rel="stylesheet" href="../../src/less/next-graphic.css"/>
     <!--<script type="text/javascript" src="../../src/js/next-graphic.js"></script>-->
     <script type="text/javascript" src="../../lib/NeXt/next-core/next-core.js"></script>
@@ -225,6 +225,62 @@
         return new nx.dom.Element(document.getElementById('demos'));
     };
     demo.attach(app);
+
+
+    nx.ui.define("Example", {
+        view: {
+            content: [
+                {
+                    name: 'charge',
+                    tag: 'input'
+                },
+                {
+                    tag: 'button',
+                    props: {
+                        value: 'Go'
+                    },
+                    events: {
+                        click: '{#_clickFN}'
+                    }
+                }
+            ]
+        },
+        methods: {
+            _clickFN: function () {
+                var input = this.$('charge');
+                var value = input.value;
+            },
+            getCharge:function(fn){
+                var input = this.$('charge');
+                var value = input.value;
+
+                fn.call(this,value);
+            }
+        }
+
+    });
+
+
+    var container = new Example();
+
+    container.getCharge(function(chargeValue){
+            alert(chargeValue)
+    });
+
+
+
+
+
+
+
+
+
+
+    var btn = new nx.ui.Button();
+
+    nx.app.append(container);
+    nx.app.append(btn, container.$("con"));
+
 
 </script>
 </body>

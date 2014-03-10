@@ -13,7 +13,11 @@
             },
             pressStage: function () {
                 var tooltipManager = this.tooltipManager();
-                tooltipManager.closeeAll();
+                tooltipManager.closeAll();
+            },
+            zooming: function () {
+                var tooltipManager = this.tooltipManager();
+                tooltipManager.closeAll();
             },
             clickNode: function (node) {
                 var tooltipManager = this.tooltipManager();
@@ -21,6 +25,5 @@
             }
         }
     });
-
 
 })(nx, nx.global);

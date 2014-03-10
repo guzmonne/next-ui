@@ -7,26 +7,19 @@
      * @class nx.graphic.Topology.Nav
      * @extend nv.ui.Component
      */
-    nx.ui.define("nx.graphic.Topology.Nav", {
-        /**
-         * @event fit
-         */
-        /**
-         * @event show3DTopology
-         */
-        /**
-         * @event enterFullScreen
-         */
-        /**
-         * @event leaveFullScreen
-         */
+    nx.define("nx.graphic.Topology.Nav", nx.ui.Component, {
         events: ['fit', 'show3DTopology', 'enterFullScreen', 'leaveFullScreen'],
         properties: {
-            maxScale: {
-                value: 8
+            topology: {
+                get: function () {
+                    return this.owner();
+                }
             },
-            minScale: {
-                value: 0.5
+            showModeSwitch: {
+                value: true
+            },
+            theme: {
+
             },
             /**
              * Get/set is topology show zoom rate
@@ -34,62 +27,7 @@
             showZoomRate: {
                 value: false
             },
-            scale: {
-                set: function (value) {
-                    if (value != this._scale) {
-                        var maxScale = this.maxScale();
-                        var minScale = this.minScale();
-                        var scale = this._scale = Math.max(Math.min(maxScale, value), minScale);
-                        this.notify("scale");
-                        var navBall = this.resolve("zoomball");
-                        var step = 73 / (maxScale - minScale);
-                        navBall.setStyles({
-                            top: 21 + (maxScale - scale) * step
-                        });
-
-                        var tooltip = this.scaleTootip;
-                        if (tooltip) {
-                            var bound = this.getBound();
-                            tooltip.setContent((scale + "").substr(0, 4));
-                            if (this.showZoomRate()) {
-                                tooltip.open({
-                                    target: {x: 20 + bound.left, y: 121 + (maxScale - scale) * step + bound.top}
-                                });
-                            }
-
-                            if (firstTimeShowTooltip) {
-                                firstTimeShowTooltip = false;
-                                tooltip.close();
-                            } else {
-                                clearTimeout(timer);
-                                timer = setTimeout(function () {
-                                    tooltip.close();
-                                }, 300);
-                            }
-
-                        }
-                    }
-                },
-                get: function () {
-                    return this._scale || 1;
-                }
-            },
-            show3D: {
-                value: false
-            },
-            mode: {
-                value: null
-            },
-            showModeSwitch: {
-                value: true
-            },
-            showIcon: {
-                value: true
-            },
-            theme: {
-
-            },
-            topology: {}
+            scale: {}
         },
 
         view: {
@@ -102,31 +40,6 @@
                     content: [
                         {
                             tag: 'li',
-                            name: 'search',
-                            props: {
-                                'class': 'n-topology-nav-search',
-                                title: "Search"
-                            },
-                            events: {
-                                click: "{#_openSearchPopover}"
-                            },
-                            content: {
-                                name: 'searchPanel',
-                                type: 'nx.graphic.Topology.Search',
-                                props: {
-                                    topology: '{#topology}'
-                                },
-                                events: {
-                                    'openSearchPanel': '{#_openSearchPanel}',
-                                    'closeSearchPanel': '{#_closeSearchPanel}',
-                                    'changeSearch': '{#_changeSearch}',
-                                    'executeSearch': '{#_executeSearch}'
-                                }
-                            }
-
-                        },
-                        {
-                            tag: 'li',
                             content: {
                                 name: 'mode',
                                 tag: 'ul',
@@ -136,37 +49,39 @@
                                 },
                                 content: [
                                     {
+                                        name: 'selectionMode',
                                         tag: 'li',
-
                                         content: {
                                             props: {
-                                                'class': 'n-icon-select-node',
+                                                'class': 'glyphicon glyphicon-edit',
+                                                style: '-webkit-transform: rotate(90deg)',
                                                 title: "Select node mode"
                                             },
                                             tag: 'span'
                                         },
                                         events: {
-                                            'mousedown': '{#_selectionMode}',
-                                            'touchstart': '{#_selectionMode}'
+                                            'mousedown': '{#_switchSelectionMode}',
+                                            'touchstart': '{#_switchSelectionMode}'
                                         }
 
                                     },
                                     {
+                                        name: 'moveMode',
                                         tag: 'li',
                                         props: {
                                             'class': 'n-topology-nav-mode-selected'
                                         },
                                         content: {
                                             props: {
-                                                'class': 'n-icon-move-mode',
+                                                'class': 'glyphicon glyphicon-move',
                                                 title: "Move mode"
 
                                             },
                                             tag: 'span'
                                         },
                                         events: {
-                                            'mousedown': '{#_moveMode}',
-                                            'touchstart': '{#_moveMode}'
+                                            'mousedown': '{#_switchMoveMode}',
+                                            'touchstart': '{#_switchMoveMode}'
                                         }
 
                                     }
@@ -189,7 +104,7 @@
                                     name: 'zoomout',
                                     tag: 'span',
                                     props: {
-                                        'class': 'n-topology-nav-zoom-out',
+                                        'class': 'n-topology-nav-zoom-out glyphicon glyphicon-plus',
                                         title: "Zoom out"
                                     },
                                     events: {
@@ -210,7 +125,7 @@
                                     name: 'zoomin',
                                     tag: 'span',
                                     props: {
-                                        'class': 'n-topology-nav-zoom-in',
+                                        'class': 'n-topology-nav-zoom-in glyphicon glyphicon-minus',
                                         title: "Zoom in"
                                     },
                                     events: {
@@ -224,7 +139,7 @@
                             tag: 'li',
                             name: 'zoomselection',
                             props: {
-                                'class': 'n-icon-zoom-by-selection-x22 n-topology-nav-zoom-selection',
+                                'class': 'n-topology-nav-zoom-selection glyphicon glyphicon-zoom-in',
                                 title: "Zoom by selection"
                             },
                             events: {
@@ -235,32 +150,31 @@
                             tag: 'li',
                             name: 'fit',
                             props: {
-                                'class': 'n-topology-nav-fit',
+                                'class': 'n-topology-nav-fit glyphicon glyphicon-fullscreen',
                                 title: "Fit stage"
                             },
                             events: {
                                 'click': '{#_fit}'
                             }
                         },
-
-                        {
-                            tag: 'li',
-                            name: 'agr',
-                            props: {
-                                'class': 'n-icon-thumbnail-collapse-x16 n-topology-nav-agr',
-                                title: "Aggregation",
-                                visible: false
-                            },
-                            events: {
-                                'click': '{#_agr}'
-                            }
-                        },
+//                        {
+//                            tag: 'li',
+//                            name: 'agr',
+//                            props: {
+//                                'class': 'n-icon-thumbnail-collapse-x16 n-topology-nav-agr',
+//                                title: "Aggregation",
+//                                visible: false
+//                            },
+//                            events: {
+//                                'click': '{#_agr}'
+//                            }
+//                        },
 
                         {
                             tag: 'li',
                             name: 'fullscreen',
                             props: {
-                                'class': 'n-topology-nav-full',
+                                'class': 'n-topology-nav-full glyphicon glyphicon-export',
                                 title: 'Enter full screen mode'
                             },
                             events: {
@@ -269,24 +183,13 @@
                         },
                         {
                             tag: 'li',
-                            name: 'topo3d',
-                            props: {
-                                'class': 'n-topology-nav-topo3d n-topology-nav-topo3d-show-{#show3D}',
-                                title: 'Show 3D topology',
-                                visible: '{#show3D}'
-                            },
-                            events: {
-                                'click': '{#_show3d}'
-                            }
-                        },
-                        {
-                            tag: 'li',
                             name: 'setting',
                             content: [
                                 {
-                                    tag: 'i',
+                                    name: 'icon',
+                                    tag: 'span',
                                     props: {
-                                        'class': 'n-topology-nav-setting-icon'
+                                        'class': 'n-topology-nav-setting-icon glyphicon glyphicon-cog'
                                     },
                                     events: {
                                         mouseenter: "{#_openPopover}",
@@ -299,8 +202,7 @@
                                     props: {
                                         title: 'Topology Setting',
                                         direction: "right",
-                                        lazyClose: true,
-                                        'class': 'n-topology-setting'
+                                        lazyClose: true
                                     },
                                     content: [
                                         {
@@ -313,9 +215,7 @@
                                                 {
                                                     tag: 'input',
                                                     props: {
-                                                        // name: 'viewsetting',
-                                                        type: 'radio',
-                                                        checked: '{#showIcon,converter=inverted,direction=<>}'
+                                                        type: 'radio'
                                                     }
                                                 },
                                                 {
@@ -333,9 +233,7 @@
                                                 {
                                                     tag: 'input',
                                                     props: {
-                                                        // name: 'viewsetting',
-                                                        type: 'radio',
-                                                        checked: '{#showIcon,direction=<>}'
+                                                        type: 'radio'
                                                     }
                                                 },
                                                 {
@@ -379,15 +277,15 @@
                                                         'class': 'btn btn-default',
                                                         value: 'dark'
                                                     },
-                                                    content: "Transformers"
+                                                    content: "Dark"
                                                 },
                                                 {
                                                     tag: 'button',
                                                     props: {
                                                         'class': 'btn btn-default',
-                                                        value: 'darkblue'
+                                                        value: 'slate'
                                                     },
-                                                    content: "Avatar"
+                                                    content: "Slate"
                                                 }
 
                                             ],
@@ -398,7 +296,11 @@
                                         {
                                             name: 'customize'
                                         }
-                                    ]
+                                    ],
+                                    events: {
+                                        'open': '{#_openSettingPanel}',
+                                        'close': '{#_closeSettingPanel}'
+                                    }
                                 }
                             ],
                             props: {
@@ -410,51 +312,81 @@
             ]
         },
         methods: {
-            onInit: function () {
-                this.watch("mode", function (prop, value) {
-                    if (value == "selectionNode") {
-                        this.resolve("mode").childAt(1).removeClass("n-topology-nav-mode-selected");
-                        this.resolve("mode").childAt(0).addClass("n-topology-nav-mode-selected");
-                    } else {
-                        this.resolve("mode").childAt(0).removeClass("n-topology-nav-mode-selected");
-                        this.resolve("mode").childAt(1).addClass("n-topology-nav-mode-selected");
-                    }
+            init: function (args) {
+                this.inherited(args);
+
+
+//                this.scaleTootip = new nx.ui.Tooltip({
+//                    direction: "right"
+//                });
+
+
+                this.watch('scale', function (prop, scale) {
+                    var topo = this.topology();
+                    var maxScale = topo.maxScale();
+                    var minScale = topo.minScale();
+                    var navBall = this.resolve("zoomball").resolve('@root');
+                    var step = 65 / (maxScale - minScale);
+                    navBall.setStyles({
+                        top: 72 - (scale - minScale) * step + 14
+                    });
                 }, this);
 
-                this.mode(this.mode());
-                this.resolve("setting").on("mouseenter", this._enterSetting, this);
-                this.resolve("setting").on("mouseleave", this._leaveSetting, this);
+
+//                this.resolve("setting").on("mouseenter", this._enterSetting, this);
+//                this.resolve("setting").on("mouseleave", this._leaveSetting, this);
 
 
-                this.scaleTootip = new nx.ui.Tooltip({
-                    direction: "right"
-                });
+                this.view('settingPopover').view().dom().addClass('n-topology-setting-panel');
 
 
                 if (window.top.frames.length) {
-                    this.resolve("fullscreen").visible(false);
+                    this.resolve("fullscreen").resolve('@root').visible(false);
                 }
             },
-            onAppend: function () {
-                var topo = this.owner();
+            _switchSelectionMode: function (sender, event) {
+                this.view("selectionMode").dom().addClass("n-topology-nav-mode-selected");
+                this.view("moveMode").dom().removeClass("n-topology-nav-mode-selected");
 
-                this.topology(topo);
+                var topo = this.topology();
+                var currentSceneName = topo.currentSceneName();
+                if (currentSceneName != 'selection') {
+                    topo.activateScene('selection');
+                    this._prevSceneName = currentSceneName;
+                }
 
-                topo.selectedNodes().watch("length", function (prop, value) {
-                    this.resolve("agr").visible(nx.DEBUG && value > 1);
-                }, this);
 
+            },
+            _switchMoveMode: function (sender, event) {
+                this.view("selectionMode").dom().removeClass("n-topology-nav-mode-selected");
+                this.view("moveMode").dom().addClass("n-topology-nav-mode-selected");
+
+                var topo = this.topology();
+                var currentSceneName = topo.currentSceneName();
+                if (currentSceneName == 'selection') {
+                    topo.activateScene(this._prevSceneName || 'default');
+                    this._prevSceneName = null;
+                }
             },
             _fit: function (sender, event) {
-                this.fire("fit");
-                event.stop();
+                this.topology().fit(true);
+            },
+            _zoombyselection: function (sender, event) {
+                var topo = this.topology();
+                var currentSceneName = topo.currentSceneName();
+                var scene = topo.activateScene('zoomBySelection');
+                var icon = sender;
+                scene.on('finish', function (sender, bound) {
+                    topo.zoomByBound(bound);
+                    topo.activateScene(currentSceneName);
+                    icon.dom().removeClass('n-topology-nav-zoom-selection-selected');
+                }, this);
+                icon.dom().addClass('n-topology-nav-zoom-selection-selected');
             },
             _out: function (sender, event) {
-                //var maxScale = this.maxScale();
-                //var minScale = this.minScale();
-                //this.scale(this.scale() + (maxScale - minScale) / 8);
-                this.scale(this.scale() + 1);
-                event.stop();
+                var topo = this.topology();
+                topo.zoom(topo.scale() + 1);
+                event.preventDefault();
             },
             _in: function (sender, event) {
                 var maxScale = this.maxScale();
@@ -465,22 +397,6 @@
             },
             _full: function () {
                 this.toggleFull();
-            },
-            _selectionMode: function (sender, event) {
-                this.resolve("mode").childAt(1).removeClass("n-topology-nav-mode-selected");
-                this.resolve("mode").childAt(0).addClass("n-topology-nav-mode-selected");
-                this.mode("selectionNode");
-                event.stop();
-            },
-            _moveMode: function (sender, event) {
-                this.resolve("mode").childAt(0).removeClass("n-topology-nav-mode-selected");
-                this.resolve("mode").childAt(1).addClass("n-topology-nav-mode-selected");
-                this.mode("move");
-                event.stop();
-            },
-            _show3d: function (sender, event) {
-                this.fire("show3DTopology");
-                event.stop();
             },
             _enterSetting: function (event) {
                 this.resolve("setting").addClass("n-topology-nav-setting-open");
@@ -499,13 +415,6 @@
                     }
                 }
             },
-
-            /**
-             * Let topology enter full screen mode
-             * @param el
-             * @returns {boolean}
-             * @method requestFullScreen
-             */
             requestFullScreen: function (el) {
                 // Supports most browsers and their versions.
                 var requestMethod = el.requestFullScreen || el.webkitRequestFullScreen || el.mozRequestFullScreen || el.msRequestFullScreen;
@@ -520,12 +429,6 @@
                 }
                 return false
             },
-            /**
-             * Toggle topology's full screen mode
-             * @returns {boolean}
-             * @method toggleFull
-             */
-
             toggleFull: function () {
                 var elem = document.body; // Make the body go full screen.
                 var isInFullScreen = (document.fullScreenElement && document.fullScreenElement !== null) || (document.mozFullScreen || document.webkitIsFullScreen);
@@ -539,67 +442,25 @@
                 }
                 return false;
             },
-            _zoombyselection: function () {
-                this.mode("zoomBySelection");
-            },
+
             _openPopover: function (sender, event) {
-                this.resolve("settingPopover").open({
-                    target: sender._element
-                })
+                this.view("settingPopover").open({
+                    target: sender.dom(),
+                    offsetY: 3
+                });
+                this.view('icon').dom().addClass('n-topology-nav-setting-icon-selected');
             },
             _closePopover: function () {
-                this.resolve("settingPopover").close();
+                this.view("settingPopover").close();
             },
-            _agr: function () {
-                this.mode("move");
-
-                var topo = this.owner();
-
-                var nodes = topo.selectedNodes().toArray();
-
-                nx.each(nodes, function (node) {
-                    node.selected(false);
-                });
-
-
-                topo.aggregationNodes(nodes);
-
-
-            },
-            _openSearchPopover: function (sender, event) {
-
-                this.resolve('searchPanel').open({
-                    target: sender,
-                    direction: 'right',
-                    offsetX: 12,
-                    offsetY: -6
-                })
-            },
-            _closeSearchPopover: function () {
-                //this.resolve('searchPopup').close();
+            _closeSettingPanel: function () {
+                this.view('icon').dom().removeClass('n-topology-nav-setting-icon-selected');
             },
             _switchTheme: function (sender, event) {
-                this.theme(event.target.value);
-            },
-            _openSearchPanel: function () {
-                this.resolve("search").addClass('n-topology-nav-search-active');
-
-                this.topology().fire("openSearchPanel");
-
-            },
-            _closeSearchPanel: function () {
-                this.resolve("search").removeClass('n-topology-nav-search-active');
-
-                this.topology().fire("closeSearchPanel");
-            },
-            _changeSearch: function () {
-                this.topology().fire("changeSearch");
-
-            },
-            _executeSearch: function () {
-                this.topology().fire("executeSearch");
-
+                this.topology().theme(event.target.value);
             }
         }
     });
+
+
 })(nx, nx.graphic.util, nx.global);

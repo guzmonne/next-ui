@@ -357,7 +357,7 @@
 
                 this.fire("openLinkSetToolTip", linkSet);
             },
-            closeeAll: function () {
+            closeAll: function () {
                 this.tooltips().each(function (obj, name) {
                     obj.value.close(true);
                 }, this);

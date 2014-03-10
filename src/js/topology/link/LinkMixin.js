@@ -30,6 +30,9 @@
             supportMultipleLink: {
                 value: true
             },
+            linkEnable: {
+                value: true
+            },
             linkSetDrawMethod: {}
         },
         methods: {

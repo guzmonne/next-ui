@@ -130,31 +130,6 @@
 //                util.defer(this.adjustLayout.bind(this));
             },
             /**
-             * Append a graphic element
-             * @param el
-             * @method appendChild
-             */
-            appendChild: function (el) {
-                this.resolve('container').appendChild(el);
-            },
-            /**
-             * Prepend a graphic element
-             * @param el
-             * @method prependChild
-             */
-            prependChild: function (el) {
-                this.resolve('container').prependChild(el);
-            },
-            /**
-             * Insert a graphic element at index
-             * @param el
-             * @param index
-             * @method insertAt
-             */
-            insertAt: function (el, index) {
-                this.resolve('container').insertAt(el, index);
-            },
-            /**
              * Recover topology's translate
              * @method recover
              */
@@ -186,18 +161,6 @@
             },
 
 
-            /**
-             * Make topology fit stage
-             * @method fit
-             */
-            fit: function (isNotify) {
-                this._setProjection(true, isNotify);
-                if (this.scale() != 1) {
-                    this.scale(1);
-                }
-                this.stage().recover();
-                this.fire('updating');
-            },
             /**
              * Move topology
              * @method move

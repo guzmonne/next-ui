@@ -44,7 +44,7 @@
                 return this.resolve('@root');
             },
             getBound: function () {
-                return this.root().$dom.getBBox();
+                return this.root().$dom.getBoundingClientRect();
             },
             animate: function (config) {
                 var self = this;

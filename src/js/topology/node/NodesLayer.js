@@ -158,7 +158,6 @@
                 }, this);
 
                 node.on('nodemouseup', function (sender, event) {
-                    node.selected(!node.selected());
                     this.fire('clickNode', node);
                 }, this);
 
@@ -172,13 +171,6 @@
                 }, this);
 
                 node.on('nodeselected', function (sender, event) {
-                    topo.selectedNodes().clear();
-                    if (node.selected()) {
-                        topo.selectedNodes().add(node);
-                    } else {
-                        topo.selectedNodes().remove(node);
-                    }
-
                     this.fire('selectNode', node);
                 }, this);
 
@@ -300,6 +292,13 @@
                         node.append(this.resolve('static'));
                     }, this);
                     this.highlightedNodes([]);
+                }, this);
+            },
+            resetProjection: function () {
+                var nodes = this.nodes();
+                nx.each(nodes, function (node) {
+                    var model = node.model();
+                    node.moveTo(projectionX.get(model.get('x')), projectionY.get(model.get('y')));
                 }, this);
             },
             clear: function () {

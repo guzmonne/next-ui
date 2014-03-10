@@ -63,13 +63,19 @@
                 }, this);
             },
             setTransform: function (translateX, translateY, scale, rotate) {
-                var transform = 'translate(' + (translateX || this._translateX) + 'px, ' + (translateY || this._translateY) + 'px) scale(' + (scale || this._scale) + ')  rotate(' + (rotate || this._rotate) + ')';
+
+                var tx = translateX != null ? translateX : this._translateX;
+                var ty = translateY != null ? translateY : this._translateY;
+                var scl = scale != null ? scale : this._scale;
+                var rot = rotate != null ? rotate : this._rotate;
+
+
+                var transform = 'translate(' + tx + 'px, ' + ty + 'px) scale(' + scl + ')  rotate(' + rot + ')';
                 this.resolve("@root").$dom.style.cssText = "-webkit-transform:" + transform;
-                //this.stage().root().setStyle('transition', 'none 0');
-                this._translateX = translateX || this._translateX;
-                this._translateY = translateY || this._translateY;
-                this._scale = scale || this._scale;
-                this._rotate = rotate || this._rotate;
+                this._translateX = tx;
+                this._translateY = ty;
+                this._scale = scl;
+                this._rotate = rot;
             },
             set: function (key, value) {
                 if (this.resolve('@root') && value !== undefined) {
