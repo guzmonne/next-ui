@@ -41,5 +41,6 @@ nx.define("wq.button", nx.ui.Component, {
 
 test('type logic', function () {
     ok(true)
+    ok(true)
 
 })
