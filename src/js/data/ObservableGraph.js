@@ -199,7 +199,7 @@
              */
 
             getData: function () {
-                var data = this._originalData;
+                var data = nx.clone(this._originalData);
                 if (data.nodeSet.length === 0) {
                     delete data.nodeSet;
                 }
