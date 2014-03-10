@@ -16,7 +16,7 @@
                 xhr.onreadystatechange = function () {
                     if (xhr.readyState == 4) {
                         var type = xhr.getResponseHeader('Content-Type');
-                        var result = type === 'application/json' ? JSON.parse(xhr.responseText) : xhr.responseText;
+                        var result = (type.indexOf('application/json') >= 0) ? JSON.parse(xhr.responseText) : xhr.responseText;
                         callback(result);
                     }
                 };
