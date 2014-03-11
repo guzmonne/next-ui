@@ -121,6 +121,11 @@
                     if (nx.is(value, AbstractComponent)) {
                         value.attach(this);
                     }
+                    else if (nx.is(value, 'Array')) {
+                        nx.each(value, function (v) {
+                            createComponent(v, this.owner()).attach(this);
+                        }, this);
+                    }
                     else if (value) {
                         createComponent(value, this.owner()).attach(this);
                     }
