@@ -23,6 +23,22 @@
                         }
                     });
                 }
+            },
+            'class': {
+                get: function () {
+                    return this.view().class();
+                },
+                set: function (value) {
+                    this.view().class(value);
+                }
+            },
+            style: {
+                get: function () {
+                    return this.view().style();
+                },
+                set: function (value) {
+                    this.view().style(value);
+                }
             }
         },
         methods: {

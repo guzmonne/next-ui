@@ -272,7 +272,7 @@
             init: function (owner) {
                 this.inherited();
                 this._owner = owner;
-                this._classList = [];
+                this._classList = this._owner.resolve('@root').get('class').split(' ');
             },
             has: function (name) {
                 return name in this._classList;
@@ -299,6 +299,17 @@
                     this._classList.splice(index, 1);
                     this._owner.resolve('@root').set('class', this._classList.join(' '));
                 }
+            },
+            toggleClass: function (name) {
+                var index = this._classList.indexOf(name);
+                if (index >= 0) {
+                    this._classList.splice(index, 1);
+                }
+                else {
+                    this._classList.push(name);
+                }
+
+                this._owner.resolve('@root').set('class', this._classList.join(' '));
             },
             dispose: function () {
                 this.inherited();
@@ -339,11 +350,22 @@
                     return this._class;
                 },
                 set: function (value) {
+                    var cssClass = this._class;
                     if (nx.is(value, 'Array')) {
-                        var cssClass = this._class;
                         nx.each(value, function (item, index) {
                             setProperty(cssClass, '' + index, item, this);
                         }, this);
+                    }
+                    else if (nx.is(value, 'Object')) {
+                        if (value.add) {
+                            this._class.addClass(value.add);
+                        }
+                        if (value.remove) {
+                            this._class.addClass(value.remove);
+                        }
+                        if (value.toggle) {
+                            this._class.addClass(value.toggle);
+                        }
                     }
                     else {
                         this.resolve('@root').set('class', value);
