@@ -178,6 +178,7 @@
                         }
 
                         this.onAttach(parent, index);
+                        parent.onChildAttach(this, index);
 
                         if (index >= 0) {
                             parent.content().insert(this, index);
@@ -211,6 +212,7 @@
                     }
 
                     this.onDetach(parent);
+                    parent.onChildDetach(this);
                     parent.content().remove(this);
                     this.parent(null);
                     this.owner(null);
@@ -222,10 +224,12 @@
                 }
             },
             onAttach: function (parent, index) {
-                throw new Error('Not Implemented');
             },
             onDetach: function (parent) {
-                throw new Error('Not Implemented');
+            },
+            onChildAttach: function (child, index) {
+            },
+            onChildDetach: function (child) {
             },
             register: function (name, value, force) {
                 var resources = this._resources;
