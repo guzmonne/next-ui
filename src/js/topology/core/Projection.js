@@ -85,7 +85,7 @@
              * @private
              */
             _setProjection: function (force, isNotify) {
-                var graph = this.model();
+                var graph = this.graph();
                 var visibleContainerWidth = this.containerWidth();
                 var visibleContainerHeight = this.containerHeight();
 
@@ -236,8 +236,8 @@
 
             _getScaleTranslate: function () {
                 var stage = this.stage();
-                var width = this.visibleContainerWidth();
-                var height = this.visibleContainerHeight();
+                var width = this.width();
+                var height = this.height();
                 var scale = this._scale = Math.max(Math.min(this._maxScale, this._scale), this._minScale);
                 var _scale = this._prevScale || 1;
                 var finialScale = this._finialScale || 1;
@@ -249,8 +249,8 @@
 
                 if (!_zoomCenterPoint) {
                     _zoomCenterPoint = {
-                        x: width / 2 + this.paddingLeft(),
-                        y: height / 2 + this.paddingTop()
+                        x: width / 2,
+                        y: height / 2
                     };
                 }
 
@@ -355,7 +355,7 @@
 
                 var proX = this.projectionX();
                 var proY = this.projectionY();
-                var bound = this.model().getBound();
+                var bound = this.graph().getBound();
 
                 var _x = proX.get(bound.x);
                 var _y = proY.get(bound.y);
@@ -489,10 +489,10 @@
 //                clearTimeout(this._adjustLayoutTimer);
 //                this._adjustLayoutTimer = util.timeout(function () {
 //
-//                    var model = this.model();
+//                    var model = this.graph();
 //
 //                    if (model) {
-//                        var length = this.model().getVisibleVertices().length;
+//                        var length = this.graph().getVisibleVertices().length;
 //
 //                        if (length !== 0 && this.stage) {
 //                            var bound = this.getLayer("nodes").getBBox();

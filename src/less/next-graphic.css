@@ -26,6 +26,9 @@
   -o-user-select: none;
   user-select: none;
 }
+.n-topology.n-topology-blue svg {
+  box-sizing: content-box;
+}
 .n-topology.n-topology-blue g {
   pointer-events: all;
 }
@@ -395,6 +398,9 @@
   -ms-user-select: none;
   -o-user-select: none;
   user-select: none;
+}
+.n-topology.n-topology-dark svg {
+  box-sizing: content-box;
 }
 .n-topology.n-topology-dark g {
   pointer-events: all;
@@ -766,6 +772,9 @@
   -o-user-select: none;
   user-select: none;
 }
+.n-topology.n-topology-green svg {
+  box-sizing: content-box;
+}
 .n-topology.n-topology-green g {
   pointer-events: all;
 }
@@ -1135,6 +1144,9 @@
   -ms-user-select: none;
   -o-user-select: none;
   user-select: none;
+}
+.n-topology.n-topology-slate svg {
+  box-sizing: content-box;
 }
 .n-topology.n-topology-slate g {
   pointer-events: all;

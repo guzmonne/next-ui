@@ -1,6 +1,6 @@
 (function (nx, util, global) {
 
-    nx.define("nx.graphic.Topology.Model", {
+    nx.define("nx.graphic.Topology.Graph", {
         events: ['beforeSetData', 'afterSetData', 'insertData'],
         properties: {
             /**
@@ -12,24 +12,24 @@
                 },
                 set: function (value) {
                     this._identiyKey = value;
-                    this.model().set('identityKey', value);
+                    this.graph().set('identityKey', value);
                 }
             },
             data: {
                 get: function () {
-                    return this.model().getData();
+                    return this.graph().getData();
                 },
                 set: function (value) {
 
                     var fn = function (data) {
                         this.fire("beforeSetData", data);
                         this.clear();
-                        this.model().sets({
+                        this.graph().sets({
                             width: this.visibleContainerWidth(),
                             height: this.visibleContainerHeight()
                         });
                         // set Data;
-                        this.model().setData(data);
+                        this.graph().setData(data);
                         //
                         this.fire("afterSetData", data);
                     };
@@ -54,9 +54,9 @@
                 set: function (value) {
                     this._autoLayout = value;
                     if (value) {
-                        this.model().dataProcessor("force");
+                        this.graph().dataProcessor("force");
                     } else {
-                        this.model().dataProcessor("");
+                        this.graph().dataProcessor("");
                     }
                 }
             },
@@ -66,7 +66,7 @@
                 },
                 set: function (value) {
                     this._xMutatorMethod = value;
-                    this.model().set('xMutatorMethod', value);
+                    this.graph().set('xMutatorMethod', value);
                 }
             },
             yMutatorMethod: {
@@ -75,7 +75,7 @@
                 },
                 set: function (value) {
                     this._yMutatorMethod = value;
-                    this.model().set('yMutatorMethod', value);
+                    this.graph().set('yMutatorMethod', value);
                 }
             },
             dataProcessor: {
@@ -84,30 +84,18 @@
                 },
                 set: function (value) {
                     this._dataProcessor = value;
-                    this.model().set('dataProcessor', value);
+                    this.graph().set('dataProcessor', value);
                 }
             },
-            model: {
-                get: function () {
-                    if (!this._model) {
-                        this._model = new nx.data.ObservableGraph();
-                    }
-                    return this._model;
-                },
-                set: function (value) {
-                    if (!this._model) {
-                        this._model = new nx.data.ObservableGraph();
-                    }
-                    this._dataModel = value;
+            graph: {
+                value: function () {
+                    return new nx.data.ObservableGraph();
                 }
-            },
-            dataModel: {
-
             }
         },
         methods: {
-            initModel: function () {
-                var graph = this.model();
+            initGraph: function () {
+                var graph = this.graph();
                 graph.sets({
                     xMutatorMethod: this.xMutatorMethod(),
                     yMutatorMethod: this.yMutatorMethod(),
@@ -216,7 +204,7 @@
             },
 
             insertData: function (data) {
-                this.model().insertData(data);
+                this.graph().insertData(data);
                 this.adjustLayout();
                 this.fire("insertData", data);
             },
@@ -233,7 +221,7 @@
 
 
             _saveData: function () {
-                var data = this.model().getData();
+                var data = this.graph().getData();
 
                 if (Object.prototype.toString.call(window.localStorage) === "[object Storage]") {
                     localStorage.setItem("topologyData", JSON.stringify(data));

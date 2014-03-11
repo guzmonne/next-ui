@@ -98,7 +98,7 @@
 //                    var linkSet = linkSetMap[linkKey] || linkSetMap[reverseLinkKey];
 //                    if (linkSet) {
 //                        linkSet.destroy();
-//                        delete linkSetMap[linkSet.model().linkKey()]
+//                        delete linkSetMap[linkSet.graph().linkKey()]
 //                    }
 //                });
             },
@@ -144,7 +144,7 @@
 
             getLinkSet: function (sourceVertexID, targetVertexID) {
                 var topo = this.topology();
-                var edgeSet = topo.model().getEdgeSetBySourceAndTarget(sourceVertexID, targetVertexID);
+                var edgeSet = topo.graph().getEdgeSetBySourceAndTarget(sourceVertexID, targetVertexID);
                 return this.getLinkSetByLinkKey(edgeSet.linkKey());
             },
             getLinkSetByLinkKey: function (linkKey) {

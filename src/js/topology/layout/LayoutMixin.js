@@ -39,7 +39,7 @@
                 var layout = this.layout();
                 var name = inName || this.currentLayoutName();
                 if (layout[name] && layout[name]['process']) {
-                    layout[name]['process'].call(this, this.model(), name);
+                    layout[name]['process'].call(this, this.graph(), name);
                     this.currentLayoutName(name);
                 }
             },

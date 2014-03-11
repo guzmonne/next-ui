@@ -49,7 +49,7 @@
                         layerObj = layer;
                     }
                     layerObj.topology(this);
-                    layerObj.model(this.model());
+                    layerObj.model(this.graph());
 
 
                     nx.each(layerObj.__events__, function (eventName) {

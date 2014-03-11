@@ -3,7 +3,7 @@
         mixins: [
             nx.graphic.Topology.Config,
             nx.graphic.Topology.Projection,
-            nx.graphic.Topology.Model,
+            nx.graphic.Topology.Graph,
             nx.graphic.Topology.Event,
             nx.graphic.Topology.StageMixin,
             nx.graphic.Topology.NodeMixin,
@@ -97,7 +97,7 @@
                 this.inherited(args);
                 this.sets(args);
                 this.initLayer();
-                this.initModel();
+                this.initGraph();
                 this.initNode();
                 this.initScene();
             },

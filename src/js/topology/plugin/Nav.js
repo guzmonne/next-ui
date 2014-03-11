@@ -385,15 +385,13 @@
             },
             _out: function (sender, event) {
                 var topo = this.topology();
-                topo.zoom(topo.scale() + 1);
+                topo.zoom(topo.scale() + 0.5);
                 event.preventDefault();
             },
             _in: function (sender, event) {
-                var maxScale = this.maxScale();
-                var minScale = this.minScale();
-                this.scale(this.scale() - (maxScale - minScale) / 8);
-
-                event.stop();
+                var topo = this.topology();
+                topo.zoom(topo.scale() - 0.5);
+                event.preventDefault();
             },
             _full: function () {
                 this.toggleFull();

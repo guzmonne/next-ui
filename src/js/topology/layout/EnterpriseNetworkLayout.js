@@ -61,7 +61,7 @@
             _group: function () {
                 var topo = this.topology();
                 var groupBy = this.groupBy();
-                var groups = util.groupBy(topo.model().vertices, groupBy);
+                var groups = util.groupBy(topo.graph().vertices, groupBy);
 
                 var keyAry = [];
                 var sortOrder = this.sortOrder();
@@ -103,7 +103,7 @@
             _order: function (inGroup) {
 
                 var topo = this.topology();
-                var model = topo.model();
+                var model = topo.graph();
 
 
                 inGroup[0].sort(function (a, b) {

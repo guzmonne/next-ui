@@ -31,18 +31,16 @@
                     selectedNodes.clear();
                 }
                 this._prevSelectedNodes = this.selectedNodes().toArray().slice();
-
-
                 var bounds = this.bounds = [];
                 this.topology().eachNode(function (node) {
-                    var bound = node.getIconBound();
-                    bounds.push({
-                        bound: bound,
-                        node: node
-                    });
-
+                    if (node.enable()) {
+                        var bound = node.getIconBound();
+                        bounds.push({
+                            bound: bound,
+                            node: node
+                        });
+                    }
                 }, this);
-
             },
             dragStage: function (sender, event) {
                 this.inherited(sender, event);

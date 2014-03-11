@@ -435,7 +435,7 @@
             },
             _groupBy: function () {
                 var topo = this.topology();
-                var model = topo.model();
+                var model = topo.graph();
                 var vertices = model.vertices;
                 var shapeType = this.shapeType();
                 var fn = this.groupByHandler;

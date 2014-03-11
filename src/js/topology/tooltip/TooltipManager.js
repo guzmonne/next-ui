@@ -169,7 +169,7 @@
                 instance.sets({
                     topology: topology,
                     tooltipManager: this,
-                    model: topology.dataModel()
+                    model: topology.graph()
                 });
                 tooltips.setItem(name, instance);
             },
@@ -221,7 +221,7 @@
                     content.sets({
                         topology: topo,
                         node: node,
-                        model: topo.dataModel()
+                        model: topo.model()
                     });
                 }
 
@@ -265,7 +265,7 @@
                     content.sets({
                         topology: topo,
                         nodeSet: nodeSet,
-                        model: topo.dataModel()
+                        model: topo.graph()
                     });
                 }
 
@@ -307,7 +307,7 @@
                     content.sets({
                         topology: topo,
                         link: link,
-                        model: topo.dataModel()
+                        model: topo.graph()
                     });
                 }
 
@@ -341,7 +341,7 @@
                     content.sets({
                         topology: topo,
                         linkSet: linkSet,
-                        model: topo.dataModel()
+                        model: topo.graph()
                     });
                 }
 
