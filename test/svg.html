@@ -2,44 +2,32 @@
 <html>
 <head>
     <title></title>
+    <link rel="stylesheet" href="../lib/bootstrap/css/bootstrap.css"/>
 </head>
 <body>
-<svg id="svg" width="1250" height="1250">
-    <defs>
-        <svg x="0px" y="0px" width="10" height="10" viewBox="0 0 71 74.074" data-device-type="router" id="router"
-             class="deviceIcon">
-            <symbol id="Arrow_25" viewBox="-22.86 -13.14 45.721 26.279">
-                <polygon fill="none" points="-22.86,-13.14 22.86,-13.14 22.86,13.14 -22.86,13.14"></polygon>
-                <polygon class="white" fill="#FFFFFF"
-                         points="-20.298,-2.933 5.125,-2.933 5.125,-9.242 14.827,0.001 5.125,9.242 5.125,2.934 -20.298,2.934"></polygon>
-            </symbol>
-            <circle fill="#1F6EEE" class="bg" stroke-miterlimit="10" cx="35.977" cy="36.896" r="31.121"></circle>
-            <use xlink:href="#Arrow_25" width="45.721" height="26.279" x="-22.86" y="-13.14"
-                 transform="matrix(0.4768 0.5685 0.5685 -0.4768 26.4009 25.2617)" overflow="visible"></use>
-            <use xlink:href="#Arrow_25" width="45.721" height="26.279" x="-22.86" y="-13.14"
-                 transform="matrix(0.6118 -0.4199 -0.4199 -0.6118 50.9985 25.4111)" overflow="visible"></use>
-            <use xlink:href="#Arrow_25" width="45.721" height="26.279" x="-22.86" y="-13.14"
-                 transform="matrix(-0.4537 -0.587 -0.587 0.4537 45.1548 49.0225)" overflow="visible"></use>
-            <use xlink:href="#Arrow_25" width="45.721" height="26.279" x="-22.86" y="-13.14"
-                 transform="matrix(-0.587 0.4537 0.4537 0.587 21.7271 48.002)" overflow="visible"></use>
-        </svg>
-    </defs>
-    <g></g>
-</svg>
+<style type="text/css">
+    .topo-icon {
+        position: absolute;
+        display: block;
+        font-size: 10px;
+        line-height: 10px;
+        width: 10px;
+        height: 10px;
+        color: #1f6eee;
+    }
+</style>
+<div id="viewport" style="width: 1250px;height:1250px"></div>
 <script type="text/javascript">
     (function () {
-        var ns = "http://www.w3.org/2000/svg";
-        var xlink = "http://www.w3.org/1999/xlink";
-        var svg = document.getElementById('svg');
-        var g = svg.lastElementChild;
+        var viewport = document.getElementById('viewport');
         var x = 10, y = 10;
 
-        for (var i = 0; i < 10000; i++) {
-            var use = document.createElementNS(ns, 'use');
-            use.setAttributeNS(xlink, 'href', '#router');
-            use.setAttribute('transform', 'translate(' + x + ' ' + y + ')');
-
-            g.appendChild(use);
+        for (var i = 0; i < 40000; i++) {
+            var icon = document.createElement('i');
+            icon.setAttribute('class', 'topo-icon glyphicon glyphicon-time');
+            icon.style.left = x + 'px';
+            icon.style.top = y + 'px';
+            viewport.appendChild(icon);
 
             x += 12;
             if (x > 1200) {
@@ -52,25 +40,26 @@
         var positionX = 0;
         var positionY = 0;
 
-//        svg.addEventListener('mousedown', function (e) {
-//            dragTarget = e.target;
-//            positionX = e.offsetX;
-//            positionY = e.offsetY;
-//        });
-//
-//        svg.addEventListener('mouseup', function (e) {
-//            dragTarget = null;
-//        });
-//
-//        svg.addEventListener('mousemove', function (e) {
-//            if (dragTarget) {
-//                var tx = e.offsetX - positionX;
-//                var ty = e.offsetY - positionY;
-//                dragTarget.correspondingUseElement.setAttribute('transform', 'translate(' + tx + ' ' + ty + ')');
-////                dragTarget.setAttribute('cx', e.offsetX);
-////                dragTarget.setAttribute('cy', e.offsetY);
-//            }
-//        });
+        viewport.addEventListener('mousedown', function (e) {
+            dragTarget = e.target;
+            positionX = e.pageX;
+            positionY = e.pageY;
+        });
+
+        viewport.addEventListener('mouseup', function (e) {
+            dragTarget = null;
+        });
+
+        viewport.addEventListener('mousemove', function (e) {
+            if (dragTarget) {
+                var tx = e.pageX - positionX;
+                var ty = e.pageY - positionY;
+                dragTarget.style.webkitTransform = 'translate(' + tx + 'px,' + ty + 'px)';
+//                dragTarget.setAttribute('transform', 'translate(' + tx + ' ' + ty + ')');
+//                dragTarget.setAttribute('cx', e.offsetX);
+//                dragTarget.setAttribute('cy', e.offsetY);
+            }
+        });
     })();
 </script>
 </body>

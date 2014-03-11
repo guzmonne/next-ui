@@ -272,7 +272,7 @@
             init: function (owner) {
                 this.inherited();
                 this._owner = owner;
-                this._classList = this._owner.resolve('@root').get('class').split(' ');
+                this._classList = [];
             },
             has: function (name) {
                 return name in this._classList;
