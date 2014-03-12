@@ -45,6 +45,19 @@
             init: function () {
                 this.inherited();
                 var view = this['@view'];
+                if (nx.is(view, 'Function')) {
+                    var cls = this.constructor;
+                    var superView;
+                    while (cls) {
+                        cls = cls.__super__;
+                        superView = cls['@view'];
+                        if (superView) {
+                            break;
+                        }
+                    }
+                    view = view.call(this, nx.clone(superView));
+                }
+
                 if (view) {
                     var comp = AbstractComponent.createComponent(view, this);
                     this.register('@root', comp.resolve('@root'));
