@@ -128,6 +128,12 @@
                 }
                 return nxElements;
             },
+            focus: function () {
+                this.$dom.focus();
+            },
+            blur: function () {
+                this.$dom.blur();
+            },
             show: function () {
                 this.setAttribute('nx-status','');
             },
