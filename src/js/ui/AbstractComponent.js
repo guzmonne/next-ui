@@ -108,7 +108,7 @@
         statics: {
             createComponent: createComponent
         },
-        events: ['enter', 'leave'],
+        events: ['enter', 'leave','contententer','contentleave'],
         properties: {
             content: {
                 get: function () {
@@ -189,6 +189,10 @@
 
                         this.parent(parent);
                         this.owner(owner);
+                        parent.fire('contententer',{
+                            content: this,
+                            owner: owner
+                        });
                         this.fire('enter', {
                             parent: parent,
                             owner: owner
@@ -216,6 +220,10 @@
                     parent.content().remove(this);
                     this.parent(null);
                     this.owner(null);
+                    parent.fire('contentleave',{
+                        content: this,
+                        owner: owner
+                    });
                     this.fire('leave', {
                         parent: parent,
                         owner: owner
