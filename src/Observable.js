@@ -155,6 +155,9 @@
                                 if (setter.call(this, value, params) !== false) {
                                     this.notify(refs);
                                 }
+                                else {
+                                    return false;
+                                }
                             }
                         };
 
