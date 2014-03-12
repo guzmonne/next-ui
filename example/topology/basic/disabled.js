@@ -28,7 +28,7 @@
     };
     var colorTable = ['#C3A5E4', '#75C6EF', '#CBDA5C', '#ACAEB1 ', '#2CC86F'];
 
-    nx.define('Base.Base', nx.ui.Component, {
+    nx.define('Base.Disabled', nx.ui.Component, {
         view: {
             content: {
                 type: 'nx.graphic.Topology',
@@ -38,7 +38,18 @@
                     nodeLabel: 'model.id',
                     nodeShowIcon: true,
                     data: topologyData
+                },
+                events: {
+                    'afterSetData': '{#_setDisable}'
                 }
+            }
+        },
+        methods: {
+            _setDisable: function () {
+                var links = topo.getLayer('links').links();
+                var link = links[1];
+                link.enable(false);
+                link.update();
             }
         }
     });

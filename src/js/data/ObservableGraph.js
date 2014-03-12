@@ -527,7 +527,7 @@
 
 
             _addVertexSet: function (data, config) {
-                var verticesLength = this.vertices.length;
+                var verticesLength = this._vertexSet.length;
                 var identityKey = this.identityKey();
                 //
                 if (!nx.is(data, 'Object')) {
@@ -556,8 +556,8 @@
                     this.fire('updateVertexSetCoordinate', vertexSet);
                 }, this);
 
-                this.vertices.push(vertexSet);
-                this.verticesMap[vertexSetID] = vertexSet;
+//                this.vertices.push(vertexSet);
+//                this.verticesMap[vertexSetID] = vertexSet;
 
                 this._vertexSet.push(vertexSet);
                 this._vertexSetMap[vertexSetID] = vertexSet;
@@ -578,13 +578,12 @@
 
 
                     nx.each(vertices, function (internalID) {
-                        var vertex = this.verticesMap[internalID];
+                        var vertex = this.verticesMap[internalID] || this._vertexSet[internalID];
                         if (vertex) {
 
-                            vertex.eachConnectedVertices(function (inVertex) {
+                            vertex.eachConnectedVertices(function (vertex) {
                                 //var parentVertexSet = inVertex.parentVertexSet();
                                 //var vertex = parentVertexSet || inVertex;
-                                var vertex = inVertex;
                                 var id = vertex.id();
 
                                 //detect this node is in passed nodes array
@@ -622,6 +621,9 @@
 
                     }, this);
                 }
+
+                vertexSet.activated(true);
+
 
                 return addedVirtualEdgeSet;
             },

@@ -336,6 +336,8 @@
                     this.__zoomIndex = 0;
                     this.fire('zoomend');
                 }
+
+                this.notify('scale');
             },
 
             /**
@@ -482,6 +484,14 @@
              * @method adjustLayout
              */
 
+            getAbsolutePosition: function (point) {
+                var tx = this.stage().translateX();
+                var ty = this.stage().translateY();
+                return {
+                    x: tx + point.x,
+                    y: ty + point.y
+                };
+            },
             adjustLayout: function () {
 
                 return;

@@ -12,6 +12,7 @@
                 this._topo = this.topology();
                 this._nodesLayer = this._topo.getLayer("nodes");
                 this._linksLayer = this._topo.getLayer("links");
+                this._linkSetLayer = this._topo.getLayer("linkSet");
                 this._tooltipManager = this._topo.tooltipManager();
                 this._nodeDragging = false;
                 this._sceneTimer = null;
@@ -40,8 +41,8 @@
 
                 nx.each(topo.__events__, this._aop = function (eventName) {
                     topo.upon(eventName, function (sender, data) {
+                        tooltipManager.executeAction(eventName, data);
                         if (this[eventName]) {
-                            tooltipManager.executeAction(eventName, data);
                             this[eventName].call(this, sender, data);
                         }
                     }, this);
@@ -100,8 +101,12 @@
             zooming: function () {
                 var nodes = this._topo.getLayer('nodes').nodes().length;
                 if (nodes > 300) {
-                   this._topo.getLayer('links').root().setStyle('display', 'none');
+                    this._topo.getLayer('links').root().setStyle('display', 'none');
                 }
+                this._nodesLayer.recover();
+                this._linksLayer.recover();
+                this._linkSetLayer.recover();
+
             },
 
             zoomend: function () {
@@ -153,6 +158,7 @@
                 if (!this._nodeDragging) {
                     this._nodesLayer.recover();
                     this._linksLayer.recover();
+                    this._linkSetLayer.recover();
                 }
             },
             /**
@@ -205,46 +211,6 @@
 
             updateNodeCoordinate: function () {
 
-            },
-
-            node_updating: function () {
-
-
-            },
-            /**
-             * Enter link handler
-             * @param sender
-             * @param link
-             * @method link_enterLink
-             */
-            link_enterLink: function (sender, link) {
-
-            },
-            /**
-             * Leave link handler
-             * @param sender
-             * @param link
-             * @method link_leaveLink
-             */
-            link_leaveLink: function (sender, link) {
-
-            },
-
-
-            linkSet_click: function (sender, linkSet) {
-
-            },
-            linkSet_leave: function (sender, linkSet) {
-
-
-            },
-            _blockNavBar: function (value) {
-            },
-            _blockEvents: function (value) {
-
-            },
-            _cleanSelectedNodes: function () {
-                this._topo.selectedNodes().clear();
             }
         }
     });

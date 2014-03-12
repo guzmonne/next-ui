@@ -102,10 +102,10 @@
              * @returns {*}
              */
             getLinkSet: function (sourceVertexID, targetVertexID) {
-                return this.getLayer("links").getLinkSet(sourceVertexID, targetVertexID);
+                return this.getLayer("linkSet").getLinkSet(sourceVertexID, targetVertexID);
             },
             getLinkSetByLinkKey: function (linkKey) {
-                return this.getLayer("links").getLinkSetByLinkKey(linkKey);
+                return this.getLayer("linkSet").getLinkSetByLinkKey(linkKey);
             }
         }
     });

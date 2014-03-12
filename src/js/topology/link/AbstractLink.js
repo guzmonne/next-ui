@@ -197,7 +197,9 @@
              * Factory function , will be call when set model
              */
             setModel: function (model, isUpdate) {
+                //
                 this.model(model);
+                //
                 model.source().watch("position", function (prop, value) {
                     this.notify("sourcePosition");
                     this.update();
@@ -232,15 +234,18 @@
              * Factory function , will be call when relate data updated
              */
             update: function () {
-
-
+                this.notify('centerPoint');
+                this.notify('line');
+                this.notify('position');
+                this.notify('targetVector');
+                this.notify('sourceVector');
             },
             /**
              * Fade out a node
              * @method fadeOut
              */
             fadeOut: function () {
-                this.resolve("@root").setStyle('opacity', this.fadeValue());
+                this.root().setStyle('opacity', this.fadeValue());
                 this.fade(true);
             },
             /**
@@ -255,7 +260,7 @@
                     if (!sourceNode.enable() || !targetNode.enable() || sourceNode.fade() || targetNode.fade()) {
                         this.fadeOut();
                     } else {
-                        this.resolve("@root").setStyle('opacity', 1);
+                        this.root().setStyle('opacity', 1);
                         this.fade(false);
                     }
                 } else {

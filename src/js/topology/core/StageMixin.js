@@ -111,7 +111,7 @@
             _adaptToContainer: function () {
                 var bound = this.resolve("@root").parentNode().getBound();
                 if (bound.width === 0 || bound.height === 0) {
-                    nx.logger.log("Please set height*width to topology's parent container");
+                    //nx.logger.log("Please set height*width to topology's parent container");
                 }
                 this.height(bound.height);
                 this.width(bound.width);
@@ -123,6 +123,9 @@
              */
             adaptToContainer: function (isNotNotifyStageSizeChanged) {
                 this._adaptToContainer();
+                this.fit();
+
+
 //                if (!isNotNotifyStageSizeChanged) {
 //                    this._setProjection();
 //                }

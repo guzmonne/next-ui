@@ -16,6 +16,36 @@
                 value: function () {
                     return [];
                 }
+            },
+            visible: {
+                get: function () {
+                    return this._visible !== undefined ? this._visible : true;
+                },
+                set: function (visible) {
+
+                    nx.each(this.vertices(), function (edge) {
+                        edge.visible(visible);
+                    });
+
+
+                    if (this._visible !== undefined || this._visible !== value) {
+                        this.updated(true);
+                    }
+
+                    this._visible = visible;
+
+                }
+            },
+            activated: {
+                get: function () {
+                    return this._activated || false;
+                },
+                set: function (value) {
+                    nx.each(this.vertices(), function (edge) {
+                        edge.visible(!value);
+                    });
+                    this._activated = value;
+                }
             }
         },
         methods: {

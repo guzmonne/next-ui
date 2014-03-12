@@ -56,6 +56,8 @@
         "src/js/topology/tooltip/TooltipPolicy.js",
         "src/js/topology/tooltip/TopologyTooltip.js",
         "src/js/topology/tooltip/NodeTooltip.js",
+        "src/js/topology/tooltip/LinkTooltip.js",
+        "src/js/topology/tooltip/LinkSetTooltip.js",
         "src/js/topology/tooltip/TooltipManager.js",
 
         "src/js/topology/scene/Scene.js",

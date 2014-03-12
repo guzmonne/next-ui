@@ -95,6 +95,11 @@
              * @property  topology
              */
             topology: {},
+            nodesLayer: {
+                get: function () {
+                    return this.owner();
+                }
+            },
             /**
              * Get topology's x scale object
              * @property projectionX
@@ -154,6 +159,7 @@
             enable: {
                 value: true
             },
+
             fade: {
                 value: false
             },
@@ -247,18 +253,9 @@
              * @method getLinks
              */
             getLinks: function () {
-                var links = [];
-                var model = this.model();
-                var topo = this.topology();
-                model.eachEdge(function (edge) {
-                    var id = edge.id();
-                    var link = topo.getLink(id);
-                    links.push(link);
-                }, this);
-                return links;
+                return this.nodesLayer().getNodeConnectedLinks(this);
             },
             getConnectedLinkSet: function () {
-
                 var model = this.model();
                 var topo = this.topology();
                 var selfID = model.id();

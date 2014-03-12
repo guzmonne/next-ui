@@ -15,20 +15,19 @@
             {"source": 4, "target": 1},
             {"source": 2, "target": 3},
             {"source": 2, "target": 0},
-            {"source": 3, "target": 0},
-            {"source": 3, "target": 0},
-            {"source": 3, "target": 0},
-            {"source": 3, "target": 0},
-            {"source": 3, "target": 0},
-            {"source": 3, "target": 0},
-            {"source": 0, "target": 4},
             {"source": 0, "target": 4},
             {"source": 0, "target": 3}
+        ],
+        nodeSet: [
+            {id: 5, type: 'nodeSet', nodes: [2, 3], "x": 660, "y": 190, "name": "Node set 1", iconType: 'router'},
+//            {id: 6, type: 'nodeSet', nodes: [1, 5], "x": 410, "y": 190, "name": "Node set 2", iconType: 'groupS'},
+//            {id: 7, type: 'nodeSet', nodes: [6, 0], "x": 410, "y": 280, "name": "Node set 3", iconType: 'groupM'},
+//            {id: 8, type: 'nodeSet', nodes: [7, 4], "x": 410, "y": 280, "name": "Node set 4", iconType: 'groupL'}
         ]
     };
     var colorTable = ['#C3A5E4', '#75C6EF', '#CBDA5C', '#ACAEB1 ', '#2CC86F'];
 
-    nx.define('Base.Base', nx.ui.Component, {
+    nx.define('NodeSet.Base', nx.ui.Component, {
         view: {
             content: {
                 type: 'nx.graphic.Topology',

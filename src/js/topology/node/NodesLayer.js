@@ -252,6 +252,29 @@
 
 
             },
+            getNodeConnectedLinks: function (node) {
+                var links = [];
+                var model = node.model();
+                var topo = this.topology();
+                model.eachEdge(function (edge) {
+                    var id = edge.id();
+                    var link = topo.getLink(id);
+                    links.push(link);
+                }, this);
+                return links;
+            },
+            getNodeConnectedLinkSet: function (node) {
+                var model = node.model();
+                var topo = this.topology();
+                var linkSetAry = [];
+
+                model.eachEdgeSet(function (edgeSet) {
+                    var linkSet = topo.getLinkSetByLinkKey(edgeSet.linkKey());
+                    linkSetAry.push(linkSet);
+                });
+                return linkSetAry;
+
+            },
             highlightNode: function (node) {
                 var highlightedNodes = this.highlightedNodes();
                 var el = this.resolve('activated');
@@ -264,7 +287,13 @@
                 }, this);
 
                 var topo = this.topology();
-                topo.getLayer('links').highlightLinks(node.getLinks());
+                if (topo.supportMultipleLink()) {
+                    topo.getLayer('linkSet').highlightLinkSet(this.getNodeConnectedLinkSet(node));
+                } else {
+                    topo.getLayer('links').highlightLinks(this.getNodeConnectedLinks(node));
+                }
+
+
                 topo.getLayer('links').fadeOut();
                 this.fadeOut();
             },

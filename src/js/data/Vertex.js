@@ -308,20 +308,21 @@
                 return util.uniq(vertices);
             },
 
-            /**
-             * Iterate all connexted edgeSet
-             * @param callback {Function}
-             * @param context {Object}
-             */
-            eachEdgeSet: function (fn, context) {
+            getConnectedEdgeSet: function () {
                 var edgeSetMap = {};
                 nx.each(this.edges.concat(this.reverseEdges), function (edge) {
                     var edgeSet = edge.parentEdgeSet();
                     edgeSetMap[edgeSet.id()] = edgeSet;
                 }, this);
-
-                nx.each(edgeSetMap, fn, context || this);
-
+                return edgeSetMap;
+            },
+            /**
+             * Iterate all connexted edgeSet
+             * @param fn {Function}
+             * @param context {Object}
+             */
+            eachEdgeSet: function (fn, context) {
+                nx.each(this.getConnectedEdgeSet(), fn, context || this);
             },
             /**
              *Get root vertex set

@@ -1,30 +1,22 @@
 (function (nx, util, global) {
     /**
-     * @class nx.graphic.LinkSetTooltip
-     * @extend nx.graphic.Tooltip
-     */
-
-    nx.ui.define("nx.graphic.LinkSetTooltip", nx.ui.Popover, {
-        properties: {
-            lazyClose: {
-                value: true
-            }
-        },
-        methods: {
-            onInit: function () {
-                this.lazyClose(true);
-            }
-        }
-    });
-
-
-    /**
      * @class nx.graphic.LinkSetTooltipContent
      * @extend nx.ui.Component
      */
-    nx.ui.define("nx.graphic.LinkSetTooltipContent", {
+    nx.define("nx.graphic.Topology.linkSetTooltipContent", nx.ui.Component, {
         properties: {
-            linkSet: {}
+            linkSet: {
+                set: function (value) {
+                    var items = [];
+                    nx.each(value.links(), function (link) {
+                        items.push({
+                            item: "Source:" + link.sourceNode().label() + " Target :" + link.targetNode().label(),
+                            link: link});
+                    });
+                    this.resolve("list").items(items);
+                }
+            },
+            topology: {}
         },
         view: {
             content: [
@@ -37,22 +29,28 @@
                     },
                     content: {
                         name: 'list',
-                        type: 'nx.ui.SelectableList',
+                        props: {
+                            'class': 'list-group',
+                            style: 'width:200px',
+                            template: {
+                                tag: 'a',
+                                props: {
+                                    'class': 'list-group-item'
+                                },
+                                content: '{item}',
+                                events: {
+                                    'click': '{#_click}'
+                                }
+                            }
+                        }
                     }
                 }
             ]
         },
         methods: {
-            onInit: function () {
-                this.watch("linkSet", function (prop, linkSet) {
-                    if (linkSet) {
-                        var labels = [];
-                        nx.each(linkSet.getLinks(), function (link) {
-                            labels.push("<b>Source</b> :" + link.sourceNode().label() + " <b>Target</b> :" + link.targetNode().label());
-                        });
-                        this.resolve("list").items(labels);
-                    }
-                }, this);
+            _click: function (sender, events) {
+                var link = sender.model().link;
+                this.topology().fire('clickLink', link);
             }
         }
     });

@@ -113,6 +113,7 @@
                 var linkSetLayer = this.getLayer("linkSet");
 
                 graph.on("addVertex", function (sender, vertex) {
+                   
                     //  var start = new Date();
                     nodesLayer.addNode(vertex);
                     //console.log(new Date() - start);
@@ -156,6 +157,8 @@
 
 
                 graph.on("addVertexSet", function (sender, vertexSet) {
+                   
+                    console.log(vertexSet);
 
                 }, this);
 

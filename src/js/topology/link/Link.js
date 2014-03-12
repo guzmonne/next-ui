@@ -10,6 +10,7 @@
     var gutterStep = 5;
 
     nx.define('nx.graphic.Topology.Link', nx.graphic.Topology.AbstractLink, {
+        events: ['linkmousedown', 'linkmouseup', 'linkmouseenter', 'linkmouseleave'],
         properties: {
             /**
              * Get link type 'curve' / 'parallel'
@@ -147,8 +148,8 @@
                         style: 'stroke:#5BC1DF'
                     },
                     events: {
-                        'click': '{#_click}',
-                        'tap': '{#_click}',
+                        'mouseenter': '{#_mousenter}',
+                        'mouseleave': '{#_mouseleave}',
                         'mousedown': '{#_mousedown}',
                         'touchstart': '{#_mousedown}',
                         'mouseover': '{#_mouseover}',
@@ -243,6 +244,9 @@
              * @method update
              */
             update: function () {
+
+                this.inherited();
+
                 if (this.drawMethod()) {
                     this.drawMethod().call(this);
                 } else {
@@ -339,140 +343,34 @@
 
             fadeOut: function (force) {
                 this.inherited(force);
-
                 var parentLinkSet = this.parentLinkSet();
                 if (parentLinkSet) {
                     parentLinkSet.fadeOut(force);
                 }
-
-            },
-            lighting: function (force) {
-                this.inherited(force);
-
-                var parentLinkSet = this.parentLinkSet();
-                if (parentLinkSet) {
-                    parentLinkSet.lighting(force);
-                }
-
             },
             recover: function (force) {
                 this.selected(false);
                 this.fadeIn(force);
             },
-            setHint: function (inText, inConfig, direction) {
-                var hint = this._hint;
-                if (!hint) {
-                    hint = this._hint = new nx.graphic.Hint();
-                    this.owner().appendChild(hint);
+            _mousedown: function () {
+                if (this.enable()) {
+                    this.fire('linkmousedown');
                 }
-
-                hint.sets({
-                    text: inText,
-                    userDirection: direction,
-                    style: inConfig
-                });
-
-
-                //hint.update();
-
-                this._setHintPosition();
-
-                return hint;
-
             },
-
-            setSourceHint: function (inText, inConfig, direction) {
-
-                var hint = this._sourceHint;
-
-                if (!hint) {
-                    hint = this._sourceHint = new nx.graphic.Hint();
-                    this.owner().appendChild(hint);
+            _mouseup: function () {
+                if (this.enable()) {
+                    this.fire('linkmouseup');
                 }
-
-                hint.sets({
-                    text: inText,
-                    userDirection: direction,
-                    style: inConfig
-                });
-
-
-                this._setHintPosition();
-
-                return hint;
-
             },
-            setTargetHint: function (inText, inConfig, direction) {
-
-                var hint = this._targetHint;
-
-                if (!hint) {
-                    hint = this._targetHint = new nx.graphic.Hint();
-                    this.owner().appendChild(hint);
+            _mouseleave: function () {
+                if (this.enable()) {
+                    this.fire('linkmouseleave');
                 }
-
-                hint.sets({
-                    text: inText,
-                    userDirection: direction,
-                    style: inConfig
-                });
-
-                this._setHintPosition();
-
-                return hint;
-
             },
-            _setHintPosition: function () {
-                if (this._hintTimer) {
-                    clearTimeout(this._hintTimer);
+            _mouseenter: function () {
+                if (this.enable()) {
+                    this.fire('linkmouseenter');
                 }
-                this._hintTimer = nx.util.timeout(function () {
-                    var hint, point, direction;
-                    if (this._hint) {
-                        hint = this._hint;
-                        point = this.centerPoint();
-                        hint.position({x: point.x, y: point.y});
-
-                        hint.gap(10);
-                        if (!hint.userDirection()) {
-                            direction = ['bottom', 'right', 'left', 'top', 'bottom', 'right', 'left', 'top' ][parseInt(this.line().circumferentialAngle() / 45, 10)];
-                            hint.direction(direction);
-                        }
-
-                        hint.update();
-                    }
-
-
-                    if (this._sourceHint) {
-                        hint = this._sourceHint;
-                        point = this.sourcePoint();
-                        hint.position({x: point.x, y: point.y});
-                        hint.gap(10);
-                        if (!hint.userDirection()) {
-                            direction = ['bottom', 'right', 'left', 'top', 'bottom', 'right', 'left', 'top' ][parseInt(this.line().circumferentialAngle() / 45, 10)];
-                            hint.direction(direction);
-                        }
-                        hint.update();
-                    }
-
-                    if (this._targetHint) {
-                        hint = this._targetHint;
-                        point = this.targetPoint();
-                        hint.position({x: point.x, y: point.y});
-                        hint.gap(10);
-                        if (!hint.userDirection()) {
-                            direction = ['bottom', 'right', 'left', 'top', 'bottom', 'right', 'left', 'top' ][parseInt(this.line().circumferentialAngle() / 45, 10)];
-                            hint.direction(direction);
-                        }
-                        hint.update();
-                    }
-
-                }, 10, this);
-            },
-            destroy: function () {
-                var topo = this.topology();
-                //topo.unwatch('internalShowIcon', this._watchShowIcon, this);
-                this.inherited();
             }
         }
     });

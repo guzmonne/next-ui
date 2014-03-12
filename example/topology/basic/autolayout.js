@@ -7,8 +7,8 @@
                 type: 'nx.graphic.Topology',
                 props: {
                     adaptive: true,
-                    nodeLabel: '{id}',
-                    dataProcessor: 'quick',
+                    nodeLabel: 'model.id',
+                    dataProcessor: 'force',
                     identityKey: 'id',
                     nodeShowIcon: false,
                     useSmartLabel: false,

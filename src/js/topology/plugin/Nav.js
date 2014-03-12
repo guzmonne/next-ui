@@ -320,9 +320,17 @@
 //                    direction: "right"
 //                });
 
+                this.view('settingPopover').view().dom().addClass('n-topology-setting-panel');
 
-                this.watch('scale', function (prop, scale) {
-                    var topo = this.topology();
+
+                if (window.top.frames.length) {
+                    this.view("fullscreen").style().set("display", 'none');
+                }
+            },
+            attach: function (args) {
+                this.inherited(args);
+                var topo = this.topology();
+                topo.watch('scale', function (prop, scale) {
                     var maxScale = topo.maxScale();
                     var minScale = topo.minScale();
                     var navBall = this.resolve("zoomball").resolve('@root');
@@ -331,18 +339,7 @@
                         top: 72 - (scale - minScale) * step + 14
                     });
                 }, this);
-
-
-//                this.resolve("setting").on("mouseenter", this._enterSetting, this);
-//                this.resolve("setting").on("mouseleave", this._leaveSetting, this);
-
-
-                this.view('settingPopover').view().dom().addClass('n-topology-setting-panel');
-
-
-                if (window.top.frames.length) {
-                    this.resolve("fullscreen").resolve('@root').visible(false);
-                }
+                topo.notify('scale');
             },
             _switchSelectionMode: function (sender, event) {
                 this.view("selectionMode").dom().addClass("n-topology-nav-mode-selected");

@@ -22,6 +22,11 @@
             clickNode: function (node) {
                 var tooltipManager = this.tooltipManager();
                 tooltipManager.openNodeTooltip(node);
+            },
+            clickLinkSetNumber: function (linkSet) {
+                var tooltipManager = this.tooltipManager();
+                tooltipManager.openLinkSetTooltip(linkSet);
+
             }
         }
     });

@@ -41,7 +41,7 @@
                     'class': "plusIcon",
                     visible: "{#showIcon,converter=inverted}"
                 }
-            })
+            });
 
             graphic.content.push({
                 name: 'plusIcon',

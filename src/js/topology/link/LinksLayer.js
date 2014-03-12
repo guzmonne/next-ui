@@ -15,7 +15,7 @@
         /**
          * @event enterLink
          */
-        events: ['clickLink', 'leaveLink', 'enterLink', 'clickLinkSetNumber', 'leaveLinkSetNumber'],
+        events: ['pressLink', 'clickLink', 'leaveLink', 'enterLink'],
         properties: {
             links: {
                 value: function () {
@@ -113,26 +113,23 @@
 
                 link.update();
 
+                link.on("linkmousedown", function (sender, event) {
+                    this.fire("pressLink", link);
+                }, this);
 
-                //'click', 'mouseout', 'mouseover', 'mousedown'
+
+                link.on("linkmouseup", function (sender, event) {
+                    this.fire("clickLink", link);
+                }, this);
 
 
-//                link.on("click", function (sender, event) {
-//                    nx.eventObject = event;
-//                    this.fire("clickLink", link);
-//                }, this);
-//
-//
-//                link.on("mouseout", function (sender, event) {
-//                    nx.eventObject = event;
-//                    this.fire("leaveLink", link);
-//                }, this);
-//
-//
-//                link.on("mouseover", function (sender, event) {
-//                    nx.eventObject = event;
-//                    this.fire("enterLink", link);
-//                }, this);
+                link.on("linkmouseenter", function (sender, event) {
+                    this.fire("enterLink", link);
+                }, this);
+
+                link.on("linkmouseleave", function (sender, event) {
+                    this.fire("leaveLink", link);
+                }, this);
 
                 link.set("class", "link");
                 link.set("data-link-id", id);

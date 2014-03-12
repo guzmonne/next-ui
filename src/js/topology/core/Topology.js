@@ -27,20 +27,7 @@
                     name: 'nav',
                     type: 'nx.graphic.Topology.Nav',
                     props: {
-                        scale: '{#scale,direction=<>}',
-//                        maxScale: '{#maxScale}',
-//                        minScale: '{#minScale}',
-//                        mode: '{#mode,direction=<>}',
-//                        show3D: '{#internalshow3D}',
-//                        showModeSwitch: '{#showModeSwitch}',
-//                        showZoomRate: '{#showNavigation}',
-//                        visible: '{#showNavigation}',
-//                        showIcon: '{#showIcon,direction=<>}',
-//                        theme: '{#theme,direction=<>}'
-                    },
-                    events: {
-//                        'fit': '{#fit}',
-//                        'show3DTopology': '{#show3DTopology}'
+                        visible: '{#showNavigation}'
                     }
                 },
                 {

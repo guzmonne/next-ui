@@ -5,6 +5,7 @@
 
 
     nx.define("nx.graphic.Topology.LinkSet", nx.graphic.Topology.AbstractLink, {
+        events: ['numbermousedown', 'numbermouseup', 'numbermouseenter', 'numbermouseleave'],
         properties: {
 
             links: {
@@ -75,8 +76,9 @@
                         height: 1
                     },
                     events: {
-                        //'mousedown': '{#_number_mouseup}',
-                        //'mouseleave': '{#_number_mouseleave}'
+                        'mousedown': '{#_number_mouseup}',
+                        'mouseenter': '{#_number_mouseenter}',
+                        'mouseleave': '{#_number_mouseleave}'
                     }
                 },
                 {
@@ -125,9 +127,6 @@
             },
             expand: function () {
                 this.collapsed(false);
-
-                //this.resolve("links").empty();
-
             },
 
             _updateLinkNumber: function () {
@@ -196,51 +195,26 @@
                         this.collapse();
                     }
                 }
-
-
             },
-
-
-            fadeOut: function () {
-                this.inherited();
-            },
-
-            fadeIn: function () {
-                this.inherited();
-            },
-            _click: function (sender, event) {
+            _number_mousedown: function (sender, event) {
                 if (this.enable()) {
-                    this.fire("click", event);
+                    this.fire("numbermousedown", event);
                 }
-            },
-            _mouseout: function (sender, event) {
-                if (this.enable()) {
-                    this.fire("mouseout", event);
-                }
-            },
-            _mousedown: function (sender, event) {
-                if (this.enable()) {
-                    this.fire("mousedown", event);
-                }
-                event.stop();
-            },
-            _mouseover: function (sender, event) {
-                if (this.enable()) {
-                    this.fire("mouseover", event);
-                }
-                event.stop();
             },
             _number_mouseup: function (sender, event) {
-                this.fire("clickNumber", event);
-                event.stop();
+                if (this.enable()) {
+                    this.fire("numbermouseup", event);
+                }
             },
             _number_mouseleave: function (sender, event) {
-                this.fire("leaveNumber", event);
+                if (this.enable()) {
+                    this.fire("numberleave", event);
+                }
             },
-            addLink: function (link, isAppend) {
-
-            },
-            removeLink: function (link) {
+            _number_mouseenter: function (sender, event) {
+                if (this.enable()) {
+                    this.fire("numberenter", event);
+                }
             }
         }
     });

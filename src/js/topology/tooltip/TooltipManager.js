@@ -270,6 +270,7 @@
                 }
 
                 if (content) {
+                    nodeSetTooltip.content(null);
                     content.attach(nodeSetTooltip);
                 }
 
@@ -312,6 +313,7 @@
                 }
 
                 if (content) {
+                    linkTooltip.content(null);
                     content.attach(linkTooltip);
                 }
 
@@ -333,7 +335,8 @@
                     return;
                 }
 
-                var pos = position || linkSet.centerPoint();
+                var pos = position || topo.getAbsolutePosition(linkSet.centerPoint());
+
 
                 var contentClass = nx.path(global, this.linkSetTooltipContentClass());
                 if (contentClass) {
@@ -346,6 +349,7 @@
                 }
 
                 if (content) {
+                    linkSetTooltip.content(null);
                     content.attach(linkSetTooltip);
                 }
 

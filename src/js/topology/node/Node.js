@@ -58,8 +58,6 @@
 
                     this._showIcon = value;
                     this.calcLabelPosition();
-
-
                 }
             },
 
@@ -136,8 +134,6 @@
             type: 'nx.graphic.Group',
             props: {
                 translate: '{#position}',
-                'node-x': '{#x}',
-                'node-y': '{#y}',
                 'class': 'node'
             },
             content: [
