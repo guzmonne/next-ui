@@ -153,12 +153,11 @@
                             var oldValue = this.get(name);
                             if (oldValue !== value) {
                                 if (setter.call(this, value, params) !== false) {
-                                    this.notify(refs);
-                                }
-                                else {
-                                    return false;
+                                    return this.notify(refs);
                                 }
                             }
+
+                            return false;
                         };
 
                         property._watched = true;
