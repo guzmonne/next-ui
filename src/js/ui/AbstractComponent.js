@@ -108,7 +108,7 @@
         statics: {
             createComponent: createComponent
         },
-        events: ['enter', 'leave'],
+        events: ['enter', 'leave','contententer','contentleave'],
         properties: {
             content: {
                 get: function () {
@@ -120,6 +120,11 @@
                     });
                     if (nx.is(value, AbstractComponent)) {
                         value.attach(this);
+                    }
+                    else if (nx.is(value, 'Array')) {
+                        nx.each(value, function (v) {
+                            createComponent(v, this.owner()).attach(this);
+                        }, this);
                     }
                     else if (value) {
                         createComponent(value, this.owner()).attach(this);
@@ -173,6 +178,7 @@
                         }
 
                         this.onAttach(parent, index);
+                        parent.onChildAttach(this, index);
 
                         if (index >= 0) {
                             parent.content().insert(this, index);
@@ -183,6 +189,10 @@
 
                         this.parent(parent);
                         this.owner(owner);
+                        parent.fire('contententer',{
+                            content: this,
+                            owner: owner
+                        });
                         this.fire('enter', {
                             parent: parent,
                             owner: owner
@@ -206,9 +216,14 @@
                     }
 
                     this.onDetach(parent);
+                    parent.onChildDetach(this);
                     parent.content().remove(this);
                     this.parent(null);
                     this.owner(null);
+                    parent.fire('contentleave',{
+                        content: this,
+                        owner: owner
+                    });
                     this.fire('leave', {
                         parent: parent,
                         owner: owner
@@ -217,10 +232,12 @@
                 }
             },
             onAttach: function (parent, index) {
-                throw new Error('Not Implemented');
             },
             onDetach: function (parent) {
-                throw new Error('Not Implemented');
+            },
+            onChildAttach: function (child, index) {
+            },
+            onChildDetach: function (child) {
             },
             register: function (name, value, force) {
                 var resources = this._resources;
@@ -300,6 +317,17 @@
                     this._owner.resolve('@root').set('class', this._classList.join(' '));
                 }
             },
+            toggleClass: function (name) {
+                var index = this._classList.indexOf(name);
+                if (index >= 0) {
+                    this._classList.splice(index, 1);
+                }
+                else {
+                    this._classList.push(name);
+                }
+
+                this._owner.resolve('@root').set('class', this._classList.join(' '));
+            },
             dispose: function () {
                 this.inherited();
                 this._owner = null;
@@ -339,11 +367,22 @@
                     return this._class;
                 },
                 set: function (value) {
+                    var cssClass = this._class;
                     if (nx.is(value, 'Array')) {
-                        var cssClass = this._class;
                         nx.each(value, function (item, index) {
                             setProperty(cssClass, '' + index, item, this);
                         }, this);
+                    }
+                    else if (nx.is(value, 'Object')) {
+                        if (value.add) {
+                            this._class.addClass(value.add);
+                        }
+                        if (value.remove) {
+                            this._class.addClass(value.remove);
+                        }
+                        if (value.toggle) {
+                            this._class.addClass(value.toggle);
+                        }
                     }
                     else {
                         this.resolve('@root').set('class', value);

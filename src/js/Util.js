@@ -19,7 +19,7 @@
 
 
     var styleHooks = {
-        float: 'styleFloat'
+        float: 'cssFloat'
     };
 
     var util = nx.define('nx.Util',{
