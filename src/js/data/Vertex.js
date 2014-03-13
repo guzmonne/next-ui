@@ -176,16 +176,23 @@
             /**
              * Vertex's type
              * @property type {String}
-             * @default 'node'
+             * @default 'vertex'
              */
             type: {
-                value: 'node'
+                value: 'vertex'
             },
             /**
              * Vertex parent vertex set, if exist
              * @property parentVertexSet {nx.data.VertexSet}
              */
-            parentVertexSet: {}
+            parentVertexSet: {},
+            /**
+             * Graph instance
+             * @property graph {nx.data.ObservableGraph}
+             */
+            graph: {
+
+            }
         },
         methods: {
             init: function (args) {
@@ -249,8 +256,7 @@
              * @param context {Object}
              */
             eachEdge: function (callback, context) {
-                this.eachDirectedEdge(callback, context || this);
-                this.eachReverseEdge(callback, context || this);
+                nx.each(this.edges.concat(this.reverseEdges), callback, context || this);
             },
             /**
              * Iterate all connected edges, which source vertex is this vertex
@@ -260,9 +266,7 @@
              */
             eachDirectedEdge: function (callback, context) {
                 nx.each(this.edges, function (edge) {
-                    if (edge.type() == 'link') {
-                        callback.call(context || this, edge);
-                    }
+                    callback.call(context || this, edge);
                 }, this);
             },
             /**
@@ -273,9 +277,7 @@
              */
             eachReverseEdge: function (callback, context) {
                 nx.each(this.reverseEdges, function (edge) {
-                    if (edge.type() == 'link') {
-                        callback.call(context || this, edge);
-                    }
+                    callback.call(context || this, edge);
                 }, this);
             },
             /**
@@ -299,23 +301,45 @@
             getConnectedVertices: function () {
                 var vertices = [];
                 this.eachDirectedEdge(function (edge) {
-                    vertices.push(edge.target());
+                    if (edge.target().visible()) {
+                        vertices.push(edge.target());
+                    }
                 }, this);
                 this.eachReverseEdge(function (edge) {
-                    vertices.push(edge.source());
+                    if (edge.source().visible()) {
+                        vertices.push(edge.source());
+                    }
                 }, this);
 
                 return util.uniq(vertices);
             },
-
+            /**
+             * Iterate all connected edgeSet
+             * @method eachConnectedVertices
+             * @param callback {Function}
+             * @param context {Object}
+             */
+            eachConnectedEdgeSet: function (callback, context) {
+                var edgeSet = this.getConnectedEdgeSet();
+                nx.each(edgeSet, callback, context || this);
+            },
+            /**
+             * Get all connected edgeSet
+             * @method getConnectedEdgeSet
+             * @returns {*|Array}
+             */
             getConnectedEdgeSet: function () {
                 var edgeSetMap = {};
                 nx.each(this.edges.concat(this.reverseEdges), function (edge) {
                     var edgeSet = edge.parentEdgeSet();
-                    edgeSetMap[edgeSet.id()] = edgeSet;
+                    if (edgeSet.visible()) {
+                        edgeSetMap[edgeSet.linkKey()] = edgeSet;
+                    }
                 }, this);
                 return edgeSetMap;
             },
+
+
             /**
              * Iterate all connexted edgeSet
              * @param fn {Function}

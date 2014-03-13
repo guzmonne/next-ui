@@ -227,13 +227,18 @@
                     this.fire("projectionChange");
                 }
             },
-            getX: function (value) {
+            getProjectedX: function (value) {
                 return this.projectionX().get(value) || value;
             },
-            getY: function (value) {
+            getProjectedY: function (value) {
                 return this.projectionY().get(value) || value;
             },
-
+            getProjectedPosition: function (position) {
+                return{
+                    x: this.projectionX().get(position.x),
+                    y: this.projectionY().get(position.y)
+                };
+            },
             _getScaleTranslate: function () {
                 var stage = this.stage();
                 var width = this.width();
@@ -487,9 +492,10 @@
             getAbsolutePosition: function (point) {
                 var tx = this.stage().translateX();
                 var ty = this.stage().translateY();
+                var bound = this.view().dom().getBound();
                 return {
-                    x: tx + point.x,
-                    y: ty + point.y
+                    x: tx + point.x + bound.left,
+                    y: ty + point.y + bound.top
                 };
             },
             adjustLayout: function () {

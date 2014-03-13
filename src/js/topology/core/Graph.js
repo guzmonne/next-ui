@@ -110,22 +110,19 @@
 
                 var nodesLayer = this.getLayer("nodes");
                 var linksLayer = this.getLayer("links");
+                var nodeSetLayer = this.getLayer("nodeSet");
                 var linkSetLayer = this.getLayer("linkSet");
 
                 graph.on("addVertex", function (sender, vertex) {
-                   
-                    //  var start = new Date();
                     nodesLayer.addNode(vertex);
-                    //console.log(new Date() - start);
                 }, this);
 
                 graph.on("removeVertex", function (sender, vertex) {
-
+                    nodesLayer.removeNode(vertex);
                 }, this);
 
-
                 graph.on("updateVertex", function (sender, vertex) {
-
+                    nodesLayer.updateNode(vertex);
                 }, this);
 
                 graph.on("updateVertexCoordinate", function (sender, vertex) {
@@ -137,37 +134,42 @@
                 }, this);
 
                 graph.on("removeEdge", function (sender, edge) {
-
+                    linksLayer.removeLink(edge);
                 }, this);
                 graph.on("updateEdge", function (sender, edge) {
-
+                    linksLayer.updateLink(edge);
                 }, this);
                 graph.on("addEdgeSet", function (sender, edgeSet) {
                     if (this.supportMultipleLink()) {
                         linkSetLayer.addLinkSet(edgeSet);
+                    } else {
+                        edgeSet.activated(false);
+
                     }
                 }, this);
 
                 graph.on("removeEdgeSet", function (sender, edgeSet) {
-
+                    if (this.supportMultipleLink()) {
+                        linkSetLayer.removeLinkSet(edgeSet);
+                    }
                 }, this);
                 graph.on("updateEdgeSet", function (sender, edgeSet) {
-
+                    if (this.supportMultipleLink()) {
+                        linkSetLayer.updateLinkSet(edgeSet);
+                    }
                 }, this);
 
 
                 graph.on("addVertexSet", function (sender, vertexSet) {
-                   
-                    console.log(vertexSet);
-
+                    nodeSetLayer.addNodeSet(vertexSet);
                 }, this);
 
                 graph.on("removeVertexSet", function (sender, vertexSet) {
-
+                    nodeSetLayer.removeNodeSet(vertexSet);
                 }, this);
 
                 graph.on("updateVertexSet", function (sender, vertexSet) {
-
+                    nodeSetLayer.updateNodeSet(vertexSet);
                 }, this);
 
                 graph.on("updateVertexSetCoordinate", function (sender, vertexSet) {

@@ -31,10 +31,10 @@
             /**
              * Edge's type
              * @property type {String}
-             * @default 'linkSet'
+             * @default 'edgeSet'
              */
             type: {
-                value: 'linkSet'
+                value: 'edgeSet'
             },
             /**
              * Set/get edge set's visibility
@@ -71,11 +71,25 @@
             },
             activated: {
                 get: function () {
-                    return this._activated || false;
+                    return this._activated;
                 },
                 set: function (value) {
+                    var graph = this.graph();
                     nx.each(this.edges(), function (edge) {
                         edge.visible(!value);
+                        if (edge.type() == 'edge') {
+                            if (value) {
+                                graph.fire('removeEdge', edge);
+                            } else {
+                                graph.fire('addEdge', edge);
+                            }
+                        } else if (edge.type() == 'edgeSet') {
+                            if (value) {
+                                graph.fire('removeEdgeSet', edge);
+                            } else {
+                                graph.fire('addEdgeSet', edge);
+                            }
+                        }
                     });
                     this._activated = value;
                 }
@@ -113,10 +127,10 @@
              * Remove child edge
              * @method removeEdge
              * @param edge {nx.data.Edge}
-             * @returns {Boolean}
              */
             removeEdge: function (edge) {
-                return this.edges(util.without(this.edges(), edge));
+                var edges = this.edges();
+                edges.splice(edges.indexOf(edge), 1);
             },
             /**
              * Iterate each edges, include virtual edges
@@ -160,6 +174,13 @@
                     }
                 });
                 return edges;
+            },
+            getRootEdgeSet: function () {
+                var parent = this.parentEdgeSet();
+                while (parent) {
+                    parent = parent.parentEdgeSet();
+                }
+                return parent;
             },
             /**
              * Detect is this edge set include sub edge set

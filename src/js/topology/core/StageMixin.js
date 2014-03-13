@@ -123,7 +123,7 @@
              */
             adaptToContainer: function (isNotNotifyStageSizeChanged) {
                 this._adaptToContainer();
-                this.fit();
+                this._fit();
 
 
 //                if (!isNotNotifyStageSizeChanged) {
@@ -151,9 +151,6 @@
                     x: this.translateX(),
                     y: this.translateY()
                 };
-            },
-            getBond: function () {
-                return this.resolve('stage').getBBox();
             },
             /**
              * Clear stage

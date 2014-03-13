@@ -46,6 +46,10 @@
             getBound: function () {
                 return this.root().$dom.getBoundingClientRect();
             },
+            dispose: function () {
+                this.root().$dom.remove();
+                this.inherited();
+            },
             animate: function (config) {
                 var self = this;
                 var aniMap = [];

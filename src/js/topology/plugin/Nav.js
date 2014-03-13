@@ -27,7 +27,10 @@
             showZoomRate: {
                 value: false
             },
-            scale: {}
+            scale: {},
+            showIcon: {
+                value: true
+            }
         },
 
         view: {
@@ -216,6 +219,7 @@
                                                     tag: 'input',
                                                     props: {
                                                         type: 'radio'
+                                                        //checked: '{#showIcon,converter=inverted,direction=<>}'
                                                     }
                                                 },
                                                 {
@@ -234,6 +238,7 @@
                                                     tag: 'input',
                                                     props: {
                                                         type: 'radio'
+                                                       // checked: '{#showIcon,direction=<>}'
                                                     }
                                                 },
                                                 {

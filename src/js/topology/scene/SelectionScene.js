@@ -1,5 +1,6 @@
 (function (nx, util, global) {
 
+    'use strict';
 
     /**
      * Selection scene
@@ -68,31 +69,33 @@
             },
             dragStageStart: function (sender, event) {
                 this._offset = {
-                    x: event.offsetX,
-                    y: event.offsetY
+                    x: event.clientX,
+                    y: event.clientY
                 };
                 var topo = this.topology();
                 var stage = topo.stage();
                 var rect = this.rect;
+                this._stageBound = stage.view().dom().getBound();
                 this._stageTranslate = stage.translate();
-                rect.set('x', event.offsetX - this._stageTranslate.x);
-                rect.set('y', event.offsetY - this._stageTranslate.y);
+                rect.set('x', event.clientX - this._stageTranslate.x - this._stageBound.left);
+                rect.set('y', event.clientY - this._stageTranslate.y - this._stageBound.top);
                 this.rect.set('visible', true);
+                this._blockEvent(true);
 
             },
             dragStage: function (sender, event) {
                 var rect = this.rect;
-                var width = event.offsetX - this._offset.x;
-                var height = event.offsetY - this._offset.y;
+                var width = event.clientX - this._offset.x;
+                var height = event.clientY - this._offset.y;
                 if (width < 0) {
-                    rect.set('x', this._offset.x - this._stageTranslate.x + width);
+                    rect.set('x', this._offset.x - this._stageTranslate.x - this._stageBound.left + width);
                     rect.set('width', width * -1);
                 } else {
                     rect.set('width', width);
                 }
 
                 if (height < 0) {
-                    rect.set('y', this._offset.y - this._stageTranslate.y + height);
+                    rect.set('y', this._offset.y - this._stageTranslate.y - this._stageBound.top + height);
                     rect.set('height', height * -1);
                 } else {
                     rect.set('height', height);
@@ -102,6 +105,7 @@
                 this._offset = null;
                 this._stageTranslate = null;
                 this.rect.set('visible', false);
+                this._blockEvent(false);
             },
             _getRectBound: function () {
                 var rectbound = this.rect.getBoundingClientRect();
@@ -114,6 +118,14 @@
                     bottom: rectbound.bottom - topoBound.top,
                     right: rectbound.right - topoBound.left
                 };
+            },
+            _blockEvent: function (value) {
+                if (value) {
+                    nx.dom.Document.body().addClass('n-userselect n-blockEvent');
+                } else {
+                    nx.dom.Document.body().removeClass('n-userselect');
+                    nx.dom.Document.body().removeClass('n-blockEvent');
+                }
             }
         }
     });

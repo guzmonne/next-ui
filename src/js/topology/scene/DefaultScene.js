@@ -11,6 +11,7 @@
             __construct: function () {
                 this._topo = this.topology();
                 this._nodesLayer = this._topo.getLayer("nodes");
+                this._nodeSetLayer = this._topo.getLayer("nodes");
                 this._linksLayer = this._topo.getLayer("links");
                 this._linkSetLayer = this._topo.getLayer("linkSet");
                 this._tooltipManager = this._topo.tooltipManager();
@@ -70,13 +71,15 @@
                 }
             },
             pressStage: function (sender, event) {
-                this._topo.selectedNodes().clear();
             },
             /**
              * Click stage handler
              * @method clickStage
              */
-            clickStage: function () {
+            clickStage: function (sender, event) {
+                if(event.target == this._topo.stage().view().dom().$dom){
+                    this._topo.selectedNodes().clear();
+                }
             },
 
             dragStageStart: function (sender, event) {
@@ -84,7 +87,8 @@
                 if (nodes > 300) {
                     this._topo.getLayer('links').root().setStyle('display', 'none');
                 }
-
+                this._recover();
+                this._blockEvent(true);
             },
             dragStage: function (sender, event) {
                 var stage = this._topo.stage();
@@ -92,6 +96,7 @@
             },
             dragStageEnd: function (sender, event) {
                 this._topo.getLayer('links').root().setStyle('display', 'block');
+                this._blockEvent(false);
             },
             projectionChange: function () {
 
@@ -130,45 +135,22 @@
             ready: function () {
 
             },
-
-            /**
-             * Enter node handler
-             * @param sender
-             * @param node
-             * @method enterNode
-             */
             enterNode: function (sender, node) {
                 clearTimeout(this._sceneTimer);
                 if (!this._nodeDragging) {
                     this._sceneTimer = setTimeout(function () {
                         this._nodesLayer.highlightNode(node);
                     }.bind(this), this._interval);
-                    this._nodesLayer.recover();
-                    this._linksLayer.recover();
+                    this._recover();
                 }
             },
-            /**
-             * Leave node handler
-             * @param sender
-             * @param node
-             * @method leaveNode
-             */
             leaveNode: function (sender, node) {
                 clearTimeout(this._sceneTimer);
                 if (!this._nodeDragging) {
-                    this._nodesLayer.recover();
-                    this._linksLayer.recover();
-                    this._linkSetLayer.recover();
+                    this._recover();
                 }
             },
-            /**
-             * Click node
-             * @param sender
-             * @param node
-             * @method clickNode
-             */
-            clickNode: function (sender, node) {
-            },
+
             hideNode: function (sender, node) {
 
             },
@@ -180,7 +162,8 @@
              */
             dragNodeStart: function (sender, node) {
                 this._nodeDragging = true;
-                this._nodesLayer.recover();
+                this._recover();
+                this._blockEvent(true);
             },
             /**
              * Drag node handler
@@ -195,10 +178,16 @@
              */
             dragNodeEnd: function () {
                 this._nodeDragging = false;
+                this._blockEvent(false);
             },
 
             pressNode: function (sender, node) {
-                node.selected(!node.selected());
+
+            },
+            clickNode: function (sender, node) {
+                if (!this._nodeDragging) {
+                    node.selected(!node.selected());
+                }
             },
             selectNode: function (sender, node) {
                 this._topo.selectedNodes().clear();
@@ -209,8 +198,48 @@
                 }
             },
 
+
             updateNodeCoordinate: function () {
 
+            },
+
+            pressNodeSet: function (sender, nodeSet) {
+
+            },
+            clickNodeSet: function (sender, nodeSet) {
+                this._recover();
+                nodeSet.collapsed(!nodeSet.collapsed());
+            },
+
+            enterNodeSet: function (sender, nodeSet) {
+                clearTimeout(this._sceneTimer);
+                if (!this._nodeDragging) {
+                    this._sceneTimer = setTimeout(function () {
+                        this._nodesLayer.highlightNode(nodeSet);
+                    }.bind(this), this._interval);
+                    this._recover();
+                }
+            },
+            leaveNodeSet: function (sender, nodeSet) {
+                clearTimeout(this._sceneTimer);
+                if (!this._nodeDragging) {
+                    this._recover();
+                }
+            },
+            _recover: function () {
+                clearTimeout(this._sceneTimer);
+                this._nodesLayer.recover();
+                this._nodeSetLayer.recover();
+                this._linksLayer.recover();
+                this._linkSetLayer.recover();
+            },
+            _blockEvent: function (value) {
+                if (value) {
+                    nx.dom.Document.body().addClass('n-userselect n-blockEvent');
+                } else {
+                    nx.dom.Document.body().removeClass('n-userselect');
+                    nx.dom.Document.body().removeClass('n-blockEvent');
+                }
             }
         }
     });

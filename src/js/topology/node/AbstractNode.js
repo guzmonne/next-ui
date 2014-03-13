@@ -208,7 +208,16 @@
                 var position = this.position();
                 this.position({x: position.x + x || 0, y: position.y + y || 0});
             },
-            moveTo: function (x, y, callback, isAnimation, duration) {
+            moveTo: function (inX, inY, callback, isAnimation, duration) {
+                var x, y;
+                if (nx.is(inX, 'Object')) {
+                    x = inX.x;
+                    y = inX.y;
+                } else {
+                    x = inX;
+                    y = inY;
+                }
+
                 if (isAnimation !== false) {
                     var obj = {to: {}, duration: duration || 400};
                     if (x !== undefined) {
@@ -220,7 +229,7 @@
                     }
 
                     if (callback) {
-                        obj.callback = callback.bind(this);
+                        obj.complete = callback.bind(this);
                     }
 
                     this.animate(obj);

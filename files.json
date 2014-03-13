@@ -42,6 +42,8 @@
         "src/js/topology/node/AbstractNode.js",
         "src/js/topology/node/Node.js",
         "src/js/topology/node/NodesLayer.js",
+        "src/js/topology/node/NodeSet.js",
+        "src/js/topology/node/NodeSetLayer.js",
 
         "src/js/topology/link/AbstractLink.js",
         "src/js/topology/link/Link.js",

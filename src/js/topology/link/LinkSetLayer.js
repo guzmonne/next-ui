@@ -1,13 +1,13 @@
 (function (nx, util, global) {
-    "use strict";
+    'use strict';
 
     /** Links layer
-     Could use topo.getLayer("linksLayer") get this
+     Could use topo.getLayer('linksLayer') get this
      * @class nx.graphic.Topology.LinksLayer
      * @extend nx.graphic.Topology.Layer
      */
 
-    nx.define("nx.graphic.Topology.LinkSetLayer", nx.graphic.Topology.Layer, {
+    nx.define('nx.graphic.Topology.LinkSetLayer', nx.graphic.Topology.Layer, {
         /**
          * @event clickLink
          */
@@ -17,7 +17,7 @@
         /**
          * @event enterLink
          */
-        events: ['pressLinkSetNumber', 'clickLinkSetNumber', 'enterLinkSetNumber', 'leaveLinkSetNumber'],
+        events: ['pressLinkSetNumber', 'clickLinkSetNumber', 'enterLinkSetNumber', 'leaveLinkSetNumber', 'collapsedLinkSet', 'expandLinkSet'],
         properties: {
             linkSetCollection: {
                 value: function () {
@@ -64,26 +64,24 @@
                 var linkSetMap = this.linkSetMap();
                 var linkSet = this._generateLinkSet(edgeSet);
 
-
                 linkSetMap[edgeSet.linkKey()] = linkSet;
                 linkSetCollection.push(linkSet);
 
                 return linkSet;
             },
-            updateLink: function (edgeSet) {
-                var linkSetMap = this.linkSetMap();
-                var linkSet = linkSetMap[edgeSet.linkKey()];
-                linkSet.updateLinks();
+            updateLinkSet: function (edgeSet) {
+                var linkSet = this.getLinkSetByLinkKey([edgeSet.linkKey()]);
+                linkSet.updateLinkSet();
             },
-            removeLink: function (edgeSet) {
+            removeLinkSet: function (edgeSet) {
                 var linkSetCollection = this.linkSetCollection();
                 var linkSetMap = this.linkSetMap();
                 var linkKey = edgeSet.linkKey();
                 var linkSet = linkSetMap[linkKey];
                 if (linkSet) {
                     linkSet.dispose();
-                    delete linkSetMap[linkKey];
                     linkSetCollection.splice(linkSetCollection.indexOf(linkSet), 1);
+                    delete linkSetMap[linkKey];
                     return true;
                 } else {
                     return false;
@@ -100,33 +98,37 @@
                     topology: topo
                 });
 
-                linkset.resolve("@root").set("data-nx-type", "nx.graphic.Topology.LinkSet");
-                linkset.resolve("@root").set("data-linkKey", linkKey);
-                linkset.resolve("@root").set("data-source-node-id", edgeSet.source().id());
-                linkset.resolve("@root").set("data-target-node-id", edgeSet.target().id());
+                var root = linkset.resolve('@root');
+                root.set('data-nx-type', 'nx.graphic.Topology.LinkSet');
+                root.set('data-linkKey', linkKey);
+                root.set('data-source-node-id', edgeSet.source().id());
+                root.set('data-target-node-id', edgeSet.target().id());
 
                 linkset.attach(this.resolve('static'));
                 linkset.setModel(edgeSet, false);
-                linkset.updateLinks();
                 linkset.adjust();
 
-
-                // 'numbermousedown', 'numbermouseup', 'numbermouseenter', 'numbermouseleave'
-
-
-                linkset.on("numbermousedown", function (sender, event) {
-                    this.fire("pressLinkSetNumber", linkset);
+                linkset.on('numbermousedown', function (sender, event) {
+                    this.fire('pressLinkSetNumber', linkset);
                 }, this);
-                linkset.on("numbermouseup", function (sender, event) {
-                    this.fire("clickLinkSetNumber", linkset);
+                linkset.on('numbermouseup', function (sender, event) {
+                    this.fire('clickLinkSetNumber', linkset);
                 }, this);
 
-                linkset.on("numbermouseenter", function (sender, event) {
-                    this.fire("enterLinkSetNumber", linkset);
+                linkset.on('numbermouseenter', function (sender, event) {
+                    this.fire('enterLinkSetNumber', linkset);
                 }, this);
 
-                linkset.on("numbermouseleave", function (sender, event) {
-                    this.fire("leaveLinkSetNumber", linkset);
+                linkset.on('numbermouseleave', function (sender, event) {
+                    this.fire('leaveLinkSetNumber', linkset);
+                }, this);
+
+                linkset.on('collapsedLinkSet', function (sender, event) {
+                    this.fire('collapsedLinkSet', linkset);
+                }, this);
+
+                linkset.on('expandLinkSet', function (sender, event) {
+                    this.fire('expandLinkSet', linkset);
                 }, this);
 
                 return linkset;
@@ -155,7 +157,7 @@
              * @method fadeOut
              */
             fadeOut: function (fn, context) {
-                var el = this.resolve("static");
+                var el = this.resolve('static');
                 el.upon('transitionend', function () {
                     if (fn) {
                         fn.call(context || this);
@@ -168,7 +170,7 @@
              * @method fadeIn
              */
             fadeIn: function (fn, context) {
-                var el = this.resolve("static");
+                var el = this.resolve('static');
                 el.upon('transitionend', function () {
                     if (fn) {
                         fn.call(context || this);
@@ -216,7 +218,7 @@
                 this.linkSetMap({});
                 this.$('activated').empty();
                 this.$('static').empty();
-                this.$("static").setStyle('opacity', 1);
+                this.$('static').setStyle('opacity', 1);
             }
         }
     });

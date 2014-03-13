@@ -6,6 +6,9 @@
             nodeInstanceClass: {
                 value: 'nx.graphic.Topology.Node'
             },
+            nodeSetInstanceClass: {
+                value: 'nx.graphic.Topology.NodeSet'
+            },
             /**
              * @property showIcon
              */
@@ -29,7 +32,9 @@
                 value: false
             },
             nodeColor: {},
-
+            showIcon: {
+                value: false
+            },
             /**
              * @property selectedNodes
              */
@@ -38,6 +43,7 @@
                     return new nx.data.ObservableCollection();
                 }
             }
+
         },
         methods: {
             initNode: function () {
@@ -54,8 +60,10 @@
                 });
 
 
-                this.watch("showIcon", function () {
-                    this.adjustLayout();
+                this.watch("showIcon", function (prop, value) {
+                    this.eachNode(function (node) {
+                        node.nodeShowIcon(value);
+                    });
                 }, this);
             },
 
@@ -125,7 +133,7 @@
              * @returns {*}
              */
             addNode: function (obj, inOption) {
-                var vertex = this.model().addVertex(obj, inOption);
+                var vertex = this.graph().addVertex(obj, inOption);
                 this.adjustLayout();
                 this.fire("addNode", this.getNode(vertex.id()));
                 return this.getNode(vertex.id());
@@ -137,7 +145,7 @@
              * @returns {*}
              */
             addNodeSet: function (obj, inOption) {
-                var vertex = this.model().addVertexSet(obj, inOption);
+                var vertex = this.graph().addVertexSet(obj, inOption);
                 this.adjustLayout();
                 this.fire("addNodeSet", this.getNode(vertex.id()));
                 return this.getNode(vertex.id());
@@ -164,33 +172,25 @@
             /**
              * Remove a node
              * @param inNode
-             * @param inOption
              * @returns {boolean}
              */
-            removeNode: function (inNode, inOption) {
+            removeNode: function (inNode) {
                 var vertex;
                 if (inNode instanceof  nx.graphic.Topology.Node) {
                     vertex = inNode.model();
-                } else if (inNode instanceof  nx.Graph.Vertex) {
+                } else if (inNode instanceof  nx.data.Vertex) {
                     vertex = inNode;
                 } else {
-                    return false;
+                    vertex = this.graph().getVertex(inNode);
                 }
-
-                this.model().removeVertex(vertex, inOption);
-                this.adjustLayout();
-                this.fire("removeNode");
-                return true;
-            },
-
-            removeNodeByID: function (id, inOption) {
-                var node = this.getNode(id);
-                if (node) {
-                    return this.removeNode(node, inOption);
+                if (vertex) {
+                    this.graph().removeVertex(vertex);
+                    this.adjustLayout();
+                    this.fire("removeNode");
+                    return true;
                 } else {
                     return false;
                 }
-
             },
             /**
              * Traverse each node
@@ -200,6 +200,7 @@
              */
             eachNode: function (fn, context) {
                 this.getLayer("nodes").eachNode(fn, context || this);
+                this.getLayer("nodeSet").eachNodeSet(fn, context || this);
             },
             /**
              * Get node by node id
@@ -208,7 +209,7 @@
              * @returns {*}
              */
             getNode: function (id) {
-                return this.getLayer("nodes").getNode(id);
+                return this.getLayer("nodes").getNode(id) || this.getLayer("nodeSet").getNodeSet(id);
             },
 
             getNodes: function () {

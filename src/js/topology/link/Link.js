@@ -212,12 +212,6 @@
             ]
         },
         methods: {
-            attach: function (args) {
-                this.inherited(args);
-            },
-            setModel: function (model, isUpdate) {
-                this.inherited(model, isUpdate);
-            },
             setProperty: function (key, value) {
                 var propValue;
                 var rpatt = /(?={)\{([^{}]+?)\}(?!})/;

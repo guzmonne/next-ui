@@ -97,10 +97,10 @@
             /**
              * Edge's type
              * @property type {String}
-             * @default link
+             * @default edge
              */
             type: {
-                value: 'link'
+                value: 'edge'
             },
             /**
              * Edge's id
@@ -145,6 +145,13 @@
              */
             reverse: {
                 value: false
+            },
+            /**
+             * Graph instance
+             * @property graph {nx.data.ObservableGraph}
+             */
+            graph: {
+
             }
         },
         methods: {
@@ -155,6 +162,13 @@
              */
             getData: function () {
                 return this._data;
+            },
+            getRootEdgeSet: function () {
+                var parent = this.parentEdgeSet();
+                while (parent.parentEdgeSet()) {
+                    parent = parent.parentEdgeSet();
+                }
+                return parent;
             }
         }
     });

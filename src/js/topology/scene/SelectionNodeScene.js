@@ -23,6 +23,13 @@
             }
         },
         methods: {
+            pressStage: function () {
+                var selectedNodes = this.selectedNodes();
+                var multi = this._multi = event.metaKey || event.ctrlKey;
+                if (!multi) {
+                    selectedNodes.clear();
+                }
+            },
             dragStageStart: function (sender, event) {
                 this.inherited(sender, event);
                 var selectedNodes = this.selectedNodes();

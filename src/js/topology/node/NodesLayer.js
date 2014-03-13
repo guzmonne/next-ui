@@ -1,4 +1,9 @@
 (function (nx, util, global) {
+
+    'use strict';
+
+
+
     /**
      * Nodes layer
      Could use topo.getLayer('nodesLayer') get this
@@ -70,7 +75,7 @@
         },
         methods: {
             attach: function (args) {
-                this.inherited(args);
+                this.attach.__super__.apply(this, arguments);
                 var topo = this.topology();
                 topo.on('projectionChange', this._projectionChangeFN = function (sender, event) {
                     var projectionX = topo.projectionX();
@@ -125,20 +130,20 @@
                 //nodesMap[vertex.id()].fadeOut();
             },
             _generateNode: function (vertex) {
-                var clz;
+                var Clz;
                 //get node class
                 var topo = this.topology();
                 var nodeInstanceClass = topo.nodeInstanceClass();
                 if (nx.is(nodeInstanceClass, 'Function')) {
-                    clz = nodeInstanceClass.call(this, vertex);
+                    Clz = nodeInstanceClass.call(this, vertex);
                     if (nx.is(clz, 'String')) {
-                        clz = nx.path(global, clz);
+                        Clz = nx.path(global, Clz);
                     }
                 } else {
-                    clz = nx.path(global, nodeInstanceClass);
+                    Clz = nx.path(global, nodeInstanceClass);
                 }
 
-                var node = new clz();
+                var node = new Clz();
                 node.set('topology', topo);
                 node.setModel(vertex);
 

@@ -8,10 +8,11 @@
             linkSet: {
                 set: function (value) {
                     var items = [];
-                    nx.each(value.links(), function (link) {
+                    var edges = value.model().getEdges(false, true);
+                    nx.each(edges, function (edge) {
                         items.push({
-                            item: "Source:" + link.sourceNode().label() + " Target :" + link.targetNode().label(),
-                            link: link});
+                            item: "Source:" + edge.sourceID() + " Target :" + edge.targetID(),
+                            edge: edge});
                     });
                     this.resolve("list").items(items);
                 }
@@ -49,7 +50,7 @@
         },
         methods: {
             _click: function (sender, events) {
-                var link = sender.model().link;
+                var link = sender.model().edge;
                 this.topology().fire('clickLink', link);
             }
         }

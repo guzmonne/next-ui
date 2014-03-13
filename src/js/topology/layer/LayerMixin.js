@@ -28,6 +28,7 @@
                 this.attachLayer("links", "nx.graphic.Topology.LinksLayer");
                 this.attachLayer("linkSet", "nx.graphic.Topology.LinkSetLayer");
                 this.attachLayer("nodes", "nx.graphic.Topology.NodesLayer");
+                this.attachLayer("nodeSet", "nx.graphic.Topology.NodeSetLayer");
                 //this.attachLayer("pathLayer", "nx.graphic.Topology.PathLayer");
             },
             /**

@@ -16,10 +16,10 @@
   position: relative;
   overflow: hidden;
   background: #ffffff;
-  -webkit-transition: all 0.6s;
+  -webkit-transition: background 0.6s;
   /* For Safari 3.1 to 6.0 */
 
-  transition: all 0.6s;
+  transition: background 0.6s;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -134,10 +134,11 @@
   stroke-linejoin: round;
 }
 .n-topology.n-topology-blue .link-set-text {
+  font-family: "Cisco Sans Reg";
   fill: #ffffff;
   text-anchor: middle;
   dominant-baseline: central;
-  font-size: 13px;
+  font-size: 12px;
   pointer-events: none;
 }
 @media screen and (-webkit-min-device-pixel-ratio: 0) {
@@ -389,10 +390,10 @@
   position: relative;
   overflow: hidden;
   background: #000000;
-  -webkit-transition: all 0.6s;
+  -webkit-transition: background 0.6s;
   /* For Safari 3.1 to 6.0 */
 
-  transition: all 0.6s;
+  transition: background 0.6s;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -507,10 +508,11 @@
   stroke-linejoin: round;
 }
 .n-topology.n-topology-dark .link-set-text {
+  font-family: "Cisco Sans Reg";
   fill: #000000;
   text-anchor: middle;
   dominant-baseline: central;
-  font-size: 13px;
+  font-size: 12px;
   pointer-events: none;
 }
 @media screen and (-webkit-min-device-pixel-ratio: 0) {
@@ -762,10 +764,10 @@
   position: relative;
   overflow: hidden;
   background: #ffffff;
-  -webkit-transition: all 0.6s;
+  -webkit-transition: background 0.6s;
   /* For Safari 3.1 to 6.0 */
 
-  transition: all 0.6s;
+  transition: background 0.6s;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -880,10 +882,11 @@
   stroke-linejoin: round;
 }
 .n-topology.n-topology-green .link-set-text {
+  font-family: "Cisco Sans Reg";
   fill: #ffffff;
   text-anchor: middle;
   dominant-baseline: central;
-  font-size: 13px;
+  font-size: 12px;
   pointer-events: none;
 }
 @media screen and (-webkit-min-device-pixel-ratio: 0) {
@@ -1135,10 +1138,10 @@
   position: relative;
   overflow: hidden;
   background: #223343;
-  -webkit-transition: all 0.6s;
+  -webkit-transition: background 0.6s;
   /* For Safari 3.1 to 6.0 */
 
-  transition: all 0.6s;
+  transition: background 0.6s;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -1253,10 +1256,11 @@
   stroke-linejoin: round;
 }
 .n-topology.n-topology-slate .link-set-text {
+  font-family: "Cisco Sans Reg";
   fill: #223343;
   text-anchor: middle;
   dominant-baseline: central;
-  font-size: 13px;
+  font-size: 12px;
   pointer-events: none;
 }
 @media screen and (-webkit-min-device-pixel-ratio: 0) {
@@ -1570,6 +1574,19 @@
 .n-topology-setting-panel .popover-content-label {
   display: inline-block;
   margin-right: 20px;
+}
+.n-userselect {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+.n-dragCursor {
+  cursor: move;
+}
+.n-blockEvent {
+  pointer-events: none;
 }
 .clearfix:before,
 .clearfix:after {
