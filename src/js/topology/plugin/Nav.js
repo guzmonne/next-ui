@@ -291,6 +291,14 @@
                                                         value: 'slate'
                                                     },
                                                     content: "Slate"
+                                                },
+                                                {
+                                                    tag: 'button',
+                                                    props: {
+                                                        'class': 'btn btn-default',
+                                                        value: 'yellow'
+                                                    },
+                                                    content: "Yellow"
                                                 }
 
                                             ],
