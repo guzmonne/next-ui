@@ -354,7 +354,7 @@
                     node.move(event.drag.delta[0], event.drag.delta[1]);
                 }else{
                     nx.each(nodes, function (node) {
-                        node.move(event.drag.delta[0], event.drag.delta[1])
+                        node.move(event.drag.delta[0], event.drag.delta[1]);
                     });
                 }
 
