@@ -225,7 +225,21 @@
 
                 if (isNotify !== false && isUpdate) {
                     this.fire("projectionChange");
+                    // setTimeout(this._drawBG.bind(this), 1000);
+
                 }
+            },
+            _drawBG: function () {
+                var bound = this.stage().getContentBound();
+                var bg = this.stage().resolve('bg').root();
+                bg.sets({
+                    x: bound.left,
+                    y: bound.top,
+                    width: bound.width,
+                    height: bound.height,
+                    visible: true
+                });
+                this.stage().resolve('bg').set('visible', true);
             },
             getProjectedX: function (value) {
                 return this.projectionX().get(value) || value;
@@ -360,38 +374,35 @@
              */
             fit: function (isNotify) {
 
-                var proX = this.projectionX();
-                var proY = this.projectionY();
-                var bound = this.graph().getBound();
-
-                var _x = proX.get(bound.x);
-                var _y = proY.get(bound.y);
-                var _width = proX.get(bound.maxX) - _x;
-                var _height = proY.get(bound.maxY) - _y;
-
                 var stage = this.stage();
                 var width = this.visibleContainerWidth();
                 var height = this.visibleContainerHeight();
+                var stageBound = stage.getContentBound();
+                var stageTranslate = stage.translate();
 
-                stage.upon('transitionend', this._fit, this);
-
-
-                var wScale = width / _width;
-                var hScale = height / _height;
+                var wScale = width / (stageBound.width - 36);
+                var hScale = height / (stageBound.height - 36);
                 var scale = Math.min(wScale, hScale);
 
 
-                if (width / height < _width / _height) {
-                    var paddingTop = this.paddingTop() + (height - height * scale) / 2;
-                    stage.setTransform(this.paddingLeft() - proX.get(bound.x) * scale, paddingTop, scale, 0.3);
-                } else {
-                    var paddingLeft = this.paddingLeft() + (width - width * scale) / 2 - (width - _width) / 2;
-                    stage.setTransform(paddingLeft, this.paddingTop() - proY.get(bound.y) * scale, scale, 0.3);
+                if (stageBound.left == this.paddingLeft() && stageBound.y == this.paddingTop() && this.scale() == 1) {
+                    return;
                 }
 
 
+                stage.on('transitionend', this._fit, this);
+
+                if (width / height < stageBound.width / stageBound.height) {
+                    var ty = (this.paddingTop() + height / 2 - stageBound.height * scale / 2 ) - (stageBound.top - stageTranslate.y) * scale;
+                    stage.setTransform(this.paddingLeft() - (stageBound.left - stageTranslate.x) * scale, ty, scale, 0.6);
+                } else {
+                    var tx = (this.paddingLeft() + width / 2 - stageBound.width * scale / 2 ) - (stageBound.left - stageTranslate.x) * scale;
+                    stage.setTransform(tx, this.paddingTop() - (stageBound.top - stageTranslate.y) * scale, scale, 0.6);
+                }
+
                 delete  this._prevScale;
                 delete this._finialScale;
+
 
             },
             _fit: function (inForce) {

@@ -227,7 +227,6 @@
                 }
             },
             _recover: function () {
-                clearTimeout(this._sceneTimer);
                 this._nodesLayer.recover();
                 this._nodeSetLayer.recover();
                 this._linksLayer.recover();

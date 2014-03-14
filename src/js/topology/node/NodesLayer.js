@@ -351,12 +351,14 @@
                 var topo = this.topology();
                 var nodes = topo.selectedNodes().toArray();
                 if (nodes.indexOf(node) === -1) {
-                    nodes.push(node);
+                    node.move(event.drag.delta[0], event.drag.delta[1]);
+                }else{
+                    nx.each(nodes, function (node) {
+                        node.move(event.drag.delta[0], event.drag.delta[1])
+                    });
                 }
 
-                nx.each(nodes, function (node) {
-                    node.move(event.drag.delta[0], event.drag.delta[1]);
-                });
+
             }
         }
     });

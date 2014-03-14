@@ -30,16 +30,18 @@
 //                }
             },
             translate: {
+                get: function () {
+                    return{
+                        x: this._translateX,
+                        y: this._translateY
+                    };
+                },
                 set: function (value) {
                     this.setTransform(value.x, value.y);
                 }
             },
             rotate: {
-                value: 0,
-//                binding: {
-//                    direction: '<>',
-//                    converter: nx.Binding.converters.number
-//                }
+                value: 0
             },
             visible: {
                 get: function () {
@@ -62,20 +64,23 @@
                     this.setTransform();
                 }, this);
             },
-            setTransform: function (translateX, translateY, scale, rotate) {
+            setTransform: function (translateX, translateY, scale, durition) {
 
                 var tx = translateX != null ? translateX : this._translateX;
                 var ty = translateY != null ? translateY : this._translateY;
                 var scl = scale != null ? scale : this._scale;
-                var rot = rotate != null ? rotate : this._rotate;
+                //var rot = rotate != null ? rotate : this._rotate || 0;
 
 
-                var transform = 'translate(' + tx + 'px, ' + ty + 'px) scale(' + scl + ')  rotate(' + rot + ')';
-                this.resolve("@root").$dom.style.cssText = "-webkit-transform:" + transform;
+                var cssText = '-webkit-transform: translate(' + tx + 'px, ' + ty + 'px) scale(' + scl + ');';
+                if (durition) {
+                    cssText += '-webkit-transition: all ' + durition + 's ease;' + 'transition: all ' + durition + 's ease;';
+                }
+                this.resolve("@root").$dom.style.cssText = cssText;
                 this._translateX = tx;
                 this._translateY = ty;
                 this._scale = scl;
-                this._rotate = rot;
+                //this._rotate = rot;
             },
             set: function (key, value) {
                 if (this.resolve('@root') && value !== undefined) {

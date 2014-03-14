@@ -10,6 +10,15 @@
         }
     };
 
+
+    //http://www.timotheegroleau.com/Flash/experiments/easing_function_generator.htm
+    var ease = function (t, b, c, d) {
+        var ts = (t /= d) * t;
+        var tc = ts * t;
+        return b + c * (5.7475 * tc * ts + -14.3425 * ts * ts + 8.395 * tc + 1.2 * ts);
+    };
+
+
     nx.define('nx.graphic.Component', nx.ui.Component, {
         events: [],
         properties: {
@@ -47,7 +56,9 @@
                 return this.root().$dom.getBoundingClientRect();
             },
             dispose: function () {
-                this.root().$dom.remove();
+                if (this.root()) {
+                    this.root().$dom.remove();
+                }
                 this.inherited();
             },
             animate: function (config) {
@@ -73,7 +84,8 @@
                 });
                 ani.callback(function (progress) {
                     nx.each(aniMap, function (item) {
-                        var value = item.oldValue + (item.newValue - item.oldValue) * progress;
+                        //var value = item.oldValue + (item.newValue - item.oldValue) * progress;
+                        var value = ease(progress, item.oldValue, item.newValue - item.oldValue, 1);
                         self.set(item.key, value);
                     });
                     //console.log(progress);

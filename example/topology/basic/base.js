@@ -44,7 +44,7 @@
                 type: 'nx.graphic.Topology',
                 props: {
                     width: 800,
-                    height: 600,
+                    height: 800,
                     nodeLabel: 'model.id',
                     nodeShowIcon: true,
                     data: topologyData

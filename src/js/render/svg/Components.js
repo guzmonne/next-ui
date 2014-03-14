@@ -236,6 +236,14 @@
                         scale: '{#scale}',
                         translateX: '{#translateX}',
                         translateY: '{#translateY}'
+                    },
+                    content: {
+                        name: 'bg',
+                        type: 'nx.graphic.Rect',
+                        props: {
+                            visible: false,
+                            fill: '#f00'
+                        }
                     }
                 }
             ],
@@ -261,8 +269,7 @@
                 },
                 set: function (value) {
                     if (value && value.x != null && value.y != null) {
-                        this.translateX(value.x);
-                        this.translateY(value.y);
+                        this.setTransform(value.x, value.y);
                     }
                 }
             },
@@ -282,6 +289,18 @@
             addDefString: function (str) {
                 this.resolve("defs").resolve("@root").$dom.appendChild(new DOMParser().parseFromString(str, "text/xml").documentElement);
             },
+            getContentBound: function () {
+                var stageBound = this.stage().getBound();
+                var stageTranslate = this.stage().translate();
+                var topoBound = this.view().dom().getBound();
+
+                return {
+                    left: stageBound.left - topoBound.left,
+                    top: stageBound.top - topoBound.top,
+                    width: stageBound.width,
+                    height: stageBound.height
+                };
+            },
             _mousedown: function (sender, event) {
                 event.captureDrag(sender);
             },
@@ -291,25 +310,29 @@
             },
             _drag: function (sender, event) {
                 this.fire('dragStage', event);
-                //this.setTransform(this._translateX + event.drag.delta[0], this._translateY + event.drag.delta[1]);
-
             },
             _dragend: function (sender, event) {
                 this.fire('dragStageEnd', event);
                 this.resolve("stage").resolve("@root").setStyle('pointer-events', 'all');
             },
-            setTransform: function (translateX, translateY, scale, durtion) {
-                var transform = 'translate(' + (translateX || this._translateX) + 'px, ' + (translateY || this._translateY) + 'px) scale(' + (scale || this._scale) + ') ';
-                var csstext = '-webkit-transform:' + transform + ';';
-                if (durtion) {
-                    csstext += ';transition:all ' + durtion + 's linear;';
+            setTransform: function (translateX, translateY, scale, durition) {
+
+                var tx = translateX != null ? translateX : this._translateX;
+                var ty = translateY != null ? translateY : this._translateY;
+                var scl = scale != null ? scale : this._scale;
+                //var rot = rotate != null ? rotate : this._rotate || 0;
+
+
+                var cssText = '-webkit-transform: translate(' + tx + 'px, ' + ty + 'px) scale(' + scl + ');';
+                if (durition) {
+                    cssText += '-webkit-transition: all ' + durition + 's ease;' + 'transition: all ' + durition + 's ease;';
                 }
-                this.stage().resolve("@root").$dom.style.cssText = csstext;
-                //this.stage().root().setStyle('transition', 'none 0');
-                this._translateX = translateX || this._translateX;
-                this._translateY = translateY || this._translateY;
-                this._scale = scale || this._scale;
-            }
+                this.stage().view().dom().$dom.style.cssText = cssText;
+                this._translateX = tx;
+                this._translateY = ty;
+                this._scale = scl;
+                //this._rotate = rot;
+            },
         }
     });
 
@@ -342,7 +365,6 @@
                 linearGradient.appendChild(stop2);
 
                 this.resolve("defs").resolve("@root").$dom.appendChild(linearGradient);
-
 
 
                 nx.each(nx.graphic.Icons.icons, function (iconObj, key) {
