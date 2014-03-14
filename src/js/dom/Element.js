@@ -53,6 +53,7 @@
     };
     var booleanAttrHooks = {
         disabled: 'disabled',
+        readonly: 'readonly',
         checked: 'checked'
     };
     //registerAttrHooks for Element
@@ -76,6 +77,8 @@
                 set: function (inElement,inValue) {
                     if (!inValue) {
                         inElement.removeAttribute(hookKey);
+                    } else {
+                        inElement.setAttribute(hookKey,hookKey);
                     }
                     inElement[hookValue] = !!inValue;
                 },
