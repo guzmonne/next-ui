@@ -28,7 +28,8 @@ module.exports = function (grunt) {
                     "dest/css/next-blue.css": "src/less/themes/blue/next.less",
                     "dest/css/next-green.css": "src/less/themes/green/next.less",
                     "dest/css/next-dark.css": "src/less/themes/dark/next.less",
-                    "dest/css/next-slate.css": "src/less/themes/slate/next.less"
+                    "dest/css/next-slate.css": "src/less/themes/slate/next.less",
+                    "dest/css/next-yellow.css": "src/less/themes/yellow/next.less"
                 }
             }
         },
