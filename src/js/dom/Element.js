@@ -256,7 +256,7 @@
                 return this.$dom.getAttribute(inName);
             },
             setAttribute: function (inName,inValue) {
-                if (inValue != null) {
+                if (inValue !== null && inValue !== undefined) {
                     var hook = attrHooks[inName];
                     if (hook) {
                         if (hook.set) {
