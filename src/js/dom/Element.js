@@ -74,11 +74,10 @@
         nx.each(booleanAttrHooks,function (hookValue,hookKey) {
             attrHooks[hookKey] = {
                 set: function (inElement,inValue) {
-                    if (inValue) {
-                        inElement[hookValue] = !!inValue;
-                    } else {
+                    if (!inValue) {
                         inElement.removeAttribute(hookKey);
                     }
+                    inElement[hookValue] = !!inValue;
                 },
                 get: function (inElement) {
                     return !!inElement[hookValue];
