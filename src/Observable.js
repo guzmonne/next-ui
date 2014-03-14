@@ -400,9 +400,7 @@
                                 actualValue = Binding.format(format, actualValue);
                             }
 
-                            if (nx.path(target, targetPath) !== actualValue) {
-                                nx.path(target, targetPath, actualValue);
-                            }
+                            nx.path(target, targetPath, actualValue);
                         };
                     }
 
