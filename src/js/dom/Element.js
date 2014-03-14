@@ -256,15 +256,17 @@
                 return this.$dom.getAttribute(inName);
             },
             setAttribute: function (inName,inValue) {
-                var hook = attrHooks[inName];
-                if (hook) {
-                    if (hook.set) {
-                        return hook.set(this.$dom,inValue);
-                    } else {
-                        return this.$dom.setAttribute(hook,inValue);
+                if (inValue != null) {
+                    var hook = attrHooks[inName];
+                    if (hook) {
+                        if (hook.set) {
+                            return hook.set(this.$dom,inValue);
+                        } else {
+                            return this.$dom.setAttribute(hook,inValue);
+                        }
                     }
+                    return this.$dom.setAttribute(inName,inValue);
                 }
-                return this.$dom.setAttribute(inName,inValue);
             },
             removeAttribute: function (inName) {
                 this.$dom.removeAttribute(baseAttrHooks[inName] || inName);
