@@ -49,16 +49,17 @@
             /**
              * @method notify
              * @param names
+             * @param oldValue
              */
-            notify: function (names) {
+            notify: function (names, oldValue) {
                 if (names == '*') {
                     nx.each(this.__watchers__, function (value, name) {
-                        this._notify(name);
+                        this._notify(name, oldValue);
                     }, this);
                 }
                 else {
                     nx.each(nx.is(names, 'Array') ? names : [names], function (name) {
-                        this._notify(name);
+                        this._notify(name, oldValue);
                     }, this);
                 }
 
@@ -153,7 +154,7 @@
                             var oldValue = this.get(name);
                             if (oldValue !== value) {
                                 if (setter.call(this, value, params) !== false) {
-                                    return this.notify(refs);
+                                    return this.notify(refs, oldValue);
                                 }
                             }
 
@@ -183,11 +184,11 @@
                     }
                 }
             },
-            _notify: function (name) {
+            _notify: function (name, oldValue) {
                 var map = this.__watchers__;
                 nx.each(map[name], function (watcher) {
                     if (watcher && watcher.handler) {
-                        watcher.handler.call(watcher.context, name, this.get(name), watcher.owner);
+                        watcher.handler.call(watcher.context, name, this.get(name), oldValue, watcher.owner);
                     }
                 }, this);
             }
