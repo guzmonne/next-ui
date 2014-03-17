@@ -367,8 +367,8 @@
              * @method save
              */
             save: function () {
-                this.setXPath(this.x());
-                this.setYPath(this.y());
+                this.setXPath().call(this, this.x());
+                this.setYPath().call(this, this.y());
             },
             /**
              * Reset x&y

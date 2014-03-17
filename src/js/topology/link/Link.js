@@ -241,41 +241,45 @@
 
                 this.inherited();
 
+                var _gutter = this.gutter() * gutterStep;
+                var gutter = new Vector(0, _gutter);
+                var line = this.line();
+
+
                 if (this.drawMethod()) {
-                    this.drawMethod().call(this);
-                } else {
-                    var path = [], d;
-                    var _gutter = this.gutter() * gutterStep;
-                    var gutter = new Vector(0, _gutter);
-                    var line = this.line();
+                    var d = this.drawMethod().call(this, this.model(), this);
+                    this.resolve('path').append();
+                    this.resolve('line').remove();
+                    this.resolve('path').set('d', d);
+
+                } else if (this.linkType() == 'curve') {
+                    var path = [];
                     var n, point;
                     if (this.reverse()) {
                         line = line.negate();
                     }
-                    if (this.linkType() == 'curve') {
-                        _gutter = _gutter * 3;
-                        n = line.normal().multiply(_gutter);
-                        point = line.center().add(n);
-                        path.push('M', line.start.x, line.start.y);
-                        path.push('Q', point.x, point.y, line.end.x, line.end.y);
-                        path.push('Q', point.x + 1, point.y + 1, line.start.x, line.start.y);
-                        path.push('Z');
-                        d = path.join(' ');
-                        this.resolve('path').append();
-                        this.resolve('line').remove();
-                        this.resolve('path').set('d', d);
-                    } else {
-                        var lineEl = this.resolve('line');
-                        var newLine = line.translate(gutter);
-                        lineEl.sets({
-                            x1: newLine.start.x,
-                            y1: newLine.start.y,
-                            x2: newLine.end.x,
-                            y2: newLine.end.y
-                        });
-                        this.resolve('path').remove();
-                        this.resolve('line').append();
-                    }
+                    _gutter = _gutter * 3;
+                    n = line.normal().multiply(_gutter);
+                    point = line.center().add(n);
+                    path.push('M', line.start.x, line.start.y);
+                    path.push('Q', point.x, point.y, line.end.x, line.end.y);
+                    path.push('Q', point.x + 1, point.y + 1, line.start.x, line.start.y);
+                    path.push('Z');
+                    d = path.join(' ');
+                    this.resolve('path').append();
+                    this.resolve('line').remove();
+                    this.resolve('path').set('d', d);
+                } else {
+                    var lineEl = this.resolve('line');
+                    var newLine = line.translate(gutter);
+                    lineEl.sets({
+                        x1: newLine.start.x,
+                        y1: newLine.start.y,
+                        x2: newLine.end.x,
+                        y2: newLine.end.y
+                    });
+                    this.resolve('path').remove();
+                    this.resolve('line').append();
                 }
                 this._updateLabel();
                 //  this._setHintPosition();

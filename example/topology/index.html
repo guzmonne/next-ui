@@ -84,6 +84,10 @@
         height: 100%;
     }
 
+    .prev {
+        position: relative;
+    }
+
     .prev > div {
         top: 0px;
         bottom: 0px;
@@ -216,6 +220,14 @@ var Demo = nx.define(nx.ui.Component, {
                 itemLabel: 'NodeSet',
                 files: ['nodeset/base.js'],
                 itemClass: 'NodeSet.Base'
+            });
+
+            this.addItem({
+                categoryName: 'Extend',
+                itemKey: 'link',
+                itemLabel: 'Extend Link',
+                files: ['extend/link.js'],
+                itemClass: 'Extend.Link'
             });
 
             setTimeout(function () {
