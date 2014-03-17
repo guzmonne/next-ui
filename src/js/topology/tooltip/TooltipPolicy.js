@@ -10,23 +10,22 @@
             init: function (args) {
                 this.inherited(args);
                 this.sets(args);
+                this._tm = this.tooltipManager();
             },
             pressStage: function () {
-                var tooltipManager = this.tooltipManager();
-                tooltipManager.closeAll();
+                this._tm.closeAll();
             },
             zooming: function () {
-                var tooltipManager = this.tooltipManager();
-                tooltipManager.closeAll();
+                this._tm.closeAll();
             },
             clickNode: function (node) {
-                var tooltipManager = this.tooltipManager();
-                tooltipManager.openNodeTooltip(node);
+                this._tm.openNodeTooltip(node);
             },
             clickLinkSetNumber: function (linkSet) {
-                var tooltipManager = this.tooltipManager();
-                tooltipManager.openLinkSetTooltip(linkSet);
-
+                this._tm.openLinkSetTooltip(linkSet);
+            },
+            dragStageStart: function () {
+                this._tm.closeAll();
             }
         }
     });

@@ -25,15 +25,28 @@
             nodeRadius: {},
             nodeIconType: {},
             nodeLabel: {},
-            nodeShowIcon: {
-                value: false
-            },
+            nodeShowIcon: {},
             nodeSelected: {
                 value: false
             },
             nodeColor: {},
             showIcon: {
-                value: false
+                get: function () {
+                    return this._showIcon !== undefined ? this._showIcon : false;
+                },
+                set: function (value) {
+                    if (this._showIcon !== value) {
+                        this._showIcon = value;
+
+                        this.eachNode(function (node) {
+                            node.showIcon(value);
+                        });
+
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
             },
             /**
              * @property selectedNodes
@@ -58,28 +71,43 @@
                         });
                     }
                 });
-
-
-                this.watch("showIcon", function (prop, value) {
-                    this.eachNode(function (node) {
-                        node.nodeShowIcon(value);
-                    });
-                }, this);
             },
 
+//            xx: function () {
+//
+//
+//                var bound = this.getBoundByNodes(this.selectedNodes().toArray());
+//
+//                var bound = this.getInsideBound();
+//                var bg = this.stage().resolve('bg').root();
+//                bg.sets({
+//                    x: bound.left,
+//                    y: bound.top,
+//                    width: bound.width,
+//                    height: bound.height,
+//                    visible: true
+//                });
+//                this.stage().resolve('bg').set('visible', true);
+//            },
+
             getBoundByNodes: function (inNodes, isNotIncludeLabel) {
+
+                if (inNodes.length === 0) {
+                    return null;
+                }
 
                 var boundAry = [];
 
                 var lastIndex = inNodes.length - 1;
 
+
                 nx.each(inNodes, function (node) {
                     if (isNotIncludeLabel) {
                         boundAry.push(node.getIconBound());
                     } else {
-                        boundAry.push(node.getBound());
+                        boundAry.push(this.getInsideBound(node.getBound()));
                     }
-                });
+                }, this);
 
 
                 var bound = {
@@ -92,6 +120,8 @@
                     maxX: 0,
                     maxY: 0
                 };
+
+
                 //
                 boundAry.sort(function (a, b) {
                     return a.left - b.left;
@@ -219,4 +249,4 @@
     });
 
 
-})(nx, nx.graphic.util, nx.global);
+})(nx, nx.util, nx.global);

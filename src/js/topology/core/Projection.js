@@ -225,21 +225,7 @@
 
                 if (isNotify !== false && isUpdate) {
                     this.fire("projectionChange");
-                    // setTimeout(this._drawBG.bind(this), 1000);
-
                 }
-            },
-            _drawBG: function () {
-                var bound = this.stage().getContentBound();
-                var bg = this.stage().resolve('bg').root();
-                bg.sets({
-                    x: bound.left,
-                    y: bound.top,
-                    width: bound.width,
-                    height: bound.height,
-                    visible: true
-                });
-                this.stage().resolve('bg').set('visible', true);
             },
             getProjectedX: function (value) {
                 return this.projectionX().get(value) || value;
@@ -257,13 +243,11 @@
                 var stage = this.stage();
                 var width = this.width();
                 var height = this.height();
-                var scale = this._scale = Math.max(Math.min(this._maxScale, this._scale), this._minScale);
+                var scale = Math.max(Math.min(this._maxScale, this._scale), this._minScale);
                 var _scale = this._prevScale || 1;
-                var finialScale = this._finialScale || 1;
                 var step = scale - _scale;
                 var translateX = stage.translateX();
                 var translateY = stage.translateY();
-                var _translateX, _translateY;
                 var _zoomCenterPoint = this._zoomCenterPoint;
 
                 if (!_zoomCenterPoint) {
@@ -300,6 +284,8 @@
                         inFN.call(this);
                     }
                     this.fire("zoomend");
+
+                    stage.off('transitionend', completeFN, this);
                 }.bind(this);
 
                 this.fire("zooming");
@@ -318,7 +304,7 @@
             },
             _gradualZoom: function () {
                 var stage = this.stage();
-                var scale = this._scale = Math.max(Math.min(this._maxScale, this._scale), this._minScale);
+                var scale = this._scale = Math.max(Math.min(this._maxScale, this.scale()), this._minScale);
                 var finialScale = this._finialScale || 1;
                 var translate = this._getScaleTranslate();
 
@@ -372,129 +358,83 @@
              * Make topology fit stage
              * @method fit
              */
-            fit: function (isNotify) {
+            fit: function (callback) {
+                this.zoomByBound(null, function () {
+                    this._scale = 1;
+                    this._recoverStageScale(this.paddingLeft(), this.paddingTop());
+                    this.__originalStageBound = this.getInsideBound();
+                    if (callback) {
+                        callback.call(this);
+                    }
 
+                }, {x: 30, y: 30}); //for fix
+            },
+            zoomByBound: function (inBound, callback, offset, duration) {
                 var stage = this.stage();
                 var width = this.visibleContainerWidth();
                 var height = this.visibleContainerHeight();
-                var stageBound = stage.getContentBound();
+                var bound = inBound || this.getInsideBound();
                 var stageTranslate = stage.translate();
+                var _offset = offset || {x: 0, y: 0};
+                var wScale = width / (bound.width - _offset.x);
+                var hScale = height / (bound.height - _offset.y);
+                var _scale = Math.min(wScale, hScale);
+                var tx, ty;
 
-                var wScale = width / (stageBound.width - 36);
-                var hScale = height / (stageBound.height - 36);
-                var scale = Math.min(wScale, hScale);
 
-
-                if (stageBound.left == this.paddingLeft() && stageBound.y == this.paddingTop() && this.scale() == 1) {
-                    return;
+                //avoid repeatily
+                if (this.__originalStageBound) {
+                    if (this.__originalStageBound.left == bound.left &&
+                        this.__originalStageBound.top == bound.top &&
+                        this.__originalStageBound.width == bound.width &&
+                        this.__originalStageBound.height == bound.height) {
+                        return;
+                    }
                 }
 
 
-                stage.on('transitionend', this._fit, this);
-
-                if (width / height < stageBound.width / stageBound.height) {
-                    var ty = (this.paddingTop() + height / 2 - stageBound.height * scale / 2 ) - (stageBound.top - stageTranslate.y) * scale;
-                    stage.setTransform(this.paddingLeft() - (stageBound.left - stageTranslate.x) * scale, ty, scale, 0.6);
-                } else {
-                    var tx = (this.paddingLeft() + width / 2 - stageBound.width * scale / 2 ) - (stageBound.left - stageTranslate.x) * scale;
-                    stage.setTransform(tx, this.paddingTop() - (stageBound.top - stageTranslate.y) * scale, scale, 0.6);
-                }
-
-                delete  this._prevScale;
-                delete this._finialScale;
+                _scale = Math.max(Math.min(this._maxScale, _scale), this._minScale);
 
 
-            },
-            _fit: function (inForce) {
-                var force = inForce != null ? inForce : true;
-                this._scale = 1;
-                this.stage().setTransform(this.paddingLeft(), this.paddingTop(), 1, 0);
-                this._setProjection(force);
-            },
-            zoomByBound: function (bound) {
-
-
-//                this._zoomCenterPoint = {
-//                    x: bound.left + bound.width / 2,
-//                    y: bound.top + bound.height / 2
-//                };
-//
-//                var width = this.visibleContainerWidth();
-//                var height = this.visibleContainerHeight();
-//
-//                var scale = Math.min(width / bound.width, height / bound.height);
-//
-//
-//                this._zoom(scale, 0.6);
-//                this._zoomCenterPoint = null;
-
-
-                var offset = Math.max(bound.width, bound.height) * 0.05;
-                var scale = this.scale();
-                var tx = this.stage().translateX();
-                var ty = this.stage().translateY();
-                var bt = bound.top - offset;
-                var bl = bound.left - offset;
-                var bw = bound.width + offset * 2;
-                var bh = bound.height + offset * 2;
-
-                var scaleH = this.visibleContainerHeight() / (bh / scale);
-                var scaleW = this.visibleContainerWidth() / (bw / scale);
-
-
-                scaleH = Math.max(Math.min(this._maxScale, scaleH), this._minScale);
-                scaleW = Math.max(Math.min(this._maxScale, scaleW), this._minScale);
-
-                var scaleI, x, y;
-
-//                if (this.rect) {
-//                    this.rect.destroy();
-//                }
-//
-//
-//                if (1) {
-//
-//                    var rect = this.rect = new nx.graphic.Rect({
-//                        x: bound.left - tx,
-//                        y: bound.top - ty,
-//                        opacity: 0.3,
-//                        width: bw,
-//                        height: bh,
-//                        fill: "#f00"
-//                    });
-//
-//                    rect.attach(this.stage());
-//                }
-
-
-                if (scaleH > scaleW) {
-                    scaleI = scaleW;
-                    x = ((bl - tx) / scale * scaleI + tx) / (scaleI - scale) * scale + tx;
-                    y = ( ty + (bt - ty + bh / 2) / scale * scaleI - this.visibleContainerHeight() / 2) / (scaleI - scale) * scale + ty;
-
+                if (width / height < bound.width / bound.height) {
+                    tx = this.paddingLeft() - (bound.left - stageTranslate.x) * _scale;
+                    ty = (this.paddingTop() + height / 2 - bound.height * _scale / 2 ) - (bound.top - stageTranslate.y) * _scale;
 
                 } else {
-                    scaleI = scaleH;
-                    x = ((bt - ty) / scale * scaleI + ty) / (scaleI - scale) * scale + ty;
-                    y = ( tx + (bl - tx + bw / 2) / scale * scaleI - this.visibleContainerWidth() / 2) / (scaleI - scale) * scale + tx;
-
+                    tx = (this.paddingLeft() + width / 2 - bound.width * _scale / 2 ) - (bound.left - stageTranslate.x) * _scale;
+                    ty = this.paddingTop() - (bound.top - stageTranslate.y) * _scale;
                 }
 
+                stage.upon('transitionend', function zoomByBoundCallback() {
+                    if (callback) {
+                        callback.call(this);
+                    }
 
-                this._zoomCenterPoint = {x: x, y: y};
+                    stage.off('transitionend', zoomByBoundCallback, this);
+                }, this);
 
-                this._zoom(scaleI, 0.6);
 
-                this._zoomAnimation = null;
+                stage.setTransform(tx, ty, _scale, duration || 0.5);
 
-                delete  this._prevScale;
-                delete this._finialScale;
+                this._scale = _scale * this.scale();
+
+                this.__originalStageBound = bound;
 
             },
-            zoomByNodes: function (nodes) {
+
+            zoomByNodes: function (nodes, callback) {
                 var bound = this.getBoundByNodes(nodes);
-                this.zoomByBound(bound);
+                this.zoomByBound(bound, this._recoverStageScale.bind(this));
+
             },
+            _recoverStageScale: function (translateX, translateY) {
+                var tx = translateX !== undefined ? translateX : this.stage().translateX();
+                var ty = translateY !== undefined ? translateY : this.stage().translateY();
+                this._setProjection(true);
+                this.stage().setTransform(tx, ty, 1, 0);
+                this._finialScale = this._prevScale = this._scale;
+            },
+
             /**
              * Detect nodes overlap and notify appropriate scale value
              * @method adjustLayout
@@ -554,10 +494,22 @@
 //                        }
 //                    }
 //                }, 60, this);
+            },
+            __drawBG: function (inBound) {
+                var bound = inBound || this.stage().getContentBound();
+                var bg = this.stage().resolve('bg').root();
+                bg.sets({
+                    x: bound.left,
+                    y: bound.top,
+                    width: bound.width,
+                    height: bound.height,
+                    visible: true
+                });
+                this.stage().resolve('bg').set('visible', true);
             }
 
 
         }
     });
 
-})(nx, nx.graphic.util, nx.global);
+})(nx, nx.util, nx.global);

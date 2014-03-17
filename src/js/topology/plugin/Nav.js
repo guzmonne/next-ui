@@ -29,7 +29,7 @@
             },
             scale: {},
             showIcon: {
-                value: true
+                value: false
             }
         },
 
@@ -218,8 +218,8 @@
                                                 {
                                                     tag: 'input',
                                                     props: {
-                                                        type: 'radio'
-                                                        //checked: '{#showIcon,converter=inverted,direction=<>}'
+                                                        type: 'radio',
+                                                        checked: '{#showIcon,converter=inverted,direction=<>}'
                                                     }
                                                 },
                                                 {
@@ -237,8 +237,8 @@
                                                 {
                                                     tag: 'input',
                                                     props: {
-                                                        type: 'radio'
-                                                       // checked: '{#showIcon,direction=<>}'
+                                                        type: 'radio',
+                                                        checked: '{#showIcon,direction=<>}'
                                                     }
                                                 },
                                                 {
@@ -379,17 +379,19 @@
                 }
             },
             _fit: function (sender, event) {
-                this.topology().fit(true);
+                this.topology().fit();
             },
             _zoombyselection: function (sender, event) {
                 var topo = this.topology();
                 var currentSceneName = topo.currentSceneName();
                 var scene = topo.activateScene('zoomBySelection');
                 var icon = sender;
-                scene.on('finish', function (sender, bound) {
-                    topo.zoomByBound(bound);
+                scene.upon('finish', function fn(sender, bound) {
+                    topo.zoomByBound(topo.getInsideBound(bound), topo._recoverStageScale.bind(topo));
                     topo.activateScene(currentSceneName);
                     icon.dom().removeClass('n-topology-nav-zoom-selection-selected');
+                    scene.off('finish', fn, this);
+
                 }, this);
                 icon.dom().addClass('n-topology-nav-zoom-selection-selected');
             },
@@ -471,4 +473,4 @@
     });
 
 
-})(nx, nx.graphic.util, nx.global);
+})(nx, nx.util, nx.global);

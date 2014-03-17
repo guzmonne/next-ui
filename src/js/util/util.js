@@ -1,6 +1,6 @@
 (function (nx, global) {
 
-    nx.define("nx.graphic.util", {
+    nx.define("nx.util", {
         static: true,
         methods: {
             without: function (arrray, item) {

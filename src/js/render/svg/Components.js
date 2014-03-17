@@ -229,21 +229,21 @@
                     tag: 'svg:defs'
                 },
                 {
+                    name: 'bg',
+                    type: 'nx.graphic.Rect',
+                    props: {
+                        visible: false,
+                        fill: '#f00'
+                    }
+                },
+                {
                     name: 'stage',
                     type: 'nx.graphic.Group',
                     props: {
                         'class': 'stage',
-                        scale: '{#scale}',
-                        translateX: '{#translateX}',
-                        translateY: '{#translateY}'
-                    },
-                    content: {
-                        name: 'bg',
-                        type: 'nx.graphic.Rect',
-                        props: {
-                            visible: false,
-                            fill: '#f00'
-                        }
+                        scale: '{#scale,direction=<>}',
+                        translateX: '{#translateX,direction=<>}',
+                        translateY: '{#translateY,direction=<>}'
                     }
                 }
             ],
@@ -291,7 +291,6 @@
             },
             getContentBound: function () {
                 var stageBound = this.stage().getBound();
-                var stageTranslate = this.stage().translate();
                 var topoBound = this.view().dom().getBound();
 
                 return {
@@ -300,6 +299,33 @@
                     width: stageBound.width,
                     height: stageBound.height
                 };
+            },
+            setTransform: function (translateX, translateY, scale, durition) {
+
+                var stage = this.stage();
+                stage.setTransform(translateX, translateY, scale, durition);
+                stage.notify('translateX');
+                stage.notify('translateY');
+                stage.notify('scale');
+
+
+
+
+//                var tx = translateX != null ? translateX : this._translateX;
+//                var ty = translateY != null ? translateY : this._translateY;
+//                var scl = scale != null ? scale : this._scale;
+//                //var rot = rotate != null ? rotate : this._rotate || 0;
+//
+//
+//                var cssText = '-webkit-transform: translate(' + tx + 'px, ' + ty + 'px) scale(' + scl + ');';
+//                if (durition) {
+//                    cssText += '-webkit-transition: all ' + durition + 's ease;' + 'transition: all ' + durition + 's ease;';
+//                }
+//                this.stage().view().dom().$dom.style.cssText = cssText;
+//                this._translateX = tx;
+//                this._translateY = ty;
+//                this._scale = scl;
+                //this._rotate = rot;
             },
             _mousedown: function (sender, event) {
                 event.captureDrag(sender);
@@ -314,25 +340,7 @@
             _dragend: function (sender, event) {
                 this.fire('dragStageEnd', event);
                 this.resolve("stage").resolve("@root").setStyle('pointer-events', 'all');
-            },
-            setTransform: function (translateX, translateY, scale, durition) {
-
-                var tx = translateX != null ? translateX : this._translateX;
-                var ty = translateY != null ? translateY : this._translateY;
-                var scl = scale != null ? scale : this._scale;
-                //var rot = rotate != null ? rotate : this._rotate || 0;
-
-
-                var cssText = '-webkit-transform: translate(' + tx + 'px, ' + ty + 'px) scale(' + scl + ');';
-                if (durition) {
-                    cssText += '-webkit-transition: all ' + durition + 's ease;' + 'transition: all ' + durition + 's ease;';
-                }
-                this.stage().view().dom().$dom.style.cssText = cssText;
-                this._translateX = tx;
-                this._translateY = ty;
-                this._scale = scl;
-                //this._rotate = rot;
-            },
+            }
         }
     });
 
@@ -382,4 +390,4 @@
             }
         }
     });
-})(nx, nx.graphic.util, nx.global);
+})(nx, nx.util, nx.global);

@@ -77,7 +77,7 @@
              * @method clickStage
              */
             clickStage: function (sender, event) {
-                if(event.target == this._topo.stage().view().dom().$dom){
+                if (event.target == this._topo.stage().view().dom().$dom) {
                     this._topo.selectedNodes().clear();
                 }
             },
@@ -89,6 +89,7 @@
                 }
                 this._recover();
                 this._blockEvent(true);
+                nx.dom.Document.body().addClass('n-moveCursor');
             },
             dragStage: function (sender, event) {
                 var stage = this._topo.stage();
@@ -97,6 +98,7 @@
             dragStageEnd: function (sender, event) {
                 this._topo.getLayer('links').root().setStyle('display', 'block');
                 this._blockEvent(false);
+                nx.dom.Document.body().removeClass('n-moveCursor');
             },
             projectionChange: function () {
 
@@ -143,12 +145,14 @@
                     }.bind(this), this._interval);
                     this._recover();
                 }
+                nx.dom.Document.body().addClass('n-dragCursor');
             },
             leaveNode: function (sender, node) {
                 clearTimeout(this._sceneTimer);
                 if (!this._nodeDragging) {
                     this._recover();
                 }
+                nx.dom.Document.body().removeClass('n-dragCursor');
             },
 
             hideNode: function (sender, node) {
@@ -164,6 +168,7 @@
                 this._nodeDragging = true;
                 this._recover();
                 this._blockEvent(true);
+                nx.dom.Document.body().addClass('n-dragCursor');
             },
             /**
              * Drag node handler
@@ -179,6 +184,7 @@
             dragNodeEnd: function () {
                 this._nodeDragging = false;
                 this._blockEvent(false);
+                nx.dom.Document.body().removeClass('n-dragCursor');
             },
 
             pressNode: function (sender, node) {
@@ -242,4 +248,4 @@
             }
         }
     });
-})(nx, nx.graphic.util, nx.global);
+})(nx, nx.util, nx.global);

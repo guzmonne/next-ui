@@ -985,4 +985,4 @@
         }
     });
 
-})(nx, nx.graphic.util, nx.global, nx.logger);
+})(nx, nx.util, nx.global, nx.logger);

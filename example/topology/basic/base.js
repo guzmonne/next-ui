@@ -46,7 +46,7 @@
                     width: 800,
                     height: 800,
                     nodeLabel: 'model.id',
-                    nodeShowIcon: true,
+                    showIcon: true,
                     data: topologyData
                 }
             }

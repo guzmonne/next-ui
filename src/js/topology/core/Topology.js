@@ -27,7 +27,8 @@
                     name: 'nav',
                     type: 'nx.graphic.Topology.Nav',
                     props: {
-                        visible: '{#showNavigation}'
+                        visible: '{#showNavigation}',
+                        showIcon: '{#showIcon,direction=<>}'
                     }
                 },
                 {
@@ -118,4 +119,4 @@
             }
         }
     });
-})(nx, nx.graphic.util, nx.global);
+})(nx, nx.util, nx.global);

@@ -118,65 +118,43 @@
             },
             /**
              * Make topology adapt to container,container should set width/height
-             * @param isNotNotifyStageSizeChanged {Boolean} is not notify stage size changed , default is false, set to TRUE to avoid topology change when change stage size
              * @method adaptToContainer
              */
-            adaptToContainer: function (isNotNotifyStageSizeChanged) {
+            adaptToContainer: function () {
                 this._adaptToContainer();
-                this._fit();
 
+                if (this._fitTimer) {
+                    clearTimeout(this._fitTimer);
+                }
 
-//                if (!isNotNotifyStageSizeChanged) {
-//                    this._setProjection();
-//                }
-//                this.fire('updating');
-//                util.defer(this.adjustLayout.bind(this));
+                this._fitTimer = setTimeout(function () {
+                    this.move(0.1);
+                    this.fit();
+                }.bind(this), 200);
+
             },
-            /**
-             * Recover topology's translate
-             * @method recover
-             */
-            recover: function () {
-                var topo = this.owner();
-                this.translateX(topo.paddingLeft());
-                this.translateY(topo.paddingTop());
-            },
-            /**
-             * Get stage's translate
-             * @returns {{x: *, y: *}}
-             * @method getTranslate
-             */
-            getTranslate: function () {
+            getInsideBound: function (bound) {
+                var _bound = bound || this.stage().view('stage').getBound();
+                var topoBound = this.view().dom().getBound();
+
                 return {
-                    x: this.translateX(),
-                    y: this.translateY()
+                    left: _bound.left - topoBound.left,
+                    top: _bound.top - topoBound.top,
+                    width: _bound.width,
+                    height: _bound.height
                 };
             },
-            /**
-             * Clear stage
-             * @method clear
-             */
-            clear: function () {
-                this.resolve('stage').content(null);
-            },
-
-
             /**
              * Move topology
              * @method move
              * @param x
              * @param y
+             * @param duration default is 0
+             *
              */
-            //todo
-            moveTo: function (x, y) {
+            moveTo: function (x, y, duration) {
                 var stage = this.stage();
-                if (x !== undefined) {
-                    stage.translateX(x);
-                }
-
-                if (y !== undefined) {
-                    stage.translateY(y);
-                }
+                stage.setTransform(x, y, null, duration);
             },
             /**
              * Move topology
@@ -196,4 +174,4 @@
             }
         }
     });
-})(nx, nx.graphic.util, nx.global);
+})(nx, nx.util, nx.global);

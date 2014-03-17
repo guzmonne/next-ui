@@ -297,11 +297,16 @@ var App = nx.define(nx.ui.Application, {
         start: function () {
             var demo = new Demo();
             demo.attach(this);
+
+
         }
     }
 });
 
 var app = new App();
+app.on('resize', function () {
+    topo.adaptToContainer();
+});
 app.start();
 
 </script>

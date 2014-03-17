@@ -3,7 +3,6 @@
     'use strict';
 
 
-
     /**
      * Nodes layer
      Could use topo.getLayer('nodesLayer') get this
@@ -153,7 +152,7 @@
                 node.setProperty('radius', topo.nodeRadius());
                 node.setProperty('useSmartLabel', topo.useSmartLabel());
                 node.setProperty('iconType', topo.nodeIconType());
-                node.setProperty('showIcon', topo.nodeShowIcon());
+                node.setProperty('showIcon', topo.nodeShowIcon() == null ? topo.showIcon() : topo.nodeShowIcon());
                 node.setProperty('selected', topo.nodeSelected());
                 node.setProperty('color', topo.nodeColor());
 
@@ -349,13 +348,15 @@
             },
             _moveSelectionNodes: function (event, node) {
                 var topo = this.topology();
-                var nodes = topo.selectedNodes().toArray();
-                if (nodes.indexOf(node) === -1) {
-                    node.move(event.drag.delta[0], event.drag.delta[1]);
-                }else{
-                    nx.each(nodes, function (node) {
+                if (topo.nodeDraggable()) {
+                    var nodes = topo.selectedNodes().toArray();
+                    if (nodes.indexOf(node) === -1) {
                         node.move(event.drag.delta[0], event.drag.delta[1]);
-                    });
+                    } else {
+                        nx.each(nodes, function (node) {
+                            node.move(event.drag.delta[0], event.drag.delta[1]);
+                        });
+                    }
                 }
 
 
@@ -364,4 +365,4 @@
     });
 
 
-})(nx, nx.graphic.util, nx.global);
+})(nx, nx.util, nx.global);
