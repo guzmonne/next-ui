@@ -82,6 +82,14 @@
                 }
 
                 nx.each(props, function (value, name) {
+                    if (nx.is(value, 'Array')) {
+                        nx.each(value, function (item) {
+                            if (nx.is(item, 'Object')) {
+                                item.__owner__ = owner;
+                            }
+                        });
+                    }
+
                     if (nx.is(value, 'Object')) {
                         value.__owner__ = owner;
                     }
