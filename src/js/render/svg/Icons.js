@@ -177,6 +177,12 @@
                     icon: icon1.cloneNode(true),
                     name: name
                 };
+            },
+            __each__:function(inCallback,inContext){
+                var callback=inCallback || function(){};
+                nx.each(topology_svg_icons,function(inIconSVG,inIconName){
+                    callback.call(inContext,inIconSVG,inIconName,topology_svg_icons);
+                });
             }
         }
     });
