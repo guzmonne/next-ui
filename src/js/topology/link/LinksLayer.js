@@ -1,11 +1,12 @@
 (function (nx, util, global) {
+    'use strict';
     /** Links layer
-     Could use topo.getLayer("linksLayer") get this
+     Could use topo.getLayer('linksLayer') get this
      * @class nx.graphic.Topology.LinksLayer
      * @extend nx.graphic.Topology.Layer
      */
 
-    nx.define("nx.graphic.Topology.LinksLayer", nx.graphic.Topology.Layer, {
+    nx.define('nx.graphic.Topology.LinksLayer', nx.graphic.Topology.Layer, {
         /**
          * @event clickLink
          */
@@ -15,7 +16,7 @@
         /**
          * @event enterLink
          */
-        events: ['clickLink', 'leaveLink', 'enterLink', 'clickLinkSetNumber', 'leaveLinkSetNumber'],
+        events: ['pressLink', 'clickLink', 'leaveLink', 'enterLink'],
         properties: {
             links: {
                 value: function () {
@@ -66,22 +67,18 @@
                 this.linksMap()[id] = link;
                 return link;
             },
-            updateLink: function (edgeSet) {
-                var linkSet = this._getLinkSet(edgeSet);
-                return linkSet.updateLinks();
+            updateLink: function (edge) {
+                this.getLink(edge.id()).update();
             },
             removeLink: function (edge) {
                 var linksMap = this.linksMap();
+                var links = this.links();
                 var id = edge.id();
                 var link = linksMap[id];
                 if (link) {
+                    link.dispose();
+                    links.splice(links.indexOf(link), 1);
                     delete linksMap[id];
-                    this.links(util.without(this.links(), link));
-                    var linkSet = this._getLinkSet(edge.parentEdgeSet());
-                    linkSet.removeLink(link);
-                    return linkSet.updateLinks();
-                } else {
-                    return false;
                 }
             },
 
@@ -93,11 +90,11 @@
                     topology: topo
                 });
                 link.setModel(edge, false);
-                link.resolve("@root").set("class", "link");
-                link.resolve("@root").set("data-link-id", id);
-                link.resolve("@root").set("data-linkKey", edge.linkKey());
-                link.resolve("@root").set("data-source-node-id", edge.source().id());
-                link.resolve("@root").set("data-target-node-id", edge.target().id());
+                link.resolve('@root').set('class', 'link');
+                link.resolve('@root').set('data-link-id', id);
+                link.resolve('@root').set('data-linkKey', edge.linkKey());
+                link.resolve('@root').set('data-source-node-id', edge.source().id());
+                link.resolve('@root').set('data-target-node-id', edge.target().id());
 
                 link.setProperty('linkType', topo.linkType());
                 link.setProperty('gutter', topo.linkGutter());
@@ -109,34 +106,32 @@
                 link.setProperty('dotted', topo.linkDotted());
                 link.setProperty('style', topo.linkStyle());
                 link.setProperty('drawMethod', topo.linkDrawMethod());
+                link.setProperty('enable', topo.linkEnable());
 
                 link.update();
 
+                link.on('linkmousedown', function (sender, event) {
+                    this.fire('pressLink', link);
+                }, this);
 
-                //'click', 'mouseout', 'mouseover', 'mousedown'
+
+                link.on('linkmouseup', function (sender, event) {
+                    this.fire('clickLink', link);
+                }, this);
 
 
-//                link.on("click", function (sender, event) {
-//                    nx.eventObject = event;
-//                    this.fire("clickLink", link);
-//                }, this);
-//
-//
-//                link.on("mouseout", function (sender, event) {
-//                    nx.eventObject = event;
-//                    this.fire("leaveLink", link);
-//                }, this);
-//
-//
-//                link.on("mouseover", function (sender, event) {
-//                    nx.eventObject = event;
-//                    this.fire("enterLink", link);
-//                }, this);
+                link.on('linkmouseenter', function (sender, event) {
+                    this.fire('enterLink', link);
+                }, this);
 
-                link.set("class", "link");
-                link.set("data-link-id", id);
-                link.set("data-source-node-id", edge.source().id());
-                link.set("data-target-node-id", edge.target().id());
+                link.on('linkmouseleave', function (sender, event) {
+                    this.fire('leaveLink', link);
+                }, this);
+
+                link.set('class', 'link');
+                link.set('data-link-id', id);
+                link.set('data-source-node-id', edge.source().id());
+                link.set('data-target-node-id', edge.target().id());
 
 
                 return link;
@@ -166,7 +161,7 @@
              * @method fadeOut
              */
             fadeOut: function (fn, context) {
-                var el = this.resolve("static");
+                var el = this.resolve('static');
                 el.upon('transitionend', function () {
                     if (fn) {
                         fn.call(context || this);
@@ -179,7 +174,7 @@
              * @method fadeIn
              */
             fadeIn: function (fn, context) {
-                var el = this.resolve("static");
+                var el = this.resolve('static');
                 el.upon('transitionend', function () {
                     if (fn) {
                         fn.call(context || this);
@@ -221,10 +216,10 @@
                 this.linksMap({});
                 this.$('activated').empty();
                 this.$('static').empty();
-                this.$("static").setStyle('opacity', 1);
+                this.$('static').setStyle('opacity', 1);
             }
         }
     });
 
 
-})(nx, nx.graphic.util, nx.global);
+})(nx, nx.util, nx.global);

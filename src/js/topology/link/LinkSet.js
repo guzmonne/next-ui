@@ -4,7 +4,8 @@
     var Line = nx.math.Line;
 
 
-    nx.define("nx.graphic.Topology.LinkSet", nx.graphic.Topology.AbstractLink, {
+    nx.define('nx.graphic.Topology.LinkSet', nx.graphic.Topology.AbstractLink, {
+        events: ['numbermousedown', 'numbermouseup', 'numbermouseenter', 'numbermouseleave', 'collapsedLinkSet', 'expandLinkSet'],
         properties: {
 
             links: {
@@ -23,13 +24,23 @@
                 }
             },
             collapsed: {
+                get: function () {
+                    return this._collapsed;
+                },
                 set: function (value) {
-                    if (this._collapsed != value) {
+                    if (this._collapsed !== value) {
                         this._collapsed = value;
                         if (value) {
+                            this._updateLinkNumber();
                             this.update();
+                            this.fire('collapsedLinkSet');
                         } else {
                             this.remove();
+                            setTimeout(function () {
+                                this.getLinks();
+                                this._updateLinksGutter();
+                                this.fire('expandLinkSet');
+                            }.bind(this), 0);
                         }
                         return true;
                     } else {
@@ -62,7 +73,7 @@
             content: [
                 {
                     name: 'path',
-                    type: "nx.graphic.Line",
+                    type: 'nx.graphic.Line',
                     props: {
                         'class': 'link-set-bg'
                     }
@@ -75,8 +86,9 @@
                         height: 1
                     },
                     events: {
-                        //'mousedown': '{#_number_mouseup}',
-                        //'mouseleave': '{#_number_mouseleave}'
+                        'mousedown': '{#_number_mouseup}',
+                        'mouseenter': '{#_number_mouseenter}',
+                        'mouseleave': '{#_number_mouseleave}'
                     }
                 },
                 {
@@ -89,14 +101,16 @@
             ]
         },
         methods: {
+            init: function (args) {
+                this.inherited(args);
+                this.setBinding('collapsed', 'model.activated,direction=<>', this);
+
+            },
             setModel: function (model, isUpdate) {
                 this.inherited(model, isUpdate);
-                this.setBinding('collapsed', 'model.activated,direction=<>', this);
             },
             update: function () {
-
-                if (this.collapsed()) {
-
+                if (this._collapsed) {
                     var lineEl = this.resolve('path');
                     var line = this.line();
                     lineEl.sets({
@@ -106,144 +120,112 @@
                         y2: line.end.y
                     });
                     this.append();
-
                     //num
                     var centerPoint = this.centerPoint();
-
-                    this.$("num").set('x', centerPoint.x);
-                    this.$("num").set('y', centerPoint.y);
-
-                    this.$("numBg").set('x', centerPoint.x);
-                    this.$("numBg").set('y', centerPoint.y);
-
-                }
-
-            },
-            collapse: function () {
-                this.collapsed(true);
-
-            },
-            expand: function () {
-                this.collapsed(false);
-
-                //this.resolve("links").empty();
-
-            },
-
-            _updateLinkNumber: function () {
-                var edges = this.links();
-                this.$("num").set('text', edges.length);
-
-                var bound = this.resolve("num").getBound();
-                var width = Math.max(bound.width - 8, 1);
-
-                this.$("numBg").set('width', width);
-                this.$("numBg").set("translateX", width / -2);
-
-            },
-
-            eachLink: function (fn, context) {
-                nx.each(this.links(), fn, context || this);
-            },
-            updateLinks: function () {
-                var links = this.links();
-                links.length = 0;
-                var topo = this.topology();
-                nx.each(this.model().getEdges(null, true), function (edge) {
-                    links.push(topo.getLink(edge.id()));
-                });
-                this._updateLinkNumber();
-                this.updateLinksGutter();
-                return links;
-            },
-            updateLink: function (link) {
-                //todo
-                this.updateLinks();
-                return link;
-            },
-            updateLinksGutter: function () {
-                var links = this.links();
-                if (links.length > 1 && !this.model().containEdgeSet()) {
-                    // reset all links gutter
-                    if (links.length > 1) {
-                        var offset = (links.length - 1) / 2;
-                        nx.each(links, function (link, index) {
-                            link.gutter(index * -1 + offset);
-                            link.update();
-                        });
-                    }
+                    this.$('num').set('x', centerPoint.x);
+                    this.$('num').set('y', centerPoint.y);
+                    this.$('numBg').set('x', centerPoint.x);
+                    this.$('numBg').set('y', centerPoint.y);
                 }
             },
-
             adjust: function () {
                 if (!this.autoCollapse()) {
                     this.expand();
                 } else if (this.model().containEdgeSet()) {
                     this.collapse();
                 } else {
-                    var linkType;
                     var topo = this.topology();
-                    var links = this.links();
-                    if (links[0]) {
-                        linkType = links[0].linkType();
-                    } else {
-                        linkType = topo.linkType();
-                    }
-                    var maxLinkNumber = linkType === "curve" ? 9 : 5;
-                    if (links.length <= maxLinkNumber) {
+                    var linkType = topo.linkType();
+                    var edges = this.model().getEdges(null, true);
+                    var maxLinkNumber = linkType === 'curve' ? 9 : 5;
+                    if (edges.length <= maxLinkNumber) {
                         this.expand();
                     } else {
                         this.collapse();
                     }
                 }
-
-
             },
-
-
-            fadeOut: function () {
-                this.inherited();
-            },
-
-            fadeIn: function () {
-                this.inherited();
-            },
-            _click: function (sender, event) {
-                if (this.enable()) {
-                    this.fire("click", event);
+            updateLinkSet: function () {
+                this.adjust();
+                if (this._collapsed) {
+                    this.update();
+                    this._updateLinkNumber();
+                } else {
+                    //this.adjust();
+                    this.getLinks();
+                    this._updateLinksGutter();
                 }
             },
-            _mouseout: function (sender, event) {
-                if (this.enable()) {
-                    this.fire("mouseout", event);
+            collapse: function () {
+                this.collapsed(true);
+            },
+            expand: function () {
+                this.collapsed(false);
+            },
+            eachLink: function (fn, context) {
+                nx.each(this.links(), fn, context || this);
+            },
+            getLinks: function () {
+                var links = this.links();
+                links.length = 0;
+                var topo = this.topology();
+                nx.each(this.model().getEdges(null, true), function (edge) {
+                    var link = topo.getLink(edge.id());
+                    if (link) {
+                        links.push(link);
+                    }
+                });
+                return links;
+            },
+            _updateLinkNumber: function () {
+                var edges = this.model().getEdges(null, true);
+                this.$('num').set('text', edges.length);
+
+                var bound = this.resolve('num').getBound();
+                var width = Math.max(bound.width - 6, 1);
+
+                this.$('numBg').set('width', width);
+                this.resolve('numBg').setTransform(width / -2);
+            },
+            _updateLinksGutter: function () {
+                if (!this._collapsed) {
+                    var links = this.links();
+                    if (links.length > 1 && !this.model().containEdgeSet()) {
+                        // reset all links gutter
+                        if (links.length > 1) {
+                            var offset = (links.length - 1) / 2;
+                            nx.each(links, function (link, index) {
+                                link.gutter(index * -1 + offset);
+                                link.update();
+                            });
+                        }
+                    }
                 }
             },
-            _mousedown: function (sender, event) {
+
+
+            _number_mousedown: function (sender, event) {
                 if (this.enable()) {
-                    this.fire("mousedown", event);
+                    this.fire('numbermousedown', event);
                 }
-                event.stop();
-            },
-            _mouseover: function (sender, event) {
-                if (this.enable()) {
-                    this.fire("mouseover", event);
-                }
-                event.stop();
             },
             _number_mouseup: function (sender, event) {
-                this.fire("clickNumber", event);
-                event.stop();
+                if (this.enable()) {
+                    this.fire('numbermouseup', event);
+                }
             },
             _number_mouseleave: function (sender, event) {
-                this.fire("leaveNumber", event);
+                if (this.enable()) {
+                    this.fire('numberleave', event);
+                }
             },
-            addLink: function (link, isAppend) {
-
-            },
-            removeLink: function (link) {
+            _number_mouseenter: function (sender, event) {
+                if (this.enable()) {
+                    this.fire('numberenter', event);
+                }
             }
         }
     });
 
 
-})(nx, nx.graphic.util, nx.global);
+})(nx, nx.util, nx.global);

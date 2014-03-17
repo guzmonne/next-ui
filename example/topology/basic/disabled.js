@@ -10,15 +10,6 @@
         ],
         links: [
             {"source": 0, "target": 1},
-            {"source": 0, "target": 1},
-            {"source": 0, "target": 1},
-            {"source": 0, "target": 1},
-            {"source": 0, "target": 1},
-            {"source": 0, "target": 1},
-            {"source": 0, "target": 1},
-            {"source": 0, "target": 1},
-            {"source": 0, "target": 1},
-            {"source": 0, "target": 1},
             {"source": 1, "target": 2},
             {"source": 1, "target": 3},
             {"source": 4, "target": 1},
@@ -37,18 +28,28 @@
     };
     var colorTable = ['#C3A5E4', '#75C6EF', '#CBDA5C', '#ACAEB1 ', '#2CC86F'];
 
-    nx.define('Base.Base', nx.ui.Component, {
+    nx.define('Base.Disabled', nx.ui.Component, {
         view: {
             content: {
-                name:'topo',
                 type: 'nx.graphic.Topology',
                 props: {
                     width: 800,
-                    height: 800,
+                    height: 600,
                     nodeLabel: 'model.id',
-                    showIcon: true,
+                    nodeShowIcon: true,
                     data: topologyData
+                },
+                events: {
+                    'afterSetData': '{#_setDisable}'
                 }
+            }
+        },
+        methods: {
+            _setDisable: function () {
+                var links = topo.getLayer('links').links();
+                var link = links[1];
+                link.enable(false);
+                link.update();
             }
         }
     });

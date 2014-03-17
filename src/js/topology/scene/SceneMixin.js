@@ -23,10 +23,8 @@
         methods: {
             initScene: function () {
                 this.registerScene("default", "nx.graphic.Topology.DefaultScene");
-                this.registerScene("selection", "nx.graphic.Topology.SelectionScene");
-                this.registerScene("selectionNode", "nx.graphic.Topology.SelectionNodeScene");
+                this.registerScene("selection", "nx.graphic.Topology.SelectionNodeScene");
                 this.registerScene("zoomBySelection", "nx.graphic.Topology.ZoomBySelection");
-
                 this.activateScene('default');
 
             },
@@ -78,6 +76,7 @@
                     name: name,
                     scene: scene
                 });
+                return scene;
             },
             /**
              * Deactivate a certain scene
@@ -92,4 +91,4 @@
             }
         }
     });
-})(nx, nx.graphic.util, nx.global);
+})(nx, nx.util, nx.global);

@@ -190,36 +190,24 @@
 
         },
         methods: {
-            attach: function (args) {
-                this.inherited(args);
-            },
             /**
              * Factory function , will be call when set model
              */
             setModel: function (model, isUpdate) {
+                //
                 this.model(model);
-                model.source().watch("position", function (prop, value) {
+                //
+                model.source().watch("position", this._watchS = function (prop, value) {
                     this.notify("sourcePosition");
                     this.update();
                 }, this);
 
-                model.target().watch("position", function () {
+                model.target().watch("position", this._watchT = function () {
                     this.notify("targetPosition");
                     this.update();
                 }, this);
 
-                //todo
-
-//                this.watch("visible", function (prop, value) {
-//                    if (value) {
-//                        this.fire("show", this);
-//                    } else {
-//                        this.fire("hide", this);
-//                    }
-//                }, this);
-//
-//
-//                //bind model's visible with element's visible
+                //bind model's visible with element's visible
                 this.setBinding("visible", "model.visible,direction=<>", this);
 
                 if (isUpdate !== false) {
@@ -232,15 +220,18 @@
              * Factory function , will be call when relate data updated
              */
             update: function () {
-
-
+                this.notify('centerPoint');
+                this.notify('line');
+                this.notify('position');
+                this.notify('targetVector');
+                this.notify('sourceVector');
             },
             /**
              * Fade out a node
              * @method fadeOut
              */
             fadeOut: function () {
-                this.resolve("@root").setStyle('opacity', this.fadeValue());
+                this.root().setStyle('opacity', this.fadeValue());
                 this.fade(true);
             },
             /**
@@ -255,15 +246,21 @@
                     if (!sourceNode.enable() || !targetNode.enable() || sourceNode.fade() || targetNode.fade()) {
                         this.fadeOut();
                     } else {
-                        this.resolve("@root").setStyle('opacity', 1);
+                        this.root().setStyle('opacity', 1);
                         this.fade(false);
                     }
                 } else {
                     this.fadeOut();
                 }
+            },
+            dispose: function () {
+                var model = this.model();
+                model.source().unwatch("position", this._watchS, this);
+                model.target().unwatch("position", this._watchT, this);
+                this.inherited();
             }
         }
     });
 
 
-})(nx, nx.graphic.util, nx.global);
+})(nx, nx.util, nx.global);

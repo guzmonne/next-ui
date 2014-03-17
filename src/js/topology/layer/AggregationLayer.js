@@ -222,7 +222,7 @@
 
 
             _mousedown: function (sender, event) {
-                var model = sender.model();
+                var model = sender.graph();
                 var nodeSet = model.nodeSet;
                 nodeSet.collapse();
 
@@ -285,7 +285,7 @@
             closeItem: function (inNodeSet) {
 
                 var nodeSetItemMap = this.nodeSetItemMap();
-                var id = inNodeSet.model().id();
+                var id = inNodeSet.graph().id();
                 if (nodeSetItemMap[id]) {
                     nodeSetItemMap[id].destroy();
                     delete nodeSetItemMap[id];
@@ -324,4 +324,4 @@
 
 
     });
-})(nx, nx.graphic.util, nx.global);
+})(nx, nx.util, nx.global);

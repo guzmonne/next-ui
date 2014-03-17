@@ -1,4 +1,6 @@
 (function (nx, util, global) {
+    'use strict';
+
     /**
      * Topology basic layer class
      * @class nx.graphic.Topology.Layer
@@ -19,7 +21,7 @@
         },
         methods: {
             init: function (args) {
-                this.inherited(args);
+                this.init.__super__.apply(this, args);
                 this.resolve("@root").set("data-nx-type", this.__className__);
             },
             /**
@@ -43,8 +45,8 @@
                 this.visible(false);
             },
             clear: function () {
-                this.resolve("@root").empty();
+                //this.resolve("@root").empty();
             }
         }
     });
-})(nx, nx.graphic.util, nx.global);
+})(nx, nx.util, nx.global);

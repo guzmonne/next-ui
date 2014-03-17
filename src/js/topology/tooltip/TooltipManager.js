@@ -169,7 +169,7 @@
                 instance.sets({
                     topology: topology,
                     tooltipManager: this,
-                    model: topology.dataModel()
+                    model: topology.graph()
                 });
                 tooltips.setItem(name, instance);
             },
@@ -221,7 +221,7 @@
                     content.sets({
                         topology: topo,
                         node: node,
-                        model: topo.dataModel()
+                        model: topo.model()
                     });
                 }
 
@@ -265,11 +265,12 @@
                     content.sets({
                         topology: topo,
                         nodeSet: nodeSet,
-                        model: topo.dataModel()
+                        model: topo.graph()
                     });
                 }
 
                 if (content) {
+                    nodeSetTooltip.content(null);
                     content.attach(nodeSetTooltip);
                 }
 
@@ -307,11 +308,12 @@
                     content.sets({
                         topology: topo,
                         link: link,
-                        model: topo.dataModel()
+                        model: topo.graph()
                     });
                 }
 
                 if (content) {
+                    linkTooltip.content(null);
                     content.attach(linkTooltip);
                 }
 
@@ -333,7 +335,8 @@
                     return;
                 }
 
-                var pos = position || linkSet.centerPoint();
+                var pos = position || topo.getAbsolutePosition(linkSet.centerPoint());
+
 
                 var contentClass = nx.path(global, this.linkSetTooltipContentClass());
                 if (contentClass) {
@@ -341,11 +344,12 @@
                     content.sets({
                         topology: topo,
                         linkSet: linkSet,
-                        model: topo.dataModel()
+                        model: topo.graph()
                     });
                 }
 
                 if (content) {
+                    linkSetTooltip.content(null);
                     content.attach(linkSetTooltip);
                 }
 
@@ -357,7 +361,7 @@
 
                 this.fire("openLinkSetToolTip", linkSet);
             },
-            closeeAll: function () {
+            closeAll: function () {
                 this.tooltips().each(function (obj, name) {
                     obj.value.close(true);
                 }, this);
@@ -366,4 +370,4 @@
     });
 
 
-})(nx, nx.graphic.util, nx.global);
+})(nx, nx.util, nx.global);

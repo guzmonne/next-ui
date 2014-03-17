@@ -1,4 +1,8 @@
 (function (nx, util, global) {
+
+    'use strict';
+
+
     /**
      * Nodes layer
      Could use topo.getLayer('nodesLayer') get this
@@ -70,7 +74,7 @@
         },
         methods: {
             attach: function (args) {
-                this.inherited(args);
+                this.attach.__super__.apply(this, arguments);
                 var topo = this.topology();
                 topo.on('projectionChange', this._projectionChangeFN = function (sender, event) {
                     var projectionX = topo.projectionX();
@@ -125,20 +129,20 @@
                 //nodesMap[vertex.id()].fadeOut();
             },
             _generateNode: function (vertex) {
-                var clz;
+                var Clz;
                 //get node class
                 var topo = this.topology();
                 var nodeInstanceClass = topo.nodeInstanceClass();
                 if (nx.is(nodeInstanceClass, 'Function')) {
-                    clz = nodeInstanceClass.call(this, vertex);
+                    Clz = nodeInstanceClass.call(this, vertex);
                     if (nx.is(clz, 'String')) {
-                        clz = nx.path(global, clz);
+                        Clz = nx.path(global, Clz);
                     }
                 } else {
-                    clz = nx.path(global, nodeInstanceClass);
+                    Clz = nx.path(global, nodeInstanceClass);
                 }
 
-                var node = new clz();
+                var node = new Clz();
                 node.set('topology', topo);
                 node.setModel(vertex);
 
@@ -148,7 +152,7 @@
                 node.setProperty('radius', topo.nodeRadius());
                 node.setProperty('useSmartLabel', topo.useSmartLabel());
                 node.setProperty('iconType', topo.nodeIconType());
-                node.setProperty('showIcon', topo.nodeShowIcon());
+                node.setProperty('showIcon', topo.nodeShowIcon() == null ? topo.showIcon() : topo.nodeShowIcon());
                 node.setProperty('selected', topo.nodeSelected());
                 node.setProperty('color', topo.nodeColor());
 
@@ -158,7 +162,6 @@
                 }, this);
 
                 node.on('nodemouseup', function (sender, event) {
-                    node.selected(!node.selected());
                     this.fire('clickNode', node);
                 }, this);
 
@@ -172,13 +175,6 @@
                 }, this);
 
                 node.on('nodeselected', function (sender, event) {
-                    topo.selectedNodes().clear();
-                    if (node.selected()) {
-                        topo.selectedNodes().add(node);
-                    } else {
-                        topo.selectedNodes().remove(node);
-                    }
-
                     this.fire('selectNode', node);
                 }, this);
 
@@ -260,6 +256,29 @@
 
 
             },
+            getNodeConnectedLinks: function (node) {
+                var links = [];
+                var model = node.model();
+                var topo = this.topology();
+                model.eachEdge(function (edge) {
+                    var id = edge.id();
+                    var link = topo.getLink(id);
+                    links.push(link);
+                }, this);
+                return links;
+            },
+            getNodeConnectedLinkSet: function (node) {
+                var model = node.model();
+                var topo = this.topology();
+                var linkSetAry = [];
+
+                model.eachEdgeSet(function (edgeSet) {
+                    var linkSet = topo.getLinkSetByLinkKey(edgeSet.linkKey());
+                    linkSetAry.push(linkSet);
+                });
+                return linkSetAry;
+
+            },
             highlightNode: function (node) {
                 var highlightedNodes = this.highlightedNodes();
                 var el = this.resolve('activated');
@@ -272,7 +291,13 @@
                 }, this);
 
                 var topo = this.topology();
-                topo.getLayer('links').highlightLinks(node.getLinks());
+                if (topo.supportMultipleLink()) {
+                    topo.getLayer('linkSet').highlightLinkSet(this.getNodeConnectedLinkSet(node));
+                } else {
+                    topo.getLayer('links').highlightLinks(this.getNodeConnectedLinks(node));
+                }
+
+
                 topo.getLayer('links').fadeOut();
                 this.fadeOut();
             },
@@ -302,6 +327,13 @@
                     this.highlightedNodes([]);
                 }, this);
             },
+            resetProjection: function () {
+                var nodes = this.nodes();
+                nx.each(nodes, function (node) {
+                    var model = node.model();
+                    node.moveTo(projectionX.get(model.get('x')), projectionY.get(model.get('y')));
+                }, this);
+            },
             clear: function () {
                 //this.topology().off('projectionChange', this._projectionChangeFN, this);
                 nx.each(this.nodes(), function (node) {
@@ -316,17 +348,21 @@
             },
             _moveSelectionNodes: function (event, node) {
                 var topo = this.topology();
-                var nodes = topo.selectedNodes().toArray();
-                if (nodes.indexOf(node) === -1) {
-                    nodes.push(node);
+                if (topo.nodeDraggable()) {
+                    var nodes = topo.selectedNodes().toArray();
+                    if (nodes.indexOf(node) === -1) {
+                        node.move(event.drag.delta[0], event.drag.delta[1]);
+                    } else {
+                        nx.each(nodes, function (node) {
+                            node.move(event.drag.delta[0], event.drag.delta[1]);
+                        });
+                    }
                 }
 
-                nx.each(nodes, function (node) {
-                    node.move(event.drag.delta[0], event.drag.delta[1]);
-                });
+
             }
         }
     });
 
 
-})(nx, nx.graphic.util, nx.global);
+})(nx, nx.util, nx.global);

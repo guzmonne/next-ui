@@ -1,7 +1,7 @@
 (function (nx, util, global) {
 
     nx.define("nx.graphic.Topology.LinkMixin", {
-        events: [],
+        events: ['addLink'],
         properties: {
             /**
              * Set multipleLinkType ,parallel / curve
@@ -30,6 +30,9 @@
             supportMultipleLink: {
                 value: true
             },
+            linkEnable: {
+                value: true
+            },
             linkSetDrawMethod: {}
         },
         methods: {
@@ -41,37 +44,27 @@
              * @returns {*}
              */
             addLink: function (obj, inOption) {
-                var edge = this.model().addEdge(obj, inOption);
+                var edge = this.graph().addEdge(obj, inOption);
                 var link = this.getLink(edge.id());
-                this.adjustLayout();
                 this.fire("addLink", link);
                 return link;
             },
-            removeLink: function (inLink, inOption) {
+            removeLink: function (inLink) {
                 var edge;
                 if (inLink instanceof  nx.graphic.Topology.Link) {
                     edge = inLink.model();
-                } else if (inLink instanceof nx.Graph.Edge) {
+                } else if (inLink instanceof nx.data.Edge) {
                     edge = inLink;
                 } else {
-                    return false;
+                    edge = this.graph().getEdge(inLink);
                 }
-
-                this.model().removeEdge(edge, inOption);
-                this.adjustLayout();
-                this.fire("removeLink");
-                return true;
-
-            },
-
-            removeLinkByID: function (id, inOption) {
-                var link = this.getLink(id);
-                if (link) {
-                    return this.removeLink(link, inOption);
+                if (edge) {
+                    this.graph().removeEdge(edge);
+                    this.fire("removeLink");
+                    return true;
                 } else {
                     return false;
                 }
-
             },
             /**
              * Traverse each link
@@ -99,13 +92,13 @@
              * @returns {*}
              */
             getLinkSet: function (sourceVertexID, targetVertexID) {
-                return this.getLayer("links").getLinkSet(sourceVertexID, targetVertexID);
+                return this.getLayer("linkSet").getLinkSet(sourceVertexID, targetVertexID);
             },
             getLinkSetByLinkKey: function (linkKey) {
-                return this.getLayer("links").getLinkSetByLinkKey(linkKey);
+                return this.getLayer("linkSet").getLinkSetByLinkKey(linkKey);
             }
         }
     });
 
 
-})(nx, nx.graphic.util, nx.global);
+})(nx, nx.util, nx.global);

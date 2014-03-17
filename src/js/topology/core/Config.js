@@ -4,11 +4,10 @@
         events: [],
         properties: {
             /**
-             * 0: not start,1:drawing,2 :finished,3 start and padding adaptive
              * @property status
              */
             status: {
-                value: 0 //0: not start,1:drawing,2 :finished,3 start and padding adaptive
+                value: 0
             },
             theme: {
                 get: function () {
@@ -30,13 +29,6 @@
             showNavigation: {
                 value: true
             },
-
-            /**
-             * @property showModeSwitch
-             */
-            showModeSwitch: {
-                value: true
-            },
             /**
              * Set show/hide thumbnail
              * @property showThumbnail
@@ -54,4 +46,4 @@
         }
     });
 
-})(nx, nx.graphic.util, nx.global);
+})(nx, nx.util, nx.global);

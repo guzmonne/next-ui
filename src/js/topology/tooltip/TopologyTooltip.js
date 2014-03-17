@@ -12,7 +12,7 @@
              * @property lazyClose
              */
             lazyClose: {
-                value: true
+                value: false
             },
             /**
              * Pin a tooltip

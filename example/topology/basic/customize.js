@@ -10,15 +10,6 @@
         ],
         links: [
             {"source": 0, "target": 1},
-            {"source": 0, "target": 1},
-            {"source": 0, "target": 1},
-            {"source": 0, "target": 1},
-            {"source": 0, "target": 1},
-            {"source": 0, "target": 1},
-            {"source": 0, "target": 1},
-            {"source": 0, "target": 1},
-            {"source": 0, "target": 1},
-            {"source": 0, "target": 1},
             {"source": 1, "target": 2},
             {"source": 1, "target": 3},
             {"source": 4, "target": 1},
@@ -37,20 +28,37 @@
     };
     var colorTable = ['#C3A5E4', '#75C6EF', '#CBDA5C', '#ACAEB1 ', '#2CC86F'];
 
-    nx.define('Base.Base', nx.ui.Component, {
+    nx.define('Base.Customize', nx.ui.Component, {
         view: {
             content: {
-                name:'topo',
+                name: 'topo',
                 type: 'nx.graphic.Topology',
                 props: {
                     width: 800,
-                    height: 800,
-                    nodeLabel: 'model.id',
-                    showIcon: true,
+                    height: 600,
+                    // identityKey: 'id',
+                    nodeShowIcon: false,
+                    nodeLabel: '{id}',
+                    nodeColor: function (node, model) {
+                        return colorTable[Math.floor(Math.random() * 6)];
+                    },
+                    linkColor: function (link, model) {
+                        return colorTable[Math.floor(Math.random() * 6)];
+                    },
+                    nodeScale: function () {
+                        return Math.random() * 10 + 1;
+                    },
+                    linkWidth: function () {
+                        return Math.random() * 10 + 1;
+                    },
+                    linkType: 'curve',
+                    linkGutter: function () {
+                        return Math.random() * 2;
+                    },
                     data: topologyData
                 }
             }
         }
-    });
+    })
 
 })(nx, nx.global);

@@ -28,6 +28,10 @@
     })();
 
     nx.define('nx.graphic.Animation', {
+        statics: {
+            requestAnimationFrame: requestAnimationFrame,
+            cancelAnimationFrame: cancelAnimationFrame
+        },
         events: ['complete'],
         properties: {
             callback: {

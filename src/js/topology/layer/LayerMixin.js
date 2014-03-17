@@ -28,6 +28,7 @@
                 this.attachLayer("links", "nx.graphic.Topology.LinksLayer");
                 this.attachLayer("linkSet", "nx.graphic.Topology.LinkSetLayer");
                 this.attachLayer("nodes", "nx.graphic.Topology.NodesLayer");
+                this.attachLayer("nodeSet", "nx.graphic.Topology.NodeSetLayer");
                 //this.attachLayer("pathLayer", "nx.graphic.Topology.PathLayer");
             },
             /**
@@ -49,7 +50,7 @@
                         layerObj = layer;
                     }
                     layerObj.topology(this);
-                    layerObj.model(this.model());
+                    layerObj.model(this.graph());
 
 
                     nx.each(layerObj.__events__, function (eventName) {
@@ -126,4 +127,4 @@
             }
         }
     });
-})(nx, nx.graphic.util, nx.global);
+})(nx, nx.util, nx.global);

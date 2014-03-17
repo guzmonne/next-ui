@@ -22,7 +22,7 @@
                 set: function (obj) {
                     var isModified = false;
                     var model = this.model();
-                    if (obj.x) {
+                    if (obj.x != null) {
                         if (!this._lockXAxle && this._x !== obj.x) {
                             this._x = obj.x;
                             model.set("x", this.projectionX().invert(obj.x));
@@ -31,7 +31,7 @@
                         }
                     }
 
-                    if (obj.y) {
+                    if (obj.y != null) {
                         if (!this._lockYAxle && this._y !== obj.y) {
                             this._y = obj.y;
                             model.set("y", this.projectionY().invert(obj.y));
@@ -95,6 +95,11 @@
              * @property  topology
              */
             topology: {},
+            nodesLayer: {
+                get: function () {
+                    return this.owner();
+                }
+            },
             /**
              * Get topology's x scale object
              * @property projectionX
@@ -154,6 +159,7 @@
             enable: {
                 value: true
             },
+
             fade: {
                 value: false
             },
@@ -214,7 +220,7 @@
                     }
 
                     if (callback) {
-                        obj.callback = callback.bind(this);
+                        obj.complete = callback.bind(this);
                     }
 
                     this.animate(obj);
@@ -247,18 +253,9 @@
              * @method getLinks
              */
             getLinks: function () {
-                var links = [];
-                var model = this.model();
-                var topo = this.topology();
-                model.eachEdge(function (edge) {
-                    var id = edge.id();
-                    var link = topo.getLink(id);
-                    links.push(link);
-                }, this);
-                return links;
+                return this.nodesLayer().getNodeConnectedLinks(this);
             },
             getConnectedLinkSet: function () {
-
                 var model = this.model();
                 var topo = this.topology();
                 var selfID = model.id();
@@ -309,4 +306,4 @@
     });
 
 
-})(nx, nx.graphic.util, nx.global);
+})(nx, nx.util, nx.global);

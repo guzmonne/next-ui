@@ -1,13 +1,13 @@
 (function (nx, util, global) {
-    "use strict";
+    'use strict';
 
     /** Links layer
-     Could use topo.getLayer("linksLayer") get this
+     Could use topo.getLayer('linksLayer') get this
      * @class nx.graphic.Topology.LinksLayer
      * @extend nx.graphic.Topology.Layer
      */
 
-    nx.define("nx.graphic.Topology.LinkSetLayer", nx.graphic.Topology.Layer, {
+    nx.define('nx.graphic.Topology.LinkSetLayer', nx.graphic.Topology.Layer, {
         /**
          * @event clickLink
          */
@@ -17,7 +17,7 @@
         /**
          * @event enterLink
          */
-        events: ['clickLink', 'leaveLink', 'enterLink', 'clickLinkSetNumber', 'leaveLinkSetNumber'],
+        events: ['pressLinkSetNumber', 'clickLinkSetNumber', 'enterLinkSetNumber', 'leaveLinkSetNumber', 'collapsedLinkSet', 'expandLinkSet'],
         properties: {
             linkSetCollection: {
                 value: function () {
@@ -29,7 +29,7 @@
                     return {};
                 }
             },
-            highlightedLinks: {
+            highlightedLinkSet: {
                 value: function () {
                     return [];
                 }
@@ -64,26 +64,24 @@
                 var linkSetMap = this.linkSetMap();
                 var linkSet = this._generateLinkSet(edgeSet);
 
-
                 linkSetMap[edgeSet.linkKey()] = linkSet;
                 linkSetCollection.push(linkSet);
 
                 return linkSet;
             },
-            updateLink: function (edgeSet) {
-                var linkSetMap = this.linkSetMap();
-                var linkSet = linkSetMap[edgeSet.linkKey()];
-                linkSet.updateLinks();
+            updateLinkSet: function (edgeSet) {
+                var linkSet = this.getLinkSetByLinkKey([edgeSet.linkKey()]);
+                linkSet.updateLinkSet();
             },
-            removeLink: function (edgeSet) {
+            removeLinkSet: function (edgeSet) {
                 var linkSetCollection = this.linkSetCollection();
                 var linkSetMap = this.linkSetMap();
                 var linkKey = edgeSet.linkKey();
                 var linkSet = linkSetMap[linkKey];
                 if (linkSet) {
                     linkSet.dispose();
-                    delete linkSetMap[linkKey];
                     linkSetCollection.splice(linkSetCollection.indexOf(linkSet), 1);
+                    delete linkSetMap[linkKey];
                     return true;
                 } else {
                     return false;
@@ -91,16 +89,6 @@
             },
 
             removeNode: function (vertex) {
-//                var linkSetMap = this.linkSetMap();
-//                vertex.eachEdge(function (edge) {
-//                    var linkKey = edge.linkKey();
-//                    var reverseLinkKey = edge.reverseLinkKey();
-//                    var linkSet = linkSetMap[linkKey] || linkSetMap[reverseLinkKey];
-//                    if (linkSet) {
-//                        linkSet.destroy();
-//                        delete linkSetMap[linkSet.model().linkKey()]
-//                    }
-//                });
             },
 
             _generateLinkSet: function (edgeSet) {
@@ -110,29 +98,38 @@
                     topology: topo
                 });
 
-                linkset.resolve("@root").set("data-nx-type", "nx.graphic.Topology.LinkSet");
-                linkset.resolve("@root").set("data-linkKey", linkKey);
-                linkset.resolve("@root").set("data-source-node-id", edgeSet.source().id());
-                linkset.resolve("@root").set("data-target-node-id", edgeSet.target().id());
+                var root = linkset.resolve('@root');
+                root.set('data-nx-type', 'nx.graphic.Topology.LinkSet');
+                root.set('data-linkKey', linkKey);
+                root.set('data-source-node-id', edgeSet.source().id());
+                root.set('data-target-node-id', edgeSet.target().id());
 
                 linkset.attach(this.resolve('static'));
                 linkset.setModel(edgeSet, false);
-                linkset.updateLinks();
                 linkset.adjust();
 
+                linkset.on('numbermousedown', function (sender, event) {
+                    this.fire('pressLinkSetNumber', linkset);
+                }, this);
+                linkset.on('numbermouseup', function (sender, event) {
+                    this.fire('clickLinkSetNumber', linkset);
+                }, this);
 
-                // events: ['click', 'mouseout', 'mouseover', 'mousedown','clickNumber','leaveNumber'],
+                linkset.on('numbermouseenter', function (sender, event) {
+                    this.fire('enterLinkSetNumber', linkset);
+                }, this);
 
+                linkset.on('numbermouseleave', function (sender, event) {
+                    this.fire('leaveLinkSetNumber', linkset);
+                }, this);
 
-//                linkset.on("clickNumber", function (sender, event) {
-//                    nx.eventObject = event;
-//                    this.fire("clickLinkSetNumber", linkset);
-//                }, this);
-//
-//                linkset.on("leaveNumber", function (sender, event) {
-//                    nx.eventObject = event;
-//                    this.fire("leaveLinkSetNumber", linkset);
-//                }, this);
+                linkset.on('collapsedLinkSet', function (sender, event) {
+                    this.fire('collapsedLinkSet', linkset);
+                }, this);
+
+                linkset.on('expandLinkSet', function (sender, event) {
+                    this.fire('expandLinkSet', linkset);
+                }, this);
 
                 return linkset;
             },
@@ -144,8 +141,12 @@
 
             getLinkSet: function (sourceVertexID, targetVertexID) {
                 var topo = this.topology();
-                var edgeSet = topo.model().getEdgeSetBySourceAndTarget(sourceVertexID, targetVertexID);
-                return this.getLinkSetByLinkKey(edgeSet.linkKey());
+                var edgeSet = topo.graph().getEdgeSetBySourceAndTarget(sourceVertexID, targetVertexID);
+                if (edgeSet) {
+                    return this.getLinkSetByLinkKey(edgeSet.linkKey());
+                } else {
+                    return null;
+                }
             },
             getLinkSetByLinkKey: function (linkKey) {
                 var linkSetMap = this.linkSetMap();
@@ -156,7 +157,7 @@
              * @method fadeOut
              */
             fadeOut: function (fn, context) {
-                var el = this.resolve("static");
+                var el = this.resolve('static');
                 el.upon('transitionend', function () {
                     if (fn) {
                         fn.call(context || this);
@@ -169,7 +170,7 @@
              * @method fadeIn
              */
             fadeIn: function (fn, context) {
-                var el = this.resolve("static");
+                var el = this.resolve('static');
                 el.upon('transitionend', function () {
                     if (fn) {
                         fn.call(context || this);
@@ -185,16 +186,23 @@
              */
             recover: function (force) {
                 this.fadeIn(function () {
-                    nx.each(this.highlightedLinks(), function (link) {
+                    nx.each(this.highlightedLinkSet(), function (link) {
                         link.append(this.resolve('static'));
                     }, this);
-                    this.highlightedLinks([]);
+                    this.highlightedLinkSet([]);
                 }, this);
             },
-            highlightLinks: function (links) {
-                nx.each(links, function (link) {
-                    this.highlightedLinks().push(node);
-                    link.append(this.resolve('activated'));
+            highlightLinkSet: function (linkSet) {
+                var topo = this.topology();
+                var linkslayer = topo.getLayer('links');
+                nx.each(linkSet, function (linkset) {
+                    if (linkset.collapsed()) {
+                        this.highlightedLinkSet().push(linkset);
+                        linkset.append(this.resolve('activated'));
+                    } else {
+                        linkslayer.highlightLinks(linkset.links());
+                    }
+
                 }, this);
                 this.fadeOut();
             },
@@ -210,10 +218,10 @@
                 this.linkSetMap({});
                 this.$('activated').empty();
                 this.$('static').empty();
-                this.$("static").setStyle('opacity', 1);
+                this.$('static').setStyle('opacity', 1);
             }
         }
     });
 
 
-})(nx, nx.graphic.util, nx.global);
+})(nx, nx.util, nx.global);

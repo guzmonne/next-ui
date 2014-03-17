@@ -7,4 +7,4 @@
         }
     });
 
-})(nx, nx.graphic.util, nx.global);
+})(nx, nx.util, nx.global);

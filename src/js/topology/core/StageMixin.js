@@ -111,109 +111,50 @@
             _adaptToContainer: function () {
                 var bound = this.resolve("@root").parentNode().getBound();
                 if (bound.width === 0 || bound.height === 0) {
-                    nx.logger.log("Please set height*width to topology's parent container");
+                    //nx.logger.log("Please set height*width to topology's parent container");
                 }
                 this.height(bound.height);
                 this.width(bound.width);
             },
             /**
              * Make topology adapt to container,container should set width/height
-             * @param isNotNotifyStageSizeChanged {Boolean} is not notify stage size changed , default is false, set to TRUE to avoid topology change when change stage size
              * @method adaptToContainer
              */
-            adaptToContainer: function (isNotNotifyStageSizeChanged) {
+            adaptToContainer: function () {
                 this._adaptToContainer();
-//                if (!isNotNotifyStageSizeChanged) {
-//                    this._setProjection();
-//                }
-//                this.fire('updating');
-//                util.defer(this.adjustLayout.bind(this));
-            },
-            /**
-             * Append a graphic element
-             * @param el
-             * @method appendChild
-             */
-            appendChild: function (el) {
-                this.resolve('container').appendChild(el);
-            },
-            /**
-             * Prepend a graphic element
-             * @param el
-             * @method prependChild
-             */
-            prependChild: function (el) {
-                this.resolve('container').prependChild(el);
-            },
-            /**
-             * Insert a graphic element at index
-             * @param el
-             * @param index
-             * @method insertAt
-             */
-            insertAt: function (el, index) {
-                this.resolve('container').insertAt(el, index);
-            },
-            /**
-             * Recover topology's translate
-             * @method recover
-             */
-            recover: function () {
-                var topo = this.owner();
-                this.translateX(topo.paddingLeft());
-                this.translateY(topo.paddingTop());
-            },
-            /**
-             * Get stage's translate
-             * @returns {{x: *, y: *}}
-             * @method getTranslate
-             */
-            getTranslate: function () {
-                return {
-                    x: this.translateX(),
-                    y: this.translateY()
-                };
-            },
-            getBond: function () {
-                return this.resolve('stage').getBBox();
-            },
-            /**
-             * Clear stage
-             * @method clear
-             */
-            clear: function () {
-                this.resolve('stage').content(null);
-            },
 
-
-            /**
-             * Make topology fit stage
-             * @method fit
-             */
-            fit: function (isNotify) {
-                this._setProjection(true, isNotify);
-                if (this.scale() != 1) {
-                    this.scale(1);
+                if (this._fitTimer) {
+                    clearTimeout(this._fitTimer);
                 }
-                this.stage().recover();
-                this.fire('updating');
+
+                this._fitTimer = setTimeout(function () {
+                    this.move(0.1);
+                    this.fit();
+                }.bind(this), 200);
+
+            },
+            getInsideBound: function (bound) {
+                var _bound = bound || this.stage().view('stage').getBound();
+                var topoBound = this.view().dom().getBound();
+
+                return {
+                    left: _bound.left - topoBound.left,
+                    top: _bound.top - topoBound.top,
+                    width: _bound.width,
+                    height: _bound.height
+                };
             },
             /**
              * Move topology
              * @method move
              * @param x
              * @param y
+             * @param duration default is 0
+             *
              */
-            //todo
-            moveTo: function (x, y) {
+            moveTo: function (x, y, duration) {
                 var stage = this.stage();
-                if (x !== undefined) {
-                    stage.translateX(x);
-                }
-
-                if (y !== undefined) {
-                    stage.translateY(y);
-                }
+                stage.setTransform(x, y, null, duration);
             },
             /**
              * Move topology
@@ -233,4 +174,4 @@
             }
         }
     });
-})(nx, nx.graphic.util, nx.global);
+})(nx, nx.util, nx.global);

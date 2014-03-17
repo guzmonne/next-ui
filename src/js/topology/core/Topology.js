@@ -3,7 +3,7 @@
         mixins: [
             nx.graphic.Topology.Config,
             nx.graphic.Topology.Projection,
-            nx.graphic.Topology.Model,
+            nx.graphic.Topology.Graph,
             nx.graphic.Topology.Event,
             nx.graphic.Topology.StageMixin,
             nx.graphic.Topology.NodeMixin,
@@ -24,24 +24,12 @@
             },
             content: [
                 {
-//                    name: 'nav',
-//                    type: 'nx.graphic.Topology.Nav',
-//                    props: {
-//                        //scale: '{#scale,direction=<>}',
-//                        maxScale: '{#maxScale}',
-//                        minScale: '{#minScale}',
-//                        mode: '{#mode,direction=<>}',
-//                        show3D: '{#internalshow3D}',
-//                        showModeSwitch: '{#showModeSwitch}',
-//                        showZoomRate: '{#showNavigation}',
-//                        visible: '{#showNavigation}',
-//                        showIcon: '{#showIcon,direction=<>}',
-//                        theme: '{#theme,direction=<>}'
-//                    },
-//                    events: {
-//                        'fit': '{#fit}',
-//                        'show3DTopology': '{#show3DTopology}'
-//                    }
+                    name: 'nav',
+                    type: 'nx.graphic.Topology.Nav',
+                    props: {
+                        visible: '{#showNavigation}',
+                        showIcon: '{#showIcon,direction=<>}'
+                    }
                 },
                 {
                     name: "stage",
@@ -58,7 +46,10 @@
                         'mouseup': '{#_clickStage}',
                         'touchend': '{#_clickStage}',
                         'mousewheel': '{#_mousewheel}',
-                        'touchmove': '{#_mousewheel}'
+                        'touchmove': '{#_mousewheel}',
+                        'dragStageStart': '{#_dragStageStart}',
+                        'dragStage': '{#_dragStage}',
+                        'dragStageEnd': '{#_dragStageEnd}'
                     }
                 },
                 {
@@ -94,7 +85,7 @@
                 this.inherited(args);
                 this.sets(args);
                 this.initLayer();
-                this.initModel();
+                this.initGraph();
                 this.initNode();
                 this.initScene();
             },
@@ -112,7 +103,7 @@
             draw: function () {
                 var start = new Date();
                 var serializer = new XMLSerializer();
-                var svg = serializer.serializeToString(this.stage().resolve("@root").$dom.querySelector('.stage'));
+                var svg = serializer.serializeToString(this.stage().resolve("@root").$dom.querySelector('[data-nx-type*=inksLayer]'));
                 var defs = serializer.serializeToString(this.stage().resolve("@root").$dom.querySelector('defs'));
                 var svgString = '<svg width="' + this.width() + '" height="' + this.height() + '" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >' + defs + svg + "</svg>";
                 var b64 = window.btoa(svgString);
@@ -128,4 +119,4 @@
             }
         }
     });
-})(nx, nx.graphic.util, nx.global);
+})(nx, nx.util, nx.global);

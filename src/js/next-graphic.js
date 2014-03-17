@@ -30,9 +30,9 @@
 //    http.send();
 
 //
-//    xPath = path + "NeXtGit/next-ui-components/";
-//    http.open("GET", xPath + "files.json?" + Math.random(), false);
-//    http.send();
+    xPath = path + "NeXtGit/next-ui-components/";
+    http.open("GET", xPath + "files.json?" + Math.random(), false);
+    http.send();
 
     xPath = path + "NeXtGit/next-graphic/";
     http.open("GET", xPath + "files.json?" + Math.random(), false);
