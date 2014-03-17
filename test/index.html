@@ -99,6 +99,15 @@ var MyPanel = nx.define(nx.ui.Component, {
     }
 });
 
+var MyInheritedPanel = nx.define(MyPanel, {
+    view: function (view) {
+        return {
+            tag: 'section',
+            props: view.props
+        }
+    }
+});
+
 var MyParagraph = nx.define(nx.ui.Component, {
     view: {
         tag: 'p',
@@ -132,7 +141,7 @@ var MyComp = nx.define(nx.ui.Component, {
                 }
             },
             {
-                type: MyPanel,
+                type: MyInheritedPanel,
                 content: {
                     type: MyParagraph
                 }
@@ -278,6 +287,42 @@ function unload() {
     comp.items(null);
     setTimeout(load, 100);
 }
+
+var X = nx.define(nx.ui.Component, {
+    view: {
+        props: {
+            style: {
+                height: '{#height}'
+            }
+        },
+        content: {
+            tag: 'p'
+        }
+    },
+    properties: {
+        height: '300px'
+    }
+});
+
+var Y = nx.define(nx.ui.Component, {
+    view: {
+        content: {
+            type: X,
+            props: {
+                style: {
+                    width: '{#width}'
+                }
+            }
+        }
+    },
+    properties: {
+        width: '200px'
+    }
+});
+
+
+var y = new Y();
+y.attach(app);
 
 //load();
 

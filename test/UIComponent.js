@@ -67,10 +67,10 @@ nx.define("wq.container", nx.ui.Component, {
                 name: "wqbtn",
                 type: "wq.button",
                 events: {
-                    'aclick': function () {
-                        this.aclickflag(true);
+                    'aclick': function (sender) {
+                        sender.aclickflag(true);
                     },
-                    'bclick': function (){this.bclick();}
+                    'bclick': function (sender){sender.bclick();}
                 }
             },
             {
@@ -496,7 +496,7 @@ nx.define("qw.template_template", nx.ui.Component, {
                     },
                     events: {
                         'aclick': function (sender,event) {
-                            this.owner().eventResult(this.model());
+                            sender.owner().eventResult(sender.model());
                         }
                     },
                     content: '{0}'
@@ -511,8 +511,8 @@ nx.define("qw.template_template", nx.ui.Component, {
                                     style: 'color:blue'
                                 },
                                 events: {
-                                    'aclick': function () {
-                                        this.owner().eventResult(this.model());
+                                    'aclick': function (sender) {
+                                        sender.owner().eventResult(sender.model());
                                     }
                                 },
                                 content: '{}'

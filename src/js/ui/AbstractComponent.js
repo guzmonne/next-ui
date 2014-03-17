@@ -5,7 +5,7 @@
     var Document = nx.dom.Document;
     var rpatt = /(?={)\{([^{}]*?)\}(?!})/;
 
-    function setProperty(target, name, value, owner) {
+    function setProperty(target, name, value, source, owner) {
         if (nx.is(value, Binding)) {
             target.setBinding(name, nx.extend(value.gets(), {
                 bindingType: 'property'
@@ -14,10 +14,10 @@
         else if (nx.is(value, 'String') && rpatt.test(value)) {
             var expr = RegExp.$1;
             if (expr[0] === '#') {
-                target.setBinding(name, 'owner.' + expr.slice(1) + ',bindingType=property', owner || target);
+                target.setBinding(name, expr.slice(1) + ',bindingType=property', owner || target);
             }
             else {
-                target.setBinding(name, (expr ? 'model.' + expr : 'model') + ',bindingType=property', owner || target);
+                target.setBinding(name, (expr ? 'model.' + expr : 'model') + ',bindingType=property', source || target);
             }
         }
         else {
@@ -25,17 +25,17 @@
         }
     }
 
-    function setEvent(target, name, value, owner) {
+    function setEvent(target, name, value, source, owner) {
         if (nx.is(value, Binding)) {
             target.setBinding(name, value.gets());
         }
         else if (nx.is(value, 'String') && rpatt.test(value)) {
             var expr = RegExp.$1;
             if (expr[0] === '#') {
-                target.setBinding(name, 'owner.' + expr.slice(1) + ',bindingType=event', owner || target);
+                target.setBinding(name, expr.slice(1) + ',bindingType=event', owner || target);
             }
             else {
-                target.setBinding(name, (expr ? 'model.' + expr : 'model') + ',bindingType=event', owner || target);
+                target.setBinding(name, (expr ? 'model.' + expr : 'model') + ',bindingType=event', source || target);
             }
         }
         else {
@@ -82,15 +82,19 @@
                 }
 
                 nx.each(props, function (value, name) {
-                    setProperty(comp, name, value);
+                    if (nx.is(value, 'Object')) {
+                        value.__owner__ = owner;
+                    }
+
+                    setProperty(comp, name, value, comp, owner);
                 });
 
                 nx.each(events, function (value, name) {
-                    setEvent(comp, name, value);
+                    setEvent(comp, name, value, comp, owner);
                 });
 
                 if (content !== undefined) {
-                    setProperty(comp, 'content', content);
+                    setProperty(comp, 'content', content, comp, owner);
                 }
             }
             else if (view !== undefined) {
@@ -108,7 +112,7 @@
         statics: {
             createComponent: createComponent
         },
-        events: ['enter', 'leave','contententer','contentleave'],
+        events: ['enter', 'leave', 'contententer', 'contentleave'],
         properties: {
             content: {
                 get: function () {
@@ -189,7 +193,7 @@
 
                         this.parent(parent);
                         this.owner(owner);
-                        parent.fire('contententer',{
+                        parent.fire('contententer', {
                             content: this,
                             owner: owner
                         });
@@ -220,7 +224,7 @@
                     parent.content().remove(this);
                     this.parent(null);
                     this.owner(null);
-                    parent.fire('contentleave',{
+                    parent.fire('contentleave', {
                         content: this,
                         owner: owner
                     });
@@ -286,9 +290,9 @@
 
     var CssClass = nx.define(nx.Observable, {
         methods: {
-            init: function (owner) {
+            init: function (comp) {
                 this.inherited();
-                this._owner = owner;
+                this._comp = comp;
                 this._classList = [];
             },
             has: function (name) {
@@ -299,7 +303,7 @@
             },
             set: function (name, value) {
                 this._classList[name] = value;
-                this._owner.resolve('@root').set('class', this._classList.join(' '));
+                this._comp.resolve('@root').set('class', this._classList.join(' '));
             },
             hasClass: function (name) {
                 return this._classList.indexOf(name) >= 0;
@@ -307,14 +311,14 @@
             addClass: function (name) {
                 if (!this.hasClass(name)) {
                     this._classList.push(name);
-                    this._owner.resolve('@root').set('class', this._classList.join(' '));
+                    this._comp.resolve('@root').set('class', this._classList.join(' '));
                 }
             },
             removeClass: function (name) {
                 var index = this._classList.indexOf(name);
                 if (index >= 0) {
                     this._classList.splice(index, 1);
-                    this._owner.resolve('@root').set('class', this._classList.join(' '));
+                    this._comp.resolve('@root').set('class', this._classList.join(' '));
                 }
             },
             toggleClass: function (name) {
@@ -326,11 +330,11 @@
                     this._classList.push(name);
                 }
 
-                this._owner.resolve('@root').set('class', this._classList.join(' '));
+                this._comp.resolve('@root').set('class', this._classList.join(' '));
             },
             dispose: function () {
                 this.inherited();
-                this._owner = null;
+                this._comp = null;
                 this._classList = null;
             }
         }
@@ -338,19 +342,19 @@
 
     var CssStyle = nx.define(nx.Observable, {
         methods: {
-            init: function (owner) {
+            init: function (comp) {
                 this.inherited();
-                this._owner = owner;
+                this._comp = comp;
             },
             get: function (name) {
-                return this._owner.resolve('@root').getStyle(name);
+                return this._comp.resolve('@root').getStyle(name);
             },
             set: function (name, value) {
-                this._owner.resolve('@root').setStyle(name, value);
+                this._comp.resolve('@root').setStyle(name, value);
             },
             dispose: function () {
                 this.inherited();
-                this._owner = null;
+                this._comp = null;
             }
         }
     });
@@ -370,7 +374,7 @@
                     var cssClass = this._class;
                     if (nx.is(value, 'Array')) {
                         nx.each(value, function (item, index) {
-                            setProperty(cssClass, '' + index, item, this);
+                            setProperty(cssClass, '' + index, item, this, value.__owner__ || this.owner());
                         }, this);
                     }
                     else if (nx.is(value, 'Object')) {
@@ -397,7 +401,7 @@
                     if (nx.is(value, 'Object')) {
                         var cssStyle = this._style;
                         nx.each(value, function (v, k) {
-                            setProperty(cssStyle, k, v, this);
+                            setProperty(cssStyle, k, v, this, value.__owner__ || this.owner());
                         }, this);
                     }
                     else {
@@ -677,19 +681,20 @@
 
                 if (template && items) {
                     nx.each(items, function (item) {
-                        var comp = createComponent(template, this.owner());
+                        var comp = createComponent(template, template.__owner__ || this.owner());
                         comp.model(item);
                         comp.attach(this);
                     }, this);
                 }
             },
             _onItemsChange: function (sender, event) {
+                var template = this._template;
                 var action = event.action;
                 var index = event.index;
                 index = index >= 0 ? index : -1;
                 if (action === 'add') {
                     nx.each(event.items, function (item, i) {
-                        var comp = createComponent(this._template, this.owner());
+                        var comp = createComponent(template, template.__owner__ || this.owner());
                         comp.model(item);
                         comp.attach(this, index + i);
                     }, this);
