@@ -77,8 +77,10 @@
                     comp.register('@name', name);
                 }
 
+                owner = view.__owner__ || owner;
+
                 if (owner) {
-                    comp.owner(view.__owner__ || owner);
+                    comp.owner(owner);
                 }
 
                 nx.each(props, function (value, name) {
