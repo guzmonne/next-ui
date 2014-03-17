@@ -53,7 +53,7 @@
     });
 
 
-    nx.define("nx.graphic.Polygon", nx.Path, {
+    nx.define("nx.graphic.Polygon", nx.graphic.Path, {
         properties: {
             nodes: {
                 get: function () {
@@ -72,11 +72,11 @@
                             vertices.push(vertices[1]);
                         }
 
-                        var nodes = nx.data.Convex.scan(vertices);
+                        var nodes = nx.data.Convex.process(vertices);
                         var path = [];
                         path.push('M ', nodes[0].x, ' ', nodes[0].y);
                         for (var i = 1; i < nodes.length; i++) {
-                            if (!util.isArray(nodes[i])) {
+                            if (!nx.is(nodes[i], 'Array')) {
                                 path.push(' L ', nodes[i].x, ' ', nodes[i].y);
                             }
 
@@ -307,8 +307,6 @@
                 stage.notify('translateX');
                 stage.notify('translateY');
                 stage.notify('scale');
-
-
 
 
 //                var tx = translateX != null ? translateX : this._translateX;

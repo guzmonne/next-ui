@@ -23,7 +23,7 @@
                 this.layers([]);
             },
             initLayer: function () {
-                //this.attachLayer("groups", "nx.graphic.Topology.GroupsLayer");
+                this.attachLayer("groups", "nx.graphic.Topology.GroupsLayer");
                 //this.attachLayer("aggregationLayer", "nx.graphic.Topology.AggregationLayer");
                 this.attachLayer("links", "nx.graphic.Topology.LinksLayer");
                 this.attachLayer("linkSet", "nx.graphic.Topology.LinkSetLayer");

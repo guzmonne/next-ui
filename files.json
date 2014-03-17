@@ -68,6 +68,14 @@
         "src/js/topology/scene/SelectionNodeScene.js",
         "src/js/topology/scene/ZoomBySelection.js",
 
+
+        "src/js/topology/group/GroupsLayer.js",
+        "src/js/topology/group/GroupItem.js",
+        "src/js/topology/group/RectGroup.js",
+        "src/js/topology/group/CircleGroup.js",
+        "src/js/topology/group/PolygonGroup.js",
+
+
         "src/js/topology/plugin/Nav.js",
         "src/js/topology/plugin/Search.js"
 

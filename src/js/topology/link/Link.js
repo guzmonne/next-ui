@@ -244,10 +244,10 @@
                 var _gutter = this.gutter() * gutterStep;
                 var gutter = new Vector(0, _gutter);
                 var line = this.line();
-
+                var d;
 
                 if (this.drawMethod()) {
-                    var d = this.drawMethod().call(this, this.model(), this);
+                    d = this.drawMethod().call(this, this.model(), this);
                     this.resolve('path').append();
                     this.resolve('line').remove();
                     this.resolve('path').set('d', d);

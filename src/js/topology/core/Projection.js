@@ -1,7 +1,7 @@
 (function (nx, util, global) {
 
     nx.define("nx.graphic.Topology.Projection", {
-        events: ['projectionChange', 'zooming', 'zoomend'],
+        events: ['projectionChange', 'zooming', 'zoomend', 'resetzooming'],
         properties: {
             /**
              * @property maxScale
@@ -331,6 +331,7 @@
                         stage.setTransform(translate.x, translate.y, scale / finialScale, 0);
                     } else {
                         resetScaleFN.call(this);
+                        this.fire("resetzooming");
                     }
 
 
@@ -410,9 +411,12 @@
                         callback.call(this);
                     }
 
+                    this.fire("zoomend");
+
                     stage.off('transitionend', zoomByBoundCallback, this);
                 }, this);
 
+                this.fire("zooming");
 
                 stage.setTransform(tx, ty, _scale, duration || 0.5);
 

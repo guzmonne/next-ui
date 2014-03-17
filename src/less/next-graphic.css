@@ -108,11 +108,15 @@
 }
 .n-topology.n-topology-blue .group .bg {
   opacity: 0.5;
+  stroke-width: 10px;
+  stroke-linejoin: round;
 }
 .n-topology.n-topology-blue .group .groupLabel {
   cursor: pointer;
   font-size: 18px;
   font-family: "Cisco Sans Reg";
+  text-anchor: middle;
+  alignment-baseline: inherit;
 }
 .n-topology.n-topology-blue .group .groupLabel:hover ~ .bg {
   opacity: 0.7;
@@ -482,11 +486,15 @@
 }
 .n-topology.n-topology-dark .group .bg {
   opacity: 0.5;
+  stroke-width: 10px;
+  stroke-linejoin: round;
 }
 .n-topology.n-topology-dark .group .groupLabel {
   cursor: pointer;
   font-size: 18px;
   font-family: "Cisco Sans Reg";
+  text-anchor: middle;
+  alignment-baseline: inherit;
 }
 .n-topology.n-topology-dark .group .groupLabel:hover ~ .bg {
   opacity: 0.7;
@@ -856,11 +864,15 @@
 }
 .n-topology.n-topology-green .group .bg {
   opacity: 0.5;
+  stroke-width: 10px;
+  stroke-linejoin: round;
 }
 .n-topology.n-topology-green .group .groupLabel {
   cursor: pointer;
   font-size: 18px;
   font-family: "Cisco Sans Reg";
+  text-anchor: middle;
+  alignment-baseline: inherit;
 }
 .n-topology.n-topology-green .group .groupLabel:hover ~ .bg {
   opacity: 0.7;
@@ -1230,11 +1242,15 @@
 }
 .n-topology.n-topology-slate .group .bg {
   opacity: 0.5;
+  stroke-width: 10px;
+  stroke-linejoin: round;
 }
 .n-topology.n-topology-slate .group .groupLabel {
   cursor: pointer;
   font-size: 18px;
   font-family: "Cisco Sans Reg";
+  text-anchor: middle;
+  alignment-baseline: inherit;
 }
 .n-topology.n-topology-slate .group .groupLabel:hover ~ .bg {
   opacity: 0.7;
@@ -1604,11 +1620,15 @@
 }
 .n-topology.n-topology-yellow .group .bg {
   opacity: 0.5;
+  stroke-width: 10px;
+  stroke-linejoin: round;
 }
 .n-topology.n-topology-yellow .group .groupLabel {
   cursor: pointer;
   font-size: 18px;
   font-family: "Cisco Sans Reg";
+  text-anchor: middle;
+  alignment-baseline: inherit;
 }
 .n-topology.n-topology-yellow .group .groupLabel:hover ~ .bg {
   opacity: 0.7;
