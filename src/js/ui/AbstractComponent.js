@@ -50,7 +50,7 @@
                 comp = new DOMComponent('fragment');
 
                 nx.each(view, function (child) {
-                    createComponent(child, owner).attach(comp);
+                    createComponent(child, view.__owner__ || owner).attach(comp);
                 });
             }
             else if (nx.is(view, 'Object')) {
@@ -78,7 +78,7 @@
                 }
 
                 if (owner) {
-                    comp.owner(owner);
+                    comp.owner(view.__owner__ || owner);
                 }
 
                 nx.each(props, function (value, name) {
