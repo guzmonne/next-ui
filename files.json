@@ -4,7 +4,6 @@
         "src/js/util/Animation.js",
         "src/js/core/DragManager.js",
         "src/js/core/Component.js",
-        "src/js/render/svg/SVGComponent.js",
         "src/js/render/svg/Icons.js",
         "src/js/render/svg/Components.js",
         "src/js/data/Vector.js",
@@ -75,6 +74,9 @@
         "src/js/topology/group/CircleGroup.js",
         "src/js/topology/group/PolygonGroup.js",
 
+
+        "src/js/topology/path/Path.js",
+        "src/js/topology/path/PathLayer.js",
 
         "src/js/topology/plugin/Nav.js",
         "src/js/topology/plugin/Search.js"

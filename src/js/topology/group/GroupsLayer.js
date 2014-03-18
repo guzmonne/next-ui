@@ -70,6 +70,15 @@
                 nx.each(this.groups(), function (group) {
                     group.draw();
                 }, this);
+            },
+            clear: function () {
+                this.groups([]);
+
+                var topo = this.topology();
+                topo.on('resetzooming', this.reDrawAllGroup, this);
+                topo.on('zoomend', this.reDrawAllGroup, this);
+
+                this.clear.__super__.apply(this, arguments);
             }
 
         }

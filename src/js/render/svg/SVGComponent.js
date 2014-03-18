@@ -118,28 +118,6 @@
                 }
                 el.setStyle(key, value);
             },
-            set: function (key, value) {
-                if (this.resolve('@root') && value !== undefined) {
-                    var el = this.resolve("@root").$dom;
-                    if ((el.nodeName == "text" || el.nodeName == "#text") && key == "text") {
-                        if (el.firstChild) {
-                            el.removeChild(el.firstChild);
-                        }
-                        return el.appendChild(document.createTextNode(value));
-                    } else if (el.nodeName == "image" && key == "src") {
-                        return el.setAttributeNS(xlink, 'href', value);
-                    } else if (key == "xlink:href") {
-                        return el.setAttributeNS(xlink, 'xlink:href', value);
-                    } else if (value !== undefined && (!this.has(key) || attrList.indexOf(key) != -1)) {
-                        el.setAttribute(key, value);
-                    }
-                }
-                return this.inherited(key, value);
-            },
-            get: function (key) {
-                var value = this.inherited(key);
-                return value !== undefined ? value : this.resolve("@root").get(key);
-            },
             upon: function (name, handler, context) {
                 if (name == 'mouseenter') {
                     this.inherited('mouseover', this._mouseenter.bind(this), context);
@@ -155,7 +133,6 @@
                 var related = event.relatedTarget;
                 if (!element.contains(related) && target !== related) {
                     this.fire("mouseleave", event);
-
                 }
             },
             _mouseenter: function (sender, event) {

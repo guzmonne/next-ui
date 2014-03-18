@@ -27,7 +27,7 @@
                 GRAPH.dataProcessor[name] = cls;
             }
         },
-        event: ['addVertex', 'removeVertex', 'updateVertex', 'updateVertexCoordinate', 'addEdge', 'removeEdge', 'updateEdge', 'addEdgeSet', 'removeEdgeSet', 'updateEdgeSet', 'addVertexSet', 'removeVertexSet', 'updateVertexSet', 'updateVertexSetCoordinate', 'setData', 'insertData', 'clear', 'startGenerate'],
+        event: ['addVertex', 'removeVertex', 'updateVertex', 'updateVertexCoordinate', 'addEdge', 'removeEdge', 'updateEdge', 'addEdgeSet', 'removeEdgeSet', 'updateEdgeSet', 'addVertexSet', 'removeVertexSet', 'updateVertexSet', 'updateVertexSetCoordinate', 'setData', 'insertData', 'clear', 'startGenerate', 'endGenerate'],
         properties: {
             /**
              * Use this attribute of original data as vertex's id and link's mapping key
@@ -112,7 +112,6 @@
                 this._originalData.nodes = inData.nodes || [];
                 this._originalData.links = inData.links || [];
                 this._originalData.nodeSet = inData.nodeSet || [];
-
 
                 var data = this._preProcessData(this._originalData);
 
@@ -865,6 +864,12 @@
                 nx.each(this._vertexSet, this._generateVertexSet, this);
 
                 nx.each(this._edgeSet, this._generateEdgeSetMap, this);
+
+                /**
+                 * @event endGenerate
+                 * @param {Object} sender Trigger instance
+                 */
+                this.fire('endGenerate');
 
             },
 

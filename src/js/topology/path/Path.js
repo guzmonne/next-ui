@@ -1,4 +1,4 @@
-(function (nx, util, global) {
+(function (nx, global) {
 
     var Vector = nx.math.Vector;
     var Line = nx.math.Line;
@@ -10,8 +10,9 @@
      * @class nx.graphic.Topology.Path
      */
 
-    nx.graphic.define("nx.graphic.Topology.Path", {
+    nx.define("nx.graphic.Topology.Path", nx.graphic.Component, {
         view: {
+            type: 'nx.graphic.Group',
             content: {
                 name: 'path',
                 type: 'nx.graphic.Path'
@@ -66,11 +67,8 @@
              * @property
              */
             links: {
-                set: function (value) {
-                    this._links = value;
-                },
-                get: function () {
-                    return this._links || [];
+                value: function () {
+                    return [];
                 }
 
             },
@@ -82,14 +80,27 @@
             }
         },
         methods: {
-
             init: function (props) {
                 this.inherited(props);
                 var pathStyle = this.pathStyle();
                 this.resolve("path").sets(pathStyle);
-                if (!pathStyle["fill"]) {
-                    this.resolve("path").setAttribute("fill", colorTable[colorIndex++ % 5]);
+
+                if (!pathStyle.fill) {
+                    this.resolve("path").setStyle("fill", colorTable[colorIndex++ % 5]);
                 }
+
+
+                var nodes = this.nodes = {};
+                nx.each(this.links(), function (link) {
+                    nodes[link.sourceNodeID()] = link.sourceNode();
+                    nodes[link.targetNodeID()] = link.targetNode();
+                });
+
+                nx.each(nodes, function (node) {
+                    node.on('updateNodeCoordinate', this.draw, this);
+                }, this);
+
+
             },
             /**
              * Draw a path,internal
@@ -103,22 +114,20 @@
                 var arrow = this.arrow();
                 var v1, v2;
 
-                this._serializeLinks();
-
 
                 var links = this.links();
-                var linksSequentialArray = this.linksSequentialArray;
+                var linksSequentialArray = this._serializeLinks();
                 var count = links.length;
 
                 //first
                 var firstLink = links[0];
-                var gutter = new Vector(0, this.reverse() ? firstLink.getGutter() * -1 : firstLink.getGutter());
+                var gutter = new Vector(0, this.reverse() ? firstLink.gutter() * firstLink.gutterStep() * -1 : firstLink.gutter() * firstLink.gutterStep());
 
                 line1 = linksSequentialArray[0].translate(gutter);
 
                 if (pathPadding === "auto") {
-                    paddingStart = Math.min(firstLink.getSourceNode().showIcon() ? 24 : 4, line1.length() / 4);
-                    paddingEnd = Math.min(firstLink.getTargetNode().showIcon() ? 24 : 4, line1.length() / 4);
+                    paddingStart = Math.min(firstLink.sourceNode().showIcon() ? 24 : 4, line1.length() / 4);
+                    paddingEnd = Math.min(firstLink.targetNode().showIcon() ? 24 : 4, line1.length() / 4);
                 }
                 else if (nx.is(pathPadding, 'Array')) {
                     paddingStart = pathPadding[0];
@@ -134,7 +143,8 @@
                 if (pathWidth === "auto") {
                     pathWidth = Math.min(10, Math.max(3, Math.round(firstLink.topology().scale() * 3)));
                 }
-                v1 = new Vector(0, pathWidth / 2), v2 = new Vector(0, -pathWidth / 2);
+                v1 = new Vector(0, pathWidth / 2);
+                v2 = new Vector(0, -pathWidth / 2);
 
                 pt = line1.translate(v1).pad(paddingStart, 0).start;
                 d1.push('M', pt.x, pt.y);
@@ -199,22 +209,22 @@
                     d2.unshift('L', pt.x, pt.y);
                 }
 
-                this.resolve("path").setAttribute('d', d1.concat(d2).join(' '));
+                this.resolve("path").set('d', d1.concat(d2).join(' '));
 
 
                 //todo
-                if (links.length == 1) {
-                    firstLink.resolve().watch("opacity", function (prop, value) {
-                        if (this.$ && this.resolve("path") && this.resolve("path").opacity) {
-                            this.resolve("path").opacity(value);
-                        }
-                    }, this);
-                }
+//                if (links.length == 1) {
+//                    firstLink.resolve().watch("opacity", function (prop, value) {
+//                        if (this.$ && this.resolve("path") && this.resolve("path").opacity) {
+//                            this.resolve("path").opacity(value);
+//                        }
+//                    }, this);
+//                }
             },
 
             _serializeLinks: function () {
                 var value = this.links();
-                var linksSequentialArray = this.linksSequentialArray = [];
+                var linksSequentialArray = [];
 
                 var isEqual = this.isEqual;
 
@@ -222,26 +232,42 @@
                 var firstItem = value[0];
                 var secondItem = value[1];
 
-                var firstItemsourceVector = firstItem.sourceVector();
-                var firstItemtargetVector = firstItem.targetVector();
+                var firstItemSourceVector, firstItemTargetVector;
+
+                if (firstItem.reverse()) {
+                    firstItemTargetVector = firstItem.sourceVector();
+                    firstItemSourceVector = firstItem.targetVector();
+                } else {
+                    firstItemSourceVector = firstItem.sourceVector();
+                    firstItemTargetVector = firstItem.targetVector();
+                }
 
 
                 if (secondItem) {
                     // todo reverse
-                    var secondItemsourceVector = secondItem.sourceVector();
-                    var secondItemtargetVector = secondItem.targetVector();
 
-                    if (isEqual(firstItemtargetVector, secondItemsourceVector) || isEqual(firstItemtargetVector, secondItemtargetVector)) {
-                        linksSequentialArray.push(new Line(firstItemsourceVector, firstItemtargetVector));
+                    var secondItemSourceVector, secondItemTargetVector;
+
+                    if (secondItem.reverse()) {
+                        secondItemTargetVector = secondItem.sourceVector();
+                        secondItemSourceVector = secondItem.targetVector();
                     } else {
-                        linksSequentialArray.push(new Line(firstItemtargetVector, firstItemsourceVector));
+                        secondItemSourceVector = secondItem.sourceVector();
+                        secondItemTargetVector = secondItem.targetVector();
                     }
 
 
-                    if (isEqual(linksSequentialArray[0].end, secondItemsourceVector)) {
-                        linksSequentialArray.push(new Line(secondItemsourceVector, secondItemtargetVector));
+                    if (isEqual(firstItemTargetVector, secondItemSourceVector) || isEqual(firstItemTargetVector, secondItemTargetVector)) {
+                        linksSequentialArray.push(new Line(firstItemSourceVector, firstItemTargetVector));
                     } else {
-                        linksSequentialArray.push(new Line(secondItemtargetVector, secondItemsourceVector));
+                        linksSequentialArray.push(new Line(firstItemTargetVector, firstItemSourceVector));
+                    }
+
+
+                    if (isEqual(linksSequentialArray[0].end, secondItemSourceVector)) {
+                        linksSequentialArray.push(new Line(secondItemSourceVector, secondItemTargetVector));
+                    } else {
+                        linksSequentialArray.push(new Line(secondItemTargetVector, secondItemSourceVector));
                     }
 
                     var lastTargetVector = linksSequentialArray[1].end;
@@ -250,8 +276,17 @@
                     for (var i = 2; i < value.length; i++) {
 
                         var link = value[i];
-                        var sourceVector = link.sourceVector();
-                        var targetVector = link.targetVector();
+
+
+                        var sourceVector, targetVector;
+
+                        if (link.reverse()) {
+                            targetVector = link.sourceVector();
+                            sourceVector = link.targetVector();
+                        } else {
+                            sourceVector = link.sourceVector();
+                            targetVector = link.targetVector();
+                        }
 
                         if (isEqual(sourceVector, lastTargetVector)) {
                             linksSequentialArray.push(new Line(sourceVector, targetVector));
@@ -267,12 +302,14 @@
 
                 } else {
                     if (!this.reverse()) {
-                        linksSequentialArray.push(new Line(firstItemsourceVector, firstItemtargetVector));
+                        linksSequentialArray.push(new Line(firstItemSourceVector, firstItemTargetVector));
                     } else {
-                        linksSequentialArray.push(new Line(firstItemtargetVector, firstItemsourceVector));
+                        linksSequentialArray.push(new Line(firstItemTargetVector, firstItemSourceVector));
                     }
 
                 }
+
+                return linksSequentialArray;
 
             },
             isEqual: function (pos1, pos2) {
@@ -280,74 +317,19 @@
                 return pos1.x == pos2.x && pos1.y == pos2.y;
 
 
+            },
+            dispose: function () {
+                nx.each(this.nodes, function (node) {
+                    node.off('updateNodeCoordinate', this.draw, this);
+                }, this);
+                this.dispose.__super__.apply(this, arguments);
             }
 
 
         }
 
 
-
     });
 
 
-    /**
-     * Path layer class
-     Could use topo.getLayer("pathLayer") get this
-     * @class nx.graphic.Topology.PathLayer
-     * @extend nx.graphic.Topology.Layer
-     */
-    nx.define("nx.graphic.Topology.PathLayer", nx.graphic.Topology.Layer, {
-        properties: {
-        },
-        methods: {
-            draw: function () {
-
-                this._paths = [];
-
-                this.topology().on("updating", this._draw, this);
-                this.topology().on("zoomend", this._draw, this);
-                this.topology().watch("showIcon", this._draw, this);
-                this.topology().watch("scale", this._draw, this);
-
-                this._draw();
-
-
-            },
-            _draw: function () {
-                nx.each(this._paths, function (path) {
-                    path.draw();
-                });
-            },
-            /**
-             * Add a path to topology
-             * @param path {nx.graphic.Topology.Path}
-             * @method addPath
-             */
-            addPath: function (path) {
-                this._paths.push(path);
-                this.appendChild(path);
-                path.draw();
-
-                //
-            },
-            removePath: function (path) {
-                var index = util.indexOf(this._paths, path);
-                this._paths.splice(index, 1);
-                this.removeChild(path);
-
-            },
-            clear: function () {
-                this._paths = [];
-
-                this.topology().off("updating", this._draw, this);
-                this.topology().off("zoomend", this._draw, this);
-                this.topology().unwatch("internalShowIcon", this._draw, this);
-                this.topology().unwatch("scale", this._draw, this);
-
-                this.inherited();
-            }
-        }
-    });
-
-
-})(nx, nx.util, nx.global);
+})(nx, nx.global);

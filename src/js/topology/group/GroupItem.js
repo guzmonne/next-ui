@@ -37,20 +37,20 @@
                     if (action == 'add') {
 
                         nx.each(items, function (node) {
-                            node.model().on('updateCoordinate', this.draw, this);
+                            node.on('updateNodeCoordinate', this.draw, this);
                         }, this);
 
                         this.draw();
 
                     } else if (action == 'remove') {
                         nx.each(items, function (node) {
-                            node.model().off('updateCoordinate', this.draw, this);
+                            node.off('updateNodeCoordinate', this.draw, this);
                         }, this);
 
                         this.draw();
                     } else if (action == 'clear') {
                         nx.each(items, function (node) {
-                            node.model().off('updateCoordinate', this.draw, this);
+                            node.off('updateNodeCoordinate', this.draw, this);
                         }, this);
 
                         this.dispose();

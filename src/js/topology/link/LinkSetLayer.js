@@ -53,6 +53,18 @@
             ]
         },
         methods: {
+//            attach: function (args) {
+//                this.attach.__super__.apply(this, arguments);
+//                var topo = this.topology();
+//                topo.on('projectionChange', this._projectionChangeFN = function (sender, event) {
+//                    setTimeout(function () {
+//                        nx.each(this.linkSetCollection(), function (link) {
+//                            link.update();
+//                        }, this);
+//                    }.bind(this), 10);
+//
+//                }, this);
+//            },
             /**
              * Add a link
              * @param edgeSet

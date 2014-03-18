@@ -1,7 +1,7 @@
 (function (nx, util, global) {
 
     nx.define("nx.graphic.Topology.Graph", {
-        events: ['beforeSetData', 'afterSetData', 'insertData'],
+        events: ['beforeSetData', 'afterSetData', 'insertData', 'topologyGenerated'],
         properties: {
             /**
              * @property identityKey
@@ -193,10 +193,19 @@
 
 
                 graph.on("startGenerate", function (sender, event) {
-//                    console.log(new Date() - start);
                     this._setProjection();
-//                    console.log(new Date() - start);
                 }, this);
+                graph.on("endGenerate", function (sender, event) {
+                    if (this.useSmartLabel()) {
+                        setTimeout(function () {
+                            this.fire('topologyGenerated');
+                        }.bind(this), 100);
+                    } else {
+                        this.fire('topologyGenerated');
+                    }
+
+                }, this);
+
 
             },
             /**

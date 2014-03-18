@@ -7,14 +7,11 @@
                 type: 'nx.graphic.Topology',
                 props: {
                     adaptive: true,
-                    nodeLabel: 'model.id',
+                    nodeLabel: 'id',
                     dataProcessor: 'force',
                     identityKey: 'id',
-                    nodeShowIcon: false,
+                    showIcon: false,
                     useSmartLabel: false,
-                    quickLayout: true,
-                    lazyRenderingLink: true,
-                    useZoomingAnimation: false,
                     supportMultipleLink: false
                 },
                 events: {
@@ -24,12 +21,13 @@
         },
         methods: {
             _ready: function (sender, event) {
-                var start = new Date();
+                start = new Date();
 
                 var g = new GraphGenerator();
                 g.generate(100);
 
                 var topologyData = {nodes: g.nodes, links: g.links};
+                start = new Date();
                 console.log(new Date() - start);
                 sender.setData(topologyData);
 

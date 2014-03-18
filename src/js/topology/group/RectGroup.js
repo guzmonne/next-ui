@@ -65,7 +65,7 @@
                 text.view().dom().setStyle('fill', this.color());
             },
             _clickLabel: function (sender, event) {
-                this.fire('clickGroupLabel')
+                this.fire('clickGroupLabel');
             },
             _mousedown: function (sender, event) {
                 event.captureDrag(this.view('shape'));

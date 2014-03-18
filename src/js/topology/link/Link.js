@@ -26,6 +26,9 @@
             gutter: {
                 value: 0
             },
+            gutterStep: {
+                value: 5
+            },
             label: {
                 set: function (label) {
                     var el = this.resolve("label");
@@ -241,11 +244,14 @@
 
                 this.inherited();
 
-                var _gutter = this.gutter() * gutterStep;
+                var _gutter = this.gutter() * this.gutterStep();
                 var gutter = new Vector(0, _gutter);
                 var line = this.line();
                 var d;
 
+                if (this.reverse()) {
+                    line = line.negate();
+                }
                 if (this.drawMethod()) {
                     d = this.drawMethod().call(this, this.model(), this);
                     this.resolve('path').append();
@@ -255,9 +261,7 @@
                 } else if (this.linkType() == 'curve') {
                     var path = [];
                     var n, point;
-                    if (this.reverse()) {
-                        line = line.negate();
-                    }
+
                     _gutter = _gutter * 3;
                     n = line.normal().multiply(_gutter);
                     point = line.center().add(n);
@@ -293,6 +297,9 @@
                 var line = this.line().pad(sourceRadius, targetRadius);
                 var n = line.normal().multiply(_gutter);
                 return line.translate(n);
+            },
+            getGutter: function () {
+                return this.gutter() * this.gutterStep();
             },
             _updateLabel: function () {
                 var el, point;

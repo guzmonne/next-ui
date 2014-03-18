@@ -37,54 +37,72 @@
     };
     var colorTable = ['#C3A5E4', '#75C6EF', '#CBDA5C', '#ACAEB1 ', '#2CC86F'];
 
-    nx.define('Group.Base', nx.ui.Component, {
+
+    nx.define("MyLayer", nx.graphic.Topology.Layer, {
+        methods: {
+            draw: function () {
+                //init a Bezier Curves
+                var line = this.line = new nx.graphic.BezierCurves({
+                    radian: 2
+                });
+                //set style
+                line.sets({
+                    'stroke-width': '10px',
+                    stroke: '#f00'
+
+                });
+                // register topology event
+                this.topology().on("zoomend", function () {
+                    this._updateLine();
+                }, this);
+                this.topology().on("resetzooming", function () {
+                    this._updateLine();
+                }, this);
+
+
+                //set data to line
+                this._updateLine();
+                // append to topology stage
+                line.attach(this);
+            },
+            _updateLine: function () {
+                var topo = this.topology();
+                var sourceNode = topo.getNode(2);
+                var targetNode = topo.getNode(4);
+                this.line.sets({
+                    x1: sourceNode.x(),
+                    y1: sourceNode.y(),
+                    x2: targetNode.x(),
+                    y2: targetNode.y()
+                })
+            }
+        }
+    });
+
+
+    nx.define('Layer.Define', nx.ui.Component, {
         view: {
             content: {
                 name: 'topo',
                 type: 'nx.graphic.Topology',
                 props: {
-                    adaptive: true,
+                    width: 800,
+                    height: 800,
                     nodeLabel: 'model.id',
                     showIcon: true,
                     data: topologyData
                 },
                 events: {
-                    'topologyGenerated': '{#_group}'
+                    'topologyGenerated': '{#_main}'
                 }
             }
         },
         methods: {
-            _group: function (sender, event) {
-                var groupsLayer = sender.getLayer('groups');
+            _main: function (sender, events) {
+                //sender.attachLayer('mylayer', 'MyLayer');
+                //sender.prependLayer('mylayer', 'MyLayer');
+                sender.insertLayerAfter('mylayer', 'MyLayer','nodes');
 
-                var nodes1 = [sender.getNode(0), sender.getNode(1)];
-                var group1 = groupsLayer.addGroup({
-                    nodes: nodes1,
-                    label: 'Rect'
-//                    color: '#f00'
-                });
-
-
-                var nodes2 = [sender.getNode(0), sender.getNode(4)];
-                var group2 = groupsLayer.addGroup({
-                    nodes: nodes2,
-                    shapeType: 'circle',
-                    label: 'Circle'
-                    // color: '#f00'
-                });
-
-                group2.on('clickGroupLabel', function (sender, events) {
-                    console.log(group2.nodes().toArray());
-                }, this);
-
-
-                var nodes3 = [sender.getNode(1), sender.getNode(2), sender.getNode(3)];
-                var group3 = groupsLayer.addGroup({
-                    nodes: nodes3,
-                    shapeType: 'polygon',
-                    label: 'Polygon'
-                    // color: '#f00'
-                });
 
             }
         }

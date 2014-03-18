@@ -8,7 +8,19 @@
         events: ['nodemousedown', 'nodemouseup', 'nodemouseenter', 'nodemouseleave', 'nodedragstart', 'nodedrag', 'nodedragend', 'nodeselected'],
         properties: {
             nodeScale: {
-                value: 1
+                get: function () {
+                    return this._nodeScale !== undefined ? this._nodeScale : 1;
+                },
+                set: function (value) {
+                    if (this._nodeScale !== value) {
+                        this._nodeScale = value;
+                        this.view('graphic').setTransform(null,null, value);
+
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
             },
             radius: {
                 value: 4
@@ -102,17 +114,6 @@
                     this.$('label').setStyle('fill', value);
                 }
             },
-            parentNodeSet: {
-                get: function () {
-//                    var parentVertexSet = this.model().parentVertexSet();
-//                    if (parentVertexSet) {
-//                        return this.owner().getNode(parentVertexSet.id());
-//                    } else {
-//                        return null;
-//                    }
-
-                }
-            },
             useSmartLabel: {
                 value: true
             },
@@ -171,9 +172,6 @@
                 {
                     type: 'nx.graphic.Group',
                     name: 'graphic',
-                    props: {
-                        scale: '{#nodeScale}'
-                    },
                     content: [
 
                         {

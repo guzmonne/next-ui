@@ -1,5 +1,4 @@
 (function (nx, util, global) {
-    'use strict';
 
     /**
      * Topology basic layer class
@@ -21,7 +20,7 @@
         },
         methods: {
             init: function (args) {
-                this.init.__super__.apply(this, args);
+                this.inherited(args);
                 this.resolve("@root").set("data-nx-type", this.__className__);
             },
             /**

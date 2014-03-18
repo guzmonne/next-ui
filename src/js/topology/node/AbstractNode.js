@@ -7,6 +7,7 @@
      * @extend nx.graphic.Shape
      */
     nx.define("nx.graphic.Topology.AbstractNode", nx.graphic.Group, {
+        events: ['updateNodeCoordinate'],
         properties: {
             /**
              * Get  node's absolute position
@@ -191,6 +192,11 @@
 //                }, this);
 
 
+                model.on('updateCoordinate', function (sender, position) {
+                    this.fire('updateNodeCoordinate');
+                }, this);
+
+
                 this.setBinding("visible", "model.visible");
 
                 this.position({
@@ -301,6 +307,16 @@
                     var id = vertex.id();
                     fn.call(context || this, topo.getNode(id), id);
                 }, this);
+            },
+            directSetPosition: function (x, y, modelX, modelY) {
+                this.view().setTransform(x, y);
+                this._x = x;
+                this._y = y;
+                if (modelX !== undefined) {
+                    var model = this.model();
+                    model.setXPath().call(model, modelX);
+                    model.setYPath().call(model, modelY);
+                }
             }
         }
     });

@@ -1,31 +1,23 @@
 (function (nx, util, global) {
+    var NS = "http://www.w3.org/2000/svg";
+    var xlink = 'http://www.w3.org/1999/xlink';
+    var attrList = ['class'];
 
-
-    nx.define("nx.graphic.Group", nx.graphic.SVGComponent, {
+    nx.define("nx.graphic.Group", nx.graphic.Component, {
         view: {
             tag: 'svg:g'
-        },
-        methods: {
-            move: function (x, y) {
-                if (x) {
-                    this.set("translateX", parseFloat(this.get("translateX")) + parseFloat(x));
-                }
-                if (y) {
-                    this.set("translateY", parseFloat(this.get("translateY")) + parseFloat(y));
-                }
-            }
         }
     });
 
 
-    nx.define("nx.graphic.Rect", nx.graphic.SVGComponent, {
+    nx.define("nx.graphic.Rect", nx.graphic.Component, {
         view: {
             tag: 'svg:rect'
         }
     });
 
 
-    nx.define("nx.graphic.Circle", nx.graphic.SVGComponent, {
+    nx.define("nx.graphic.Circle", nx.graphic.Component, {
         view: {
             tag: 'svg:circle'
 
@@ -33,20 +25,64 @@
     });
 
 
-    nx.define("nx.graphic.Text", nx.graphic.SVGComponent, {
+    nx.define("nx.graphic.Text", nx.graphic.Component, {
+        properties: {
+            text: {
+                get: function () {
+                    return this._text !== undefined ? this._text : 0;
+                },
+                set: function (value) {
+                    if (this._text !== value) {
+                        this._text = value;
+
+                        if (this.resolve('@root') && value !== undefined) {
+                            var el = this.resolve("@root").$dom;
+                            if ((el.nodeName == "text" || el.nodeName == "#text")) {
+                                if (el.firstChild) {
+                                    el.removeChild(el.firstChild);
+                                }
+                                el.appendChild(document.createTextNode(value));
+                            }
+                        }
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+            }
+        },
         view: {
             tag: 'svg:text'
         }
     });
 
 
-    nx.define("nx.graphic.Image", nx.graphic.SVGComponent, {
+    nx.define("nx.graphic.Image", nx.graphic.Component, {
+        properties: {
+            src: {
+                get: function () {
+                    return this._src !== undefined ? this._src : 0;
+                },
+                set: function (value) {
+                    if (this._src !== value) {
+                        this._src = value;
+                        if (this.resolve('@root') && value !== undefined) {
+                            var el = this.resolve("@root").$dom;
+                            el.setAttributeNS(xlink, 'href', value);
+                        }
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+            }
+        },
         view: {
             tag: 'svg:image'
         }
     });
 
-    nx.define("nx.graphic.Path", nx.graphic.SVGComponent, {
+    nx.define("nx.graphic.Path", nx.graphic.Component, {
         view: {
             tag: 'svg:path'
         }
@@ -90,7 +126,7 @@
         }
     });
 
-    nx.define("nx.graphic.BezierCurves", nx.Path, {
+    nx.define("nx.graphic.BezierCurves", nx.graphic.Path, {
         properties: {
             x1: {
                 set: function (value) {
@@ -172,13 +208,13 @@
     });
 
 
-    nx.define("nx.graphic.Line", nx.graphic.SVGComponent, {
+    nx.define("nx.graphic.Line", nx.graphic.Component, {
         view: {
             tag: 'svg:line'
         }
     });
 
-    nx.define("nx.graphic.Icon", nx.graphic.SVGComponent, {
+    nx.define("nx.graphic.Icon", nx.graphic.Component, {
         view: {
             tag: 'svg:use'
         },
@@ -192,7 +228,8 @@
                     var size = icon.size;
                     this.size(size);
                     this._iconType = icon.name;
-                    this.set('xlink:href', "#" + icon.name);
+
+                    this.view().dom().$dom.setAttributeNS(xlink, 'xlink:href', '#' + value);
                 }
             },
             size: {
@@ -204,8 +241,7 @@
                 },
                 set: function (value) {
                     this._size = value;
-                    this.set("translateX", value.width / -2);
-                    this.set("translateY", value.height / -2);
+                    this.setTransform(value.width / -2, value.height / -2);
                 }
             }
         }

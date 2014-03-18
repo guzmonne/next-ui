@@ -28,8 +28,9 @@
                 this.attachLayer("links", "nx.graphic.Topology.LinksLayer");
                 this.attachLayer("linkSet", "nx.graphic.Topology.LinkSetLayer");
                 this.attachLayer("nodes", "nx.graphic.Topology.NodesLayer");
+                this.attachLayer("paths", "nx.graphic.Topology.PathLayer");
                 this.attachLayer("nodeSet", "nx.graphic.Topology.NodeSetLayer");
-                //this.attachLayer("pathLayer", "nx.graphic.Topology.PathLayer");
+
             },
             /**
              * To generate a layer
@@ -51,7 +52,7 @@
                     }
                     layerObj.topology(this);
                     layerObj.model(this.graph());
-
+                    layerObj.draw();
 
                     nx.each(layerObj.__events__, function (eventName) {
                         nx.Object.delegateEvent(layerObj, eventName, this, eventName);
@@ -114,8 +115,8 @@
                 var layerObj = this._generateLayer(name, layer);
                 var afterLayer = layersMap[upsideLayerName];
                 if (layerObj && afterLayer) {
-                    var index = layersMap.indexOf(afterLayer);
-                    layerObj.attach(this.stage(), index + 1);
+                    var index = layers.indexOf(afterLayer);
+                    layerObj.attach(this.stage(), index);
                     layersMap[name] = layerObj;
                     layers.splice(index + 1, 0, layerObj);
                 }

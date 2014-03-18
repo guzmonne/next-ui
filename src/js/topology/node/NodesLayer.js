@@ -82,6 +82,9 @@
                     var nodes = this.nodes();
                     nx.each(nodes, function (node) {
                         var model = node.model();
+//                        node.directSetPosition(projectionX.get(model.get('x')), projectionY.get(model.get('y')));
+//                        node.notify('position');
+
                         node.position({
                             x: projectionX.get(model.get('x')),
                             y: projectionY.get(model.get('y'))
@@ -196,7 +199,7 @@
                     this.fire('dragNodeEnd', node);
                 }, this);
 
-                vertex.on('updateCoordinate', function (sender, position) {
+                node.on('updateCoordinate', function (sender, position) {
                     this.fire('updateNodeCoordinate', node);
                 }, this);
 
