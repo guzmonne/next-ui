@@ -113,11 +113,13 @@
                 this._nodesLayer.recover();
                 this._linksLayer.recover();
                 this._linkSetLayer.recover();
+                this._topo.adjustLayout();
 
             },
 
             zoomend: function () {
                 this._topo.getLayer('links').root().setStyle('display', 'block');
+                this._topo.adjustLayout();
             },
 
             beforeSetData: function () {

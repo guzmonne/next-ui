@@ -1,11 +1,9 @@
 (function (nx, util, global) {
 
-    'use strict';
-
 
     /**
      * Nodes layer
-     Could use topo.getLayer('nodesLayer') get this
+     Could use topo.getLayer('nodes') get this
      * @class nx.graphic.Topology.NodesLayer
      * @extend nx.graphic.Topology.Layer
      *
@@ -74,7 +72,7 @@
         },
         methods: {
             attach: function (args) {
-                this.attach.__super__.apply(this, arguments);
+                this.inherited(args);
                 var topo = this.topology();
                 topo.on('projectionChange', this._projectionChangeFN = function (sender, event) {
                     var projectionX = topo.projectionX();
@@ -82,15 +80,48 @@
                     var nodes = this.nodes();
                     nx.each(nodes, function (node) {
                         var model = node.model();
-//                        node.directSetPosition(projectionX.get(model.get('x')), projectionY.get(model.get('y')));
-//                        node.notify('position');
-
                         node.position({
                             x: projectionX.get(model.get('x')),
                             y: projectionY.get(model.get('y'))
                         });
                     }, this);
                 }, this);
+
+
+                topo.watch('revisionScale', this._watchRevisionScale = function (prop, value) {
+                    var nodes = this.nodes();
+                    console.log(value);
+                    if (value == 1) {
+                        if (topo.showIcon()) {
+                            nx.each(nodes, function (node) {
+                                node.showIcon(true);
+                                node.view('label').set('visible', true);
+                            });
+                        }
+                    } else if (value == 0.8) {
+                        nx.each(nodes, function (node) {
+                            node.showIcon(false);
+                            node.radius(6);
+                            node.view('label').set('visible', true);
+                        });
+                    } else if (value == 0.6) {
+                        nx.each(nodes, function (node) {
+                            node.showIcon(false);
+                            node.radius(4);
+                            node.view('label').set('visible', true);
+                        });
+
+                    } else if (value == 0.4) {
+                        nx.each(nodes, function (node) {
+                            node.showIcon(false);
+                            node.radius(2);
+                            node.view('label').set('visible', false);
+                        });
+                    }
+
+                }, this);
+
+
             },
             draw: function () {
 
@@ -330,6 +361,21 @@
                     this.highlightedNodes([]);
                 }, this);
             },
+            _moveSelectionNodes: function (event, node) {
+                var topo = this.topology();
+                if (topo.nodeDraggable()) {
+                    var nodes = topo.selectedNodes().toArray();
+                    if (nodes.indexOf(node) === -1) {
+                        node.move(event.drag.delta[0], event.drag.delta[1]);
+                    } else {
+                        nx.each(nodes, function (node) {
+                            node.move(event.drag.delta[0], event.drag.delta[1]);
+                        });
+                    }
+                }
+
+
+            },
             resetProjection: function () {
                 var nodes = this.nodes();
                 nx.each(nodes, function (node) {
@@ -349,20 +395,9 @@
                 this.$('static').empty();
                 this.$('static').setStyle('fill-opacity', 1);
             },
-            _moveSelectionNodes: function (event, node) {
-                var topo = this.topology();
-                if (topo.nodeDraggable()) {
-                    var nodes = topo.selectedNodes().toArray();
-                    if (nodes.indexOf(node) === -1) {
-                        node.move(event.drag.delta[0], event.drag.delta[1]);
-                    } else {
-                        nx.each(nodes, function (node) {
-                            node.move(event.drag.delta[0], event.drag.delta[1]);
-                        });
-                    }
-                }
-
-
+            dispose: function () {
+                topo.on('projectionChange', this._projectionChangeFN, this);
+                topo.unwatch('revisionScale', this._watchRevisionScale, this);
             }
         }
     });

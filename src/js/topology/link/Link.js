@@ -147,8 +147,7 @@
                     name: 'path',
                     type: 'nx.graphic.Path',
                     props: {
-                        'class': 'link',
-                        style: 'stroke:#5BC1DF'
+                        'class': 'link'
                     },
                     events: {
                         'mouseenter': '{#_mousenter}',
@@ -164,7 +163,6 @@
                     type: 'nx.graphic.Line',
                     props: {
                         'class': 'link',
-                        style: 'stroke:#5BC1DF'
                     },
                     events: {
                         'click': '{#_click}',

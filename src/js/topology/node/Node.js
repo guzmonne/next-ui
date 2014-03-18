@@ -14,7 +14,7 @@
                 set: function (value) {
                     if (this._nodeScale !== value) {
                         this._nodeScale = value;
-                        this.view('graphic').setTransform(null,null, value);
+                        this.view('graphic').setTransform(null, null, value);
 
                         return true;
                     } else {
@@ -23,7 +23,18 @@
                 }
             },
             radius: {
-                value: 4
+                get: function () {
+                    return this._radius !== undefined ? this._radius : 4;
+                },
+                set: function (value) {
+                    if (this._radius !== value) {
+                        this._radius = value;
+                        this.view('dot').set('r', value);
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
             },
             iconType: {
                 value: 'unknown'
@@ -90,9 +101,9 @@
                                 var size = this.resolve('icon').size();
                                 radius = Math.max(size.height, size.width) / 2;
                             } else {
-                                radius = this._radius;
+                                radius = this.radius();
                             }
-                            el.set('r', radius * 1.5 * this._nodeScale);
+                            el.set('r', radius * 1.5 * this.nodeScale());
                             el.append();
                         } else {
                             el.remove();
@@ -178,7 +189,7 @@
                             name: 'dot',
                             type: 'nx.graphic.Circle',
                             props: {
-                                r: '{#radius}',
+                                r: '4',
                                 x: 0,
                                 y: 0,
                                 'class': 'dot'

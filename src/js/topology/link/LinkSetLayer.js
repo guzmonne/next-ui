@@ -1,5 +1,4 @@
 (function (nx, util, global) {
-    'use strict';
 
     /** Links layer
      Could use topo.getLayer('linksLayer') get this
@@ -53,18 +52,19 @@
             ]
         },
         methods: {
-//            attach: function (args) {
-//                this.attach.__super__.apply(this, arguments);
-//                var topo = this.topology();
-//                topo.on('projectionChange', this._projectionChangeFN = function (sender, event) {
-//                    setTimeout(function () {
-//                        nx.each(this.linkSetCollection(), function (link) {
-//                            link.update();
-//                        }, this);
-//                    }.bind(this), 10);
-//
-//                }, this);
-//            },
+            attach: function (args) {
+                this.inherited(args);
+                var topo = this.topology();
+                topo.watch('revisionScale', this._watchRevisionScale = function (prop, value) {
+                    var links = this.linkSetCollection();
+                    nx.each(links, function (link) {
+                        link.view('numBg').setStyle('stroke-width', value * 16);
+                        link.view('num').setStyle('font-size', Math.round(value * 9 + 3));
+                    });
+
+                }, this);
+
+            },
             /**
              * Add a link
              * @param edgeSet

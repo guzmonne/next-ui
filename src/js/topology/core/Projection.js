@@ -40,7 +40,17 @@
              * @property autoRevision
              */
             revisionScale: {
-                value: 1
+                get: function () {
+                    return this._revisionScale !== undefined ? this._revisionScale : 1;
+                },
+                set: function (value) {
+                    if (this._revisionScale !== value) {
+                        this._revisionScale = value;
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
             },
             scaleX: {
                 get: function () {
@@ -76,6 +86,9 @@
             projectionYRange: {
             },
             enableGradualScaling: {
+                value: true
+            },
+            useSmartNode: {
                 value: true
             }
         },
@@ -352,6 +365,7 @@
              * @method zoom
              */
             zoom: function (value) {
+                delete this._zoomCenterPoint;
                 this._zoom(value, 0.6);
             },
 
@@ -455,49 +469,45 @@
             },
             adjustLayout: function () {
 
-                return;
 
-//                clearTimeout(this._adjustLayoutTimer);
-//                this._adjustLayoutTimer = util.timeout(function () {
-//
-//                    var model = this.graph();
-//
-//                    if (model) {
-//                        var length = this.graph().getVisibleVertices().length;
-//
-//                        if (length !== 0 && this.stage) {
-//                            var bound = this.getLayer("nodes").getBBox();
-//                            var threshold = 12000;
-//                            var percell = (bound.width * bound.height) / length;
-//                            var revisionScale;
-//
-//                            if (length < 3) {
-//                                revisionScale = 1;
-//                            } else if (percell < threshold / 2) {
-//                                revisionScale = 0.4;
-//                            } else if (percell < threshold / 1.5) {
-//                                revisionScale = 0.6;
-//                            } else if (percell < threshold) {
-//                                revisionScale = 0.8;
-//                            } else {
-//                                revisionScale = 1;
-//                            }
-//
-//
-//                            if (this.autoToggleIcon()) {
-//                                if (revisionScale < 0.5) {
-//                                    this.showIcon(false);
-//                                } else {
-//                                    this.showIcon(true);
-//                                }
-//                            } else {
-//                                this.showIcon(false);
-//                            }
-//
-//                            this.revisionScale(revisionScale);
-//                        }
-//                    }
-//                }, 60, this);
+                if (!this.useSmartNode()) {
+                    return;
+                }
+
+                if (this._adjustLayoutTimer) {
+                    clearTimeout(this._adjustLayoutTimer);
+                }
+                this._adjustLayoutTimer = setTimeout(function () {
+
+                    var model = this.graph();
+
+                    if (model) {
+                        var nodesLayer = this.getLayer('nodes');
+                        var length = nodesLayer.nodes().length;
+
+
+                        if (length !== 0) {
+                            var bound = nodesLayer.getBound();
+                            var threshold = 12000;
+                            var percell = (bound.width * bound.height) / length;
+                            var revisionScale;
+
+                            if (length < 3) {
+                                revisionScale = 1;
+                            } else if (percell < threshold / 2) {
+                                revisionScale = 0.4;
+                            } else if (percell < threshold / 1.5) {
+                                revisionScale = 0.6;
+                            } else if (percell < threshold) {
+                                revisionScale = 0.8;
+                            } else {
+                                revisionScale = 1;
+                            }
+
+                            this.revisionScale(revisionScale);
+                        }
+                    }
+                }.bind(this), 60);
             },
             __drawBG: function (inBound) {
                 var bound = inBound || this.stage().getContentBound();
