@@ -62,9 +62,13 @@
             initNode: function () {
                 this.selectedNodes().on('change', function (sender, args) {
                     if (args.action == 'add') {
-                        args.items[0].selected(true);
+                        nx.each(args.items, function (node) {
+                            node.selected(true);
+                        });
                     } else if (args.action == 'remove') {
-                        args.items[0].selected(false);
+                        nx.each(args.items, function (node) {
+                            node.selected(false);
+                        });
                     } else if (args.action == "clear") {
                         nx.each(args.items, function (node) {
                             node.selected(false);

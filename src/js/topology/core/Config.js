@@ -1,5 +1,10 @@
 (function (nx, util, global) {
 
+    /**
+     * Topology's base config
+     * @class nx.graphic.Topology.Config
+     * @module nx.graphic.Topology
+     */
     nx.define("nx.graphic.Topology.Config", {
         events: [],
         properties: {

@@ -17,18 +17,7 @@
                 this._tooltipManager = this._topo.tooltipManager();
                 this._nodeDragging = false;
                 this._sceneTimer = null;
-                this._updatingTimer = null;
                 this._interval = 300;
-            },
-            __destruct: function () {
-                this._topo = null;
-                this._tooltipManager = null;
-                this._linkTooltip = null;
-                this._nodeTooltip = null;
-                this._sceneTimer = null;
-                this._updatingTimer = null;
-                this._interval = null;
-                this._linkSetTooltip = null;
             },
             /**
              * Entry
@@ -53,15 +42,7 @@
              * Deactivate scene
              */
             deactivate: function () {
-                var topo = this._topo;
-
-                nx.each(topo.__events__, function (eventName) {
-                    topo.off(eventName, this._aop, this);
-                }, this);
-
                 this._tooltipManager.closeAll();
-
-                this.__destruct();
             },
 
             _dispatch: function (eventName, sender, data) {
@@ -194,18 +175,34 @@
             },
             clickNode: function (sender, node) {
                 if (!this._nodeDragging) {
+                    this._topo.selectedNodes().clear();
                     node.selected(!node.selected());
                 }
             },
             selectNode: function (sender, node) {
-                this._topo.selectedNodes().clear();
+                var selectedNodes = this._topo.selectedNodes();
                 if (node.selected()) {
-                    this._topo.selectedNodes().add(node);
+                    if (selectedNodes.indexOf(node) == -1) {
+                        this._topo.selectedNodes().add(node);
+                    }
                 } else {
-                    this._topo.selectedNodes().remove(node);
+                    if (selectedNodes.indexOf(node) !== -1) {
+                        this._topo.selectedNodes().remove(node);
+                    }
                 }
             },
-
+            selectNodeSet: function (sender, nodeSet) {
+                var selectedNodes = this._topo.selectedNodes();
+                if (nodeSet.selected()) {
+                    if (selectedNodes.indexOf(nodeSet) == -1) {
+                        this._topo.selectedNodes().add(nodeSet);
+                    }
+                } else {
+                    if (selectedNodes.indexOf(nodeSet) !== -1) {
+                        this._topo.selectedNodes().remove(nodeSet);
+                    }
+                }
+            },
 
             updateNodeCoordinate: function () {
 
@@ -244,14 +241,16 @@
                 nodeSet.visible(true);
             },
             right: function (sender, events) {
-                if (this.__activeNodeSet) {
-                    this.__activeNodeSet.collapsed(false);
-                }
+                this._topo.move(30, null, 0.5);
             },
             left: function (sender, events) {
-                if (this.__activeNodeSet) {
-                    this.__activeNodeSet.collapsed(true);
-                }
+                this._topo.move(-30, null, 0.5);
+            },
+            up: function () {
+                this._topo.move(null, -30, 0.5);
+            },
+            down: function () {
+                this._topo.move(null, 30, 0.5);
             },
             topologyGenerated: function () {
                 this._topo.adjustLayout();

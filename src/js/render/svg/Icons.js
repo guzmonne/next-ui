@@ -1,21 +1,20 @@
 (function (nx, util, global) {
 
     /**
-     * Topology device icon
-     * @class nx.graphic.Topology.Icon
+     * Topology device icons collection
+     * @class nx.graphic.Icons
+     * @static
      */
-
-
-
-
     var ICONS = nx.define('nx.graphic.Icons', {
         static: true,
         methods: {
-            //_topology_svg_icons: topology_svg_icons,
+            /**
+             * Get icons collection
+             */
             icons: {},
             /**
              * Get icon by type
-             * @param type
+             * @param type {String}
              * @returns {element}
              * @method get
              */
@@ -24,8 +23,8 @@
             },
             /**
              * Get icon's svg string
-             * @param type
-             * @returns {*}
+             * @param type {String}
+             * @returns {element}
              * @method getSVGString
              */
             getSVGString: function (type) {
@@ -39,6 +38,14 @@
             getTypeList: function () {
                 return Object.keys(topology_icon);
             },
+            /**
+             * Register a new icon to this collection
+             * @method registerIcon
+             * @param name {String} icon's name
+             * @param url {URL} icon's url
+             * @param width {Number} icon's width
+             * @param height {Number} icon's height
+             */
             registerIcon: function (name, url, width, height) {
                 var icon1 = document.createElementNS(NS, "image");
                 icon1.setAttributeNS(XLINK, 'href', url);
@@ -51,6 +58,12 @@
                     name: name
                 };
             },
+            /**
+             * Iterate all icons
+             * @param inCallback {Function}
+             * @param [inContext] {Object}
+             * @private
+             */
             __each__: function (inCallback, inContext) {
                 var callback = inCallback || function () {
                 };

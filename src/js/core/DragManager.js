@@ -1,10 +1,79 @@
 (function (nx, util, global) {
+    /**
+     * Global drag manager
+
+     var Component = nx.define(nx.ui.Component, {
+        view: {
+            content: {
+                name: "stage",
+                type: 'nx.graphic.TopologyStage',
+                props: {
+                    width: 600,
+                    height: 600
+                },
+                content: {
+                    name: 'a',
+                    type: 'nx.graphic.Rect',
+                    props: {
+                        x: 100,
+                        y: 10,
+                        width: 100,
+                        height: 100,
+                        fill: '#f0f'
+                    },
+                    events: {
+                        'mousedown': '{#_mousedown}',
+                        'dragmove': '{#_dragmove}'
+                    }
+                }
+            }
+        },
+        properties: {
+            positionX: {
+                value: 150
+            }
+        },
+        methods: {
+            _mousedown: function (sender, event) {
+                event.captureDrag(sender.owner());
+            },
+            _dragmove: function (sender, event) {
+                sender.set("x", sender.get("x") * 1 + event.drag.delta[0]);
+                sender.set("y", sender.get("y") * 1 + event.drag.delta[1]);
+            }
+
+        }
+     });
+
+
+     var app = new nx.ui.Application();
+     var comp = new Component();
+     comp.attach(app);
+
+
+     * @class nx.graphic.DragManager
+     * @static
+     * @extend nx.Observable
+     */
 
     nx.define("nx.graphic.DragManager", nx.Observable, {
         static: true,
         properties: {
+            /**
+             * activated element
+             * @property node {nx.graphic.Component}
+             */
             node: {},
+            /**
+             * drag track
+             * @property track {Array}
+             */
             track: {},
+            /**
+             * Dragging indicator
+             * @property dragging
+             * @type Boolean
+             */
             dragging: {value: false}
         },
         methods: {
@@ -13,6 +82,12 @@
                 window.addEventListener('mousemove', this._capture_mousemove.bind(this), true);
                 window.addEventListener('mouseup', this._capture_mouseup.bind(this), true);
             },
+            /**
+             * Start drag event capture
+             * @method start
+             * @param evt {Event} original dom event
+             * @returns {function(this:nx.graphic.DragManager)}
+             */
             start: function (evt) {
                 return function (node) {
                     // make sure only one node can capture the "drag" event
@@ -28,6 +103,11 @@
                     }
                 }.bind(this);
             },
+            /**
+             * Drag move handler
+             * @method move
+             * @param evt {Event} original dom event
+             */
             move: function (evt) {
                 var node = this.node();
                 if (node) {
@@ -42,6 +122,11 @@
                     node.fire("dragmove", evt);
                 }
             },
+            /**
+             * Drag end
+             * @method end
+             * @param evt {Event} original dom event
+             */
             end: function (evt) {
                 var node = this.node();
                 if (node) {

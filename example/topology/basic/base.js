@@ -10,15 +10,6 @@
         ],
         links: [
             {"source": 0, "target": 1},
-            {"source": 0, "target": 1},
-            {"source": 0, "target": 1},
-            {"source": 0, "target": 1},
-            {"source": 0, "target": 1},
-            {"source": 0, "target": 1},
-            {"source": 0, "target": 1},
-            {"source": 0, "target": 1},
-            {"source": 0, "target": 1},
-            {"source": 0, "target": 1},
             {"source": 1, "target": 2},
             {"source": 1, "target": 3},
             {"source": 4, "target": 1},
@@ -27,20 +18,16 @@
             {"source": 3, "target": 0},
             {"source": 3, "target": 0},
             {"source": 3, "target": 0},
-            {"source": 3, "target": 0},
-            {"source": 3, "target": 0},
-            {"source": 3, "target": 0},
             {"source": 0, "target": 4},
             {"source": 0, "target": 4},
             {"source": 0, "target": 3}
         ]
     };
-    var colorTable = ['#C3A5E4', '#75C6EF', '#CBDA5C', '#ACAEB1 ', '#2CC86F'];
 
     nx.define('Base.Base', nx.ui.Component, {
         view: {
             content: {
-                name:'topo',
+                name: 'topo',
                 type: 'nx.graphic.Topology',
                 props: {
                     width: 800,
@@ -54,3 +41,5 @@
     });
 
 })(nx, nx.global);
+
+

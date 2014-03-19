@@ -1,7 +1,4 @@
 (function (nx, util, global) {
-    var NS = "http://www.w3.org/2000/svg";
-    var xlink = 'http://www.w3.org/1999/xlink';
-    var attrList = ['class'];
 
     nx.Object.delegateEvent = function (source, sourceEvent, target, targetEvent) {
         if (!target.can(targetEvent)) {
@@ -21,9 +18,38 @@
     };
 
 
+    /**
+     * Base class of graphic component
+     * @class nx.graphic.Component
+     * @extend nx.ui.Component
+     * @module nx.graphic
+     */
+
     nx.define('nx.graphic.Component', nx.ui.Component, {
-        events: ['mouseenter', 'mouseleave', 'dragstart', 'drag', 'dragmove', 'dragend'],
+        /**
+         * Fire when drag start
+         * @event dragstart
+         * @param {Object} sender Trigger instance
+         * @param {Object} original event object
+         */
+        /**
+         * Fire when drag move
+         * @event dragmove
+         * @param {Object} sender Trigger instance
+         * @param {Object} original event object , include delta[x,y] for the shift
+         */
+        /**
+         * Fire when drag end
+         * @event dragend
+         * @param {Object} sender Trigger instance
+         * @param {Object} original event object
+         */
+        events: ['mouseenter', 'mouseleave', 'dragstart', 'dragmove', 'dragend'],
         properties: {
+            /**
+             * Set/get x translate
+             * @property translateX
+             */
             translateX: {
                 get: function () {
                     return this._translateX !== undefined ? this._translateX : 0;
@@ -38,6 +64,10 @@
                     }
                 }
             },
+            /**
+             * Set/get y translate
+             * @property translateY
+             */
             translateY: {
                 get: function () {
                     return this._translateY !== undefined ? this._translateY : 0;
@@ -52,6 +82,10 @@
                     }
                 }
             },
+            /**
+             * Set/get scale
+             * @property scale
+             */
             scale: {
                 get: function () {
                     return this._scale !== undefined ? this._scale : 1;
@@ -66,6 +100,10 @@
                     }
                 }
             },
+            /**
+             * Set/get translate, it set/get as {x:number,y:number}
+             * @property translate
+             */
             translate: {
                 get: function () {
                     return{
@@ -77,19 +115,10 @@
                     this.setTransform(value.x, value.y);
                 }
             },
-            rotate: {
-                get: function () {
-                    return this._rotate !== undefined ? this._rotate : 0;
-                },
-                set: function (value) {
-                    if (this._rotate !== value) {
-                        this._rotate = value;
-                        return true;
-                    } else {
-                        return false;
-                    }
-                }
-            },
+            /**
+             * Set/get element's visibility
+             * @property visible
+             */
             visible: {
                 get: function () {
                     return this._visible !== undefined ? this._visible : true;
@@ -100,6 +129,10 @@
                     this._visible = value;
                 }
             },
+            /**
+             * Set/get css class
+             * @property class
+             */
             'class': {
                 get: function () {
                     return this._class !== undefined ? this._class : 0;
@@ -113,7 +146,7 @@
                         return false;
                     }
                 }
-            },
+            }
         },
         view: {},
         methods: {
@@ -121,6 +154,11 @@
                 this.inherited(args);
                 this.sets(args);
             },
+            /**
+             * Append component's element to parent node or other dom element
+             * @param [parent] {nx.graphic.Component}
+             * @method append
+             */
             append: function (parent) {
                 var parentElement;
                 if (parent) {
@@ -132,43 +170,79 @@
                     parentElement.appendChild(this.resolve("@root"));
                 }
             },
+            /**
+             * Remove component's element from dom tree
+             * @method remove
+             */
             remove: function () {
                 var parentElement = this._parentElement = this._parentElement || this.resolve("@root").parentNode();
                 if (parentElement && this.resolve("@root")) {
                     parentElement.removeChild(this.resolve("@root"));
                 }
             },
+            /**
+             * Get component dom element by name
+             * @param name {String}
+             * @returns {nx.dom.Element}
+             */
             $: function (name) {
                 return this.resolve(name).resolve('@root');
             },
+            /**
+             * Get component's root dom element
+             * @method root
+             * @returns {nx.dom.Element}
+             */
             root: function () {
                 return this.resolve('@root');
             },
-            setTransform: function (translateX, translateY, scale, durition) {
+            /**
+             * Set component's transform
+             * @method setTransform
+             * @param [translateX] {Number} x axle translate
+             * @param [translateY] {Number} y axle translate
+             * @param [scale] {Number} element's scale
+             * @param [duration=0] {Number} transition time, unite is second
+             */
+            setTransform: function (translateX, translateY, scale, duration) {
 
                 var tx = translateX != null ? translateX : this._translateX || 0;
                 var ty = translateY != null ? translateY : this._translateY || 0;
                 var scl = scale != null ? scale : this.scale();
 
 
-                this.setStyle('-webkit-transform', ' translate(' + tx + 'px, ' + ty + 'px) scale(' + scl + ')', durition);
+                this.setStyle('-webkit-transform', ' translate(' + tx + 'px, ' + ty + 'px) scale(' + scl + ')', duration);
 
 
                 this._translateX = tx;
                 this._translateY = ty;
                 this._scale = scl;
             },
-            setStyle: function (key, value, durition) {
+            /**
+             * Set component's css style
+             * @method setStyle
+             * @param key {String} css key
+             * @param value {*} css value
+             * @param [duration=0] {Number} set transition time
+             */
+            setStyle: function (key, value, duration) {
                 var el = this.resolve('@root');
-                if (durition) {
-                    el.setStyle('-webkit-transition', 'all ' + durition + 's ease');
-                    el.setStyle('transition', 'all ' + durition + 's ease');
+                if (duration) {
+                    el.setStyle('-webkit-transition', 'all ' + duration + 's ease');
+                    el.setStyle('transition', 'all ' + duration + 's ease');
                 } else {
                     el.setStyle('-webkit-transition', '');
                     el.setStyle('transition', '');
                 }
                 el.setStyle(key, value);
             },
+            /**
+             * Inherited nx.ui.component's upon function, fixed mouseleave & mouseenter event
+             * @method upon
+             * @param name {String} event name
+             * @param handler {Function} event handler
+             * @param [context] {Object} event handler's context
+             */
             upon: function (name, handler, context) {
                 if (name == 'mouseenter') {
                     this.inherited('mouseover', this._mouseenter.bind(this), context);
@@ -183,6 +257,12 @@
                 var target = event.target;
                 var related = event.relatedTarget;
                 if (!element.contains(related) && target !== related) {
+                    /**
+                     * Fire when mouse leave
+                     * @event mouseenter
+                     * @param {Object} sender Trigger instance
+                     * @param {Object} original event object
+                     */
                     this.fire("mouseleave", event);
                 }
             },
@@ -191,18 +271,43 @@
                 var target = event.target;
                 var related = event.relatedTarget;
                 if (target && !element.contains(related) && target !== related) {
+                    /**
+                     * Fire when mouse enter
+                     * @event mouseenter
+                     * @param {Object} sender Trigger instance
+                     * @param {Object} original event object
+                     */
                     this.fire("mouseenter", event);
                 }
             },
+            /**
+             * Get component's bound, delegate element's getBoundingClientRect function
+             * @method getBound
+             * @returns {*|ClientRect}
+             */
             getBound: function () {
                 return this.root().$dom.getBoundingClientRect();
             },
             dispose: function () {
-                if (this.root()) {
+                if (this._resources && this._resources['@root']) {
                     this.root().$dom.remove();
                 }
                 this.inherited();
             },
+            /**
+             * Set animation for element,pass a config to this function
+             * {
+             *      to :{
+             *          attr1:value,
+             *          attr2:value,
+             *          ...
+             *      },
+             *      duration:Number,
+             *      complete:Function
+             * }
+             * @method animate
+             * @param config {JSON}
+             */
             animate: function (config) {
                 var self = this;
                 var aniMap = [];
@@ -237,6 +342,10 @@
                     ani.complete(config.complete);
                 }
                 ani.on("complete", function () {
+                    /**
+                     * Fire when animation is complete
+                     * @event animationComplete
+                     */
                     this.fire("animationComplete");
                 }, this);
                 ani.start();

@@ -342,19 +342,18 @@
 
                     this.fire("zooming");
 
-                    if(this.enableGradualScaling()){
+                    if (this.enableGradualScaling()) {
                         if ((++this.__zoomIndex) % 10 !== 0) {
                             stage.setTransform(translate.x, translate.y, scale / finialScale, 0);
                         } else {
                             resetScaleFN.call(this);
                             this.fire("resetzooming");
                         }
-                    }else{
+                    } else {
                         stage.setTransform(translate.x, translate.y, scale / finialScale, 0);
                     }
 
                     this.fire("zooming");
-
 
 
                     this.__zoomTimer = setTimeout(this._gradualZoom.bind(this), 50);
@@ -382,7 +381,7 @@
              * Make topology fit stage
              * @method fit
              */
-            fit: function (callback) {
+            fit: function (callback, duration) {
                 this.zoomByBound(null, function () {
                     this._scale = 1;
                     this._recoverStageScale(this.paddingLeft(), this.paddingTop());
@@ -390,8 +389,7 @@
                     if (callback) {
                         callback.call(this);
                     }
-
-                }, {x: 30, y: 30}); //for fix
+                }, {x: 30, y: 30}, duration); //for fix
             },
             zoomByBound: function (inBound, callback, offset, duration) {
                 var stage = this.stage();
@@ -441,7 +439,13 @@
 
                 this.fire("zooming");
 
-                stage.setTransform(tx, ty, _scale, duration || 0.5);
+                if (duration === 0) {
+                    stage.setTransform(tx, ty, _scale, 0);
+                    stage.fire('transitionend');
+                } else {
+                    stage.setTransform(tx, ty, _scale, duration || 0.5);
+                }
+
 
                 this._scale = _scale * this.scale();
 

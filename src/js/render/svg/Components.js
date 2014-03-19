@@ -1,14 +1,25 @@
 (function (nx, util, global) {
     var NS = "http://www.w3.org/2000/svg";
     var xlink = 'http://www.w3.org/1999/xlink';
-    var attrList = ['class'];
 
+
+    /**
+     * SVG group component
+     * @class nx.graphic.Group
+     * @extend nx.graphic.Component
+     * @module nx.graphic
+     */
     nx.define("nx.graphic.Group", nx.graphic.Component, {
         view: {
             tag: 'svg:g'
         }
     });
-
+    /**
+     * SVG rect component
+     * @class nx.graphic.Rect
+     * @extend nx.graphic.Component
+     * @module nx.graphic
+     */
 
     nx.define("nx.graphic.Rect", nx.graphic.Component, {
         view: {
@@ -16,7 +27,12 @@
         }
     });
 
-
+    /**
+     * SVG circle component
+     * @class nx.graphic.Circle
+     * @extend nx.graphic.Component
+     * @module nx.graphic
+     */
     nx.define("nx.graphic.Circle", nx.graphic.Component, {
         view: {
             tag: 'svg:circle'
@@ -24,9 +40,18 @@
         }
     });
 
-
+    /**
+     * SVG text component
+     * @class nx.graphic.Text
+     * @extend nx.graphic.Component
+     * @module nx.graphic
+     */
     nx.define("nx.graphic.Text", nx.graphic.Component, {
         properties: {
+            /**
+             * Set/get text
+             * @property text
+             */
             text: {
                 get: function () {
                     return this._text !== undefined ? this._text : 0;
@@ -56,9 +81,18 @@
         }
     });
 
-
+    /**
+     * SVG image component
+     * @class nx.graphic.Image
+     * @extend nx.graphic.Component
+     * @module nx.graphic
+     */
     nx.define("nx.graphic.Image", nx.graphic.Component, {
         properties: {
+            /**
+             * Set/get image src
+             * @property src
+             */
             src: {
                 get: function () {
                     return this._src !== undefined ? this._src : 0;
@@ -81,17 +115,32 @@
             tag: 'svg:image'
         }
     });
+    /**
+     * SVG path component
+     * @class nx.graphic.Path
+     * @extend nx.graphic.Component
+     * @module nx.graphic
+     */
 
     nx.define("nx.graphic.Path", nx.graphic.Component, {
         view: {
             tag: 'svg:path'
         }
     });
-
+    /**
+     * SVG polygon component
+     * @class nx.graphic.Polygon
+     * @extend nx.graphic.Path
+     * @module nx.graphic
+     */
 
     nx.define("nx.graphic.Polygon", nx.graphic.Path, {
         properties: {
             nodes: {
+                /**
+                 * Set/get point array to generate a polygon shape
+                 * @property nodes
+                 */
                 get: function () {
                     return this._nodes || [];
                 },
@@ -125,9 +174,19 @@
             }
         }
     });
+    /**
+     * SVG BezierCurves component
+     * @class nx.graphic.BezierCurves
+     * @extend nx.graphic.Path
+     * @module nx.graphic
+     */
 
     nx.define("nx.graphic.BezierCurves", nx.graphic.Path, {
         properties: {
+            /**
+             * set/get start point'x
+             * @property x1
+             */
             x1: {
                 set: function (value) {
                     this._x1 = value;
@@ -137,6 +196,10 @@
                     return this._x1 || 0;
                 }
             },
+            /**
+             * set/get start point'y
+             * @property y1
+             */
             y1: {
                 set: function (value) {
                     this._y1 = value;
@@ -146,6 +209,10 @@
                     return this._y1 || 0;
                 }
             },
+            /**
+             * set/get end point'x
+             * @property x2
+             */
             x2: {
                 set: function (value) {
                     this._x2 = value;
@@ -155,6 +222,10 @@
                     return this._x2 || 0;
                 }
             },
+            /**
+             * set/get end point'x
+             * @property y2
+             */
             y2: {
                 set: function (value) {
                     this._y2 = value;
@@ -207,18 +278,33 @@
         }
     });
 
-
+    /**
+     * SVG line component
+     * @class nx.graphic.Line
+     * @extend nx.graphic.Component
+     * @module nx.graphic
+     */
     nx.define("nx.graphic.Line", nx.graphic.Component, {
         view: {
             tag: 'svg:line'
         }
     });
 
+    /**
+     * SVG icon component, which icon's define in nx framework
+     * @class nx.graphic.Icon
+     * @extend nx.graphic.Component
+     * @module nx.graphic
+     */
     nx.define("nx.graphic.Icon", nx.graphic.Component, {
         view: {
             tag: 'svg:use'
         },
         properties: {
+            /**
+             * set/get icon's type
+             * @property iconType
+             */
             iconType: {
                 get: function () {
                     return this._iconType;
@@ -232,6 +318,10 @@
                     this.view().dom().$dom.setAttributeNS(xlink, 'xlink:href', '#' + value);
                 }
             },
+            /**
+             * set/get icon size
+             * @property size
+             */
             size: {
                 get: function () {
                     return this._size || {
@@ -246,7 +336,12 @@
             }
         }
     });
-
+    /**
+     * SVG root component
+     * @class nx.graphic.Stage
+     * @extend nx.ui.Component
+     * @module nx.graphic
+     */
     nx.define("nx.graphic.Stage", nx.ui.Component, {
         events: ['dragStageStart', 'dragStage', 'dragStageEnd'],
         view: {
@@ -291,11 +386,35 @@
             }
         },
         properties: {
+            /**
+             * set/get stage's width
+             * @property width
+             */
             width: {value: 0},
+            /**
+             * set/get stage's height
+             * @property height
+             */
             height: {value: 0},
+            /**
+             * set/get content's scale
+             * @property scale
+             */
             scale: {value: 1},
+            /**
+             * set/get content's x translate
+             * @property translateX
+             */
             translateX: {value: 0},
+            /**
+             * set/get content's y translate
+             * @property translateY
+             */
             translateY: {value: 0},
+            /**
+             * set/get content translate object
+             * @property translate
+             */
             translate: {
                 get: function () {
                     return{
@@ -309,6 +428,10 @@
                     }
                 }
             },
+            /**
+             * get content group element
+             * @property stage
+             */
             stage: {
                 get: function () {
                     return this.resolve("stage");
@@ -319,12 +442,27 @@
             getContainer: function () {
                 return this.resolve('stage').resolve("@root");
             },
+            /**
+             * Add svg def element into the stage
+             * @method addDef
+             * @param el {SVGDOM}
+             */
             addDef: function (el) {
                 this.resolve("defs").resolve("@root").$dom.appendChild(el);
             },
+            /**
+             * Add svg def element into the stage in string format
+             * @method addDefString
+             * @param str {String}
+             */
             addDefString: function (str) {
                 this.resolve("defs").resolve("@root").$dom.appendChild(new DOMParser().parseFromString(str, "text/xml").documentElement);
             },
+            /**
+             * Get content's relative bound
+             * @method getContentBound
+             * @returns {{left: number, top: number, width: Number, height: Number}}
+             */
             getContentBound: function () {
                 var stageBound = this.stage().getBound();
                 var topoBound = this.view().dom().getBound();
@@ -336,30 +474,21 @@
                     height: stageBound.height
                 };
             },
-            setTransform: function (translateX, translateY, scale, durition) {
+            /**
+             * set/get content's transform
+             * @method setTransform
+             * @param [translateX] {Number} x axle translate
+             * @param [translateY] {Number} y axle translate
+             * @param [scale] {Number} element's scale
+             * @param [duration=0] {Number} transition time, unite is second
+             */
+            setTransform: function (translateX, translateY, scale, duration) {
 
                 var stage = this.stage();
-                stage.setTransform(translateX, translateY, scale, durition);
+                stage.setTransform(translateX, translateY, scale, duration);
                 stage.notify('translateX');
                 stage.notify('translateY');
                 stage.notify('scale');
-
-
-//                var tx = translateX != null ? translateX : this._translateX;
-//                var ty = translateY != null ? translateY : this._translateY;
-//                var scl = scale != null ? scale : this._scale;
-//                //var rot = rotate != null ? rotate : this._rotate || 0;
-//
-//
-//                var cssText = '-webkit-transform: translate(' + tx + 'px, ' + ty + 'px) scale(' + scl + ');';
-//                if (durition) {
-//                    cssText += '-webkit-transition: all ' + durition + 's ease;' + 'transition: all ' + durition + 's ease;';
-//                }
-//                this.stage().view().dom().$dom.style.cssText = cssText;
-//                this._translateX = tx;
-//                this._translateY = ty;
-//                this._scale = scl;
-                //this._rotate = rot;
             },
             _mousedown: function (sender, event) {
                 event.captureDrag(sender);
@@ -378,6 +507,12 @@
         }
     });
 
+    /**
+     * SVG topology svg component, add all icon's to svg's def.
+     * @class nx.graphic.TopologyStage
+     * @extend nx.graphic.Stage
+     * @module nx.graphic
+     */
     nx.define("nx.graphic.TopologyStage", nx.graphic.Stage, {
         events: [],
         methods: {

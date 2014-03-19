@@ -93,25 +93,25 @@
                 this.inherited(args);
                 this.__el = this.resolve("@root").$dom;
             },
-            setTransform: function (translateX, translateY, scale, durition) {
+            setTransform: function (translateX, translateY, scale, duration) {
 
                 var tx = translateX != null ? translateX : this._translateX || 0;
                 var ty = translateY != null ? translateY : this._translateY || 0;
                 var scl = scale != null ? scale : this.scale();
 
 
-                this.setStyle('-webkit-transform', ' translate(' + tx + 'px, ' + ty + 'px) scale(' + scl + ')', durition);
+                this.setStyle('-webkit-transform', ' translate(' + tx + 'px, ' + ty + 'px) scale(' + scl + ')', duration);
 
 
                 this._translateX = tx;
                 this._translateY = ty;
                 this._scale = scl;
             },
-            setStyle: function (key, value, durition) {
+            setStyle: function (key, value, duration) {
                 var el = this.resolve('@root');
-                if (durition) {
-                    el.setStyle('-webkit-transition', 'all ' + durition + 's ease');
-                    el.setStyle('transition', 'all ' + durition + 's ease');
+                if (duration) {
+                    el.setStyle('-webkit-transition', 'all ' + duration + 's ease');
+                    el.setStyle('transition', 'all ' + duration + 's ease');
                 } else {
                     el.setStyle('-webkit-transition', '');
                     el.setStyle('transition', '');

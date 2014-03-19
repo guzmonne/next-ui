@@ -6,11 +6,11 @@
      * @extend nx.graphic.Topology.SelectionScene
      */
 
-    nx.define("nx.graphic.Topology.SelectionNodeScene", nx.graphic.Topology.SelectionScene, {
+    nx.define('nx.graphic.Topology.SelectionNodeScene', nx.graphic.Topology.SelectionScene, {
         /**
          * @event selectNode
          */
-        events: ["selectNode"],
+        events: ['selectNode','selectNodeSet'],
         properties: {
             /**
              * Get all selected nodes
@@ -58,6 +58,13 @@
                     this._topo.selectedNodes().add(node);
                 } else {
                     this._topo.selectedNodes().remove(node);
+                }
+            },
+            selectNodeSet: function (sender, nodeset) {
+                if (nodeset.selected()) {
+                    this._topo.selectedNodes().add(nodeset);
+                } else {
+                    this._topo.selectedNodes().remove(nodeset);
                 }
             },
 

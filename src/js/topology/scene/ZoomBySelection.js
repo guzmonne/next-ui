@@ -14,6 +14,9 @@
                 var bound = this.rect.getBound();
                 this.inherited(sender, event);
                 this.fire('finish', bound);
+            },
+            esc: function () {
+                this.fire('finish');
             }
         }
     });

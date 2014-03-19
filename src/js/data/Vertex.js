@@ -301,12 +301,12 @@
             getConnectedVertices: function () {
                 var vertices = [];
                 this.eachDirectedEdge(function (edge) {
-                    if (edge.target().visible()) {
+                    if (edge.target().visible() && edge.target().generated()) {
                         vertices.push(edge.target());
                     }
                 }, this);
                 this.eachReverseEdge(function (edge) {
-                    if (edge.source().visible()) {
+                    if (edge.source().visible() && edge.source().generated()) {
                         vertices.push(edge.source());
                     }
                 }, this);

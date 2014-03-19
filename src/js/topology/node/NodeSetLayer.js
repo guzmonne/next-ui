@@ -187,7 +187,7 @@
                     this.fire('dragNodeSetEnd', nodeset);
                 }, this);
 
-                vertexSet.on('updateCoordinate', function (sender, position) {
+                nodeset.on('updateCoordinate', function (sender, position) {
                     this.fire('updateNodeSetCoordinate', nodeset);
                 }, this);
                 nodeset.on('collapseNodeSet', function (sender, position) {

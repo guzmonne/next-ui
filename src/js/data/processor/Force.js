@@ -1,6 +1,18 @@
 (function (nx, util, global, logger) {
+    /**
+     * Force layout processor
+     * @class nx.data.ObservableGraph.ForceProcessor
+     * @module nx.data
+     */
     nx.define("nx.data.ObservableGraph.ForceProcessor", {
         methods: {
+            /**
+             * Process graph data
+             * @param data {JSON} standard graph data
+             * @param [key]
+             * @param [model]
+             * @returns {JSON} {JSON} standard graph data
+             */
             process: function (data, key, model) {
                 var forceStartDate = new Date();
 

@@ -1,7 +1,5 @@
 (function (nx, util, global) {
 
-    var timer;
-    var firstTimeShowTooltip = true;
     /**
      * Topology navigation element class
      * @class nx.graphic.Topology.Nav
@@ -387,7 +385,9 @@
                 var scene = topo.activateScene('zoomBySelection');
                 var icon = sender;
                 scene.upon('finish', function fn(sender, bound) {
-                    topo.zoomByBound(topo.getInsideBound(bound), topo._recoverStageScale.bind(topo));
+                    if(bound){
+                        topo.zoomByBound(topo.getInsideBound(bound), topo._recoverStageScale.bind(topo));
+                    }
                     topo.activateScene(currentSceneName);
                     icon.dom().removeClass('n-topology-nav-zoom-selection-selected');
                     scene.off('finish', fn, this);

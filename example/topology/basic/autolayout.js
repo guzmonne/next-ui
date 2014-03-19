@@ -7,8 +7,8 @@
                 type: 'nx.graphic.Topology',
                 props: {
                     adaptive: true,
-                    nodeLabel: 'id',
-                    dataProcessor: 'quick',
+                    nodeLabel: 'model.id',
+                    dataProcessor: 'force',
                     identityKey: 'id',
                     showIcon: false,
                     enableSmartLabel: false,
@@ -26,7 +26,7 @@
                 start = new Date();
 
                 var g = new GraphGenerator();
-                g.generate(400);
+                g.generate(100);
 
                 var topologyData = {nodes: g.nodes, links: g.links};
                 start = new Date();

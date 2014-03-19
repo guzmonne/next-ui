@@ -1,13 +1,12 @@
 (function (nx, util, global) {
 
-    'use strict';
 
     /**
      * Selection scene
      * @class nx.graphic.Topology.SelectionScene
      * @extend nx.graphic.Topology.Scene
      */
-    nx.define("nx.graphic.Topology.SelectionScene", nx.graphic.Topology.Scene, {
+    nx.define("nx.graphic.Topology.SelectionScene", nx.graphic.Topology.DefaultScene, {
 
         /**
          * @event startSelection
@@ -28,23 +27,13 @@
 
             activate: function (args) {
                 this.appendRect();
-                var topo = this._topo = this.topology();
-
-                nx.each(topo.__events__, this._aop = function (eventName) {
-                    topo.upon(eventName, function (sender, data) {
-                        this._dispatch(eventName, sender, data);
-                    }, this);
-                }, this);
+                this.inherited(args);
             },
             /**
              * Deactivate scene
              */
             deactivate: function () {
-                var topo = this.topology();
-                nx.each(topo.__events__, function (eventName) {
-                    topo.off(eventName, this._aop, this);
-                }, this);
-
+                this.inherited();
                 this.rect.dispose();
                 delete this.rect;
             },
@@ -118,6 +107,9 @@
                     bottom: rectbound.bottom - topoBound.top,
                     right: rectbound.right - topoBound.left
                 };
+            },
+            esc: {
+
             },
             _blockEvent: function (value) {
                 if (value) {

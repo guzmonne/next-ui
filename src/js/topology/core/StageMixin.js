@@ -130,7 +130,7 @@
                 this._fitTimer = setTimeout(function () {
                     this.move(0.1);
                     this.fit();
-                }.bind(this), 200);
+                }.bind(this), 500);
 
             },
             getInsideBound: function (bound) {
@@ -162,15 +162,9 @@
              * @param x
              * @param y
              */
-            move: function (x, y) {
+            move: function (x, y, duration) {
                 var stage = this.stage();
-                if (x !== undefined) {
-                    stage.translateX(stage.translateX() + x);
-                }
-
-                if (y !== undefined) {
-                    stage.translateY(stage.translateY() + y);
-                }
+                stage.setTransform(stage.translateX() + x || 0, stage.translateY() + y || 0, null, duration);
             }
         }
     });

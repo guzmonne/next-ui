@@ -23,12 +23,12 @@
                 this.layers([]);
             },
             initLayer: function () {
-                this.attachLayer("groups", "nx.graphic.Topology.GroupsLayer");
+//                this.attachLayer("groups", "nx.graphic.Topology.GroupsLayer");
                 //this.attachLayer("aggregationLayer", "nx.graphic.Topology.AggregationLayer");
                 this.attachLayer("links", "nx.graphic.Topology.LinksLayer");
                 this.attachLayer("linkSet", "nx.graphic.Topology.LinkSetLayer");
                 this.attachLayer("nodes", "nx.graphic.Topology.NodesLayer");
-                this.attachLayer("paths", "nx.graphic.Topology.PathLayer");
+//                this.attachLayer("paths", "nx.graphic.Topology.PathLayer");
                 this.attachLayer("nodeSet", "nx.graphic.Topology.NodeSetLayer");
 
             },
@@ -125,6 +125,12 @@
                 nx.each(this.layers(), function (layer) {
                     layer.clear();
                 });
+            },
+            dispose: function () {
+                nx.each(this.layers(), function (layer) {
+                    layer.dispose();
+                });
+                this.inherited();
             }
         }
     });

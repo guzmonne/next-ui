@@ -45,6 +45,10 @@
             },
             clear: function () {
                 //this.resolve("@root").empty();
+            },
+            dispose: function () {
+                this.clear();
+                this.inherited();
             }
         }
     });

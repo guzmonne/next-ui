@@ -255,8 +255,10 @@
             },
             dispose: function () {
                 var model = this.model();
-                model.source().unwatch("position", this._watchS, this);
-                model.target().unwatch("position", this._watchT, this);
+                if (model) {
+                    model.source().unwatch("position", this._watchS, this);
+                    model.target().unwatch("position", this._watchT, this);
+                }
                 this.inherited();
             }
         }

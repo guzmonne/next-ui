@@ -91,12 +91,15 @@
                 topo.watch('revisionScale', this._watchRevisionScale = function (prop, value) {
                     var nodes = this.nodes();
                     if (value == 1) {
-                        if (topo.showIcon()) {
-                            nx.each(nodes, function (node) {
+
+                        nx.each(nodes, function (node) {
+                            if (topo.showIcon()) {
                                 node.showIcon(true);
-                                node.view('label').set('visible', true);
-                            });
-                        }
+                            } else {
+                                node.radius(6);
+                            }
+                            node.view('label').set('visible', true);
+                        });
                     } else if (value == 0.8) {
                         nx.each(nodes, function (node) {
                             node.showIcon(false);
@@ -372,8 +375,6 @@
                         });
                     }
                 }
-
-
             },
             resetProjection: function () {
                 var nodes = this.nodes();
