@@ -504,9 +504,6 @@
 
                     var edgeSet = edgeSetMap[linkKey] || edgeSetMap[reverseLinkKey];
                     if (!edgeSet) {
-                        if (linkKey == '1_0') {
-                            debugger;
-                        }
                         edgeSet = this._addEdgeSet({
                             source: source,
                             target: target,
@@ -522,7 +519,7 @@
                     edge.sets({
                         linkKey: edgeSet.linkKey(),
                         reverseLinkKey: edgeSet.reverseLinkKey()
-                    })
+                    });
 
                     edgeSet.addEdge(edge);
                     edge.parentEdgeSet(edgeSet);

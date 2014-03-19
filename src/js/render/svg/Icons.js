@@ -20,7 +20,7 @@
              * @method get
              */
             get: function (type) {
-                return this.icons[type] || this.icons["unknown"];
+                return this.icons[type] || this.icons.unknown;
             },
             /**
              * Get icon's svg string
@@ -102,7 +102,7 @@
         camera: {
             width: 40,
             height: 40,
-            icon:'<svg version="1.1" xmlns="http://www.w3.org/2000/svg" ' + LINK + ' x="0px" y="0px" width="58.406px" height="51.48px" viewBox="0 0 58.406 51.48" enable-background="new 0 0 58.406 51.48" xml:space="preserve"><g id="Layer_1"></g><g id="Layer_2"></g><g id="Layer_4"></g><g id="Layer_5"> <g> <rect x="10.59" y="1.682" fill="#1F6EEE" class="bg" stroke-miterlimit="10" width="44.236" height="31.065"/> <line fill="none" stroke="#FFFFFF" stroke-width="3" x1="54.826" y1="22.15" x2="10.59" y2="22.15"/> <g><path fill="#1F6EEE" class="bg" d="M8.743,4.639H1.969C0.882,4.639,0,7.844,0,11.799c0,3.948,0.882,7.151,1.969,7.151h6.774V4.639z"/> </g> <line fill="none" stroke="#1F6EEE" class="stroke" stroke-width="3" stroke-miterlimit="10" x1="32.755" y1="35.804" x2="32.755" y2="51.48"/> <line fill="none" stroke="#1F6EEE" class="stroke" stroke-width="3" stroke-miterlimit="10" x1="32.755" y1="35.804" x2="54.804" y2="48.938"/> <line fill="none" stroke="#1F6EEE" class="stroke" stroke-width="3" stroke-miterlimit="10" x1="32.755" y1="35.804" x2="10.709" y2="48.938"/> <rect x="27.914" y="32.33" fill="#1F6EEE" class="bg" width="9.591" height="4.318"/> </g></g><g id="Layer_6"></g><g id="Layer_7"></g><g id="Layer_8"></g><g id="Layer_3"></g></svg>'
+            icon: '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" ' + LINK + ' x="0px" y="0px" width="58.406px" height="51.48px" viewBox="0 0 58.406 51.48" enable-background="new 0 0 58.406 51.48" xml:space="preserve"><g id="Layer_1"></g><g id="Layer_2"></g><g id="Layer_4"></g><g id="Layer_5"> <g> <rect x="10.59" y="1.682" fill="#1F6EEE" class="bg" stroke-miterlimit="10" width="44.236" height="31.065"/> <line fill="none" stroke="#FFFFFF" stroke-width="3" x1="54.826" y1="22.15" x2="10.59" y2="22.15"/> <g><path fill="#1F6EEE" class="bg" d="M8.743,4.639H1.969C0.882,4.639,0,7.844,0,11.799c0,3.948,0.882,7.151,1.969,7.151h6.774V4.639z"/> </g> <line fill="none" stroke="#1F6EEE" class="stroke" stroke-width="3" stroke-miterlimit="10" x1="32.755" y1="35.804" x2="32.755" y2="51.48"/> <line fill="none" stroke="#1F6EEE" class="stroke" stroke-width="3" stroke-miterlimit="10" x1="32.755" y1="35.804" x2="54.804" y2="48.938"/> <line fill="none" stroke="#1F6EEE" class="stroke" stroke-width="3" stroke-miterlimit="10" x1="32.755" y1="35.804" x2="10.709" y2="48.938"/> <rect x="27.914" y="32.33" fill="#1F6EEE" class="bg" width="9.591" height="4.318"/> </g></g><g id="Layer_6"></g><g id="Layer_7"></g><g id="Layer_8"></g><g id="Layer_3"></g></svg>'
 
         },
         collisiondomain: {
