@@ -17,6 +17,7 @@
         view: {
             props: {
                 'class': ['n-topology', '{#themeClass}'],
+                tabindex:'0',
                 style: {
                     width: "{#width}",
                     height: "{#height}"
@@ -50,6 +51,7 @@
                         'dragStageStart': '{#_dragStageStart}',
                         'dragStage': '{#_dragStage}',
                         'dragStageEnd': '{#_dragStageEnd}'
+
                     }
                 },
                 {
@@ -75,7 +77,8 @@
 
             ],
             events: {
-                'contextmenu': '{#_contextmenu}'
+                'contextmenu': '{#_contextmenu}',
+                'keydown': '{#_key}'
             }
         },
         properties: {

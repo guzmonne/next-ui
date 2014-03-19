@@ -18,7 +18,7 @@
             nodeDraggable: {
                 value: true
             },
-            useSmartLabel: {
+            enableSmartLabel: {
                 value: true
             },
             nodeScale: {},
@@ -244,6 +244,28 @@
 
             getNodes: function () {
                 return this.getLayer("nodes").nodes();
+            },
+            registerIcon: function (name, url, width, height) {
+                var XLINK = 'http://www.w3.org/1999/xlink';
+                var NS = "http://www.w3.org/2000/svg";
+                var icon1 = document.createElementNS(NS, "image");
+                icon1.setAttributeNS(XLINK, 'href', url);
+                nx.graphic.Icons.icons[name] = {
+                    size: {
+                        width: width,
+                        height: height
+                    },
+                    icon: icon1.cloneNode(true),
+                    name: name
+                };
+
+                var icon = icon1.cloneNode(true);
+                icon.setAttribute("height", height);
+                icon.setAttribute("width", width);
+                icon.setAttribute("data-device-type", name);
+                icon.setAttribute("id", name);
+                icon.setAttribute("class", 'deviceIcon');
+                this.stage().addDef(icon);
             }
         }
     });

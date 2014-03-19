@@ -1,7 +1,5 @@
 (function (nx, util, global) {
 
-    'use strict';
-
 
     nx.define("nx.graphic.Topology.NodeSet", nx.graphic.Topology.Node, {
         events: ['expandNodeSet', 'collapseNodeSet'],
@@ -18,16 +16,16 @@
             },
             collapsed: {
                 get: function () {
-                    return this._collapsed !== undefined ? this._collapsed : true;
+                    return this._collapsed !== undefined ? this._collapsed : null;
                 },
                 set: function (value) {
-                    if (this._collapsed != value) {
+                    if (this._collapsed !== value) {
+                        this._collapsed = value;
                         if (value) {
                             this._collapse();
                         } else {
                             this._expand();
                         }
-                        this._collapsed = value;
                         return true;
                     } else {
                         return false;
@@ -140,13 +138,12 @@
                         'dragend': '{#_dragend}'
                     }
                 }
-
-
             ]
         },
         methods: {
-            init: function (args) {
-                this.init.__super__.apply(this, arguments);
+            setModel: function (model) {
+                this.inherited(model);
+                this._collapsed = model._activated;
                 this.setBinding('collapsed', 'model.activated,direction=<>', this);
             },
             expand: function () {

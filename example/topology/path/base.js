@@ -49,7 +49,7 @@
                 var pathLayer = sender.getLayer("paths");
 
 
-                var links1 = [sender.getLink(13)];
+                var links1 = [sender.getLink(2)];
 
                 var path1 = new nx.graphic.Topology.Path({
                     links: links1,

@@ -2,14 +2,18 @@
 <html>
 <head>
     <title>Example</title>
+    <script type="text/javascript" src="lib/HighLightCode/beautify.js"></script>
+    <script type="text/javascript" src="lib/HighLightCode/prettify.js"></script>
+    <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/nextui/ws/lib/jquery/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/DailyBuild/lastSuccessfulBuild/artifact/dest/next-core.js"></script>
     <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/nextui/lastSuccessfulBuild/artifact/dest/js/next-ui.js"></script>
     <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/UI_Component/lastSuccessfulBuild/artifact/dest/js/next-components.js"></script>
     <link rel="stylesheet" href="http://10.75.161.96:8080/jenkins/job/nextui/lastSuccessfulBuild/artifact/dest/css/next-blue.css"/>
     <script type="text/javascript" src="../../lib/GraphGenerator.js"></script>
     <link rel="stylesheet" href="../../src/less/next-graphic.css"/>
-    <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/Next-graphic/lastSuccessfulBuild/artifact/dest/js/next-graphic.js"></script>
-    <!--<script type="text/javascript" src="../../src/js/next-graphic.js"></script>-->
+    <link rel="stylesheet" href="lib/HighLightCode/prettify.css"/>
+    <!--<script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/Next-graphic/lastSuccessfulBuild/artifact/dest/js/next-graphic.js"></script>-->
+    <script type="text/javascript" src="../../src/js/next-graphic.js"></script>
 
 
 </head>
@@ -21,7 +25,7 @@
         width: 100%;
         padding: 0px;
         margin: 0px;
-        overflow: hidden;
+        /*overflow: hidden;*/
     }
 
     #demos {
@@ -70,6 +74,7 @@ var Demo = nx.define(nx.ui.Component, {
             }
         },
         currentItem: null,
+        currentConfig: null,
         jsfiles: {
             value: function () {
                 return new nx.data.ObservableDictionary();
@@ -144,6 +149,7 @@ var Demo = nx.define(nx.ui.Component, {
                         tag: 'ul',
                         props: {
                             'class': 'nav nav-tabs nav-justified'
+
                         },
                         content: [
                             {
@@ -172,6 +178,13 @@ var Demo = nx.define(nx.ui.Component, {
                         name: 'demo',
                         props: {
                             'class': 'demoContainer'
+                        }
+                    },
+                    {
+                        name: 'code',
+                        tag: 'pre',
+                        props: {
+                            'class': 'prettyprint lang-js'
                         }
                     }
                 ]
@@ -272,6 +285,14 @@ var Demo = nx.define(nx.ui.Component, {
                 itemClass: 'Extend.Link'
             });
 
+            this.addItem({
+                categoryName: 'Extend',
+                itemKey: 'icon',
+                itemLabel: 'Add node icon',
+                files: ['extend/icon.js'],
+                itemClass: 'Extend.Icon'
+            });
+
             setTimeout(function () {
                 this._parseURL();
             }.bind(this), 200);
@@ -336,8 +357,25 @@ var Demo = nx.define(nx.ui.Component, {
             }
 
             this.currentItem(demo);
+            this.currentConfig(config);
             var siteRootUrl = window.location.href.split("#").shift();
             window.location.href = siteRootUrl + '#' + '' + config.categoryName + '/' + config.itemKey;
+
+            this._loadCode();
+
+        },
+        _loadCode: function () {
+            var config = this.currentConfig();
+            var file = config.files[0];
+            $.get(file, function (d) {
+                var c = js_beautify(d,{
+                    preserve_newlines:false
+                });
+                this.view('code').content(null);
+                this.view('code').content(c);
+                prettyPrint();
+            }.bind(this));
+            //
         }
     }
 });

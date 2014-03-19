@@ -121,7 +121,13 @@
 
                 //first
                 var firstLink = links[0];
-                var gutter = new Vector(0, this.reverse() ? firstLink.gutter() * firstLink.gutterStep() * -1 : firstLink.gutter() * firstLink.gutterStep());
+
+                var gutter = firstLink.getGutter();
+                if (firstLink.reverse()) {
+                    gutter *= -1;
+                }
+
+                gutter = new Vector(0, this.reverse() ? gutter * -1 : gutter);
 
                 line1 = linksSequentialArray[0].translate(gutter);
 
@@ -234,13 +240,15 @@
 
                 var firstItemSourceVector, firstItemTargetVector;
 
-                if (firstItem.reverse()) {
-                    firstItemTargetVector = firstItem.sourceVector();
-                    firstItemSourceVector = firstItem.targetVector();
-                } else {
-                    firstItemSourceVector = firstItem.sourceVector();
-                    firstItemTargetVector = firstItem.targetVector();
-                }
+                firstItemSourceVector = firstItem.sourceVector();
+                firstItemTargetVector = firstItem.targetVector();
+
+//                if (firstItem.reverse()) {
+//                    firstItemTargetVector = firstItem.sourceVector();
+//                    firstItemSourceVector = firstItem.targetVector();
+//                } else {
+//
+//                }
 
 
                 if (secondItem) {

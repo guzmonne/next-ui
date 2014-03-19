@@ -8,10 +8,12 @@
                 props: {
                     adaptive: true,
                     nodeLabel: 'id',
-                    dataProcessor: 'force',
+                    dataProcessor: 'quick',
                     identityKey: 'id',
                     showIcon: false,
-                    useSmartLabel: false,
+                    enableSmartLabel: false,
+                    //enableSmartNode: false,
+                    enableGradualScaling:false,
                     supportMultipleLink: false
                 },
                 events: {
@@ -24,7 +26,7 @@
                 start = new Date();
 
                 var g = new GraphGenerator();
-                g.generate(100);
+                g.generate(400);
 
                 var topologyData = {nodes: g.nodes, links: g.links};
                 start = new Date();

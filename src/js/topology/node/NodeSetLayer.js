@@ -141,7 +141,7 @@
                 nodeset.resolve('@root').set('data-node-id', nodeset.id());
                 nodeset.setProperty('nodeScale', topo.nodeScale());
                 nodeset.setProperty('radius', topo.nodeRadius());
-                nodeset.setProperty('useSmartLabel', topo.useSmartLabel());
+                nodeset.setProperty('enableSmartLabel', topo.enableSmartLabel());
                 nodeset.setProperty('iconType', topo.nodeIconType() || 'groupS');
                 nodeset.setProperty('showIcon', topo.nodeShowIcon());
                 nodeset.setProperty('selected', topo.nodeSelected());
@@ -190,10 +190,10 @@
                 vertexSet.on('updateCoordinate', function (sender, position) {
                     this.fire('updateNodeSetCoordinate', nodeset);
                 }, this);
-                vertexSet.on('collapseNodeSet', function (sender, position) {
+                nodeset.on('collapseNodeSet', function (sender, position) {
                     this.fire('collapseNodeSet', nodeset);
                 }, this);
-                vertexSet.on('expandNodeSet', function (sender, position) {
+                nodeset.on('expandNodeSet', function (sender, position) {
                     this.fire('expandNodeSet', nodeset);
                 }, this);
 

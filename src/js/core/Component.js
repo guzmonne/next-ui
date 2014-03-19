@@ -92,11 +92,12 @@
             },
             visible: {
                 get: function () {
-                    return this.resolve('@root').getStyle("display") != "none";
+                    return this._visible !== undefined ? this._visible : true;
                 },
                 set: function (value) {
                     this.resolve('@root').setStyle("display", value ? "" : "none");
                     this.resolve('@root').setStyle("pointer-events", value ? "all" : "none");
+                    this._visible = value;
                 }
             },
             'class': {

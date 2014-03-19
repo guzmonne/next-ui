@@ -101,13 +101,10 @@
             ]
         },
         methods: {
-            init: function (args) {
-                this.inherited(args);
-                this.setBinding('collapsed', 'model.activated,direction=<>', this);
-
-            },
             setModel: function (model, isUpdate) {
                 this.inherited(model, isUpdate);
+                //this._collapsed = model._activated;
+                this.setBinding('collapsed', 'model.activated,direction=<>', this);
             },
             update: function () {
                 if (this._collapsed) {

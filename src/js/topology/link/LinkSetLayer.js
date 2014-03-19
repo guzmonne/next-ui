@@ -91,6 +91,7 @@
                 var linkKey = edgeSet.linkKey();
                 var linkSet = linkSetMap[linkKey];
                 if (linkSet) {
+                    linkSet.model().removeAllEdges();
                     linkSet.dispose();
                     linkSetCollection.splice(linkSetCollection.indexOf(linkSet), 1);
                     delete linkSetMap[linkKey];
@@ -199,7 +200,9 @@
             recover: function (force) {
                 this.fadeIn(function () {
                     nx.each(this.highlightedLinkSet(), function (link) {
-                        link.append(this.resolve('static'));
+                        if(link.visible()){
+                            link.append(this.resolve('static'));
+                        }
                     }, this);
                     this.highlightedLinkSet([]);
                 }, this);

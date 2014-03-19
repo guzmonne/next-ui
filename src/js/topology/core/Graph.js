@@ -196,7 +196,7 @@
                     this._setProjection();
                 }, this);
                 graph.on("endGenerate", function (sender, event) {
-                    if (this.useSmartLabel()) {
+                    if (this.enableSmartLabel()) {
                         setTimeout(function () {
                             this.fire('topologyGenerated');
                         }.bind(this), 100);

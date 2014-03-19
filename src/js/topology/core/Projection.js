@@ -88,7 +88,7 @@
             enableGradualScaling: {
                 value: true
             },
-            useSmartNode: {
+            enableSmartNode: {
                 value: true
             }
         },
@@ -339,13 +339,22 @@
 
 
                 if (this.__zooming) {
+
                     this.fire("zooming");
-                    if ((++this.__zoomIndex) % 10 !== 0) {
+
+                    if(this.enableGradualScaling()){
+                        if ((++this.__zoomIndex) % 10 !== 0) {
+                            stage.setTransform(translate.x, translate.y, scale / finialScale, 0);
+                        } else {
+                            resetScaleFN.call(this);
+                            this.fire("resetzooming");
+                        }
+                    }else{
                         stage.setTransform(translate.x, translate.y, scale / finialScale, 0);
-                    } else {
-                        resetScaleFN.call(this);
-                        this.fire("resetzooming");
                     }
+
+                    this.fire("zooming");
+
 
 
                     this.__zoomTimer = setTimeout(this._gradualZoom.bind(this), 50);
@@ -438,6 +447,8 @@
 
                 this.__originalStageBound = bound;
 
+                this.notify('scale');
+
             },
 
             zoomByNodes: function (nodes, callback) {
@@ -470,7 +481,7 @@
             adjustLayout: function () {
 
 
-                if (!this.useSmartNode()) {
+                if (!this.enableSmartNode()) {
                     return;
                 }
 

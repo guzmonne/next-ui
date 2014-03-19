@@ -90,7 +90,6 @@
 
                 topo.watch('revisionScale', this._watchRevisionScale = function (prop, value) {
                     var nodes = this.nodes();
-                    console.log(value);
                     if (value == 1) {
                         if (topo.showIcon()) {
                             nx.each(nodes, function (node) {
@@ -184,7 +183,7 @@
                 node.resolve('@root').set('data-node-id', node.id());
                 node.setProperty('nodeScale', topo.nodeScale());
                 node.setProperty('radius', topo.nodeRadius());
-                node.setProperty('useSmartLabel', topo.useSmartLabel());
+                node.setProperty('enableSmartLabel', topo.enableSmartLabel());
                 node.setProperty('iconType', topo.nodeIconType());
                 node.setProperty('showIcon', topo.nodeShowIcon() == null ? topo.showIcon() : topo.nodeShowIcon());
                 node.setProperty('selected', topo.nodeSelected());

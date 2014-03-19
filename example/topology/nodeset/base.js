@@ -35,7 +35,6 @@
             {id: 8, type: 'nodeSet', nodes: [7, 4], "x": 410, "y": 280, "name": "Node set 4", iconType: 'groupL'}
         ]
     };
-    var colorTable = ['#C3A5E4', '#75C6EF', '#CBDA5C', '#ACAEB1 ', '#2CC86F'];
 
     nx.define('NodeSet.Base', nx.ui.Component, {
         view: {
@@ -45,7 +44,7 @@
                 props: {
                     adaptive:true,
                     identityKey: 'id',
-                    nodeLabel: 'model.name',
+                    nodeLabel: 'model.id',
                     nodeIconType:'model.iconType',
                     nodeShowIcon: true,
                     data: topologyData

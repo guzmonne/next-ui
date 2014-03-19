@@ -20,6 +20,9 @@
   -o-user-select: none;
   user-select: none;
 }
+.n-topology.n-topology-blue:focus {
+  outline: 0 none;
+}
 .n-topology.n-topology-blue svg {
   box-sizing: content-box;
 }
@@ -316,7 +319,7 @@
   color: #0396eb;
 }
 .n-topology.n-topology-blue .n-topology-nav-zoom-selection-selected {
-  color: #0ca4fc;
+  color: #3fb7fc;
 }
 .n-topology.n-topology-blue .n-topology-nav-fit {
   margin-top: 0px !important;
@@ -397,6 +400,9 @@
   -ms-user-select: none;
   -o-user-select: none;
   user-select: none;
+}
+.n-topology.n-topology-dark:focus {
+  outline: 0 none;
 }
 .n-topology.n-topology-dark svg {
   box-sizing: content-box;
@@ -694,7 +700,7 @@
   color: #1ab2ff;
 }
 .n-topology.n-topology-dark .n-topology-nav-zoom-selection-selected {
-  color: #33baff;
+  color: #66cbff;
 }
 .n-topology.n-topology-dark .n-topology-nav-fit {
   margin-top: 0px !important;
@@ -775,6 +781,9 @@
   -ms-user-select: none;
   -o-user-select: none;
   user-select: none;
+}
+.n-topology.n-topology-green:focus {
+  outline: 0 none;
 }
 .n-topology.n-topology-green svg {
   box-sizing: content-box;
@@ -1072,7 +1081,7 @@
   color: #2badb3;
 }
 .n-topology.n-topology-green .n-topology-nav-zoom-selection-selected {
-  color: #30c1c7;
+  color: #54d0d6;
 }
 .n-topology.n-topology-green .n-topology-nav-fit {
   margin-top: 0px !important;
@@ -1153,6 +1162,9 @@
   -ms-user-select: none;
   -o-user-select: none;
   user-select: none;
+}
+.n-topology.n-topology-slate:focus {
+  outline: 0 none;
 }
 .n-topology.n-topology-slate svg {
   box-sizing: content-box;
@@ -1532,6 +1544,9 @@
   -o-user-select: none;
   user-select: none;
 }
+.n-topology.n-topology-yellow:focus {
+  outline: 0 none;
+}
 .n-topology.n-topology-yellow svg {
   box-sizing: content-box;
 }
@@ -1828,7 +1843,7 @@
   color: #ffc81a;
 }
 .n-topology.n-topology-yellow .n-topology-nav-zoom-selection-selected {
-  color: #ffce33;
+  color: #ffda66;
 }
 .n-topology.n-topology-yellow .n-topology-nav-fit {
   margin-top: 0px !important;

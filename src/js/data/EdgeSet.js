@@ -46,27 +46,33 @@
                     return this._visible !== undefined ? this._visible : true;
                 },
                 set: function (value) {
+                    if (this._visible !== value) {
+                        this._visible = value;
 
-                    var visible;
+                        var visible;
 
-                    if (value && (this.source().visible() && this.target().visible())) {
-                        visible = true;
+                        if (value && (this.source().visible() && this.target().visible())) {
+                            visible = true;
+                        } else {
+                            visible = false;
+                        }
+
+
+                        nx.each(this.edges(), function (edge) {
+                            edge.visible(visible);
+                        });
+
+
+                        if (this._visible !== undefined || this._visible !== value) {
+                            this.updated(true);
+                        }
+
+                        this._visible = visible;
+
+                        return true;
                     } else {
-                        visible = false;
+                        return false;
                     }
-
-
-                    nx.each(this.edges(), function (edge) {
-                        edge.visible(visible);
-                    });
-
-
-                    if (this._visible !== undefined || this._visible !== value) {
-                        this.updated(true);
-                    }
-
-                    this._visible = visible;
-
                 }
             },
             activated: {
@@ -194,6 +200,17 @@
 
                 return edgeSet !== undefined;
 
+            },
+            removeAllEdges: function () {
+                var graph = this.graph();
+                nx.each(this.edges(), function (edge) {
+                    edge.generated(false);
+                    if (edge.type() == 'edge') {
+                        graph.fire('removeEdge', edge);
+                    } else if (edge.type() == 'edgeSet') {
+                        graph.fire('removeEdgeSet', edge);
+                    }
+                });
             }
         }
 

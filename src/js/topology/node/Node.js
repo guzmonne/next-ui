@@ -125,7 +125,7 @@
                     this.$('label').setStyle('fill', value);
                 }
             },
-            useSmartLabel: {
+            enableSmartLabel: {
                 value: true
             },
             enable: {
@@ -335,7 +335,7 @@
              * @method calcLabelPosition
              */
             calcLabelPosition: function () {
-                if (this.useSmartLabel()) {
+                if (this.enableSmartLabel()) {
                     if (this._centralizedTextTimer) {
                         clearTimeout(this._centralizedTextTimer);
                     }

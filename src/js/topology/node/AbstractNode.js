@@ -143,16 +143,16 @@
                     return this.model().id();
                 }
             },
-            visible: {
-                set: function (value) {
-                    if (value) {
-                        this.fire("show", this);
-                    } else {
-                        this.fire("hide", this);
-                    }
-                    this._visible = value;
-                }
-            },
+//            visible: {
+//                set: function (value) {
+//                    if (value) {
+//                        this.fire("show", this);
+//                    } else {
+//                        this.fire("hide", this);
+//                    }
+//                    this._visible = value;
+//                }
+//            },
             /**
              * Get/set node's usablity
              * @property enable

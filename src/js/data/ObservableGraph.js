@@ -487,8 +487,6 @@
                         target: target,
                         sourceID: sourceID,
                         targetID: targetID,
-                        linkKey: linkKey,
-                        reverseLinkKey: reverseLinkKey,
                         graph: this
                     });
                     if (inOption) {
@@ -506,6 +504,9 @@
 
                     var edgeSet = edgeSetMap[linkKey] || edgeSetMap[reverseLinkKey];
                     if (!edgeSet) {
+                        if (linkKey == '1_0') {
+                            debugger;
+                        }
                         edgeSet = this._addEdgeSet({
                             source: source,
                             target: target,
@@ -517,6 +518,11 @@
                     } else {
                         edgeSet.updated(true);
                     }
+
+                    edge.sets({
+                        linkKey: edgeSet.linkKey(),
+                        reverseLinkKey: edgeSet.reverseLinkKey()
+                    })
 
                     edgeSet.addEdge(edge);
                     edge.parentEdgeSet(edgeSet);
@@ -613,6 +619,9 @@
 
                     nx.each(internalVertices, function (vertex) {
                         vertex.visible(false);
+                        if (vertex.activated) {
+                            vertex._activated = true;
+                        }
                     });
 
 
@@ -632,7 +641,7 @@
                 }
 
                 vertexSet.addEdgeSet(EdgeSet);
-                vertexSet.activated(true);
+                vertexSet._activated = true;
                 return addedVirtualEdgeSet;
             },
             /**

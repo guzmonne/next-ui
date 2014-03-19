@@ -216,7 +216,7 @@
             },
             clickNodeSet: function (sender, nodeSet) {
                 this._recover();
-                nodeSet.collapsed(!nodeSet.collapsed());
+                nodeSet.collapsed(!!!nodeSet.collapsed());
             },
 
             enterNodeSet: function (sender, nodeSet) {
@@ -233,6 +233,28 @@
                 if (!this._nodeDragging) {
                     this._recover();
                 }
+            },
+            expandNodeSet: function (sender, nodeSet) {
+                nodeSet.visible(false);
+                clearTimeout(this._sceneTimer);
+                this._recover();
+                this.__activeNodeSet = nodeSet;
+            },
+            collapseNodeSet: function (sender, nodeSet) {
+                nodeSet.visible(true);
+            },
+            right: function (sender, events) {
+                if (this.__activeNodeSet) {
+                    this.__activeNodeSet.collapsed(false);
+                }
+            },
+            left: function (sender, events) {
+                if (this.__activeNodeSet) {
+                    this.__activeNodeSet.collapsed(true);
+                }
+            },
+            topologyGenerated: function () {
+                this._topo.adjustLayout();
             },
             _recover: function () {
                 this._nodesLayer.recover();

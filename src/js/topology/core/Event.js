@@ -1,7 +1,7 @@
 (function (nx, util, global) {
 
     nx.define('nx.graphic.Topology.Event', {
-        events: ['clickStage', 'pressStage', 'dragStageStart', 'dragStage', 'dragStageEnd'],
+        events: ['clickStage', 'pressStage', 'dragStageStart', 'dragStage', 'dragStageEnd', 'up', 'down', 'left', 'right', 'esc', 'space', 'enter'],
         properties: {
         },
         methods: {
@@ -76,6 +76,43 @@
             },
             _dragStageEnd: function (sender, event) {
                 this.fire('dragStageEnd', event);
+            },
+            _key: function (sender, event) {
+                var code = event.keyCode;
+                switch (code) {
+                    case 38:
+                        this.fire('up', event);
+                        event.preventDefault();
+                        break;
+                    case 40:
+                        this.fire('down', event);
+                        event.preventDefault();
+                        break;
+                    case 37:
+                        this.fire('left', event);
+                        event.preventDefault();
+                        break;
+                    case 39:
+                        this.fire('right', event);
+                        event.preventDefault();
+                        break;
+                    case 13:
+                        this.fire('enter', event);
+                        event.preventDefault();
+                        break;
+                    case 27:
+                        this.fire('esc', event);
+                        event.preventDefault();
+                        break;
+                    case 32:
+                        this.fire('space', event);
+                        event.preventDefault();
+                        break;
+                }
+
+
+
+                return false;
             }
 
         }

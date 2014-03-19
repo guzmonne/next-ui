@@ -46,65 +46,73 @@
             },
             activated: {
                 get: function () {
-                    return this._activated;
+                    return this._activated !== undefined ? this._activated : null;
                 },
                 set: function (value) {
-                    var graph = this.graph();
+                    if (this._activated !== value) {
+                        this._activated = value;
+                        var graph = this.graph();
 
 
-                    nx.each(this.vertices(), function (vertex) {
-                        vertex.visible(!value);
-                        if (value) {
-                            if (vertex.generated()) {
-                                vertex.generated(false);
-                                if (vertex.type() == 'vertex') {
-                                    graph.fire('removeVertex', vertex);
-                                } else {
-                                    graph.fire('removeVertexSet', vertex);
+                        nx.each(this.vertices(), function (vertex) {
+                            vertex.visible(!value);
+                            if (value) {
+                                if (vertex.generated()) {
+                                    vertex.generated(false);
+                                    if (vertex.type() == 'vertex') {
+                                        graph.fire('removeVertex', vertex);
+                                    } else {
+                                        graph.fire('removeVertexSet', vertex);
+                                    }
+                                }
+                            } else {
+                                if (!vertex.generated()) {
+                                    vertex.generated(true);
+                                    if (vertex.type() == 'vertex') {
+                                        graph.fire('addVertex', vertex);
+                                    } else {
+                                        graph.fire('addVertexSet', vertex);
+                                    }
                                 }
                             }
-                        } else {
-                            if (!vertex.generated()) {
-                                vertex.generated(true);
-                                if (vertex.type() == 'vertex') {
-                                    graph.fire('addVertex', vertex);
-                                } else {
-                                    graph.fire('addVertexSet', vertex);
+                        }, this);
+
+
+                        nx.each(this.edges.concat(this.reverseEdges), function (edge) {
+                            var edgeset = edge.parentEdgeSet();
+                            edgeset.visible(value);
+                            if (value) {
+                                if (!edgeset.generated()) {
+                                    edgeset.generated(true);
+                                    graph.fire('addEdgeSet', edgeset);
                                 }
+
+                            } else {
+                                edgeset.generated(false);
+                                graph.fire('removeEdgeSet', edgeset);
+                                edgeset._activated = null;
                             }
-                        }
-                    }, this);
+                        }, this);
 
 
-                    nx.each(this.getConnectedEdgeSet(), function (edgeset) {
-                        edgeset.visible(value);
-                        if (value) {
-                            edgeset.generated(false);
-                            graph.fire('removeEdgeSet', edgeset);
-                        } else {
-                            if (!edgeset.generated()) {
-                                edgeset.generated(true);
-                                graph.fire('addEdgeSet', edgeset);
+                        nx.each(this.edgeSetMap(), function (edgeset) {
+                            edgeset.visible(!value);
+                            if (value) {
+                                edgeset.generated(false);
+                                graph.fire('removeEdgeSet', edgeset);
+                                edgeset._activated = null;
+                            } else {
+                                if (!edgeset.generated()) {
+                                    edgeset.generated(true);
+                                    graph.fire('addEdgeSet', edgeset);
+                                }
+                                edgeset.visible(true);
                             }
-                        }
-                    });
-
-
-                    nx.each(this.edgeSetMap(), function (edgeset) {
-                        edgeset.visible(!value);
-                        if (value) {
-                            edgeset.generated(false);
-                            graph.fire('removeEdgeSet', edgeset);
-                        } else {
-                            if (!edgeset.generated()) {
-                                edgeset.generated(true);
-                                graph.fire('addEdgeSet', edgeset);
-                            }
-                        }
-                    }, this);
-
-
-                    this._activated = value;
+                        }, this);
+                        return true;
+                    } else {
+                        return false;
+                    }
                 }
             },
             edgeSetMap: {

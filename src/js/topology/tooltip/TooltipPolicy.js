@@ -25,7 +25,7 @@
                 this._tm.openLinkSetTooltip(linkSet);
             },
             dragStageStart: function () {
-                this._tm.closeAll();
+               // this._tm.closeAll();
             }
         }
     });
