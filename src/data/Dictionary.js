@@ -81,8 +81,8 @@
                     });
                 }
 
-                this._keys = new KeyIterator(dict);
-                this._values = new ValueIterator(dict);
+                this._keys = new KeyIterator(this);
+                this._values = new ValueIterator(this);
             },
             /**
              * @method contains
