@@ -65,8 +65,8 @@
 
                 var text = this.view('text');
                 text.sets({
-                    x: bound.left - translate.x + bound.width / 2,
-                    y: bound.top - translate.y - 3
+                    x: bound.left + bound.width / 2,
+                    y: bound.top - 3
                 });
                 text.view().dom().setStyle('fill', this.color());
             },
