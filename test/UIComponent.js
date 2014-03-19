@@ -13,7 +13,10 @@ nx.define("wq.button", nx.ui.Component, {
     events:['aclick','bclick'],
     view: {
         tag: 'button',
-        content: '{test}'
+        content: '{test}',
+        events:{
+            click:'{#onclick}'
+        }
 
     },
     properties: {
@@ -33,6 +36,9 @@ nx.define("wq.button", nx.ui.Component, {
         },
         bclick: function () {
             this.bclickflag(true);
+        },
+        onclick:function(){
+            this.fire('aclick');
         }
 
     }

@@ -117,6 +117,11 @@
         return null;
     }
 
+    /**
+     * @class Collection
+     * @namespace nx.ui
+     * @extends nx.Observable
+     */
     var AbstractComponent = nx.define('nx.ui.AbstractComponent', nx.Observable, {
         abstract: true,
         statics: {
@@ -124,6 +129,10 @@
         },
         events: ['enter', 'leave', 'contententer', 'contentleave'],
         properties: {
+            /**
+             * @property count
+             * @type {nx.data.Collection}
+             */
             content: {
                 get: function () {
                     return this._content;
@@ -145,6 +154,10 @@
                     }
                 }
             },
+            /**
+             * @property model
+             * @type {Any}
+             */
             model: {
                 get: function () {
                     return this._model || this._inheritedModel;
@@ -164,9 +177,17 @@
                     });
                 }
             },
+            /**
+             * @property owner
+             * @type {nx.ui.AbstractComponent}
+             */
             owner: {
                 value: null
             },
+            /**
+             * @property parent
+             * @type {nx.ui.AbstractComponent}
+             */
             parent: {
                 value: null
             }
@@ -177,6 +198,12 @@
                 this._resources = {};
                 this._content = new Collection();
             },
+            /**
+             * Attach the component to parent.
+             * @method attach
+             * @param parent
+             * @param index
+             */
             attach: function (parent, index) {
                 this.detach();
 
@@ -219,6 +246,10 @@
                     }
                 }
             },
+            /**
+             * Detach the component from parent.
+             * @method detach
+             */
             detach: function () {
                 if (this._attached) {
                     var name = this.resolve('@name');
@@ -245,32 +276,48 @@
                     this._attached = false;
                 }
             },
-            onAttach: function (parent, index) {
-            },
-            onDetach: function (parent) {
-            },
-            onChildAttach: function (child, index) {
-            },
-            onChildDetach: function (child) {
-            },
+            /**
+             * Register a resource.
+             * @method register
+             * @param name
+             * @param value
+             * @param force
+             */
             register: function (name, value, force) {
                 var resources = this._resources;
                 if (!(name in resources) || force) {
                     resources[name] = value;
                 }
             },
+            /**
+             * Unregister a resource.
+             * @method unregister
+             * @param name
+             */
             unregister: function (name) {
                 var resources = this._resources;
                 if (name in resources) {
                     delete resources[name];
                 }
             },
+            /**
+             * Resolve a resource.
+             * @method resolve
+             * @param name
+             * @returns {Any}
+             */
             resolve: function (name) {
                 var resources = this._resources;
                 if (name in resources) {
                     return resources[name];
                 }
             },
+            /**
+             * Get the container for component.
+             * @method getContainer
+             * @param comp
+             * @returns {nx.dom.Element}
+             */
             getContainer: function (comp) {
                 if (this.resolve('@tag') === 'fragment') {
                     var parent = this.parent();
@@ -281,6 +328,10 @@
 
                 return this.resolve('@root');
             },
+            /**
+             * Dispose the component.
+             * @method dispose
+             */
             dispose: function () {
                 this.inherited();
                 this.content().each(function (content) {
@@ -291,13 +342,46 @@
                 this._model = null;
                 this._inheritedModel = null;
             },
+            /**
+             * Destroy the component.
+             * @method destroy
+             */
             destroy: function () {
                 this.detach();
                 this.inherited();
+            },
+            /**
+             * Template method for component attach.
+             * @method onAttach
+             */
+            onAttach: function (parent, index) {
+            },
+            /**
+             * Template method for component detach.
+             * @method onDetach
+             */
+            onDetach: function (parent) {
+            },
+            /**
+             * Template method for child component attach.
+             * @method onChildAttach
+             */
+            onChildAttach: function (child, index) {
+            },
+            /**
+             * Template method for child component detach.
+             * @method onChildDetach
+             */
+            onChildDetach: function (child) {
             }
         }
     });
 
+    /**
+     * @class CssClass
+     * @extends nx.Observable
+     * @internal
+     */
     var CssClass = nx.define(nx.Observable, {
         methods: {
             init: function (comp) {
@@ -350,6 +434,11 @@
         }
     });
 
+    /**
+     * @class CssStyle
+     * @extends nx.Observable
+     * @internal
+     */
     var CssStyle = nx.define(nx.Observable, {
         methods: {
             init: function (comp) {
@@ -369,13 +458,18 @@
         }
     });
 
-    var DOMEvent = nx.define({
-
-    });
-
+    /**
+     * @class DOMComponent
+     * @extends nx.ui.AbstractComponent
+     * @internal
+     */
     var DOMComponent = nx.define(AbstractComponent, {
         final: true,
         properties: {
+            /**
+             * @property class
+             * @type {CssClass}
+             */
             'class': {
                 get: function () {
                     return this._class;
@@ -403,6 +497,10 @@
                     }
                 }
             },
+            /**
+             * @property style
+             * @type {CssStyle}
+             */
             style: {
                 get: function () {
                     return this._style;
@@ -419,6 +517,9 @@
                     }
                 }
             },
+            /**
+             * @property template
+             */
             template: {
                 get: function () {
                     return this._template;
@@ -428,6 +529,9 @@
                     this._generateContent();
                 }
             },
+            /**
+             * @property items
+             */
             items: {
                 get: function () {
                     return this._items;
@@ -445,6 +549,9 @@
                     this._generateContent();
                 }
             },
+            /**
+             * @property value
+             */
             value: {
                 get: function () {
                     return this.resolve('@root').get('value');
@@ -456,9 +563,15 @@
                     direction: '<>'
                 }
             },
+            /**
+             * @property states
+             */
             states: {
                 value: null
             },
+            /**
+             * @property dom
+             */
             dom: {
                 get: function () {
                     return this.resolve('@root');
@@ -547,12 +660,6 @@
                 this._attachDomListener(name);
                 this.inherited(name, handler, context);
             },
-            /**
-             * Trigger an event.
-             * @method fire
-             * @param name {String}
-             * @param [data] {*}
-             */
             fire: function (name, data) {
                 var listeners = this.__listeners__[name], listener, result;
                 if (listeners) {
