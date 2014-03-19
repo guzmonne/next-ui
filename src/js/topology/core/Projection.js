@@ -472,10 +472,10 @@
             getAbsolutePosition: function (point) {
                 var tx = this.stage().translateX();
                 var ty = this.stage().translateY();
-                var bound = this.view().dom().getBound();
+                var offset = this.view().dom().getOffset();
                 return {
-                    x: tx + point.x + bound.left,
-                    y: ty + point.y + bound.top
+                    x: tx + point.x + offset.left,
+                    y: ty + point.y + offset.top
                 };
             },
             adjustLayout: function () {

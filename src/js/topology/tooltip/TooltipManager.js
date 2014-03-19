@@ -169,7 +169,8 @@
                 instance.sets({
                     topology: topology,
                     tooltipManager: this,
-                    model: topology.graph()
+                    model: topology.graph(),
+                    'data-tooltip-type': name
                 });
                 tooltips.setItem(name, instance);
             },
@@ -336,6 +337,7 @@
                 }
 
                 var pos = position || topo.getAbsolutePosition(linkSet.centerPoint());
+                var stageBound = topo.view().dom().getBound();
 
 
                 var contentClass = nx.path(global, this.linkSetTooltipContentClass());
@@ -355,7 +357,8 @@
 
                 linkSetTooltip.open({
                     target: pos,
-                    offset: 4
+                    offsetX: 0,
+                    offsetY: 8
                 });
 
 

@@ -19,35 +19,34 @@
             },
             topology: {}
         },
-        view: {
-            content: [
-                {
+        view: [
+            {
+                props: {
+                    style: {
+                        'maxHeight': '247px',
+                        'overflow': 'auto',
+                        'overflow-x': 'hidden'
+                    }
+                },
+                content: {
+                    name: 'list',
                     props: {
-                        style: {
-                            'maxHeight': '247px',
-                            'overflow': 'auto'
-                        }
-                    },
-                    content: {
-                        name: 'list',
-                        props: {
-                            'class': 'list-group',
-                            style: 'width:200px',
-                            template: {
-                                tag: 'a',
-                                props: {
-                                    'class': 'list-group-item'
-                                },
-                                content: '{item}',
-                                events: {
-                                    'click': '{#_click}'
-                                }
+                        'class': 'list-group',
+                        style: 'width:200px',
+                        template: {
+                            tag: 'a',
+                            props: {
+                                'class': 'list-group-item'
+                            },
+                            content: '{item}',
+                            events: {
+                                'click': '{#_click}'
                             }
                         }
                     }
                 }
-            ]
-        },
+            }
+        ],
         methods: {
             _click: function (sender, events) {
                 var link = sender.model().edge;
