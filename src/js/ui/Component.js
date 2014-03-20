@@ -1,6 +1,11 @@
 (function (nx) {
     var AbstractComponent = nx.ui.AbstractComponent;
 
+    /**
+     * @class Component
+     * @namespace nx.ui
+     * @extends nx.ui.AbstractComponent
+     */
     nx.define('nx.ui.Component', AbstractComponent, {
         properties: {
             model: {

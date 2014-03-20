@@ -2,6 +2,11 @@
     var global = nx.global;
     var Document = nx.dom.Document;
 
+    /**
+     * @class Application
+     * @namespace nx.ui
+     * @extends nx.ui.AbstractComponent
+     */
     nx.define('nx.ui.Application', nx.ui.AbstractComponent, {
         methods: {
             init: function () {
@@ -24,9 +29,17 @@
 
                 this._globalListeners = {};
             },
+            /**
+             * Start the application.
+             * @method start
+             */
             start: function () {
                 throw new Error('Method "start" is not implemented');
             },
+            /**
+             * Stop the application.
+             * @method stop
+             */
             stop: function () {
                 throw new Error('Method "stop" is not implemented');
             },
