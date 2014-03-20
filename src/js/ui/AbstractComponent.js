@@ -691,7 +691,7 @@
 
                 if (template && items) {
                     nx.each(items, function (item) {
-                        var comp = createComponent(template, template.__owner__ || this.owner());
+                        var comp = createComponent(template, this.owner());
                         comp.model(item);
                         comp.attach(this);
                     }, this);
@@ -704,7 +704,7 @@
                 index = index >= 0 ? index : -1;
                 if (action === 'add') {
                     nx.each(event.items, function (item, i) {
-                        var comp = createComponent(template, template.__owner__ || this.owner());
+                        var comp = createComponent(template, this.owner());
                         comp.model(item);
                         comp.attach(this, index + i);
                     }, this);
