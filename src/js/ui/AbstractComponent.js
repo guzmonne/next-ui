@@ -125,6 +125,11 @@
     var AbstractComponent = nx.define('nx.ui.AbstractComponent', nx.Observable, {
         abstract: true,
         statics: {
+            /**
+             * Create component by json view.
+             * @method createComponent
+             * @static
+             */
             createComponent: createComponent
         },
         events: ['enter', 'leave', 'contententer', 'contentleave'],
