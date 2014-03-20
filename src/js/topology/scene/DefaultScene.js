@@ -24,10 +24,12 @@
              * @method activate
              */
 
-            activate: function (args) {
+            activate: function () {
                 this.__construct();
                 var topo = this._topo;
                 var tooltipManager = this._tooltipManager;
+
+                tooltipManager.activated(true);
 
                 nx.each(topo.__events__, this._aop = function (eventName) {
                     topo.upon(eventName, function (sender, data) {

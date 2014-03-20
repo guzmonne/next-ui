@@ -10,7 +10,7 @@
         /**
          * @event selectNode
          */
-        events: ['selectNode','selectNodeSet'],
+        events: ['selectNode', 'selectNodeSet'],
         properties: {
             /**
              * Get all selected nodes
@@ -23,12 +23,25 @@
             }
         },
         methods: {
+
+            activate: function () {
+                this.inherited();
+                var tooltipManager = this._tooltipManager;
+                tooltipManager.activated(false);
+            },
+
+
             pressStage: function () {
                 var selectedNodes = this.selectedNodes();
                 var multi = this._multi = event.metaKey || event.ctrlKey;
                 if (!multi) {
                     selectedNodes.clear();
                 }
+            },
+            enterNode: function () {
+
+            },
+            clickNode: function (sender, node) {
             },
             dragStageStart: function (sender, event) {
                 this.inherited(sender, event);

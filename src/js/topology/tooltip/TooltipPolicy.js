@@ -13,7 +13,7 @@
                 this._tm = this.tooltipManager();
             },
             pressStage: function () {
-                //this._tm.closeAll();
+                this._tm.closeAll();
             },
             zooming: function () {
                 this._tm.closeAll();
@@ -22,7 +22,7 @@
                 this._tm.openNodeTooltip(node);
             },
             clickLinkSetNumber: function (linkSet) {
-                //this._tm.openLinkSetTooltip(linkSet);
+                this._tm.openLinkSetTooltip(linkSet);
             },
             dragStageStart: function () {
                this._tm.closeAll();

@@ -99,7 +99,10 @@
             tooltipPolicyClass: {
                 value: 'nx.graphic.Topology.TooltipPolicy'
             },
-            tooltipPolicy: {}
+            tooltipPolicy: {},
+            activated: {
+                value: true
+            }
         },
         methods: {
 
@@ -181,9 +184,11 @@
             },
 
             executeAction: function (action, data) {
-                var tooltipPolicy = this.tooltipPolicy();
-                if (tooltipPolicy && tooltipPolicy[action]) {
-                    tooltipPolicy[action].call(tooltipPolicy, data);
+                if (this.activated()) {
+                    var tooltipPolicy = this.tooltipPolicy();
+                    if (tooltipPolicy && tooltipPolicy[action]) {
+                        tooltipPolicy[action].call(tooltipPolicy, data);
+                    }
                 }
             },
             _getNodeAbsolutePosition: function (node) {
