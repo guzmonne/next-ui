@@ -50,7 +50,7 @@
                 comp = new DOMComponent('fragment');
 
                 nx.each(view, function (child) {
-                    createComponent(child).attach(comp);
+                    createComponent(child, owner).attach(comp);
                 });
             }
             else if (nx.is(view, 'Object')) {
