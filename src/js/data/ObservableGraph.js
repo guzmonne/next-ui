@@ -121,7 +121,7 @@
                 /**
                  * Trigger when set data to ObservableGraph
                  * @event setData
-                 * @param {Object} sender event trigger
+                 * @param sender {Object}  event trigger
                  * @param {Object} data data, which been processed by data processor
                  */
 
@@ -149,7 +149,7 @@
                 /**
                  * Trigger when insert data to ObservableGraph
                  * @event insertData
-                 * @param {Object} sender event trigger
+                 * @param sender {Object}  event trigger
                  * @param {Object} data data, which been processed by data processor
                  */
 
@@ -223,7 +223,7 @@
                     vertex.generated(true);
                     /**
                      * @event addVertex
-                     * @param {Object} sender Trigger instance
+                     * @param sender {Object}  Trigger instance
                      * @param {nx.data.Vertex} vertex Vertex object
                      */
                     this.fire('addVertex', vertex);
@@ -255,7 +255,7 @@
 
                 /**
                  * @event removeVertex
-                 * @param {Object} sender Trigger instance
+                 * @param sender {Object}  Trigger instance
                  * @param {nx.data.Vertex} vertex Vertex object
                  */
 
@@ -287,7 +287,7 @@
                         if (!edgeSet.activated()) {
                             /**
                              * @event addEdge
-                             * @param {Object} sender Trigger instance
+                             * @param sender {Object}  Trigger instance
                              * @param {nx.data.Edge} edge Edge object
                              */
                             this.fire('addEdge', edge);
@@ -297,7 +297,7 @@
                         edgeSet.generated(true);
                         /**
                          * @event addEdgeSet
-                         * @param {Object} sender Trigger instance
+                         * @param sender {Object}  Trigger instance
                          * @param {nx.data.EdgeSet} edgeSet EdgeSet object
                          */
                         this.fire('addEdgeSet', edgeSet);
@@ -319,7 +319,7 @@
 
                 /**
                  * @event removeEdge
-                 * @param {Object} sender Trigger instance
+                 * @param sender {Object}  Trigger instance
                  * @param {nx.data.Edge} edge Edge object
                  */
                 this.fire('removeEdge', edge);
@@ -363,7 +363,7 @@
 
                 /**
                  * @event removeEdgeSet
-                 * @param {Object} sender Trigger instance
+                 * @param sender {Object}  Trigger instance
                  * @param {nx.data.EdgeSet} edgeSet EdgeSet object
                  */
                 this.fire('removeEdgeSet', edgeSet);
@@ -387,7 +387,7 @@
                     var addedVirtualEdgeSet = this._processVertexSet(vertexSet);
                     /**
                      * @event addVertexSet
-                     * @param {Object} sender Trigger instance
+                     * @param sender {Object}  Trigger instance
                      * @param {nx.data.VertexSet} vertexSet VertexSet object
                      */
                     this.fire('addVertexSet', vertexSet);
@@ -449,7 +449,7 @@
                 vertex.on('updateCoordinate', function () {
                     /**
                      * @event updateVertexCoordinate
-                     * @param {Object} sender Trigger instance
+                     * @param sender {Object}  Trigger instance
                      * @param {nx.data.Vertex} vertex Vertex object
                      */
                     this.fire('updateVertexCoordinate', vertex);
@@ -562,7 +562,7 @@
                 vertexSet.on('updateCoordinate', function () {
                     /**
                      * @event updateVertexSetCoordinate
-                     * @param {Object} sender Trigger instance
+                     * @param sender {Object}  Trigger instance
                      * @param {nx.data.VertexSet} vertexSet VertexSet object
                      */
                     this.fire('updateVertexSetCoordinate', vertexSet);
@@ -859,7 +859,7 @@
             _generate: function () {
                 /**
                  * @event startGenerate
-                 * @param {Object} sender Trigger instance
+                 * @param sender {Object}  Trigger instance
                  */
                 this.fire('startGenerate');
 
@@ -873,7 +873,7 @@
 
                 /**
                  * @event endGenerate
-                 * @param {Object} sender Trigger instance
+                 * @param sender {Object}  Trigger instance
                  */
                 this.fire('endGenerate');
 
@@ -887,7 +887,7 @@
                     vertex.updated(false);
                     /**
                      * @event updateVertex
-                     * @param {Object} sender Trigger instance
+                     * @param sender {Object}  Trigger instance
                      * @param {nx.data.Vertex} vertex Vertex object
                      */
                     this.fire('updateVertex', vertex);
@@ -901,7 +901,7 @@
                     edge.updated(false);
                     /**
                      * @event updateEdgeSet
-                     * @param {Object} sender Trigger instance
+                     * @param sender {Object}  Trigger instance
                      * @param {nx.data.EdgeSet} edgeSet EdgeSet object
                      */
                     this.fire('updateEdge', edge);
@@ -915,7 +915,7 @@
                     edgeSet.updated(false);
                     /**
                      * @event updateEdgeSet
-                     * @param {Object} sender Trigger instance
+                     * @param sender {Object}  Trigger instance
                      * @param {nx.data.EdgeSet} edgeSet EdgeSet object
                      */
                     this.fire('updateEdgeSet', edgeSet);
@@ -929,7 +929,7 @@
                     vertex.updated(false);
                     /**
                      * @event updateVertexSet
-                     * @param {Object} sender Trigger instance
+                     * @param sender {Object}  Trigger instance
                      * @param {nx.data.VertexSet} vertexSet VertexSet object
                      */
                     this.fire('updateVertexSet', vertex);

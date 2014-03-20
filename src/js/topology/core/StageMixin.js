@@ -2,28 +2,28 @@
     /**
      * Topology stage class
      * @class nx.graphic.Topology.Stage
-     * @extend nx.graphic.Shape
+     * @module nx.graphic.Topology
      */
     nx.define('nx.graphic.Topology.StageMixin', {
         events: ['ready'],
         properties: {
             /**
              * Set/get topology's width.
-             * @property width
+             * @property width {Number}
              */
             width: {
                 value: 0
             },
             /**
              * height Set/get topology's height.
-             * @property height
+             * @property height {Number}
              */
             height: {
                 value: 0
             },
             /**
              * Set/get stage's padding.
-             * @property padding
+             * @property padding {Number}
              */
             padding: {
                 value: 100
@@ -40,6 +40,10 @@
                     return this._paddingTop !== undefined ? this._paddingTop : this.padding();
                 }
             },
+            /**
+             * Get the graphic container's width, include un visible area
+             * @property containerWidth {Number}
+             */
             containerWidth: {
                 get: function () {
                     var w = this.scale() * (this.width() - this.paddingLeft() * 2);
@@ -47,8 +51,8 @@
                 }
             },
             /**
-             * Get visible height
-             * @property stageVisibleHeight
+             * Get the graphic container's height, include un visible area
+             * @property containerHeight {Number}
              */
             containerHeight: {
                 get: function () {
@@ -56,12 +60,20 @@
                     return h < 30 ? 30 : h;
                 }
             },
+            /**
+             * Get the graphic visible container's width
+             * @property visibleContainerWidth {Number}
+             */
             visibleContainerWidth: {
                 get: function () {
                     var w = this.width() - this.paddingLeft() * 2;
                     return w < 30 ? 30 : w;
                 }
             },
+            /**
+             * Get the graphic visible container's height
+             * @property visibleContainerWidth {Number}
+             */
             visibleContainerHeight: {
                 get: function () {
                     var h = this.height() - this.paddingTop() * 2;
@@ -69,13 +81,15 @@
                 }
             },
             /**
-             * @property adaptive
+             * Set to true will adapt to topology's outside container, set to ture will ignore width/height
+             * @property adaptive {Boolean}
              */
             adaptive: {
                 value: false
             },
             /**
-             * @property stage
+             * Get the topology's stage component
+             * @property stage {nx.graphic.Component}
              */
             stage: {
                 get: function () {
@@ -85,12 +99,6 @@
         },
 
         methods: {
-            init: function () {
-            },
-            /**
-             * Set Timer to detect is topology appeared.
-             * @private
-             */
             _adaptiveTimer: function () {
                 var self = this;
                 if (!this.adaptive() && (this.width() !== 0 && this.height() !== 0)) {
@@ -133,6 +141,11 @@
                 }.bind(this), 500);
 
             },
+            /**
+             * Get the passing bound related inside bound,if not passing param will return the topology graphic's bound
+             * @param bound {JSON}
+             * @returns {{left: number, top: number, width: number, height: number}}
+             */
             getInsideBound: function (bound) {
                 var _bound = bound || this.stage().view('stage').getBound();
                 var topoBound = this.view().dom().getBound();
@@ -145,11 +158,11 @@
                 };
             },
             /**
-             * Move topology
+             * Move topology to position
              * @method move
-             * @param x
-             * @param y
-             * @param duration default is 0
+             * @param x {Number}
+             * @param y {Number}
+             * @param [duration] {Number} default is 0
              *
              */
             moveTo: function (x, y, duration) {
@@ -159,8 +172,9 @@
             /**
              * Move topology
              * @method move
-             * @param x
-             * @param y
+             * @param x {Number}
+             * @param y {Number}
+             * @param [duration] {Number} default is 0
              */
             move: function (x, y, duration) {
                 var stage = this.stage();

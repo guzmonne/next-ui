@@ -9,11 +9,16 @@
         events: [],
         properties: {
             /**
-             * @property status
+             * Topology status
+             * @property status {String}
              */
             status: {
-                value: 0
+                value: 'initializing'
             },
+            /**
+             * topology's theme, it could be blue/green/dark/slate/yellow
+             * @property theme {String}
+             */
             theme: {
                 get: function () {
                     return this._theme || 'blue';
@@ -29,18 +34,20 @@
                 }
             },
             /**
-             * @property showNavigation
+             * Set the navigation visibility
+             * @property showNavigation {Boolean}
              */
             showNavigation: {
                 value: true
             },
-            /**
-             * Set show/hide thumbnail
-             * @property showThumbnail
-             */
             showThumbnail: {
                 value: false
             },
+            /**
+             * Get the setting panel component instance for extend user setting
+             * @property viewSettingPanel {nx.ui.Component}
+             * @readonly
+             */
             viewSettingPanel: {
                 get: function () {
                     return this.resolve("nav").resolve("customize");

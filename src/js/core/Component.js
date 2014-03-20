@@ -29,20 +29,20 @@
         /**
          * Fire when drag start
          * @event dragstart
-         * @param {Object} sender Trigger instance
-         * @param {Object} original event object
+         * @param sender {Object}  Trigger instance
+         * @param event {Object} original event object
          */
         /**
          * Fire when drag move
          * @event dragmove
-         * @param {Object} sender Trigger instance
-         * @param {Object} original event object , include delta[x,y] for the shift
+         * @param sender {Object}  Trigger instance
+         * @param event {Object} original event object , include delta[x,y] for the shift
          */
         /**
          * Fire when drag end
          * @event dragend
-         * @param {Object} sender Trigger instance
-         * @param {Object} original event object
+         * @param sender {Object}  Trigger instance
+         * @param event {Object} original event object
          */
         events: ['mouseenter', 'mouseleave', 'dragstart', 'dragmove', 'dragend'],
         properties: {
@@ -260,8 +260,8 @@
                     /**
                      * Fire when mouse leave
                      * @event mouseenter
-                     * @param {Object} sender Trigger instance
-                     * @param {Object} original event object
+                     * @param sender {Object}  Trigger instance
+                     * @param event {Object} original event object
                      */
                     this.fire("mouseleave", event);
                 }
@@ -274,8 +274,8 @@
                     /**
                      * Fire when mouse enter
                      * @event mouseenter
-                     * @param {Object} sender Trigger instance
-                     * @param {Object} original event object
+                     * @param sender {Object}  Trigger instance
+                     * @param event {Object} original event object
                      */
                     this.fire("mouseenter", event);
                 }
@@ -343,10 +343,12 @@
                 }
                 ani.on("complete", function () {
                     /**
-                     * Fire when animation is complete
-                     * @event animationComplete
+                     * Fired when animation completed
+                     * @event animationCompleted
+                     * @param sender {Object}  Trigger instance
+                     * @param event {Object} original event object
                      */
-                    this.fire("animationComplete");
+                    this.fire("animationCompleted");
                 }, this);
                 ani.start();
             }

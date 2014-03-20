@@ -1,28 +1,38 @@
 (function (nx, util, global) {
 
+    /**
+     * Topology projection class
+     * @class nx.graphic.Topology.Projection
+     * @module nx.graphic.Topology
+     */
+
     nx.define("nx.graphic.Topology.Projection", {
         events: ['projectionChange', 'zooming', 'zoomend', 'resetzooming'],
         properties: {
             /**
-             * @property maxScale
+             * Topology max scaling
+             * @property maxScale {Number}
              */
             maxScale: {
                 value: 12
             },
             /**
-             * @property minScale
+             * Topology min scaling
+             * @property minScale {Number}
              */
             minScale: {
                 value: 0.2
             },
             /**
-             * @property scalable
+             * Set/get topology's scalability
+             * @property scalable {Boolean}
              */
             scalable: {
                 value: true
             },
             /**
-             * @property scale
+             * Set/get topology's current scale
+             * @property scale {Number}
              */
             scale: {
                 get: function () {
@@ -37,7 +47,8 @@
             },
             /**
              * Auto detect node overlap
-             * @property autoRevision
+             * @property revisionScale {Number}
+             * @readonly
              */
             revisionScale: {
                 get: function () {
@@ -63,7 +74,9 @@
                 }
             },
             /**
-             * @property projectionX
+             * Get topology x axle projection
+             * @property projectionX {nx.data.Projection}
+             * @readonly
              */
             projectionX: {
                 value: function () {
@@ -71,32 +84,49 @@
                 }
             },
             /**
-             * @property projectionY
+             * Get topology y axle projection
+             * @property projectionY {nx.data.Projection}
+             * @readonly
              */
             projectionY: {
                 value: function () {
                     return new nx.data.Projection();
                 }
             },
+            /**
+             * Set/get is topology use projection, or just use the data's original position information
+             * @property useProjection {Boolean}
+             */
             useProjection: {
                 value: true
             },
+            /**
+             * Set the x projection input range e.g. [0,100]
+             * @projectionXRange {Array}
+             */
             projectionXRange: {
             },
+            /**
+             * Set the y projection input range e.g. [0,100]
+             * @projectionYRange {Array}
+             */
             projectionYRange: {
             },
+            /**
+             * Enabling gradual scaling feature when zooming, set to false will improve the performance
+             * @enableGradualScaling {Boolean}
+             */
             enableGradualScaling: {
                 value: true
             },
+            /**
+             * Enabling the smart node feature, set to false will improve the performance
+             */
             enableSmartNode: {
                 value: true
             }
         },
         methods: {
-            /**
-             * Set input of topology scaling, input is from data,output is stage
-             * @private
-             */
             _setProjection: function (force, isNotify) {
                 var graph = this.graph();
                 var visibleContainerWidth = this.containerWidth();
@@ -237,15 +267,39 @@
 
 
                 if (isNotify !== false && isUpdate) {
+                    /**
+                     * Fired when topology projection changed
+                     * @event projectionChange
+                     * @param sender{Object} trigger instance
+                     * @param event {Object} original event object
+                     */
                     this.fire("projectionChange");
                 }
             },
+            /**
+             * Get a x axle projected value, eg, you pass a model's x position value, will return the x position on the screen
+             * @method getProjectedX
+             * @param value {Number}
+             * @returns {Number}
+             */
             getProjectedX: function (value) {
                 return this.projectionX().get(value) || value;
             },
+            /**
+             * Get a y axle projected value, eg, you pass a model's x position value, will return the y position on the screen
+             * @method getProjectedY
+             * @param value {Number}
+             * @returns {Number}
+             */
             getProjectedY: function (value) {
                 return this.projectionY().get(value) || value;
             },
+            /**
+             * Get a projected positon object, eg, you pass a model's position value, will return the position on the screen
+             * @method getProjectedPosition
+             * @param position {Object}
+             * @returns {Object}
+             */
             getProjectedPosition: function (position) {
                 return{
                     x: this.projectionX().get(position.x),
@@ -296,11 +350,23 @@
                     if (inFN) {
                         inFN.call(this);
                     }
+                    /**
+                     * Fired when zooming is end
+                     * @event zoomend
+                     * @param sender{Object} trigger instance
+                     * @param event {Object} original event object
+                     */
                     this.fire("zoomend");
 
                     stage.off('transitionend', completeFN, this);
                 }.bind(this);
 
+                /**
+                 * Fired when zooming the topology
+                 * @event zooming
+                 * @param sender{Object} trigger instance
+                 * @param event {Object} original event object
+                 */
                 this.fire("zooming");
 
                 stage.setTransform(translate.x, translate.y, scale / finialScale, inAnimationTime || 0);
@@ -347,6 +413,12 @@
                             stage.setTransform(translate.x, translate.y, scale / finialScale, 0);
                         } else {
                             resetScaleFN.call(this);
+                            /**
+                             * If enabled enableGradualScaling, this event will fired when reset the scaling during zooming
+                             * @event resetzooming
+                             * @param sender{Object} trigger instance
+                             * @param event {Object} original event object
+                             */
                             this.fire("resetzooming");
                         }
                     } else {
@@ -369,7 +441,7 @@
 
             /**
              * Zoom topology
-             * @param value
+             * @param value {Number}
              * @method zoom
              */
             zoom: function (value) {
@@ -378,7 +450,7 @@
             },
 
             /**
-             * Make topology fit stage
+             * Make topology graphic fit stage
              * @method fit
              */
             fit: function (callback, duration) {
@@ -391,6 +463,14 @@
                     }
                 }, {x: 30, y: 30}, duration); //for fix
             },
+            /**
+             * Zoom topology by a bound
+             * @method zoomByBound
+             * @param inBound {Object} e.g {left:Number,top:Number,width:Number,height:Number}
+             * @param [callback] {Function} callback function
+             * @param [offset] {Object} set the bound calculation offset
+             * @param [duration] {Number} set the transition time, unit is second
+             */
             zoomByBound: function (inBound, callback, offset, duration) {
                 var stage = this.stage();
                 var width = this.visibleContainerWidth();
@@ -454,8 +534,12 @@
                 this.notify('scale');
 
             },
-
-            zoomByNodes: function (nodes, callback) {
+            /**
+             * Zoom topology to let the passing nodes just visible at the screen
+             * @method zoomByNodes
+             * @param nodes [Array] nodes collection
+             */
+            zoomByNodes: function (nodes) {
                 var bound = this.getBoundByNodes(nodes);
                 this.zoomByBound(bound, this._recoverStageScale.bind(this));
 
@@ -469,8 +553,9 @@
             },
 
             /**
-             * Detect nodes overlap and notify appropriate scale value
-             * @method adjustLayout
+             * Get absolute position in the screen of topology's elements
+             * @method getAbsolutePosition
+             * @param point {Object} inside point position
              */
 
             getAbsolutePosition: function (point) {
@@ -482,6 +567,10 @@
                     y: ty + point.y + offset.top
                 };
             },
+            /**
+             * If enable enableSmartNode, this function will auto adjust the node's overlapping and set the nodes to right size
+             * @method adjustLayout
+             */
             adjustLayout: function () {
 
 

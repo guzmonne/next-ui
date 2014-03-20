@@ -1,10 +1,16 @@
 (function (nx, util, global) {
 
+    /**
+     * Topology graph model class
+     * @class nx.graphic.Topology.Graph
+     * @module nx.graphic.Topology
+     */
     nx.define("nx.graphic.Topology.Graph", {
         events: ['beforeSetData', 'afterSetData', 'insertData', 'topologyGenerated'],
         properties: {
             /**
-             * @property identityKey
+             * Identity the node and link mapping key, default is index
+             * @property identityKey {String}
              */
             identityKey: {
                 get: function () {
@@ -15,6 +21,10 @@
                     this.graph().set('identityKey', value);
                 }
             },
+            /**
+             * set/get the topology' data, data should follow Common Topology Data Definition
+             * @property data {JSON}
+             */
             data: {
                 get: function () {
                     return this.graph().getData();
@@ -22,6 +32,12 @@
                 set: function (value) {
 
                     var fn = function (data) {
+                        /**
+                         * Fired before start process data
+                         * @event beforeSetData
+                         * @param sender {Object} Trigger instance
+                         * @param data {JSON}  event object
+                         */
                         this.fire("beforeSetData", data);
                         this.clear();
                         this.graph().sets({
@@ -31,6 +47,12 @@
                         // set Data;
                         this.graph().setData(data);
                         //
+                        /**
+                         * Fired after process data
+                         * @event afterSetData
+                         * @param sender{Object} trigger instance
+                         * @param event {Object} original event object
+                         */
                         this.fire("afterSetData", data);
                     };
 
@@ -45,7 +67,8 @@
                 }
             },
             /**
-             * @property autoLayout
+             * Set the use force layout, recommand use dataProcessor:'force'
+             * @property autoLayout {Boolean}
              */
             autoLayout: {
                 get: function () {
@@ -60,6 +83,10 @@
                     }
                 }
             },
+            /**
+             * Node x position mutator function, it is a array with two function item, first is setter and another is getter
+             * @property xMutatorMethod {Array}
+             */
             xMutatorMethod: {
                 get: function () {
                     return this._xMutatorMethod || false;
@@ -69,6 +96,10 @@
                     this.graph().set('xMutatorMethod', value);
                 }
             },
+            /**
+             * Node y position mutator function, it is a array with two function item, first is setter and another is getter
+             * @property yMutatorMethod {Array}
+             */
             yMutatorMethod: {
                 get: function () {
                     return this._yMutatorMethod || false;
@@ -78,6 +109,10 @@
                     this.graph().set('yMutatorMethod', value);
                 }
             },
+            /**
+             * Pre data processor, it could be 'force'/'quick'. It could also support register a new processor
+             * @property dataProcessor {String}
+             */
             dataProcessor: {
                 get: function () {
                     return this._dataProcessor || false;
@@ -87,6 +122,11 @@
                     this.graph().set('dataProcessor', value);
                 }
             },
+            /**
+             * Topology graph object
+             * @property graph {nx.data.ObservableGraph}
+             * @readonly
+             */
             graph: {
                 value: function () {
                     return new nx.data.ObservableGraph();
@@ -196,6 +236,12 @@
                     this._setProjection();
                 }, this);
                 graph.on("endGenerate", function (sender, event) {
+                    /**
+                     * Fired when all topology elements generated
+                     * @event topologyGenerated
+                     * @param sender{Object} trigger instance
+                     * @param event {Object} original event object
+                     */
                     if (this.enableSmartLabel()) {
                         setTimeout(function () {
                             this.fire('topologyGenerated');
@@ -209,25 +255,34 @@
 
             },
             /**
-             * Set whole network data to draw a topology
+             * Set data to topology, recommend use topo.data(data)
              * @method setData
-             * @param data {Object} should be {nodes:[],links:[]}
+             * @param data {JSON} should be {nodes:[],links:[]}
              */
             setData: function (data) {
                 this.data(data);
             },
-
+            /**
+             * Insert data to topology
+             * @method insertData
+             * @param data {JSON}  should be {nodes:[],links:[]}
+             */
             insertData: function (data) {
                 this.graph().insertData(data);
-                this.adjustLayout();
+                /**
+                 * Fired after insert data
+                 * @event insertData
+                 * @param sender{Object} trigger instance
+                 * @param event {Object} original event object
+                 */
                 this.fire("insertData", data);
             },
 
 
             /**
-             * Get topology data
+             * Get topology data, recommend use topo.data()
              * @method getData
-             * @returns {nx.ObservableGraph}
+             * @returns {JSON}
              */
             getData: function () {
                 return this.data();
@@ -248,12 +303,6 @@
                     this.setData(data);
                 }
             },
-
-
-            /**
-             * Start rendering topology
-             * @method start
-             */
             start: function () {
             }
         }
