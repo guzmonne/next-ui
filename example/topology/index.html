@@ -12,8 +12,8 @@
     <script type="text/javascript" src="../../lib/GraphGenerator.js"></script>
     <link rel="stylesheet" href="../../src/less/next-graphic.css"/>
     <link rel="stylesheet" href="lib/HighLightCode/prettify.css"/>
-    <!--<script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/Next-graphic/lastSuccessfulBuild/artifact/dest/js/next-graphic.js"></script>-->
-    <script type="text/javascript" src="../../src/js/next-graphic.js"></script>
+    <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/Next-graphic/lastSuccessfulBuild/artifact/dest/js/next-graphic.js"></script>
+    <!--<script type="text/javascript" src="../../src/js/next-graphic.js"></script>-->
 
 
 </head>
@@ -226,6 +226,23 @@ var Demo = nx.define(nx.ui.Component, {
                 itemLabel: 'NodeSet',
                 files: ['nodeset/base.js'],
                 itemClass: 'NodeSet.Base'
+            });
+
+
+            this.addItem({
+                categoryName: 'NodeSet',
+                itemKey: 'hierarchy',
+                itemLabel: 'Hierarchy NodeSet',
+                files: ['nodeset/hierarchy.js'],
+                itemClass: 'NodeSet.Hierarchy'
+            });
+
+            this.addItem({
+                categoryName: 'NodeSet',
+                itemKey: 'aggregation',
+                itemLabel: 'Aggregation NodeSet',
+                files: ['nodeset/aggregation.js'],
+                itemClass: 'NodeSet.Aggregation'
             });
 
             this.addItem({

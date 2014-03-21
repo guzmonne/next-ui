@@ -38,9 +38,13 @@
                     if (this._showIcon !== value) {
                         this._showIcon = value;
 
-                        this.eachNode(function (node) {
-                            node.showIcon(value);
-                        });
+
+                        if (this.status() !== "initializing") {
+                            this.eachNode(function (node) {
+                                node.showIcon(value);
+                            });
+                        }
+
 
                         return true;
                     } else {

@@ -1,5 +1,5 @@
 (function (nx, util, global) {
-    'use strict';
+
     /** Links layer
      Could use topo.getLayer('linksLayer') get this
      * @class nx.graphic.Topology.LinksLayer
@@ -27,29 +27,7 @@
                 value: function () {
                     return {};
                 }
-            },
-            highlightedLinks: {
-                value: function () {
-                    return [];
-                }
             }
-        },
-        view: {
-            type: 'nx.graphic.Group',
-            content: [
-                {
-                    name: 'activated',
-                    type: 'nx.graphic.Group'
-                },
-                {
-                    name: 'static',
-                    type: 'nx.graphic.Group',
-                    props: {
-                        style: 'transition: opacity 0.5s;'
-                    }
-                }
-
-            ]
         },
         methods: {
             attach: function (args) {
@@ -168,52 +146,10 @@
             getLink: function (id) {
                 return this.linksMap()[id];
             },
-            /**
-             * Fade out all nodes
-             * @method fadeOut
-             */
-            fadeOut: function (fn, context) {
-                var el = this.resolve('static');
-                el.upon('transitionend', function () {
-                    if (fn) {
-                        fn.call(context || this);
-                    }
-                }, this);
-                el.root().setStyle('opacity', 0.1);
-            },
-            /**
-             * Fade in all nodes
-             * @method fadeIn
-             */
-            fadeIn: function (fn, context) {
-                var el = this.resolve('static');
-                el.upon('transitionend', function () {
-                    if (fn) {
-                        fn.call(context || this);
-                    }
-                }, this);
-
-                el.root().setStyle('opacity', 1);
-            },
-            /**
-             * Recover all links statues
-             * @param force
-             * @method recover
-             */
-            recover: function (force) {
-                this.fadeIn(function () {
-                    nx.each(this.highlightedLinks(), function (link) {
-                        link.append(this.resolve('static'));
-                    }, this);
-                    this.highlightedLinks([]);
-                }, this);
-            },
-            highlightLinks: function (links) {
+            highlightLinks: function (links, pin) {
                 nx.each(links, function (link) {
-                    this.highlightedLinks().push(link);
-                    link.append(this.resolve('activated'));
+                    this.highlightElement(link, pin);
                 }, this);
-                this.fadeOut();
             },
             /**
              * Clear links layer
@@ -226,9 +162,7 @@
 
                 this.links([]);
                 this.linksMap({});
-                this.$('activated').empty();
-                this.$('static').empty();
-                this.$('static').setStyle('opacity', 1);
+                this.inherited();
             }
         }
     });

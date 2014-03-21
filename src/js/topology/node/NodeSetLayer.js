@@ -1,5 +1,4 @@
 (function (nx, util, global) {
-    'use strict';
 
 
     /**
@@ -39,29 +38,7 @@
                 value: function () {
                     return {};
                 }
-            },
-            highlightedNodeSet: {
-                value: function () {
-                    return [];
-                }
             }
-        },
-        view: {
-            type: 'nx.graphic.Group',
-            content: [
-                {
-                    name: 'activated',
-                    type: 'nx.graphic.Group'
-                },
-                {
-                    name: 'static',
-                    type: 'nx.graphic.Group',
-                    props: {
-                        'class': 'n-transition'
-                    }
-                }
-
-            ]
         },
         methods: {
             attach: function () {
@@ -221,34 +198,6 @@
                 var nodeSetMap = this.nodeSetMap();
                 return nodeSetMap[id];
             },
-            /**
-             * Fade out all nodes
-             * @method fadeOut
-             */
-            fadeOut: function (fn, context) {
-                var el = this.resolve('static');
-                el.upon('transitionend', function () {
-                    if (fn) {
-                        fn.call(context || this);
-                    }
-                }, this);
-                el.root().setStyle('fill-opacity', 0.2);
-            },
-            /**
-             * Fade in all nodes
-             * @method fadeIn
-             */
-            fadeIn: function (fn, context) {
-                var el = this.resolve('static');
-                el.upon('transitionend', function () {
-                    if (fn) {
-                        fn.call(context || this);
-                    }
-                }, this);
-
-                el.root().setStyle('fill-opacity', 1);
-                //this.topology().getLayer('links').fadeIn();
-            },
             getNodeConnectedLinks: function (nodeset) {
                 var links = [];
                 var model = nodeset.model();
@@ -271,40 +220,29 @@
                 }, this);
                 return linkSetAry;
             },
-            highlightNode: function (nodeset) {
-                var highlightedNodeSet = this.highlightedNodeSet();
-                var el = this.resolve('activated');
+            highlightNode: function (nodeset, pin) {
+                this.highlightElement(nodeset, pin);
+            },
+            highlightRelatedNode: function (nodeset, pin) {
+                var topo = this.topology();
 
-                this.highlightedNodeSet().push(nodeset);
-                nodeset.append(el);
-                nodeset.eachConnectedNodes(function (nodeset) {
-                    this.highlightedNodeSet().push(nodeset);
-                    nodeset.append(el);
+                this.highlightElement(nodeset, pin);
+
+                node.eachConnectedNodes(function (n) {
+                    this.highlightElement(n, pin);
                 }, this);
 
-                var topo = this.topology();
+
                 if (topo.supportMultipleLink()) {
-                    topo.getLayer('linkSet').highlightLinkSet(this.getNodeConnectedLinkSet(nodeset));
+                    topo.getLayer('linkSet').highlightLinkSet(this.getNodeConnectedLinkSet(nodeset), pin);
+                    topo.getLayer('linkSet').fadeOut();
                 } else {
-                    topo.getLayer('links').highlightLinks(this.getNodeConnectedLinks(nodeset));
+                    topo.getLayer('links').highlightLinks(this.getNodeConnectedLinks(nodeset), pin);
+                    topo.getLayer('links').fadeOut();
                 }
-                topo.getLayer('links').fadeOut();
+
                 this.fadeOut();
             },
-//            highlightNodes: function (nodes) {
-//                this.recover();
-//                nx.each(nodes, function (node) {
-//                    this.highlightedNodeSet().push(node);
-//                    node.append(this.resolve('activated'));
-//                }, this);
-//
-//
-//                var topo = this.topology();
-//                topo.getLayer('links').highlightLinks(node.getLinks());
-//                topo.getLayer('links').fadeOut();
-//
-//                this.fadeOut();
-//            },
             /**
              * Recover all nodes status
              * @method recover
@@ -332,9 +270,7 @@
 
                 this.nodeSet([]);
                 this.nodeSetMap({});
-                this.$('activated').empty();
-                this.$('static').empty();
-                this.$('static').setStyle('fill-opacity', 1);
+                this.inherited();
             },
             _moveSelectionNodes: function (event, node) {
                 var topo = this.topology();

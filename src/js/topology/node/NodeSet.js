@@ -177,8 +177,8 @@
 
 //                    setTimeout(topo.fit.bind(topo), 1000);
 
-
                     this.fire('expandNodeSet', this);
+
                 }.bind(this), 0);
             },
 

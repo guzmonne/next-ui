@@ -358,7 +358,7 @@
                      */
                     this.fire("zoomend");
 
-                    stage.off('transitionend', completeFN, this);
+                    stage.upon('transitionend', null, this);
                 }.bind(this);
 
                 /**
@@ -514,7 +514,7 @@
 
                     this.fire("zoomend");
 
-                    stage.off('transitionend', zoomByBoundCallback, this);
+                    stage.upon('transitionend', null, this);
                 }, this);
 
                 this.fire("zooming");

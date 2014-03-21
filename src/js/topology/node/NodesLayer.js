@@ -28,23 +28,6 @@
          * @event dragNodeEnd
          */
         events: ['clickNode', 'enterNode', 'leaveNode', 'dragNodeStart', 'dragNode', 'dragNodeEnd', 'hideNode', 'pressNode', 'selectNode', 'updateNodeCoordinate'],
-        view: {
-            type: 'nx.graphic.Group',
-            content: [
-                {
-                    name: 'activated',
-                    type: 'nx.graphic.Group'
-                },
-                {
-                    name: 'static',
-                    type: 'nx.graphic.Group',
-                    props: {
-                        style: 'transition: fill-opacity 0.5s;'
-                    }
-                }
-
-            ]
-        },
         properties: {
             /**
              * Get all nodes
@@ -62,11 +45,6 @@
             nodesMap: {
                 value: function () {
                     return {};
-                }
-            },
-            highlightedNodes: {
-                value: function () {
-                    return [];
                 }
             }
         },
@@ -123,9 +101,6 @@
 
                 }, this);
 
-
-            },
-            draw: function () {
 
             },
             /**
@@ -260,38 +235,7 @@
                 var nodesMap = this.nodesMap();
                 return nodesMap[id];
             },
-            /**
-             * Fade out all nodes
-             * @method fadeOut
-             */
-            fadeOut: function (fn, context) {
-                var el = this.resolve('static');
-                el.upon('transitionend', function () {
-                    if (fn) {
-                        fn.call(context || this);
-                    }
-                }, this);
-                el.root().setStyle('fill-opacity', 0.2);
-            },
-            /**
-             * Fade in all nodes
-             * @method fadeIn
-             */
-            fadeIn: function (fn, context) {
-                var el = this.resolve('static');
-                el.upon('transitionend', function () {
-                    if (fn) {
-                        fn.call(context || this);
-                    }
-                }, this);
 
-                el.root().setStyle('fill-opacity', 1);
-
-                //topo.getLayer('links').fadeIn();
-                this.topology().getLayer('links').fadeIn();
-
-
-            },
             getNodeConnectedLinks: function (node) {
                 var links = [];
                 var model = node.model();
@@ -315,53 +259,29 @@
                 return linkSetAry;
 
             },
-            highlightNode: function (node) {
-                var highlightedNodes = this.highlightedNodes();
-                var el = this.resolve('activated');
+            highlightNode: function (node, pin) {
+                this.highlightElement(node, pin);
+            },
+            highlightRelatedNode: function (node, pin) {
+                var topo = this.topology();
 
-                this.highlightedNodes().push(node);
-                node.append(el);
-                node.eachConnectedNodes(function (node) {
-                    this.highlightedNodes().push(node);
-                    node.append(el);
+                this.highlightElement(node, pin);
+
+                node.eachConnectedNodes(function (n) {
+                    this.highlightElement(n, pin);
                 }, this);
 
-                var topo = this.topology();
+
                 if (topo.supportMultipleLink()) {
-                    topo.getLayer('linkSet').highlightLinkSet(this.getNodeConnectedLinkSet(node));
+                    topo.getLayer('linkSet').highlightLinkSet(this.getNodeConnectedLinkSet(node), pin);
+                    topo.getLayer('linkSet').fadeOut();
+                    topo.getLayer('links').fadeOut();
                 } else {
-                    topo.getLayer('links').highlightLinks(this.getNodeConnectedLinks(node));
+                    topo.getLayer('links').highlightLinks(this.getNodeConnectedLinks(node), pin);
+                    topo.getLayer('links').fadeOut();
                 }
 
-
-                topo.getLayer('links').fadeOut();
                 this.fadeOut();
-            },
-            highlightNodes: function (nodes) {
-                this.recover();
-                nx.each(nodes, function (node) {
-                    this.highlightedNodes().push(node);
-                    node.append(this.resolve('activated'));
-                }, this);
-
-
-                var topo = this.topology();
-                topo.getLayer('links').highlightLinks(node.getLinks());
-                topo.getLayer('links').fadeOut();
-
-                this.fadeOut();
-            },
-            /**
-             * Recover all nodes status
-             * @method recover
-             */
-            recover: function () {
-                this.fadeIn(function () {
-                    nx.each(this.highlightedNodes(), function (node) {
-                        node.append(this.resolve('static'));
-                    }, this);
-                    this.highlightedNodes([]);
-                }, this);
             },
             _moveSelectionNodes: function (event, node) {
                 var topo = this.topology();
@@ -384,20 +304,18 @@
                 }, this);
             },
             clear: function () {
-                //this.topology().off('projectionChange', this._projectionChangeFN, this);
                 nx.each(this.nodes(), function (node) {
                     node.dispose();
                 });
 
                 this.nodes([]);
                 this.nodesMap({});
-                this.$('activated').empty();
-                this.$('static').empty();
-                this.$('static').setStyle('fill-opacity', 1);
+                this.inherited();
             },
             dispose: function () {
-                topo.on('projectionChange', this._projectionChangeFN, this);
+                topo.off('projectionChange', this._projectionChangeFN, this);
                 topo.unwatch('revisionScale', this._watchRevisionScale, this);
+                this.inherited();
             }
         }
     });

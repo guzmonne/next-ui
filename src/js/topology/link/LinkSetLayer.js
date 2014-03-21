@@ -27,29 +27,7 @@
                 value: function () {
                     return {};
                 }
-            },
-            highlightedLinkSet: {
-                value: function () {
-                    return [];
-                }
             }
-        },
-        view: {
-            type: 'nx.graphic.Group',
-            content: [
-                {
-                    name: 'activated',
-                    type: 'nx.graphic.Group'
-                },
-                {
-                    name: 'static',
-                    type: 'nx.graphic.Group',
-                    props: {
-                        'class': 'n-transition'
-                    }
-                }
-
-            ]
         },
         methods: {
             attach: function (args) {
@@ -165,61 +143,16 @@
                 var linkSetMap = this.linkSetMap();
                 return linkSetMap[linkKey];
             },
-            /**
-             * Fade out all nodes
-             * @method fadeOut
-             */
-            fadeOut: function (fn, context) {
-                var el = this.resolve('static');
-                el.upon('transitionend', function () {
-                    if (fn) {
-                        fn.call(context || this);
-                    }
-                }, this);
-                el.root().setStyle('opacity', 0.2);
-            },
-            /**
-             * Fade in all nodes
-             * @method fadeIn
-             */
-            fadeIn: function (fn, context) {
-                var el = this.resolve('static');
-                el.upon('transitionend', function () {
-                    if (fn) {
-                        fn.call(context || this);
-                    }
-                }, this);
-
-                el.root().setStyle('opacity', 1);
-            },
-            /**
-             * Recover all links statues
-             * @param force
-             * @method recover
-             */
-            recover: function (force) {
-                this.fadeIn(function () {
-                    nx.each(this.highlightedLinkSet(), function (link) {
-                        if(link.visible()){
-                            link.append(this.resolve('static'));
-                        }
-                    }, this);
-                    this.highlightedLinkSet([]);
-                }, this);
-            },
-            highlightLinkSet: function (linkSet) {
+            highlightLinkSet: function (linkSet, pin) {
                 var topo = this.topology();
-                var linkslayer = topo.getLayer('links');
-                nx.each(linkSet, function (linkset) {
-                    if (linkset.collapsed()) {
-                        this.highlightedLinkSet().push(linkset);
-                        linkset.append(this.resolve('activated'));
+                var linksLayer = topo.getLayer('links');
+                nx.each(linkSet, function (ls) {
+                    if (ls.collapsed()) {
+                        this.highlightElement(ls, pin);
                     } else {
-                        linkslayer.highlightLinks(linkset.links());
+                        linksLayer.highlightLinks(ls.links());
                     }
-
                 }, this);
-                this.fadeOut();
             },
             /**
              * Clear links layer
@@ -231,9 +164,7 @@
                 });
                 this.linkSetCollection([]);
                 this.linkSetMap({});
-                this.$('activated').empty();
-                this.$('static').empty();
-                this.$('static').setStyle('opacity', 1);
+                this.inherited();
             }
         }
     });

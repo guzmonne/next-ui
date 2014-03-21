@@ -7,7 +7,18 @@
      */
     nx.define("nx.graphic.Topology.Layer", nx.graphic.Group, {
         view: {
-            type: 'nx.graphic.Group'
+            type: 'nx.graphic.Group',
+            content: [
+                {
+                    name: 'active',
+                    type: 'nx.graphic.Group'
+                },
+                {
+                    name: 'static',
+                    type: 'nx.graphic.Group'
+
+                }
+            ]
         },
         properties: {
             /**
@@ -16,6 +27,11 @@
              */
             topology: {
                 value: null
+            },
+            highlightElements: {
+                value: function () {
+                    return [];
+                }
             }
         },
         methods: {
@@ -43,12 +59,68 @@
             hide: function () {
                 this.visible(false);
             },
+            /**
+             * Fade out all nodes
+             * @method fadeOut
+             */
+            fadeOut: function (fn, context) {
+                var el = this.resolve('static');
+                if (fn) {
+                    el.upon('transitionend', function callback() {
+                        fn.call(context || this);
+                        el.upon('transitionend', null, this);
+                    }, this);
+                }
+                el.setStyle('opacity', 0.2, 0.5);
+            },
+            /**
+             * Fade in all nodes
+             * @method fadeIn
+             */
+            fadeIn: function (fn, context) {
+                var el = this.resolve('static');
+                if (fn) {
+                    el.upon('transitionend', function () {
+                        fn.call(context || this);
+                        el.upon('transitionend', null, this);
+                    }, this);
+                }
+                el.setStyle('opacity', 1, 0.5);
+            },
+            highlightElement: function (el, pin) {
+                var highlightElements = this.highlightElements();
+                var activeEl = this.resolve('active');
+
+                highlightElements.push(el);
+                el.append(activeEl);
+                el.__pin = pin || false;
+                this.resolve('static').upon('transitionend', null, this);
+            },
+            recover: function (force) {
+                var staticEl = this.resolve('static');
+                this.fadeIn(function () {
+                    nx.each(this.highlightElements(), function (el) {
+                        if (force || !el.__pin) {
+                            el.append(staticEl);
+                            delete  el.__pin;
+                        }
+                    }, this);
+                    this.highlightElements([]);
+                }, this);
+            },
             clear: function () {
-                //this.resolve("@root").empty();
+                if (this._resources && this._resources.static) {
+                    this.$('active').empty();
+                    this.$('static').empty();
+                    this.$('static').setStyle('opacity', 1);
+                } else {
+                    this.resolve("@root").empty();
+                }
+                this.highlightElements([]);
             },
             dispose: function () {
                 this.clear();
-                this.inherited();
+                //this.inherited();
             }
         }
     });

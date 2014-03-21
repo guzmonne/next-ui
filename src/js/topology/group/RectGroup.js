@@ -1,6 +1,6 @@
 (function (nx, global) {
 
-    'use strict';
+
 
 
     nx.define('nx.graphic.Topology.RectGroup', nx.graphic.Topology.GroupItem, {

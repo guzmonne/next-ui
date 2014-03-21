@@ -538,7 +538,7 @@
 
 
             _addVertexSet: function (data, config) {
-                var verticesLength = this._vertexSet.length;
+                var verticesLength = this._vertexSet.length + this.vertices.length;
                 var identityKey = this.identityKey();
                 //
                 if (!nx.is(data, 'Object')) {
@@ -623,7 +623,7 @@
 
 
                     nx.each(connectedEdgeSetMap, function (edgeSet, id) {
-                        if (vertexSetID !== id) {
+                        if (vertexSetID !== parseInt(id)) {
                             var edge = this._addEdge({
                                 source: vertexSetID,
                                 target: id

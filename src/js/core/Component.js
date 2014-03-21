@@ -155,6 +155,21 @@
                 this.sets(args);
             },
             /**
+             * Resolve a resource.
+             * @method resolve
+             * @param name
+             * @returns {Any}
+             */
+            resolve: function (name) {
+                var resources = this._resources;
+                if (!this._resources) {
+                    return null;
+                }
+                if (name in resources) {
+                    return resources[name];
+                }
+            },
+            /**
              * Append component's element to parent node or other dom element
              * @param [parent] {nx.graphic.Component}
              * @method append
@@ -164,9 +179,9 @@
                 if (parent) {
                     parentElement = this._parentElement = parent.resolve("@root");
                 } else {
-                    parentElement = this._parentElement = this._parentElement || this.resolve("@root").parentNode() || this.parent().resolve("@root");
+                    parentElement = this._parentElement = this._parentElement || this.resolve("@root").parentNode();//|| this.parent().resolve("@root");
                 }
-                if (parentElement && parentElement.$dom && !parentElement.contains(this.resolve("@root"))) {
+                if (parentElement && parentElement.$dom && this.resolve("@root") && !parentElement.contains(this.resolve("@root"))) {
                     parentElement.appendChild(this.resolve("@root"));
                 }
             },
@@ -252,24 +267,9 @@
                 }
                 this.inherited(name, handler, context);
             },
-            _mouseleave: function (sender, event) {
-                var element = this.root().$dom;
-                var target = event.target;
-                var related = event.relatedTarget;
-                if (!element.contains(related) && target !== related) {
-                    /**
-                     * Fire when mouse leave
-                     * @event mouseenter
-                     * @param sender {Object}  Trigger instance
-                     * @param event {Object} original event object
-                     */
-                    this.fire("mouseleave", event);
-                }
-            },
             _mouseenter: function (sender, event) {
                 var element = this.root().$dom;
-                var target = event.target;
-                var related = event.relatedTarget;
+                var target = event.currentTarget, related = event.relatedTarget || event.fromElement;
                 if (target && !element.contains(related) && target !== related) {
                     /**
                      * Fire when mouse enter
@@ -278,6 +278,19 @@
                      * @param event {Object} original event object
                      */
                     this.fire("mouseenter", event);
+                }
+            },
+            _mouseleave: function (sender, event) {
+                var element = this.root().$dom;
+                var target = event.currentTarget, related = event.toElement || event.relatedTarget;
+                if (!element.contains(related) && target !== related) {
+                    /**
+                     * Fire when mouse leave
+                     * @event mouseenter
+                     * @param sender {Object}  Trigger instance
+                     * @param event {Object} original event object
+                     */
+                    this.fire("mouseleave", event);
                 }
             },
             /**

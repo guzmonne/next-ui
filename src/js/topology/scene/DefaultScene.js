@@ -17,7 +17,7 @@
                 this._tooltipManager = this._topo.tooltipManager();
                 this._nodeDragging = false;
                 this._sceneTimer = null;
-                this._interval = 300;
+                this._interval = 600;
             },
             /**
              * Entry
@@ -126,9 +126,9 @@
                 clearTimeout(this._sceneTimer);
                 if (!this._nodeDragging) {
                     this._sceneTimer = setTimeout(function () {
-                        this._nodesLayer.highlightNode(node);
+                        this._nodesLayer.highlightRelatedNode(node);
                     }.bind(this), this._interval);
-                    this._recover();
+//                    this._recover();
                 }
                 nx.dom.Document.body().addClass('n-dragCursor');
             },
@@ -222,7 +222,7 @@
                 clearTimeout(this._sceneTimer);
                 if (!this._nodeDragging) {
                     this._sceneTimer = setTimeout(function () {
-                        this._nodesLayer.highlightNode(nodeSet);
+                        this._nodesLayer.highlightRelatedNode(nodeSet);
                     }.bind(this), this._interval);
                     this._recover();
                 }
@@ -237,7 +237,8 @@
                 nodeSet.visible(false);
                 clearTimeout(this._sceneTimer);
                 this._recover();
-                this.__activeNodeSet = nodeSet;
+                this._topo.adjustLayout();
+
             },
             collapseNodeSet: function (sender, nodeSet) {
                 nodeSet.visible(true);
