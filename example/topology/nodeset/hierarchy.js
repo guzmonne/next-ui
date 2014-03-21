@@ -37,6 +37,20 @@
             {"device_type": "pc", "name": "pc", "x": -296.3450333306474, "y": 278.91006872190235, "fixed": true}
         ],
         "links": [
+            {"source": 4, "target": 2},
+            {"source": 3, "target": 2},
+            {"source": 3, "target": 2},
+            {"source": 3, "target": 2},
+            {"source": 0, "target": 2},
+            {"source": 0, "target": 2},
+
+            {"source": 3, "target": 4},
+
+
+            {"source": 4, "target": 11},
+            {"source": 10, "target": 11},
+
+
             {"source": 0, "target": 2},
             {"source": 3, "target": 2},
             {"source": 4, "target": 2},

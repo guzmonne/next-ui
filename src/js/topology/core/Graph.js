@@ -170,7 +170,9 @@
                 }, this);
 
                 graph.on("addEdge", function (sender, edge) {
-                    linksLayer.addLink(edge);
+                    if (edge.source().generated() && edge.target().generated()) {
+                        linksLayer.addLink(edge);
+                    }
                 }, this);
 
                 graph.on("removeEdge", function (sender, edge) {
@@ -180,11 +182,12 @@
                     linksLayer.updateLink(edge);
                 }, this);
                 graph.on("addEdgeSet", function (sender, edgeSet) {
-                    if (this.supportMultipleLink()) {
-                        linkSetLayer.addLinkSet(edgeSet);
-                    } else {
-                        edgeSet.activated(false);
-
+                    if (edgeSet.source().generated() && edgeSet.target().generated()) {
+                        if (this.supportMultipleLink()) {
+                            linkSetLayer.addLinkSet(edgeSet);
+                        } else {
+                            edgeSet.activated(false);
+                        }
                     }
                 }, this);
 

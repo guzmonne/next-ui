@@ -385,8 +385,8 @@ var Demo = nx.define(nx.ui.Component, {
             var config = this.currentConfig();
             var file = config.files[0];
             $.get(file, function (d) {
-                var c = js_beautify(d,{
-                    preserve_newlines:false
+                var c = js_beautify(d, {
+                    preserve_newlines: false
                 });
                 this.view('code').content(null);
                 this.view('code').content(c);
