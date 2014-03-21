@@ -623,7 +623,7 @@
 
 
                     nx.each(connectedEdgeSetMap, function (edgeSet, id) {
-                        if (vertexSetID !== parseInt(id)) {
+                        if (vertexSetID !== parseInt(id, 10)) {
                             var edge = this._addEdge({
                                 source: vertexSetID,
                                 target: id
