@@ -81,6 +81,10 @@
                     comp.owner(owner);
                 }
 
+                nx.each(events, function (value, name) {
+                    setEvent(comp, name, value, comp, owner);
+                });
+
                 nx.each(props, function (value, name) {
                     if (nx.is(value, 'Array')) {
                         nx.each(value, function (item) {
@@ -95,10 +99,6 @@
                     }
 
                     setProperty(comp, name, value, comp, owner);
-                });
-
-                nx.each(events, function (value, name) {
-                    setEvent(comp, name, value, comp, owner);
                 });
 
                 if (content !== undefined) {
