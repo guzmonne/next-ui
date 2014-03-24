@@ -120,7 +120,7 @@
                     }, this);
                     this.highlightElements([]);
                 }, this);
-                this._fade = _force;
+                delete this._fade;
             },
             clear: function () {
                 if (this._resources && this._resources.static) {
