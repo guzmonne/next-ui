@@ -177,8 +177,9 @@
             },
             clickNode: function (sender, node) {
                 if (!this._nodeDragging) {
+                    var selected = node.selected();
                     this._topo.selectedNodes().clear();
-                    node.selected(!node.selected());
+                    node.selected(!selected);
                 }
             },
             selectNode: function (sender, node) {
@@ -239,7 +240,7 @@
                 this._recover();
                 this._topo.adjustLayout();
             },
-            enterLink:function(sender,events){
+            enterLink: function (sender, events) {
                 console.log(123);
             },
             collapseNodeSet: function (sender, nodeSet) {
