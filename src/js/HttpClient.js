@@ -1,7 +1,11 @@
 (function (nx) {
-    var HttpClient = nx.define('nx.HttpClient', {
+    var HttpClient = nx.define('nx.HttpClient',{
         static: true,
         methods: {
+            /**
+             * Ajax send.
+             * @param options
+             */
             send: function (options) {
                 var xhr = new XMLHttpRequest();
                 var callback = options.callback || function () {
@@ -21,17 +25,30 @@
                     }
                 };
 
-                xhr.setRequestHeader('Content-Type', 'application/json');
-                xhr.send(nx.is(options.data, 'Object') ? JSON.stringify(options.data) : options.data);
+                xhr.setRequestHeader('Content-Type','application/json');
+                xhr.send(nx.is(options.data,'Object') ? JSON.stringify(options.data) : options.data);
             },
-            GET: function (url, callback) {
+            /**
+             * Get request
+             * @param url
+             * @param callback
+             * @constructor
+             */
+            GET: function (url,callback) {
                 this.send({
                     url: url,
                     method: 'GET',
                     callback: callback
                 });
             },
-            POST: function (url, data, callback) {
+            /**
+             * Post request
+             * @param url
+             * @param data
+             * @param callback
+             * @constructor
+             */
+            POST: function (url,data,callback) {
                 this.send({
                     url: url,
                     method: 'POST',
@@ -39,7 +56,14 @@
                     callback: callback
                 });
             },
-            PUT: function (url, data, callback) {
+            /**
+             * Put request
+             * @param url
+             * @param data
+             * @param callback
+             * @constructor
+             */
+            PUT: function (url,data,callback) {
                 this.send({
                     url: url,
                     method: 'PUT',
@@ -47,7 +71,13 @@
                     callback: callback
                 });
             },
-            DELETE: function (url, callback) {
+            /**
+             * Delete request
+             * @param url
+             * @param callback
+             * @constructor
+             */
+            DELETE: function (url,callback) {
                 this.send({
                     url: url,
                     method: 'DELETE',

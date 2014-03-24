@@ -127,6 +127,9 @@
     var Document = nx.define('nx.dom.Document',{
         static: true,
         properties: {
+            /**
+             * Get/set next cssStyle sheet
+             */
             cssStyleSheet: {
                 get: function () {
                     var nxCssStyleSheet = this._cssStyleSheet;
@@ -137,11 +140,17 @@
                     return nxCssStyleSheet;
                 }
             },
+            /**
+             * Get document root element
+             */
             root: {
                 get: function () {
                     return document.documentElement;
                 }
             },
+            /**
+             * Get next body element
+             */
             body: {
                 get: function () {
                     return new Element(document.body);
@@ -149,40 +158,71 @@
             }
         },
         methods: {
+            /**
+             * Add an event listener
+             * @param name
+             * @param handler
+             * @param context
+             */
             on: function (name,handler,context) {
                 this._attachDocumentListeners(name);
                 this.inherited(name,handler,context);
             },
+            /**
+             * Add an event listener when you need not remove it.
+             * @param name
+             * @param handler
+             * @param context
+             */
             upon: function (name,handler,context) {
                 this._attachDocumentListeners(name);
                 this.inherited(name,handler,context);
             },
-            _attachDocumentListeners: function (name) {
-                var documentListeners = this._documentListeners;
-                if (!(name in documentListeners)) {
-                    var self = this;
-                    var listener = documentListeners[name] = function (event) {
-                        self.fire(name,event);
-                    };
-
-                    document.addEventListener(name,listener);
-                }
-            },
+            /**
+             * Register html tag namespace
+             * @param key
+             * @param value
+             */
             registerNS: function (key,value) {
                 nsMap[key] = value;
             },
+            /**
+             * Get a tag namespace value
+             * @param key
+             * @returns {*}
+             */
             resolveNS: function (key) {
                 return nsMap[key];
             },
+            /**
+             * Create document fragment
+             * @returns {nx.dom.Fragment}
+             */
             createFragment: function () {
                 return new Fragment(document.createDocumentFragment());
             },
+            /**
+             * Create element
+             * @param tag
+             * @returns {nx.dom.Element}
+             */
             createElement: function (tag) {
                 return new Element(document.createElement(tag));
             },
+            /**
+             * Create text node.
+             * @param text
+             * @returns {nx.dom.Text}
+             */
             createText: function (text) {
                 return new Text(document.createTextNode(text));
             },
+            /**
+             * Create element by namespace
+             * @param ns
+             * @param tag
+             * @returns {nx.dom.Element}
+             */
             createElementNS: function (ns,tag) {
                 var uri = Document.resolveNS(ns);
                 if (uri) {
@@ -192,6 +232,11 @@
                     throw new Error('The namespace ' + ns + ' is not registered.');
                 }
             },
+            /**
+             * Wrap dom element to next element
+             * @param dom
+             * @returns {*}
+             */
             wrap: function (dom) {
                 if (nx.is(dom,Node)) {
                     return dom;
@@ -200,6 +245,10 @@
 
                 }
             },
+            /**
+             * Get document position information
+             * @returns {{width: (Function|number), height: (Function|number), scrollWidth: *, scrollHeight: *, scrollX: *, scrollY: *}}
+             */
             docRect: function () {
                 var root = this.root(),
                     height = global.innerHeight || 0,
@@ -221,6 +270,10 @@
                     scrollY: scrollXY.top
                 };
             },
+            /**
+             * Dom ready
+             * @param inHandler
+             */
             ready: function (inHandler) {
                 //add handler to queue:
                 if (readyController.initReady(inHandler)) {
@@ -229,23 +282,54 @@
                     readyController.readyMain();
                 }
             },
+            /**
+             * Add a rule to next style sheet
+             * @param inSelector
+             * @param inCssText
+             * @param inIndex
+             * @returns {*}
+             */
             addRule: function (inSelector,inCssText,inIndex) {
                 return this._ruleAction('add',[inSelector,inCssText,inIndex]);
             },
+            /**
+             * insert a rule to next style sheet
+             * @param inFullCssText
+             * @param inIndex
+             * @returns {*}
+             */
             insertRule: function (inFullCssText,inIndex) {
                 return this._ruleAction('insert',[inFullCssText,inIndex]);
             },
+            /**
+             * Delete a rule from next style sheet at last line
+             * @param inIndex
+             * @returns {*}
+             */
             deleteRule: function (inIndex) {
                 return this._ruleAction('delete',[inIndex]);
             },
+            /**
+             * Remove a rule from next style sheet
+             * @param inSelector
+             * @param inIndex
+             * @returns {*}
+             */
             removeRule: function (inSelector,inIndex) {
                 return this._ruleAction('remove',[inSelector,inIndex]);
             },
+            /**
+             * Add multi rules
+             * @param inRules
+             */
             addRules: function (inRules) {
                 nx.each(inRules,function (rule,selector) {
                     this.addRule(selector,util.getCssText(rule),null);
                 },this);
             },
+            /**
+             * Delete all rules
+             */
             deleteRules: function () {
                 var defLength = this.cssStyleSheet().rules.length;
                 while (defLength--) {
@@ -281,6 +365,17 @@
                     }
                 }
                 return sheet;
+            },
+            _attachDocumentListeners: function (name) {
+                var documentListeners = this._documentListeners;
+                if (!(name in documentListeners)) {
+                    var self = this;
+                    var listener = documentListeners[name] = function (event) {
+                        self.fire(name,event);
+                    };
+
+                    document.addEventListener(name,listener);
+                }
             }
         }
     });

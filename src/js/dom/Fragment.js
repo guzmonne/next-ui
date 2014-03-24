@@ -4,6 +4,10 @@
 
     nx.define('nx.dom.Fragment', nx.dom.Node, {
         methods: {
+            /**
+             * Get collection child nodes.
+             * @returns {nx.data.Collection}
+             */
             children: function () {
                 var result = new Collection();
                 nx.each(this.$dom.childNodes, function (child) {
