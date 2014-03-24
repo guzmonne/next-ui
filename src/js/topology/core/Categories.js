@@ -8,7 +8,7 @@
             recover: function (force) {
                 nx.each(this.layers(), function (layer) {
                     layer.recover(force);
-                }, this)
+                }, this);
             }
         }
     });
