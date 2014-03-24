@@ -80,25 +80,43 @@
     nx.define('nx.Env',{
         static: true,
         properties: {
+            /**
+             * Document mode
+             */
             documentMode: {
                 value: documentMode
             },
+            /**
+             * Document compatMode
+             */
             compatMode: {
                 value: compatMode
             },
+            /**
+             * User agent string
+             */
             userAgent: {
                 value: userAgent
             },
+            /**
+             * Browser render model CSS1Compat
+             */
             strict: {
                 get: function () {
                     return compatMode === 'CSS1Compat';
                 }
             },
+            /**
+             * If it is https
+             */
             secure: {
                 get: function () {
                     return protocol.indexOf('https') === 0;
                 }
             },
+            /**
+             * Get operating system information
+             */
             os: {
                 get: function () {
                     var osName;
@@ -112,16 +130,25 @@
                     };
                 }
             },
+            /**
+             * Get specific prefix
+             */
             prefix: {
                 get: function () {
                     return vendorPrefixMap[this.engine().name];
                 }
             },
+            /**
+             * Get browser's render engine information
+             */
             engine: {
                 get: function () {
                     return (this[this.browser().name + 'Engine'] || this.defaultEngine).call(this);
                 }
             },
+            /**
+             * Get basic browser information
+             */
             browser: {
                 get: function () {
                     var browserName,
@@ -153,12 +180,20 @@
             }
         },
         methods: {
+            /**
+             * Get firefox engine information
+             * @returns {{name: string, version: *}}
+             */
             firefoxEngine: function () {
                 return {
                     name: 'gecko',
                     version: this._versionByKeyRegexp('rv:')
                 };
             },
+            /**
+             * Get old opera engine information
+             * @returns {{name: string, version: *}}
+             */
             operaEngine: function () {
                 var version = this._versionByKeyRegexp('presto\\/');
                 var engineName = 'presto';
@@ -171,24 +206,46 @@
                     version: version
                 };
             },
+            /**
+             * Get IE engine information
+             * @returns {{name: string, version: (*|number)}}
+             */
             ieEngine: function () {
                 return {
                     name: 'trident',
                     version: this._versionByKeyRegexp('trident\\/') || 4
                 };
             },
+            /**
+             * Get Webkit engine information
+             * @returns {{name: string, version: *}}
+             */
             defaultEngine: function () {
                 return {
                     name: 'webkit',
                     version: this._versionByKeyRegexp('webkit\\/')
                 };
             },
+            /**
+             * Whether the property is support
+             * @param inName
+             * @returns {*}
+             */
             support: function (inName) {
                 return supportMap[inName];
             },
+            /**
+             * Support map for debug
+             * @returns {{addEventListener: boolean, dispatchEvent: boolean, getBoundingClientRect: boolean, onmousewheel: boolean, XDomainRequest: boolean, crossDomain: boolean, getComputedStyle: boolean, iePropertyChange: boolean, w3cChange: boolean, w3cFocus: boolean, w3cInput: boolean, innerText: boolean, firstElementChild: boolean, cssFloat: boolean, opacity: boolean, filter: boolean, removeProperty: boolean}}
+             */
             getSupportMap: function () {
                 return supportMap;
             },
+            /**
+             * Register a support item
+             * @param inName
+             * @param inValue
+             */
             registerSupport: function (inName,inValue) {
                 if (!(inName in supportMap)) {
                     supportMap[inName] = inValue;
