@@ -37,7 +37,7 @@
                     width: 800,
                     height: 600,
                     // identityKey: 'id',
-                    nodeShowIcon: false,
+                    showIcon: false,
                     nodeLabel: '{id}',
                     nodeColor: function (node, model) {
                         return colorTable[Math.floor(Math.random() * 6)];

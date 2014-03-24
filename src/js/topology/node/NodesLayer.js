@@ -166,49 +166,26 @@
                 node.setProperty('showIcon', topo.nodeShowIcon() == null ? topo.showIcon() : topo.nodeShowIcon());
                 node.setProperty('selected', topo.nodeSelected());
                 node.setProperty('color', topo.nodeColor());
-
                 node.setProperty('label', topo.nodeLabel());
-                node.on('nodemousedown', function (sender, event) {
-                    this.fire('pressNode', node);
+
+                var nodeConfig = topo.nodeConfig();
+                if (nodeConfig) {
+                    nx.each(nodeConfig, function (value, key) {
+                        node.setProperty(key, value);
+                    }, this);
+                }
+
+                var superEvents = nx.graphic.Component.__events__;
+                nx.each(node.__events__, function (e) {
+                    if (superEvents.indexOf(e) == -1) {
+                        node.on(e, function (sender, event) {
+                            this.fire(e, node);
+                        }, this);
+                    }
                 }, this);
 
-                node.on('nodemouseup', function (sender, event) {
-                    this.fire('clickNode', node);
-                }, this);
-
-                node.on('nodemouseenter', function (sender, event) {
-                    this.fire('enterNode', node);
-
-                }, this);
-
-                node.on('nodemouseleave', function (sender, event) {
-                    this.fire('leaveNode', node);
-                }, this);
-
-                node.on('nodeselected', function (sender, event) {
-                    this.fire('selectNode', node);
-                }, this);
-
-                node.on('hide', function (sender, event) {
-                    this.fire('hideNode', node);
-                }, this);
-
-                node.on('nodedragstart', function (sender, event) {
+                node.on('dragNode', function (sender, event) {
                     this._moveSelectionNodes(event, node);
-                    this.fire('dragNodeStart', node);
-                }, this);
-
-                node.on('nodedrag', function (sender, event) {
-                    this._moveSelectionNodes(event, node);
-                    this.fire('dragNode', node);
-                }, this);
-
-                node.on('nodedragend', function (sender, event) {
-                    this.fire('dragNodeEnd', node);
-                }, this);
-
-                node.on('updateCoordinate', function (sender, position) {
-                    this.fire('updateNodeCoordinate', node);
                 }, this);
 
 
@@ -259,25 +236,25 @@
                 return linkSetAry;
 
             },
-            highlightNode: function (node, pin) {
-                this.highlightElement(node, pin);
+            highlightNode: function (node) {
+                this.highlightElement(node);
             },
-            highlightRelatedNode: function (node, pin) {
+            highlightRelatedNode: function (node) {
                 var topo = this.topology();
 
-                this.highlightElement(node, pin);
+                this.highlightElement(node);
 
                 node.eachConnectedNodes(function (n) {
-                    this.highlightElement(n, pin);
+                    this.highlightElement(n);
                 }, this);
 
 
                 if (topo.supportMultipleLink()) {
-                    topo.getLayer('linkSet').highlightLinkSet(this.getNodeConnectedLinkSet(node), pin);
+                    topo.getLayer('linkSet').highlightLinkSet(this.getNodeConnectedLinkSet(node));
                     topo.getLayer('linkSet').fadeOut();
                     topo.getLayer('links').fadeOut();
                 } else {
-                    topo.getLayer('links').highlightLinks(this.getNodeConnectedLinks(node), pin);
+                    topo.getLayer('links').highlightLinks(this.getNodeConnectedLinks(node));
                     topo.getLayer('links').fadeOut();
                 }
 

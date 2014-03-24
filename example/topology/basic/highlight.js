@@ -1,28 +1,9 @@
 (function (nx, global) {
 
-    var topologyData = {
-        nodes: [
-            {"id": 0, "x": 410, "y": 100, "name": "12K-1"},
-            {"id": 1, "x": 410, "y": 280, "name": "12K-2"},
-            {"id": 2, "x": 660, "y": 280, "name": "Of-9k-03"},
-            {"id": 3, "x": 660, "y": 100, "name": "Of-9k-02"},
-            {"id": 4, "x": 180, "y": 190, "name": "Of-9k-01"}
-        ],
-        links: [
-            {"source": 0, "target": 1},
-            {"source": 1, "target": 2},
-            {"source": 1, "target": 3},
-            {"source": 4, "target": 1},
-            {"source": 2, "target": 3},
-            {"source": 2, "target": 0},
-            {"source": 3, "target": 0},
-            {"source": 3, "target": 0},
-            {"source": 3, "target": 0},
-            {"source": 0, "target": 4},
-            {"source": 0, "target": 4},
-            {"source": 0, "target": 3}
-        ]
-    };
+    var g = new GraphGenerator();
+    g.generate(100);
+
+    var topologyData = {nodes: g.nodes, links: g.links};
 
     nx.define('Base.Highlight', nx.ui.Component, {
         view: {
@@ -30,12 +11,35 @@
                 name: 'topo',
                 type: 'nx.graphic.Topology',
                 props: {
-                    width: 800,
-                    height: 800,
+                    adaptive: true,
+                    dataProcessor: 'force',
                     nodeLabel: 'model.id',
-                    showIcon: true,
+                    showIcon: false,
                     data: topologyData
+                },
+                events: {
+                    topologyGenerated: '{#_main}'
                 }
+            }
+        },
+        methods: {
+            _main: function (sender, event) {
+                var topo = sender;
+                var node1 = topo.getNode(3);
+                var nodeLayer = topo.getLayer('nodes');
+                var linksLayer = topo.getLayer('links');
+                var linkSetLayer = topo.getLayer('linkSet');
+                // highlight related nodes
+                nodeLayer.highlightRelatedNode(topo.getNode(0));
+                // highlight node
+                nodeLayer.highlightNode(topo.getNode(30));
+                // highlight linkset
+                linkSetLayer.highlightLinkSet(topo.getNode(40).getConnectedLinkSet())
+
+                nodeLayer.fadeOut(true);
+                linksLayer.fadeOut(true);
+
+
             }
         }
     });

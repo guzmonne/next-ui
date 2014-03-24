@@ -52,6 +52,7 @@
                     }
                 }
             },
+            nodeConfig: {},
             /**
              * @property selectedNodes
              */

@@ -120,60 +120,35 @@
                 nodeset.setProperty('radius', topo.nodeRadius());
                 nodeset.setProperty('enableSmartLabel', topo.enableSmartLabel());
                 nodeset.setProperty('iconType', topo.nodeIconType() || 'groupS');
-                nodeset.setProperty('showIcon', topo.nodeShowIcon());
+                nodeset.setProperty('showIcon', topo.nodeShowIcon() == null ? topo.showIcon() : topo.nodeShowIcon());
                 nodeset.setProperty('selected', topo.nodeSelected());
                 nodeset.setProperty('color', topo.nodeColor());
 
                 nodeset.setProperty('label', topo.nodeLabel());
-                nodeset.on('nodemousedown', function (sender, event) {
-                    this.fire('pressNodeSet', nodeset);
+
+
+
+                var nodeConfig = topo.nodeConfig();
+                if (nodeConfig) {
+                    nx.each(nodeConfig, function (value, key) {
+                        node.setProperty(key, value);
+                    }, this);
+                }
+
+
+                var superEvents = nx.graphic.Component.__events__;
+                nx.each(nodeset.__events__, function (e) {
+                    if (superEvents.indexOf(e) == -1) {
+                        nodeset.on(e, function (sender, event) {
+                            this.fire(e.replace('Node', 'NodeSet'), nodeset);
+                        }, this);
+                    }
                 }, this);
 
-                nodeset.on('nodemouseup', function (sender, event) {
-                    this.fire('clickNodeSet', nodeset);
-                }, this);
 
-                nodeset.on('nodemouseenter', function (sender, event) {
-                    this.fire('enterNodeSet', nodeset);
-
-                }, this);
-
-                nodeset.on('nodemouseleave', function (sender, event) {
-                    this.fire('leaveNodeSet', nodeset);
-                }, this);
-
-                nodeset.on('nodeselected', function (sender, event) {
-                    this.fire('selectNodeSet', nodeset);
-                }, this);
-
-                nodeset.on('hide', function (sender, event) {
-                    this.fire('hideNodeSet', nodeset);
-                }, this);
-
-                nodeset.on('nodedragstart', function (sender, event) {
+                nodeset.on('dragNode', function (sender, event) {
                     this._moveSelectionNodes(event, nodeset);
-                    this.fire('dragNodeSetStart', nodeset);
                 }, this);
-
-                nodeset.on('nodedrag', function (sender, event) {
-                    this._moveSelectionNodes(event, nodeset);
-                    this.fire('dragNodeSet', nodeset);
-                }, this);
-
-                nodeset.on('nodedragend', function (sender, event) {
-                    this.fire('dragNodeSetEnd', nodeset);
-                }, this);
-
-                nodeset.on('updateCoordinate', function (sender, position) {
-                    this.fire('updateNodeSetCoordinate', nodeset);
-                }, this);
-                nodeset.on('collapseNodeSet', function (sender, position) {
-                    this.fire('collapseNodeSet', nodeset);
-                }, this);
-                nodeset.on('expandNodeSet', function (sender, position) {
-                    this.fire('expandNodeSet', nodeset);
-                }, this);
-
 
                 nodeset.set('data-node-id', vertexSet.id());
                 return nodeset;
@@ -220,24 +195,24 @@
                 }, this);
                 return linkSetAry;
             },
-            highlightNode: function (nodeset, pin) {
-                this.highlightElement(nodeset, pin);
+            highlightNode: function (nodeset) {
+                this.highlightElement(nodeset);
             },
-            highlightRelatedNode: function (nodeset, pin) {
+            highlightRelatedNode: function (nodeset) {
                 var topo = this.topology();
 
-                this.highlightElement(nodeset, pin);
+                this.highlightElement(nodeset);
 
                 node.eachConnectedNodes(function (n) {
-                    this.highlightElement(n, pin);
+                    this.highlightElement(n);
                 }, this);
 
 
                 if (topo.supportMultipleLink()) {
-                    topo.getLayer('linkSet').highlightLinkSet(this.getNodeConnectedLinkSet(nodeset), pin);
+                    topo.getLayer('linkSet').highlightLinkSet(this.getNodeConnectedLinkSet(nodeset));
                     topo.getLayer('linkSet').fadeOut();
                 } else {
-                    topo.getLayer('links').highlightLinks(this.getNodeConnectedLinks(nodeset), pin);
+                    topo.getLayer('links').highlightLinks(this.getNodeConnectedLinks(nodeset));
                     topo.getLayer('links').fadeOut();
                 }
 

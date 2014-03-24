@@ -143,12 +143,12 @@
                 var linkSetMap = this.linkSetMap();
                 return linkSetMap[linkKey];
             },
-            highlightLinkSet: function (linkSet, pin) {
+            highlightLinkSet: function (linkSet) {
                 var topo = this.topology();
                 var linksLayer = topo.getLayer('links');
                 nx.each(linkSet, function (ls) {
                     if (ls.collapsed()) {
-                        this.highlightElement(ls, pin);
+                        this.highlightElement(ls);
                     } else {
                         linksLayer.highlightLinks(ls.links());
                     }

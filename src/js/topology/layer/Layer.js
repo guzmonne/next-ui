@@ -32,6 +32,9 @@
                 value: function () {
                     return [];
                 }
+            },
+            fade: {
+                value: false
             }
         },
         methods: {
@@ -63,8 +66,12 @@
              * Fade out all nodes
              * @method fadeOut
              */
-            fadeOut: function (fn, context) {
+            fadeOut: function (force, fn, context) {
                 var el = this.resolve('static');
+                var _force = force === undefined ? false : force;
+                if (this._fade) {
+                    return;
+                }
                 if (fn) {
                     el.upon('transitionend', function callback() {
                         fn.call(context || this);
@@ -72,13 +79,15 @@
                     }, this);
                 }
                 el.setStyle('opacity', 0.2, 0.5);
+
+                this._fade = _force;
             },
             /**
              * Fade in all nodes
              * @method fadeIn
              */
             fadeIn: function (fn, context) {
-                var el = this.resolve('static');
+                var el = this.resolve('static') || this.resolve('@root');
                 if (fn) {
                     el.upon('transitionend', function () {
                         fn.call(context || this);
@@ -87,26 +96,31 @@
                 }
                 el.setStyle('opacity', 1, 0.5);
             },
-            highlightElement: function (el, pin) {
+            highlightElement: function (el, force) {
+                var _force = force === undefined ? false : force;
+                if (this._fade && !force) {
+                    return;
+                }
                 var highlightElements = this.highlightElements();
                 var activeEl = this.resolve('active');
 
                 highlightElements.push(el);
                 el.append(activeEl);
-                el.__pin = pin || false;
                 this.resolve('static').upon('transitionend', null, this);
             },
             recover: function (force) {
                 var staticEl = this.resolve('static');
+                var _force = force === undefined ? false : force;
+                if (this._fade && !force) {
+                    return;
+                }
                 this.fadeIn(function () {
                     nx.each(this.highlightElements(), function (el) {
-                        if (force || !el.__pin) {
-                            el.append(staticEl);
-                            delete  el.__pin;
-                        }
+                        el.append(staticEl);
                     }, this);
                     this.highlightElements([]);
                 }, this);
+                this._fade = _force;
             },
             clear: function () {
                 if (this._resources && this._resources.static) {

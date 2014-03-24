@@ -98,24 +98,25 @@
                 link.set('drawMethod', topo.linkDrawMethod());
                 link.setProperty('enable', topo.linkEnable());
 
+
+                var linkConfig = topo.linkConfig();
+                if (linkConfig) {
+                    nx.each(linkConfig, function (value, key) {
+                        link.setProperty(key, value);
+                    }, this);
+                }
+
+
                 link.update();
 
-                link.on('linkmousedown', function (sender, event) {
-                    this.fire('pressLink', link);
-                }, this);
 
-
-                link.on('linkmouseup', function (sender, event) {
-                    this.fire('clickLink', link);
-                }, this);
-
-
-                link.on('linkmouseenter', function (sender, event) {
-                    this.fire('enterLink', link);
-                }, this);
-
-                link.on('linkmouseleave', function (sender, event) {
-                    this.fire('leaveLink', link);
+                var superEvents = nx.graphic.Component.__events__;
+                nx.each(link.__events__, function (e) {
+                    if (superEvents.indexOf(e) == -1) {
+                        link.on(e, function (sender, event) {
+                            this.fire(e, link);
+                        }, this);
+                    }
                 }, this);
 
                 link.set('class', 'link');
@@ -146,9 +147,9 @@
             getLink: function (id) {
                 return this.linksMap()[id];
             },
-            highlightLinks: function (links, pin) {
+            highlightLinks: function (links) {
                 nx.each(links, function (link) {
-                    this.highlightElement(link, pin);
+                    this.highlightElement(link);
                 }, this);
             },
             /**

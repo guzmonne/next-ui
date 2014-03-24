@@ -158,8 +158,8 @@
             },
 
             _preProcessData: function (data) {
-                var identityKey = this.identityKey();
-                var dataProcessor = this.dataProcessor();
+                var identityKey = this._identityKey;
+                var dataProcessor = this._dataProcessor;
 
                 //TODO data validation
 
@@ -176,18 +176,13 @@
             },
 
             _processData: function (data) {
-                nx.each(data.nodes, function (node) {
-                    this._addVertex(node);
-                }, this);
+                nx.each(data.nodes, this._addVertex, this);
 
-                nx.each(data.links, function (link) {
-                    this._addEdge(link);
-                }, this);
+                nx.each(data.links, this._addEdge, this);
 
-                nx.each(data.nodeSet, function (node) {
-                    this._addVertexSet(node);
-                }, this);
+                nx.each(data.nodeSet, this._addVertexSet, this);
 
+                //after initializing
                 nx.each(this._vertexSet, this._processVertexSet, this);
 
                 this._generate();

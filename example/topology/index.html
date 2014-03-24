@@ -219,6 +219,14 @@ var Demo = nx.define(nx.ui.Component, {
                 itemClass: 'Base.Customize'
             });
 
+            this.addItem({
+                categoryName: 'Basic',
+                itemKey: 'highlight',
+                itemLabel: 'Highlight Link and Node',
+                files: ['basic/highlight.js'],
+                itemClass: 'Base.Highlight'
+            });
+
 
             this.addItem({
                 categoryName: 'NodeSet',
@@ -232,7 +240,7 @@ var Demo = nx.define(nx.ui.Component, {
             this.addItem({
                 categoryName: 'NodeSet',
                 itemKey: 'hierarchy',
-                itemLabel: 'Hierarchy NodeSet',
+                itemLabel: 'Hierarchy NodeSet (issue)',
                 files: ['nodeset/hierarchy.js'],
                 itemClass: 'NodeSet.Hierarchy'
             });
@@ -240,7 +248,7 @@ var Demo = nx.define(nx.ui.Component, {
             this.addItem({
                 categoryName: 'NodeSet',
                 itemKey: 'aggregation',
-                itemLabel: 'Aggregation NodeSet',
+                itemLabel: 'Aggregation NodeSet (issue)',
                 files: ['nodeset/aggregation.js'],
                 itemClass: 'NodeSet.Aggregation'
             });

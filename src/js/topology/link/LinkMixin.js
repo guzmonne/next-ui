@@ -33,6 +33,9 @@
             linkEnable: {
                 value: true
             },
+            linkConfig: {
+
+            },
             linkSetDrawMethod: {}
         },
         methods: {

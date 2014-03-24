@@ -10,7 +10,7 @@
     var gutterStep = 5;
 
     nx.define('nx.graphic.Topology.Link', nx.graphic.Topology.AbstractLink, {
-        events: ['linkmousedown', 'linkmouseup', 'linkmouseenter', 'linkmouseleave'],
+        events: ['pressLink', 'clickLink', 'enterLink', 'leaveLink'],
         properties: {
             /**
              * Get link type 'curve' / 'parallel'
@@ -144,33 +144,30 @@
             },
             content: [
                 {
-                    name: 'path',
-                    type: 'nx.graphic.Path',
-                    props: {
-                        'class': 'link'
-                    },
+                    type: 'nx.graphic.Group',
+                    content: [
+                        {
+                            name: 'path',
+                            type: 'nx.graphic.Path',
+                            props: {
+                                'class': 'link'
+                            }
+                        },
+                        {
+                            name: 'line',
+                            type: 'nx.graphic.Line',
+                            props: {
+                                'class': 'link'
+                            }
+                        }
+                    ],
                     events: {
-                        'mouseenter': '{#_mousenter}',
+                        'mouseenter': '{#_mouseenter}',
                         'mouseleave': '{#_mouseleave}',
                         'mousedown': '{#_mousedown}',
                         'touchstart': '{#_mousedown}',
-                        'mouseover': '{#_mouseover}',
-                        'mouseout': '{#_mouseout}'
-                    }
-                },
-                {
-                    name: 'line',
-                    type: 'nx.graphic.Line',
-                    props: {
-                        'class': 'link',
-                    },
-                    events: {
-                        'click': '{#_click}',
-                        'tap': '{#_click}',
-                        'mousedown': '{#_mousedown}',
-                        'touchstart': '{#_mousedown}',
-                        'mouseover': '{#_mouseover}',
-                        'mouseout': '{#_mouseout}'
+                        'mouseup': '{#_mouseup}',
+                        'touchend': '{#_mouseup}'
                     }
                 },
                 {
@@ -357,22 +354,22 @@
             },
             _mousedown: function () {
                 if (this.enable()) {
-                    this.fire('linkmousedown');
+                    this.fire('pressLink');
                 }
             },
             _mouseup: function () {
                 if (this.enable()) {
-                    this.fire('linkmouseup');
+                    this.fire('clickLink');
                 }
             },
             _mouseleave: function () {
                 if (this.enable()) {
-                    this.fire('linkmouseleave');
+                    this.fire('leaveLink');
                 }
             },
             _mouseenter: function () {
                 if (this.enable()) {
-                    this.fire('linkmouseenter');
+                    this.fire('enterLink');
                 }
             }
         }

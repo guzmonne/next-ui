@@ -46,7 +46,7 @@
                     identityKey: 'id',
                     nodeLabel: 'model.id',
                     nodeIconType:'model.iconType',
-                    nodeShowIcon: true,
+                    showIcon: true,
                     data: topologyData
                 }
             }

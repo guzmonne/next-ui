@@ -32,6 +32,9 @@
                 set: function (value) {
 
                     var fn = function (data) {
+                        if (!data) {
+                            return;
+                        }
                         /**
                          * Fired before start process data
                          * @event beforeSetData

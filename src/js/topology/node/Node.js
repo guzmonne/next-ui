@@ -5,7 +5,7 @@
      * @extend nx.graphic.Topology.AbstractNode
      */
     nx.define('nx.graphic.Topology.Node', nx.graphic.Topology.AbstractNode, {
-        events: ['nodemousedown', 'nodemouseup', 'nodemouseenter', 'nodemouseleave', 'nodedragstart', 'nodedrag', 'nodedragend', 'nodeselected'],
+        events: ['pressNode', 'clickNode', 'enterNode', 'leaveNode', 'dragNodeStart', 'dragNode', 'dragNodeEnd', 'selectNode'],
         properties: {
             nodeScale: {
                 get: function () {
@@ -111,7 +111,7 @@
 
                         this._selected = value;
 
-                        this.fire('nodeselected', value);
+                        this.fire('selectNode', value);
 
                         return true;
                     } else {
@@ -278,21 +278,21 @@
                 if (this.enable()) {
                     this._prevPosition = this.position();
                     event.captureDrag(this.resolve('graphic'));
-                    this.fire('nodemousedown', event);
+                    this.fire('pressNode', event);
                 }
             },
             _mouseup: function (sender, event) {
                 if (this.enable()) {
                     var _position = this.position();
                     if (this._prevPosition && _position.x === this._prevPosition.x && _position.y === this._prevPosition.y) {
-                        this.fire('nodemouseup', event);
+                        this.fire('clickNode', event);
                     }
                 }
             },
             _mouseenter: function (sender, event) {
                 if (this.enable()) {
                     if (!this.__enter) {
-                        this.fire('nodemouseenter', event);
+                        this.fire('enterNode', event);
                         this.__enter = true;
                     }
                 }
@@ -302,24 +302,24 @@
             _mouseleave: function (sender, event) {
                 if (this.enable()) {
                     if (this.__enter) {
-                        this.fire('nodemouseleave', event);
+                        this.fire('leaveNode', event);
                         this.__enter = false;
                     }
                 }
             },
             _dragstart: function (sender, event) {
                 if (this.enable()) {
-                    this.fire('nodedragstart', event);
+                    this.fire('dragNodeStart', event);
                 }
             },
             _drag: function (sender, event) {
                 if (this.enable()) {
-                    this.fire('nodedrag', event);
+                    this.fire('dragNode', event);
                 }
             },
             _dragend: function (sender, event) {
                 if (this.enable()) {
-                    this.fire('nodedragend', event);
+                    this.fire('dragNodeEnd', event);
                     this._updateConnectedNodeLabelPosition();
                 }
             },

@@ -35,6 +35,7 @@
         "src/js/topology/core/StageMixin.js",
         "src/js/topology/tooltip/TooltipMixin.js",
         "src/js/topology/scene/SceneMixin.js",
+        "src/js/topology/core/Categories.js",
         "src/js/topology/core/Topology.js",
 
         "src/js/topology/layer/Layer.js",

@@ -2,7 +2,7 @@
 
 
     nx.define("nx.graphic.Topology.NodeSet", nx.graphic.Topology.Node, {
-        events: ['expandNodeSet', 'collapseNodeSet'],
+        events: ['expandNode', 'collapseNode'],
         properties: {
             nodes: {
                 value: function () {
@@ -177,14 +177,14 @@
 
 //                    setTimeout(topo.fit.bind(topo), 1000);
 
-                    this.fire('expandNodeSet', this);
+                    this.fire('expandNode', this);
 
                 }.bind(this), 0);
             },
 
             _collapse: function () {
                 this.append();
-                this.fire('collapseNodeSet');
+                this.fire('collapseNode');
             },
 
             /**
@@ -240,7 +240,7 @@
                 return nodes;
             },
             updateByMaxObtuseAngle: function (angle) {
-                this.updateByMaxObtuseAngle.__super__.apply(this, arguments);
+                this.inherited(angle);
                 if (this.showIcon()) {
                     var el = this.resolve("iconContainer");
                     var size = this.resolve("icon").size();

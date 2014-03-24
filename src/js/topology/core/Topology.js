@@ -72,7 +72,7 @@
 //            nx.graphic.Topology.LayoutMixin,
             nx.graphic.Topology.TooltipMixin,
             nx.graphic.Topology.SceneMixin,
-            //nx.graphic.Topology.Categories
+            nx.graphic.Topology.Categories
         ],
         view: {
             props: {

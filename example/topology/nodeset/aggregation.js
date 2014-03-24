@@ -251,7 +251,7 @@
                     identityKey: 'id',
                     nodeLabel: 'model.id',
                     nodeIconType: 'model.device_type',
-                    nodeShowIcon: false,
+                    showIcon: false,
                     data: topologyData,
                     enableSmartLabel: false,
                     enableSmartNode: false,
