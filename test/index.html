@@ -17,6 +17,8 @@
     <script type="text/javascript" src="../src/js/dom/Document.js"></script>
     <script type="text/javascript" src="../src/js/ui/AbstractComponent.js"></script>
     <script type="text/javascript" src="../src/js/ui/Component.js"></script>
+    <script type="text/javascript" src="../src/js/ui/Behavior.js"></script>
+    <script type="text/javascript" src="../src/js/ui/DraggableBehavior.js"></script>
     <script type="text/javascript" src="../src/js/ui/Application.js"></script>
     <!--<script type="text/javascript" src="ComponentBase.js"></script>-->
     <!--<script type="text/javascript" src="UIComponent.js"></script>-->
@@ -123,22 +125,24 @@ var MyComp = nx.define(nx.ui.Component, {
         content: [
             {
                 tag: 'p',
-                content: {
-                    tag: 'span',
-                    content: [
-                        {
-                            tag: 'a',
-                            props: {
-                                href: '#'
+                content: [
+                    {
+                        tag: 'span',
+                        content: [
+                            {
+                                tag: 'a',
+                                props: {
+                                    href: '#'
+                                },
+                                content: 'hello'
                             },
-                            content: 'hello'
-                        },
-                        {
-                            tag: 'i',
-                            content: 'world'
-                        }
-                    ]
-                }
+                            {
+                                tag: 'i',
+                                content: 'world'
+                            }
+                        ]
+                    }
+                ]
             },
             {
                 type: MyInheritedPanel,
@@ -208,6 +212,9 @@ var MyComp = nx.define(nx.ui.Component, {
                                         return value && value.toUpperCase();
                                     }
                                 })
+                            },
+                            {
+                                type: 'nx.ui.DraggableBehavior'
                             }
                         ]
                     },
@@ -267,62 +274,33 @@ var MyComp = nx.define(nx.ui.Component, {
     }
 });
 
-var app = new nx.ui.Application();
-var comp = new MyComp();
-comp.attach(app);
-comp.items(col);
-comp.dict(dict);
-
-function load() {
-    comp = new MyComp();
-    comp.attach(app);
-    comp.items(col);
-
-    setTimeout(unload, 100);
-}
-
-function unload() {
-    comp.detach();
-    comp.destroy();
-    comp.items(null);
-    setTimeout(load, 100);
-}
-
-var X = nx.define(nx.ui.Component, {
-    view: {
-        props: {
-            style: {
-                height: '{#height}'
-            }
-        },
-        content: {
-            tag: 'p'
+var MyApp = nx.define(nx.ui.Application, {
+    methods: {
+        start: function () {
+            var comp = new MyComp();
+            comp.attach(this);
+            comp.items(col);
+            comp.dict(dict);
         }
-    },
-    properties: {
-        height: '300px'
     }
 });
 
-var Y = nx.define(nx.ui.Component, {
-    view: {
-        content: {
-            type: X,
-            props: {
-                style: {
-                    width: '{#width}'
-                }
-            }
-        }
-    },
-    properties: {
-        width: '200px'
-    }
-});
+(new MyApp).start();
 
-
-var y = new Y();
-y.attach(app);
+//function load() {
+//    comp = new MyComp();
+//    comp.attach(app);
+//    comp.items(col);
+//
+//    setTimeout(unload, 100);
+//}
+//
+//function unload() {
+//    comp.detach();
+//    comp.destroy();
+//    comp.items(null);
+//    setTimeout(load, 100);
+//}
 
 //load();
 
