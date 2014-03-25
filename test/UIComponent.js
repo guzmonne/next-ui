@@ -159,7 +159,8 @@ function compareHTML(actual, expect)
     }
     if (nx.Env.browser().name === 'ie')
     {
-        actual = actual.replace(';','')
+        actual = actual.replace(';','');
+        actual = actual.replace(': ',':')
     }
     strictEqual(actual,expect,'compareHTML')
 }
