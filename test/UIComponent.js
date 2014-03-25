@@ -9,6 +9,7 @@ module("Component.js", {teardown: function () {
 });
 
 
+
 nx.define("wq.button", nx.ui.Component, {
     events:['aclick','bclick'],
     view: {
@@ -143,6 +144,27 @@ nx.define("qw.template", nx.ui.Component, {
     }
 });
 
+function compareHTML(actual, expect)
+{
+    if (!nx.is(actual,'String'))
+    {
+        if (nx.is(actual.view, 'Function'))
+        {
+            actual = actual.view().dom().$dom.outerHTML;
+        }
+        if (nx.is(actual.dom, 'Function'))
+        {
+            actual = actual.dom().$dom.outerHTML;
+        }
+    }
+    if (nx.Env.browser().name === 'ie')
+    {
+        actual = actual.replace(';','')
+    }
+    if(actual === expect) return true;
+    else return false;
+}
+
 test('type logic', function () {
     var obj = new wq.container();
     obj.attach(app);
@@ -153,16 +175,17 @@ test('type logic', function () {
     })
     obj.wprop("ccccc");
     strictEqual(count, 1, "notify in prop");
-    obj.resolve('wqbtn').fire('aclick');
-    ok(obj.resolve('wqbtn').aclickflag(), "invoke inner component event");
-    strictEqual(obj.resolve('wqbtn').count(), 1, "notify func in the inner component");
-    obj.resolve('wqbtn').fire('bclick');
-    ok(obj.resolve('wqbtn').bclickflag(), "invoke inner component event");
+    var btn = obj.resolve('wqbtn')
+    btn.fire('aclick');
+    ok(btn.aclickflag(), "invoke inner component event");
+    strictEqual(btn.count(), 1, "notify func in the inner component");
+    btn.fire('bclick');
+    ok(btn.bclickflag(), "invoke inner component event");
 
-    ok(!obj.resolve('wqbtn2').aclickflag(), "no conflict with other comp");
-    strictEqual(obj.resolve('wqbtn2').count(), 0, "no conflict with other comp");
-    ok(!obj.resolve('wqbtn2').bclickflag(), "no conflict with other comp");
-
+    var btn2 = obj.resolve('wqbtn2');
+    ok(!btn2.aclickflag(), "no conflict with other comp");
+    strictEqual(btn2.count(), 0, "no conflict with other comp");
+    ok(!btn2.bclickflag(), "no conflict with other comp");
     obj.destroy();
     strictEqual(obj.model(), null, "check model after destroy");
 })
@@ -181,13 +204,19 @@ test('template1', function () {
     obj.attach(app);
     obj.items(data);
     obj.items(data2);
-    deepEqual(obj.resolve('test').content().getItem(0).model(), {data1: '5', data2: '6'}, "check template model");
-    strictEqual(obj.resolve('test').content().getItem(0).content().getItem(0).resolve("@root").$dom.outerHTML,'<li style="color:red">5</li>','');
-    strictEqual(obj.resolve('test').content().getItem(0).content().getItem(1).resolve("@root").$dom.outerHTML,'<li>6</li>','');
-    deepEqual(obj.resolve('test').content().getItem(1).model(), {data1: '7', data2: '8'}, "check template model");
-    strictEqual(obj.resolve('test').content().getItem(1).content().getItem(0).resolve("@root").$dom.outerHTML,'<li style="color:red">7</li>','');
-    strictEqual(obj.resolve('test').content().getItem(1).content().getItem(1).resolve("@root").$dom.outerHTML,'<li>8</li>','');
-    strictEqual(obj.resolve('test').content().count(), 2, "check template with empty item");
+
+    var templateContainer = obj.resolve('test').content();
+
+    deepEqual(templateContainer.getItem(0).model(), {data1: '5', data2: '6'}, "check template model");
+//    console.log(templateContainer.getItem(0).content().getItem(0).resolve("@root"))
+//    console.log(templateContainer.getItem(0).content().getItem(0))
+//    console.log(templateContainer.getItem(0))
+    ok(compareHTML(templateContainer.getItem(0).content().getItem(0),'<li style="color:red">5</li>'),'');
+    ok(compareHTML(templateContainer.getItem(0).content().getItem(1),'<li>6</li>'),'');
+    deepEqual(templateContainer.getItem(1).model(), {data1: '7', data2: '8'}, "check template model");
+    ok(compareHTML(templateContainer.getItem(1).content().getItem(0),'<li style="color:red">7</li>'),'');
+    ok(compareHTML(templateContainer.getItem(1).content().getItem(1),'<li>8</li>'),'');
+    strictEqual(templateContainer.count(), 2, "check template with empty item");
     strictEqual(obj.resolve('test').resolve('@root').$dom.childElementCount, 4, "check dom");
     obj.destroy();
 })
@@ -252,18 +281,22 @@ nx.define("qw.template2", nx.ui.Component, {
     }
 });
 
+
+
 test('template-array', function () {
     var obj = new qw.template2()
     var data = [{a:[1,2,3]},{a:[4,5,6]}]
     obj.attach(app)
     obj.items(data)
-    equal(obj.resolve('test').content().count(), 2, "check template with array in object")
-    deepEqual(obj.resolve('test').content().getItem(0).model(), {a:[1,2,3]}, "check template with one item")
-    strictEqual(obj.resolve('test').content().getItem(0).content().getItem(0).resolve("@root").$dom.outerHTML,'<li style="color:red">1</li>','check dom')
-    strictEqual(obj.resolve('test').content().getItem(0).content().getItem(1).resolve("@root").$dom.outerHTML,'<li>2</li>','')
-    deepEqual(obj.resolve('test').content().getItem(1).model(), {a:[4,5,6]}, "check template with one item")
-    strictEqual(obj.resolve('test').content().getItem(1).content().getItem(0).resolve("@root").$dom.outerHTML,'<li style="color:red">4</li>','check dom')
-    strictEqual(obj.resolve('test').content().getItem(1).content().getItem(1).resolve("@root").$dom.outerHTML,'<li>5</li>','')
+
+    var templateContainer = obj.resolve('test').content();
+    equal(templateContainer.count(), 2, "check template with array in object")
+    deepEqual(templateContainer.getItem(0).model(), {a:[1,2,3]}, "check template with one item")
+    ok(compareHTML(templateContainer.getItem(0).content().getItem(0),'<li style="color:red">1</li>'),'check dom')
+    ok(compareHTML(templateContainer.getItem(0).content().getItem(1),'<li>2</li>'),'')
+    deepEqual(templateContainer.getItem(1).model(), {a:[4,5,6]}, "check template with one item")
+    ok(compareHTML(templateContainer.getItem(1).content().getItem(0),'<li style="color:red">4</li>'),'check dom')
+    ok(compareHTML(templateContainer.getItem(1).content().getItem(1),'<li>5</li>'),'')
     equal(obj.resolve('test').resolve('@root').$dom.childElementCount, 4, "check dom")
     obj.destroy()
 })
@@ -285,10 +318,13 @@ test('template-collection', function () {
     var data = new nx.data.Collection([{data1: '1', data2: '2'},{data1: '3', data2: '4'}])
     obj.attach(app)
     obj.items(data)
-    deepEqual(obj.resolve('test').content().getItem(0).model(), {data1: '1', data2: '2'}, "check template model")
-    strictEqual(obj.resolve('test').content().getItem(0).content().getItem(0).resolve("@root").$dom.outerHTML,'<li style="color:red">1</li>','')
-    strictEqual(obj.resolve('test').content().getItem(0).content().getItem(1).resolve("@root").$dom.outerHTML,'<li>2</li>','')
-    equal(obj.resolve('test').content().count(), 2, "check template count")
+
+    var templateContainer = obj.resolve('test').content();
+
+    deepEqual(templateContainer.getItem(0).model(), {data1: '1', data2: '2'}, "check template model")
+    ok(compareHTML(templateContainer.getItem(0).content().getItem(0),'<li style="color:red">1</li>'),'')
+    ok(compareHTML(templateContainer.getItem(0).content().getItem(1),'<li>2</li>'),'')
+    equal(templateContainer.count(), 2, "check template count")
     equal(obj.resolve('test').resolve('@root').$dom.childElementCount, 4, "check dom")
     obj.destroy()
 })
@@ -297,14 +333,17 @@ test('template-collection-add', function () {
     var data = new nx.data.Collection([{data1: '1', data2: '2'},{data1: '3', data2: '4'}])
     obj.attach(app)
     obj.items(data)
-    equal(obj.resolve('test').content().count(), 2, "check template count")
+
+    var templateContainer = obj.resolve('test').content();
+
+    equal(templateContainer.count(), 2, "check template count")
     data.add({data1: '5', data2: '6'})
     //obj.items(data)
     obj.refresh()
-    equal(obj.resolve('test').content().count(), 3, "check template count after intert")
-    deepEqual(obj.resolve('test').content().getItem(2).model(), {data1: '5', data2: '6'}, "check template model")
-    strictEqual(obj.resolve('test').content().getItem(2).content().getItem(0).resolve("@root").$dom.outerHTML,'<li style="color:red">5</li>','check dom after insert')
-    strictEqual(obj.resolve('test').content().getItem(2).content().getItem(1).resolve("@root").$dom.outerHTML,'<li>6</li>','')
+    equal(templateContainer.count(), 3, "check template count after intert")
+    deepEqual(templateContainer.getItem(2).model(), {data1: '5', data2: '6'}, "check template model")
+    ok(compareHTML(templateContainer.getItem(2).content().getItem(0),'<li style="color:red">5</li>'),'check dom after insert')
+    ok(compareHTML(templateContainer.getItem(2).content().getItem(1),'<li>6</li>'),'')
     equal(obj.resolve('test').resolve('@root').$dom.childElementCount, 6, "check dom")
     obj.destroy()
 })
@@ -314,14 +353,17 @@ test('template-collection-insert', function () {
     var data = new nx.data.Collection([{data1: '1', data2: '2'},{data1: '3', data2: '4'}])
     obj.attach(app)
     obj.items(data)
-    equal(obj.resolve('test').content().count(), 2, "check template count")
+
+    var templateContainer = obj.resolve('test').content();
+
+    equal(templateContainer.count(), 2, "check template count")
     data.insert({data1: '5', data2: '6'},2)
     //obj.items(data)
     obj.refresh()
-    equal(obj.resolve('test').content().count(), 3, "check template count after intert")
-    deepEqual(obj.resolve('test').content().getItem(2).model(), {data1: '5', data2: '6'}, "check template model")
-    strictEqual(obj.resolve('test').content().getItem(2).content().getItem(0).resolve("@root").$dom.outerHTML,'<li style="color:red">5</li>','check dom after insert')
-    strictEqual(obj.resolve('test').content().getItem(2).content().getItem(1).resolve("@root").$dom.outerHTML,'<li>6</li>','')
+    equal(templateContainer.count(), 3, "check template count after intert")
+    deepEqual(templateContainer.getItem(2).model(), {data1: '5', data2: '6'}, "check template model")
+    ok(compareHTML(templateContainer.getItem(2).content().getItem(0),'<li style="color:red">5</li>'),'check dom after insert')
+    ok(compareHTML(templateContainer.getItem(2).content().getItem(1),'<li>6</li>'),'')
     equal(obj.resolve('test').resolve('@root').$dom.childElementCount, 6, "check dom")
     obj.destroy()
 })
@@ -335,9 +377,12 @@ test('template-collection-remove', function () {
     data.remove(orignal_data[0])
     //obj.items(data)
     obj.refresh()
-    equal(obj.resolve('test').content().count(), 1, "check template count after remove")
-    strictEqual(obj.resolve('test').content().getItem(0).content().getItem(0).resolve("@root").$dom.outerHTML,'<li style="color:red">3</li>','check dom after remove')
-    strictEqual(obj.resolve('test').content().getItem(0).content().getItem(1).resolve("@root").$dom.outerHTML,'<li>4</li>','')
+
+    var templateContainer = obj.resolve('test').content();
+
+    equal(templateContainer.count(), 1, "check template count after remove")
+    ok(compareHTML(templateContainer.getItem(0).content().getItem(0),'<li style="color:red">3</li>'),'check dom after remove')
+    ok(compareHTML(templateContainer.getItem(0).content().getItem(1),'<li>4</li>'),'')
     equal(obj.resolve('test').resolve('@root').$dom.childElementCount, 2, "check dom")
     obj.destroy()
 })
@@ -347,10 +392,12 @@ test('template-ObservableCollection', function () {
     var data = new nx.data.ObservableCollection([{data1: '1', data2: '2'},{data1: '3', data2: '4'}])
     obj.attach(app)
     obj.items(data)
-    deepEqual(obj.resolve('test').content().getItem(0).model(), {data1: '1', data2: '2'}, "check template model")
-    strictEqual(obj.resolve('test').content().getItem(0).content().getItem(0).resolve("@root").$dom.outerHTML,'<li style="color:red">1</li>','')
-    strictEqual(obj.resolve('test').content().getItem(0).content().getItem(1).resolve("@root").$dom.outerHTML,'<li>2</li>','')
-    equal(obj.resolve('test').content().count(), 2, "check template count")
+
+    var templateContainer = obj.resolve('test').content();
+    deepEqual(templateContainer.getItem(0).model(), {data1: '1', data2: '2'}, "check template model")
+    ok(compareHTML(templateContainer.getItem(0).content().getItem(0),'<li style="color:red">1</li>'),'')
+    ok(compareHTML(templateContainer.getItem(0).content().getItem(1),'<li>2</li>'),'')
+    equal(templateContainer.count(), 2, "check template count")
     equal(obj.resolve('test').resolve('@root').$dom.childElementCount, 4, "check dom")
     obj.destroy()
 })
@@ -360,12 +407,14 @@ test('template-ObservableCollection-insert', function () {
     var data = new nx.data.ObservableCollection([{data1: '1', data2: '2'},{data1: '3', data2: '4'}]);
     obj.attach(app);
     obj.items(data);
-    equal(obj.resolve('test').content().count(), 2, "check template count");
+
+    var templateContainer = obj.resolve('test').content();
+    equal(templateContainer.count(), 2, "check template count");
     data.insert({data1: '5', data2: '6'},2);
-    equal(obj.resolve('test').content().count(), 3, "check template count after intert");
-    deepEqual(obj.resolve('test').content().getItem(2).model(), {data1: '5', data2: '6'}, "check template model");
-    strictEqual(obj.resolve('test').content().getItem(2).content().getItem(0).resolve("@root").$dom.outerHTML,'<li style="color:red">5</li>','check dom after insert');
-    strictEqual(obj.resolve('test').content().getItem(2).content().getItem(1).resolve("@root").$dom.outerHTML,'<li>6</li>','');
+    equal(templateContainer.count(), 3, "check template count after intert");
+    deepEqual(templateContainer.getItem(2).model(), {data1: '5', data2: '6'}, "check template model");
+    ok(compareHTML(templateContainer.getItem(2).content().getItem(0),'<li style="color:red">5</li>'),'check dom after insert');
+    ok(compareHTML(templateContainer.getItem(2).content().getItem(1),'<li>6</li>'),'');
     equal(obj.resolve('test').resolve('@root').$dom.childElementCount, 6, "check dom");
     obj.destroy();
 })
@@ -376,12 +425,13 @@ test('template-ObservableCollection-add', function () {
     var data = new nx.data.ObservableCollection([{data1: '1', data2: '2'},{data1: '3', data2: '4'}]);
     obj.attach(app);
     obj.items(data);
-    equal(obj.resolve('test').content().count(), 2, "check template count");
+    var templateContainer = obj.resolve('test').content();
+    equal(templateContainer.count(), 2, "check template count");
     data.add({data1: '5', data2: '6'});
-    equal(obj.resolve('test').content().count(), 3, "check template count after intert");
-    deepEqual(obj.resolve('test').content().getItem(2).model(), {data1: '5', data2: '6'}, "check template model");
-    strictEqual(obj.resolve('test').content().getItem(2).content().getItem(0).resolve("@root").$dom.outerHTML,'<li style="color:red">5</li>','check dom after insert');
-    strictEqual(obj.resolve('test').content().getItem(2).content().getItem(1).resolve("@root").$dom.outerHTML,'<li>6</li>','');
+    equal(templateContainer.count(), 3, "check template count after intert");
+    deepEqual(templateContainer.getItem(2).model(), {data1: '5', data2: '6'}, "check template model");
+    ok(compareHTML(templateContainer.getItem(2).content().getItem(0),'<li style="color:red">5</li>'),'check dom after insert');
+    ok(compareHTML(templateContainer.getItem(2).content().getItem(1),'<li>6</li>'),'');
     equal(obj.resolve('test').resolve('@root').$dom.childElementCount, 6, "check dom");
     obj.destroy();
 })
@@ -392,12 +442,13 @@ test('template-ObservableCollection-insertRange', function () {
     var data = new nx.data.ObservableCollection();
     obj.attach(app);
     obj.items(data);
-    equal(obj.resolve('test').content().count(), 0, "check template count");
+    var templateContainer = obj.resolve('test').content();
+    equal(templateContainer.count(), 0, "check template count");
     data.insertRange([{data1: '1', data2: '2'},{data1: '3', data2: '4'}],0);
-    equal(obj.resolve('test').content().count(), 2, "check template count after intert");
-    deepEqual(obj.resolve('test').content().getItem(1).model(), {data1: '3', data2: '4'}, "check template model");
-    strictEqual(obj.resolve('test').content().getItem(1).content().getItem(0).resolve("@root").$dom.outerHTML,'<li style="color:red">3</li>','check dom after insert');
-    strictEqual(obj.resolve('test').content().getItem(1).content().getItem(1).resolve("@root").$dom.outerHTML,'<li>4</li>','');
+    equal(templateContainer.count(), 2, "check template count after intert");
+    deepEqual(templateContainer.getItem(1).model(), {data1: '3', data2: '4'}, "check template model");
+    ok(compareHTML(templateContainer.getItem(1).content().getItem(0),'<li style="color:red">3</li>'),'check dom after insert');
+    ok(compareHTML(templateContainer.getItem(1).content().getItem(1),'<li>4</li>'),'');
     equal(obj.resolve('test').resolve('@root').$dom.childElementCount, 4, "check dom");
     obj.destroy();
 })
@@ -409,12 +460,14 @@ test('template-ObservableCollection-remove', function () {
     obj.attach(app);
     obj.items(data);
     data.remove(orignal_data[1]);
-    equal(obj.resolve('test').content().count(), 1, "check template count after remove");
-    equal(obj.resolve('test').content().getItem(0).content().getItem(0).resolve("@root").$dom.outerHTML,'<li style="color:red">1</li>','check dom after remove');
-    equal(obj.resolve('test').content().getItem(0).content().getItem(1).resolve("@root").$dom.outerHTML,'<li>2</li>','');
+
+    var templateContainer = obj.resolve('test').content();
+    equal(templateContainer.count(), 1, "check template count after remove");
+    ok(compareHTML(templateContainer.getItem(0).content().getItem(0),'<li style="color:red">1</li>'),'check dom after remove');
+    ok(compareHTML(templateContainer.getItem(0).content().getItem(1),'<li>2</li>'),'');
 
     data.remove(orignal_data[0]);
-    equal(obj.resolve('test').content().count(), 0, "check template count after remove all");
+    equal(templateContainer.count(), 0, "check template count after remove all");
     equal(obj.resolve('test').resolve('@root').$dom.childElementCount, 0, "check dom");
     obj.destroy();
 })
@@ -425,9 +478,10 @@ test('template-ObservableCollection-clear', function () {
     var data = new nx.data.ObservableCollection(orignal_data);
     obj.attach(app);
     obj.items(data);
-    equal(obj.resolve('test').content().count(), 2, "check template count");
+    var templateContainer = obj.resolve('test').content();
+    equal(templateContainer.count(), 2, "check template count");
     data.clear();
-    equal(obj.resolve('test').content().count(), 0, "check template count after clear");
+    equal(templateContainer.count(), 0, "check template count after clear");
     equal(obj.resolve('test').resolve('@root').$dom.childElementCount, 0, "check dom");
     obj.destroy();
 })
@@ -460,16 +514,17 @@ test('template-ObservableObject', function () {
     var obj = new qw.template();
     obj.attach(app);
     obj.items(col);
+    var templateContainer = obj.resolve('test').content();
     //strictEqual(obj.resolve('test').content().getItem(0).model(),num1, "check template model")
-    ok(obj.resolve('test').content().getItem(0).model()===num1, "check template model");
-    strictEqual(obj.resolve('test').content().getItem(0).content().getItem(0).resolve("@root").$dom.outerHTML,'<li style="color:red">1</li>','');
-    strictEqual(obj.resolve('test').content().getItem(0).content().getItem(1).resolve("@root").$dom.outerHTML,'<li>2</li>','');
-    strictEqual(obj.resolve('test').content().count(), 2, "check template count");
+    ok(templateContainer.getItem(0).model()===num1, "check template model");
+    ok(compareHTML(templateContainer.getItem(0).content().getItem(0),'<li style="color:red">1</li>'),'');
+    ok(compareHTML(templateContainer.getItem(0).content().getItem(1),'<li>2</li>'),'');
+    strictEqual(templateContainer.count(), 2, "check template count");
     strictEqual(obj.resolve('test').resolve('@root').$dom.childElementCount, 4, "check dom");
     num1.data1(5);
-    ok(obj.resolve('test').content().getItem(0).model()===num1, "check template model");
-    strictEqual(obj.resolve('test').content().getItem(0).content().getItem(0).resolve("@root").$dom.outerHTML,'<li style="color:red">5</li>','check dom after object changed');
-    strictEqual(obj.resolve('test').content().getItem(0).content().getItem(1).resolve("@root").$dom.outerHTML,'<li>6</li>','');
+    ok(templateContainer.getItem(0).model()===num1, "check template model");
+    ok(compareHTML(templateContainer.getItem(0).content().getItem(0),'<li style="color:red">5</li>'),'check dom after object changed');
+    ok(compareHTML(templateContainer.getItem(0).content().getItem(1),'<li>6</li>'),'');
     obj.destroy();
 })
 
@@ -481,9 +536,10 @@ test('template-ObservableObject-add', function () {
     obj.attach(app);
     obj.items(col);
     col.add({data1: '5', data2: '6'});
-    deepEqual(obj.resolve('test').content().getItem(2).model(), {data1: '5', data2: '6'}, "check template model");
-    strictEqual(obj.resolve('test').content().getItem(2).content().getItem(0).resolve("@root").$dom.outerHTML,'<li style="color:red">5</li>','check dom add json object');
-    strictEqual(obj.resolve('test').content().getItem(2).content().getItem(1).resolve("@root").$dom.outerHTML,'<li>6</li>','');
+    var templateContainer = obj.resolve('test').content();
+    deepEqual(templateContainer.getItem(2).model(), {data1: '5', data2: '6'}, "check template model");
+    ok(compareHTML(templateContainer.getItem(2).content().getItem(0),'<li style="color:red">5</li>'),'check dom add json object');
+    ok(compareHTML(templateContainer.getItem(2).content().getItem(1),'<li>6</li>'),'');
     obj.destroy();
 })
 
@@ -551,15 +607,16 @@ test('template-template', function () {
     var data = [[1,['a1','a2','a3'],3],[4,['b1','b2','b3'],6]];
     obj.attach(app);
     obj.items(data);
-    strictEqual(obj.resolve("test").content().getItem(0).content().getItem(1).content().getItem(2).resolve("@root").$dom.outerHTML, '<li style="color:blue">a3</li>');
-    strictEqual(obj.resolve("test").content().getItem(1).content().getItem(1).content().getItem(2).resolve("@root").$dom.outerHTML, '<li style="color:blue">b3</li>');
-    obj.resolve("test").content().getItem(1).content().getItem(1).content().getItem(2).fire('aclick');
+        var templateContainer = obj.resolve('test').content();
+    ok(compareHTML(templateContainer.getItem(0).content().getItem(1).content().getItem(2), '<li style="color:blue">a3</li>'));
+    ok(compareHTML(templateContainer.getItem(1).content().getItem(1).content().getItem(2), '<li style="color:blue">b3</li>'));
+    templateContainer.getItem(1).content().getItem(1).content().getItem(2).fire('aclick');
     equal(obj.eventResult(),'b3','inner template event');
-    obj.resolve("test").content().getItem(0).content().getItem(1).content().getItem(2).fire('aclick');
+    templateContainer.getItem(0).content().getItem(1).content().getItem(2).fire('aclick');
     equal(obj.eventResult(),'a3','inner template event');
-    obj.resolve("test").content().getItem(0).content().getItem(0).fire('aclick');
+    templateContainer.getItem(0).content().getItem(0).fire('aclick');
     deepEqual(obj.eventResult(),[1,['a1','a2','a3'],3],'template event');
-    obj.resolve("test").content().getItem(1).content().getItem(0).fire('aclick');
+    templateContainer.getItem(1).content().getItem(0).fire('aclick');
     deepEqual(obj.eventResult(),[4,['b1','b2','b3'],6],'template event');
     obj.destroy();
 })
