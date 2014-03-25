@@ -468,6 +468,7 @@
      */
     var DOMComponent = nx.define(AbstractComponent, {
         final: true,
+        events: ['generated'],
         properties: {
             /**
              * @property class
@@ -805,6 +806,8 @@
                         comp.model(item);
                         comp.attach(this);
                     }, this);
+
+                    this.fire('generated');
                 }
             },
             _onItemsChange: function (sender, event) {
