@@ -38,16 +38,6 @@ nx.define('dom_test', nx.ui.Component,{
     }
 });
 
-
-recTestData1 = {rec1: {top: 10, bottom: 30, left: 10, right: 30}, rec2: {left: 40, right: 60, top: 10, bottom: 30}}       //并列 不相交
-recTestData2 = {rec1: {top: 10, bottom: 30, left: 10, right: 30}, rec2: {left: 40, right: 60, top: 40, bottom: 70}}       //不并列 不相交
-recTestDate3 = {rec1: {top: 10, bottom: 40, left: 10, right: 30}, rec2: {left: 25, right: 50, top: 15, bottom: 30}}       //并列 相交
-recTestDate4 = {rec1: {top: 20, bottom: 40, left: 10, right: 30}, rec2: {left: 20, right: 50, top: 10, bottom: 50}}       //并列 相交
-recTestDate5 = {rec1: {top: 10, bottom: 20, left: 10, right: 30}, rec2: {left: 10, right: 30, top: 20, bottom: 50}}       //垂直 相交
-recTestDate6 = {rec1: {top: 10, bottom: 30, left: 10, right: 30}, rec2: {left: 10, right: 30, top: 20, bottom: 50}}       //垂直 相交
-recTestDate7 = {rec1: {top: 10, bottom: 30, left: 10, right: 30}, rec2: {left: 25, right: 50, top: 15, bottom: 50}}        //斜相交
-recTestDate8 = {rec1: {top: 10, bottom: 50, left: 10, right: 50}, rec2: {left: 20, right: 40, top: 20, bottom: 40}}       //contain
-
 test('method getRoot', function () {
     var obj = new dom_test();
     obj.attach(app);
@@ -55,7 +45,7 @@ test('method getRoot', function () {
     if (result.getElementsByTagName("body")) {
         ok(true)
     }
-    else ok(faile)
+    else ok(false)
     obj.destroy()
 });
 
