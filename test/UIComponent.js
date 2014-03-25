@@ -161,8 +161,7 @@ function compareHTML(actual, expect)
     {
         actual = actual.replace(';','')
     }
-    if(actual === expect) return true;
-    else return false;
+    strictEqual(actual,expect,'compareHTML')
 }
 
 test('type logic', function () {
@@ -211,11 +210,11 @@ test('template1', function () {
 //    console.log(templateContainer.getItem(0).content().getItem(0).resolve("@root"))
 //    console.log(templateContainer.getItem(0).content().getItem(0))
 //    console.log(templateContainer.getItem(0))
-    ok(compareHTML(templateContainer.getItem(0).content().getItem(0),'<li style="color:red">5</li>'),'');
-    ok(compareHTML(templateContainer.getItem(0).content().getItem(1),'<li>6</li>'),'');
+    compareHTML(templateContainer.getItem(0).content().getItem(0),'<li style="color:red">5</li>');
+    compareHTML(templateContainer.getItem(0).content().getItem(1),'<li>6</li>');
     deepEqual(templateContainer.getItem(1).model(), {data1: '7', data2: '8'}, "check template model");
-    ok(compareHTML(templateContainer.getItem(1).content().getItem(0),'<li style="color:red">7</li>'),'');
-    ok(compareHTML(templateContainer.getItem(1).content().getItem(1),'<li>8</li>'),'');
+    compareHTML(templateContainer.getItem(1).content().getItem(0),'<li style="color:red">7</li>');
+    compareHTML(templateContainer.getItem(1).content().getItem(1),'<li>8</li>');
     strictEqual(templateContainer.count(), 2, "check template with empty item");
     strictEqual(obj.resolve('test').resolve('@root').$dom.childElementCount, 4, "check dom");
     obj.destroy();
@@ -292,11 +291,11 @@ test('template-array', function () {
     var templateContainer = obj.resolve('test').content();
     equal(templateContainer.count(), 2, "check template with array in object")
     deepEqual(templateContainer.getItem(0).model(), {a:[1,2,3]}, "check template with one item")
-    ok(compareHTML(templateContainer.getItem(0).content().getItem(0),'<li style="color:red">1</li>'),'check dom')
-    ok(compareHTML(templateContainer.getItem(0).content().getItem(1),'<li>2</li>'),'')
+    compareHTML(templateContainer.getItem(0).content().getItem(0),'<li style="color:red">1</li>')
+    compareHTML(templateContainer.getItem(0).content().getItem(1),'<li>2</li>')
     deepEqual(templateContainer.getItem(1).model(), {a:[4,5,6]}, "check template with one item")
-    ok(compareHTML(templateContainer.getItem(1).content().getItem(0),'<li style="color:red">4</li>'),'check dom')
-    ok(compareHTML(templateContainer.getItem(1).content().getItem(1),'<li>5</li>'),'')
+    compareHTML(templateContainer.getItem(1).content().getItem(0),'<li style="color:red">4</li>')
+    compareHTML(templateContainer.getItem(1).content().getItem(1),'<li>5</li>')
     equal(obj.resolve('test').resolve('@root').$dom.childElementCount, 4, "check dom")
     obj.destroy()
 })
@@ -322,8 +321,8 @@ test('template-collection', function () {
     var templateContainer = obj.resolve('test').content();
 
     deepEqual(templateContainer.getItem(0).model(), {data1: '1', data2: '2'}, "check template model")
-    ok(compareHTML(templateContainer.getItem(0).content().getItem(0),'<li style="color:red">1</li>'),'')
-    ok(compareHTML(templateContainer.getItem(0).content().getItem(1),'<li>2</li>'),'')
+    compareHTML(templateContainer.getItem(0).content().getItem(0),'<li style="color:red">1</li>')
+    compareHTML(templateContainer.getItem(0).content().getItem(1),'<li>2</li>')
     equal(templateContainer.count(), 2, "check template count")
     equal(obj.resolve('test').resolve('@root').$dom.childElementCount, 4, "check dom")
     obj.destroy()
@@ -342,8 +341,8 @@ test('template-collection-add', function () {
     obj.refresh()
     equal(templateContainer.count(), 3, "check template count after intert")
     deepEqual(templateContainer.getItem(2).model(), {data1: '5', data2: '6'}, "check template model")
-    ok(compareHTML(templateContainer.getItem(2).content().getItem(0),'<li style="color:red">5</li>'),'check dom after insert')
-    ok(compareHTML(templateContainer.getItem(2).content().getItem(1),'<li>6</li>'),'')
+    compareHTML(templateContainer.getItem(2).content().getItem(0),'<li style="color:red">5</li>')
+    compareHTML(templateContainer.getItem(2).content().getItem(1),'<li>6</li>')
     equal(obj.resolve('test').resolve('@root').$dom.childElementCount, 6, "check dom")
     obj.destroy()
 })
@@ -362,8 +361,8 @@ test('template-collection-insert', function () {
     obj.refresh()
     equal(templateContainer.count(), 3, "check template count after intert")
     deepEqual(templateContainer.getItem(2).model(), {data1: '5', data2: '6'}, "check template model")
-    ok(compareHTML(templateContainer.getItem(2).content().getItem(0),'<li style="color:red">5</li>'),'check dom after insert')
-    ok(compareHTML(templateContainer.getItem(2).content().getItem(1),'<li>6</li>'),'')
+    compareHTML(templateContainer.getItem(2).content().getItem(0),'<li style="color:red">5</li>')
+    compareHTML(templateContainer.getItem(2).content().getItem(1),'<li>6</li>')
     equal(obj.resolve('test').resolve('@root').$dom.childElementCount, 6, "check dom")
     obj.destroy()
 })
@@ -381,8 +380,8 @@ test('template-collection-remove', function () {
     var templateContainer = obj.resolve('test').content();
 
     equal(templateContainer.count(), 1, "check template count after remove")
-    ok(compareHTML(templateContainer.getItem(0).content().getItem(0),'<li style="color:red">3</li>'),'check dom after remove')
-    ok(compareHTML(templateContainer.getItem(0).content().getItem(1),'<li>4</li>'),'')
+    compareHTML(templateContainer.getItem(0).content().getItem(0),'<li style="color:red">3</li>')
+    compareHTML(templateContainer.getItem(0).content().getItem(1),'<li>4</li>')
     equal(obj.resolve('test').resolve('@root').$dom.childElementCount, 2, "check dom")
     obj.destroy()
 })
@@ -395,8 +394,8 @@ test('template-ObservableCollection', function () {
 
     var templateContainer = obj.resolve('test').content();
     deepEqual(templateContainer.getItem(0).model(), {data1: '1', data2: '2'}, "check template model")
-    ok(compareHTML(templateContainer.getItem(0).content().getItem(0),'<li style="color:red">1</li>'),'')
-    ok(compareHTML(templateContainer.getItem(0).content().getItem(1),'<li>2</li>'),'')
+    compareHTML(templateContainer.getItem(0).content().getItem(0),'<li style="color:red">1</li>')
+    compareHTML(templateContainer.getItem(0).content().getItem(1),'<li>2</li>')
     equal(templateContainer.count(), 2, "check template count")
     equal(obj.resolve('test').resolve('@root').$dom.childElementCount, 4, "check dom")
     obj.destroy()
@@ -413,8 +412,8 @@ test('template-ObservableCollection-insert', function () {
     data.insert({data1: '5', data2: '6'},2);
     equal(templateContainer.count(), 3, "check template count after intert");
     deepEqual(templateContainer.getItem(2).model(), {data1: '5', data2: '6'}, "check template model");
-    ok(compareHTML(templateContainer.getItem(2).content().getItem(0),'<li style="color:red">5</li>'),'check dom after insert');
-    ok(compareHTML(templateContainer.getItem(2).content().getItem(1),'<li>6</li>'),'');
+    compareHTML(templateContainer.getItem(2).content().getItem(0),'<li style="color:red">5</li>')
+    compareHTML(templateContainer.getItem(2).content().getItem(1),'<li>6</li>')
     equal(obj.resolve('test').resolve('@root').$dom.childElementCount, 6, "check dom");
     obj.destroy();
 })
@@ -430,8 +429,8 @@ test('template-ObservableCollection-add', function () {
     data.add({data1: '5', data2: '6'});
     equal(templateContainer.count(), 3, "check template count after intert");
     deepEqual(templateContainer.getItem(2).model(), {data1: '5', data2: '6'}, "check template model");
-    ok(compareHTML(templateContainer.getItem(2).content().getItem(0),'<li style="color:red">5</li>'),'check dom after insert');
-    ok(compareHTML(templateContainer.getItem(2).content().getItem(1),'<li>6</li>'),'');
+    compareHTML(templateContainer.getItem(2).content().getItem(0),'<li style="color:red">5</li>')
+    compareHTML(templateContainer.getItem(2).content().getItem(1),'<li>6</li>')
     equal(obj.resolve('test').resolve('@root').$dom.childElementCount, 6, "check dom");
     obj.destroy();
 })
@@ -447,8 +446,8 @@ test('template-ObservableCollection-insertRange', function () {
     data.insertRange([{data1: '1', data2: '2'},{data1: '3', data2: '4'}],0);
     equal(templateContainer.count(), 2, "check template count after intert");
     deepEqual(templateContainer.getItem(1).model(), {data1: '3', data2: '4'}, "check template model");
-    ok(compareHTML(templateContainer.getItem(1).content().getItem(0),'<li style="color:red">3</li>'),'check dom after insert');
-    ok(compareHTML(templateContainer.getItem(1).content().getItem(1),'<li>4</li>'),'');
+    compareHTML(templateContainer.getItem(1).content().getItem(0),'<li style="color:red">3</li>')
+    compareHTML(templateContainer.getItem(1).content().getItem(1),'<li>4</li>')
     equal(obj.resolve('test').resolve('@root').$dom.childElementCount, 4, "check dom");
     obj.destroy();
 })
@@ -463,8 +462,8 @@ test('template-ObservableCollection-remove', function () {
 
     var templateContainer = obj.resolve('test').content();
     equal(templateContainer.count(), 1, "check template count after remove");
-    ok(compareHTML(templateContainer.getItem(0).content().getItem(0),'<li style="color:red">1</li>'),'check dom after remove');
-    ok(compareHTML(templateContainer.getItem(0).content().getItem(1),'<li>2</li>'),'');
+    compareHTML(templateContainer.getItem(0).content().getItem(0),'<li style="color:red">1</li>')
+    compareHTML(templateContainer.getItem(0).content().getItem(1),'<li>2</li>')
 
     data.remove(orignal_data[0]);
     equal(templateContainer.count(), 0, "check template count after remove all");
@@ -517,14 +516,14 @@ test('template-ObservableObject', function () {
     var templateContainer = obj.resolve('test').content();
     //strictEqual(obj.resolve('test').content().getItem(0).model(),num1, "check template model")
     ok(templateContainer.getItem(0).model()===num1, "check template model");
-    ok(compareHTML(templateContainer.getItem(0).content().getItem(0),'<li style="color:red">1</li>'),'');
-    ok(compareHTML(templateContainer.getItem(0).content().getItem(1),'<li>2</li>'),'');
+    compareHTML(templateContainer.getItem(0).content().getItem(0),'<li style="color:red">1</li>')
+    compareHTML(templateContainer.getItem(0).content().getItem(1),'<li>2</li>')
     strictEqual(templateContainer.count(), 2, "check template count");
     strictEqual(obj.resolve('test').resolve('@root').$dom.childElementCount, 4, "check dom");
     num1.data1(5);
     ok(templateContainer.getItem(0).model()===num1, "check template model");
-    ok(compareHTML(templateContainer.getItem(0).content().getItem(0),'<li style="color:red">5</li>'),'check dom after object changed');
-    ok(compareHTML(templateContainer.getItem(0).content().getItem(1),'<li>6</li>'),'');
+    compareHTML(templateContainer.getItem(0).content().getItem(0),'<li style="color:red">5</li>')
+    compareHTML(templateContainer.getItem(0).content().getItem(1),'<li>6</li>')
     obj.destroy();
 })
 
@@ -538,8 +537,8 @@ test('template-ObservableObject-add', function () {
     col.add({data1: '5', data2: '6'});
     var templateContainer = obj.resolve('test').content();
     deepEqual(templateContainer.getItem(2).model(), {data1: '5', data2: '6'}, "check template model");
-    ok(compareHTML(templateContainer.getItem(2).content().getItem(0),'<li style="color:red">5</li>'),'check dom add json object');
-    ok(compareHTML(templateContainer.getItem(2).content().getItem(1),'<li>6</li>'),'');
+    compareHTML(templateContainer.getItem(2).content().getItem(0),'<li style="color:red">5</li>')
+    compareHTML(templateContainer.getItem(2).content().getItem(1),'<li>6</li>')
     obj.destroy();
 })
 
@@ -608,8 +607,8 @@ test('template-template', function () {
     obj.attach(app);
     obj.items(data);
         var templateContainer = obj.resolve('test').content();
-    ok(compareHTML(templateContainer.getItem(0).content().getItem(1).content().getItem(2), '<li style="color:blue">a3</li>'));
-    ok(compareHTML(templateContainer.getItem(1).content().getItem(1).content().getItem(2), '<li style="color:blue">b3</li>'));
+    compareHTML(templateContainer.getItem(0).content().getItem(1).content().getItem(2), '<li style="color:blue">a3</li>')
+    compareHTML(templateContainer.getItem(1).content().getItem(1).content().getItem(2), '<li style="color:blue">b3</li>')
     templateContainer.getItem(1).content().getItem(1).content().getItem(2).fire('aclick');
     equal(obj.eventResult(),'b3','inner template event');
     templateContainer.getItem(0).content().getItem(1).content().getItem(2).fire('aclick');
