@@ -251,17 +251,16 @@
                     if (layoutType) {
                         this.activiteLayout(layoutType, null, function () {
                             this.fire('topologyGenerated');
-                            this.hideLoading();
                         });
                     } else if (this.enableSmartLabel()) {
                         setTimeout(function () {
                             this.fire('topologyGenerated');
-                            this.hideLoading();
                         }.bind(this), 100);
                     } else {
                         this.fire('topologyGenerated');
-                        this.hideLoading();
                     }
+
+                    this.hideLoading();
 
                 }, this);
 

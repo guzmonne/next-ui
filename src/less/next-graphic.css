@@ -428,6 +428,7 @@
   right: 0;
   height: 100%;
   width: 100%;
+  display: none;
 }
 .n-topology.n-topology-blue .n-topology-loading ul {
   position: absolute;
@@ -983,6 +984,7 @@
   right: 0;
   height: 100%;
   width: 100%;
+  display: none;
 }
 .n-topology.n-topology-dark .n-topology-loading ul {
   position: absolute;
@@ -1538,6 +1540,7 @@
   right: 0;
   height: 100%;
   width: 100%;
+  display: none;
 }
 .n-topology.n-topology-green .n-topology-loading ul {
   position: absolute;
@@ -2093,6 +2096,7 @@
   right: 0;
   height: 100%;
   width: 100%;
+  display: none;
 }
 .n-topology.n-topology-slate .n-topology-loading ul {
   position: absolute;
@@ -2648,6 +2652,7 @@
   right: 0;
   height: 100%;
   width: 100%;
+  display: none;
 }
 .n-topology.n-topology-yellow .n-topology-loading ul {
   position: absolute;
