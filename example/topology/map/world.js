@@ -60,7 +60,8 @@
                     layoutType: 'WorldMap',
                     layoutConfig: {
                         longitude: 'model.longitude',
-                        latitude: 'model.latitude'
+                        latitude: 'model.latitude',
+                        worldTopoJson: 'lib/world-50m.json'
                     },
                     data: topologyData
                 }

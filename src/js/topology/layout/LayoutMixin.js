@@ -37,7 +37,7 @@
             activiteLayout: function (inName, inConfig, callback) {
                 var layoutMap = this.layoutMap();
                 var name = inName || this.layoutType();
-                var config = inConfig || this.layoutType();
+                var config = inConfig || this.layoutConfig();
                 if (layoutMap[name] && layoutMap[name].process) {
                     layoutMap[name].process(this.graph(), config, callback);
                     this.layoutType(name);

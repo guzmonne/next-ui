@@ -178,11 +178,16 @@
     stroke-width: 8px !important;
   }
 }
-.n-topology.n-topology-blue .mapPah {
+.n-topology.n-topology-blue .mapPath {
   fill: #d6effe;
   stroke: #ccecfe;
   stroke-width: 1;
   opacity: 0.5;
+}
+.n-topology.n-topology-blue .mapBoundary {
+  fill: transparent;
+  stroke: #ccecfe;
+  stroke-width: 1;
 }
 .n-topology.n-topology-blue .selectionRect {
   stroke: #0386d2;
@@ -728,11 +733,16 @@
     stroke-width: 8px !important;
   }
 }
-.n-topology.n-topology-dark .mapPah {
+.n-topology.n-topology-dark .mapPath {
   fill: #ffffff;
   stroke: #f5fcff;
   stroke-width: 1;
   opacity: 0.5;
+}
+.n-topology.n-topology-dark .mapBoundary {
+  fill: transparent;
+  stroke: #f5fcff;
+  stroke-width: 1;
 }
 .n-topology.n-topology-dark .selectionRect {
   stroke: #00a9ff;
@@ -1278,11 +1288,16 @@
     stroke-width: 8px !important;
   }
 }
-.n-topology.n-topology-green .mapPah {
+.n-topology.n-topology-green .mapPath {
   fill: #cff2f4;
   stroke: #c7f0f2;
   stroke-width: 1;
   opacity: 0.5;
+}
+.n-topology.n-topology-green .mapBoundary {
+  fill: transparent;
+  stroke: #c7f0f2;
+  stroke-width: 1;
 }
 .n-topology.n-topology-green .selectionRect {
   stroke: #26999e;
@@ -1828,11 +1843,16 @@
     stroke-width: 8px !important;
   }
 }
-.n-topology.n-topology-slate .mapPah {
+.n-topology.n-topology-slate .mapPath {
   fill: #ffffff;
   stroke: #ffffff;
   stroke-width: 1;
   opacity: 0.5;
+}
+.n-topology.n-topology-slate .mapBoundary {
+  fill: transparent;
+  stroke: #ffffff;
+  stroke-width: 1;
 }
 .n-topology.n-topology-slate .selectionRect {
   stroke: #ffffff;
@@ -2378,11 +2398,16 @@
     stroke-width: 8px !important;
   }
 }
-.n-topology.n-topology-yellow .mapPah {
+.n-topology.n-topology-yellow .mapPath {
   fill: #ffffff;
   stroke: #fffdf5;
   stroke-width: 1;
   opacity: 0.5;
+}
+.n-topology.n-topology-yellow .mapBoundary {
+  fill: transparent;
+  stroke: #fffdf5;
+  stroke-width: 1;
 }
 .n-topology.n-topology-yellow .selectionRect {
   stroke: #ffc200;
