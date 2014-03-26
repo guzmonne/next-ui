@@ -5,7 +5,7 @@
 
     var tempElement = document.createElement('div'),
         tempStyle = tempElement.style;
-    var rsizeElement = /width|height|top|right|bottom|left|size|margin|padding/,
+    var rsizeElement = /width|height|top|right|bottom|left|size|margin|padding/i,
         rHasUnit = /[c-x%]/,
         PX = 'px',
         rUpperCameCase = /(?:^|-)([a-z])/g,
