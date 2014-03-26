@@ -49,10 +49,6 @@
       fill: @primaryColor;
     }
 
-    .dot {
-      fill: @primaryColor;
-    }
-
     text.node-label {
       font-family: "Cisco Sans Reg";
       fill: @primaryColor;
@@ -113,6 +109,39 @@
 
   }
 
+  .nodeset {
+    .selectedBG {
+      fill: transparent;
+      opacity: 0.8;
+      stroke: @nodeSelectedBGColor;
+      stroke-width: 3;
+      pointer-events: none;
+    }
+
+    .dot {
+      fill: @topologyBackgroundColor;
+      stroke: @primaryColor;
+      stroke-width: 1;
+    }
+
+    .bg {
+      fill: @primaryColor;
+    }
+
+    text.node-label {
+      font-family: "Cisco Sans Reg";
+      fill: @primaryColor;
+      pointer-events: none;
+      .user-select(none);
+    }
+
+    &.disable {
+      opacity: 0.3;
+      stroke: #ccc;
+    }
+
+  }
+
   .group {
 
     .bg {
@@ -166,10 +195,13 @@
     }
   }
 
+
+
   .mapPah {
-    fill: @secondBackgroundColor;
-    stroke: @topologyBackgroundColor;
+    fill: lighten(@primaryColor, 50%);
+    stroke: lighten(@primaryColor, 48%);
     stroke-width: 1;
+    opacity: 0.5;
   }
 
   .selectionRect {

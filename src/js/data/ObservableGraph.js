@@ -937,16 +937,19 @@
              * @returns {{x: number, y: number, width: number, height: number, maxX: number, maxY: number}}
              */
 
-            getBound: function () {
+            getBound: function (invertices) {
 
                 var min_x, max_x, min_y, max_y;
 
-                var vertices = this.getVisibleVertices();
+                var vertices = invertices || this.getVisibleVertices();
                 var firstItem = vertices[0];
+                var x, y;
 
                 if (firstItem) {
-                    min_x = max_x = firstItem.get('x') || 0;
-                    min_y = max_y = firstItem.get('y') || 0;
+                    x = firstItem.get ? firstItem.get('x') : firstItem.x;
+                    y = firstItem.get ? firstItem.get('y') : firstItem.y;
+                    min_x = max_x = x || 0;
+                    min_y = max_y = y || 0;
                 } else {
                     min_x = max_x = 0;
                     min_y = max_y = 0;
@@ -954,10 +957,12 @@
 
 
                 nx.each(vertices, function (vertex, index) {
-                    min_x = Math.min(min_x, vertex.get('x') || 0);
-                    max_x = Math.max(max_x, vertex.get('x') || 0);
-                    min_y = Math.min(min_y, vertex.get('y') || 0);
-                    max_y = Math.max(max_y, vertex.get('y') || 0);
+                    x = vertex.get ? vertex.get('x') : vertex.x;
+                    y = vertex.get ? vertex.get('y') : vertex.y;
+                    min_x = Math.min(min_x, x || 0);
+                    max_x = Math.max(max_x, x || 0);
+                    min_y = Math.min(min_y, y || 0);
+                    max_y = Math.max(max_y, y || 0);
                 });
 
                 return {

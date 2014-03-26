@@ -7,6 +7,50 @@
     nx.define('nx.graphic.Topology.Node', nx.graphic.Topology.AbstractNode, {
         events: ['pressNode', 'clickNode', 'enterNode', 'leaveNode', 'dragNodeStart', 'dragNode', 'dragNodeEnd', 'selectNode'],
         properties: {
+            position: {
+                get: function () {
+                    return {
+                        x: this._x || 0,
+                        y: this._y || 0
+                    };
+                },
+                set: function (obj) {
+                    var isModified = false;
+                    var model = this.model();
+                    if (obj.x != null) {
+                        if (!this._lockXAxle && this._x !== obj.x) {
+                            if (this._x === undefined) {
+                                this._x = obj.x;
+                            } else {
+                                this._x = obj.x;
+                                model.set("x", this.projectionX().invert(obj.x));
+                            }
+                            this.notify("x");
+                            isModified = true;
+                        }
+                    }
+
+                    if (obj.y != null) {
+                        if (!this._lockYAxle && this._y !== obj.y) {
+
+                            if (this._y === undefined) {
+                                this._y = obj.y;
+                            } else {
+                                this._y = obj.y;
+                                model.set("y", this.projectionY().invert(obj.y));
+                            }
+                            this.notify("y");
+                            isModified = true;
+                        }
+                    }
+
+                    if (isModified) {
+                        this.view().setTransform(this._x, this._y);
+                        this.notify('vector');
+                    }
+                    return isModified;
+                }
+            },
             nodeScale: {
                 get: function () {
                     return this._nodeScale !== undefined ? this._nodeScale : 1;
@@ -81,6 +125,7 @@
 
                     this._showIcon = value;
                     this.calcLabelPosition();
+                    this._setSelectedRadius();
                 }
             },
 
@@ -96,21 +141,13 @@
                     if (this._selected != value) {
                         var el = this.resolve('selectedBG');
                         if (value) {
-                            var radius;
-                            if (this.showIcon()) {
-                                var size = this.resolve('icon').size();
-                                radius = Math.max(size.height, size.width) / 2;
-                            } else {
-                                radius = this.radius();
-                            }
-                            el.set('r', radius * 1.5 * this.nodeScale());
                             el.append();
                         } else {
                             el.remove();
                         }
 
                         this._selected = value;
-
+                        this._setSelectedRadius();
                         this.fire('selectNode', value);
 
                         return true;
@@ -145,7 +182,6 @@
         view: {
             type: 'nx.graphic.Group',
             props: {
-                translate: '{#position}',
                 'class': 'node'
             },
             content: [
@@ -190,8 +226,8 @@
                             type: 'nx.graphic.Circle',
                             props: {
                                 r: '4',
-                                x: 0,
-                                y: 0,
+                                cx: 0,
+                                cy: 0,
                                 'class': 'dot'
                             }
                         },
@@ -272,6 +308,34 @@
                         width: this.radius() * scale * 2,
                         height: this.radius() * scale * 2
                     };
+                }
+            },
+            cssMoveTo: function (x, y, callback) {
+                var el = this.view();
+                el.upon('transitionend', function () {
+                    this._x = x;
+                    this._y = y;
+                    this.notify('position');
+
+                    this.model().set("position", {
+                        x: this.projectionX().invert(x),
+                        y: this.projectionY().invert(y)
+                    });
+                }, this);
+                this.view().setTransform(x, y, null, 0.5);
+            },
+            _setSelectedRadius: function () {
+
+                if (this.selected()) {
+                    var radius;
+                    var el = this.resolve('selectedBG');
+                    if (this.showIcon()) {
+                        var size = this.resolve('icon').size();
+                        radius = Math.max(size.height, size.width) / 2;
+                    } else {
+                        radius = this.radius();
+                    }
+                    el.set('r', radius * 1.5 * this.nodeScale());
                 }
             },
             _mousedown: function (sender, event) {

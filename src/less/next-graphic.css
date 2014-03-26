@@ -56,9 +56,6 @@
 .n-topology.n-topology-blue .node .dot {
   fill: #0386d2;
 }
-.n-topology.n-topology-blue .node .dot {
-  fill: #0386d2;
-}
 .n-topology.n-topology-blue .node text.node-label {
   font-family: "Cisco Sans Reg";
   fill: #0386d2;
@@ -109,6 +106,35 @@
   stroke: #ccc;
   stroke-width: 2px;
 }
+.n-topology.n-topology-blue .nodeset .selectedBG {
+  fill: transparent;
+  opacity: 0.8;
+  stroke: #f2ad4e;
+  stroke-width: 3;
+  pointer-events: none;
+}
+.n-topology.n-topology-blue .nodeset .dot {
+  fill: #ffffff;
+  stroke: #0386d2;
+  stroke-width: 1;
+}
+.n-topology.n-topology-blue .nodeset .bg {
+  fill: #0386d2;
+}
+.n-topology.n-topology-blue .nodeset text.node-label {
+  font-family: "Cisco Sans Reg";
+  fill: #0386d2;
+  pointer-events: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+.n-topology.n-topology-blue .nodeset.disable {
+  opacity: 0.3;
+  stroke: #ccc;
+}
 .n-topology.n-topology-blue .group .bg {
   opacity: 0.5;
   stroke-width: 10px;
@@ -153,9 +179,10 @@
   }
 }
 .n-topology.n-topology-blue .mapPah {
-  fill: #ffffff;
-  stroke: #ffffff;
+  fill: #d6effe;
+  stroke: #ccecfe;
   stroke-width: 1;
+  opacity: 0.5;
 }
 .n-topology.n-topology-blue .selectionRect {
   stroke: #0386d2;
@@ -387,6 +414,148 @@
 .n-topology.n-topology-blue .n-topology-nav-setting-icon-selected {
   color: #0396eb;
 }
+.n-topology.n-topology-blue .n-topology-loading {
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+}
+.n-topology.n-topology-blue .n-topology-loading ul {
+  position: absolute;
+  left: calc(49.3%);
+  top: calc(45.8%);
+  display: inline-block;
+  text-indent: 2.8em;
+}
+.n-topology.n-topology-blue .n-topology-loading ul li:after,
+.n-topology.n-topology-blue .n-topology-loading ul:after {
+  width: 1.4em;
+  height: 1.4em;
+  border-radius: 100%;
+}
+.n-topology.n-topology-blue .n-topology-loading ul li:after,
+.n-topology.n-topology-blue .n-topology-loading ul:after {
+  content: "";
+  display: block;
+}
+.n-topology.n-topology-blue .n-topology-loading ul:after {
+  position: absolute;
+  top: 2.8em;
+}
+.n-topology.n-topology-blue .n-topology-loading li {
+  position: absolute;
+  padding-bottom: 5.6em;
+  top: 0;
+  left: 0;
+  list-style: none;
+}
+.n-topology.n-topology-blue .n-topology-loading li:after {
+  background: #0386d2;
+}
+.n-topology.n-topology-blue .n-topology-loading li:nth-child(1) {
+  -webkit-transform: rotate(0deg);
+  -webkit-animation-delay: 0.125s;
+}
+.n-topology.n-topology-blue .n-topology-loading li:nth-child(1):after {
+  -webkit-animation-delay: 0.125s;
+}
+.n-topology.n-topology-blue .n-topology-loading li:nth-child(2) {
+  -webkit-transform: rotate(36deg);
+  -webkit-animation-delay: 0.25s;
+}
+.n-topology.n-topology-blue .n-topology-loading li:nth-child(2):after {
+  -webkit-animation-delay: 0.25s;
+}
+.n-topology.n-topology-blue .n-topology-loading li:nth-child(3) {
+  -webkit-transform: rotate(72deg);
+  -webkit-animation-delay: 0.375s;
+}
+.n-topology.n-topology-blue .n-topology-loading li:nth-child(3):after {
+  -webkit-animation-delay: 0.375s;
+}
+.n-topology.n-topology-blue .n-topology-loading li:nth-child(4) {
+  -webkit-transform: rotate(108deg);
+  -webkit-animation-delay: 0.5s;
+}
+.n-topology.n-topology-blue .n-topology-loading li:nth-child(4):after {
+  -webkit-animation-delay: 0.5s;
+}
+.n-topology.n-topology-blue .n-topology-loading li:nth-child(5) {
+  -webkit-transform: rotate(144deg);
+  -webkit-animation-delay: 0.625s;
+}
+.n-topology.n-topology-blue .n-topology-loading li:nth-child(5):after {
+  -webkit-animation-delay: 0.625s;
+}
+.n-topology.n-topology-blue .n-topology-loading li:nth-child(6) {
+  -webkit-transform: rotate(180deg);
+  -webkit-animation-delay: 0.75s;
+}
+.n-topology.n-topology-blue .n-topology-loading li:nth-child(6):after {
+  -webkit-animation-delay: 0.75s;
+}
+.n-topology.n-topology-blue .n-topology-loading li:nth-child(7) {
+  -webkit-transform: rotate(216deg);
+  -webkit-animation-delay: 0.875s;
+}
+.n-topology.n-topology-blue .n-topology-loading li:nth-child(7):after {
+  -webkit-animation-delay: 0.875s;
+}
+.n-topology.n-topology-blue .n-topology-loading li:nth-child(8) {
+  -webkit-transform: rotate(252deg);
+  -webkit-animation-delay: 1s;
+}
+.n-topology.n-topology-blue .n-topology-loading li:nth-child(8):after {
+  -webkit-animation-delay: 1s;
+}
+.n-topology.n-topology-blue .n-topology-loading li:nth-child(9) {
+  -webkit-transform: rotate(288deg);
+  -webkit-animation-delay: 1.125s;
+}
+.n-topology.n-topology-blue .n-topology-loading li:nth-child(9):after {
+  -webkit-animation-delay: 1.125s;
+}
+.n-topology.n-topology-blue .n-topology-loading li:nth-child(10) {
+  -webkit-transform: rotate(324deg);
+  -webkit-animation-delay: 1.25s;
+}
+.n-topology.n-topology-blue .n-topology-loading li:nth-child(10):after {
+  -webkit-animation-delay: 1.25s;
+}
+.n-topology.n-topology-blue .n-topology-loading li {
+  -webkit-animation: dotAnimation 2.5s infinite;
+}
+@-webkit-keyframes dotAnimation {
+  0%,
+  55%,
+  100% {
+    padding: 0 0 5.6em 0;
+  }
+  5%,
+  50% {
+    padding: 2.8em 0;
+  }
+}
+.n-topology.n-topology-blue .n-topology-loading li:after {
+  -webkit-animation: dotAnimationTwo 2.5s infinite;
+}
+@-webkit-keyframes dotAnimationTwo {
+  0%,
+  55%,
+  100% {
+    opacity: 1;
+    -webkit-transform: scale(1);
+  }
+  5%,
+  50% {
+    opacity: .5;
+    -webkit-transform: scale(0.5);
+  }
+}
 .n-topology.n-topology-dark {
   position: relative;
   overflow: hidden;
@@ -433,9 +602,6 @@
   stroke: #f7931e;
   stroke-width: 3;
   pointer-events: none;
-}
-.n-topology.n-topology-dark .node .dot {
-  fill: #00a9ff;
 }
 .n-topology.n-topology-dark .node .dot {
   fill: #00a9ff;
@@ -490,6 +656,35 @@
   stroke: #ccc;
   stroke-width: 2px;
 }
+.n-topology.n-topology-dark .nodeset .selectedBG {
+  fill: transparent;
+  opacity: 0.8;
+  stroke: #f7931e;
+  stroke-width: 3;
+  pointer-events: none;
+}
+.n-topology.n-topology-dark .nodeset .dot {
+  fill: #000000;
+  stroke: #00a9ff;
+  stroke-width: 1;
+}
+.n-topology.n-topology-dark .nodeset .bg {
+  fill: #00a9ff;
+}
+.n-topology.n-topology-dark .nodeset text.node-label {
+  font-family: "Cisco Sans Reg";
+  fill: #00a9ff;
+  pointer-events: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+.n-topology.n-topology-dark .nodeset.disable {
+  opacity: 0.3;
+  stroke: #ccc;
+}
 .n-topology.n-topology-dark .group .bg {
   opacity: 0.5;
   stroke-width: 10px;
@@ -535,8 +730,9 @@
 }
 .n-topology.n-topology-dark .mapPah {
   fill: #ffffff;
-  stroke: #000000;
+  stroke: #f5fcff;
   stroke-width: 1;
+  opacity: 0.5;
 }
 .n-topology.n-topology-dark .selectionRect {
   stroke: #00a9ff;
@@ -768,6 +964,148 @@
 .n-topology.n-topology-dark .n-topology-nav-setting-icon-selected {
   color: #1ab2ff;
 }
+.n-topology.n-topology-dark .n-topology-loading {
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+}
+.n-topology.n-topology-dark .n-topology-loading ul {
+  position: absolute;
+  left: calc(49.3%);
+  top: calc(45.8%);
+  display: inline-block;
+  text-indent: 2.8em;
+}
+.n-topology.n-topology-dark .n-topology-loading ul li:after,
+.n-topology.n-topology-dark .n-topology-loading ul:after {
+  width: 1.4em;
+  height: 1.4em;
+  border-radius: 100%;
+}
+.n-topology.n-topology-dark .n-topology-loading ul li:after,
+.n-topology.n-topology-dark .n-topology-loading ul:after {
+  content: "";
+  display: block;
+}
+.n-topology.n-topology-dark .n-topology-loading ul:after {
+  position: absolute;
+  top: 2.8em;
+}
+.n-topology.n-topology-dark .n-topology-loading li {
+  position: absolute;
+  padding-bottom: 5.6em;
+  top: 0;
+  left: 0;
+  list-style: none;
+}
+.n-topology.n-topology-dark .n-topology-loading li:after {
+  background: #00a9ff;
+}
+.n-topology.n-topology-dark .n-topology-loading li:nth-child(1) {
+  -webkit-transform: rotate(0deg);
+  -webkit-animation-delay: 0.125s;
+}
+.n-topology.n-topology-dark .n-topology-loading li:nth-child(1):after {
+  -webkit-animation-delay: 0.125s;
+}
+.n-topology.n-topology-dark .n-topology-loading li:nth-child(2) {
+  -webkit-transform: rotate(36deg);
+  -webkit-animation-delay: 0.25s;
+}
+.n-topology.n-topology-dark .n-topology-loading li:nth-child(2):after {
+  -webkit-animation-delay: 0.25s;
+}
+.n-topology.n-topology-dark .n-topology-loading li:nth-child(3) {
+  -webkit-transform: rotate(72deg);
+  -webkit-animation-delay: 0.375s;
+}
+.n-topology.n-topology-dark .n-topology-loading li:nth-child(3):after {
+  -webkit-animation-delay: 0.375s;
+}
+.n-topology.n-topology-dark .n-topology-loading li:nth-child(4) {
+  -webkit-transform: rotate(108deg);
+  -webkit-animation-delay: 0.5s;
+}
+.n-topology.n-topology-dark .n-topology-loading li:nth-child(4):after {
+  -webkit-animation-delay: 0.5s;
+}
+.n-topology.n-topology-dark .n-topology-loading li:nth-child(5) {
+  -webkit-transform: rotate(144deg);
+  -webkit-animation-delay: 0.625s;
+}
+.n-topology.n-topology-dark .n-topology-loading li:nth-child(5):after {
+  -webkit-animation-delay: 0.625s;
+}
+.n-topology.n-topology-dark .n-topology-loading li:nth-child(6) {
+  -webkit-transform: rotate(180deg);
+  -webkit-animation-delay: 0.75s;
+}
+.n-topology.n-topology-dark .n-topology-loading li:nth-child(6):after {
+  -webkit-animation-delay: 0.75s;
+}
+.n-topology.n-topology-dark .n-topology-loading li:nth-child(7) {
+  -webkit-transform: rotate(216deg);
+  -webkit-animation-delay: 0.875s;
+}
+.n-topology.n-topology-dark .n-topology-loading li:nth-child(7):after {
+  -webkit-animation-delay: 0.875s;
+}
+.n-topology.n-topology-dark .n-topology-loading li:nth-child(8) {
+  -webkit-transform: rotate(252deg);
+  -webkit-animation-delay: 1s;
+}
+.n-topology.n-topology-dark .n-topology-loading li:nth-child(8):after {
+  -webkit-animation-delay: 1s;
+}
+.n-topology.n-topology-dark .n-topology-loading li:nth-child(9) {
+  -webkit-transform: rotate(288deg);
+  -webkit-animation-delay: 1.125s;
+}
+.n-topology.n-topology-dark .n-topology-loading li:nth-child(9):after {
+  -webkit-animation-delay: 1.125s;
+}
+.n-topology.n-topology-dark .n-topology-loading li:nth-child(10) {
+  -webkit-transform: rotate(324deg);
+  -webkit-animation-delay: 1.25s;
+}
+.n-topology.n-topology-dark .n-topology-loading li:nth-child(10):after {
+  -webkit-animation-delay: 1.25s;
+}
+.n-topology.n-topology-dark .n-topology-loading li {
+  -webkit-animation: dotAnimation 2.5s infinite;
+}
+@-webkit-keyframes dotAnimation {
+  0%,
+  55%,
+  100% {
+    padding: 0 0 5.6em 0;
+  }
+  5%,
+  50% {
+    padding: 2.8em 0;
+  }
+}
+.n-topology.n-topology-dark .n-topology-loading li:after {
+  -webkit-animation: dotAnimationTwo 2.5s infinite;
+}
+@-webkit-keyframes dotAnimationTwo {
+  0%,
+  55%,
+  100% {
+    opacity: 1;
+    -webkit-transform: scale(1);
+  }
+  5%,
+  50% {
+    opacity: .5;
+    -webkit-transform: scale(0.5);
+  }
+}
 .n-topology.n-topology-green {
   position: relative;
   overflow: hidden;
@@ -814,9 +1152,6 @@
   stroke: #f2ad4e;
   stroke-width: 3;
   pointer-events: none;
-}
-.n-topology.n-topology-green .node .dot {
-  fill: #26999e;
 }
 .n-topology.n-topology-green .node .dot {
   fill: #26999e;
@@ -871,6 +1206,35 @@
   stroke: #ccc;
   stroke-width: 2px;
 }
+.n-topology.n-topology-green .nodeset .selectedBG {
+  fill: transparent;
+  opacity: 0.8;
+  stroke: #f2ad4e;
+  stroke-width: 3;
+  pointer-events: none;
+}
+.n-topology.n-topology-green .nodeset .dot {
+  fill: #ffffff;
+  stroke: #26999e;
+  stroke-width: 1;
+}
+.n-topology.n-topology-green .nodeset .bg {
+  fill: #26999e;
+}
+.n-topology.n-topology-green .nodeset text.node-label {
+  font-family: "Cisco Sans Reg";
+  fill: #26999e;
+  pointer-events: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+.n-topology.n-topology-green .nodeset.disable {
+  opacity: 0.3;
+  stroke: #ccc;
+}
 .n-topology.n-topology-green .group .bg {
   opacity: 0.5;
   stroke-width: 10px;
@@ -915,9 +1279,10 @@
   }
 }
 .n-topology.n-topology-green .mapPah {
-  fill: #ffffff;
-  stroke: #ffffff;
+  fill: #cff2f4;
+  stroke: #c7f0f2;
   stroke-width: 1;
+  opacity: 0.5;
 }
 .n-topology.n-topology-green .selectionRect {
   stroke: #26999e;
@@ -1149,6 +1514,148 @@
 .n-topology.n-topology-green .n-topology-nav-setting-icon-selected {
   color: #2badb3;
 }
+.n-topology.n-topology-green .n-topology-loading {
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+}
+.n-topology.n-topology-green .n-topology-loading ul {
+  position: absolute;
+  left: calc(49.3%);
+  top: calc(45.8%);
+  display: inline-block;
+  text-indent: 2.8em;
+}
+.n-topology.n-topology-green .n-topology-loading ul li:after,
+.n-topology.n-topology-green .n-topology-loading ul:after {
+  width: 1.4em;
+  height: 1.4em;
+  border-radius: 100%;
+}
+.n-topology.n-topology-green .n-topology-loading ul li:after,
+.n-topology.n-topology-green .n-topology-loading ul:after {
+  content: "";
+  display: block;
+}
+.n-topology.n-topology-green .n-topology-loading ul:after {
+  position: absolute;
+  top: 2.8em;
+}
+.n-topology.n-topology-green .n-topology-loading li {
+  position: absolute;
+  padding-bottom: 5.6em;
+  top: 0;
+  left: 0;
+  list-style: none;
+}
+.n-topology.n-topology-green .n-topology-loading li:after {
+  background: #26999e;
+}
+.n-topology.n-topology-green .n-topology-loading li:nth-child(1) {
+  -webkit-transform: rotate(0deg);
+  -webkit-animation-delay: 0.125s;
+}
+.n-topology.n-topology-green .n-topology-loading li:nth-child(1):after {
+  -webkit-animation-delay: 0.125s;
+}
+.n-topology.n-topology-green .n-topology-loading li:nth-child(2) {
+  -webkit-transform: rotate(36deg);
+  -webkit-animation-delay: 0.25s;
+}
+.n-topology.n-topology-green .n-topology-loading li:nth-child(2):after {
+  -webkit-animation-delay: 0.25s;
+}
+.n-topology.n-topology-green .n-topology-loading li:nth-child(3) {
+  -webkit-transform: rotate(72deg);
+  -webkit-animation-delay: 0.375s;
+}
+.n-topology.n-topology-green .n-topology-loading li:nth-child(3):after {
+  -webkit-animation-delay: 0.375s;
+}
+.n-topology.n-topology-green .n-topology-loading li:nth-child(4) {
+  -webkit-transform: rotate(108deg);
+  -webkit-animation-delay: 0.5s;
+}
+.n-topology.n-topology-green .n-topology-loading li:nth-child(4):after {
+  -webkit-animation-delay: 0.5s;
+}
+.n-topology.n-topology-green .n-topology-loading li:nth-child(5) {
+  -webkit-transform: rotate(144deg);
+  -webkit-animation-delay: 0.625s;
+}
+.n-topology.n-topology-green .n-topology-loading li:nth-child(5):after {
+  -webkit-animation-delay: 0.625s;
+}
+.n-topology.n-topology-green .n-topology-loading li:nth-child(6) {
+  -webkit-transform: rotate(180deg);
+  -webkit-animation-delay: 0.75s;
+}
+.n-topology.n-topology-green .n-topology-loading li:nth-child(6):after {
+  -webkit-animation-delay: 0.75s;
+}
+.n-topology.n-topology-green .n-topology-loading li:nth-child(7) {
+  -webkit-transform: rotate(216deg);
+  -webkit-animation-delay: 0.875s;
+}
+.n-topology.n-topology-green .n-topology-loading li:nth-child(7):after {
+  -webkit-animation-delay: 0.875s;
+}
+.n-topology.n-topology-green .n-topology-loading li:nth-child(8) {
+  -webkit-transform: rotate(252deg);
+  -webkit-animation-delay: 1s;
+}
+.n-topology.n-topology-green .n-topology-loading li:nth-child(8):after {
+  -webkit-animation-delay: 1s;
+}
+.n-topology.n-topology-green .n-topology-loading li:nth-child(9) {
+  -webkit-transform: rotate(288deg);
+  -webkit-animation-delay: 1.125s;
+}
+.n-topology.n-topology-green .n-topology-loading li:nth-child(9):after {
+  -webkit-animation-delay: 1.125s;
+}
+.n-topology.n-topology-green .n-topology-loading li:nth-child(10) {
+  -webkit-transform: rotate(324deg);
+  -webkit-animation-delay: 1.25s;
+}
+.n-topology.n-topology-green .n-topology-loading li:nth-child(10):after {
+  -webkit-animation-delay: 1.25s;
+}
+.n-topology.n-topology-green .n-topology-loading li {
+  -webkit-animation: dotAnimation 2.5s infinite;
+}
+@-webkit-keyframes dotAnimation {
+  0%,
+  55%,
+  100% {
+    padding: 0 0 5.6em 0;
+  }
+  5%,
+  50% {
+    padding: 2.8em 0;
+  }
+}
+.n-topology.n-topology-green .n-topology-loading li:after {
+  -webkit-animation: dotAnimationTwo 2.5s infinite;
+}
+@-webkit-keyframes dotAnimationTwo {
+  0%,
+  55%,
+  100% {
+    opacity: 1;
+    -webkit-transform: scale(1);
+  }
+  5%,
+  50% {
+    opacity: .5;
+    -webkit-transform: scale(0.5);
+  }
+}
 .n-topology.n-topology-slate {
   position: relative;
   overflow: hidden;
@@ -1195,9 +1702,6 @@
   stroke: #f7931e;
   stroke-width: 3;
   pointer-events: none;
-}
-.n-topology.n-topology-slate .node .dot {
-  fill: #ffffff;
 }
 .n-topology.n-topology-slate .node .dot {
   fill: #ffffff;
@@ -1252,6 +1756,35 @@
   stroke: #ccc;
   stroke-width: 2px;
 }
+.n-topology.n-topology-slate .nodeset .selectedBG {
+  fill: transparent;
+  opacity: 0.8;
+  stroke: #f7931e;
+  stroke-width: 3;
+  pointer-events: none;
+}
+.n-topology.n-topology-slate .nodeset .dot {
+  fill: #223343;
+  stroke: #ffffff;
+  stroke-width: 1;
+}
+.n-topology.n-topology-slate .nodeset .bg {
+  fill: #ffffff;
+}
+.n-topology.n-topology-slate .nodeset text.node-label {
+  font-family: "Cisco Sans Reg";
+  fill: #ffffff;
+  pointer-events: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+.n-topology.n-topology-slate .nodeset.disable {
+  opacity: 0.3;
+  stroke: #ccc;
+}
 .n-topology.n-topology-slate .group .bg {
   opacity: 0.5;
   stroke-width: 10px;
@@ -1297,8 +1830,9 @@
 }
 .n-topology.n-topology-slate .mapPah {
   fill: #ffffff;
-  stroke: #223343;
+  stroke: #ffffff;
   stroke-width: 1;
+  opacity: 0.5;
 }
 .n-topology.n-topology-slate .selectionRect {
   stroke: #ffffff;
@@ -1530,6 +2064,148 @@
 .n-topology.n-topology-slate .n-topology-nav-setting-icon-selected {
   color: #ffffff;
 }
+.n-topology.n-topology-slate .n-topology-loading {
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+}
+.n-topology.n-topology-slate .n-topology-loading ul {
+  position: absolute;
+  left: calc(49.3%);
+  top: calc(45.8%);
+  display: inline-block;
+  text-indent: 2.8em;
+}
+.n-topology.n-topology-slate .n-topology-loading ul li:after,
+.n-topology.n-topology-slate .n-topology-loading ul:after {
+  width: 1.4em;
+  height: 1.4em;
+  border-radius: 100%;
+}
+.n-topology.n-topology-slate .n-topology-loading ul li:after,
+.n-topology.n-topology-slate .n-topology-loading ul:after {
+  content: "";
+  display: block;
+}
+.n-topology.n-topology-slate .n-topology-loading ul:after {
+  position: absolute;
+  top: 2.8em;
+}
+.n-topology.n-topology-slate .n-topology-loading li {
+  position: absolute;
+  padding-bottom: 5.6em;
+  top: 0;
+  left: 0;
+  list-style: none;
+}
+.n-topology.n-topology-slate .n-topology-loading li:after {
+  background: #ffffff;
+}
+.n-topology.n-topology-slate .n-topology-loading li:nth-child(1) {
+  -webkit-transform: rotate(0deg);
+  -webkit-animation-delay: 0.125s;
+}
+.n-topology.n-topology-slate .n-topology-loading li:nth-child(1):after {
+  -webkit-animation-delay: 0.125s;
+}
+.n-topology.n-topology-slate .n-topology-loading li:nth-child(2) {
+  -webkit-transform: rotate(36deg);
+  -webkit-animation-delay: 0.25s;
+}
+.n-topology.n-topology-slate .n-topology-loading li:nth-child(2):after {
+  -webkit-animation-delay: 0.25s;
+}
+.n-topology.n-topology-slate .n-topology-loading li:nth-child(3) {
+  -webkit-transform: rotate(72deg);
+  -webkit-animation-delay: 0.375s;
+}
+.n-topology.n-topology-slate .n-topology-loading li:nth-child(3):after {
+  -webkit-animation-delay: 0.375s;
+}
+.n-topology.n-topology-slate .n-topology-loading li:nth-child(4) {
+  -webkit-transform: rotate(108deg);
+  -webkit-animation-delay: 0.5s;
+}
+.n-topology.n-topology-slate .n-topology-loading li:nth-child(4):after {
+  -webkit-animation-delay: 0.5s;
+}
+.n-topology.n-topology-slate .n-topology-loading li:nth-child(5) {
+  -webkit-transform: rotate(144deg);
+  -webkit-animation-delay: 0.625s;
+}
+.n-topology.n-topology-slate .n-topology-loading li:nth-child(5):after {
+  -webkit-animation-delay: 0.625s;
+}
+.n-topology.n-topology-slate .n-topology-loading li:nth-child(6) {
+  -webkit-transform: rotate(180deg);
+  -webkit-animation-delay: 0.75s;
+}
+.n-topology.n-topology-slate .n-topology-loading li:nth-child(6):after {
+  -webkit-animation-delay: 0.75s;
+}
+.n-topology.n-topology-slate .n-topology-loading li:nth-child(7) {
+  -webkit-transform: rotate(216deg);
+  -webkit-animation-delay: 0.875s;
+}
+.n-topology.n-topology-slate .n-topology-loading li:nth-child(7):after {
+  -webkit-animation-delay: 0.875s;
+}
+.n-topology.n-topology-slate .n-topology-loading li:nth-child(8) {
+  -webkit-transform: rotate(252deg);
+  -webkit-animation-delay: 1s;
+}
+.n-topology.n-topology-slate .n-topology-loading li:nth-child(8):after {
+  -webkit-animation-delay: 1s;
+}
+.n-topology.n-topology-slate .n-topology-loading li:nth-child(9) {
+  -webkit-transform: rotate(288deg);
+  -webkit-animation-delay: 1.125s;
+}
+.n-topology.n-topology-slate .n-topology-loading li:nth-child(9):after {
+  -webkit-animation-delay: 1.125s;
+}
+.n-topology.n-topology-slate .n-topology-loading li:nth-child(10) {
+  -webkit-transform: rotate(324deg);
+  -webkit-animation-delay: 1.25s;
+}
+.n-topology.n-topology-slate .n-topology-loading li:nth-child(10):after {
+  -webkit-animation-delay: 1.25s;
+}
+.n-topology.n-topology-slate .n-topology-loading li {
+  -webkit-animation: dotAnimation 2.5s infinite;
+}
+@-webkit-keyframes dotAnimation {
+  0%,
+  55%,
+  100% {
+    padding: 0 0 5.6em 0;
+  }
+  5%,
+  50% {
+    padding: 2.8em 0;
+  }
+}
+.n-topology.n-topology-slate .n-topology-loading li:after {
+  -webkit-animation: dotAnimationTwo 2.5s infinite;
+}
+@-webkit-keyframes dotAnimationTwo {
+  0%,
+  55%,
+  100% {
+    opacity: 1;
+    -webkit-transform: scale(1);
+  }
+  5%,
+  50% {
+    opacity: .5;
+    -webkit-transform: scale(0.5);
+  }
+}
 .n-topology.n-topology-yellow {
   position: relative;
   overflow: hidden;
@@ -1576,9 +2252,6 @@
   stroke: #ff7900;
   stroke-width: 3;
   pointer-events: none;
-}
-.n-topology.n-topology-yellow .node .dot {
-  fill: #ffc200;
 }
 .n-topology.n-topology-yellow .node .dot {
   fill: #ffc200;
@@ -1633,6 +2306,35 @@
   stroke: #ccc;
   stroke-width: 2px;
 }
+.n-topology.n-topology-yellow .nodeset .selectedBG {
+  fill: transparent;
+  opacity: 0.8;
+  stroke: #ff7900;
+  stroke-width: 3;
+  pointer-events: none;
+}
+.n-topology.n-topology-yellow .nodeset .dot {
+  fill: #000000;
+  stroke: #ffc200;
+  stroke-width: 1;
+}
+.n-topology.n-topology-yellow .nodeset .bg {
+  fill: #ffc200;
+}
+.n-topology.n-topology-yellow .nodeset text.node-label {
+  font-family: "Cisco Sans Reg";
+  fill: #ffc200;
+  pointer-events: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+.n-topology.n-topology-yellow .nodeset.disable {
+  opacity: 0.3;
+  stroke: #ccc;
+}
 .n-topology.n-topology-yellow .group .bg {
   opacity: 0.5;
   stroke-width: 10px;
@@ -1678,8 +2380,9 @@
 }
 .n-topology.n-topology-yellow .mapPah {
   fill: #ffffff;
-  stroke: #000000;
+  stroke: #fffdf5;
   stroke-width: 1;
+  opacity: 0.5;
 }
 .n-topology.n-topology-yellow .selectionRect {
   stroke: #ffc200;
@@ -1910,6 +2613,148 @@
 }
 .n-topology.n-topology-yellow .n-topology-nav-setting-icon-selected {
   color: #ffc81a;
+}
+.n-topology.n-topology-yellow .n-topology-loading {
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+}
+.n-topology.n-topology-yellow .n-topology-loading ul {
+  position: absolute;
+  left: calc(49.3%);
+  top: calc(45.8%);
+  display: inline-block;
+  text-indent: 2.8em;
+}
+.n-topology.n-topology-yellow .n-topology-loading ul li:after,
+.n-topology.n-topology-yellow .n-topology-loading ul:after {
+  width: 1.4em;
+  height: 1.4em;
+  border-radius: 100%;
+}
+.n-topology.n-topology-yellow .n-topology-loading ul li:after,
+.n-topology.n-topology-yellow .n-topology-loading ul:after {
+  content: "";
+  display: block;
+}
+.n-topology.n-topology-yellow .n-topology-loading ul:after {
+  position: absolute;
+  top: 2.8em;
+}
+.n-topology.n-topology-yellow .n-topology-loading li {
+  position: absolute;
+  padding-bottom: 5.6em;
+  top: 0;
+  left: 0;
+  list-style: none;
+}
+.n-topology.n-topology-yellow .n-topology-loading li:after {
+  background: #ffc200;
+}
+.n-topology.n-topology-yellow .n-topology-loading li:nth-child(1) {
+  -webkit-transform: rotate(0deg);
+  -webkit-animation-delay: 0.125s;
+}
+.n-topology.n-topology-yellow .n-topology-loading li:nth-child(1):after {
+  -webkit-animation-delay: 0.125s;
+}
+.n-topology.n-topology-yellow .n-topology-loading li:nth-child(2) {
+  -webkit-transform: rotate(36deg);
+  -webkit-animation-delay: 0.25s;
+}
+.n-topology.n-topology-yellow .n-topology-loading li:nth-child(2):after {
+  -webkit-animation-delay: 0.25s;
+}
+.n-topology.n-topology-yellow .n-topology-loading li:nth-child(3) {
+  -webkit-transform: rotate(72deg);
+  -webkit-animation-delay: 0.375s;
+}
+.n-topology.n-topology-yellow .n-topology-loading li:nth-child(3):after {
+  -webkit-animation-delay: 0.375s;
+}
+.n-topology.n-topology-yellow .n-topology-loading li:nth-child(4) {
+  -webkit-transform: rotate(108deg);
+  -webkit-animation-delay: 0.5s;
+}
+.n-topology.n-topology-yellow .n-topology-loading li:nth-child(4):after {
+  -webkit-animation-delay: 0.5s;
+}
+.n-topology.n-topology-yellow .n-topology-loading li:nth-child(5) {
+  -webkit-transform: rotate(144deg);
+  -webkit-animation-delay: 0.625s;
+}
+.n-topology.n-topology-yellow .n-topology-loading li:nth-child(5):after {
+  -webkit-animation-delay: 0.625s;
+}
+.n-topology.n-topology-yellow .n-topology-loading li:nth-child(6) {
+  -webkit-transform: rotate(180deg);
+  -webkit-animation-delay: 0.75s;
+}
+.n-topology.n-topology-yellow .n-topology-loading li:nth-child(6):after {
+  -webkit-animation-delay: 0.75s;
+}
+.n-topology.n-topology-yellow .n-topology-loading li:nth-child(7) {
+  -webkit-transform: rotate(216deg);
+  -webkit-animation-delay: 0.875s;
+}
+.n-topology.n-topology-yellow .n-topology-loading li:nth-child(7):after {
+  -webkit-animation-delay: 0.875s;
+}
+.n-topology.n-topology-yellow .n-topology-loading li:nth-child(8) {
+  -webkit-transform: rotate(252deg);
+  -webkit-animation-delay: 1s;
+}
+.n-topology.n-topology-yellow .n-topology-loading li:nth-child(8):after {
+  -webkit-animation-delay: 1s;
+}
+.n-topology.n-topology-yellow .n-topology-loading li:nth-child(9) {
+  -webkit-transform: rotate(288deg);
+  -webkit-animation-delay: 1.125s;
+}
+.n-topology.n-topology-yellow .n-topology-loading li:nth-child(9):after {
+  -webkit-animation-delay: 1.125s;
+}
+.n-topology.n-topology-yellow .n-topology-loading li:nth-child(10) {
+  -webkit-transform: rotate(324deg);
+  -webkit-animation-delay: 1.25s;
+}
+.n-topology.n-topology-yellow .n-topology-loading li:nth-child(10):after {
+  -webkit-animation-delay: 1.25s;
+}
+.n-topology.n-topology-yellow .n-topology-loading li {
+  -webkit-animation: dotAnimation 2.5s infinite;
+}
+@-webkit-keyframes dotAnimation {
+  0%,
+  55%,
+  100% {
+    padding: 0 0 5.6em 0;
+  }
+  5%,
+  50% {
+    padding: 2.8em 0;
+  }
+}
+.n-topology.n-topology-yellow .n-topology-loading li:after {
+  -webkit-animation: dotAnimationTwo 2.5s infinite;
+}
+@-webkit-keyframes dotAnimationTwo {
+  0%,
+  55%,
+  100% {
+    opacity: 1;
+    -webkit-transform: scale(1);
+  }
+  5%,
+  50% {
+    opacity: .5;
+    -webkit-transform: scale(0.5);
+  }
 }
 .n-topology-node-tootltip {
   padding: 0px;

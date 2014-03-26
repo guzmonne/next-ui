@@ -100,7 +100,7 @@
                 var scl = scale != null ? scale : this.scale();
 
 
-                this.setStyle('-webkit-transform', ' translate(' + tx + 'px, ' + ty + 'px) scale(' + scl + ')', duration);
+                this.setStyle('transform', ' translate(' + tx + 'px, ' + ty + 'px) scale(' + scl + ')', duration);
 
 
                 this._translateX = tx;
@@ -110,10 +110,10 @@
             setStyle: function (key, value, duration) {
                 var el = this.resolve('@root');
                 if (duration) {
-                    el.setStyle('-webkit-transition', 'all ' + duration + 's ease');
+                   // el.setStyle('-webkit-transition', 'all ' + duration + 's ease');
                     el.setStyle('transition', 'all ' + duration + 's ease');
                 } else {
-                    el.setStyle('-webkit-transition', '');
+                    //el.setStyle('-webkit-transition', '');
                     el.setStyle('transition', '');
                 }
                 el.setStyle(key, value);

@@ -35,6 +35,7 @@
         "src/js/topology/core/StageMixin.js",
         "src/js/topology/tooltip/TooltipMixin.js",
         "src/js/topology/scene/SceneMixin.js",
+        "src/js/topology/layout/LayoutMixin.js",
         "src/js/topology/core/Categories.js",
         "src/js/topology/core/Topology.js",
 
@@ -46,6 +47,7 @@
         "src/js/topology/node/NodeSetLayer.js",
 
         "src/js/topology/link/AbstractLink.js",
+
         "src/js/topology/link/Link.js",
         "src/js/topology/link/LinksLayer.js",
         "src/js/topology/link/LinkSet.js",
@@ -53,7 +55,8 @@
 
 
         "src/js/topology/layout/NeXtForceLayout.js",
-
+        "src/js/topology/layout/USMapLayout.js",
+        "src/js/topology/layout/WorldMapLayout.js",
 
         "src/js/topology/tooltip/TooltipPolicy.js",
         "src/js/topology/tooltip/TopologyTooltip.js",

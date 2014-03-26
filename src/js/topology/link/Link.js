@@ -154,6 +154,13 @@
                             }
                         },
                         {
+                            name: 'overPath',
+                            type: 'nx.graphic.Path',
+                            props: {
+                                style: 'stroke:#f00'
+                            }
+                        },
+                        {
                             name: 'line',
                             type: 'nx.graphic.Line',
                             props: {
@@ -335,6 +342,33 @@
                 }
 
             },
+
+            xx: function () {
+                var path = this.$("path").$dom;
+                var overPath = this.$("overPath").$dom;
+                var length = path.getTotalLength();
+                var index = path.getPathSegAtLength(length * 0.5);
+                var endPoint = path.getPointAtLength(length * 0.5);
+                var segList = path.pathSegList;
+                var pathAry = [];
+                for (var i = 0; i <= index; i++) {
+                    var item = segList.getItem(i);
+                    pathAry.push(item.pathSegTypeAsLetter);
+                    if (item.x1) {
+                        pathAry.push(item.x1, item.y1);
+                    }
+                    pathAry.push(item.x, item.y);
+                }
+                pathAry.pop();
+                pathAry.pop();
+                pathAry.push(endPoint.x, endPoint.y);
+                //pathAry.push("Z");
+
+                overPath.setAttribute('d', pathAry.join(" "));
+
+            },
+
+
             /**
              * Recover link's statues
              * @param force
@@ -374,6 +408,7 @@
             }
         }
     });
+
 
 
 })(nx, nx.util, nx.global);

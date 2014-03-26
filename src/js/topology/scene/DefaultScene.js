@@ -241,7 +241,6 @@
                 this._topo.adjustLayout();
             },
             enterLink: function (sender, events) {
-                console.log(123);
             },
             collapseNodeSet: function (sender, nodeSet) {
                 nodeSet.visible(true);

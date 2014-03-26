@@ -53,6 +53,7 @@
                 }
             },
             nodeConfig: {},
+            nodeSetConfig: {},
             /**
              * @property selectedNodes
              */

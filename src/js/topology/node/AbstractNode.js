@@ -42,12 +42,10 @@
                     }
 
                     if (isModified) {
-                        //this.notify('position');
+                        this.notify('position');
                         this.notify('vector');
                         this.update();
                     }
-
-
                     return isModified;
 
                 }
@@ -193,6 +191,11 @@
 
 
                 model.on('updateCoordinate', function (sender, position) {
+                    this.position({
+                        x: projectionX.get(position.x),
+                        y: projectionY.get(position.y)
+                    });
+                    this.notify('position');
                     this.fire('updateNodeCoordinate');
                 }, this);
 
@@ -217,13 +220,8 @@
             moveTo: function (x, y, callback, isAnimation, duration) {
                 if (isAnimation !== false) {
                     var obj = {to: {}, duration: duration || 400};
-                    if (x !== undefined) {
-                        obj.to.x = x;
-                    }
-
-                    if (y !== undefined) {
-                        obj.to.y = y;
-                    }
+                    obj.to.x = x;
+                    obj.to.y = y;
 
                     if (callback) {
                         obj.complete = callback.bind(this);
@@ -233,6 +231,10 @@
                 } else {
                     this.position({x: x, y: y});
                 }
+            },
+
+            cssMoveTo: function (x, y, callback) {
+
             },
             /**
              * Fade out a node

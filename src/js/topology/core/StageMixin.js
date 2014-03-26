@@ -5,7 +5,7 @@
      * @module nx.graphic.Topology
      */
     nx.define('nx.graphic.Topology.StageMixin', {
-        events: ['ready'],
+        events: ['ready', 'resizeStage'],
         properties: {
             /**
              * Set/get topology's width.
@@ -121,14 +121,20 @@
                 if (bound.width === 0 || bound.height === 0) {
                     //nx.logger.log("Please set height*width to topology's parent container");
                 }
-                this.height(bound.height);
-                this.width(bound.width);
+                if (this._width !== bound.width || this._height !== bound.height) {
+                    this.fire('resizeStage');
+                    this.height(bound.height);
+                    this.width(bound.width);
+                }
             },
             /**
              * Make topology adapt to container,container should set width/height
              * @method adaptToContainer
              */
             adaptToContainer: function () {
+                if (!this.adaptive()) {
+                    return;
+                }
                 this._adaptToContainer();
 
                 if (this._fitTimer) {

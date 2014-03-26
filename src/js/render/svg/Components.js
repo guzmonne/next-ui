@@ -298,7 +298,10 @@
      */
     nx.define("nx.graphic.Icon", nx.graphic.Component, {
         view: {
-            tag: 'svg:use'
+            tag: 'svg:use',
+            props: {
+                style: 'fill:orange'
+            }
         },
         properties: {
             /**
@@ -348,11 +351,13 @@
             tag: 'svg:svg',
             props: {
                 'class': 'n-svg',
-                width: '{#width}',
-                height: '{#height}',
                 version: '1.1',
                 xmlns: "http://www.w3.org/2000/svg",
-                'xmlns:xlink': 'http://www.w3.org/1999/xlink'
+                'xmlns:xlink': 'http://www.w3.org/1999/xlink',
+                style: {
+                    width: '{#width}',
+                    height: '{#height}'
+                }
             },
             content: [
                 {

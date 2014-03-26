@@ -36,17 +36,20 @@
         ]
     };
 
+
+
+
     nx.define('NodeSet.Base', nx.ui.Component, {
         view: {
             content: {
-                name:'topo',
+                name: 'topo',
                 type: 'nx.graphic.Topology',
                 props: {
-                    adaptive:true,
+                    adaptive: true,
                     identityKey: 'id',
-                    nodeLabel: 'model.id',
-                    nodeIconType:'model.iconType',
-                    showIcon: true,
+                    nodeLabel: 'model.x',
+                    nodeIconType: 'model.iconType',
+                    showIcon: false,
                     data: topologyData
                 }
             }

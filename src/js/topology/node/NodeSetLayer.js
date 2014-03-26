@@ -128,10 +128,10 @@
 
 
 
-                var nodeConfig = topo.nodeConfig();
-                if (nodeConfig) {
-                    nx.each(nodeConfig, function (value, key) {
-                        node.setProperty(key, value);
+                var nodeSetConfig = topo.nodeSetConfig();
+                if (nodeSetConfig) {
+                    nx.each(nodeSetConfig, function (value, key) {
+                        nodeset.setProperty(key, value);
                     }, this);
                 }
 

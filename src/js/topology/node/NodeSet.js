@@ -14,6 +14,29 @@
                     return [];
                 }
             },
+            showIcon: {
+                set: function (value) {
+                    var icon = this.resolve('iconContainer');
+                    var dot = this.resolve('dot');
+                    if (value) {
+                        icon.set('iconType', this.iconType());
+                        icon.append();
+                    } else {
+                        icon.remove();
+                    }
+
+                    this._showIcon = value;
+                    this.calcLabelPosition();
+                }
+            },
+            color: {
+                set: function (value) {
+                    this.$('dot').setStyle('stroke', value);
+                    this.$('line1').setStyle('fill', value);
+                    this.$('line2').setStyle('fill', value);
+                    this.$('label').setStyle('fill', value);
+                }
+            },
             collapsed: {
                 get: function () {
                     return this._collapsed !== undefined ? this._collapsed : null;
@@ -37,7 +60,7 @@
             type: 'nx.graphic.Group',
             props: {
                 translate: '{#position}',
-                'class': 'node'
+                'class': 'node nodeset'
             },
             content: [
                 {
@@ -78,17 +101,6 @@
                         scale: '{#nodeScale}'
                     },
                     content: [
-
-                        {
-                            name: 'dot',
-                            type: 'nx.graphic.Circle',
-                            props: {
-                                r: '{#radius}',
-                                x: 0,
-                                y: 0,
-                                'class': 'dot'
-                            }
-                        },
                         {
                             name: 'iconContainer',
                             type: 'nx.graphic.Group',
@@ -104,24 +116,44 @@
                             ]
                         },
                         {
-                            name: "plus",
-                            type: "nx.graphic.Text",
+                            type: "nx.graphic.Group",
                             props: {
-                                text: "+",
-                                x: -4,
-                                y: 4,
-                                'class': "plusIcon",
-                                //visible: "{#showIcon,converter=inverted}",
-                                visible: false
-                            }
-                        },
-                        {
-                            name: 'plusIcon',
-                            type: "nx.graphic.Icon",
-                            props: {
-                                'class': 'icon',
-                                iconType: 'expand'
-                            }
+                                'class': 'icon'
+                            },
+                            content: [
+                                {
+                                    name: 'dot',
+                                    type: 'nx.graphic.Circle',
+                                    props: {
+                                        r: '{#radius}',
+                                        x: 0,
+                                        y: 0,
+                                        'class': 'dot'
+                                    }
+                                },
+                                {
+                                    name: 'line1',
+                                    type: 'nx.graphic.Rect',
+                                    props: {
+                                        translateX: -3,
+                                        translateY: -0.5,
+                                        width: 6,
+                                        height: 1,
+                                        'class': 'bg'
+                                    }
+                                },
+                                {
+                                    name: 'line2',
+                                    type: 'nx.graphic.Rect',
+                                    props: {
+                                        translateX: -0.5,
+                                        translateY: -3,
+                                        width: 1,
+                                        height: 6,
+                                        'class': 'bg'
+                                    }
+                                }
+                            ]
                         }
                     ],
                     events: {

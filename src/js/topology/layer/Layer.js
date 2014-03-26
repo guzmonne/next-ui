@@ -62,10 +62,6 @@
             hide: function () {
                 this.visible(false);
             },
-            /**
-             * Fade out all nodes
-             * @method fadeOut
-             */
             fadeOut: function (force, fn, context) {
                 var el = this.resolve('static');
                 var _force = force === undefined ? false : force;
@@ -96,11 +92,11 @@
                 }
                 el.setStyle('opacity', 1, 0.5);
             },
+            /**
+             * Fade out all nodes
+             * @method fadeOut
+             */
             highlightElement: function (el, force) {
-                var _force = force === undefined ? false : force;
-                if (this._fade && !force) {
-                    return;
-                }
                 var highlightElements = this.highlightElements();
                 var activeEl = this.resolve('active');
 
@@ -110,7 +106,6 @@
             },
             recover: function (force) {
                 var staticEl = this.resolve('static');
-                var _force = force === undefined ? false : force;
                 if (this._fade && !force) {
                     return;
                 }

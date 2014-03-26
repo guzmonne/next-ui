@@ -31,7 +31,7 @@
             },
 
 
-            pressStage: function () {
+            pressStage: function (sender,event) {
                 var selectedNodes = this.selectedNodes();
                 var multi = this._multi = event.metaKey || event.ctrlKey;
                 if (!multi) {

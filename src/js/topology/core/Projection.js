@@ -7,7 +7,7 @@
      */
 
     nx.define("nx.graphic.Topology.Projection", {
-        events: ['projectionChange', 'zooming', 'zoomend', 'resetzooming'],
+        events: ['projectionChange', 'zooming', 'zoomend', 'resetzooming','fitStage'],
         properties: {
             /**
              * Topology max scaling
@@ -461,6 +461,7 @@
                     if (callback) {
                         callback.call(this);
                     }
+                    this.fire('fitStage');
                 }, {x: 30, y: 30}, duration); //for fix
             },
             /**
@@ -592,7 +593,7 @@
 
                         if (length !== 0) {
                             var bound = nodesLayer.getBound();
-                            var threshold = 12000;
+                            var threshold = this.showIcon() ? 12000 : 3000;
                             var percell = (bound.width * bound.height) / length;
                             var revisionScale;
 
