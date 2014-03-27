@@ -11,7 +11,7 @@
                 set: function (value) {
                     this._color = value;
                     if (strokeIndex) {
-                        nx.dom.Document.deleteRule(strokeIndex-1);
+                        nx.dom.Document.deleteRule(strokeIndex - 1);
                     }
                     strokeIndex = nx.dom.Document.addRule('.stroke', 'stroke:' + value);
                 }
@@ -78,6 +78,10 @@
             ]
         },
         methods: {
+            init: function (args) {
+                this.inherited(args);
+                strokeIndex = nx.dom.Document.addRule('.stroke', 'stroke:' + '#1F6EEE');
+            },
             _enter: function (sender, args) {
                 setTimeout(function () {
                     var model = sender.model().value;
