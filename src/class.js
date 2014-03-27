@@ -296,6 +296,8 @@
         if (!exist) {
             target.__events__.push(name);
         }
+
+        return fn;
     }
 
     /**
@@ -354,6 +356,8 @@
         if (!exist) {
             target.__properties__.push(name);
         }
+
+        return fn;
     }
 
     /**

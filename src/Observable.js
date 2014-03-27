@@ -4,6 +4,41 @@
      * @namespace nx
      */
     var Observable = nx.define('nx.Observable', {
+        statics: {
+            extendProperty: function extendProperty(target, name, meta) {
+                var property = nx.Object.extendProperty(target, name, meta);
+                if (property && property.__type__ == 'property') {
+                    if (!property._watched) {
+                        var setter = property.__setter__;
+                        var deps = property.getMeta('dependencies');
+                        var refs = property._refs = property._refs || [];
+                        refs.push(name);
+                        nx.each(deps, function (dep) {
+                            var depProp = this[dep];
+                            if (depProp) {
+                                var depRefs = depProp._refs = depProp._refs || [];
+                                depRefs.push(name);
+                            }
+                        }, this);
+
+                        property.__setter__ = function (value, params) {
+                            var oldValue = this.get(name);
+                            if (oldValue !== value) {
+                                if (setter.call(this, value, params) !== false) {
+                                    return this.notify(refs, oldValue);
+                                }
+                            }
+
+                            return false;
+                        };
+
+                        property._watched = true;
+                    }
+                }
+
+                return property;
+            }
+        },
         methods: {
             /**
              * @constructor
