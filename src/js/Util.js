@@ -5,7 +5,7 @@
 
     var tempElement = document.createElement('div'),
         tempStyle = tempElement.style;
-    var rsizeElement = /width|height|top|right|bottom|left|size|margin|padding/,
+    var rsizeElement = /width|height|top|right|bottom|left|size|margin|padding/i,
         rHasUnit = /[c-x%]/,
         PX = 'px',
         rUpperCameCase = /(?:^|-)([a-z])/g,
@@ -62,7 +62,9 @@
             getStyleProperty: function (inName,isLowerCase) {
                 var property = this.lowerCamelCase(inName);
                 if (property in tempStyle) {
-                    property = this.deCamelCase(inName);
+                    if (isLowerCase) {
+                        property = this.deCamelCase(inName);
+                    }
                 } else {
                     if (isLowerCase) {
                         property = env.prefix()[1] + inName;
