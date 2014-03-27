@@ -27,7 +27,7 @@
     };
 
 
-    nx.define('MyNode', nx.graphic.Topology.Node, {
+    nx.define('MyExtendNode', nx.graphic.Topology.Node, {
         view: function (view) {
             view.content.push({
                 name: 'status',
@@ -59,7 +59,7 @@
                 name: 'topo',
                 type: 'nx.graphic.Topology',
                 props: {
-                    nodeInstanceClass: 'MyNode',
+                    nodeInstanceClass: 'MyExtendNode',
                     showIcon:true,
                     data: topologyData
                 }
