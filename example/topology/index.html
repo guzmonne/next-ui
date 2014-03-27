@@ -4,6 +4,7 @@
     <title>Example</title>
     <script type="text/javascript" src="lib/HighLightCode/beautify.js"></script>
     <script type="text/javascript" src="lib/HighLightCode/prettify.js"></script>
+    <link rel="stylesheet" href="lib/HighLightCode/prettify.css"/>
     <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/nextui/ws/lib/jquery/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/DailyBuild/lastSuccessfulBuild/artifact/dest/next-core.js"></script>
     <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/nextui/lastSuccessfulBuild/artifact/dest/js/next-ui.js"></script>
@@ -13,7 +14,7 @@
     <link rel="stylesheet" href="http://10.75.161.96:8080/jenkins/job/nextui/lastSuccessfulBuild/artifact/dest/css/next-blue.css"/>
     <script type="text/javascript" src="../../lib/GraphGenerator.js"></script>
     <link rel="stylesheet" href="../../src/less/next-graphic.css"/>
-    <link rel="stylesheet" href="lib/HighLightCode/prettify.css"/>
+
     <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/Next-graphic/lastSuccessfulBuild/artifact/dest/js/next-graphic.js"></script>
     <!--<script type="text/javascript" src="../../src/js/next-graphic.js"></script>-->
 
@@ -50,6 +51,7 @@
     .codeContainer {
         height: 100%;
     }
+
     .codeContainer > pre,
     .demoContainer > div {
         top: 45px;
@@ -60,9 +62,23 @@
         overflow: auto;
     }
 
-
-    .codeContainer{
+    .codeContainer {
         display: none;
+    }
+
+
+    .iconlist li{
+        list-style: none;
+        border-radius: 4px;
+        border: solid 1px #ccc;
+        padding: 10px;
+        display: inline-block;
+        margin: 10px;
+        width: 180px;
+        height: 140px;
+    }
+    .iconlist li label{
+        width: 180px;
     }
 </style>
 <br/>
@@ -208,7 +224,7 @@ var Demo = nx.define(nx.ui.Component, {
                             'class': 'codeContainer'
                         },
                         content: {
-                            name:'codePre',
+                            name: 'codePre',
                             tag: 'pre',
                             props: {
                                 'class': 'prettyprint lang-js'
@@ -253,6 +269,14 @@ var Demo = nx.define(nx.ui.Component, {
                 itemLabel: 'Highlight Link and Node',
                 files: ['basic/highlight.js'],
                 itemClass: 'Base.Highlight'
+            });
+
+            this.addItem({
+                categoryName: 'Basic',
+                itemKey: 'icon',
+                itemLabel: 'Topology Icons',
+                files: ['basic/icon.js'],
+                itemClass: 'Base.Icon'
             });
 
 

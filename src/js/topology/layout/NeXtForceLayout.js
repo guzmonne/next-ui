@@ -13,18 +13,18 @@
 
 
                 var _data = {nodes: data.nodes, links: []};
-                var nodeIndexMap = {};
+                var nodeIdMap = {};
                 nx.each(data.nodes, function (node, index) {
-                    nodeIndexMap[node[key]] = index;
+                    nodeIdMap[node[key]] = index;
                 });
 
 
                 // if source and target is not number, force will search node
                 nx.each(data.links, function (link) {
-                    if (!nx.is(link.source, 'Object') && nodeIndexMap[link.source] !== undefined && !nx.is(link.target, 'Object') && nodeIndexMap[link.target] !== undefined) {
+                    if (!nx.is(link.source, 'Object') && nodeIdMap[link.source] !== undefined && !nx.is(link.target, 'Object') && nodeIdMap[link.target] !== undefined) {
                         _data.links.push({
-                            source: nodeIndexMap[link.source],
-                            target: nodeIndexMap[link.target]
+                            source: nodeIdMap[link.source],
+                            target: nodeIdMap[link.target]
                         });
                     }
                 });

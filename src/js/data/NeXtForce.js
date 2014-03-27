@@ -42,7 +42,7 @@
             var node, link, i = 0, length = nodes.length, id;
             for (; i < length; i++) {
                 node = nodes[i];
-                id = node.id;
+                id = node.id || i;
                 nodeMap[id] = node;
                 weightMap[id] = 0;
             }
@@ -179,11 +179,11 @@
                         tWeight = weightMap[target.id];
                         totalWeight = sWeight + tWeight;
                         k = sWeight / totalWeight;
-                        target.dx -= (dx * k)/totalWeight;
-                        target.dy -= (dy * k)/totalWeight;
+                        target.dx -= (dx * k) / totalWeight;
+                        target.dy -= (dy * k) / totalWeight;
                         k = 1 - k;
-                        source.dx += (dx * k)/totalWeight;
-                        source.dy += (dy * k)/totalWeight;
+                        source.dx += (dx * k) / totalWeight;
+                        source.dy += (dy * k) / totalWeight;
                     }
                 }
             }
