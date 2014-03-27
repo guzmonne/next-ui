@@ -46,16 +46,23 @@
         height: 100%;
     }
 
-    .demoContainer {
+    .demoContainer,
+    .codeContainer {
         height: 100%;
     }
-
+    .codeContainer > pre,
     .demoContainer > div {
         top: 45px;
         bottom: 94px;
         left: 0;
         right: 0;
         position: absolute;
+        overflow: auto;
+    }
+
+
+    .codeContainer{
+        display: none;
     }
 </style>
 <br/>
@@ -81,7 +88,27 @@ var Demo = nx.define(nx.ui.Component, {
             value: function () {
                 return new nx.data.ObservableDictionary();
             }
-        }
+        },
+        currentTab: {
+            get: function () {
+                return this._currentTab
+            },
+            set: function (value) {
+                if (this._currentTab !== value) {
+                    if (this._currentTab) {
+                        this._currentTab.removeClass('active');
+                    }
+
+                    value.addClass('active');
+
+                    this._currentTab = value;
+
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        },
     },
     view: {
         props: {
@@ -103,9 +130,10 @@ var Demo = nx.define(nx.ui.Component, {
             },
             {
                 props: {
-                    'class': 'col-md-3'
+                    'class': 'col-md-3 itemsList'
                 },
                 content: {
+
                     props: {
                         items: '{#categories}',
                         template: {
@@ -148,33 +176,25 @@ var Demo = nx.define(nx.ui.Component, {
                 },
                 content: [
                     {
+                        name: 'tab',
                         tag: 'ul',
                         props: {
-                            'class': 'nav nav-tabs nav-justified'
-
-                        },
-                        content: [
-                            {
-                                tag: 'li',
-                                props: {
-                                    'class': 'active'
-                                },
-                                content: {
-                                    tag: 'a',
-                                    content: 'Demo'
-                                }
-                            },
-                            {
+                            'class': 'nav nav-tabs nav-justified',
+                            items: ['demo', 'code'],
+                            template: {
                                 tag: 'li',
                                 props: {
                                     'class': ''
                                 },
                                 content: {
                                     tag: 'a',
-                                    content: 'Code'
+                                    content: 'Demo'
+                                },
+                                events: {
+                                    'click': '{#_switchClick}'
                                 }
                             }
-                        ]
+                        }
                     },
                     {
                         name: 'demo',
@@ -184,9 +204,15 @@ var Demo = nx.define(nx.ui.Component, {
                     },
                     {
                         name: 'code',
-                        tag: 'pre',
                         props: {
-                            'class': 'prettyprint lang-js'
+                            'class': 'codeContainer'
+                        },
+                        content: {
+                            name:'codePre',
+                            tag: 'pre',
+                            props: {
+                                'class': 'prettyprint lang-js'
+                            }
                         }
                     }
                 ]
@@ -330,6 +356,23 @@ var Demo = nx.define(nx.ui.Component, {
 
             this.addItem({
                 categoryName: 'Extend',
+                itemKey: 'node',
+                itemLabel: 'Extend Node',
+                files: ['extend/node.js'],
+                itemClass: 'Extend.Node'
+            });
+
+            this.addItem({
+                categoryName: 'Extend',
+                itemKey: 'abstract',
+                itemLabel: 'Extend Abstract Node',
+                files: ['extend/abstractNode.js'],
+                itemClass: 'Extend.AbstractNode'
+            });
+
+
+            this.addItem({
+                categoryName: 'Extend',
                 itemKey: 'link',
                 itemLabel: 'Extend Link',
                 files: ['extend/link.js'],
@@ -344,9 +387,25 @@ var Demo = nx.define(nx.ui.Component, {
                 itemClass: 'Extend.Icon'
             });
 
+
+            this.currentTab(this.view('tab').dom().childAt(0));
+
+
             setTimeout(function () {
                 this._parseURL();
             }.bind(this), 200);
+
+        },
+        _switchClick: function (sender, event) {
+            this.currentTab(sender.dom());
+            var model = sender.model();
+            if (model == 'demo') {
+                this.view('demo').dom().setStyle('display', 'block');
+                this.view('code').dom().setStyle('display', 'none');
+            } else {
+                this.view('demo').dom().setStyle('display', 'none');
+                this.view('code').dom().setStyle('display', 'block');
+            }
 
         },
         _parseURL: function () {
@@ -388,6 +447,7 @@ var Demo = nx.define(nx.ui.Component, {
             }, this);
         },
         _load: function (sender, event) {
+            this.currentTab(this.view('tab').dom().childAt(0));
             this.loadDemo(sender.model());
         },
         loadDemo: function (config) {
@@ -422,8 +482,9 @@ var Demo = nx.define(nx.ui.Component, {
                 var c = js_beautify(d, {
                     preserve_newlines: false
                 });
-                this.view('code').content(null);
-                this.view('code').content(c);
+
+                this.view('codePre').dom().$dom.innerHTML = c;
+                //this.view('code').dom().$dom.appendChild(c);
                 prettyPrint();
             }.bind(this));
             //
@@ -438,7 +499,7 @@ var App = nx.define(nx.ui.Application, {
             return new nx.dom.Element(document.getElementById('demos'));
         },
         start: function () {
-            var demo = new Demo();
+            demo = new Demo();
             demo.attach(this);
 
 

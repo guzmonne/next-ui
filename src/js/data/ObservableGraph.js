@@ -276,7 +276,7 @@
 
                 var edge = this._addEdge(data, inOptions);
 
-                if (isGenerate !== false) {
+                if (edge && isGenerate !== false) {
                     var edgeSet = edge.parentEdgeSet();
                     if (edgeSet.generated()) {
                         if (!edgeSet.activated()) {

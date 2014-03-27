@@ -54,7 +54,7 @@
                 var bounds = this.bounds = [];
                 this.topology().eachNode(function (node) {
                     if (node.enable()) {
-                        var bound = node.getIconBound();
+                        var bound = node.getBound(true);
                         bounds.push({
                             bound: bound,
                             node: node

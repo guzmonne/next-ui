@@ -7,7 +7,7 @@
      * @extend nx.graphic.Shape
      */
     nx.define("nx.graphic.Topology.AbstractNode", nx.graphic.Group, {
-        events: ['updateNodeCoordinate'],
+        events: ['updateNodeCoordinate','selectNode'],
         properties: {
             /**
              * Get  node's absolute position
@@ -141,16 +141,9 @@
                     return this.model().id();
                 }
             },
-//            visible: {
-//                set: function (value) {
-//                    if (value) {
-//                        this.fire("show", this);
-//                    } else {
-//                        this.fire("hide", this);
-//                    }
-//                    this._visible = value;
-//                }
-//            },
+            selected: {
+                value: false
+            },
             /**
              * Get/set node's usablity
              * @property enable
@@ -167,6 +160,33 @@
             }
         },
         methods: {
+            init: function (args) {
+                this.inherited(args);
+                this.watch('selected', function (prop, value) {
+                    this.fire('selectNode', value);
+                }, this);
+            },
+            setProperty: function (key, value) {
+                var propValue;
+                var rpatt = /(?={)\{([^{}]+?)\}(?!})/;
+                if (value !== undefined) {
+                    var model = this.model();
+
+                    if (nx.is(value, 'Function')) {
+                        propValue = value.call(this, model, this);
+                    } else if (nx.is(value, 'String')) {
+                        var path = value.split('.');
+                        if (path.length == 2 && path[0] == 'model') {
+                            this.setBinding(key, value, this);
+                        } else {
+                            propValue = value;
+                        }
+                    } else {
+                        propValue = value;
+                    }
+                    this.set(key, propValue);
+                }
+            },
             /**
              * Factory function , will be call when set model
              */
@@ -176,19 +196,6 @@
                 var projectionY = topo.projectionY();
 
                 this.model(model);
-
-
-//                model.watch("position", function (prop, value) {
-//                    this.position({x: projectionX.get(value.x), y: projectionY.get(value.y)});
-//                }, this);
-
-//                topo.on("projectionChange", this._projectionChangeFN = function (sender, event) {
-//                    this.position({
-//                        x: projectionX.get(model.get("x")),
-//                        y: projectionY.get(model.get("y"))
-//                    });
-//                }, this);
-
 
                 model.on('updateCoordinate', function (sender, position) {
                     this.position({

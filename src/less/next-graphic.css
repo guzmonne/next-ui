@@ -2861,10 +2861,10 @@
   user-select: none;
 }
 .n-transition {
-  -webkit-transition: all 0.4s;
+  -webkit-transition: all 0.4 !important;
   /* For Safari 3.1 to 6.0 */
 
-  transition: all 0.4s;
+  transition: all 0.4s !important;
 }
 .n-moveCursor {
   cursor: move !important;

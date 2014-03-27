@@ -148,8 +148,6 @@
 
                         this._selected = value;
                         this._setSelectedRadius();
-                        this.fire('selectNode', value);
-
                         return true;
                     } else {
                         return false;
@@ -267,27 +265,6 @@
         methods: {
             setModel: function (model) {
                 this.inherited(model);
-            },
-            setProperty: function (key, value) {
-                var propValue;
-                var rpatt = /(?={)\{([^{}]+?)\}(?!})/;
-                if (value !== undefined) {
-                    var model = this.model();
-
-                    if (nx.is(value, 'Function')) {
-                        propValue = value.call(this, model, this);
-                    } else if (nx.is(value, 'String')) {
-                        var path = value.split('.');
-                        if (path.length == 2 && path[0] == 'model') {
-                            this.setBinding(key, value, this);
-                        } else {
-                            propValue = value;
-                        }
-                    } else {
-                        propValue = value;
-                    }
-                    this.set(key, propValue);
-                }
             },
             /**
              * Get node's size beside label
@@ -505,8 +482,12 @@
                 el.set('text-anchor', anchor);
 
             },
-            getIconBound: function () {
-                return this.resolve('graphic').getBound();
+            getBound: function (onlyGraphic) {
+                if (onlyGraphic) {
+                    return this.resolve('graphic').getBound();
+                } else {
+                    return this.resolve('@root').getBound();
+                }
             }
         }
     });
