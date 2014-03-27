@@ -211,42 +211,35 @@
                 this.detach();
 
                 if (nx.is(parent, AbstractComponent)) {
-                    var container = parent.getContainer(this);
+                    var name = this.resolve('@name');
+                    var owner = this.owner() || parent;
 
-                    if (container) {
-                        var name = this.resolve('@name');
-                        var owner = this.owner() || parent;
+                    if (name) {
+                        owner.register(name, this);
+                    }
 
-                        if (name) {
-                            owner.register(name, this);
-                        }
+                    this.onAttach(parent, index);
+                    parent.onChildAttach(this, index);
 
-                        this.onAttach(parent, index);
-                        parent.onChildAttach(this, index);
-
-                        if (index >= 0) {
-                            parent.content().insert(this, index);
-                        }
-                        else {
-                            parent.content().add(this);
-                        }
-
-                        this.parent(parent);
-                        this.owner(owner);
-                        parent.fire('contententer', {
-                            content: this,
-                            owner: owner
-                        });
-                        this.fire('enter', {
-                            parent: parent,
-                            owner: owner
-                        });
-
-                        this._attached = true;
+                    if (index >= 0) {
+                        parent.content().insert(this, index);
                     }
                     else {
-                        throw new Error(parent.__type__ + ' can not be used as a container.');
+                        parent.content().add(this);
                     }
+
+                    this.parent(parent);
+                    this.owner(owner);
+                    parent.fire('contententer', {
+                        content: this,
+                        owner: owner
+                    });
+                    this.fire('enter', {
+                        parent: parent,
+                        owner: owner
+                    });
+
+                    this._attached = true;
                 }
             },
             /**
