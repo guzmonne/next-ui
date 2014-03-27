@@ -326,7 +326,7 @@
         }
 
         var fn = target[name] = function (value, params) {
-            if (value === undefined) {
+            if (value === undefined && arguments.length === 0) {
                 return fn.__getter__.call(this, params);
             }
             else {
