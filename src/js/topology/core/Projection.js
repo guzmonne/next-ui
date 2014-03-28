@@ -7,7 +7,7 @@
      */
 
     nx.define("nx.graphic.Topology.Projection", {
-        events: ['projectionChange', 'zooming', 'zoomend', 'resetzooming','fitStage'],
+        events: ['projectionChange', 'zooming', 'zoomend', 'resetzooming', 'fitStage'],
         properties: {
             /**
              * Topology max scaling
@@ -134,7 +134,7 @@
 
                 //
 
-                if (graph.vertices.length === 0 || (visibleContainerWidth === 0 && visibleContainerWidth === 0)) {
+                if (visibleContainerWidth === 0 && visibleContainerWidth === 0) {
                     return;
                 }
 
