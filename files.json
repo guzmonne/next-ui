@@ -2,6 +2,15 @@
     "scripts": [
         "src/js/util/util.js",
         "src/js/util/Animation.js",
+
+
+        "src/js/ui/ZIndexManager.js",
+        "src/js/ui/PopupContainer.js",
+        "src/js/ui/Popup.js",
+        "src/js/ui/Popover.js",
+
+
+
         "src/js/core/DragManager.js",
         "src/js/core/Component.js",
         "src/js/render/svg/Icons.js",
@@ -83,12 +92,8 @@
         "src/js/topology/path/PathLayer.js",
 
         "src/js/topology/plugin/Nav.js",
-        "src/js/topology/plugin/Search.js",
+        "src/js/topology/plugin/Search.js"
 
-        "src/js/ui/ZIndexManager.js",
-        "src/js/ui/PopupContainer.js",
-        "src/js/ui/Popup.js",
-        "src/js/ui/Popover.js"
 
 
 

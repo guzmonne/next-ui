@@ -26,19 +26,25 @@
              * @property padding {Number}
              */
             padding: {
-                value: 100
+                get: function () {
+                    return this._padding !== undefined ? this._padding : 100;
+                },
+                set: function (value) {
+                    if (this._padding !== value) {
+                        this._padding = value;
+                        this.paddingLeft(value);
+                        this.paddingTop(value);
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
             },
             paddingLeft: {
-                dependencies: ['padding'],
-                get: function () {
-                    return this._paddingLeft !== undefined ? this._paddingLeft : this.padding();
-                }
+                value: 100
             },
             paddingTop: {
-                dependencies: ['padding'],
-                get: function () {
-                    return this._paddingTop !== undefined ? this._paddingTop : this.padding();
-                }
+                value: 100
             },
             /**
              * Get the graphic container's width, include un visible area

@@ -63,6 +63,7 @@
             scale: {
                 set: function (value) {
                     this.view('graphic').setTransform(null, null, value);
+                    this._nodeScale = value;
                 }
             },
             /**
@@ -318,7 +319,7 @@
                     } else {
                         radius = this.radius();
                     }
-                    el.set('r', radius * 1.5 * this.scale());
+                    el.set('r', radius * 1.5 * (this._nodeScale || 1));
                 }
             },
             _mousedown: function (sender, event) {
