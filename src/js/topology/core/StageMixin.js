@@ -1,7 +1,7 @@
 (function (nx, util, global) {
     /**
      * Topology stage class
-     * @class nx.graphic.Topology.Stage
+     * @class nx.graphic.Topology.StageMixin
      * @module nx.graphic.Topology
      */
     nx.define('nx.graphic.Topology.StageMixin', {
@@ -103,6 +103,12 @@
                 var self = this;
                 if (!this.adaptive() && (this.width() !== 0 && this.height() !== 0)) {
                     this.status('appended');
+                    /**
+                     * Fired when topology appended to container with with& height
+                     * @event ready
+                     * @param sender{Object} trigger instance
+                     * @param event {Object} original event object
+                     */
                     this.fire('ready');
                 } else {
                     var timer = setInterval(function () {
@@ -122,6 +128,12 @@
                     //nx.logger.log("Please set height*width to topology's parent container");
                 }
                 if (this._width !== bound.width || this._height !== bound.height) {
+                    /**
+                     * Fired when topology's stage changed
+                     * @event resizeStage
+                     * @param sender{Object} trigger instance
+                     * @param event {Object} original event object
+                     */
                     this.fire('resizeStage');
                     this.height(bound.height);
                     this.width(bound.width);
@@ -148,7 +160,7 @@
 
             },
             /**
-             * Get the passing bound related inside bound,if not passing param will return the topology graphic's bound
+             * Get the passing bound's relative inside bound,if not passing param will return the topology graphic's bound
              * @param bound {JSON}
              * @returns {{left: number, top: number, width: number, height: number}}
              */
@@ -185,6 +197,17 @@
             move: function (x, y, duration) {
                 var stage = this.stage();
                 stage.setTransform(stage.translateX() + x || 0, stage.translateY() + y || 0, null, duration);
+            },
+            /**
+             * Resize topology
+             * @method resize
+             * @param width {Number}
+             * @param height {Number}
+             */
+            resize: function (width, height) {
+                this.width(width);
+                this.height(height);
+                this.fire('resizeStage');
             }
         }
     });

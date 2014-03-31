@@ -9,24 +9,6 @@
      *
      */
     nx.define('nx.graphic.Topology.NodesLayer', nx.graphic.Topology.Layer, {
-        /**
-         * @event clickNode
-         */
-        /**
-         * @event enterNode
-         */
-        /**
-         * @event leaveNode
-         */
-        /**
-         * @event dragNodeStart
-         */
-        /**
-         * @event dragNode
-         */
-        /**
-         * @event dragNodeEnd
-         */
         events: ['clickNode', 'enterNode', 'leaveNode', 'dragNodeStart', 'dragNode', 'dragNodeEnd', 'hideNode', 'pressNode', 'selectNode', 'updateNodeCoordinate'],
         properties: {
             /**
@@ -120,7 +102,11 @@
                 node.attach(this.resolve('static'));
             },
 
-
+            /**
+             * Remove node
+             * @method removeNode
+             * @param vertex
+             */
             removeNode: function (vertex) {
                 var nodesMap = this.nodesMap();
                 var nodes = this.nodes();
@@ -159,21 +145,16 @@
 
                 node.set('class', 'node');
                 node.resolve('@root').set('data-node-id', node.id());
-                node.setProperty('nodeScale', topo.nodeScale());
-                node.setProperty('radius', topo.nodeRadius());
-                node.setProperty('enableSmartLabel', topo.enableSmartLabel());
-                node.setProperty('iconType', topo.nodeIconType());
-                node.setProperty('showIcon', topo.nodeShowIcon() == null ? topo.showIcon() : topo.nodeShowIcon());
-                node.setProperty('selected', topo.nodeSelected());
-                node.setProperty('color', topo.nodeColor());
-                node.setProperty('label', topo.nodeLabel());
 
-                var nodeConfig = topo.nodeConfig();
-                if (nodeConfig) {
-                    nx.each(nodeConfig, function (value, key) {
-                        node.setProperty(key, value);
-                    }, this);
-                }
+                var defaultConfig = {
+                };
+                var nodeConfig = nx.extend(defaultConfig, topo.nodeConfig());
+                nx.each(nodeConfig, function (value, key) {
+                    util.setProperty(node, key, value, topo);
+                }, this);
+                util.setProperty(node, 'showIcon', topo.showIcon());
+                util.setProperty(node, 'label', nodeConfig.label, topo);
+
 
                 var superEvents = nx.graphic.Component.__events__;
                 nx.each(node.__events__, function (e) {
@@ -212,7 +193,12 @@
                 var nodesMap = this.nodesMap();
                 return nodesMap[id];
             },
-
+            /**
+             * Get node's connected links
+             * @method getNodeConnectedLinks
+             * @param node
+             * @returns {Array}
+             */
             getNodeConnectedLinks: function (node) {
                 var links = [];
                 var model = node.model();
@@ -224,6 +210,12 @@
                 }, this);
                 return links;
             },
+            /**
+             * Get node connected linkSet
+             * @property getNodeConnectedLinkSet
+             * @param node
+             * @returns {Array}
+             */
             getNodeConnectedLinkSet: function (node) {
                 var model = node.model();
                 var topo = this.topology();
@@ -236,9 +228,18 @@
                 return linkSetAry;
 
             },
+            /**
+             * HighLight node, after call this, should call fadeOut();
+             * @method highlightNode
+             * @param node
+             */
             highlightNode: function (node) {
                 this.highlightElement(node);
             },
+            /**
+             * Batch action, highlight node and related nodes and connected links.
+             * @param node
+             */
             highlightRelatedNode: function (node) {
                 var topo = this.topology();
 
@@ -273,7 +274,10 @@
                     }
                 }
             },
-            resetProjection: function () {
+            /**
+             * Rest
+             */
+            resetPosition: function () {
                 var nodes = this.nodes();
                 nx.each(nodes, function (node) {
                     var model = node.model();

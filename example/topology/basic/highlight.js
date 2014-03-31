@@ -13,7 +13,9 @@
                 props: {
                     adaptive: true,
                     dataProcessor: 'force',
-                    nodeLabel: 'model.id',
+                    nodeConfig: {
+                        label: 'model.id'
+                    },
                     showIcon: false,
                     data: topologyData
                 },

@@ -54,7 +54,9 @@
                 type: 'nx.graphic.Topology',
                 props: {
                     adaptive: true,
-                    nodeLabel: 'model.name',
+                    nodeConfig: {
+                        label: 'model.name'
+                    },
                     showIcon: false,
                     identityKey: 'name',
                     layoutType: 'WorldMap',

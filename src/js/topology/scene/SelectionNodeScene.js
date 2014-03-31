@@ -7,10 +7,6 @@
      */
 
     nx.define('nx.graphic.Topology.SelectionNodeScene', nx.graphic.Topology.SelectionScene, {
-        /**
-         * @event selectNode
-         */
-        events: ['selectNode', 'selectNodeSet'],
         properties: {
             /**
              * Get all selected nodes

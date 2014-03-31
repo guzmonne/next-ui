@@ -1,33 +1,26 @@
 (function (nx, util, global) {
 
-    /**
-     * Topology navigation element class
-     * @class nx.graphic.Topology.Nav
-     * @extend nv.ui.Component
-     */
+
     nx.define("nx.graphic.Topology.Nav", nx.ui.Component, {
-        events: ['fit', 'show3DTopology', 'enterFullScreen', 'leaveFullScreen'],
         properties: {
             topology: {
                 get: function () {
                     return this.owner();
                 }
             },
-            showModeSwitch: {
-                value: true
-            },
-            theme: {
-
-            },
-            /**
-             * Get/set is topology show zoom rate
-             */
-            showZoomRate: {
-                value: false
-            },
             scale: {},
             showIcon: {
                 value: false
+            },
+            visible: {
+                get: function () {
+                    return this._visible !== undefined ? this._visible : true;
+                },
+                set: function (value) {
+                    this.resolve('@root').setStyle("display", value ? "" : "none");
+                    this.resolve('@root').setStyle("pointer-events", value ? "all" : "none");
+                    this._visible = value;
+                }
             }
         },
 
@@ -45,8 +38,7 @@
                                 name: 'mode',
                                 tag: 'ul',
                                 props: {
-                                    'class': 'n-topology-nav-mode',
-                                    visible: '{#showModeSwitch}'
+                                    'class': 'n-topology-nav-mode'
                                 },
                                 content: [
                                     {
@@ -385,7 +377,7 @@
                 var scene = topo.activateScene('zoomBySelection');
                 var icon = sender;
                 scene.upon('finish', function fn(sender, bound) {
-                    if(bound){
+                    if (bound) {
                         topo.zoomByBound(topo.getInsideBound(bound), topo._recoverStageScale.bind(topo));
                     }
                     topo.activateScene(currentSceneName);

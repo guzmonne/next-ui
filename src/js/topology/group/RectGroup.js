@@ -1,6 +1,12 @@
 (function (nx, global) {
 
-
+    /**
+     * Rectangle shape group class
+     * @class nx.graphic.Topology.RectGroup
+     * @extend nx.graphic.Topology.GroupItem
+     * @module nx.graphic.Topology.Group
+     *
+     */
 
 
     nx.define('nx.graphic.Topology.RectGroup', nx.graphic.Topology.GroupItem, {
@@ -65,19 +71,43 @@
                 text.view().dom().setStyle('fill', this.color());
             },
             _clickLabel: function (sender, event) {
+                /**
+                 * Fired when click group label
+                 * @event clickGroupLabel
+                 * @param sender{Object} trigger instance
+                 * @param event {Object} original event object
+                 */
                 this.fire('clickGroupLabel');
             },
             _mousedown: function (sender, event) {
                 event.captureDrag(this.view('shape'));
             },
             _dragstart: function (sender, event) {
+                /**
+                 * Fired when start drag a group
+                 * @event dragGroupStart
+                 * @param sender{Object} trigger instance
+                 * @param event {Object} original event object
+                 */
                 this.fire('dragGroupStart', event);
             },
             _drag: function (sender, event) {
+                /**
+                 * Fired when dragging a group
+                 * @event dragGroup
+                 * @param sender{Object} trigger instance
+                 * @param event {Object} original event object
+                 */
                 this.fire('dragGroup', event);
                 this._updateNodesPosition(event.drag.delta[0], event.drag.delta[1]);
             },
             _dragend: function (sender, event) {
+                /**
+                 * Fired finish dragging
+                 * @event dragGroupEnd
+                 * @param sender{Object} trigger instance
+                 * @param event {Object} original event object
+                 */
                 this.fire('dragGroupEnd', event);
             },
             _updateNodesPosition: function (x, y) {

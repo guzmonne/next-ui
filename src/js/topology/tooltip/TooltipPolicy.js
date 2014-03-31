@@ -1,4 +1,8 @@
 (function (nx, global) {
+    /**
+     * Topology tooltip policy
+     * @class nx.graphic.Topology.TooltipPolicy
+     */
 
     nx.define("nx.graphic.Topology.TooltipPolicy", {
         events: [],

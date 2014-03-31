@@ -7,13 +7,14 @@
                 type: 'nx.graphic.Topology',
                 props: {
                     adaptive: true,
-                    nodeLabel: 'model.id',
+                    nodeConfig: {
+                        label:'model.id'
+                    },
                     dataProcessor: 'force',
                     identityKey: 'id',
                     showIcon: false,
                     enableSmartLabel: false,
-                    //enableSmartNode: false,
-                    enableGradualScaling:false,
+                    enableGradualScaling: false,
                     supportMultipleLink: false
                 },
                 events: {

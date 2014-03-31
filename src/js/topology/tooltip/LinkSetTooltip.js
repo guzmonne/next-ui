@@ -2,6 +2,7 @@
     /**
      * @class nx.graphic.LinkSetTooltipContent
      * @extend nx.ui.Component
+     * @module nx.graphic.Topology
      */
     nx.define("nx.graphic.Topology.linkSetTooltipContent", nx.ui.Component, {
         properties: {

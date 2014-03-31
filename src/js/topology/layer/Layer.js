@@ -3,7 +3,8 @@
     /**
      * Topology basic layer class
      * @class nx.graphic.Topology.Layer
-     * @extend nx.graphic.Component
+     * @extend nx.graphic.Group
+     * @module nx.graphic.Topology
      */
     nx.define("nx.graphic.Topology.Layer", nx.graphic.Group, {
         view: {
@@ -28,6 +29,10 @@
             topology: {
                 value: null
             },
+            /**
+             * Layer's highlight element's collection
+             * @property highlightElements
+             */
             highlightElements: {
                 value: function () {
                     return [];
@@ -62,9 +67,16 @@
             hide: function () {
                 this.visible(false);
             },
+            /**
+             * fade out layer
+             * @method fadeOut
+             * @param [force] {Boolean} force layer fade out and can't fade in
+             * @param [fn] {Function} callback after fade out
+             * @param [context] {Object} callback context
+             */
             fadeOut: function (force, fn, context) {
                 var el = this.resolve('static');
-                var _force = force === undefined ? false : force;
+                var _force = force !== undefined;
                 if (this._fade) {
                     return;
                 }
@@ -79,8 +91,10 @@
                 this._fade = _force;
             },
             /**
-             * Fade in all nodes
+             * Fade in layer
              * @method fadeIn
+             * @param [fn] {Function} callback after fade out
+             * @param [context] {Object} callback context
              */
             fadeIn: function (fn, context) {
                 var el = this.resolve('static') || this.resolve('@root');
@@ -93,10 +107,15 @@
                 el.setStyle('opacity', 1, 0.5);
             },
             /**
-             * Fade out all nodes
-             * @method fadeOut
+             * Move a element to 'active' group for highlight this element
+
+             layer.highlightElement(this.view('node1'));
+             layer.fadeout();
+
+             * @method highlightElement
+             * @param el {nx.graphic.Component} element for highlight
              */
-            highlightElement: function (el, force) {
+            highlightElement: function (el) {
                 var highlightElements = this.highlightElements();
                 var activeEl = this.resolve('active');
 
@@ -104,6 +123,10 @@
                 el.append(activeEl);
                 this.resolve('static').upon('transitionend', null, this);
             },
+            /**
+             * Recover layer's fade statues
+             * @param force {Boolean} force recover all items
+             */
             recover: function (force) {
                 var staticEl = this.resolve('static');
                 if (this._fade && !force) {
@@ -117,6 +140,10 @@
                 }, this);
                 delete this._fade;
             },
+            /**
+             * clear layer's content
+             * @method clear
+             */
             clear: function () {
                 if (this._resources && this._resources.static) {
                     this.$('active').empty();

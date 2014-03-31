@@ -4,10 +4,11 @@
     /**
      * Abstract node class
      * @class nx.graphic.Topology.AbstractNode
-     * @extend nx.graphic.Shape
+     * @extend nx.graphic.Group
+     * @module nx.graphic.Topology
      */
     nx.define("nx.graphic.Topology.AbstractNode", nx.graphic.Group, {
-        events: ['updateNodeCoordinate','selectNode'],
+        events: ['updateNodeCoordinate', 'selectNode'],
         properties: {
             /**
              * Get  node's absolute position
@@ -51,7 +52,7 @@
                 }
             },
             /**
-             * Get/set  node's x position
+             * Get/set  node's x position, suggest use position
              * @property  x
              */
             x: {
@@ -67,7 +68,7 @@
                 }
             },
             /**
-             * Get/set  node's y position
+             * Get/set  node's y position, suggest use position
              * @property  y
              */
             y: {
@@ -82,10 +83,17 @@
                     converter: nx.Binding.converters.number
                 }
             },
-
+            /**
+             * Lock x axle, node only can move at y axle
+             * @property lockXAxle {Boolean}
+             */
             lockXAxle: {
                 value: false
             },
+            /**
+             * Lock y axle, node only can move at x axle
+             * @property lockYAxle
+             */
             lockYAxle: {
                 value: false
             },
@@ -94,6 +102,10 @@
              * @property  topology
              */
             topology: {},
+            /**
+             * Get node's layer
+             * @property nodesLayer
+             */
             nodesLayer: {
                 get: function () {
                     return this.owner();
@@ -129,18 +141,26 @@
             },
             /**
              * Get  node's vector
-             * @property  position
+             * @property  vector
              */
             vector: {
                 get: function () {
                     return new Vector(this.x(), this.y());
                 }
             },
+            /**
+             * Get node's id
+             * @property id
+             */
             id: {
                 get: function () {
                     return this.model().id();
                 }
             },
+            /**
+             * Node is been selected statues
+             * @property selected
+             */
             selected: {
                 value: false
             },
@@ -151,7 +171,15 @@
             enable: {
                 value: true
             },
-
+            /**
+             * Get node self reference
+             * @property node
+             */
+            node: {
+                get: function () {
+                    return this;
+                }
+            },
             fade: {
                 value: false
             },
@@ -163,29 +191,14 @@
             init: function (args) {
                 this.inherited(args);
                 this.watch('selected', function (prop, value) {
+                    /**
+                     * Fired when node been selected or cancel selected
+                     * @event selectNode
+                     * @param sender{Object} trigger instance
+                     * @param event {Object} original event object
+                     */
                     this.fire('selectNode', value);
                 }, this);
-            },
-            setProperty: function (key, value) {
-                var propValue;
-                var rpatt = /(?={)\{([^{}]+?)\}(?!})/;
-                if (value !== undefined) {
-                    var model = this.model();
-
-                    if (nx.is(value, 'Function')) {
-                        propValue = value.call(this, model, this);
-                    } else if (nx.is(value, 'String')) {
-                        var path = value.split('.');
-                        if (path.length == 2 && path[0] == 'model') {
-                            this.setBinding(key, value, this);
-                        } else {
-                            propValue = value;
-                        }
-                    } else {
-                        propValue = value;
-                    }
-                    this.set(key, propValue);
-                }
             },
             /**
              * Factory function , will be call when set model
@@ -203,6 +216,12 @@
                         y: projectionY.get(position.y)
                     });
                     this.notify('position');
+                    /**
+                     * Fired when node update coordinate
+                     * @event updateNodeCoordinate
+                     * @param sender{Object} trigger instance
+                     * @param event {Object} original event object
+                     */
                     this.fire('updateNodeCoordinate');
                 }, this);
 
@@ -219,11 +238,25 @@
             update: function () {
 
             },
-
+            /**
+             * Move node certain distance
+             * @method move
+             * @param x {Number}
+             * @param y {Number}
+             */
             move: function (x, y) {
                 var position = this.position();
                 this.position({x: position.x + x || 0, y: position.y + y || 0});
             },
+            /**
+             * Move to a position
+             * @method moveTo
+             * @param x {Number}
+             * @param y {Number}
+             * @param callback {Function}
+             * @param isAnimation {Boolean}
+             * @param duration {Number}
+             */
             moveTo: function (x, y, callback, isAnimation, duration) {
                 if (isAnimation !== false) {
                     var obj = {to: {}, duration: duration || 400};
@@ -239,7 +272,13 @@
                     this.position({x: x, y: y});
                 }
             },
-
+            /**
+             * Use css to move node for high performance, when use this method, related link can't recive notification. Could hide links during transition.
+             * @method cssMoveTo
+             * @param x {Number}
+             * @param y {Number}
+             * @param callback {Function}
+             */
             cssMoveTo: function (x, y, callback) {
 
             },
@@ -270,6 +309,11 @@
             getLinks: function () {
                 return this.nodesLayer().getNodeConnectedLinks(this);
             },
+            /**
+             * Get Connected linkSet
+             * @method getConnectedLinkSet
+             * @returns {Array}
+             */
             getConnectedLinkSet: function () {
                 var model = this.model();
                 var topo = this.topology();
@@ -288,6 +332,7 @@
             },
             /**
              * Traverse all links connected to this node
+             * @method eachLink
              * @param fn
              * @param context
              */
@@ -302,6 +347,11 @@
                     }
                 }, this);
             },
+            /**
+             * Get all connected nodes
+             * @method getConnectedNodes
+             * @returns {Array}
+             */
             getConnectedNodes: function () {
                 var nodes = [];
                 this.eachConnectedNodes(function (node) {
@@ -309,6 +359,12 @@
                 });
                 return nodes;
             },
+            /**
+             * Iterate all connected nodes
+             * @method eachConnectedNodes
+             * @param fn {Function}
+             * @param context {Object}
+             */
             eachConnectedNodes: function (fn, context) {
                 var model = this.model();
                 var topo = this.topology();
@@ -316,16 +372,6 @@
                     var id = vertex.id();
                     fn.call(context || this, topo.getNode(id), id);
                 }, this);
-            },
-            directSetPosition: function (x, y, modelX, modelY) {
-                this.view().setTransform(x, y);
-                this._x = x;
-                this._y = y;
-                if (modelX !== undefined) {
-                    var model = this.model();
-                    model.setXPath().call(model, modelX);
-                    model.setYPath().call(model, modelY);
-                }
             }
         }
     });

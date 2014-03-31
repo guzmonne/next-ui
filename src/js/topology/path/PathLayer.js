@@ -5,9 +5,15 @@
      Could use topo.getLayer("pathLayer") get this
      * @class nx.graphic.Topology.PathLayer
      * @extend nx.graphic.Topology.Layer
+     * @module nx.graphic.Topology
      */
     nx.define("nx.graphic.Topology.PathLayer", nx.graphic.Topology.Layer, {
         properties: {
+
+            /**
+             * Path array
+             * @property paths
+             */
             paths: {
                 value: function () {
                     return[];
@@ -42,11 +48,15 @@
 
                 //
             },
+            /**
+             * Remove a path
+             * @method removePath
+             * @param path
+             */
             removePath: function (path) {
-//                var index = util.indexOf(this._paths, path);
-//                this._paths.splice(index, 1);
-//                this.removeChild(path);
-
+                var index = util.indexOf(this._paths, path);
+                this._paths.splice(index, 1);
+                path.detach(this);
             },
             clear: function () {
                 this.paths([]);

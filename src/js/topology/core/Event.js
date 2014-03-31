@@ -11,23 +11,11 @@
             _mousewheel: function (sender, event) {
                 if (this.scalable()) {
                     var step = 8000;
-                    var data = 0;
-                    if (event.touches && event.touches.length == 2) {
-//                        this._zoomCenterPointX(0);
-//                        this._zoomCenterPointY(0);
-//                        var dist = Math.sqrt((event.touches[0].pageX - event.touches[1].pageX) * (event.touches[0].pageX - event.touches[1].pageX) + (event.touches[0].pageY - event.touches[1].pageY) * (event.touches[0].pageY - event.touches[1].pageY));
-//                        if (this._mousewheelDist) {
-//                            data = dist * (this._mousewheelDist > dist ? -1 : 1);
-//                        }
-//                        this._mousewheelDist = dist;
-
-                    } else if (event.wheelDelta) {
-                        data = event.wheelDelta;
-                        this._zoomCenterPoint = {
-                            x: event.offsetX,
-                            y: event.offsetY
-                        };
-                    }
+                    var data = event.wheelDelta;
+                    this._zoomCenterPoint = {
+                        x: event.offsetX,
+                        y: event.offsetY
+                    };
 
                     this._scale = Math.max(Math.min(this._maxScale, this.scale() + data / step), this._minScale);
 

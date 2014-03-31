@@ -3,6 +3,7 @@
      * Node tooltip content class
      * @class nx.graphic.NodeTooltipContent
      * @extend nx.ui.Component
+     * @module nx.graphic.Topology
      */
 
     nx.define('nx.graphic.Topology.NodeTooltipContent', nx.ui.Component, {

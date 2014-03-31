@@ -1,9 +1,18 @@
 (function (nx, util, global) {
 
+    /**
+     * NodeSet class
+     * @class nx.graphic.Topology.NodeSet
+     * @extend nx.graphic.Topology.Node
+     * @module nx.graphic.Topology
+     */
 
     nx.define("nx.graphic.Topology.NodeSet", nx.graphic.Topology.Node, {
         events: ['expandNode', 'collapseNode'],
         properties: {
+            /**
+             * Get all sub nodes
+             */
             nodes: {
                 value: function () {
                     return [];
@@ -37,6 +46,10 @@
                     this.$('label').setStyle('fill', value);
                 }
             },
+            /**
+             * Collapsed statues
+             * @property collapsed
+             */
             collapsed: {
                 get: function () {
                     return this._collapsed !== undefined ? this._collapsed : null;
@@ -98,7 +111,7 @@
                     type: 'nx.graphic.Group',
                     name: 'graphic',
                     props: {
-                        scale: '{#nodeScale}'
+                        scale: '{#scale}'
                     },
                     content: [
                         {
@@ -178,9 +191,17 @@
                 this._collapsed = model._activated;
                 this.setBinding('collapsed', 'model.activated,direction=<>', this);
             },
+            /**
+             * Expand nodeSet
+             * @method expand
+             */
             expand: function () {
                 this.collapsed(false);
             },
+            /**
+             * Collapse nodeSet
+             * @method collapse
+             */
             collapse: function () {
                 this.collapsed(true);
             },
@@ -220,7 +241,7 @@
             },
 
             /**
-             * Get all sun nodes
+             * Get all sub nodes
              * @returns {Array}
              */
             getNodes: function () {

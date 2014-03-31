@@ -33,6 +33,31 @@
             indexOf: function (array, item) {
                 return array.indexOf(item);
             },
+            setProperty: function (source, key, value, owner) {
+                var propValue;
+                var rpatt = /(?={)\{([^{}]+?)\}(?!})/;
+                if (value !== undefined) {
+                    var model = source.model();
+                    if (nx.is(value, 'String') && rpatt.test(value)) {
+                        var expr = RegExp.$1;
+                        if (expr[0] === '#') {
+                            source.setBinding(key, 'owner.' + expr.slice(1), owner);
+                        }
+                    } else if (nx.is(value, 'Function')) {
+                        propValue = value.call(source, model, source);
+                        source.set(key, propValue);
+                    } else if (nx.is(value, 'String')) {
+                        var path = value.split('.');
+                        if (path.length == 2 && path[0] == 'model') {
+                            source.setBinding(key, value, source);
+                        } else {
+                            source.set(key, value);
+                        }
+                    } else {
+                        source.set(key, value);
+                    }
+                }
+            },
             loadScript: function (url, callback) {
                 var script = document.createElement("script");
                 script.type = "text/javascript";

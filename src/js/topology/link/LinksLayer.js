@@ -1,28 +1,28 @@
 (function (nx, util, global) {
 
-    /** Links layer
+    /**
+     * Links layer
      Could use topo.getLayer('linksLayer') get this
      * @class nx.graphic.Topology.LinksLayer
      * @extend nx.graphic.Topology.Layer
      */
 
     nx.define('nx.graphic.Topology.LinksLayer', nx.graphic.Topology.Layer, {
-        /**
-         * @event clickLink
-         */
-        /**
-         * @event leaveLink
-         */
-        /**
-         * @event enterLink
-         */
-        events: ['pressLink', 'clickLink', 'leaveLink', 'enterLink'],
+        events: ['pressLink', 'clickLink', 'enterLink', 'leaveLink'],
         properties: {
+            /**
+             * Links collection
+             * @property links
+             */
             links: {
                 value: function () {
                     return [];
                 }
             },
+            /**
+             * Links id : value map
+             * @property linksMap
+             */
             linksMap: {
                 value: function () {
                     return {};
@@ -30,18 +30,6 @@
             }
         },
         methods: {
-            attach: function (args) {
-                this.attach.__super__.apply(this, arguments);
-//                var topo = this.topology();
-//                topo.on('projectionChange', this._projectionChangeFN = function (sender, event) {
-//                    setTimeout(function () {
-//                        nx.each(this.links(), function (link) {
-//                            link.update();
-//                        }, this);
-//                    }.bind(this), 100);
-//
-//                }, this);
-            },
             /**
              * Add a link
              * @param edge
@@ -57,9 +45,18 @@
                 this.linksMap()[id] = link;
                 return link;
             },
+            /**
+             * Update link
+             * @method updateLink
+             * @param edge {nx.data.edge}
+             */
             updateLink: function (edge) {
                 this.getLink(edge.id()).update();
             },
+            /**
+             * Remove a link
+             * @param edge {nx.data.Edge}
+             */
             removeLink: function (edge) {
                 var linksMap = this.linksMap();
                 var links = this.links();
@@ -86,27 +83,23 @@
                 link.resolve('@root').set('data-source-node-id', edge.source().id());
                 link.resolve('@root').set('data-target-node-id', edge.target().id());
 
-                link.setProperty('linkType', topo.linkType());
-                link.setProperty('gutter', topo.linkGutter());
-                link.setProperty('label', topo.linkLabel());
-                link.setProperty('sourceLabel', topo.linkSourceLabel());
-                link.setProperty('targetLabel', topo.linkTargetLabel());
-                link.setProperty('color', topo.linkColor());
-                link.setProperty('width', topo.linkWidth());
-                link.setProperty('dotted', topo.linkDotted());
-                link.setProperty('style', topo.linkStyle());
-                link.set('drawMethod', topo.linkDrawMethod());
-                link.setProperty('enable', topo.linkEnable());
+                var defaultConfig = {
+                    linkType: 'parallel',
+                    gutter: 0,
+                    label: null,
+                    sourceLabel: null,
+                    targetLabel: null,
+                    color: null,
+                    width: null,
+                    dotted: false,
+                    style: null,
+                    enable: true
+                };
 
-
-                var linkConfig = topo.linkConfig();
-                if (linkConfig) {
-                    nx.each(linkConfig, function (value, key) {
-                        link.setProperty(key, value);
-                    }, this);
-                }
-
-
+                var linkConfig = nx.extend(defaultConfig, topo.linkConfig());
+                nx.each(linkConfig, function (value, key) {
+                    util.setProperty(link, key, value, topo);
+                }, this);
                 link.update();
 
 
@@ -147,6 +140,11 @@
             getLink: function (id) {
                 return this.linksMap()[id];
             },
+            /**
+             * Highlight links
+             * @method highlightLinks
+             * @param links {Array} links array
+             */
             highlightLinks: function (links) {
                 nx.each(links, function (link) {
                     this.highlightElement(link);

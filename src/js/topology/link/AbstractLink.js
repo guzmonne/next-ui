@@ -5,13 +5,14 @@
     /**
      * Abstract link class
      * @class nx.graphic.Topology.AbstractLink
-     * @extend nx.graphic.Shape
+     * @extend nx.graphic.Group
+     * @module nx.graphic.Topology
      */
     nx.define("nx.graphic.Topology.AbstractLink", nx.graphic.Group, {
         events: ["hide", "show"],
         properties: {
             /**
-             * Get source node instance
+             * Get source node's instance
              * @property  sourceNode
              */
             sourceNode: {
@@ -22,7 +23,7 @@
                 }
             },
             /**
-             * Get target node instance
+             * Get target node's instance
              * @property targetNode
              */
             targetNode: {
@@ -32,21 +33,37 @@
                     return topo.getNode(id);
                 }
             },
+            /**
+             * Get source node's position
+             * @property sourcePosition
+             */
             sourcePosition: {
                 get: function () {
                     return this.sourceNode().position();
                 }
             },
+            /**
+             * Get target node's position
+             * @property targetPosition
+             */
             targetPosition: {
                 get: function () {
                     return this.targetNode().position();
                 }
             },
+            /**
+             * Get source node's id
+             * @property sourceNodeID
+             */
             sourceNodeID: {
                 get: function () {
                     return this.model().source().id();
                 }
             },
+            /**
+             * Get target node's id
+             * @property targetNodeID
+             */
             targetNodeID: {
                 get: function () {
                     return this.model().target().id();
@@ -118,6 +135,10 @@
                     };
                 }
             },
+            /**
+             * Get link's line object
+             * @property line
+             */
             line: {
                 get: function () {
                     return  new Line(this.sourceVector(), this.targetVector());
@@ -157,21 +178,37 @@
                     return this.topology().scale() || 1;
                 }
             },
+            /**
+             * Get link's id
+             * @property id
+             */
             id: {
                 get: function () {
                     return this.model().id();
                 }
             },
+            /**
+             * Get link's linkKey
+             * @property linkKey
+             */
             linkKey: {
                 get: function () {
                     return this.model().linkKey();
                 }
             },
+            /**
+             * Get is link is reverse link
+             * @property reverse
+             */
             reverse: {
                 get: function () {
                     return this.model().reverse();
                 }
             },
+            /**
+             * Get this center point's position
+             * @property centerPoint
+             */
             centerPoint: {
                 get: function () {
                     return this.line().center();
@@ -192,6 +229,7 @@
         methods: {
             /**
              * Factory function , will be call when set model
+             * @method setModel
              */
             setModel: function (model, isUpdate) {
                 //
@@ -218,6 +256,7 @@
 
             /**
              * Factory function , will be call when relate data updated
+             * @method update
              */
             update: function () {
                 this.notify('centerPoint');

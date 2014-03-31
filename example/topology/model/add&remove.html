@@ -100,8 +100,12 @@
     var topo = new nx.graphic.Topology({
         adaptive: true,
         identityKey: 'id',
-        nodeLabel: 'model.id',
-        linkLabel: 'model.id',
+        nodeConfig: {
+            label: 'model.name'
+        },
+        linkConfig:{
+            label:'model.id'
+        },
         showIcon: true,
         data: topologyData
     });

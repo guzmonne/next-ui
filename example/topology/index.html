@@ -15,8 +15,8 @@
     <script type="text/javascript" src="../../lib/GraphGenerator.js"></script>
     <link rel="stylesheet" href="../../src/less/next-graphic.css"/>
 
-    <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/Next-graphic/lastSuccessfulBuild/artifact/dest/js/next-graphic.js"></script>
-    <!--<script type="text/javascript" src="../../src/js/next-graphic.js"></script>-->
+    <!--<script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/Next-graphic/lastSuccessfulBuild/artifact/dest/js/next-graphic.js"></script>-->
+    <script type="text/javascript" src="../../src/js/next-graphic.js"></script>
 
 
 </head>
@@ -66,8 +66,7 @@
         display: none;
     }
 
-
-    .iconlist li{
+    .iconlist li {
         list-style: none;
         border-radius: 4px;
         border: solid 1px #ccc;
@@ -78,16 +77,19 @@
         height: 140px;
         float: left;
     }
-    .iconlist li label{
+
+    .iconlist li label {
         width: 170px;
         font-size: 18px;
         color: #333;
         border-bottom: dotted 1px #ccc;
     }
-    .iconlist li p{
+
+    .iconlist li p {
         text-align: center;
     }
-    .iconlist li svg{
+
+    .iconlist li svg {
         margin-top: 12px;
         display: inline-block;
     }
@@ -145,17 +147,17 @@ var Demo = nx.define(nx.ui.Component, {
         },
         content: [
             {
-                props: {
-                    items: '{#jsfiles}',
-                    template: {
-                        tag: 'script',
-                        props: {
-                            'type': 'text/javascript',
-                            'data-demo-name': '{key}',
-                            src: '{value}'
-                        }
-                    }
-                }
+//                props: {
+//                    items: '{#jsfiles}',
+//                    template: {
+//                        tag: 'script',
+//                        props: {
+//                            'type': 'text/javascript',
+//                            'data-demo-name': '{key}',
+//                            src: '{value}'
+//                        }
+//                    }
+//                }
             },
             {
                 props: {
@@ -489,28 +491,29 @@ var Demo = nx.define(nx.ui.Component, {
         },
         loadDemo: function (config) {
 
-            var clz = config.itemClass;
-            if (nx.is(config.itemClass, 'String')) {
-                clz = nx.path(nx.global, clz);
-            }
-            if (this.currentItem()) {
-                this.currentItem().dispose();
-            }
+            nx.util.loadScript(config.files[0], function () {
+                var clz = config.itemClass;
+                if (nx.is(config.itemClass, 'String')) {
+                    clz = nx.path(nx.global, clz);
+                }
+                if (this.currentItem()) {
+                    this.currentItem().dispose();
+                }
 
-            var demo = new clz();
-            demo.attach(this.resolve('demo'));
+                var demo = new clz();
+                demo.attach(this.resolve('demo'));
 
-            if (demo.resolve('topo')) {
-                topo = demo.resolve('topo');
-            }
+                if (demo.resolve('topo')) {
+                    topo = demo.resolve('topo');
+                }
 
-            this.currentItem(demo);
-            this.currentConfig(config);
-            var siteRootUrl = window.location.href.split("#").shift();
-            window.location.href = siteRootUrl + '#' + '' + config.categoryName + '/' + config.itemKey;
+                this.currentItem(demo);
+                this.currentConfig(config);
+                var siteRootUrl = window.location.href.split("#").shift();
+                window.location.href = siteRootUrl + '#' + '' + config.categoryName + '/' + config.itemKey;
 
-            this._loadCode();
-
+                this._loadCode();
+            }.bind(this));
         },
         _loadCode: function () {
             var config = this.currentConfig();

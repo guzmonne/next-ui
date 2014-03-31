@@ -36,24 +36,28 @@
                 props: {
                     width: 800,
                     height: 600,
-                    // identityKey: 'id',
+                    identityKey: 'id',
                     showIcon: false,
-                    nodeLabel: '{id}',
-                    nodeColor: function (node, model) {
-                        return colorTable[Math.floor(Math.random() * 6)];
+                    nodeConfig: {
+                        label: 'model.id',
+                        color: function (node, model) {
+                            return colorTable[Math.floor(Math.random() * 5)];
+                        },
+                        scale: function () {
+                            return Math.random() * 10 + 1;
+                        }
                     },
-                    linkColor: function (link, model) {
-                        return colorTable[Math.floor(Math.random() * 6)];
-                    },
-                    nodeScale: function () {
-                        return Math.random() * 10 + 1;
-                    },
-                    linkWidth: function () {
-                        return Math.random() * 10 + 1;
-                    },
-                    linkType: 'curve',
-                    linkGutter: function () {
-                        return Math.random() * 2;
+                    linkConfig: {
+                        color: function (link, model) {
+                            return colorTable[Math.floor(Math.random() * 5)];
+                        },
+                        width: function () {
+                            return Math.random() * 10 + 1;
+                        },
+                        linkType: 'curve',
+                        gutter: function () {
+                            return Math.random() * 2;
+                        }
                     },
                     data: topologyData
                 }

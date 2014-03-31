@@ -3,10 +3,15 @@
      * Node class
      * @class nx.graphic.Topology.Node
      * @extend nx.graphic.Topology.AbstractNode
+     * @module nx.graphic.Topology
      */
     nx.define('nx.graphic.Topology.Node', nx.graphic.Topology.AbstractNode, {
         events: ['pressNode', 'clickNode', 'enterNode', 'leaveNode', 'dragNodeStart', 'dragNode', 'dragNodeEnd', 'selectNode'],
         properties: {
+            /**
+             * Get/set node's position
+             * @property posotion
+             */
             position: {
                 get: function () {
                     return {
@@ -51,21 +56,19 @@
                     return isModified;
                 }
             },
-            nodeScale: {
-                get: function () {
-                    return this._nodeScale !== undefined ? this._nodeScale : 1;
-                },
+            /**
+             * Set node's scale
+             * @property scale {Number}
+             */
+            scale: {
                 set: function (value) {
-                    if (this._nodeScale !== value) {
-                        this._nodeScale = value;
-                        this.view('graphic').setTransform(null, null, value);
-
-                        return true;
-                    } else {
-                        return false;
-                    }
+                    this.view('graphic').setTransform(null, null, value);
                 }
             },
+            /**
+             * Set/get the radius of dot
+             * @property radius {Number}
+             */
             radius: {
                 get: function () {
                     return this._radius !== undefined ? this._radius : 4;
@@ -80,15 +83,23 @@
                     }
                 }
             },
+            /**
+             * Node icon's type
+             * @method iconType {String}
+             */
             iconType: {
                 value: 'unknown'
             },
+            /**
+             * Node's label font size
+             * @property fontSize {Number}
+             */
             fontSize: {
                 value: 12
             },
             /**
              * Get node's label
-             * @property text
+             * @property label
              */
             label: {
                 set: function (label) {
@@ -103,6 +114,9 @@
                     this._label = label;
                 }
             },
+            /**
+             * Set node's label visible
+             */
             labelVisible: {
                 set: function (value) {
                     var el = this.resolve('label');
@@ -110,6 +124,10 @@
                     this._labelVisible = value;
                 }
             },
+            /**
+             * Show/hide node's icon
+             * @property showIcon
+             */
             showIcon: {
                 set: function (value) {
                     var icon = this.resolve('iconContainer');
@@ -154,12 +172,21 @@
                     }
                 }
             },
+            /**
+             * Set the dot's color
+             * @property color
+             */
             color: {
                 set: function (value) {
+                    this.$('graphic').setStyle('fill', value);
                     this.$('dot').setStyle('fill', value);
                     this.$('label').setStyle('fill', value);
                 }
             },
+            /**
+             * Enable smart label feature
+             * @property enableSmartLabel
+             */
             enableSmartLabel: {
                 value: true
             },
@@ -266,27 +293,6 @@
             setModel: function (model) {
                 this.inherited(model);
             },
-            /**
-             * Get node's size beside label
-             * @returns {*}
-             * @method getSize
-             */
-            getSize: function () {
-                var showIcon = this.showIcon();
-                var scale = this.nodeScale();
-                if (showIcon) {
-                    var size = this.resolve('icon').size();
-                    return {
-                        width: size.width * scale,
-                        height: size.height * scale
-                    };
-                } else {
-                    return {
-                        width: this.radius() * scale * 2,
-                        height: this.radius() * scale * 2
-                    };
-                }
-            },
             cssMoveTo: function (x, y, callback) {
                 var el = this.view();
                 el.upon('transitionend', function () {
@@ -312,7 +318,7 @@
                     } else {
                         radius = this.radius();
                     }
-                    el.set('r', radius * 1.5 * this.nodeScale());
+                    el.set('r', radius * 1.5 * this.scale());
                 }
             },
             _mousedown: function (sender, event) {
@@ -326,6 +332,12 @@
                 if (this.enable()) {
                     var _position = this.position();
                     if (this._prevPosition && _position.x === this._prevPosition.x && _position.y === this._prevPosition.y) {
+                        /**
+                         * Fired when click a node
+                         * @event clickNode
+                         * @param sender{Object} trigger instance
+                         * @param event {Object} original event object
+                         */
                         this.fire('clickNode', event);
                     }
                 }
@@ -333,6 +345,12 @@
             _mouseenter: function (sender, event) {
                 if (this.enable()) {
                     if (!this.__enter) {
+                        /**
+                         * Fired when mouse enter a node
+                         * @event enterNode
+                         * @param sender{Object} trigger instance
+                         * @param event {Object} original event object
+                         */
                         this.fire('enterNode', event);
                         this.__enter = true;
                     }
@@ -343,6 +361,12 @@
             _mouseleave: function (sender, event) {
                 if (this.enable()) {
                     if (this.__enter) {
+                        /**
+                         * Fired when mouse leave a node
+                         * @event leaveNode
+                         * @param sender{Object} trigger instance
+                         * @param event {Object} original event object
+                         */
                         this.fire('leaveNode', event);
                         this.__enter = false;
                     }
@@ -350,16 +374,34 @@
             },
             _dragstart: function (sender, event) {
                 if (this.enable()) {
+                    /**
+                     * Fired when start drag a node
+                     * @event dragNodeStart
+                     * @param sender{Object} trigger instance
+                     * @param event {Object} original event object
+                     */
                     this.fire('dragNodeStart', event);
                 }
             },
             _drag: function (sender, event) {
                 if (this.enable()) {
+                    /**
+                     * Fired when drag a node
+                     * @event dragNode
+                     * @param sender{Object} trigger instance
+                     * @param event {Object} original event object
+                     */
                     this.fire('dragNode', event);
                 }
             },
             _dragend: function (sender, event) {
                 if (this.enable()) {
+                    /**
+                     * Fired when finish a node
+                     * @event dragNodeEnd
+                     * @param sender{Object} trigger instance
+                     * @param event {Object} original event object
+                     */
                     this.fire('dragNodeEnd', event);
                     this._updateConnectedNodeLabelPosition();
                 }
@@ -454,6 +496,7 @@
             },
             /**
              * @method updateByMaxObtuseAngle
+             * @method updateByMaxObtuseAngle
              * @param angle
              */
             updateByMaxObtuseAngle: function (angle) {
@@ -470,7 +513,7 @@
                 }
 
                 //
-                var size = this.getSize();
+                var size = this.getBound(true);
                 var radius = Math.max(size.width / 2, size.height / 2) + (this.showIcon() ? 12 : 8);
                 var labelVector = new nx.math.Vector(radius, 0).rotate(angle);
 
@@ -482,6 +525,11 @@
                 el.set('text-anchor', anchor);
 
             },
+            /**
+             * Get node bound
+             * @param onlyGraphic {Boolean} is is TRUE, will only get graphic's bound
+             * @returns {*}
+             */
             getBound: function (onlyGraphic) {
                 if (onlyGraphic) {
                     return this.resolve('graphic').getBound();

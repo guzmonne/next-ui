@@ -111,8 +111,10 @@
                 props: {
                     adaptive: true,
                     identityKey: 'id',
-                    nodeLabel: 'model.id',
-                    nodeIconType: 'model.device_type',
+                    nodeConfig: {
+                        label: 'model.id',
+                        iconType:'model.device_type'
+                    },
                     showIcon: true,
                     data: topologyData
                 }

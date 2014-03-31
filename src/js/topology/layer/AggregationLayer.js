@@ -1,5 +1,7 @@
 (function (nx, util, global) {
 
+
+
     nx.graphic.define("nx.graphic.Topology.AggregationItem", {
         properties: {
             nodeSet: {},

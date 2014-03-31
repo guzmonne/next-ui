@@ -7,18 +7,6 @@
      * @extend nx.graphic.Topology.Scene
      */
     nx.define("nx.graphic.Topology.SelectionScene", nx.graphic.Topology.DefaultScene, {
-
-        /**
-         * @event startSelection
-         */
-        /**
-         * @event selecting
-         */
-        /**
-         * @event endSelection
-         */
-
-        events: ["startSelection", "selecting", "endSelection"],
         methods: {
             /**
              * Entry

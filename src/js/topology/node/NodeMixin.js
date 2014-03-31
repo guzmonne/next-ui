@@ -1,35 +1,45 @@
 (function (nx, util, global) {
 
+    /**
+     * Node mixin class
+     * @class nx.graphic.Topology.NodeMixin
+     * @module nx.graphic.Topology
+     */
     nx.define("nx.graphic.Topology.NodeMixin", {
         events: [],
         properties: {
+            /**
+             * Node instance class name, support function
+             * @property nodeInstanceClass
+             */
             nodeInstanceClass: {
                 value: 'nx.graphic.Topology.Node'
             },
+            /**
+             * NodeSet instance class name, support function
+             * @property nodeSetInstanceClass
+             */
             nodeSetInstanceClass: {
                 value: 'nx.graphic.Topology.NodeSet'
             },
             /**
-             * @property showIcon
+             * Set node's draggable
+             * @property nodeDraggable
              */
-            autoToggleIcon: {
-                value: true
-            },
             nodeDraggable: {
                 value: true
             },
+            /**
+             * Enable smart label
+             * @property enableSmartLabel
+             */
             enableSmartLabel: {
                 value: true
             },
-            nodeScale: {},
-            nodeRadius: {},
-            nodeIconType: {},
-            nodeLabel: {},
-            nodeShowIcon: {},
-            nodeSelected: {
-                value: false
-            },
-            nodeColor: {},
+            /**
+             * Show or hide node's icon
+             * @property showIcon
+             */
             showIcon: {
                 get: function () {
                     return this._showIcon !== undefined ? this._showIcon : false;
@@ -52,10 +62,27 @@
                     }
                 }
             },
+            /**
+             * All node's config. key is node's property, support super binding
+             * value could be a single string eg: color:'#f00'
+             * value could be a an expression eg: label :'{model.id}'
+             * value could be a function eg iconType : function (model,instance){ return  'router'}
+             * value could be a normal binding expression eg : label :'{#label}'
+             * @property {nodeConfig}
+             */
             nodeConfig: {},
+            /**
+             * All nodeSet's config. key is node's property, support super binding
+             * value could be a single string eg: color:'#f00'
+             * value could be a an expression eg: label :'{model.id}'
+             * value could be a function eg iconType : function (model,instance){ return  'router'}
+             * value could be a normal binding expression eg : label :'{#label}'
+             * @property {nodeSetConfig}
+             */
             nodeSetConfig: {},
             /**
-             * @property selectedNodes
+             * All selected nodes, could direct add/remove nodes to this collection
+             * @property selectedNodes {nx.data.ObservableCollection}
              */
             selectedNodes: {
                 value: function () {
@@ -82,23 +109,12 @@
                     }
                 });
             },
-
-//            xx: function () {
-//
-//
-//                var bound = this.getBoundByNodes(this.selectedNodes().toArray());
-//
-//                var bound = this.getInsideBound();
-//                var bg = this.stage().resolve('bg').root();
-//                bg.sets({
-//                    x: bound.left,
-//                    y: bound.top,
-//                    width: bound.width,
-//                    height: bound.height,
-//                    visible: true
-//                });
-//                this.stage().resolve('bg').set('visible', true);
-//            },
+            /**
+             * Get the bound of passing node's
+             * @param inNodes {Array}
+             * @param isNotIncludeLabel {Boolean}
+             * @returns {Array}
+             */
 
             getBoundByNodes: function (inNodes, isNotIncludeLabel) {
 
@@ -168,6 +184,7 @@
 
             /**
              * Add a node to topology
+             * @method addNode
              * @param obj
              * @param inOption
              * @returns {*}
@@ -180,6 +197,7 @@
             },
             /**
              * Add a nodeSet
+             * @method addNodeSet
              * @param obj
              * @param inOption
              * @returns {*}
@@ -211,6 +229,7 @@
             },
             /**
              * Remove a node
+             * @method removeNode
              * @param inNode
              * @returns {boolean}
              */
@@ -251,10 +270,20 @@
             getNode: function (id) {
                 return this.getLayer("nodes").getNode(id) || this.getLayer("nodeSet").getNodeSet(id);
             },
-
+            /**
+             * Get all visible nodes
+             * @returns {Array}
+             */
             getNodes: function () {
                 return this.getLayer("nodes").nodes();
             },
+            /**
+             * Register a customize icon
+             * @param name {String}
+             * @param url {URL}
+             * @param width {Number}
+             * @param height {Number}
+             */
             registerIcon: function (name, url, width, height) {
                 var XLINK = 'http://www.w3.org/1999/xlink';
                 var NS = "http://www.w3.org/2000/svg";

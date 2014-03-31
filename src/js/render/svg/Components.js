@@ -347,10 +347,7 @@
      */
     nx.define("nx.graphic.Icon", nx.graphic.Component, {
         view: {
-            tag: 'svg:use',
-            props: {
-                style: 'fill:orange'
-            }
+            tag: 'svg:use'
         },
         properties: {
             /**

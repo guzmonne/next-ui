@@ -35,7 +35,9 @@
                 props: {
                     width: 800,
                     height: 600,
-                    nodeLabel: 'model.id',
+                    nodeConfig: {
+                        label: 'model.id'
+                    },
                     showIcon: true,
                     data: topologyData
                 },

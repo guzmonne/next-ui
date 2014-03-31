@@ -1,19 +1,26 @@
 (function (nx, util, global) {
-
+    /**
+     * Topology's batch operation class
+     * @class nx.graphic.Topology.Categories
+     * @module nx.graphic.Topology
+     */
     nx.define("nx.graphic.Topology.Categories", {
         events: [],
         properties: {
         },
         methods: {
-            recover: function (force) {
-                nx.each(this.layers(), function (layer) {
-                    layer.recover(force);
-                }, this);
-            },
+            /**
+             * Show loading indicator
+             * @method showLoading
+             */
             showLoading: function () {
                 this.view().dom().addClass('n-topology-loading');
                 this.view('loading').dom().setStyle('display', 'block');
             },
+            /**
+             * Hide loading indicator
+             * @method hideLoading
+             */
             hideLoading: function () {
                 this.view().dom().removeClass('n-topology-loading');
                 this.view('loading').dom().setStyle('display', 'none');
@@ -34,6 +41,18 @@
 //                ctx.drawImage(img, 10, 10);
                 this.resolve("stage").resolve("@root").setStyle("display", "none");
                 console.log('Generate image', new Date() - start);
+            },
+            __drawBG: function (inBound) {
+                var bound = inBound || this.stage().getContentBound();
+                var bg = this.stage().resolve('bg').root();
+                bg.sets({
+                    x: bound.left,
+                    y: bound.top,
+                    width: bound.width,
+                    height: bound.height,
+                    visible: true
+                });
+                this.stage().resolve('bg').set('visible', true);
             }
         }
     });

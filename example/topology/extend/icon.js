@@ -42,16 +42,12 @@
 
     nx.define('Extend.Icon', nx.ui.Component, {
         properties: {
+            currentNode: {
+
+            },
             iconType: {
-                value: function () {
-                    return function (model, node) {
-                        var id = model.get("id");
-                        if (id > 2) {
-                            return 'icon1'
-                        } else {
-                            return 'icon2'
-                        }
-                    }
+                get: function () {
+                    return Math.round(Math.random()) ? 'icon1' : 'icon2';
                 }
             }
         },
@@ -61,8 +57,10 @@
                 type: 'nx.graphic.Topology',
                 props: {
                     adaptive: true,
-                    nodeLabel: 'model.id',
-                    nodeIconType: '{#iconType}',
+                    nodeConfig: {
+                        label: 'model.id',
+                        iconType: '{#iconType}'
+                    },
                     showIcon: true,
                     data: topologyData
                 },

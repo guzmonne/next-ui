@@ -11,9 +11,41 @@
     var colorTable = ['#C3A5E4', '#75C6EF', '#CBDA5C', '#ACAEB1 ', '#2CC86F'];
 
 
+    /**
+     * Topology group layer class
+
+     var groupsLayer = topo.getLayer('groups');
+     var nodes1 = [sender.getNode(0), sender.getNode(1)];
+     var group1 = groupsLayer.addGroup({
+                    nodes: nodes1,
+                    label: 'Rect',
+                    color: '#f00'
+                });
+     group1.on('clickGroupLabel', function (sender, events) {
+                    console.log(group1.nodes().toArray());
+                }, this);
+
+     *
+     * @class nx.graphic.Topology.GroupsLayer
+     * @extend nx.graphic.Topology.Layer
+     * @module nx.graphic.Topology
+     */
+
     nx.define('nx.graphic.Topology.GroupsLayer', nx.graphic.Topology.Layer, {
+        statics: {
+            /**
+             * Default color table, with 5 colors
+             * @property colorTable
+             * @static
+             */
+            colorTable: colorTable
+        },
         events: [],
         properties: {
+            /**
+             * Groups collection
+             * @property groups {Array}
+             */
             groups: {
                 value: function () {
                     return [];
@@ -25,6 +57,11 @@
         },
         methods: {
 
+            /**
+             * Register a group item class
+             * @param name {String} group items' name
+             * @param className {Object} which should extend nx.graphic.Topology.GroupItem
+             */
             registerGroupItem: function (name, className) {
                 shapeMap[name] = className;
             },
@@ -37,7 +74,11 @@
                 topo.on('zoomend', this.reDrawAllGroup, this);
 
             },
-
+            /**
+             * Add a group to group layer
+             * @param obj {Object} config of a group
+             * @returns {GroupClass}
+             */
             addGroup: function (obj) {
                 var groups = this.groups();
                 var shape = obj.shapeType || 'rect';
@@ -66,6 +107,10 @@
                 return group;
 
             },
+            /**
+             * Re-draw all group, for update
+             * @method reDrawAllGroup
+             */
             reDrawAllGroup: function () {
                 nx.each(this.groups(), function (group) {
                     group.draw();

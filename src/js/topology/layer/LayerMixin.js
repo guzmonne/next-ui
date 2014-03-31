@@ -70,6 +70,9 @@
                 var layersMap = this.layersMap();
                 return layersMap[name];
             },
+            appendLayer: function (name, layer) {
+                return this.attachLayer(name, layer);
+            },
             /**
              * attach a layer to topology, that should be subclass of nx.graphic.Topology.Layer
              * @method attachLayer
@@ -85,6 +88,7 @@
                     layersMap[name] = layerObj;
                     layers.push(layerObj);
                 }
+                return layerObj;
             },
             /**
              * Prepend a layer to topology, that should be subclass of nx.graphic.Topology.Layer
@@ -121,6 +125,20 @@
                     layers.splice(index + 1, 0, layerObj);
                 }
             },
+            /**
+             * Call all layer's recover
+             * @method recover
+             * @param force
+             */
+            recover: function (force) {
+                nx.each(this.layers(), function (layer) {
+                    layer.recover(force);
+                }, this);
+            },
+            /**
+             * Clear all layer's content
+             * @method clear
+             */
             clear: function () {
                 nx.each(this.layers(), function (layer) {
                     layer.clear();

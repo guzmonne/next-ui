@@ -2,6 +2,7 @@
     /**
      * @class nx.graphic.LinkTooltipContent
      * @extend nx.ui.Component
+     * @module nx.graphic.Topology
      */
     nx.define("nx.graphic.Topology.LinkTooltipContent", nx.ui.Component, {
         view: {},

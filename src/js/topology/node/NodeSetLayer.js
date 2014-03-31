@@ -1,32 +1,5 @@
 (function (nx, util, global) {
-
-
-    /**
-     * Nodes layer
-     Could use topo.getLayer('nodesLayer') get this
-     * @class nx.graphic.Topology.NodesLayer
-     * @extend nx.graphic.Topology.Layer
-     *
-     */
     nx.define('nx.graphic.Topology.NodeSetLayer', nx.graphic.Topology.Layer, {
-        /**
-         * @event clickNode
-         */
-        /**
-         * @event enterNode
-         */
-        /**
-         * @event leaveNode
-         */
-        /**
-         * @event dragNodeStart
-         */
-        /**
-         * @event dragNode
-         */
-        /**
-         * @event dragNodeEnd
-         */
         events: ['clickNodeSet', 'enterNodeSet', 'leaveNodeSet', 'dragNodeSetStart', 'dragNodeSet', 'dragNodeSetEnd', 'hideNodeSet', 'pressNodeSet', 'selectNodeSet', 'updateNodeSetCoordinate', 'expandNodeSet', 'collapseNodeSet'],
         properties: {
             nodeSet: {
@@ -60,11 +33,6 @@
             draw: function () {
 
             },
-            /**
-             * Add node a nodes layer
-             * @param vertexSet
-             * @method addNode
-             */
             addNodeSet: function (vertexSet) {
                 var nodeSetMap = this.nodeSetMap();
                 var nodeSet = this.nodeSet();
@@ -116,24 +84,16 @@
 
                 nodeset.set('class', 'node');
                 nodeset.resolve('@root').set('data-node-id', nodeset.id());
-                nodeset.setProperty('nodeScale', topo.nodeScale());
-                nodeset.setProperty('radius', topo.nodeRadius());
-                nodeset.setProperty('enableSmartLabel', topo.enableSmartLabel());
-                nodeset.setProperty('iconType', topo.nodeIconType() || 'groupS');
-                nodeset.setProperty('showIcon', topo.nodeShowIcon() == null ? topo.showIcon() : topo.nodeShowIcon());
-                nodeset.setProperty('selected', topo.nodeSelected());
-                nodeset.setProperty('color', topo.nodeColor());
 
-                nodeset.setProperty('label', topo.nodeLabel());
-
-
-
-                var nodeSetConfig = topo.nodeSetConfig();
-                if (nodeSetConfig) {
-                    nx.each(nodeSetConfig, function (value, key) {
-                        nodeset.setProperty(key, value);
-                    }, this);
-                }
+                var defaultConfig = {
+                    showIcon: false
+                };
+                var nodeSetConfig = nx.extend(defaultConfig, topo.nodeSetConfig());
+                nx.each(nodeSetConfig, function (value, key) {
+                    util.setProperty(nodeset, key, value, topo);
+                }, this);
+                util.setProperty(nodeset, 'showIcon', nodeSetConfig.showIcon == null ? topo.showIcon() : nodeSetConfig.showIcon, topo);
+                util.setProperty(nodeset, 'label', nodeSetConfig.label, topo);
 
 
                 var superEvents = nx.graphic.Component.__events__;
@@ -230,7 +190,11 @@
                     this.highlightedNodeSet([]);
                 }, this);
             },
-            resetProjection: function () {
+            /**
+             * Reset node's position, especially when reset projection, this will have transition
+             * @method resetPosition
+             */
+            resetPosition: function () {
                 var nodes = this.nodes();
                 nx.each(nodes, function (node) {
                     var model = node.model();

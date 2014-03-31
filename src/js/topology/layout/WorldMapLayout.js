@@ -5,6 +5,49 @@
     var WORLDMAPTopoJSON = 'http://bl.ocks.org/mbostock/raw/4090846/world-50m.json';
     var width = 960, height = 480;
     var projection;
+
+
+    /**
+     * World map layout, this require d3.js and d3 topojsonv1.js
+
+     files:
+     http://d3js.org/d3.v3.min.js
+     http://d3js.org/topojson.v1.min.js
+
+     * example
+
+     var topo = new nx.graphic.Topology({
+        adaptive: true,
+        nodeConfig: {
+                        label: 'model.name'
+                    },
+        showIcon: false,
+        identityKey: 'name',
+        layoutType: 'WorldMap',
+        layoutConfig: {
+            longitude: 'model.longitude',
+            latitude: 'model.latitude',
+            worldTopoJson: 'lib/world-50m.json'
+        },
+        data: topologyData
+     })
+
+     * @class nx.graphic.Topology.WorldMapLayout
+     * @module nx.graphic.Topology
+     */
+    /**
+     * Map's longitude attribute
+     * @property longitude
+     */
+    /**
+     * Map's latitude attribute
+     * @property latitude
+     */
+    /**
+     * world topo json file url, this should be under the same domain.
+     * Could download from here : http://bl.ocks.org/mbostock/raw/4090846/world-50m.json
+     * @property worldTopoJson
+     */
     nx.define("nx.graphic.Topology.WorldMapLayout", {
         properties: {
             topology: {}

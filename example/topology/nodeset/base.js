@@ -47,8 +47,14 @@
                 props: {
                     adaptive: true,
                     identityKey: 'id',
-                    nodeLabel: 'model.x',
-                    nodeIconType: 'model.iconType',
+                    nodeConfig: {
+                        label: 'model.name',
+                        iconType: 'model.iconType'
+                    },
+                    nodeSetConfig: {
+                        label: 'model.id',
+                        iconType: 'model.iconType'
+                    },
                     showIcon: false,
                     data: topologyData
                 }

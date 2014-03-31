@@ -44,7 +44,9 @@
                 type: 'nx.graphic.Topology',
                 props: {
                     adaptive: true,
-                    nodeLabel: 'model.id',
+                    nodeConfig: {
+                        label: 'model.id'
+                    },
                     showIcon: true,
                     data: topologyData
                 },
@@ -56,12 +58,11 @@
         methods: {
             _group: function (sender, event) {
                 var groupsLayer = sender.getLayer('groups');
-
                 var nodes1 = [sender.getNode(0), sender.getNode(1)];
                 var group1 = groupsLayer.addGroup({
                     nodes: nodes1,
-                    label: 'Rect'
-//                    color: '#f00'
+                    label: 'Rect',
+                    color: '#f00'
                 });
 
 

@@ -5,21 +5,10 @@
      * Tooltip manager for topology
      * @class nx.graphic.Topology.TooltipManager
      * @extend nx.data.ObservableObject
+     * @module nx.graphic.Topology
      */
     nx.define("nx.graphic.Topology.TooltipManager", {
-        /**
-         * @event openNodeToolTip
-         */
-        /**
-         * @event closeNodeToolTip
-         */
-        /**
-         * @event openLinkToolTip
-         */
-        /**
-         * @event closeLinkToolTip
-         */
-        events: ['openNodeToolTip', 'closeNodeToolTip', 'openLinkToolTip', 'closeLinkToolTip', 'closeLinkSetToolTip'],
+        events: ['openNodeToolTip', 'closeNodeToolTip', 'openLinkToolTip', 'closeLinkToolTip', 'openLinkSetTooltip', 'closeLinkSetToolTip'],
         properties: {
             /**
              * Get topology
@@ -28,6 +17,9 @@
             topology: {
                 value: null
             },
+            /**
+             * All tooltip's instance array
+             */
             tooltips: {
                 value: function () {
                     return new nx.data.ObservableDictionary();
@@ -43,30 +35,53 @@
              * @property linkTooltip
              */
             linkTooltip: {},
+            /**
+             * Get linkSet tooltip
+             * @method linkSetTooltip
+             */
             linkSetTooltip: {},
             nodeSetTooltip: {},
 
+            /**
+             * node tooltip class
+             * @property nodeTooltipClass
+             */
             nodeTooltipClass: {
                 value: 'nx.graphic.Topology.Tooltip'
             },
 
+            /**
+             * link tooltip class
+             * @property linkTooltipClass
+             */
             linkTooltipClass: {
                 value: 'nx.graphic.Topology.Tooltip'
             },
+            /**
+             * linkSet tooltip class
+             * @property linkSetTooltipClass
+             */
             linkSetTooltipClass: {
                 value: 'nx.graphic.Topology.Tooltip'
             },
-
             nodeSetTooltipClass: {
                 value: 'nx.graphic.Topology.Tooltip'
             },
+            /**
+             * @property nodeTooltipContentClass
+             */
             nodeTooltipContentClass: {
                 value: 'nx.graphic.Topology.NodeTooltipContent'
             },
-
+            /**
+             * @property linkTooltipContentClass
+             */
             linkTooltipContentClass: {
                 value: 'nx.graphic.Topology.linkTooltipContent'
             },
+            /**
+             * @property linkSetTooltipContentClass
+             */
             linkSetTooltipContentClass: {
                 value: 'nx.graphic.Topology.linkSetTooltipContent'
             },
@@ -85,21 +100,34 @@
             /**
              * Show/hide link's tooltip
              * @type Boolean
-             * @property
+             * @property showLinkTooltip
              */
             showLinkTooltip: {
                 value: true
             },
+            /**
+             * Show/hide linkSet's tooltip
+             * @type Boolean
+             * @property showLinkSetTooltip
+             */
             showLinkSetTooltip: {
                 value: true
             },
             showNodeSetTooltip: {
                 value: true
             },
+            /**
+             * Tooltip policy class
+             * @property tooltipPolicyClass
+             */
             tooltipPolicyClass: {
                 value: 'nx.graphic.Topology.TooltipPolicy'
             },
             tooltipPolicy: {},
+            /**
+             * Set/get tooltip's activate statues
+             * @property activated
+             */
             activated: {
                 value: true
             }
@@ -160,7 +188,11 @@
                     this.tooltipPolicy(tooltipPolicy);
                 }
             },
-
+            /**
+             * Register tooltip class
+             * @param name {String}
+             * @param tooltipClass {nx.ui.Component}
+             */
             registerTooltip: function (name, tooltipClass) {
                 var tooltips = this.tooltips();
                 var topology = this.topology();
@@ -177,7 +209,11 @@
                 });
                 tooltips.setItem(name, instance);
             },
-
+            /**
+             * Get tooltip instance by name
+             * @param name {String}
+             * @returns {nx.ui.Component}
+             */
             getTooltip: function (name) {
                 var tooltips = this.tooltips();
                 return tooltips.getItem(name);
@@ -236,7 +272,7 @@
                     content.attach(nodeTooltip);
                 }
 
-                var size = node.getSize();
+                var size = node.getBound(true);
 
                 nodeTooltip.open({
                     target: pos,
@@ -249,7 +285,7 @@
              * Open a nodeSet's tooltip
              * @param nodeSet {nx.graphic.Topology.NodeSet}
              * @param position {Object}
-             * @method openNodeTooltip
+             * @method openNodeSetTooltip
              */
             openNodeSetTooltip: function (nodeSet, position) {
                 var topo = this.topology();
@@ -280,7 +316,7 @@
                     content.attach(nodeSetTooltip);
                 }
 
-                var size = nodeSet.getSize();
+                var size = nodeSet.getBound(true);
 
                 nodeSetTooltip.open({
                     target: pos,
@@ -330,6 +366,12 @@
 
                 this.fire("openLinkToolTip", link);
             },
+            /**
+             * Open linkSet tooltip
+             * @method openLinkSetTooltip
+             * @param linkSet
+             * @param position
+             */
             openLinkSetTooltip: function (linkSet, position) {
                 var topo = this.topology();
                 var linkSetTooltip = this.linkSetTooltip();
@@ -369,6 +411,10 @@
 
                 this.fire("openLinkSetToolTip", linkSet);
             },
+            /**
+             * Close all tooltip
+             * @method closeAll
+             */
             closeAll: function () {
                 this.tooltips().each(function (obj, name) {
                     obj.value.close(true);

@@ -1,50 +1,51 @@
 (function (nx, util, global) {
 
+    /**
+     * Links mixin class
+     * @class nx.graphic.Topology.LinkMixin
+     * @module nx.graphic.Topology
+     */
     nx.define("nx.graphic.Topology.LinkMixin", {
         events: ['addLink'],
         properties: {
             /**
-             * Set multipleLinkType ,parallel / curve
-             * @property linkType
+             * Is topology support Multiple link , is false will highly improve performance
+             * @property supportMultipleLink {Boolean}
              */
-            linkType: {
-                value: 'parallel' //parallel / curve
-            },
-            linkGutter: {
-                value: 0
-            },
-            linkLabel: {
-                value: null
-            },
-            linkSourceLabel: {
-                value: null
-            },
-            linkTargetLabel: {
-                value: null
-            },
-            linkColor: {},
-            linkWidth: {},
-            linkDotted: {},
-            linkStyle: {},
-            linkDrawMethod: {},
             supportMultipleLink: {
                 value: true
             },
-            linkEnable: {
-                value: true
-            },
+            /**
+             * All link's config. key is link's property, support super binding
+             * value could be a single string eg: color:'#f00'
+             * value could be a an expression eg: label :'{model.id}'
+             * value could be a function eg iconType : function (model,instance){ return  'router'}
+             * value could be a normal binding expression eg : label :'{#label}'
+             * @property {linkConfig}
+             */
             linkConfig: {
 
             },
-            linkSetDrawMethod: {}
+            /**
+             * All linkSet's config. key is link's property, support super binding
+             * value could be a single string eg: color:'#f00'
+             * value could be a an expression eg: label :'{model.id}'
+             * value could be a function eg iconType : function (model,instance){ return  'router'}
+             * value could be a normal binding expression eg : label :'{#label}'
+             * @property {linkSetConfig}
+             */
+            linkSetConfig: {
+
+            }
         },
         methods: {
 
             /**
              * Add a link to topology
-             * @param obj
-             * @param inOption
-             * @returns {*}
+             * @method addLink
+             * @param obj {JSON}
+             * @param inOption {Config}
+             * @returns {nx.graphic.Topology.Link}
              */
             addLink: function (obj, inOption) {
                 var edge = this.graph().addEdge(obj, inOption);
@@ -52,6 +53,12 @@
                 this.fire("addLink", link);
                 return link;
             },
+            /**
+             * Remove a link
+             * @method removeLink
+             * @param inLink  {nx.graphic.Topology.Link}
+             * @returns {boolean}
+             */
             removeLink: function (inLink) {
                 var edge;
                 if (inLink instanceof  nx.graphic.Topology.Link) {
@@ -89,16 +96,33 @@
                 return this.getLayer("links").getLink(id);
             },
             /**
-             * get linkSet of two nodes
-             * @param sourceVertexID
-             * @param targetVertexID
-             * @returns {*}
+             * get linkSet by node
+             * @param sourceVertexID {String} source node's id
+             * @param targetVertexID {String} target node's id
+             * @returns  {nx.graphic.Topology.LinkSet}
              */
             getLinkSet: function (sourceVertexID, targetVertexID) {
                 return this.getLayer("linkSet").getLinkSet(sourceVertexID, targetVertexID);
             },
+            /**
+             * Get linkSet by linkKey
+             * @param linkKey {String} linkKey
+             * @returns {nx.graphic.Topology.LinkSet}
+             */
             getLinkSetByLinkKey: function (linkKey) {
                 return this.getLayer("linkSet").getLinkSetByLinkKey(linkKey);
+            },
+            /**
+             * Get links by node
+             * @param sourceVertexID {String} source node's id
+             * @param targetVertexID {String} target node's id
+             * @returns {Array} links collection
+             */
+            getLinksByNode: function (sourceVertexID, targetVertexID) {
+                var linkSet = this.getLinkSet(sourceVertexID, targetVertexID);
+                if (linkSet) {
+                    return linkSet.getLinks();
+                }
             }
         }
     });

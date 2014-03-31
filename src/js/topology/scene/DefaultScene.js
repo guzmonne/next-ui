@@ -20,7 +20,7 @@
                 this._interval = 600;
             },
             /**
-             * Entry
+             * active scene
              * @method activate
              */
 
@@ -40,9 +40,6 @@
                     }, this);
                 }, this);
             },
-            /**
-             * Deactivate scene
-             */
             deactivate: function () {
                 this._tooltipManager.closeAll();
             },
@@ -53,12 +50,9 @@
                     this[eventName].call(this, sender, data);
                 }
             },
+
             pressStage: function (sender, event) {
             },
-            /**
-             * Click stage handler
-             * @method clickStage
-             */
             clickStage: function (sender, event) {
                 if (event.target == this._topo.stage().view().dom().$dom) {
                     this._topo.selectedNodes().clear();

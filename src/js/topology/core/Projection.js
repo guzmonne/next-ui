@@ -45,11 +45,6 @@
                     }
                 }
             },
-            /**
-             * Auto detect node overlap
-             * @property revisionScale {Number}
-             * @readonly
-             */
             revisionScale: {
                 get: function () {
                     return this._revisionScale !== undefined ? this._revisionScale : 1;
@@ -95,9 +90,9 @@
             },
             /**
              * Set/get is topology use projection, or just use the data's original position information
-             * @property useProjection {Boolean}
+             * @property enableProjection {Boolean}
              */
-            useProjection: {
+            enableProjection: {
                 value: true
             },
             /**
@@ -114,13 +109,14 @@
             },
             /**
              * Enabling gradual scaling feature when zooming, set to false will improve the performance
-             * @enableGradualScaling {Boolean}
+             * @property enableGradualScaling {Boolean}
              */
             enableGradualScaling: {
                 value: true
             },
             /**
              * Enabling the smart node feature, set to false will improve the performance
+             * @property enableSmartNode {Boolean}
              */
             enableSmartNode: {
                 value: true
@@ -143,7 +139,7 @@
                 var projectionY = this.projectionY();
 
 
-                var useProjection = this.useProjection();
+                var enableProjection = this.enableProjection();
                 var projectionXRange = this.projectionXRange();
                 var projectionYRange = this.projectionYRange();
 
@@ -159,7 +155,7 @@
                 var xInput, xOutput, yInput, yOutput;
 
 
-                if (useProjection) {
+                if (enableProjection) {
 
                     if (projectionXRange) {
                         bound.x = Math.min(projectionXRange[0], projectionXRange[1]);
@@ -297,8 +293,8 @@
             /**
              * Get a projected positon object, eg, you pass a model's position value, will return the position on the screen
              * @method getProjectedPosition
-             * @param position {Object}
-             * @returns {Object}
+             * @param position {Object} {x:Number,y:Number}
+             * @returns {Object}  {x:Number,y:Number}
              */
             getProjectedPosition: function (position) {
                 return{
@@ -538,7 +534,7 @@
             /**
              * Zoom topology to let the passing nodes just visible at the screen
              * @method zoomByNodes
-             * @param nodes [Array] nodes collection
+             * @param nodes {Array} nodes collection
              */
             zoomByNodes: function (nodes) {
                 var bound = this.getBoundByNodes(nodes);
@@ -554,11 +550,10 @@
             },
 
             /**
-             * Get absolute position in the screen of topology's elements
+             * Get absolute position in the screen
              * @method getAbsolutePosition
              * @param point {Object} inside point position
              */
-
             getAbsolutePosition: function (point) {
                 var tx = this.stage().translateX();
                 var ty = this.stage().translateY();
@@ -613,21 +608,7 @@
                         }
                     }
                 }.bind(this), 60);
-            },
-            __drawBG: function (inBound) {
-                var bound = inBound || this.stage().getContentBound();
-                var bg = this.stage().resolve('bg').root();
-                bg.sets({
-                    x: bound.left,
-                    y: bound.top,
-                    width: bound.width,
-                    height: bound.height,
-                    visible: true
-                });
-                this.stage().resolve('bg').set('visible', true);
             }
-
-
         }
     });
 

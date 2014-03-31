@@ -8,13 +8,14 @@
     var ICONS = nx.define('nx.graphic.Icons', {
         static: true,
         statics: {
+            /**
+             * Get icons collection
+             * @static
+             * @property icons
+             */
             icons: {}
         },
         methods: {
-            /**
-             * Get icons collection
-             */
-
             /**
              * Get icon by type
              * @param type {String}

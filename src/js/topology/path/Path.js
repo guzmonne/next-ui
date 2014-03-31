@@ -8,6 +8,8 @@
      * A topology path class
      Path's background colors : ['#b2e47f', '#e4e47f', '#bec2f9', '#b6def7', '#89f0de']
      * @class nx.graphic.Topology.Path
+     * @extend nx.graphic.Component
+     * @module nx.graphic.Topology
      */
 
     nx.define("nx.graphic.Topology.Path", nx.graphic.Component, {
@@ -64,7 +66,7 @@
             },
             /**
              * Get/set links to draw a path pver it
-             * @property
+             * @property links
              */
             links: {
                 value: function () {
@@ -72,6 +74,10 @@
                 }
 
             },
+            /**
+             * Reverse path direction
+             * @property reverse
+             */
             reverse: {
                 value: false
             },

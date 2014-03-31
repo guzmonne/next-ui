@@ -3,19 +3,45 @@
     var Vector = nx.math.Vector;
     var Line = nx.math.Line;
 
+    /**
+     * LinkSet class
+     * @class nx.graphic.Topology.LinkSet
+     * @extend nx.graphic.Topology.AbstractLink
+     * @module nx.graphic.Topology
+     */
+
 
     nx.define('nx.graphic.Topology.LinkSet', nx.graphic.Topology.AbstractLink, {
-        events: ['numbermousedown', 'numbermouseup', 'numbermouseenter', 'numbermouseleave', 'collapsedLinkSet', 'expandLinkSet'],
+        events: ['pressLinkSetNumber', 'clickLinkSetNumber', 'enterLinkSetNumber', 'leaveLinkSetNumber', 'collapsedLinkSet', 'expandLinkSet'],
         properties: {
-
+            /**
+             * Get link type 'curve' / 'parallel'
+             * @property linkType {String}
+             */
+            linkType: {
+                value: 'curve'
+            },
+            /**
+             * Sub links collection
+             * @property links
+             * @readOnly
+             */
             links: {
                 value: function () {
                     return [];
                 }
             },
+            /**
+             * Is linkSet is auto collapes
+             * @property autoCollapse
+             */
             autoCollapse: {
                 value: true
             },
+            /**
+             * LinkSet's color
+             * @property color
+             */
             color: {
                 set: function (value) {
                     this.$('numBg').setStyle('fill', value);
@@ -23,6 +49,10 @@
                     this._color = value;
                 }
             },
+            /**
+             * Collapsed statues
+             * @property collapsed
+             */
             collapsed: {
                 get: function () {
                     return this._collapsed;
@@ -33,12 +63,24 @@
                         if (value) {
                             this._updateLinkNumber();
                             this.update();
+                            /**
+                             * Fired when collapse linkSet
+                             * @event collapsedLinkSet
+                             * @param sender{Object} trigger instance
+                             * @param event {Object} original event object
+                             */
                             this.fire('collapsedLinkSet');
                         } else {
                             this.remove();
                             setTimeout(function () {
                                 this.getLinks();
                                 this._updateLinksGutter();
+                                /**
+                                 * Fired when expend linkSet
+                                 * @event expandLinkSet
+                                 * @param sender{Object} trigger instance
+                                 * @param event {Object} original event object
+                                 */
                                 this.fire('expandLinkSet');
                             }.bind(this), 0);
                         }
@@ -49,6 +91,10 @@
 
                 }
             },
+            /**
+             * Set/get link's usability
+             * @property enable {Boolean}
+             */
             enable: {
                 get: function () {
                     return this._enable === undefined ? true : this._enable;
@@ -125,14 +171,17 @@
                     this.$('numBg').set('y', centerPoint.y);
                 }
             },
+            /**
+             * Adjust sub links and collapse or expend linkset
+             * @method adjust
+             */
             adjust: function () {
                 if (!this.autoCollapse()) {
                     this.expand();
                 } else if (this.model().containEdgeSet()) {
                     this.collapse();
                 } else {
-                    var topo = this.topology();
-                    var linkType = topo.linkType();
+                    var linkType = this.linkType();
                     var edges = this.model().getEdges(null, true);
                     var maxLinkNumber = linkType === 'curve' ? 9 : 5;
                     if (edges.length <= maxLinkNumber) {
@@ -140,8 +189,13 @@
                     } else {
                         this.collapse();
                     }
+
                 }
             },
+            /**
+             * Update linkSet
+             * @property updateLinkSet
+             */
             updateLinkSet: function () {
                 this.adjust();
                 if (this._collapsed) {
@@ -153,15 +207,34 @@
                     this._updateLinksGutter();
                 }
             },
+            /**
+             * Collapse linkSet
+             * @method collapse
+             */
             collapse: function () {
                 this.collapsed(true);
             },
+            /**
+             * Expend linkSet
+             * @method expand
+             */
             expand: function () {
                 this.collapsed(false);
             },
+            /**
+             * Iterate all sub links
+             * @method eachLink
+             * @param fn {Function}
+             * @param context {Object}
+             */
             eachLink: function (fn, context) {
                 nx.each(this.links(), fn, context || this);
             },
+            /**
+             * Get all sub links
+             * @method getLinks();
+             * @returns {*}
+             */
             getLinks: function () {
                 var links = this.links();
                 links.length = 0;
@@ -203,21 +276,45 @@
 
             _number_mousedown: function (sender, event) {
                 if (this.enable()) {
-                    this.fire('numbermousedown', event);
+                    /**
+                     * Fired when press number element
+                     * @event pressLinkSetNumber
+                     * @param sender{Object} trigger instance
+                     * @param event {Object} original event object
+                     */
+                    this.fire('pressLinkSetNumber', event);
                 }
             },
             _number_mouseup: function (sender, event) {
                 if (this.enable()) {
-                    this.fire('numbermouseup', event);
+                    /**
+                     * Fired when click number element
+                     * @event clickLinkSetNumber
+                     * @param sender{Object} trigger instance
+                     * @param event {Object} original event object
+                     */
+                    this.fire('clickLinkSetNumber', event);
                 }
             },
             _number_mouseleave: function (sender, event) {
                 if (this.enable()) {
+                    /**
+                     * Fired when mouse leave number element
+                     * @event numberleave
+                     * @param sender{Object} trigger instance
+                     * @param event {Object} original event object
+                     */
                     this.fire('numberleave', event);
                 }
             },
             _number_mouseenter: function (sender, event) {
                 if (this.enable()) {
+                    /**
+                     * Fired when mouse enter number element
+                     * @event numberenter
+                     * @param sender{Object} trigger instance
+                     * @param event {Object} original event object
+                     */
                     this.fire('numberenter', event);
                 }
             }

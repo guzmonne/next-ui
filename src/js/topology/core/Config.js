@@ -9,7 +9,7 @@
         events: [],
         properties: {
             /**
-             * Topology status
+             * Topology status, it could be  initializing/appended/ready
              * @property status {String}
              */
             status: {

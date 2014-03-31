@@ -7,15 +7,6 @@
      */
 
     nx.define('nx.graphic.Topology.LinkSetLayer', nx.graphic.Topology.Layer, {
-        /**
-         * @event clickLink
-         */
-        /**
-         * @event leaveLink
-         */
-        /**
-         * @event enterLink
-         */
         events: ['pressLinkSetNumber', 'clickLinkSetNumber', 'enterLinkSetNumber', 'leaveLinkSetNumber', 'collapsedLinkSet', 'expandLinkSet'],
         properties: {
             linkSetCollection: {
@@ -43,12 +34,6 @@
                 }, this);
 
             },
-            /**
-             * Add a link
-             * @param edgeSet
-             * @method addLink
-             */
-
             addLinkSet: function (edgeSet) {
                 var linkSetCollection = this.linkSetCollection();
                 var linkSetMap = this.linkSetMap();
@@ -97,39 +82,54 @@
 
                 linkset.attach(this.resolve('static'));
                 linkset.setModel(edgeSet, false);
+
+
+                var defaultConfig = {
+                    linkType: 'parallel',
+                    gutter: 0,
+                    label: null,
+                    sourceLabel: null,
+                    targetLabel: null,
+                    color: null,
+                    width: null,
+                    dotted: false,
+                    style: null,
+                    enable: true
+                };
+
+                var linkSetConfig = nx.extend(defaultConfig, topo.linkSetConfig());
+                nx.each(nx.extend(defaultConfig, linkSetConfig), function (value, key) {
+                    util.setProperty(linkset, key, value, topo);
+                }, this);
+
                 linkset.adjust();
 
-                linkset.on('numbermousedown', function (sender, event) {
-                    this.fire('pressLinkSetNumber', linkset);
-                }, this);
-                linkset.on('numbermouseup', function (sender, event) {
-                    this.fire('clickLinkSetNumber', linkset);
-                }, this);
 
-                linkset.on('numbermouseenter', function (sender, event) {
-                    this.fire('enterLinkSetNumber', linkset);
+                var superEvents = nx.graphic.Component.__events__;
+                nx.each(linkset.__events__, function (e) {
+                    if (superEvents.indexOf(e) == -1) {
+                        linkset.on(e, function (sender, event) {
+                            this.fire(e, linkset);
+                        }, this);
+                    }
                 }, this);
-
-                linkset.on('numbermouseleave', function (sender, event) {
-                    this.fire('leaveLinkSetNumber', linkset);
-                }, this);
-
-                linkset.on('collapsedLinkSet', function (sender, event) {
-                    this.fire('collapsedLinkSet', linkset);
-                }, this);
-
-                linkset.on('expandLinkSet', function (sender, event) {
-                    this.fire('expandLinkSet', linkset);
-                }, this);
-
                 return linkset;
             },
-
-
+            /**
+             * Iterate all linkSet
+             * @method eachLinkSet
+             * @param fn {Function}
+             * @param context {Object}
+             */
             eachLinkSet: function (fn, context) {
                 nx.each(this.linkSetMap(), fn, context || this);
             },
-
+            /**
+             * Get linkSet by source node id and target node id
+             * @param sourceVertexID {String}
+             * @param targetVertexID {String}
+             * @returns {nx.graphic.LinkSet}
+             */
             getLinkSet: function (sourceVertexID, targetVertexID) {
                 var topo = this.topology();
                 var edgeSet = topo.graph().getEdgeSetBySourceAndTarget(sourceVertexID, targetVertexID);
@@ -139,10 +139,20 @@
                     return null;
                 }
             },
+            /**
+             * Get linkSet by linkKey
+             * @param linkKey {String} linkKey
+             * @returns {nx.graphic.Topology.LinkSet}
+             */
             getLinkSetByLinkKey: function (linkKey) {
                 var linkSetMap = this.linkSetMap();
                 return linkSetMap[linkKey];
             },
+            /**
+             * Highlight linkSet
+             * @method highlightLinkSet
+             * @param linkSet {Array} linkSet array
+             */
             highlightLinkSet: function (linkSet) {
                 var topo = this.topology();
                 var linksLayer = topo.getLayer('links');

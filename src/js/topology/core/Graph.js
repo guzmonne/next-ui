@@ -249,7 +249,7 @@
                      */
                     var layoutType = this.layoutType();
                     if (layoutType) {
-                        this.activiteLayout(layoutType, null, function () {
+                        this.activateLayout(layoutType, null, function () {
                             this.fire('topologyGenerated');
                         });
                     } else if (this.enableSmartLabel()) {

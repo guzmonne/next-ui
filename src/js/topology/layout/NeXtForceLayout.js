@@ -1,5 +1,10 @@
 (function (nx, util, global) {
 
+    /**
+     * Topology force layout
+     * @class nx.graphic.Topology.NeXtForceLayout
+     * @module nx.graphic.Topology
+     */
     nx.define("nx.graphic.Topology.NeXtForceLayout", {
         properties: {
             topology: {}

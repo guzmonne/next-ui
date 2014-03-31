@@ -1,4 +1,10 @@
 (function (nx, util, global) {
+    /**
+     * Scene mixin
+     * @class nx.graphic.Topology.SceneMixin
+     * @module nx.graphic.Topology
+     *
+     */
     nx.define("nx.graphic.Topology.SceneMixin", {
         events: [],
         properties: {
@@ -18,6 +24,10 @@
                     return [];
                 }
             },
+            /**
+             * Current scene name
+             * @property currentSceneName
+             */
             currentSceneName: {}
         },
         methods: {
