@@ -55,7 +55,7 @@
     .demoContainer > div {
         top: 45px;
         bottom: 94px;
-        left: 0;
+        left: 13px;
         right: 0;
         position: absolute;
         overflow: auto;
@@ -510,6 +510,7 @@ var Demo = nx.define(nx.ui.Component, {
                 this.currentConfig(config);
                 var siteRootUrl = window.location.href.split("#").shift();
                 window.location.href = siteRootUrl + '#' + '' + config.categoryName + '/' + config.itemKey;
+
 
                 this._loadCode();
             }.bind(this));

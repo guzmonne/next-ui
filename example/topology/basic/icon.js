@@ -36,8 +36,7 @@
                     props: {
                         'class': 'iconlist',
                         style: {
-                            fill: '{#color}',
-                            margin: 20
+                            fill: '{#color}'
                         },
                         items: new nx.data.Dictionary(nx.graphic.Icons.icons),
                         template: {
