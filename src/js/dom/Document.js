@@ -124,11 +124,19 @@
         xlink: "http://www.w3.org/1999/xlink"
     };
 
+    /**
+     * Document Element
+     * @class nx.dom.Document
+     * @constructor
+     */
     var Document = nx.define('nx.dom.Document',{
         static: true,
         properties: {
             /**
              * Get/set next cssStyle sheet
+             * @property cssStyleSheet
+             * @type {Object}
+             * @default {}
              */
             cssStyleSheet: {
                 get: function () {
@@ -142,6 +150,9 @@
             },
             /**
              * Get document root element
+             * @property root
+             * @type {Object}
+             * @default {}
              */
             root: {
                 get: function () {
@@ -150,6 +161,9 @@
             },
             /**
              * Get next body element
+             * @property body
+             * @type {Object}
+             * @default {}
              */
             body: {
                 get: function () {
@@ -160,6 +174,7 @@
         methods: {
             /**
              * Add an event listener
+             * @method on
              * @param name
              * @param handler
              * @param context
@@ -170,6 +185,7 @@
             },
             /**
              * Add an event listener when you need not remove it.
+             * @method upon
              * @param name
              * @param handler
              * @param context
@@ -180,6 +196,7 @@
             },
             /**
              * Register html tag namespace
+             * @method registerNS
              * @param key
              * @param value
              */
@@ -188,6 +205,7 @@
             },
             /**
              * Get a tag namespace value
+             * @method resolveNS
              * @param key
              * @returns {*}
              */
@@ -196,6 +214,7 @@
             },
             /**
              * Create document fragment
+             * @method createFragment
              * @returns {nx.dom.Fragment}
              */
             createFragment: function () {
@@ -203,6 +222,7 @@
             },
             /**
              * Create element
+             * @method createElement
              * @param tag
              * @returns {nx.dom.Element}
              */
@@ -211,6 +231,7 @@
             },
             /**
              * Create text node.
+             * @method createText
              * @param text
              * @returns {nx.dom.Text}
              */
@@ -219,6 +240,7 @@
             },
             /**
              * Create element by namespace
+             * @method createElementNS
              * @param ns
              * @param tag
              * @returns {nx.dom.Element}
@@ -234,6 +256,7 @@
             },
             /**
              * Wrap dom element to next element
+             * @method wrap
              * @param dom
              * @returns {*}
              */
@@ -247,6 +270,7 @@
             },
             /**
              * Get document position information
+             * @method docRect
              * @returns {{width: (Function|number), height: (Function|number), scrollWidth: *, scrollHeight: *, scrollX: *, scrollY: *}}
              */
             docRect: function () {
@@ -272,6 +296,7 @@
             },
             /**
              * Dom ready
+             * @method ready
              * @param inHandler
              */
             ready: function (inHandler) {
@@ -284,6 +309,7 @@
             },
             /**
              * Add a rule to next style sheet
+             * @method addRule
              * @param inSelector
              * @param inCssText
              * @param inIndex
@@ -294,6 +320,7 @@
             },
             /**
              * insert a rule to next style sheet
+             * @method insertRule
              * @param inFullCssText
              * @param inIndex
              * @returns {*}
@@ -303,6 +330,7 @@
             },
             /**
              * Delete a rule from next style sheet at last line
+             * @method deleteRule
              * @param inIndex
              * @returns {*}
              */
@@ -311,6 +339,7 @@
             },
             /**
              * Remove a rule from next style sheet
+             * @method removeRule
              * @param inSelector
              * @param inIndex
              * @returns {*}
@@ -320,6 +349,7 @@
             },
             /**
              * Add multi rules
+             * @method addRules
              * @param inRules
              */
             addRules: function (inRules) {
@@ -329,6 +359,7 @@
             },
             /**
              * Delete all rules
+             * @method deleteRules
              */
             deleteRules: function () {
                 var defLength = this.cssStyleSheet().rules.length;
