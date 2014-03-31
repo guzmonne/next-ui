@@ -1,7 +1,11 @@
 (function (nx) {
 
     var Collection = nx.data.Collection;
-
+    /**
+     * Dom Fragment
+     * @class nx.dom.Fragment
+     * @constructor
+     */
     nx.define('nx.dom.Fragment', nx.dom.Node, {
         methods: {
             /**

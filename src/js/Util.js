@@ -21,12 +21,17 @@
     var styleHooks = {
         float: 'cssFloat'
     };
-
+    /**
+     * This is Util
+     * @class nx.Util
+     * @constructor
+     */
     var util = nx.define('nx.Util',{
         static: true,
         methods: {
             /**
              * Get a string which is join by an style object.
+             * @method getCssText
              * @param inStyles
              * @returns {string}
              */
@@ -39,6 +44,7 @@
             },
             /**
              * Get real value of the style name.
+             * @method getStyleValue
              * @param inName
              * @param inValue
              * @returns {*}
@@ -55,6 +61,7 @@
             },
             /**
              * Get compatible css property.
+             * @method getStyleProperty
              * @param inName
              * @param isLowerCase
              * @returns {*}
@@ -76,6 +83,7 @@
             },
             /**
              * Lower camel case.
+             * @method lowerCamelCase
              * @param inName
              * @returns {string}
              */
@@ -85,6 +93,7 @@
             },
             /**
              * Upper camel case.
+             * @method upperCamelCase
              * @param inName
              * @returns {*|string|void}
              */
@@ -95,6 +104,7 @@
             },
             /**
              * Decode camel case to '-' model.
+             * @method deCamelCase
              * @param inName
              * @returns {*|string|void}
              */
@@ -105,6 +115,7 @@
             },
             /**
              * Upper first word of a string.
+             * @method capitalize
              * @param inString
              * @returns {string}
              */

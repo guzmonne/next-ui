@@ -90,11 +90,16 @@
     }());
 
     //======attrHooks end ======//
-
+    /**
+     * Dom Element
+     * @class nx.dom.Element
+     * @constructor
+     */
     var Element = nx.define('nx.dom.Element',nx.dom.Node,{
         methods: {
             /**
              * Get an attribute from element
+             * @method get
              * @param name
              * @returns {*}
              */
@@ -111,6 +116,7 @@
             },
             /**
              * Set an attribute for an element
+             * @method set
              * @param name
              * @param value
              */
@@ -127,7 +133,8 @@
             },
             /**
              * Get an element by selector.
-             * @param inSelector
+             * @method get
+             * @param select
              * @returns {HTMLElement}
              */
             select: function (inSelector) {
@@ -136,6 +143,7 @@
             },
             /**
              * Get a collection by selector
+             * @method selectAll
              * @param inSelector
              * @returns {nx.data.Collection}
              */
@@ -152,30 +160,35 @@
             },
             /**
              * Focus an element
+             * @method focus
              */
             focus: function () {
                 this.$dom.focus();
             },
             /**
              * Blur form an element
+             * @method blur
              */
             blur: function () {
                 this.$dom.blur();
             },
             /**
              * Show an element
+             * @method show
              */
             show: function () {
                 this.setAttribute('nx-status','');
             },
             /**
              * Hide an element
+             * @method hide
              */
             hide: function () {
                 this.setAttribute('nx-status','hidden');
             },
             /**
              * Whether the element has the class
+             * @method hasClass
              * @param inClassName
              * @returns {boolean}
              */
@@ -184,6 +197,7 @@
             },
             /**
              * Add class for element
+             * @method addClass
              * @returns {*}
              */
             addClass: function () {
@@ -196,6 +210,7 @@
             },
             /**
              * Remove class from element
+             * @method removeClass
              * @returns {*}
              */
             removeClass: function () {
@@ -204,6 +219,7 @@
             },
             /**
              * Toggle a class on element
+             * @method toggleClass
              * @param inClassName
              * @returns {*}
              */
@@ -212,6 +228,7 @@
             },
             /**
              * Get document
+             * @method getDocument
              * @returns {*}
              */
             getDocument: function () {
@@ -226,6 +243,7 @@
             },
             /**
              * Get window
+             * @method getWindow
              * @returns {DocumentView|window|*}
              */
             getWindow: function () {
@@ -234,6 +252,7 @@
             },
             /**
              * Get root element
+             * @method getRoot
              * @returns {Element}
              */
             getRoot: function () {
@@ -241,6 +260,7 @@
             },
             /**
              * Get element position information
+             * @method getBound
              * @returns {{top: number, right: Number, bottom: Number, left: number, width: Number, height: Number}}
              */
             getBound: function () {
@@ -259,6 +279,7 @@
             },
             /**
              * Get margin distance information
+             * @method margin
              * @param inDirection
              * @returns {*}
              */
@@ -267,6 +288,7 @@
             },
             /**
              * Get padding distance information
+             * @method padding
              * @param inDirection
              * @returns {*}
              */
@@ -275,6 +297,7 @@
             },
             /**
              * Get border width information
+             * @method border
              * @param inDirection
              * @returns {*}
              */
@@ -283,6 +306,7 @@
             },
             /**
              * Get offset information
+             * @method getOffset
              * @returns {{top: number, left: number}}
              */
             getOffset: function () {
@@ -297,6 +321,7 @@
             },
             /**
              * Set offset style
+             * @method setOffset
              * @param inStyleObj
              */
             setOffset: function (inStyleObj) {
@@ -315,6 +340,7 @@
             },
             /**
              * Has in line style
+             * @method hasStyle
              * @param inName
              * @returns {boolean}
              */
@@ -324,6 +350,7 @@
             },
             /**
              * Get computed style
+             * @method getStyle
              * @param inName
              * @returns {*|string}
              */
@@ -334,6 +361,7 @@
             },
             /**
              * Set style for element
+             * @method setStyle
              * @param inName
              * @param inValue
              */
@@ -343,6 +371,7 @@
             },
             /**
              * Remove inline style
+             * @method removeStyle
              * @param inName
              */
             removeStyle: function (inName) {
@@ -351,6 +380,7 @@
             },
             /**
              * Set style by style object
+             * @method setStyles
              * @param inStyles
              */
             setStyles: function (inStyles) {
@@ -358,6 +388,7 @@
             },
             /**
              * Get attribute
+             * @method getAttribute
              * @param inName
              * @returns {*}
              */
@@ -374,6 +405,7 @@
             },
             /**
              * Set attribute
+             * @method setAttribute
              * @param inName
              * @param inValue
              * @returns {*}
@@ -393,6 +425,7 @@
             },
             /**
              * Remove attribute
+             * @method removeAttribute
              * @param inName
              */
             removeAttribute: function (inName) {
@@ -400,6 +433,7 @@
             },
             /**
              * Get all attributes
+             * @method getAttributes
              * @returns {{}}
              */
             getAttributes: function () {
@@ -411,6 +445,7 @@
             },
             /**
              * Set attributes
+             * @method setAttributes
              * @param attrs
              */
             setAttributes: function (attrs) {
@@ -420,6 +455,7 @@
             },
             /**
              * Get inner text
+             * @method getText
              * @returns {*}
              */
             getText: function () {
@@ -427,6 +463,7 @@
             },
             /**
              * Set inner text
+             * @method setText
              * @param text
              */
             setText: function (text) {
@@ -434,6 +471,7 @@
             },
             /**
              * Get inner html
+             * @method getHtml
              * @returns {*|string}
              */
             getHtml: function () {
@@ -441,6 +479,7 @@
             },
             /**
              * Set inner html
+             * @method setHtml
              * @param html
              */
             setHtml: function (html) {
@@ -448,6 +487,7 @@
             },
             /**
              * Add event listener
+             * @method addEventListener
              * @param name
              * @param listener
              * @param useCapture
@@ -457,6 +497,7 @@
             },
             /**
              * Remove event listener
+             * @method removeEventListener
              * @param name
              * @param listener
              * @param useCapture

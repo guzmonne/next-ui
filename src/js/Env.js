@@ -76,30 +76,46 @@
         filter: 'filter' in tempStyle,
         removeProperty: 'removeProperty' in tempStyle
     };
-
+    /**
+     * Environment and check behavior support
+     * @class nx.Env
+     * @constructor
+     */
     nx.define('nx.Env',{
         static: true,
         properties: {
             /**
              * Document mode
+             * @property documentMode
+             * @type {Number}
+             * @default 0
              */
             documentMode: {
                 value: documentMode
             },
             /**
              * Document compatMode
+             * @property compatMode
+             * @type {String}
+             * @default "CSS1Compat"
              */
             compatMode: {
                 value: compatMode
             },
             /**
              * User agent string
+             * @property userAgent
+             * @type {String}
+             * @default ""
              */
             userAgent: {
                 value: userAgent
             },
             /**
              * Browser render model CSS1Compat
+             * @property strict
+             * @type {Boolean}
+             * @default true
              */
             strict: {
                 get: function () {
@@ -107,7 +123,10 @@
                 }
             },
             /**
-             * If it is https
+             * If it is secure
+             * @property strict
+             * @type {Boolean}
+             * @default false
              */
             secure: {
                 get: function () {
@@ -116,6 +135,9 @@
             },
             /**
              * Get operating system information
+             * @property os
+             * @type {Object}
+             * @default {}
              */
             os: {
                 get: function () {
@@ -132,6 +154,9 @@
             },
             /**
              * Get specific prefix
+             * @property prefix
+             * @type {Array}
+             * @default ['webkit','-webkit-']
              */
             prefix: {
                 get: function () {
@@ -140,6 +165,9 @@
             },
             /**
              * Get browser's render engine information
+             * @property engine
+             * @type {Object}
+             * @default {}
              */
             engine: {
                 get: function () {
@@ -148,6 +176,9 @@
             },
             /**
              * Get basic browser information
+             * @property browser
+             * @type {Object}
+             * @default {}
              */
             browser: {
                 get: function () {
@@ -182,6 +213,7 @@
         methods: {
             /**
              * Get firefox engine information
+             * @method firefoxEngine
              * @returns {{name: string, version: *}}
              */
             firefoxEngine: function () {
@@ -192,6 +224,7 @@
             },
             /**
              * Get old opera engine information
+             * @method operaEngine
              * @returns {{name: string, version: *}}
              */
             operaEngine: function () {
@@ -208,6 +241,7 @@
             },
             /**
              * Get IE engine information
+             * @method ieEngine
              * @returns {{name: string, version: (*|number)}}
              */
             ieEngine: function () {
@@ -218,6 +252,7 @@
             },
             /**
              * Get Webkit engine information
+             * @method defaultEngine
              * @returns {{name: string, version: *}}
              */
             defaultEngine: function () {
@@ -228,6 +263,7 @@
             },
             /**
              * Whether the property is support
+             * @method support
              * @param inName
              * @returns {*}
              */
@@ -236,6 +272,7 @@
             },
             /**
              * Support map for debug
+             * @method getSupportMap
              * @returns {{addEventListener: boolean, dispatchEvent: boolean, getBoundingClientRect: boolean, onmousewheel: boolean, XDomainRequest: boolean, crossDomain: boolean, getComputedStyle: boolean, iePropertyChange: boolean, w3cChange: boolean, w3cFocus: boolean, w3cInput: boolean, innerText: boolean, firstElementChild: boolean, cssFloat: boolean, opacity: boolean, filter: boolean, removeProperty: boolean}}
              */
             getSupportMap: function () {
@@ -243,6 +280,7 @@
             },
             /**
              * Register a support item
+             * @method registerSupport
              * @param inName
              * @param inValue
              */

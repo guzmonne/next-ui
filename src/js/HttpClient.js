@@ -1,9 +1,15 @@
 (function (nx) {
+    /**
+     * Ajax http client
+     * @class nx.HttpClient
+     * @constructor
+     */
     var HttpClient = nx.define('nx.HttpClient',{
         static: true,
         methods: {
             /**
              * Ajax send.
+             * @method send
              * @param options
              */
             send: function (options) {
@@ -30,6 +36,7 @@
             },
             /**
              * Get request
+             * @method GET
              * @param url
              * @param callback
              * @constructor
@@ -43,6 +50,7 @@
             },
             /**
              * Post request
+             * @method POST
              * @param url
              * @param data
              * @param callback
@@ -58,6 +66,7 @@
             },
             /**
              * Put request
+             * @method PUT
              * @param url
              * @param data
              * @param callback
@@ -73,6 +82,7 @@
             },
             /**
              * Delete request
+             * @method DELETE
              * @param url
              * @param callback
              * @constructor

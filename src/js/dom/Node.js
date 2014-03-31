@@ -1,6 +1,10 @@
 (function (nx) {
     var Collection = nx.data.Collection;
-
+    /**
+     * Dom Node
+     * @class nx.dom.Node
+     * @constructor
+     */
     var Node = nx.define('nx.dom.Node',nx.Comparable,{
         methods: {
             /**
