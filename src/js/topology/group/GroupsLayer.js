@@ -68,10 +68,10 @@
 
 
             attach: function (args) {
-                this.attach.__super__.apply(this, arguments);
+                this.inherited(args);
                 var topo = this.topology();
-                topo.on('resetzooming', this.reDrawAllGroup, this);
-                topo.on('zoomend', this.reDrawAllGroup, this);
+                topo.on('resetzooming', this._draw, this);
+                topo.on('zoomend', this._draw, this);
 
             },
             /**
@@ -116,7 +116,13 @@
                     group.draw();
                 }, this);
             },
+            _draw: function () {
+                this.reDrawAllGroup();
+            },
             clear: function () {
+                nx.each(this.groups(), function (group) {
+                    group.dispose();
+                }, this);
                 this.groups([]);
 
                 var topo = this.topology();
