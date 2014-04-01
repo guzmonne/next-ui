@@ -241,7 +241,7 @@
                         index = getClsPos(element,arguments[0]),
                         className = arguments[0];
                     if (index > -1) {
-                        if (index == 0) {
+                        if (index === 0) {
                             if (curCls !== className) {
                                 className = className + ' ';
                             }
