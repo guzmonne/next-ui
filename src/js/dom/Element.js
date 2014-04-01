@@ -21,7 +21,7 @@
     //======attrHooks start======//
     var attrHooks = {
         value: {
-            set: function (inElement,inValue) {
+            set: function (inElement, inValue) {
                 var type = inElement.type;
                 switch (type) {
                     case 'checkbox':
@@ -48,8 +48,8 @@
         }
     };
     var baseAttrHooks = {
-        class: 'className',
-        for: 'htmlFor'
+        'class': 'className',
+        'for': 'htmlFor'
     };
     var booleanAttrHooks = {
         disabled: 'disabled',
@@ -60,9 +60,9 @@
     (function registerAttrHooks() {
 
         //baseAttrHooks
-        nx.each(baseAttrHooks,function (hookValue,hookKey) {
+        nx.each(baseAttrHooks, function (hookValue, hookKey) {
             attrHooks[hookKey] = {
-                set: function (inElement,inValue) {
+                set: function (inElement, inValue) {
                     inElement[hookValue] = inValue;
                 },
                 get: function (inElement) {
@@ -72,13 +72,13 @@
         });
 
         //booleanAttrHooks
-        nx.each(booleanAttrHooks,function (hookValue,hookKey) {
+        nx.each(booleanAttrHooks, function (hookValue, hookKey) {
             attrHooks[hookKey] = {
-                set: function (inElement,inValue) {
+                set: function (inElement, inValue) {
                     if (!inValue) {
                         inElement.removeAttribute(hookKey);
                     } else {
-                        inElement.setAttribute(hookKey,hookKey);
+                        inElement.setAttribute(hookKey, hookKey);
                     }
                     inElement[hookValue] = !!inValue;
                 },
@@ -90,7 +90,7 @@
     }());
 
 
-    function getClsPos(inElement,inClassName) {
+    function getClsPos(inElement, inClassName) {
         return (' ' + inElement.className + ' ').indexOf(' ' + inClassName + ' ');
     }
 
@@ -100,7 +100,7 @@
      * @class nx.dom.Element
      * @constructor
      */
-    var Element = nx.define('nx.dom.Element',nx.dom.Node,{
+    var Element = nx.define('nx.dom.Element', nx.dom.Node, {
         methods: {
             /**
              * Get an attribute from element
@@ -125,7 +125,7 @@
              * @param name
              * @param value
              */
-            set: function (name,value) {
+            set: function (name, value) {
                 if (name === 'text') {
                     this.setText(value);
                 }
@@ -133,7 +133,7 @@
                     this.setHtml(value);
                 }
                 else {
-                    this.setAttribute(name,value);
+                    this.setAttribute(name, value);
                 }
             },
             /**
@@ -182,14 +182,14 @@
              * @method show
              */
             show: function () {
-                this.setAttribute('nx-status','');
+                this.setAttribute('nx-status', '');
             },
             /**
              * Hide an element
              * @method hide
              */
             hide: function () {
-                this.setAttribute('nx-status','hidden');
+                this.setAttribute('nx-status', 'hidden');
             },
             /**
              * Whether the element has the class
@@ -202,7 +202,7 @@
                 if (nx.Env.support('classList')) {
                     return this.$dom.classList.contains(inClassName);
                 } else {
-                    return getClsPos(element,inClassName) > -1;
+                    return getClsPos(element, inClassName) > -1;
                 }
             },
             /**
@@ -218,7 +218,7 @@
                     if (args.length === 1 && args[0].search(rBlank) > -1) {
                         args = args[0].split(rBlank);
                     }
-                    return classList.add.apply(classList,args);
+                    return classList.add.apply(classList, args);
                 } else {
                     if (!this.hasClass(args[0])) {
                         var curCls = element.className;
@@ -235,10 +235,10 @@
                 var element = this.$dom;
                 if (nx.Env.support('classList')) {
                     var classList = this.$dom.classList;
-                    return classList.remove.apply(classList,arguments);
+                    return classList.remove.apply(classList, arguments);
                 } else {
                     var curCls = element.className,
-                        index = getClsPos(element,arguments[0]),
+                        index = getClsPos(element, arguments[0]),
                         className = arguments[0];
                     if (index > -1) {
                         if (index === 0) {
@@ -248,7 +248,7 @@
                         } else {
                             className = ' ' + className;
                         }
-                        element.className = curCls.replace(className,'');
+                        element.className = curCls.replace(className, '');
                     }
                 }
             },
@@ -328,7 +328,7 @@
              * @returns {*}
              */
             margin: function (inDirection) {
-                return this._getBoxWidth(MARGIN,inDirection);
+                return this._getBoxWidth(MARGIN, inDirection);
             },
             /**
              * Get padding distance information
@@ -337,7 +337,7 @@
              * @returns {*}
              */
             padding: function (inDirection) {
-                return this._getBoxWidth(PADDING,inDirection);
+                return this._getBoxWidth(PADDING, inDirection);
             },
             /**
              * Get border width information
@@ -346,7 +346,7 @@
              * @returns {*}
              */
             border: function (inDirection) {
-                return this._getBoxWidth(BORDER,inDirection);
+                return this._getBoxWidth(BORDER, inDirection);
             },
             /**
              * Get offset information
@@ -371,8 +371,8 @@
             setOffset: function (inStyleObj) {
                 var elPosition = this.getStyle(POSITION), styleObj = inStyleObj;
                 var scrollXY = {
-                    left: Math.max((global.pageXOffset || 0),root.scrollLeft),
-                    top: Math.max((global.pageYOffset || 0),root.scrollTop)
+                    left: Math.max((global.pageXOffset || 0), root.scrollLeft),
+                    top: Math.max((global.pageYOffset || 0), root.scrollTop)
                 };
                 if (elPosition === FIXED) {
                     styleObj = {
@@ -399,11 +399,11 @@
              * @param isInline
              * @returns {*}
              */
-            getStyle: function (inName,isInline) {
+            getStyle: function (inName, isInline) {
                 if (isInline) {
                     return this.$dom.style[inName];
                 } else {
-                    var styles = getComputedStyle(this.$dom,null);
+                    var styles = getComputedStyle(this.$dom, null);
                     var property = util.getStyleProperty(inName);
                     return styles[property] || '';
                 }
@@ -414,9 +414,9 @@
              * @param inName
              * @param inValue
              */
-            setStyle: function (inName,inValue) {
+            setStyle: function (inName, inValue) {
                 var property = util.getStyleProperty(inName);
-                this.$dom.style[property] = util.getStyleValue(inName,inValue);
+                this.$dom.style[property] = util.getStyleValue(inName, inValue);
             },
             /**
              * Remove inline style
@@ -424,7 +424,7 @@
              * @param inName
              */
             removeStyle: function (inName) {
-                var property = util.getStyleProperty(inName,true);
+                var property = util.getStyleProperty(inName, true);
                 this.$dom.style.removeProperty(property);
             },
             /**
@@ -459,17 +459,17 @@
              * @param inValue
              * @returns {*}
              */
-            setAttribute: function (inName,inValue) {
+            setAttribute: function (inName, inValue) {
                 if (inValue !== null && inValue !== undefined) {
                     var hook = attrHooks[inName];
                     if (hook) {
                         if (hook.set) {
-                            return hook.set(this.$dom,inValue);
+                            return hook.set(this.$dom, inValue);
                         } else {
-                            return this.$dom.setAttribute(hook,inValue);
+                            return this.$dom.setAttribute(hook, inValue);
                         }
                     }
-                    return this.$dom.setAttribute(inName,inValue);
+                    return this.$dom.setAttribute(inName, inValue);
                 }
             },
             /**
@@ -487,7 +487,7 @@
              */
             getAttributes: function () {
                 var attrs = {};
-                nx.each(this.$dom.attributes,function (attr) {
+                nx.each(this.$dom.attributes, function (attr) {
                     attrs[attr.name] = attr.value;
                 });
                 return attrs;
@@ -498,9 +498,9 @@
              * @param attrs
              */
             setAttributes: function (attrs) {
-                nx.each(attrs,function (value,key) {
-                    this.setAttribute(key,value);
-                },this);
+                nx.each(attrs, function (value, key) {
+                    this.setAttribute(key, value);
+                }, this);
             },
             /**
              * Get inner text
@@ -541,8 +541,8 @@
              * @param listener
              * @param useCapture
              */
-            addEventListener: function (name,listener,useCapture) {
-                this.$dom.addEventListener(name,listener,useCapture || false);
+            addEventListener: function (name, listener, useCapture) {
+                this.$dom.addEventListener(name, listener, useCapture || false);
             },
             /**
              * Remove event listener
@@ -551,10 +551,10 @@
              * @param listener
              * @param useCapture
              */
-            removeEventListener: function (name,listener,useCapture) {
-                this.$dom.removeEventListener(name,listener,useCapture || false);
+            removeEventListener: function (name, listener, useCapture) {
+                this.$dom.removeEventListener(name, listener, useCapture || false);
             },
-            _getBoxWidth: function (inBox,inDirection) {
+            _getBoxWidth: function (inBox, inDirection) {
                 var boxWidth, styleResult;
                 var element = this.$dom;
                 switch (inBox) {
