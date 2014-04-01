@@ -17,9 +17,10 @@
     tempStyle.cssText = "opacity:.55";
 
     var vendorPrefixMap = {
-        'webkit': ['webkit','-webkit-'],
-        'gecko': ['Moz','-moz-'],
-        'presto': ['O','-o-']
+        'webkit': ['webkit', '-webkit-'],
+        'gecko': ['Moz', '-moz-'],
+        'presto': ['O', '-o-'],
+        'trident': ['ms', '-ms-']
     };
 
     var osPatternMap = {
@@ -81,7 +82,7 @@
      * @class nx.Env
      * @constructor
      */
-    nx.define('nx.Env',{
+    nx.define('nx.Env', {
         static: true,
         properties: {
             /**
@@ -284,16 +285,16 @@
              * @param inName
              * @param inValue
              */
-            registerSupport: function (inName,inValue) {
+            registerSupport: function (inName, inValue) {
                 if (!(inName in supportMap)) {
                     supportMap[inName] = inValue;
                 }
             },
             _versionByKeyRegexp: function (inKeyRegexp) {
                 var regexp = new RegExp(inKeyRegexp + '(\\d+\\.\\d+)');
-                return this._version(true,regexp);
+                return this._version(true, regexp);
             },
-            _version: function (is,inRegex) {
+            _version: function (is, inRegex) {
                 var regexResult;
                 return (is && (regexResult = inRegex.exec(userAgent))) ? parseFloat(regexResult[1]) : 0;
             },
