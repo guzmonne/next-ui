@@ -31,10 +31,10 @@
             },
             'class': {
                 get: function () {
-                    return this.view().class();
+                    return this.view().get('class');
                 },
                 set: function (value) {
-                    this.view().class(value);
+                    this.view().set('class', value);
                 }
             },
             style: {
