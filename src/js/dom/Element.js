@@ -222,6 +222,7 @@
                 } else {
                     if (!this.hasClass(args[0])) {
                         var curCls = element.className;
+                        /* jslint -W093 */
                         return element.className = curCls ? (curCls + ' ' + args[0]) : args[0];
                     }
                 }
