@@ -75,6 +75,7 @@
         cssFloat: 'cssFloat' in tempStyle,
         opacity: (/^0.55$/).test(tempStyle.opacity),
         filter: 'filter' in tempStyle,
+        classList:!!tempElement.classList,
         removeProperty: 'removeProperty' in tempStyle
     };
     /**

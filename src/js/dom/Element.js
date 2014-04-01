@@ -89,6 +89,11 @@
         });
     }());
 
+
+    function getClsPos(inElement,inClassName) {
+        return (' ' + inElement.className + ' ').indexOf(' ' + inClassName + ' ');
+    }
+
     //======attrHooks end ======//
     /**
      * Dom Element
@@ -134,7 +139,7 @@
             /**
              * Get an element by selector.
              * @method get
-             * @param select
+             * @param inSelector
              * @returns {HTMLElement}
              */
             select: function (inSelector) {
@@ -193,7 +198,12 @@
              * @returns {boolean}
              */
             hasClass: function (inClassName) {
-                return this.$dom.classList.contains(inClassName);
+                var element = this.$dom;
+                if (nx.Env.support('classList')) {
+                    return this.$dom.classList.contains(inClassName);
+                } else {
+                    return getClsPos(element,inClassName) > -1;
+                }
             },
             /**
              * Add class for element
@@ -201,12 +211,20 @@
              * @returns {*}
              */
             addClass: function () {
+                var element = this.$dom;
                 var args = arguments,
-                    classList = this.$dom.classList;
-                if (args.length === 1 && args[0].search(rBlank) > -1) {
-                    args = args[0].split(rBlank);
+                    classList = element.classList;
+                if (nx.Env.support('classList')) {
+                    if (args.length === 1 && args[0].search(rBlank) > -1) {
+                        args = args[0].split(rBlank);
+                    }
+                    return classList.add.apply(classList,args);
+                } else {
+                    if (!this.hasClass(args[0])) {
+                        var curCls = element.className;
+                        return element.className = curCls ? (curCls + ' ' + args[0]) : args[0];
+                    }
                 }
-                return classList.add.apply(classList,args);
             },
             /**
              * Remove class from element
@@ -214,8 +232,25 @@
              * @returns {*}
              */
             removeClass: function () {
-                var classList = this.$dom.classList;
-                return classList.remove.apply(classList,arguments);
+                var element = this.$dom;
+                if (nx.Env.support('classList')) {
+                    var classList = this.$dom.classList;
+                    return classList.remove.apply(classList,arguments);
+                } else {
+                    var curCls = element.className,
+                        index = getClsPos(element,arguments[0]),
+                        className = arguments[0];
+                    if (index > -1) {
+                        if (index == 0) {
+                            if (curCls !== className) {
+                                className = className + ' ';
+                            }
+                        } else {
+                            className = ' ' + className;
+                        }
+                        element.className = curCls.replace(className,'');
+                    }
+                }
             },
             /**
              * Toggle a class on element
@@ -224,7 +259,16 @@
              * @returns {*}
              */
             toggleClass: function (inClassName) {
-                return  this.$dom.classList.toggle(inClassName);
+                var element = this.$dom;
+                if (nx.Env.support('classList')) {
+                    return  this.$dom.classList.toggle(inClassName);
+                } else {
+                    if (this.hasClass(inClassName)) {
+                        this.removeClass(inClassName);
+                    } else {
+                        this.addClass(inClassName);
+                    }
+                }
             },
             /**
              * Get document
@@ -352,12 +396,17 @@
              * Get computed style
              * @method getStyle
              * @param inName
-             * @returns {*|string}
+             * @param isInline
+             * @returns {*}
              */
-            getStyle: function (inName) {
-                var styles = getComputedStyle(this.$dom,null);
-                var property = util.getStyleProperty(inName);
-                return styles[property] || '';
+            getStyle: function (inName,isInline) {
+                if (isInline) {
+                    return this.$dom.style[inName];
+                } else {
+                    var styles = getComputedStyle(this.$dom,null);
+                    var property = util.getStyleProperty(inName);
+                    return styles[property] || '';
+                }
             },
             /**
              * Set style for element

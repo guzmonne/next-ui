@@ -172,7 +172,8 @@ test('method set/getStyle', function () {
     var obj = new dom_test();
     obj.attach(app);
     obj.resolve('button2').dom().setStyle('width',100)
-    equal(obj.resolve('button2').dom().getStyle('width'),'100px')
+
+    equal(obj.resolve('button2').dom().getStyle('width',true),'100px')
     obj.destroy();
 });
 
@@ -180,15 +181,15 @@ test('method set/getStyle(s)', function () {
     var obj = new dom_test();
     obj.attach(app);
     obj.resolve('button2').dom().setStyle('width',100)
-    equal(obj.resolve('button2').dom().getStyle('width'),'100px')
+    equal(obj.resolve('button2').dom().getStyle('width',true),'100px')
     obj.resolve('button2').dom().setStyles({"height":30,"text-align":"left"})
-    equal(obj.resolve('button2').dom().getStyle('height'),'30px')
+    equal(obj.resolve('button2').dom().getStyle('height',true),'30px')
     console.log(obj.resolve('button2').dom().$dom);
-    equal(obj.resolve('button2').dom().getStyle('text-align'),'left')
+    equal(obj.resolve('button2').dom().getStyle('text-align',true),'left')
     obj.resolve('button2').dom().removeStyle("width")
     obj.resolve('button2').dom().removeStyle("height")
     obj.resolve('button2').dom().removeStyle("text-align")
-    notEqual(obj.resolve('button2').dom().getStyle('width'),'100px')
+    notEqual(obj.resolve('button2').dom().getStyle('width',true),'100px')
     obj.destroy();
 });
 
