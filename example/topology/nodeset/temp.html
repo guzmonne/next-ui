@@ -3347,7 +3347,9 @@
             label: 'model.role'
         },
         nodeSetConfig:{
-            label:'model.id'
+            label:function(vertexSet){
+                return verexSet.get("id").substr(0,6);
+            }
         },
         supportMultipleLink: false,
         showIcon: false,
