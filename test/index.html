@@ -238,6 +238,24 @@ var MyComp = nx.define(nx.ui.Component, {
                 }
             },
             {
+                tag: 'div',
+                props: {
+                    template: [
+                        {
+                            tag: 'label',
+                            content: '{key}'
+                        },
+                        {
+                            tag: 'input',
+                            props: {
+                                value: '{value}'
+                            }
+                        }
+                    ],
+                    items: '{#dict}'
+                }
+            },
+            {
                 tag: 'button',
                 events: {
                     click: '{#onClick}'
