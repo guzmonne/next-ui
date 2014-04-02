@@ -3344,12 +3344,9 @@
         adaptive: true,
         identityKey: 'id',
         nodeConfig: {
-            label: 'model.role'
         },
         nodeSetConfig:{
-            label:function(vertexSet){
-                return verexSet.get("id").substr(0,6);
-            }
+            label:'nodeSet'
         },
         supportMultipleLink: false,
         showIcon: false,
