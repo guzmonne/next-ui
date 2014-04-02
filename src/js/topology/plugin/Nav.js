@@ -339,10 +339,6 @@
                 this.inherited(args);
 
 
-//                this.scaleTootip = new nx.ui.Tooltip({
-//                    direction: "right"
-//                });
-
                 this.view('settingPopover').view().dom().addClass('n-topology-setting-panel');
 
 

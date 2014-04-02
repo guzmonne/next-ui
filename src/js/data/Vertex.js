@@ -76,7 +76,7 @@
                     return this._x || 0;
                 },
                 set: function (value) {
-                    this.position({x: value});
+                    this.position({x: parseFloat(value)});
                 }
             },
             /**
@@ -88,7 +88,7 @@
                     return this._y || 0;
                 },
                 set: function (value) {
-                    this.position({y: value});
+                    this.position({y: parseFloat(value)});
                 }
             },
             /**

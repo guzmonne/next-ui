@@ -401,6 +401,14 @@ var Demo = nx.define(nx.ui.Component, {
             });
 
             this.addItem({
+                categoryName: 'Model',
+                itemKey: 'edit',
+                itemLabel: 'Edit Node',
+                files: ['model/editNode.js'],
+                itemClass: 'Model.EditNode'
+            });
+
+            this.addItem({
                 categoryName: 'Extend',
                 itemKey: 'node',
                 itemLabel: 'Extend Node',
@@ -466,7 +474,7 @@ var Demo = nx.define(nx.ui.Component, {
                     var items;
                     this.categories().each(function (c, key) {
                         if (key == category) {
-                            items = c.value;
+                            items = c.value();
                         }
                     });
 

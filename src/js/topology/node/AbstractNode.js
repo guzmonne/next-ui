@@ -60,11 +60,7 @@
                     return this._x || 0;
                 },
                 set: function (value) {
-                    return this.position({x: value});
-                },
-                binding: {
-                    direction: "<>",
-                    converter: nx.Binding.converters.number
+                    return this.position({x: parseFloat(value)});
                 }
             },
             /**
@@ -76,11 +72,7 @@
                     return this._y || 0;
                 },
                 set: function (value) {
-                    return this.position({y: value});
-                },
-                binding: {
-                    direction: "<>",
-                    converter: nx.Binding.converters.number
+                    return this.position({y: parseFloat(value)});
                 }
             },
             /**
