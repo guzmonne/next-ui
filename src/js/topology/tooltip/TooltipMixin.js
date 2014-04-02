@@ -32,6 +32,15 @@
                         nx.each(value, function (value, prop) {
                             tooltipManager.set(prop, value);
                         });
+
+                        if (value.tooltipPolicyClass) {
+                            var tooltipPolicyClass = nx.path(global, value.tooltipPolicyClass);
+                            var tooltipPolicy = new tooltipPolicyClass({
+                                topology: this,
+                                tooltipManager: tooltipManager
+                            });
+                            tooltipManager.tooltipPolicy(tooltipPolicy);
+                        }
                     }
                     this._tooltipManagerConfig = value;
                 }
