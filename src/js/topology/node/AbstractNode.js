@@ -372,6 +372,13 @@
                     var id = vertex.id();
                     fn.call(context || this, topo.getNode(id), id);
                 }, this);
+            },
+            _processPropertyValue: function (propertyValue) {
+                var value = propertyValue;
+                if (nx.is(propertyValue, 'Function')) {
+                    value = propertyValue.call(this, this.model(), this);
+                }
+                return value;
             }
         }
     });

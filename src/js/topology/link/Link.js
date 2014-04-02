@@ -18,7 +18,18 @@
              * @property linkType {String}
              */
             linkType: {
-                value: 'curve'
+                get: function () {
+                    return this._linkType !== undefined ? this._linkType : 'parallel';
+                },
+                set: function (inValue) {
+                    var value = this._processPropertyValue(inValue);
+                    if (this._linkType !== value) {
+                        this._linkType = value;
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
             },
             /**
              * Get/set link's gutter percentage
@@ -39,7 +50,8 @@
              * @property label {String}
              */
             label: {
-                set: function (label) {
+                set: function (inValue) {
+                    var label = this._processPropertyValue(inValue);
                     var el = this.resolve("label");
                     /*jshint -W083*/
                     if (label != null) {
@@ -55,7 +67,8 @@
              * @property sourceLabel {String}
              */
             sourceLabel: {
-                set: function (label) {
+                set: function (inValue) {
+                    var label = this._processPropertyValue(inValue);
                     var el = this.resolve("sourceLabel");
                     if (label != null) {
                         el.append();
@@ -70,7 +83,8 @@
              * @property targetLabel {String}
              */
             targetLabel: {
-                set: function (label) {
+                set: function (inValue) {
+                    var label = this._processPropertyValue(inValue);
                     var el = this.resolve("targetLabel");
                     if (label != null) {
                         el.append();
@@ -85,7 +99,8 @@
              * @property color {Color}
              */
             color: {
-                set: function (value) {
+                set: function (inValue) {
+                    var value = this._processPropertyValue(inValue);
                     this.$('line').setStyle('stroke', value);
                     this.$('path').setStyle('stroke', value);
                     this._color = value;
@@ -96,7 +111,8 @@
              * @property width {Number}
              */
             width: {
-                set: function (value) {
+                set: function (inValue) {
+                    var value = this._processPropertyValue(inValue);
                     this.$('line').setStyle('stroke-width', value);
                     this.$('path').setStyle('stroke-width', value);
                     this._color = value;
@@ -107,7 +123,8 @@
              * @property dotted {Boolean}
              */
             dotted: {
-                set: function (value) {
+                set: function (inValue) {
+                    var value = this._processPropertyValue(inValue);
                     if (value) {
                         this.$('path').setStyle('stroke-dasharray', '2, 5');
                     } else {
@@ -121,7 +138,8 @@
              * @property style {Object}
              */
             style: {
-                set: function (value) {
+                set: function (inValue) {
+                    var value = this._processPropertyValue(inValue);
                     this.$('line').setStyles(value);
                     this.$('path').setStyles(value);
                 }
@@ -164,7 +182,8 @@
                 get: function () {
                     return this._enable != null ? this._enable : true;
                 },
-                set: function (value) {
+                set: function (inValue) {
+                    var value = this._processPropertyValue(inValue);
                     this._enable = value;
                     if (value) {
                         this.resolve("disableLabel").remove();

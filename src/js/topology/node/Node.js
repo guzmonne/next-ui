@@ -61,7 +61,8 @@
              * @property scale {Number}
              */
             scale: {
-                set: function (value) {
+                set: function (inValue) {
+                    var value = this._processPropertyValue(inValue);
                     this.view('graphic').setTransform(null, null, value);
                     this._nodeScale = value;
                 }
@@ -74,7 +75,8 @@
                 get: function () {
                     return this._radius !== undefined ? this._radius : 4;
                 },
-                set: function (value) {
+                set: function (inValue) {
+                    var value = this._processPropertyValue(inValue);
                     if (this._radius !== value) {
                         this._radius = value;
                         this.view('dot').set('r', value);
@@ -89,21 +91,47 @@
              * @method iconType {String}
              */
             iconType: {
-                value: 'unknown'
+                get: function () {
+                    return this._iconType !== undefined ? this._iconType : 'unknown';
+                },
+                set: function (inValue) {
+                    var value = this._processPropertyValue(inValue);
+                    if (this._iconType !== value) {
+                        this._iconType = value;
+                        this.view("icon").set('iconType', value);
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
             },
             /**
              * Node's label font size
              * @property fontSize {Number}
              */
             fontSize: {
-                value: 12
+                get: function () {
+                    return this._fontSize !== undefined ? this._fontSize : 12;
+                },
+                set: function (inValue) {
+                    var value = this._processPropertyValue(inValue);
+                    if (this._fontSize !== value) {
+                        this._fontSize = value;
+                        this.view('label').set('font-size', value);
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
             },
+
             /**
              * Get node's label
              * @property label
              */
             label: {
-                set: function (label) {
+                set: function (inValue) {
+                    var label = this._processPropertyValue(inValue);
                     var el = this.resolve('label');
                     if (label !== undefined) {
                         el.set('text', label);
@@ -119,7 +147,8 @@
              * Set node's label visible
              */
             labelVisible: {
-                set: function (value) {
+                set: function (inValue) {
+                    var value = this._processPropertyValue(inValue);
                     var el = this.resolve('label');
                     el.visible(value);
                     this._labelVisible = value;
@@ -130,7 +159,8 @@
              * @property showIcon
              */
             showIcon: {
-                set: function (value) {
+                set: function (inValue) {
+                    var value = this._processPropertyValue(inValue);
                     var icon = this.resolve('iconContainer');
                     var dot = this.resolve('dot');
                     if (value) {
@@ -156,7 +186,8 @@
                 get: function () {
                     return this._selected || false;
                 },
-                set: function (value) {
+                set: function (inValue) {
+                    var value = this._processPropertyValue(inValue);
                     if (this._selected != value) {
                         var el = this.resolve('selectedBG');
                         if (value) {
@@ -178,7 +209,8 @@
              * @property color
              */
             color: {
-                set: function (value) {
+                set: function (inValue) {
+                    var value = this._processPropertyValue(inValue);
                     this.$('graphic').setStyle('fill', value);
                     this.$('dot').setStyle('fill', value);
                     this.$('label').setStyle('fill', value);
@@ -195,7 +227,8 @@
                 get: function () {
                     return this._enable != null ? this._enable : true;
                 },
-                set: function (value) {
+                set: function (inValue) {
+                    var value = this._processPropertyValue(inValue);
                     this._enable = value;
                     if (value) {
                         this.root().removeClass('disable');
@@ -218,8 +251,7 @@
                         'class': 'node-label',
                         'alignment-baseline': 'central',
                         x: 0,
-                        y: 12,
-                        'font-size': '{#fontSize}'
+                        y: 12
                     }
                 },
                 {
@@ -229,8 +261,7 @@
                         'class': 'node-disable-label',
                         'alignment-baseline': 'central',
                         x: 12,
-                        y: 12,
-                        'font-size': '{#fontSize}'
+                        y: 12
                     }
                 },
                 {
@@ -266,7 +297,7 @@
                                     type: 'nx.graphic.Icon',
                                     props: {
                                         'class': 'icon',
-                                        iconType: '{#iconType}'
+                                        'iconType': 'unknown'
                                     }
                                 }
                             ]

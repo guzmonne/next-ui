@@ -42,10 +42,9 @@
                         var expr = RegExp.$1;
                         if (expr[0] === '#') {
                             source.setBinding(key, 'owner.' + expr.slice(1), owner);
+                        } else {
+                            source.setBinding(key, 'owner.model.' + expr, owner);
                         }
-                    } else if (nx.is(value, 'Function')) {
-                        propValue = value.call(source, model, source);
-                        source.set(key, propValue);
                     } else if (nx.is(value, 'String')) {
                         var path = value.split('.');
                         if (path.length == 2 && path[0] == 'model') {

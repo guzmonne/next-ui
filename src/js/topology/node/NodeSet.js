@@ -24,7 +24,8 @@
                 }
             },
             showIcon: {
-                set: function (value) {
+                set: function (inValue) {
+                    var value = this._processPropertyValue(inValue);
                     var icon = this.resolve('iconContainer');
                     var dot = this.resolve('dot');
                     if (value) {
@@ -39,7 +40,8 @@
                 }
             },
             color: {
-                set: function (value) {
+                set: function (inValue) {
+                    var value = this._processPropertyValue(inValue);
                     this.$('dot').setStyle('stroke', value);
                     this.$('line1').setStyle('fill', value);
                     this.$('line2').setStyle('fill', value);
@@ -54,7 +56,8 @@
                 get: function () {
                     return this._collapsed !== undefined ? this._collapsed : null;
                 },
-                set: function (value) {
+                set: function (inValue) {
+                    var value = this._processPropertyValue(inValue);
                     if (this._collapsed !== value) {
                         this._collapsed = value;
                         if (value) {

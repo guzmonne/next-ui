@@ -19,7 +19,18 @@
              * @property linkType {String}
              */
             linkType: {
-                value: 'curve'
+                get: function () {
+                    return this._linkType !== undefined ? this._linkType : 'parallel';
+                },
+                set: function (inValue) {
+                    var value = this._processPropertyValue(inValue);
+                    if (this._linkType !== value) {
+                        this._linkType = value;
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
             },
             /**
              * Sub links collection
@@ -43,7 +54,8 @@
              * @property color
              */
             color: {
-                set: function (value) {
+                set: function (inValue) {
+                    var value = this._processPropertyValue(inValue);
                     this.$('numBg').setStyle('fill', value);
                     this.$('path').setStyle('stroke', value);
                     this._color = value;
@@ -57,7 +69,8 @@
                 get: function () {
                     return this._collapsed;
                 },
-                set: function (value) {
+                set: function (inValue) {
+                    var value = this._processPropertyValue(inValue);
                     if (this._collapsed !== value) {
                         this._collapsed = value;
                         if (value) {
@@ -99,7 +112,8 @@
                 get: function () {
                     return this._enable === undefined ? true : this._enable;
                 },
-                set: function (value) {
+                set: function (inValue) {
+                    var value = this._processPropertyValue(inValue);
                     this._enable = value;
                     this.eachLink(function (link) {
                         link.enable(value);

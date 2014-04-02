@@ -88,6 +88,13 @@
                     svg.setAttribute('width', model.size.width);
                     svg.setAttribute('height', model.size.height);
                     sender.dom().$dom.appendChild(svg);
+
+                    //                    var serializer = new XMLSerializer();
+//                    var str = serializer.serializeToString(svg);
+//                    str = str.replace(/class="bg"/gi, 'fill="#1F6EEE"');
+//                    str = str.replace(/class="stroke"/gi, 'stroke="#1F6EEE"');
+//                    var b64 = "data:image/svg+xml;base64," + btoa(str);
+//                    sender.dom().$dom.innerHTML += "<img src='" + b64 + "'/>";
                 }, 0)
             }
         }
