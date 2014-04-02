@@ -30,6 +30,9 @@
             },
             dragStageStart: function () {
                this._tm.closeAll();
+            },
+            enterLink:function(link){
+                this._tm.openLinkTooltip(link);
             }
         }
     });

@@ -5,14 +5,48 @@
      * @module nx.graphic.Topology
      */
     nx.define("nx.graphic.Topology.LinkTooltipContent", nx.ui.Component, {
-        view: {},
-        methods: {
-            onInit: function () {
-                this.watch("model", function (prop, value) {
-                    if (value) {
-                        this.resolve().setContent(value.get("id"));
+        properties: {
+            link: {
+                set: function (value) {
+                    var model = value.model();
+                    this.resolve('list').set('items', new nx.data.Dictionary(model.getData()));
+                }
+            },
+            topology: {},
+            tooltipmanager: {}
+        },
+        view: {
+            content: {
+                props: {
+                    'class': 'n-topology-tooltip-content n-list'
+                },
+                content: [
+                    {
+                        name: 'list',
+                        tag: 'ul',
+                        props: {
+                            'class': 'n-list-wrap',
+                            template: {
+                                tag: 'li',
+                                props: {
+                                    'class': 'n-list-item-i',
+                                    role: 'listitem'
+                                },
+                                content: [
+                                    {
+                                        tag: 'label',
+                                        content: '{key}: '
+                                    },
+                                    {
+                                        tag: 'span',
+                                        content: '{value}'
+                                    }
+                                ]
+
+                            }
+                        }
                     }
-                }, this);
+                ]
             }
         }
     });

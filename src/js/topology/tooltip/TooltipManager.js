@@ -77,17 +77,17 @@
              * @property linkTooltipContentClass
              */
             linkTooltipContentClass: {
-                value: 'nx.graphic.Topology.linkTooltipContent'
+                value: 'nx.graphic.Topology.LinkTooltipContent'
             },
             /**
              * @property linkSetTooltipContentClass
              */
             linkSetTooltipContentClass: {
-                value: 'nx.graphic.Topology.linkSetTooltipContent'
+                value: 'nx.graphic.Topology.LinkSetTooltipContent'
             },
 
             nodeSetTooltipContentClass: {
-                value: 'nx.graphic.Topology.nodeSetTooltipContent'
+                value: 'nx.graphic.Topology.NodeSetTooltipContent'
             },
             /**
              * Show/hide node's tooltip
@@ -153,7 +153,7 @@
                 nodeTooltip.on("close", function () {
                     this.fire("closeNodeToolTip");
                 }, this);
-                nodeTooltip.resolve('@root').addClass('n-topology-node-tootltip');
+                nodeTooltip.resolve('@root').addClass('n-topology-tooltip');
                 this.nodeTooltip(nodeTooltip);
 
 
@@ -161,6 +161,7 @@
                 linkTooltip.on("close", function () {
                     this.fire("closeLinkToolTip", linkTooltip);
                 }, this);
+                linkTooltip.resolve('@root').addClass('n-topology-tooltip');
                 this.linkTooltip(linkTooltip);
 
 
@@ -168,6 +169,7 @@
                 linkSetTooltip.on("close", function () {
                     this.fire("closeLinkSetToolTip", linkSetTooltip);
                 }, this);
+                linkSetTooltip.resolve('@root').addClass('n-topology-tooltip');
                 this.linkSetTooltip(linkSetTooltip);
 
 
@@ -175,6 +177,7 @@
                 nodeSetTooltip.on("close", function () {
                     this.fire("closeNodeSetToolTip");
                 }, this);
+                nodeSetTooltip.resolve('@root').addClass('n-topology-tooltip');
                 this.nodeSetTooltip(nodeSetTooltip);
 
 
@@ -342,7 +345,7 @@
                     return;
                 }
 
-                var pos = position || link.centerPoint();
+                var pos = position || topo.getAbsolutePosition(link.centerPoint());
 
                 var contentClass = nx.path(global, this.linkTooltipContentClass());
                 if (contentClass) {
@@ -417,7 +420,7 @@
              */
             closeAll: function () {
                 this.tooltips().each(function (obj, name) {
-                    obj.value.close(true);
+                    obj.value().close(true);
                 }, this);
             }
         }

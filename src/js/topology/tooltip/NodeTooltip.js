@@ -23,13 +23,13 @@
                 {
                     name: 'header',
                     props: {
-                        'class': 'n-topology-node-tootltip-header'
+                        'class': 'n-topology-tooltip-header'
                     },
                     content: [
                         {
                             tag: 'span',
                             props: {
-                                'class': 'n-topology-node-tootltip-header-text'
+                                'class': 'n-topology-tooltip-header-text'
                             },
                             name: 'title',
                             content: '{#title}'
@@ -39,7 +39,7 @@
                 {
                     name: 'content',
                     props: {
-                        'class': 'n-topology-node-tootltip-content n-list'
+                        'class': 'n-topology-tooltip-content n-list'
                     },
                     content: [
                         {
