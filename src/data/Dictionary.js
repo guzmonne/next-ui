@@ -32,7 +32,7 @@
             },
             each: function (callback, context) {
                 this._dict.each(function (item) {
-                    callback.call(context, item.key);
+                    callback.call(context, item.key());
                 });
             }
         }
@@ -45,7 +45,7 @@
             },
             each: function (callback, context) {
                 this._dict.each(function (item) {
-                    callback.call(context, item.value);
+                    callback.call(context, item.value());
                 });
             }
         }
