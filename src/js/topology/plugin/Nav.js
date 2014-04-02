@@ -242,6 +242,26 @@
                                         },
                                         {
                                             tag: 'h5',
+                                            content: [
+                                                {
+                                                    tag: 'span',
+                                                    content: 'Display Label : '
+                                                },
+                                                {
+                                                    tag: 'input',
+                                                    props: {
+                                                        'class': 'toggleLabelCheckBox',
+                                                        type: 'checkbox',
+                                                        checked: true
+                                                    },
+                                                    events: {
+                                                        click: '{#_toggleNodeLabel}'
+                                                    }
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            tag: 'h5',
                                             content: "Theme :"
                                         },
                                         {
@@ -460,6 +480,12 @@
             },
             _switchTheme: function (sender, event) {
                 this.topology().theme(event.target.value);
+            },
+            _toggleNodeLabel: function (sender, events) {
+                var checked = sender.get('checked');
+                this.topology().eachNode(function (node) {
+                    node.labelVisible(checked);
+                });
             }
         }
     });

@@ -2853,6 +2853,10 @@
   display: inline-block;
   margin-right: 20px;
 }
+.n-topology-setting-panel .popover-content .toggleLabelCheckBox {
+  float: right;
+  margin-right: 12px;
+}
 .n-userselect {
   -webkit-user-select: none;
   -moz-user-select: none;
