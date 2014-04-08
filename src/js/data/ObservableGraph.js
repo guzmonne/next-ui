@@ -474,7 +474,7 @@
 
 
                     var edge = new nx.data.Edge(data);
-                    var id = data.id === undefined ? edge.__id__ : data.id;
+                    var id = data.id == null ? edge.__id__ : data.id;
 
                     edge.sets({
                         id: id,
