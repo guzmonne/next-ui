@@ -441,7 +441,7 @@
                     }
 
                     if (direction[1] == '>') {
-                        if (target.watch) {
+                        if (target.watch && target.watch.__type__ === 'method') {
                             target.watch(targetPath, this._onTargetChanged = function (property, value) {
                                 var actualValue = value;
                                 if (converter) {
@@ -471,14 +471,14 @@
 
                     oldSource = watcher.source;
 
-                    if (oldSource && oldSource.unwatch) {
+                    if (oldSource && oldSource.unwatch && oldSource.unwatch.__type__ === 'method') {
                         oldSource.unwatch(key, handler, this);
                     }
 
                     watcher.source = newSource;
 
                     if (newSource) {
-                        if (newSource.watch) {
+                        if (newSource.watch && newSource.watch.__type__ === 'method') {
                             newSource.watch(key, handler, this);
                         }
 
