@@ -83,8 +83,8 @@
             },
             _enter: function (sender, args) {
                 setTimeout(function () {
-                    var model = sender.model().value;
-                    var svg = sender.model().value.icon;
+                    var model = sender.model().value();
+                    var svg = model.icon;
                     svg.setAttribute('width', model.size.width);
                     svg.setAttribute('height', model.size.height);
                     sender.dom().$dom.appendChild(svg);
