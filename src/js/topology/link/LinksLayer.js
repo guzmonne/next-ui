@@ -72,6 +72,7 @@
             _generateLink: function (edge) {
                 var id = edge.id();
                 var topo = this.topology();
+                var linkSet;
 
                 var link = new nx.graphic.Topology.Link({
                     topology: topo
@@ -83,6 +84,11 @@
                 link.resolve('@root').set('data-source-node-id', edge.source().id());
                 link.resolve('@root').set('data-target-node-id', edge.target().id());
 
+
+                if (topo.supportMultipleLink()) {
+                    linkSet = topo.getLinkSetByLinkKey(edge.linkKey());
+                }
+
                 var defaultConfig = {
                     linkType: 'parallel',
                     gutter: 0,
@@ -93,6 +99,7 @@
                     width: null,
                     dotted: false,
                     style: null,
+                    parentLinkSet: linkSet,
                     enable: true
                 };
 
