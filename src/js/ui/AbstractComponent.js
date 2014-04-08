@@ -790,7 +790,8 @@
                 var template = this._template;
                 var items = this._items;
                 nx.each(this._content.toArray(), function (c) {
-                    c.destroy();
+                    c.detach();
+                    c.model(null);
                 });
 
                 if (template && items) {

@@ -7,6 +7,7 @@
     <script type="text/javascript" src="qunit/qunit-1.12.0.js"></script>
     <script type="text/javascript" src="qunit/qunit-reporter-junit.js"></script>
     <script type="text/javascript" src="../lib/next/next-core.js"></script>
+    <script type="text/javascript" src="../src/js/Aspect.js"></script>
     <script type="text/javascript" src="../src/js/Env.js"></script>
     <script type="text/javascript" src="../src/js/Util.js"></script>
     <script type="text/javascript" src="../src/js/HttpClient.js"></script>
@@ -212,9 +213,6 @@ var MyComp = nx.define(nx.ui.Component, {
                                         return value && value.toUpperCase();
                                     }
                                 })
-                            },
-                            {
-                                type: 'nx.ui.DraggableBehavior'
                             }
                         ]
                     },
@@ -288,6 +286,9 @@ var MyComp = nx.define(nx.ui.Component, {
     methods: {
         onClick: function (sender, event) {
             console.log('onClick', sender, event);
+        },
+        hello: function (name) {
+            console.log('hello ' + (name || 'there') + '!');
         }
     }
 });
@@ -295,7 +296,7 @@ var MyComp = nx.define(nx.ui.Component, {
 var MyApp = nx.define(nx.ui.Application, {
     methods: {
         start: function () {
-            var comp = new MyComp();
+            var comp = this._comp = new MyComp();
             comp.attach(this);
             comp.items(col);
             comp.dict(dict);
