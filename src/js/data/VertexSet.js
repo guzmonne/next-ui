@@ -129,7 +129,7 @@
 
 
                             var fn = function (edgeSet) {
-                                console.log(edgeSet.linkKey(), '---');
+                               // console.log(edgeSet.linkKey(), '---');
                                 edgeSet.eachEdge(function (edge) {
                                     var sourceVertexSet = edge.source().parentVertexSet();
                                     var targetVertexSet = edge.target().parentVertexSet();
@@ -137,9 +137,9 @@
                                     var sourceCondition = sourceVertexSet && sourceVertexSet.generated() && edge.target().generated() && sourceVertexSet.visible() && edge.target().visible();
                                     var targetCondition = targetVertexSet && edge.source().generated() && targetVertexSet.generated() && edge.source().visible() && targetVertexSet.visible();
                                     var _edgeSet;
-                                    console.log(sourceVertexSet);
-                                    console.log(targetVertexSet);
-                                    console.log(edge.linkKey(), edge.type(), condition);
+//                                    console.log(sourceVertexSet);
+//                                    console.log(targetVertexSet);
+//                                    console.log(edge.linkKey(), edge.type(), condition);
                                     if (condition) {
                                         if (edge.type() == 'edgeSet') {
                                             edge.visible(true);
@@ -158,6 +158,8 @@
                                             targetID: edge.target().id()
                                         });
                                         _edgeSet.addEdge(edge);
+                                        edgeSet.addEdge(_edgeSet);
+                                        graph.fire('addEdgeSet', _edgeSet);
                                     } else if (targetCondition) {
                                         _edgeSet = graph._addEdgeSet({
                                             source: edge.source(),
@@ -166,6 +168,8 @@
                                             targetID: targetVertexSet.id()
                                         });
                                         _edgeSet.addEdge(edge);
+                                        edgeSet.addEdge(_edgeSet);
+                                        graph.fire('addEdgeSet', _edgeSet);
                                     } else {
                                         if (edge.type() == 'edgeSet') {
                                             fn.call(this, edge);
@@ -178,36 +182,13 @@
                                 fn.call(this, edgeSet);
                             }, this);
 
-
-//                            this.eachEdgeSet(function (edgeSet) {
-//                                console.log(edgeSet.linkKey(), '-----');
-//                                edgeSet.eachSubEdge(function (edge) {
-//                                    console.log(edge.linkKey(), edge.type(), edge.source().generated() && edge.target().generated(), edge.source().visible() && edge.target().visible());
-//                                    if (edge.source().generated() && edge.target().generated() && edge.source().visible() && edge.target().visible()) {
-//                                        if (edge.type() == 'edgeSet') {
-//                                            edge.visible(true);
-//                                            edge.generated(true);
-//                                            graph.fire('addEdgeSet', edge);
-//                                        } else {
-//                                            edge.visible(true);
-//                                            edge.generated(true);
-//                                            graph.fire('addEdge', edge);
-//                                        }
-//                                    }
-//                                })
-//                            });
-
-
                             nx.each(this.originalEdgeSetMap(), function (edgeSet, linkKey) {
                                 edgeSet.visible(true);
                                 edgeSet.generated(true);
                                 graph.fire('addEdgeSet', edgeSet);
-                                console.log(linkKey);
+                               // console.log(linkKey);
                             });
-
-
                         }
-
                         return true;
                     } else {
                         return false;
@@ -270,7 +251,7 @@
                         targetID: vertexID
                     });
                     _edgeSet.addEdges(edgeSetArray);
-                    console.log(vertexSetID, vertexID);
+//                    console.log(vertexSetID, vertexID);
 
                     var _vertexSet = graph._vertexSetMap[vertexID]; //5
                     if (_vertexSet) {
@@ -300,7 +281,7 @@
                 }, this);
 
 
-                console.log(vertexSetEdgeSet);
+//                console.log(vertexSetEdgeSet);
 
                 this.nodesArray(insideNodes);
                 this.vertices(nx.extend(this.vertices(), vertices));

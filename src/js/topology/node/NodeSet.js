@@ -222,9 +222,10 @@
 //                        node.cssMoveTo(position.x, position.y);
                     }, this);
 
-//                    setTimeout(topo.fit.bind(topo), 1000);
+                    setTimeout(function () {
+                        this.fire('expandNode', this);
+                    }.bind(this), 300);
 
-                    this.fire('expandNode', this);
 
                 }.bind(this), 0);
             },
@@ -288,21 +289,20 @@
             },
             updateByMaxObtuseAngle: function (angle) {
                 this.inherited(angle);
-                if (this.showIcon()) {
-                    var el = this.resolve("iconContainer");
-                    var size = this.resolve("icon").size();
-                    var radius = Math.max(size.width / 2, size.height / 2) + (this.showIcon() ? 12 : 8);
-                    var labelVector = new nx.math.Vector(radius, 0).rotate(angle);
-                    el.setTransform(labelVector.x, labelVector.y);
-                    var labelEL = this.resolve("label");
+                var el = this.view("iconContainer");
+                var size = this.view("icon").size();
+                var radius = this.showIcon() ? Math.max(size.width / 2, size.height / 2) + (this.showIcon() ? 12 : 8) : 12;
+                var labelVector = new nx.math.Vector(radius, 0).rotate(angle);
+                el.setTransform(labelVector.x, labelVector.y);
+                var labelEL = this.view("label");
 
-                    radius = (radius - 10) * 2 + 12;
-                    labelVector = new nx.math.Vector(radius, 0).rotate(angle);
-                    labelEL.sets({
-                        x: labelVector.x,
-                        y: labelVector.y
-                    });
-                }
+                radius = (radius - 10) * 2 + 12;
+                labelVector = new nx.math.Vector(radius, 0).rotate(angle);
+                labelEL.sets({
+                    x: labelVector.x,
+                    y: labelVector.y
+                });
+
             }
         }
 

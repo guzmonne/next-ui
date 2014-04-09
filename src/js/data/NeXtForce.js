@@ -39,21 +39,28 @@
             var links = this.links = inJson.links;
             var nodeMap = this.nodeMap = {};
             var weightMap = this.weightMap = {};
-            var node, link, i = 0, length = nodes.length, id;
+            var maxWeight = this.maxWeight = 1;
+            var node, link, i = 0, length = nodes.length, id, weight;
             for (; i < length; i++) {
                 node = nodes[i];
-                id = node.id || i;
+                id = node.id;
                 nodeMap[id] = node;
-                weightMap[id] = node.weight || 0;
+                weightMap[id] = 0;
             }
             if (links) {
                 length = links.length;
                 for (i = 0; i < length; ++i) {
                     link = links[i];
                     id = link.source;
-                    ++weightMap[id];
+                    weight = ++weightMap[id];
+                    if (weight > maxWeight) {
+                        this.maxWeight = weight;
+                    }
                     id = link.target;
-                    ++weightMap[id];
+                    weight = ++weightMap[id];
+                    if (weight > maxWeight) {
+                        this.maxWeight = weight;
+                    }
                 }
             }
         };
@@ -176,6 +183,7 @@
                     d2 = dx * dx + dy * dy;
                     d = Math.sqrt(d2);
                     if (d2) {
+                        var maxWeight = this.maxWeight;
                         dk = strength * (d - distance) / d;
                         dx *= dk;
                         dy *= dk;
@@ -183,11 +191,11 @@
                         tWeight = weightMap[target.id];
                         totalWeight = sWeight + tWeight;
                         k = sWeight / totalWeight;
-                        target.dx -= (dx * k) / totalWeight;
-                        target.dy -= (dy * k) / totalWeight;
+                        target.dx -= (dx * k) / maxWeight;
+                        target.dy -= (dy * k) / maxWeight;
                         k = 1 - k;
-                        source.dx += (dx * k) / totalWeight;
-                        source.dy += (dy * k) / totalWeight;
+                        source.dx += (dx * k) / maxWeight;
+                        source.dy += (dy * k) / maxWeight;
                     }
                 }
             }
@@ -262,7 +270,7 @@
                         if (!isFinite(dk)) {
                             inPoint.dx -= Math.random() * 10;
                             inPoint.dy -= Math.random() * 10;
-                        } else {
+                        } else if (inNode.pointCharge) {
                             k = inNode.pointCharge * dk * dk;
                             inPoint.dx -= dx * k;
                             inPoint.dy -= dy * k;

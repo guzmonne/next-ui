@@ -336,6 +336,9 @@
                         x: this.projectionX().invert(x),
                         y: this.projectionY().invert(y)
                     });
+
+                    this._centralizedText();
+                    el.upon('transitionend', null);
                 }, this);
                 this.view().setTransform(x, y, null, 0.5);
             },
@@ -478,11 +481,7 @@
                 // get all lines
 
                 vertex.eachEdge(function (edge) {
-                    if (edge.sourceID() !== vertexID) {
-                        vectors.push(edge.line().dir.negate());
-                    } else {
-                        vectors.push(edge.line().dir);
-                    }
+                    vectors.push(edge.line().dir);
                 }, this);
                 //sort line by angle;
                 vectors = vectors.sort(function (a, b) {
