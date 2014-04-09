@@ -40,14 +40,6 @@
                 value: null
             },
             /**
-             * Is edge is a virtual edge
-             * @property virtual {Boolean}
-             * @default false
-             */
-            virtual: {
-                value: false
-            },
-            /**
              * Set/get edge's visibility
              * @property visible {Boolean}
              * @default true

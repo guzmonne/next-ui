@@ -2786,49 +2786,49 @@
     -webkit-transform: scale(0.5);
   }
 }
-.n-topology-node-tootltip {
+.n-topology-tooltip {
   padding: 0px;
   opacity: 0.8 !important;
 }
-.n-topology-node-tootltip-header {
+.n-topology-tooltip-header {
   min-width: 160px;
   line-height: 24px;
   position: relative;
   border-bottom: dotted 1px #ccc;
 }
-.n-topology-node-tootltip-header-actions {
+.n-topology-tooltip-header-actions {
   float: right;
 }
-.n-topology-node-tootltip-header-actions i {
+.n-topology-tooltip-header-actions i {
   cursor: pointer;
 }
-.n-topology-node-tootltip-header-text {
+.n-topology-tooltip-header-text {
   line-height: 24px;
   color: #333;
   font-size: 14px;
   font-weight: bold;
 }
-.n-topology-node-tootltip-content {
+.n-topology-tooltip-content {
   margin-bottom: 6px;
   padding: 3px;
   min-height: 30px;
 }
-.n-topology-node-tootltip-content label {
+.n-topology-tooltip-content label {
   display: inline-block;
   margin-right: 8px;
   font-weight: bold;
 }
-.n-topology-node-tootltip-content ul {
+.n-topology-tooltip-content ul {
   margin: 0;
   padding: 0px;
 }
-.n-topology-node-tootltip-content li {
+.n-topology-tooltip-content li {
   list-style: none;
 }
-.n-topology-node-tootltip:after {
+.n-topology-tooltip:after {
   display: none;
 }
-.n-topology-node-tootltip .popover-content {
+.n-topology-tooltip .popover-content {
   padding: 5px 10px;
 }
 .n-topology-setting-panel {

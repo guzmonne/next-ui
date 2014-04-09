@@ -202,7 +202,7 @@
 
                 this.model(model);
 
-                model.on('updateCoordinate', function (sender, position) {
+                model.upon('updateCoordinate', function (sender, position) {
                     this.position({
                         x: projectionX.get(position.x),
                         y: projectionY.get(position.y)
@@ -362,7 +362,13 @@
                 var topo = this.topology();
                 model.eachConnectedVertices(function (vertex) {
                     var id = vertex.id();
-                    fn.call(context || this, topo.getNode(id), id);
+                    var node = topo.getNode(id);
+                    if (node) {
+                        fn.call(context || this, topo.getNode(id), id);
+                    } else {
+                        console.log(id);
+                    }
+
                 }, this);
             },
             _processPropertyValue: function (propertyValue) {
@@ -371,6 +377,10 @@
                     value = propertyValue.call(this, this.model(), this);
                 }
                 return value;
+            },
+            dispose: function () {
+                this.model().upon('updateCoordinate', null);
+                this.inherited();
             }
         }
     });

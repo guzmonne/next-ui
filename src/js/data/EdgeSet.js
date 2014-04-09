@@ -12,20 +12,11 @@
         properties: {
             /**
              * All child edges
-             * @property edges {Array}
+             * @property edges {Object}
              */
             edges: {
                 value: function () {
-                    return [];
-                }
-            },
-            /**
-             * All virtual child edges
-             * @property virtualEdges {Array}
-             */
-            virtualEdges: {
-                value: function () {
-                    return [];
+                    return {};
                 }
             },
             /**
@@ -47,27 +38,22 @@
                 },
                 set: function (value) {
                     if (this._visible !== value) {
-                        this._visible = value;
 
-                        var visible;
+                        var visible = this.source().visible() && this.target().visible();
 
-                        if (value && (this.source().visible() && this.target().visible())) {
-                            visible = true;
+                        if (visible) {
+                            this.eachEdge(function (edge) {
+                                edge.visible(value);
+                            }, this);
                         } else {
-                            visible = false;
+                            this.eachEdge(function (edge) {
+                                edge.visible(false);
+                            }, this);
                         }
 
+                        this.updated(true);
 
-                        nx.each(this.edges(), function (edge) {
-                            edge.visible(visible);
-                        });
-
-
-                        if (this._visible !== undefined || this._visible !== value) {
-                            this.updated(true);
-                        }
-
-                        this._visible = visible;
+                        this._visible = visible && value;
 
                         return true;
                     } else {
@@ -77,12 +63,11 @@
             },
             activated: {
                 get: function () {
-                    return this._activated;
+                    return this._activated !== undefined ? this._activated : true;
                 },
                 set: function (value) {
                     var graph = this.graph();
-                    nx.each(this.edges(), function (edge) {
-                        edge.visible(!value);
+                    this.eachEdge(function (edge) {
                         if (edge.type() == 'edge') {
                             if (value) {
                                 graph.fire('removeEdge', edge);
@@ -96,7 +81,7 @@
                                 graph.fire('addEdgeSet', edge);
                             }
                         }
-                    });
+                    }, this);
                     this._activated = value;
                 }
             }
@@ -106,28 +91,18 @@
              * Add child edge
              * @method addEdge
              * @param edge {nx.data.Edge}
-             * @returns {Boolean}
              */
             addEdge: function (edge) {
-                return this.edges().push(edge);
+                var edges = this.edges();
+                edges[edge.id()] = edge;
             },
             /**
              * Add child edges
              * @method addEdges
-             * @param edges {Array}
-             * @returns {Array}
+             * @param inEdges {Array}
              */
-            addEdges: function (edges) {
-                return this.edges(this.edges().concat(edges));
-            },
-            /**
-             * Add virtual edges
-             * @method addVirtualEdges
-             * @param edges {Array}
-             * @returns {Array}
-             */
-            addVirtualEdges: function (edges) {
-                return this.virtualEdges(this.virtualEdges().concat(edges));
+            addEdges: function (inEdges) {
+                nx.each(inEdges, this.addEdge, this);
             },
             /**
              * Remove child edge
@@ -136,50 +111,53 @@
              */
             removeEdge: function (edge) {
                 var edges = this.edges();
-                edges.splice(edges.indexOf(edge), 1);
+                var id = edge.id();
+                delete  edges[id];
             },
             /**
-             * Iterate each edges, include virtual edges
-             * @method eachEdges
+             * Iterate each edges
+             * @method eachEdge
              * @param callback {Function}
              * @param context {Object}
              */
-            eachEdges: function (callback, context) {
-                nx.each(this.edges().concat(this.virtualEdges()), callback, context || this);
+            eachEdge: function (callback, context) {
+                nx.each(this.edges(), callback, context || this);
             },
             /**
-             * Get every child edges, include all child level
              * @method getEdges
-             * @param isVisible {Boolean} is include visible edges,default false.
-             * @param isNotVirtual {Boolean} is not include virtual edges,default false.
              * @returns {Array}
              */
-            getEdges: function (isVisible, isNotVirtual) {
+            getEdges: function () {
                 var edges = [];
-                nx.each(this.edges().concat(this.virtualEdges()), function (edge) {
-
-                    if (edge instanceof nx.data.EdgeSet) {
-                        edges = edges.concat(edge.getEdges(isVisible, isNotVirtual));
-                    } else {
-
-                        if (isNotVirtual === true && isVisible === true) {
-                            if (edge.visible() && !edge.virtual()) {
-                                edges.push(edge);
-                            }
-                        } else if (isNotVirtual === true) {
-                            if (!edge.virtual()) {
-                                edges.push(edge);
-                            }
-                        } else if (isVisible === true) {
-                            if (edge.visible()) {
-                                edges.push(edge);
-                            }
-                        } else {
-                            edges.push(edge);
-                        }
-                    }
-                });
+                this.eachEdge(function (edge, edgeID) {
+                    edges.push(edge);
+                }, this);
                 return edges;
+            },
+            /**
+             * Get all sub edges
+             * @returns {Array}
+             */
+            getSubEdges: function () {
+                var edges = [];
+                this.eachEdge(function (edge, edgeID) {
+                    if (edge instanceof nx.data.EdgeSet) {
+                        edges = edges.concat(edge.getSubEdges());
+                    } else {
+                        edges.push(edge);
+                    }
+                }, this);
+                return edges;
+            },
+            /**
+             * Iterate each sub edges
+             * @method eachSubEdge
+             * @param callback {Function}
+             * @param context {Object}
+             */
+            eachSubEdge: function (callback, context) {
+                var edges = this.getSubEdges();
+                nx.each(edges, callback, context);
             },
             getRootEdgeSet: function () {
                 var parent = this.parentEdgeSet();
@@ -194,14 +172,15 @@
              * @returns {boolean}
              */
             containEdgeSet: function () {
-                var edgeSet = util.find(this.edges().concat(this.virtualEdges()), function (edge) {
-                    return edge instanceof nx.data.EdgeSet;
-                });
-
-                return edgeSet !== undefined;
-
+                var result = false;
+                this.eachEdge(function (edge) {
+                    if (edge instanceof nx.data.EdgeSet) {
+                        result = true;
+                    }
+                }, this);
+                return result;
             },
-            removeAllEdges: function () {
+            removeEdges: function () {
                 var graph = this.graph();
                 nx.each(this.edges(), function (edge) {
                     edge.generated(false);

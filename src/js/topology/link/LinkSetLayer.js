@@ -54,7 +54,7 @@
                 var linkKey = edgeSet.linkKey();
                 var linkSet = linkSetMap[linkKey];
                 if (linkSet) {
-                    linkSet.model().removeAllEdges();
+                    linkSet.model().removeEdges();
                     linkSet.dispose();
                     linkSetCollection.splice(linkSetCollection.indexOf(linkSet), 1);
                     delete linkSetMap[linkKey];
@@ -94,16 +94,21 @@
                     width: null,
                     dotted: false,
                     style: null,
-                    enable: true
+                    enable: true,
+                    collapsed: function (model) {
+                        if (this.model().containEdgeSet()) {
+                            return true;
+                        }
+                        var linkType = this.linkType();
+                        var edges = model.getSubEdges();
+                        var maxLinkNumber = linkType === 'curve' ? 9 : 5;
+                        return edges.length > maxLinkNumber;
+                    }
                 };
-
                 var linkSetConfig = nx.extend(defaultConfig, topo.linkSetConfig());
                 nx.each(nx.extend(defaultConfig, linkSetConfig), function (value, key) {
                     util.setProperty(linkset, key, value, topo);
                 }, this);
-
-                linkset.adjust();
-
 
                 var superEvents = nx.graphic.Component.__events__;
                 nx.each(linkset.__events__, function (e) {

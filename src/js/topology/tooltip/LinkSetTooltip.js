@@ -4,12 +4,12 @@
      * @extend nx.ui.Component
      * @module nx.graphic.Topology
      */
-    nx.define("nx.graphic.Topology.linkSetTooltipContent", nx.ui.Component, {
+    nx.define("nx.graphic.Topology.LinkSetTooltipContent", nx.ui.Component, {
         properties: {
             linkSet: {
                 set: function (value) {
                     var items = [];
-                    var edges = value.model().getEdges(false, true);
+                    var edges = value.model().getSubEdges();
                     nx.each(edges, function (edge) {
                         items.push({
                             item: "Source:" + edge.sourceID() + " Target :" + edge.targetID(),

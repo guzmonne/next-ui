@@ -85,10 +85,6 @@
                 link.resolve('@root').set('data-target-node-id', edge.target().id());
 
 
-                if (topo.supportMultipleLink()) {
-                    linkSet = topo.getLinkSetByLinkKey(edge.linkKey());
-                }
-
                 var defaultConfig = {
                     linkType: 'parallel',
                     gutter: 0,
@@ -99,7 +95,6 @@
                     width: null,
                     dotted: false,
                     style: null,
-                    parentLinkSet: linkSet,
                     enable: true
                 };
 
@@ -124,7 +119,11 @@
                 link.set('data-source-node-id', edge.source().id());
                 link.set('data-target-node-id', edge.target().id());
 
-
+                if (topo.supportMultipleLink()) {
+                    linkSet = topo.getLinkSetByLinkKey(edge.linkKey());
+                    link.set('parentLinkSet', linkSet);
+                }
+                
                 return link;
 
             },

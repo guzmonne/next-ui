@@ -11,7 +11,7 @@
             __construct: function () {
                 this._topo = this.topology();
                 this._nodesLayer = this._topo.getLayer("nodes");
-                this._nodeSetLayer = this._topo.getLayer("nodes");
+                this._nodeSetLayer = this._topo.getLayer("nodeSet");
                 this._linksLayer = this._topo.getLayer("links");
                 this._linkSetLayer = this._topo.getLayer("linkSet");
                 this._tooltipManager = this._topo.tooltipManager();
@@ -188,6 +188,48 @@
                     }
                 }
             },
+
+            updateNodeCoordinate: function () {
+
+            },
+
+
+
+            enterLink: function (sender, events) {
+            },
+
+            pressNodeSet: function (sender, nodeSet) {
+            },
+            clickNodeSet: function (sender, nodeSet) {
+//                clearTimeout(this._sceneTimer);
+//                this._recover();
+                nodeSet.collapsed(!nodeSet.collapsed());
+            },
+
+            enterNodeSet: function (sender, nodeSet) {
+                clearTimeout(this._sceneTimer);
+//                if (!this._nodeDragging) {
+//                    this._sceneTimer = setTimeout(function () {
+//                        this._nodeSetLayer.highlightRelatedNode(nodeSet);
+//                    }.bind(this), this._interval);
+//                    //this._recover();
+//                }
+            },
+            leaveNodeSet: function (sender, nodeSet) {
+//                clearTimeout(this._sceneTimer);
+//                if (!this._nodeDragging) {
+//                    this._recover();
+//                }
+            },
+            expandNodeSet: function (sender, nodeSet) {
+                nodeSet.visible(false);
+                clearTimeout(this._sceneTimer);
+                this._recover();
+                this._topo.adjustLayout();
+            },
+            collapseNodeSet: function (sender, nodeSet) {
+                nodeSet.visible(true);
+            },
             selectNodeSet: function (sender, nodeSet) {
                 var selectedNodes = this._topo.selectedNodes();
                 if (nodeSet.selected()) {
@@ -201,44 +243,6 @@
                 }
             },
 
-            updateNodeCoordinate: function () {
-
-            },
-
-            pressNodeSet: function (sender, nodeSet) {
-
-            },
-            clickNodeSet: function (sender, nodeSet) {
-                this._recover();
-                nodeSet.collapsed(!!!nodeSet.collapsed());
-            },
-
-            enterNodeSet: function (sender, nodeSet) {
-                clearTimeout(this._sceneTimer);
-                if (!this._nodeDragging) {
-                    this._sceneTimer = setTimeout(function () {
-                        this._nodesLayer.highlightRelatedNode(nodeSet);
-                    }.bind(this), this._interval);
-                    this._recover();
-                }
-            },
-            leaveNodeSet: function (sender, nodeSet) {
-                clearTimeout(this._sceneTimer);
-                if (!this._nodeDragging) {
-                    this._recover();
-                }
-            },
-            expandNodeSet: function (sender, nodeSet) {
-                nodeSet.visible(false);
-                clearTimeout(this._sceneTimer);
-                this._recover();
-                this._topo.adjustLayout();
-            },
-            enterLink: function (sender, events) {
-            },
-            collapseNodeSet: function (sender, nodeSet) {
-                nodeSet.visible(true);
-            },
             right: function (sender, events) {
                 this._topo.move(30, null, 0.5);
             },

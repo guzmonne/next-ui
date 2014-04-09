@@ -57,12 +57,6 @@
                 delete nodeSetMap[id];
             },
             updateNodeSet: function (nodeSetMap) {
-
-//                //todo
-//                var nodesMap = this.nodesMap();
-//
-//                nodesMap[vertex.id()].visible(vertex.visible());
-                //nodesMap[vertex.id()].fadeOut();
             },
             _generateNodeSet: function (vertexSet) {
                 var Clz;
@@ -78,24 +72,35 @@
                     Clz = nx.path(global, nodeSetInstanceClass);
                 }
 
+                if (!Clz) {
+                    return;
+                }
+
+
                 var nodeset = new Clz();
-                nodeset.set('topology', topo);
+                nodeset.sets({
+                    'topology': topo,
+                    'class': 'node nodeset'
+                }, topo);
+
                 nodeset.setModel(vertexSet);
 
-                nodeset.set('class', 'node');
-                nodeset.resolve('@root').set('data-node-id', nodeset.id());
-
                 var defaultConfig = {
-                    showIcon: false
+                    showIcon: topo.showIcon()
                 };
                 var nodeSetConfig = nx.extend(defaultConfig, topo.nodeSetConfig());
+
+                var label = nodeSetConfig.label;
+                delete nodeSetConfig.label;
+
                 nx.each(nodeSetConfig, function (value, key) {
                     util.setProperty(nodeset, key, value, topo);
                 }, this);
-                util.setProperty(nodeset, 'showIcon', nodeSetConfig.showIcon == null ? topo.showIcon() : nodeSetConfig.showIcon, topo);
-                util.setProperty(nodeset, 'label', nodeSetConfig.label, topo);
+
+                util.setProperty(nodeset, 'label', label, topo);
 
 
+                //register events
                 var superEvents = nx.graphic.Component.__events__;
                 nx.each(nodeset.__events__, function (e) {
                     if (superEvents.indexOf(e) == -1) {
@@ -105,7 +110,7 @@
                     }
                 }, this);
 
-
+                //register multiple move
                 nodeset.on('dragNode', function (sender, event) {
                     this._moveSelectionNodes(event, nodeset);
                 }, this);
@@ -151,7 +156,9 @@
 
                 model.eachEdgeSet(function (edgeSet) {
                     var linkSet = topo.getLinkSetByLinkKey(edgeSet.linkKey());
-                    linkSetAry.push(linkSet);
+                    if (linkSet) {
+                        linkSetAry.push(linkSet);
+                    }
                 }, this);
                 return linkSetAry;
             },
@@ -163,9 +170,11 @@
 
                 this.highlightElement(nodeset);
 
-                node.eachConnectedNodes(function (n) {
+                nodeset.eachConnectedNodes(function (n) {
                     this.highlightElement(n);
                 }, this);
+
+
 
 
                 if (topo.supportMultipleLink()) {
@@ -177,18 +186,6 @@
                 }
 
                 this.fadeOut();
-            },
-            /**
-             * Recover all nodes status
-             * @method recover
-             */
-            recover: function () {
-                this.fadeIn(function () {
-                    nx.each(this.highlightedNodeSet(), function (node) {
-                        node.append(this.resolve('static'));
-                    }, this);
-                    this.highlightedNodeSet([]);
-                }, this);
             },
             /**
              * Reset node's position, especially when reset projection, this will have transition

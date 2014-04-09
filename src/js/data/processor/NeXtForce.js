@@ -4,7 +4,7 @@
      * @class nx.data.ObservableGraph.ForceProcessor
      * @module nx.data
      */
-    nx.define("nx.data.ObservableGraph.ForceProcessor", {
+    nx.define("nx.data.ObservableGraph.NeXtForceProcessor", {
         methods: {
             /**
              * Process graph data
@@ -15,40 +15,42 @@
              */
             process: function (data, key, model) {
                 var forceStartDate = new Date();
-                var _data;
 
-                _data = {nodes: data.nodes, links: []};
+                var _data = {nodes: data.nodes, links: []};
                 var nodeIndexMap = {};
                 nx.each(data.nodes, function (node, index) {
                     nodeIndexMap[node[key]] = index;
                 });
 
-
-                // if source and target is not number, force will search node
+                _data.links = [];
                 nx.each(data.links, function (link) {
                     if (!nx.is(link.source, 'Object') && nodeIndexMap[link.source] !== undefined && !nx.is(link.target, 'Object') && nodeIndexMap[link.target] !== undefined) {
-                        if (key == 'ixd') {
-                            _data.links.push({
-                                source: link.source,
-                                target: link.target
-                            });
-                        } else {
-                            _data.links.push({
-                                source: nodeIndexMap[link.source],
-                                target: nodeIndexMap[link.target]
-                            });
-                        }
-
+                        _data.links.push({
+                            source: nodeIndexMap[link.source],
+                            target: nodeIndexMap[link.target]
+                        });
                     }
                 });
-                var force = new nx.data.Force();
-                force.nodes(_data.nodes);
-                force.links(_data.links);
-                force.start();
-                while (force.alpha()) {
-                    force.tick();
+
+                // force
+                var force = new nx.data.NextForce();
+                force.setData(data);
+                console.log(_data.nodes.length);
+                if (_data.nodes.length < 50) {
+                    while (true) {
+                        force.tick();
+                        if (force.maxEnergy < _data.nodes.length * 0.1) {
+                            break;
+                        }
+                    }
+                } else {
+                    var step = 0;
+                    while (++step < 300) {
+                        force.tick();
+                    }
                 }
-                force.stop();
+
+                console.log(force.maxEnergy);
 
                 return data;
             }

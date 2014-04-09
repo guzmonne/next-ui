@@ -149,7 +149,7 @@
              * Make topology adapt to container,container should set width/height
              * @method adaptToContainer
              */
-            adaptToContainer: function () {
+            adaptToContainer: function (callback) {
                 if (!this.adaptive()) {
                     return;
                 }
@@ -160,10 +160,9 @@
                 }
 
                 this._fitTimer = setTimeout(function () {
-                    this.move(0.1);
+                    //this.move(0.1);
                     this.fit();
                 }.bind(this), 500);
-
             },
             /**
              * Get the passing bound's relative inside bound,if not passing param will return the topology graphic's bound

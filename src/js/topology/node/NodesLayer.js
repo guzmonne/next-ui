@@ -223,8 +223,10 @@
 
                 model.eachEdgeSet(function (edgeSet) {
                     var linkSet = topo.getLinkSetByLinkKey(edgeSet.linkKey());
-                    linkSetAry.push(linkSet);
-                });
+                    if (linkSet) {
+                        linkSetAry.push(linkSet);
+                    }
+                }, this);
                 return linkSetAry;
 
             },

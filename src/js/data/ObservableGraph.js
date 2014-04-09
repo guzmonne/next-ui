@@ -12,6 +12,7 @@
     var GRAPH = nx.define('nx.data.ObservableGraph', nx.data.ObservableObject, {
         statics: {
             dataProcessor: {
+                'nextforce': new nx.data.ObservableGraph.NeXtForceProcessor(),
                 'force': new nx.data.ObservableGraph.ForceProcessor(),
                 'quick': new nx.data.ObservableGraph.QuickProcessor(),
                 'circle': new nx.data.ObservableGraph.CircleProcessor()
@@ -270,9 +271,7 @@
 
             addEdge: function (data, inOptions, isGenerate) {
 
-                if (!(inOptions && inOptions.virtual)) {
-                    this._originalData.links.push(data);
-                }
+                this._originalData.links.push(data);
 
                 var edge = this._addEdge(data, inOptions);
 
@@ -332,37 +331,6 @@
 
             },
 
-            _addEdgeSet: function (config) {
-                var edgeSet = new nx.data.EdgeSet();
-                var id = edgeSet.__id__;
-                edgeSet.graph(this);
-                edgeSet.sets(config);
-                edgeSet.id(id);
-                this._edgeSetMap[config.linkKey] = edgeSet;
-                this._edgeSet.push(edgeSet);
-                return edgeSet;
-            },
-
-
-            _removeEdgeSet: function (edgeSet) {
-                edgeSet.eachEdges(function (edge) {
-                    if (edge.type() == 'edgeSet') {
-                        this._removeEdgeSet(edge);
-                    } else {
-                        this.removeEdge(edge, false);
-                    }
-                }, this);
-
-                this._edgeSet.splice(this._edgeSet.indexOf(edgeSet), 1);
-                delete this._edgeSetMap[edgeSet.linkKey()];
-
-                /**
-                 * @event removeEdgeSet
-                 * @param sender {Object}  Trigger instance
-                 * @param {nx.data.EdgeSet} edgeSet EdgeSet object
-                 */
-                this.fire('removeEdgeSet', edgeSet);
-            },
 
             /**
              * Add vertex set to Graph
@@ -379,7 +347,7 @@
                 var vertexSet = this._addVertexSet(data, inOptions);
 
                 if (isGenerate !== false) {
-                    var addedVirtualEdgeSet = this._processVertexSet(vertexSet);
+                    var addedEdgeSet = this._processVertexSet(vertexSet);
                     /**
                      * @event addVertexSet
                      * @param sender {Object}  Trigger instance
@@ -387,7 +355,7 @@
                      */
                     this.fire('addVertexSet', vertexSet);
 
-                    nx.each(addedVirtualEdgeSet, function (edgeSet) {
+                    nx.each(addedEdgeSet, function (edgeSet) {
                         this.fire('addEdgeSet', edgeSet);
                     }, this);
                 }
@@ -409,7 +377,7 @@
                 var verticesLength = vertices.length;
                 var identityKey = this.identityKey();
                 //
-                if (!nx.is(data, 'Object')) {
+                if (typeof(data) == "string" || typeof(data) == "number") {
                     data = {data: data};
                 }
                 var id = data[identityKey] !== undefined ? data[identityKey] : verticesLength;
@@ -439,7 +407,7 @@
                     vertex.sets(config);
                 }
 
-                vertex.setPosition();
+                vertex.initPosition();
 
                 vertex.on('updateCoordinate', function () {
                     /**
@@ -474,7 +442,7 @@
 
 
                     var edge = new nx.data.Edge(data);
-                    var id = data.id === undefined ? edge.__id__ : data.id;
+                    var id = data.id == null ? edge.__id__ : data.id;
 
                     edge.sets({
                         id: id,
@@ -487,8 +455,8 @@
                     if (inOption) {
                         edge.sets(inOption);
                     }
-                    source.addEdge(edge);
-                    target.addReverseEdge(edge);
+                    //source.addEdge(edge);
+                    //target.addReverseEdge(edge);
 
                     this.edgesMap[id] = edge;
                     this.edges.push(edge);
@@ -511,15 +479,16 @@
                         edgeSet.updated(true);
                     }
 
+                    var edgeSetLinkKey = edgeSet.linkKey();
+
                     edge.sets({
-                        linkKey: edgeSet.linkKey(),
+                        linkKey: edgeSetLinkKey,
                         reverseLinkKey: edgeSet.reverseLinkKey()
                     });
 
                     edgeSet.addEdge(edge);
                     edge.parentEdgeSet(edgeSet);
-                    edge.reverse(linkKey !== edgeSet.linkKey());
-
+                    edge.reverse(linkKey !== edgeSetLinkKey);
 
                     return edge;
 
@@ -529,6 +498,49 @@
                     }
                     return undefined;
                 }
+            },
+            _addEdgeSet: function (config) {
+                var edgeSet = new nx.data.EdgeSet();
+                var id = edgeSet.__id__;
+                var linkKey = config.sourceID + '_' + config.targetID;
+                var reverseLinkKey = config.targetID + '_' + config.sourceID;
+
+
+                edgeSet.sets(config);
+                edgeSet.sets({
+                    graph: this,
+                    linkKey: linkKey,
+                    reverseLinkKey: reverseLinkKey,
+                    id:id
+                });
+
+                edgeSet.source().addEdgeSet(edgeSet, linkKey);
+                edgeSet.target().addEdgeSet(edgeSet, linkKey);
+
+                this._edgeSetMap[linkKey] = edgeSet;
+                this._edgeSet.push(edgeSet);
+                return edgeSet;
+            },
+
+
+            _removeEdgeSet: function (edgeSet) {
+                edgeSet.eachEdge(function (edge) {
+                    if (edge.type() == 'edgeSet') {
+                        this._removeEdgeSet(edge);
+                    } else {
+                        this.removeEdge(edge, false);
+                    }
+                }, this);
+
+                this._edgeSet.splice(this._edgeSet.indexOf(edgeSet), 1);
+                delete this._edgeSetMap[edgeSet.linkKey()];
+
+                /**
+                 * @event removeEdgeSet
+                 * @param sender {Object}  Trigger instance
+                 * @param {nx.data.EdgeSet} edgeSet EdgeSet object
+                 */
+                this.fire('removeEdgeSet', edgeSet);
             },
 
 
@@ -543,16 +555,18 @@
                 var vertexSet = new nx.data.VertexSet(data);
 
                 //
-                vertexSet.graph(this);
-                vertexSet.type('nodeSet');
-                vertexSet.autoSave(this.autoSave());
-                vertexSet.id(vertexSetID);
+                vertexSet.sets({
+                    graph: this,
+                    type: 'vertexSet',
+                    autoSave: this.autoSave(),
+                    id: vertexSetID
+                });
 
                 if (config) {
                     vertexSet.sets(config);
                 }
 
-                vertexSet.setPosition();
+                vertexSet.initPosition();
 
                 vertexSet.on('updateCoordinate', function () {
                     /**
@@ -563,78 +577,15 @@
                     this.fire('updateVertexSetCoordinate', vertexSet);
                 }, this);
 
-//                this.vertices.push(vertexSet);
-//                this.verticesMap[vertexSetID] = vertexSet;
 
                 this._vertexSet.push(vertexSet);
                 this._vertexSetMap[vertexSetID] = vertexSet;
-
 
                 return vertexSet;
             },
 
             _processVertexSet: function (vertexSet) {
-                var vertexSetID = vertexSet.id();
-                var vertices = vertexSet.get('nodes');
-                var addedVirtualEdgeSet = {};
-                var connectedVertices = [];
-                var connectedEdgeSetMap = {};
-                var EdgeSet = {};
-                var internalVertices = [];
-
-                if (vertices) {
-                    nx.each(vertices, function (internalID) {
-                        var vertex = this.verticesMap[internalID] || this._vertexSetMap[internalID];
-                        if (vertex && vertex.visible()) {
-
-                            vertex.eachConnectedEdgeSet(function (edgeset, linkKey) {
-                                //get another vertex
-                                var _vertex = edgeset.sourceID() == internalID ? edgeset.target() : edgeset.source();
-                                var id = _vertex.id();
-                                if (_vertex.visible()) {
-                                    //if _vertex not in the vertices
-                                    if (vertices.indexOf(id) === -1) {
-                                        connectedVertices.push(_vertex);
-                                        //setup a edgeSetMap
-                                        var map = connectedEdgeSetMap[id] = connectedEdgeSetMap[id] || [];
-                                        map.push(edgeset);
-                                    } else {
-                                        edgeset.visible(false);
-                                    }
-                                    EdgeSet[linkKey] = edgeset;
-                                }
-                            }, this);
-                            internalVertices.push(vertex);
-                            vertexSet.addVertex(vertex);
-                        }
-                    }, this);
-
-                    nx.each(internalVertices, function (vertex) {
-                        vertex.visible(false);
-                        if (vertex.activated) {
-                            vertex._activated = true;
-                        }
-                    });
-
-
-                    nx.each(connectedEdgeSetMap, function (edgeSet, id) {
-                        if (vertexSetID !== parseInt(id, 10)) {
-                            var edge = this._addEdge({
-                                source: vertexSetID,
-                                target: id
-                            }, {virtual: true});
-
-                            var _edgeSet = edge.parentEdgeSet();
-                            _edgeSet.addVirtualEdges(edgeSet);
-                            addedVirtualEdgeSet[_edgeSet.id()] = _edgeSet;
-                        }
-
-                    }, this);
-                }
-
-                vertexSet.addEdgeSet(EdgeSet);
-                vertexSet._activated = true;
-                return addedVirtualEdgeSet;
+                vertexSet.addVertices(vertexSet.get('nodes'));
             },
             /**
              * Get vertex object by id

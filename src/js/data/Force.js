@@ -1,28 +1,28 @@
 (function (nx, util, global) {
-    nx.force = function () {
+    nx.data.Force = function () {
         var force = {};
         var size = [ 100, 100 ];
-        var alpha = 0, friction = .9;
+        var alpha = 0, friction = 0.9;
         var linkDistance = function () {
             return 100;
         };
         var linkStrength = function () {
             return 1;
         };
-        var charge = -1200, gravity = .1, theta = .8, nodes = [], links = [], distances, strengths, charges;
+        var charge = -1200, gravity = 0.1, theta = 0.8, nodes = [], links = [], distances, strengths, charges;
 
         function repulse(node) {
             return function (quad, x1, _, x2) {
                 if (quad.point !== node) {
-                    var dx = quad.cx - node.x, dy = quad.cy - node.y, dn = 1 / Math.sqrt(dx * dx + dy * dy);
+                    var dx = quad.cx - node.x, dy = quad.cy - node.y, dn = 1 / Math.sqrt(dx * dx + dy * dy), k;
                     if ((x2 - x1) * dn < theta) {
-                        var k = quad.charge * dn * dn;
+                        k = quad.charge * dn * dn;
                         node.px -= dx * k;
                         node.py -= dy * k;
                         return true;
                     }
                     if (quad.point && isFinite(dn)) {
-                        var k = quad.pointCharge * dn * dn;
+                        k = quad.pointCharge * dn * dn;
                         node.px -= dx * k;
                         node.py -= dy * k;
                     }
@@ -32,7 +32,7 @@
         }
 
         force.tick = function () {
-            if ((alpha *= .99) < .005) {
+            if ((alpha *= 0.99) < 0.005) {
                 alpha = 0;
                 return true;
             }
@@ -43,7 +43,7 @@
                 t = o.target;
                 x = t.x - s.x;
                 y = t.y - s.y;
-                if (l = x * x + y * y) {
+                if ((l = x * x + y * y)) {
                     l = alpha * strengths[i] * ((l = Math.sqrt(l)) - distances[i]) / l;
                     x *= l;
                     y *= l;
@@ -53,7 +53,7 @@
                     s.y += y * k;
                 }
             }
-            if (k = alpha * gravity) {
+            if ((k = alpha * gravity)) {
                 x = size[0] / 2;
                 y = size[1] / 2;
                 i = -1;
@@ -83,10 +83,6 @@
                     o.y -= (o.py - (o.py = o.y)) * friction;
                 }
             }
-//            event.tick({
-//                type: "tick",
-//                alpha: alpha
-//            });
         };
         force.nodes = function (x) {
             if (!arguments.length) return nodes;
@@ -109,10 +105,6 @@
             if (alpha) {
                 if (x > 0) alpha = x; else alpha = 0;
             } else if (x > 0) {
-//                event.start({
-//                    type: "start",
-//                    alpha: alpha = x
-//                });
                 alpha = x;
                 force.tick();
             }
@@ -176,13 +168,13 @@
             return force.resume();
         };
         force.resume = function () {
-            return force.alpha(.1);
+            return force.alpha(0.1);
         };
         force.stop = function () {
             return force.alpha(0);
         };
 
-        return force
+        return force;
     };
 
 
@@ -202,8 +194,8 @@
         }
         if (quad.point) {
             if (!quad.leaf) {
-                quad.point.x += Math.random() - .5;
-                quad.point.y += Math.random() - .5;
+                quad.point.x += Math.random() - 0.5;
+                quad.point.y += Math.random() - 0.5;
             }
             var k = alpha * charges[quad.point.index];
             quad.charge += quad.pointCharge = k;
@@ -240,7 +232,7 @@
             if (n.leaf) {
                 var v = n.point;
                 if (v) {
-                    if (Math.abs(v.x - p.x) + Math.abs(v.y - p.y) < .01) {
+                    if (Math.abs(v.x - p.x) + Math.abs(v.y - p.y) < 0.01) {
                         insertChild(n, p, x1, y1, x2, y2);
                     } else {
                         n.point = null;
@@ -256,7 +248,7 @@
         }
 
         function insertChild(n, p, x1, y1, x2, y2) {
-            var sx = (x1 + x2) * .5, sy = (y1 + y2) * .5, right = p.x >= sx, bottom = p.y >= sy, i = (bottom << 1) + right;
+            var sx = (x1 + x2) * 0.5, sy = (y1 + y2) * 0.5, right = p.x >= sx, bottom = p.y >= sy, i = (bottom << 1) + right;
             n.leaf = false;
             n = n.nodes[i] || (n.nodes[i] = quadtreeNode());
             if (right) x1 = sx; else x2 = sx;
@@ -285,11 +277,11 @@
 
     var quadtreeVisit = function (f, node, x1, y1, x2, y2) {
         if (!f(node, x1, y1, x2, y2)) {
-            var sx = (x1 + x2) * .5, sy = (y1 + y2) * .5, children = node.nodes;
+            var sx = (x1 + x2) * 0.5, sy = (y1 + y2) * 0.5, children = node.nodes;
             if (children[0]) quadtreeVisit(f, children[0], x1, y1, sx, sy);
             if (children[1]) quadtreeVisit(f, children[1], sx, y1, x2, sy);
             if (children[2]) quadtreeVisit(f, children[2], x1, sy, sx, y2);
             if (children[3]) quadtreeVisit(f, children[3], sx, sy, x2, y2);
         }
-    }
+    };
 })(nx, nx.util, nx.global);

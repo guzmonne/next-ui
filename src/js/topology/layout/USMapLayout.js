@@ -112,6 +112,7 @@
                 var el = new DOMParser().parseFromString('<svg  xmlns="' + ns + '">' + USMAP + '</svg>', 'text/xml');
                 map.view().dom().$dom.appendChild(document.importNode(el.documentElement.firstChild, true));
 
+
                 this.topology().on("resetzooming", this.update, this);
                 this.topology().on("zoomend", this.update, this);
                 this.topology().on("fitStage", this.updateMap, this);

@@ -20,6 +20,7 @@
 
         "src/js/data/QuadTree.js",
         "src/js/data/NeXtForce.js",
+        "src/js/data/Force.js",
         "src/js/data/Convex.js",
 
         "src/js/data/Vertex.js",
@@ -27,6 +28,7 @@
         "src/js/data/VertexSet.js",
         "src/js/data/EdgeSet.js",
 
+        "src/js/data/processor/NeXtForce.js",
         "src/js/data/processor/Force.js",
         "src/js/data/processor/Quick.js",
         "src/js/data/processor/Circle.js",

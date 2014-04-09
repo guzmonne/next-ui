@@ -61,8 +61,10 @@
                     if (this._collapsed !== value) {
                         this._collapsed = value;
                         if (value) {
+                            this.model().visible(true);
                             this._collapse();
                         } else {
+                            this.model().visible(false);
                             this._expand();
                         }
                         return true;
@@ -191,22 +193,10 @@
         methods: {
             setModel: function (model) {
                 this.inherited(model);
+                //init
                 this._collapsed = model._activated;
+                //set binding
                 this.setBinding('collapsed', 'model.activated,direction=<>', this);
-            },
-            /**
-             * Expand nodeSet
-             * @method expand
-             */
-            expand: function () {
-                this.collapsed(false);
-            },
-            /**
-             * Collapse nodeSet
-             * @method collapse
-             */
-            collapse: function () {
-                this.collapsed(true);
             },
             _expand: function () {
 
@@ -229,6 +219,7 @@
                     nx.each(this.getNodes(), function (node) {
                         var position = topo.getProjectedPosition(this._originalVerteicesPosition[node.id()]);
                         node.moveTo(position.x, position.y, null, true, 300);
+//                        node.cssMoveTo(position.x, position.y);
                     }, this);
 
 //                    setTimeout(topo.fit.bind(topo), 1000);

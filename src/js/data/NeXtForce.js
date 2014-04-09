@@ -12,12 +12,12 @@
      * @constructor
      */
 
-    nx.data.Force = function (inWidth, inHeight) {
+    nx.data.NextForce = function (inWidth, inHeight) {
         var width = inWidth || 800;
         var height = inHeight || 800;
         var strength = 4;
         var distance = 100;
-        var gravity = 0.01;
+        var gravity = 0.1;
         this.charge = 1200;
         this.alpha = 1;
 
@@ -44,7 +44,7 @@
                 node = nodes[i];
                 id = node.id || i;
                 nodeMap[id] = node;
-                weightMap[id] = 0;
+                weightMap[id] = node.weight || 0;
             }
             if (links) {
                 length = links.length;
@@ -97,7 +97,7 @@
             var totalEnergy = 0;
             var maxEnergy = 0;
             var nodes = this.nodes;
-            var i, node, length = nodes.length, x1 = 0, y1 = 0, x2 = 0, y2 = 0, x, y, energy, dx, dy;
+            var i, node, length = nodes.length, x1 = 0, y1 = 0, x2 = 0, y2 = 0, x, y, energy, dx, dy, allFixed = true;
             for (i = 0; i < length; i++) {
                 node = nodes[i];
                 dx = node.dx * 0.5;
@@ -117,6 +117,10 @@
                 if (!node.fixed) {
                     x = node.x += dx;
                     y = node.y += dy;
+                    allFixed = false;
+                } else {
+                    x = node.x;
+                    y = node.y;
                 }
                 if (x < x1) {
                     x1 = x;
@@ -129,8 +133,8 @@
                     y2 = y;
                 }
             }
-            this.totalEnergy = totalEnergy;
-            this.maxEnergy = maxEnergy;
+            this.totalEnergy = allFixed ? 0 : totalEnergy;
+            this.maxEnergy = allFixed ? 0 : maxEnergy;
             this.x1 = x1;
             this.y1 = y1;
             this.x2 = x2;

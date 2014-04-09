@@ -472,19 +472,18 @@
                     return;
                 }
 
+                var vertexID = vertex.id();
                 var vectors = [];
 
                 // get all lines
 
-                vertex.eachDirectedEdge(function (edge) {
-                    vectors.push(edge.line().dir);
-                });
-
-                vertex.eachReverseEdge(function (edge) {
-                    vectors.push(edge.line().dir.negate());
-                });
-
-
+                vertex.eachEdge(function (edge) {
+                    if (edge.sourceID() !== vertexID) {
+                        vectors.push(edge.line().dir.negate());
+                    } else {
+                        vectors.push(edge.line().dir);
+                    }
+                }, this);
                 //sort line by angle;
                 vectors = vectors.sort(function (a, b) {
                     return a.circumferentialAngle() - b.circumferentialAngle();

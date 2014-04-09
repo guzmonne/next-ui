@@ -12,7 +12,7 @@
 
 
     nx.define('nx.graphic.Topology.LinkSet', nx.graphic.Topology.AbstractLink, {
-        events: ['pressLinkSetNumber', 'clickLinkSetNumber', 'enterLinkSetNumber', 'leaveLinkSetNumber', 'collapsedLinkSet', 'expandLinkSet'],
+        events: ['pressLinkSetNumber', 'clickLinkSetNumber', 'enterLinkSetNumber', 'leaveLinkSetNumber', 'collapseLinkSet', 'expandLinkSet'],
         properties: {
             /**
              * Get link type 'curve' / 'parallel'
@@ -38,8 +38,12 @@
              * @readOnly
              */
             links: {
-                value: function () {
-                    return [];
+                get: function () {
+                    var links = [];
+                    this.eachLink(function (link, edge) {
+                        links.push(link);
+                    }, this);
+                    return links;
                 }
             },
             /**
@@ -56,54 +60,12 @@
             color: {
                 set: function (inValue) {
                     var value = this._processPropertyValue(inValue);
-                    this.$('numBg').setStyle('fill', value);
-                    this.$('path').setStyle('stroke', value);
+                    this.view('numBg').setStyle('fill', value);
+                    this.view('path').setStyle('stroke', value);
                     this._color = value;
                 }
             },
-            /**
-             * Collapsed statues
-             * @property collapsed
-             */
-            collapsed: {
-                get: function () {
-                    return this._collapsed;
-                },
-                set: function (inValue) {
-                    var value = this._processPropertyValue(inValue);
-                    if (this._collapsed !== value) {
-                        this._collapsed = value;
-                        if (value) {
-                            this._updateLinkNumber();
-                            this.update();
-                            /**
-                             * Fired when collapse linkSet
-                             * @event collapsedLinkSet
-                             * @param sender{Object} trigger instance
-                             * @param event {Object} original event object
-                             */
-                            this.fire('collapsedLinkSet');
-                        } else {
-                            this.remove();
-                            setTimeout(function () {
-                                this.getLinks();
-                                this._updateLinksGutter();
-                                /**
-                                 * Fired when expend linkSet
-                                 * @event expandLinkSet
-                                 * @param sender{Object} trigger instance
-                                 * @param event {Object} original event object
-                                 */
-                                this.fire('expandLinkSet');
-                            }.bind(this), 0);
-                        }
-                        return true;
-                    } else {
-                        return false;
-                    }
 
-                }
-            },
             /**
              * Set/get link's usability
              * @property enable {Boolean}
@@ -122,6 +84,40 @@
             },
             fade: {
                 value: false
+            },
+            /**
+             * Collapsed statues
+             * @property collapsed
+             */
+            collapsed: {
+                get: function () {
+                    return this._collapsed;
+                },
+                set: function (inValue) {
+                    var value = this._processPropertyValue(inValue);
+                    if (this._collapsed !== value) {
+                        this._collapsed = value;
+                        this._activated = !value;
+                        this.activated(value);
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+            },
+            activated: {
+                get: function () {
+                    return this._activated !== undefined ? this._activated : true;
+                },
+                set: function (value) {
+                    if (this._activated !== value) {
+                        this._activated = value;
+                        this.updateLinkSet();
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
             }
         },
         view: {
@@ -163,12 +159,12 @@
         methods: {
             setModel: function (model, isUpdate) {
                 this.inherited(model, isUpdate);
-                //this._collapsed = model._activated;
-                this.setBinding('collapsed', 'model.activated,direction=<>', this);
+                this._activated = model.activated();
+                this.setBinding('activated', 'model.activated,direction=<>', this);
             },
             update: function () {
-                if (this._collapsed) {
-                    var lineEl = this.resolve('path');
+                if (this._activated) {
+                    var lineEl = this.view('path');
                     var line = this.line();
                     lineEl.sets({
                         x1: line.start.x,
@@ -176,34 +172,12 @@
                         x2: line.end.x,
                         y2: line.end.y
                     });
-                    this.append();
                     //num
                     var centerPoint = this.centerPoint();
-                    this.$('num').set('x', centerPoint.x);
-                    this.$('num').set('y', centerPoint.y);
-                    this.$('numBg').set('x', centerPoint.x);
-                    this.$('numBg').set('y', centerPoint.y);
-                }
-            },
-            /**
-             * Adjust sub links and collapse or expend linkset
-             * @method adjust
-             */
-            adjust: function () {
-                if (!this.autoCollapse()) {
-                    this.expand();
-                } else if (this.model().containEdgeSet()) {
-                    this.collapse();
-                } else {
-                    var linkType = this.linkType();
-                    var edges = this.model().getEdges(null, true);
-                    var maxLinkNumber = linkType === 'curve' ? 9 : 5;
-                    if (edges.length <= maxLinkNumber) {
-                        this.expand();
-                    } else {
-                        this.collapse();
-                    }
-
+                    this.view('num').set('x', centerPoint.x);
+                    this.view('num').set('y', centerPoint.y);
+                    this.view('numBg').set('x', centerPoint.x);
+                    this.view('numBg').set('y', centerPoint.y);
                 }
             },
             /**
@@ -211,29 +185,28 @@
              * @property updateLinkSet
              */
             updateLinkSet: function () {
-                this.adjust();
-                if (this._collapsed) {
+                if (this._activated) {
+                    this.append();
                     this.update();
                     this._updateLinkNumber();
+                    /**
+                     * Fired when collapse linkSet
+                     * @event collapseLinkSet
+                     * @param sender{Object} trigger instance
+                     * @param event {Object} original event object
+                     */
+                    this.fire('collapseLinkSet');
                 } else {
-                    //this.adjust();
-                    this.getLinks();
+                    this.remove();
                     this._updateLinksGutter();
+                    /**
+                     * Fired when expend linkSet
+                     * @event expandLinkSet
+                     * @param sender{Object} trigger instance
+                     * @param event {Object} original event object
+                     */
+                    this.fire('expandLinkSet');
                 }
-            },
-            /**
-             * Collapse linkSet
-             * @method collapse
-             */
-            collapse: function () {
-                this.collapsed(true);
-            },
-            /**
-             * Expend linkSet
-             * @method expand
-             */
-            expand: function () {
-                this.collapsed(false);
             },
             /**
              * Iterate all sub links
@@ -242,48 +215,69 @@
              * @param context {Object}
              */
             eachLink: function (fn, context) {
-                nx.each(this.links(), fn, context || this);
-            },
-            /**
-             * Get all sub links
-             * @method getLinks();
-             * @returns {*}
-             */
-            getLinks: function () {
-                var links = this.links();
-                links.length = 0;
                 var topo = this.topology();
-                nx.each(this.model().getEdges(null, true), function (edge) {
-                    var link = topo.getLink(edge.id());
+                this.model().eachEdge(function (edge) {
+                    var linkKey = edge.linkKey();
+                    var link;
+                    if (edge.type() == 'edge') {
+                        link = topo.getLink(edge.id());
+                    } else {
+                        link = topo.getLinkSetByLinkKey(linkKey);
+                    }
                     if (link) {
-                        links.push(link);
+                        fn.call(context || this, link, edge);
                     }
                 });
-                return links;
             },
+
             _updateLinkNumber: function () {
-                var edges = this.model().getEdges(null, true);
-                this.$('num').set('text', edges.length);
+                var edges = this.model().getSubEdges();
+                var numEl = this.view('num');
+                var numBg = this.view('numBg');
+                if (edges.length == 1) {
+                    numEl.visible(false);
+                    numBg.visible(false);
 
-                var bound = this.resolve('num').getBound();
-                var width = Math.max(bound.width - 6, 1);
+                } else {
+                    numEl.sets({
+                        text: edges.length,
+                        visible: true
+                    });
 
-                this.$('numBg').set('width', width);
-                this.resolve('numBg').setTransform(width / -2);
+                    var bound = numEl.getBound();
+                    var width = Math.max(bound.width - 6, 1);
+
+                    numBg.sets({
+                        width: width,
+                        visible: true
+                    });
+                    numBg.setTransform(width / -2);
+                }
+
             },
             _updateLinksGutter: function () {
-                if (!this._collapsed) {
-                    var links = this.links();
-                    if (links.length > 1 && !this.model().containEdgeSet()) {
-                        // reset all links gutter
+                if (!this._activated) {
+                    var obj = {};
+                    this.eachLink(function (link, edge) {
+                        var linkKey = edge.linkKey();
+                        if (edge.type() == 'edge') {
+                            var ary = obj[linkKey] = obj[linkKey] || [];
+                            ary.push(link);
+                        } else {
+                            link.updateLinkSet();
+                        }
+
+                    }, this);
+
+                    nx.each(obj, function (links, linkKey) {
                         if (links.length > 1) {
                             var offset = (links.length - 1) / 2;
                             nx.each(links, function (link, index) {
                                 link.gutter(index * -1 + offset);
                                 link.update();
-                            });
+                            }, this);
                         }
-                    }
+                    }, this);
                 }
             },
 
