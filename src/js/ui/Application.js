@@ -8,6 +8,9 @@
      * @extends nx.ui.AbstractComponent
      */
     nx.define('nx.ui.Application', nx.ui.AbstractComponent, {
+        properties: {
+            container: {}
+        },
         methods: {
             init: function () {
                 this.inherited();
@@ -44,7 +47,12 @@
                 throw new Error('Method "stop" is not implemented');
             },
             getContainer: function () {
-                return Document.body();
+                if (this.container()) {
+                    return new nx.dom.Element(this.container());
+                } else {
+                    return Document.body();
+                }
+
             },
             on: function (name, handler, context) {
                 if (!this.can(name)) {
