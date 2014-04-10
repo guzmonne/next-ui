@@ -334,11 +334,8 @@
   border: solid 1px #d7d7d7;
   margin-top: -2px;
 }
-.n-topology.n-topology-blue .n-topology-nav-mode li:hover {
-  background: #e6e6e6;
-}
 .n-topology.n-topology-blue .n-topology-nav-mode li:hover span {
-  color: #07a2fb;
+  color: #0386d2;
 }
 .n-topology.n-topology-blue .n-topology-nav-mode span {
   color: #999999;
@@ -376,17 +373,17 @@
   cursor: pointer;
 }
 .n-topology.n-topology-blue .n-topology-nav-zoom-in:hover {
-  color: #0396eb;
+  background: #808080;
+  color: #d8d8d8;
 }
 .n-topology.n-topology-blue .n-topology-nav-zoom-out {
   top: 97px;
   left: 7px;
   cursor: pointer;
-  color: rgba(51, 51, 51, 0.4);
 }
 .n-topology.n-topology-blue .n-topology-nav-zoom-out:hover {
-  opacity: 1;
-  color: #0396eb;
+  background: #808080;
+  color: #d8d8d8;
 }
 .n-topology.n-topology-blue .n-topology-nav-zoom-ball {
   top: 21px;
@@ -411,8 +408,7 @@
   color: #999999;
 }
 .n-topology.n-topology-blue .n-topology-nav-zoom-selection:hover {
-  opacity: 1;
-  color: #0396eb;
+  color: #4d4d4d;
 }
 .n-topology.n-topology-blue .n-topology-nav-zoom-selection-selected {
   color: #3fb7fc;
@@ -426,20 +422,7 @@
   color: #999999;
 }
 .n-topology.n-topology-blue .n-topology-nav-fit:hover {
-  opacity: 1;
-  color: #0396eb;
-}
-.n-topology.n-topology-blue .n-topology-nav-search {
-  margin-left: 3px;
-  cursor: pointer;
-  opacity: 0.7;
-}
-.n-topology.n-topology-blue .n-topology-nav-search:hover {
-  opacity: 1;
-}
-.n-topology.n-topology-blue .n-topology-nav-agr {
-  margin-left: 6px;
-  cursor: pointer;
+  color: #4d4d4d;
 }
 .n-topology.n-topology-blue .n-topology-nav-full {
   cursor: pointer;
@@ -450,8 +433,7 @@
   color: #999999;
 }
 .n-topology.n-topology-blue .n-topology-nav-full:hover {
-  opacity: 1;
-  color: #0396eb;
+  color: #4d4d4d;
 }
 .n-topology.n-topology-blue .n-topology-nav-topo3d {
   margin-left: 5px;
@@ -882,18 +864,15 @@
   /* For Safari 3.1 to 6.0 */
 
   transition: all 0.6s;
-  background: #000000;
-  border: solid 1px #000000;
+  background: #333333;
+  border: solid 1px #404040;
   margin-top: -2px;
 }
-.n-topology.n-topology-dark .n-topology-nav-mode li:hover {
-  background: #000000;
-}
 .n-topology.n-topology-dark .n-topology-nav-mode li:hover span {
-  color: #2eb8ff;
+  color: #00a9ff;
 }
 .n-topology.n-topology-dark .n-topology-nav-mode span {
-  color: #ffffff;
+  color: #666666;
   display: inline-block;
   font-size: 18px;
 }
@@ -919,8 +898,8 @@
   position: absolute;
   text-align: center;
   font-size: 20px;
-  color: #000000;
-  background: #ffffff;
+  color: #333333;
+  background: #666666;
 }
 .n-topology.n-topology-dark .n-topology-nav-zoom-in {
   top: 0px;
@@ -928,29 +907,29 @@
   cursor: pointer;
 }
 .n-topology.n-topology-dark .n-topology-nav-zoom-in:hover {
-  color: #1ab2ff;
+  background: #b3b3b3;
+  color: #4d4d4d;
 }
 .n-topology.n-topology-dark .n-topology-nav-zoom-out {
   top: 97px;
   left: 7px;
   cursor: pointer;
-  color: rgba(204, 204, 204, 0.4);
 }
 .n-topology.n-topology-dark .n-topology-nav-zoom-out:hover {
-  opacity: 1;
-  color: #1ab2ff;
+  background: #b3b3b3;
+  color: #4d4d4d;
 }
 .n-topology.n-topology-dark .n-topology-nav-zoom-ball {
   top: 21px;
   left: 9px;
   width: 14px;
   height: 2px;
-  background: #ffffff;
+  background: #666666;
 }
 .n-topology.n-topology-dark .n-topology-nav-zoom-bar {
   top: 20px;
   left: 14px;
-  background: #000000 !important;
+  background: #333333 !important;
   width: 4px;
   height: 77px;
 }
@@ -960,11 +939,10 @@
   text-align: center;
   font-size: 20px;
   height: 32px;
-  color: #ffffff;
+  color: #666666;
 }
 .n-topology.n-topology-dark .n-topology-nav-zoom-selection:hover {
-  opacity: 1;
-  color: #1ab2ff;
+  color: #b3b3b3;
 }
 .n-topology.n-topology-dark .n-topology-nav-zoom-selection-selected {
   color: #66cbff;
@@ -975,23 +953,10 @@
   text-align: center;
   font-size: 20px;
   height: 32px;
-  color: #ffffff;
+  color: #666666;
 }
 .n-topology.n-topology-dark .n-topology-nav-fit:hover {
-  opacity: 1;
-  color: #1ab2ff;
-}
-.n-topology.n-topology-dark .n-topology-nav-search {
-  margin-left: 3px;
-  cursor: pointer;
-  opacity: 0.7;
-}
-.n-topology.n-topology-dark .n-topology-nav-search:hover {
-  opacity: 1;
-}
-.n-topology.n-topology-dark .n-topology-nav-agr {
-  margin-left: 6px;
-  cursor: pointer;
+  color: #b3b3b3;
 }
 .n-topology.n-topology-dark .n-topology-nav-full {
   cursor: pointer;
@@ -999,11 +964,10 @@
   text-align: center;
   font-size: 16px;
   height: 32px;
-  color: #ffffff;
+  color: #666666;
 }
 .n-topology.n-topology-dark .n-topology-nav-full:hover {
-  opacity: 1;
-  color: #1ab2ff;
+  color: #b3b3b3;
 }
 .n-topology.n-topology-dark .n-topology-nav-topo3d {
   margin-left: 5px;
@@ -1020,7 +984,7 @@
   text-align: center;
   font-size: 14px;
   height: 32px;
-  color: #ffffff;
+  color: #666666;
   -webkit-transition: none 0 !important;
   /* For Safari 3.1 to 6.0 */
 
@@ -1438,11 +1402,8 @@
   border: solid 1px #d7d7d7;
   margin-top: -2px;
 }
-.n-topology.n-topology-green .n-topology-nav-mode li:hover {
-  background: #e6e6e6;
-}
 .n-topology.n-topology-green .n-topology-nav-mode li:hover span {
-  color: #2fbdc3;
+  color: #26999e;
 }
 .n-topology.n-topology-green .n-topology-nav-mode span {
   color: #999999;
@@ -1480,17 +1441,17 @@
   cursor: pointer;
 }
 .n-topology.n-topology-green .n-topology-nav-zoom-in:hover {
-  color: #2badb3;
+  background: #808080;
+  color: #d8d8d8;
 }
 .n-topology.n-topology-green .n-topology-nav-zoom-out {
   top: 97px;
   left: 7px;
   cursor: pointer;
-  color: rgba(51, 51, 51, 0.4);
 }
 .n-topology.n-topology-green .n-topology-nav-zoom-out:hover {
-  opacity: 1;
-  color: #2badb3;
+  background: #808080;
+  color: #d8d8d8;
 }
 .n-topology.n-topology-green .n-topology-nav-zoom-ball {
   top: 21px;
@@ -1515,8 +1476,7 @@
   color: #999999;
 }
 .n-topology.n-topology-green .n-topology-nav-zoom-selection:hover {
-  opacity: 1;
-  color: #2badb3;
+  color: #4d4d4d;
 }
 .n-topology.n-topology-green .n-topology-nav-zoom-selection-selected {
   color: #54d0d6;
@@ -1530,20 +1490,7 @@
   color: #999999;
 }
 .n-topology.n-topology-green .n-topology-nav-fit:hover {
-  opacity: 1;
-  color: #2badb3;
-}
-.n-topology.n-topology-green .n-topology-nav-search {
-  margin-left: 3px;
-  cursor: pointer;
-  opacity: 0.7;
-}
-.n-topology.n-topology-green .n-topology-nav-search:hover {
-  opacity: 1;
-}
-.n-topology.n-topology-green .n-topology-nav-agr {
-  margin-left: 6px;
-  cursor: pointer;
+  color: #4d4d4d;
 }
 .n-topology.n-topology-green .n-topology-nav-full {
   cursor: pointer;
@@ -1554,8 +1501,7 @@
   color: #999999;
 }
 .n-topology.n-topology-green .n-topology-nav-full:hover {
-  opacity: 1;
-  color: #2badb3;
+  color: #4d4d4d;
 }
 .n-topology.n-topology-green .n-topology-nav-topo3d {
   margin-left: 5px;
@@ -1986,18 +1932,15 @@
   /* For Safari 3.1 to 6.0 */
 
   transition: all 0.6s;
-  background: #141e28;
-  border: solid 1px #070b0f;
+  background: #446787;
+  border: solid 1px #4d7398;
   margin-top: -2px;
-}
-.n-topology.n-topology-slate .n-topology-nav-mode li:hover {
-  background: #111921;
 }
 .n-topology.n-topology-slate .n-topology-nav-mode li:hover span {
   color: #ffffff;
 }
 .n-topology.n-topology-slate .n-topology-nav-mode span {
-  color: #ffffff;
+  color: #888888;
   display: inline-block;
   font-size: 18px;
 }
@@ -2023,8 +1966,8 @@
   position: absolute;
   text-align: center;
   font-size: 20px;
-  color: #141e28;
-  background: #ffffff;
+  color: #446787;
+  background: #888888;
 }
 .n-topology.n-topology-slate .n-topology-nav-zoom-in {
   top: 0px;
@@ -2032,29 +1975,29 @@
   cursor: pointer;
 }
 .n-topology.n-topology-slate .n-topology-nav-zoom-in:hover {
-  color: #ffffff;
+  background: #d5d5d5;
+  color: #5680a8;
 }
 .n-topology.n-topology-slate .n-topology-nav-zoom-out {
   top: 97px;
   left: 7px;
   cursor: pointer;
-  color: rgba(238, 238, 238, 0.4);
 }
 .n-topology.n-topology-slate .n-topology-nav-zoom-out:hover {
-  opacity: 1;
-  color: #ffffff;
+  background: #d5d5d5;
+  color: #5680a8;
 }
 .n-topology.n-topology-slate .n-topology-nav-zoom-ball {
   top: 21px;
   left: 9px;
   width: 14px;
   height: 2px;
-  background: #ffffff;
+  background: #888888;
 }
 .n-topology.n-topology-slate .n-topology-nav-zoom-bar {
   top: 20px;
   left: 14px;
-  background: #141e28 !important;
+  background: #446787 !important;
   width: 4px;
   height: 77px;
 }
@@ -2064,11 +2007,10 @@
   text-align: center;
   font-size: 20px;
   height: 32px;
-  color: #ffffff;
+  color: #888888;
 }
 .n-topology.n-topology-slate .n-topology-nav-zoom-selection:hover {
-  opacity: 1;
-  color: #ffffff;
+  color: #d5d5d5;
 }
 .n-topology.n-topology-slate .n-topology-nav-zoom-selection-selected {
   color: #ffffff;
@@ -2079,23 +2021,10 @@
   text-align: center;
   font-size: 20px;
   height: 32px;
-  color: #ffffff;
+  color: #888888;
 }
 .n-topology.n-topology-slate .n-topology-nav-fit:hover {
-  opacity: 1;
-  color: #ffffff;
-}
-.n-topology.n-topology-slate .n-topology-nav-search {
-  margin-left: 3px;
-  cursor: pointer;
-  opacity: 0.7;
-}
-.n-topology.n-topology-slate .n-topology-nav-search:hover {
-  opacity: 1;
-}
-.n-topology.n-topology-slate .n-topology-nav-agr {
-  margin-left: 6px;
-  cursor: pointer;
+  color: #d5d5d5;
 }
 .n-topology.n-topology-slate .n-topology-nav-full {
   cursor: pointer;
@@ -2103,11 +2032,10 @@
   text-align: center;
   font-size: 16px;
   height: 32px;
-  color: #ffffff;
+  color: #888888;
 }
 .n-topology.n-topology-slate .n-topology-nav-full:hover {
-  opacity: 1;
-  color: #ffffff;
+  color: #d5d5d5;
 }
 .n-topology.n-topology-slate .n-topology-nav-topo3d {
   margin-left: 5px;
@@ -2124,7 +2052,7 @@
   text-align: center;
   font-size: 14px;
   height: 32px;
-  color: #ffffff;
+  color: #888888;
   -webkit-transition: none 0 !important;
   /* For Safari 3.1 to 6.0 */
 
@@ -2538,18 +2466,15 @@
   /* For Safari 3.1 to 6.0 */
 
   transition: all 0.6s;
-  background: #000000;
-  border: solid 1px #000000;
+  background: #333333;
+  border: solid 1px #404040;
   margin-top: -2px;
 }
-.n-topology.n-topology-yellow .n-topology-nav-mode li:hover {
-  background: #000000;
-}
 .n-topology.n-topology-yellow .n-topology-nav-mode li:hover span {
-  color: #ffcd2e;
+  color: #ffc200;
 }
 .n-topology.n-topology-yellow .n-topology-nav-mode span {
-  color: #ffffff;
+  color: #666666;
   display: inline-block;
   font-size: 18px;
 }
@@ -2575,8 +2500,8 @@
   position: absolute;
   text-align: center;
   font-size: 20px;
-  color: #000000;
-  background: #ffffff;
+  color: #333333;
+  background: #666666;
 }
 .n-topology.n-topology-yellow .n-topology-nav-zoom-in {
   top: 0px;
@@ -2584,29 +2509,29 @@
   cursor: pointer;
 }
 .n-topology.n-topology-yellow .n-topology-nav-zoom-in:hover {
-  color: #ffc81a;
+  background: #b3b3b3;
+  color: #4d4d4d;
 }
 .n-topology.n-topology-yellow .n-topology-nav-zoom-out {
   top: 97px;
   left: 7px;
   cursor: pointer;
-  color: rgba(204, 204, 204, 0.4);
 }
 .n-topology.n-topology-yellow .n-topology-nav-zoom-out:hover {
-  opacity: 1;
-  color: #ffc81a;
+  background: #b3b3b3;
+  color: #4d4d4d;
 }
 .n-topology.n-topology-yellow .n-topology-nav-zoom-ball {
   top: 21px;
   left: 9px;
   width: 14px;
   height: 2px;
-  background: #ffffff;
+  background: #666666;
 }
 .n-topology.n-topology-yellow .n-topology-nav-zoom-bar {
   top: 20px;
   left: 14px;
-  background: #000000 !important;
+  background: #333333 !important;
   width: 4px;
   height: 77px;
 }
@@ -2616,11 +2541,10 @@
   text-align: center;
   font-size: 20px;
   height: 32px;
-  color: #ffffff;
+  color: #666666;
 }
 .n-topology.n-topology-yellow .n-topology-nav-zoom-selection:hover {
-  opacity: 1;
-  color: #ffc81a;
+  color: #b3b3b3;
 }
 .n-topology.n-topology-yellow .n-topology-nav-zoom-selection-selected {
   color: #ffda66;
@@ -2631,23 +2555,10 @@
   text-align: center;
   font-size: 20px;
   height: 32px;
-  color: #ffffff;
+  color: #666666;
 }
 .n-topology.n-topology-yellow .n-topology-nav-fit:hover {
-  opacity: 1;
-  color: #ffc81a;
-}
-.n-topology.n-topology-yellow .n-topology-nav-search {
-  margin-left: 3px;
-  cursor: pointer;
-  opacity: 0.7;
-}
-.n-topology.n-topology-yellow .n-topology-nav-search:hover {
-  opacity: 1;
-}
-.n-topology.n-topology-yellow .n-topology-nav-agr {
-  margin-left: 6px;
-  cursor: pointer;
+  color: #b3b3b3;
 }
 .n-topology.n-topology-yellow .n-topology-nav-full {
   cursor: pointer;
@@ -2655,11 +2566,10 @@
   text-align: center;
   font-size: 16px;
   height: 32px;
-  color: #ffffff;
+  color: #666666;
 }
 .n-topology.n-topology-yellow .n-topology-nav-full:hover {
-  opacity: 1;
-  color: #ffc81a;
+  color: #b3b3b3;
 }
 .n-topology.n-topology-yellow .n-topology-nav-topo3d {
   margin-left: 5px;
@@ -2676,7 +2586,7 @@
   text-align: center;
   font-size: 14px;
   height: 32px;
-  color: #ffffff;
+  color: #666666;
   -webkit-transition: none 0 !important;
   /* For Safari 3.1 to 6.0 */
 

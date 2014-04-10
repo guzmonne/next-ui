@@ -1,4 +1,4 @@
-.n-topology-nav() {
+.n-topology-nav(@toolBarModeBg,@toolbarBorder,@toolbarColor,@zoomBarHover,@zoomBarHoverBG:#ccc,@iconHoverBG:#ccc) {
   .n-topology-nav {
     position: absolute;
     top: 0px;
@@ -48,18 +48,17 @@
         cursor: pointer;
         -webkit-transition: all 0.6s; /* For Safari 3.1 to 6.0 */
         transition: all 0.6s;
-        background: darken(@body-bg, 8.1%);
-        border: solid 1px darken(@body-bg, 15.5%);
+        background: @toolBarModeBg;
+        border: solid 1px @toolbarBorder;
         margin-top: -2px;
         &:hover {
-          background: darken(@body-bg, 10%);
           span {
-            color: lighten(@brand-primary, 9%);
+            color: @brand-primary;
           }
         }
       }
       span {
-        color: lighten(@text-color,40%);
+        color: @toolbarColor;
         display: inline-block;
         font-size: 18px;
       }
@@ -86,8 +85,8 @@
         position: absolute;
         text-align: center;
         font-size: 20px;
-        color: darken(@body-bg, 8.1%);
-        background: lighten(@text-color,40%);
+        color: @toolBarModeBg;
+        background: @toolbarColor;
       }
 
       &-in {
@@ -95,7 +94,8 @@
         left: 7px;
         cursor: pointer;
         &:hover {
-          color: lighten(@brand-primary, 5%);
+          background: @zoomBarHoverBG;
+          color: @zoomBarHover;
         }
       }
 
@@ -103,10 +103,9 @@
         top: 97px;
         left: 7px;
         cursor: pointer;
-        color: fadeout(@text-color, 60%);
         &:hover {
-          opacity: 1;
-          color: lighten(@brand-primary, 5%);
+          background: @zoomBarHoverBG;
+          color: @zoomBarHover;
         }
       }
 
@@ -115,13 +114,13 @@
         left: 9px;
         width: 14px;
         height: 2px;
-        background: lighten(@text-color,40%);
+        background: @toolbarColor;
       }
 
       &-bar {
         top: 20px;
         left: 14px;
-        background: darken(@body-bg, 8.1%) !important;
+        background: @toolBarModeBg !important;
         width: 4px;
         height: 77px;
 
@@ -134,10 +133,9 @@
       text-align: center;
       font-size: 20px;
       height: 32px;
-      color:  lighten(@text-color,40%);
+      color:  @toolbarColor;
       &:hover {
-        opacity: 1;
-        color: lighten(@brand-primary, 5%);
+        color: @iconHoverBG;
       }
 
       &-selected {
@@ -152,29 +150,12 @@
       text-align: center;
       font-size: 20px;
       height: 32px;
-      color:  lighten(@text-color,40%);
+      color:  @toolbarColor;
       &:hover {
-        opacity: 1;
-        color: lighten(@brand-primary, 5%);
+        color: @iconHoverBG;
       }
     }
 
-    &-search {
-      margin-left: 3px;
-      cursor: pointer;
-      opacity: 0.7;
-      &:hover {
-        opacity: 1;
-      }
-
-      &-active {
-      }
-    }
-
-    &-agr {
-      margin-left: 6px;
-      cursor: pointer;
-    }
 
 
 
@@ -184,10 +165,9 @@
       text-align: center;
       font-size: 16px;
       height: 32px;
-      color:  lighten(@text-color,40%);
+      color:  @toolbarColor;
       &:hover {
-        opacity: 1;
-        color: lighten(@brand-primary, 5%);
+        color: @iconHoverBG;
       }
     }
 
@@ -209,7 +189,7 @@
       text-align: center;
       font-size: 14px;
       height: 32px;
-      color:  lighten(@text-color,40%);
+      color:  @toolbarColor;
       -webkit-transition: none 0 !important; /* For Safari 3.1 to 6.0 */
       transition: none 0 !important;
       &:hover {
