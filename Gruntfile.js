@@ -23,6 +23,13 @@ module.exports = function (grunt) {
                 ext: '.min.css'
             }
         },
+        copy: {
+            fonts: {
+                files: [
+                    {expand: true, cwd: 'src', src: ['fonts/**'], dest: 'dest'}
+                ]
+            }
+        },
         jshint: {
             base: {
                 src: '<%= pkg.scripts %>'
@@ -58,5 +65,5 @@ module.exports = function (grunt) {
 
     grunt.loadNpmTasks('grunt-contrib');
 
-    grunt.registerTask('default', ['clean', 'less', 'cssmin', 'jshint', 'concat', 'yuidoc', 'uglify']);
+    grunt.registerTask('default', ['clean', 'less', 'cssmin', 'copy', 'jshint', 'concat', 'yuidoc', 'uglify']);
 };
