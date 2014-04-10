@@ -46,7 +46,7 @@
                                         tag: 'li',
                                         content: {
                                             props: {
-                                                'class': 'glyphicon glyphicon-edit',
+                                                'class': 'icon-toolbar_selectnode',
                                                 style: '-webkit-transform: rotate(90deg)',
                                                 title: "Select node mode"
                                             },
@@ -66,7 +66,7 @@
                                         },
                                         content: {
                                             props: {
-                                                'class': 'glyphicon glyphicon-move',
+                                                'class': 'icon-toolbar_movemode',
                                                 title: "Move mode"
 
                                             },
@@ -94,14 +94,14 @@
                                     }
                                 },
                                 {
-                                    name: 'zoomout',
+                                    name: 'zoomin',
                                     tag: 'span',
                                     props: {
-                                        'class': 'n-topology-nav-zoom-out glyphicon glyphicon-plus',
+                                        'class': 'n-topology-nav-zoom-in icon-toolbar_zoomin',
                                         title: "Zoom out"
                                     },
                                     events: {
-                                        'click': '{#_out}'
+                                        'click': '{#_in}'
                                     }
                                 },
                                 {
@@ -115,14 +115,14 @@
                                     }
                                 },
                                 {
-                                    name: 'zoomin',
+                                    name: 'zoomout',
                                     tag: 'span',
                                     props: {
-                                        'class': 'n-topology-nav-zoom-in glyphicon glyphicon-minus',
+                                        'class': 'n-topology-nav-zoom-out icon-toolbar_zoomout',
                                         title: "Zoom in"
                                     },
                                     events: {
-                                        'click': '{#_in}'
+                                        'click': '{#_out}'
                                     }
                                 }
 
@@ -132,7 +132,7 @@
                             tag: 'li',
                             name: 'zoomselection',
                             props: {
-                                'class': 'n-topology-nav-zoom-selection glyphicon glyphicon-zoom-in',
+                                'class': 'n-topology-nav-zoom-selection icon-toolbar_zoombyselection',
                                 title: "Zoom by selection"
                             },
                             events: {
@@ -143,7 +143,7 @@
                             tag: 'li',
                             name: 'fit',
                             props: {
-                                'class': 'n-topology-nav-fit glyphicon glyphicon-fullscreen',
+                                'class': 'n-topology-nav-fit icon-toolbar_fitstage',
                                 title: "Fit stage"
                             },
                             events: {
@@ -167,7 +167,7 @@
                             tag: 'li',
                             name: 'fullscreen',
                             props: {
-                                'class': 'n-topology-nav-full glyphicon glyphicon-export',
+                                'class': 'n-topology-nav-full icon-toolbar_fullview',
                                 title: 'Enter full screen mode'
                             },
                             events: {
@@ -182,7 +182,7 @@
                                     name: 'icon',
                                     tag: 'span',
                                     props: {
-                                        'class': 'n-topology-nav-setting-icon glyphicon glyphicon-cog'
+                                        'class': 'n-topology-nav-setting-icon icon-toolbar_viewsetting'
                                     },
                                     events: {
                                         mouseenter: "{#_openPopover}",
@@ -403,12 +403,12 @@
                 }, this);
                 icon.dom().addClass('n-topology-nav-zoom-selection-selected');
             },
-            _out: function (sender, event) {
+            _in: function (sender, event) {
                 var topo = this.topology();
                 topo.zoom(topo.scale() + 0.5);
                 event.preventDefault();
             },
-            _in: function (sender, event) {
+            _out: function (sender, event) {
                 var topo = this.topology();
                 topo.zoom(topo.scale() - 0.5);
                 event.preventDefault();

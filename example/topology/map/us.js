@@ -3,7 +3,7 @@
     var topologyData =
 
     {"nodes": [
-        {"function": "core", "name": "sfc", "latitude": 38.4815631942872, "ipaddress": "29.29.29.29", "isisarea": "72", "site": "sfc", "longitude": -122.625227367593, "y": 550.31264292335, "protected": "F", "active": "T", "x": -1021.91217850693, "type": "physical"},
+        {"function": "core", "name": "sfc", "latitude": 63.391326, "ipaddress": "29.29.29.29", "isisarea": "72", "site": "sfc", "longitude": -149.8286774, "y": 550.31264292335, "protected": "F", "active": "T", "x": -1021.91217850693, "type": "physical"},
         {"function": "core", "name": "sea", "latitude": 47.6062, "ipaddress": "28.28.28.28", "isisarea": "72", "site": "sea", "longitude": -122.332, "y": -9.8292223022888, "protected": "F", "active": "T", "x": -552.893870303646, "type": "physical"},
         {"function": "core", "name": "hst", "latitude": 29.7633, "ipaddress": "20.20.20.20", "isisarea": "72", "site": "hst", "longitude": -95.3633, "y": 1185.49743746152, "protected": "F", "active": "T", "x": 93.011342707737, "type": "physical"},
         {"function": "core", "name": "chi", "latitude": 41.85, "ipaddress": "19.19.19.19", "isisarea": "72", "site": "chi", "longitude": -87.65, "y": -1.78890844737532, "protected": "F", "active": "T", "x": 347.621281446664, "type": "physical"},

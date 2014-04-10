@@ -208,12 +208,12 @@
 
             enterNodeSet: function (sender, nodeSet) {
                 clearTimeout(this._sceneTimer);
-//                if (!this._nodeDragging) {
-//                    this._sceneTimer = setTimeout(function () {
-//                        this._nodeSetLayer.highlightRelatedNode(nodeSet);
-//                    }.bind(this), this._interval);
-//                    //this._recover();
-//                }
+                if (!this._nodeDragging) {
+                    this._sceneTimer = setTimeout(function () {
+                        this._nodeSetLayer.highlightRelatedNode(nodeSet);
+                    }.bind(this), this._interval);
+                    //this._recover();
+                }
             },
             leaveNodeSet: function (sender, nodeSet) {
 //                clearTimeout(this._sceneTimer);
