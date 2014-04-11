@@ -371,7 +371,7 @@
     function extendMethod(target, name, method) {
         var exist = target[name] && target[name].__type__ == 'method';
 
-        if (target[name]) {
+        if (target[name] && target[name] !== method) {
             method.__super__ = target[name];
         }
 
