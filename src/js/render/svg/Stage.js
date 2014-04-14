@@ -168,7 +168,7 @@
                 var stageBound = this.stage().getBound();
                 var topoBound = this.view().dom().getBound();
 
-                if (stageBound.left == 0 && stageBound.top == 0 && stageBound.width == 0 && stageBound.height == 0) {
+                if (stageBound.left === 0 && stageBound.top === 0 && stageBound.width === 0 && stageBound.height === 0) {
                     var padding = this.padding();
                     return {
                         left: padding,
