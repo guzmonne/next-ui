@@ -42,7 +42,7 @@
                     height: 0,
                     'class': 'selectionRect'
                 });
-                rect.attach(topo.stage());
+                rect.attach(topo.stage().floatingLayer());
             },
             dragStageStart: function (sender, event) {
                 this._offset = {
@@ -53,9 +53,8 @@
                 var stage = topo.stage();
                 var rect = this.rect;
                 this._stageBound = stage.view().dom().getBound();
-                this._stageTranslate = stage.translate();
-                rect.set('x', event.clientX - this._stageTranslate.x - this._stageBound.left);
-                rect.set('y', event.clientY - this._stageTranslate.y - this._stageBound.top);
+                rect.set('x', event.clientX - this._stageBound.left);
+                rect.set('y', event.clientY - this._stageBound.top);
                 this.rect.set('visible', true);
                 this._blockEvent(true);
 
@@ -65,14 +64,14 @@
                 var width = event.clientX - this._offset.x;
                 var height = event.clientY - this._offset.y;
                 if (width < 0) {
-                    rect.set('x', this._offset.x - this._stageTranslate.x - this._stageBound.left + width);
+                    rect.set('x', this._offset.x - this._stageBound.left + width);
                     rect.set('width', width * -1);
                 } else {
                     rect.set('width', width);
                 }
 
                 if (height < 0) {
-                    rect.set('y', this._offset.y - this._stageTranslate.y - this._stageBound.top + height);
+                    rect.set('y', this._offset.y - this._stageBound.top + height);
                     rect.set('height', height * -1);
                 } else {
                     rect.set('height', height);

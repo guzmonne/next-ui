@@ -27,8 +27,7 @@
             attach: function (args) {
                 this.attach.__super__.apply(this, arguments);
                 var topo = this.topology();
-                topo.on('resetzooming', this._draw, this);
-                topo.on('zoomend', this._draw, this);
+//                topo.on('zoomend', this._draw, this);
 
             },
             _draw: function () {
@@ -43,6 +42,7 @@
              */
             addPath: function (path) {
                 this.paths().push(path);
+                path.topology(this.topology());
                 path.attach(this);
                 path.draw();
 
@@ -62,8 +62,7 @@
                 this.paths([]);
 
                 var topo = this.topology();
-                topo.on('resetzooming', this._draw, this);
-                topo.on('zoomend', this._draw, this);
+//                topo.on('zoomend', this._draw, this);
 
                 this.clear.__super__.apply(this, arguments);
             }

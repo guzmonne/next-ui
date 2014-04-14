@@ -9,54 +9,6 @@
         events: ['pressNode', 'clickNode', 'enterNode', 'leaveNode', 'dragNodeStart', 'dragNode', 'dragNodeEnd', 'selectNode'],
         properties: {
             /**
-             * Get/set node's position
-             * @property posotion
-             */
-            position: {
-                get: function () {
-                    return {
-                        x: this._x || 0,
-                        y: this._y || 0
-                    };
-                },
-                set: function (obj) {
-                    var isModified = false;
-                    var model = this.model();
-                    if (obj.x != null) {
-                        if (!this._lockXAxle && this._x !== obj.x) {
-                            if (this._x === undefined) {
-                                this._x = obj.x;
-                            } else {
-                                this._x = obj.x;
-                                model.set("x", this.projectionX().invert(obj.x));
-                            }
-                            this.notify("x");
-                            isModified = true;
-                        }
-                    }
-
-                    if (obj.y != null) {
-                        if (!this._lockYAxle && this._y !== obj.y) {
-
-                            if (this._y === undefined) {
-                                this._y = obj.y;
-                            } else {
-                                this._y = obj.y;
-                                model.set("y", this.projectionY().invert(obj.y));
-                            }
-                            this.notify("y");
-                            isModified = true;
-                        }
-                    }
-
-                    if (isModified) {
-                        this.view().setTransform(this._x, this._y);
-                        this.notify('vector');
-                    }
-                    return isModified;
-                }
-            },
-            /**
              * Set node's scale
              * @property scale {Number}
              */
@@ -80,6 +32,7 @@
                     if (this._radius !== value) {
                         this._radius = value;
                         this.view('dot').set('r', value);
+                        this.calcLabelPosition(true);
                         return true;
                     } else {
                         return false;
@@ -135,18 +88,20 @@
                     var el = this.resolve('label');
                     if (label !== undefined) {
                         el.set('text', label);
-                        el.append();
+                        el.set('visible', true);
                         this.calcLabelPosition();
                     } else {
-                        el.remove();
+                        el.set('visible', false);
                     }
                     this._label = label;
+
                 }
             },
             /**
              * Set node's label visible
+             * @property labelVisibility {Boolean} true
              */
-            labelVisible: {
+            labelVisibility: {
                 set: function (inValue) {
                     var value = this._processPropertyValue(inValue);
                     var el = this.resolve('label');
@@ -165,15 +120,15 @@
                     var dot = this.resolve('dot');
                     if (value) {
                         icon.set('iconType', this.iconType());
-                        icon.append();
-                        dot.remove();
+                        icon.set('visible', true);
+                        dot.set('visible', false);
                     } else {
-                        icon.remove();
-                        dot.append();
+                        icon.set('visible', false);
+                        dot.set('visible', true);
                     }
 
                     this._showIcon = value;
-                    this.calcLabelPosition();
+                    this.calcLabelPosition(true);
                     this._setSelectedRadius();
                 }
             },
@@ -189,13 +144,6 @@
                 set: function (inValue) {
                     var value = this._processPropertyValue(inValue);
                     if (this._selected != value) {
-                        var el = this.resolve('selectedBG');
-                        if (value) {
-                            el.append();
-                        } else {
-                            el.remove();
-                        }
-
                         this._selected = value;
                         this._setSelectedRadius();
                         return true;
@@ -215,13 +163,6 @@
                     this.$('dot').setStyle('fill', value);
                     this.$('label').setStyle('fill', value);
                 }
-            },
-            /**
-             * Enable smart label feature
-             * @property enableSmartLabel
-             */
-            enableSmartLabel: {
-                value: true
             },
             enable: {
                 get: function () {
@@ -325,7 +266,7 @@
             setModel: function (model) {
                 this.inherited(model);
             },
-            cssMoveTo: function (x, y, callback) {
+            translateTo: function (x, y, callback) {
                 var el = this.view();
                 el.upon('transitionend', function () {
                     this._x = x;
@@ -333,28 +274,35 @@
                     this.notify('position');
 
                     this.model().set("position", {
-                        x: this.projectionX().invert(x),
-                        y: this.projectionY().invert(y)
+                        x: x,
+                        y: y
                     });
 
-                    this._centralizedText();
+                    this.calcLabelPosition(true);
                     el.upon('transitionend', null);
                 }, this);
                 this.view().setTransform(x, y, null, 0.5);
             },
+            /**
+             * Get node bound
+             * @param onlyGraphic {Boolean} is is TRUE, will only get graphic's bound
+             * @returns {*}
+             */
+            getBound: function (onlyGraphic) {
+                if (onlyGraphic) {
+                    return this.resolve('graphic').getBound();
+                } else {
+                    return this.resolve('@root').getBound();
+                }
+            },
             _setSelectedRadius: function () {
-
-                if (this.selected()) {
-                    var radius;
-                    var el = this.resolve('selectedBG');
-                    if (this.showIcon()) {
-                        var size = this.resolve('icon').size();
-                        radius = Math.max(size.height, size.width) / 2;
-                    } else {
-                        radius = this.radius();
-                    }
+                var el = this.view('selectedBG');
+                if (this._selected) {
+                    var bound = this.getBound(true);
+                    var radius = Math.max(bound.height, bound.width) / 2;
                     el.set('r', radius * 1.5 * (this._nodeScale || 1));
                 }
+                el.set('visible', this._selected);
             },
             _mousedown: function (sender, event) {
                 if (this.enable()) {
@@ -444,23 +392,26 @@
 
             _updateConnectedNodeLabelPosition: function () {
                 this.calcLabelPosition();
-                this.eachConnectedNodes(function (node) {
+                this.eachConnectedNode(function (node) {
                     node.calcLabelPosition();
-                });
+                }, this);
             },
             /**
              * Set label to a node
              * @method calcLabelPosition
              */
-            calcLabelPosition: function () {
-                if (this.enableSmartLabel()) {
-                    if (this._centralizedTextTimer) {
-                        clearTimeout(this._centralizedTextTimer);
-                    }
-                    this._centralizedTextTimer = setTimeout(function () {
+            calcLabelPosition: function (force) {
+                if (this.topology().enableSmartLabel()) {
+
+                    if (force) {
                         this._centralizedText();
-                        //this._setHintPosition();
-                    }.bind(this), 100);
+                    } else {
+                        clearTimeout(this._centralizedTextTimer || 0);
+                        this._centralizedTextTimer = setTimeout(function () {
+                            this._centralizedText();
+                        }.bind(this), 100);
+                    }
+
                 } else {
                     this.updateByMaxObtuseAngle(90);
                 }
@@ -481,7 +432,11 @@
                 // get all lines
 
                 vertex.eachEdge(function (edge) {
-                    vectors.push(edge.line().dir);
+                    if (edge.sourceID() !== vertexID) {
+                        vectors.push(edge.line().dir.negate());
+                    } else {
+                        vectors.push(edge.line().dir);
+                    }
                 }, this);
                 //sort line by angle;
                 vectors = vectors.sort(function (a, b) {
@@ -554,18 +509,6 @@
 
                 el.set('text-anchor', anchor);
 
-            },
-            /**
-             * Get node bound
-             * @param onlyGraphic {Boolean} is is TRUE, will only get graphic's bound
-             * @returns {*}
-             */
-            getBound: function (onlyGraphic) {
-                if (onlyGraphic) {
-                    return this.resolve('graphic').getBound();
-                } else {
-                    return this.resolve('@root').getBound();
-                }
             }
         }
     });

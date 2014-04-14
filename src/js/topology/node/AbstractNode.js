@@ -24,31 +24,74 @@
                 set: function (obj) {
                     var isModified = false;
                     var model = this.model();
-                    if (obj.x != null) {
-                        if (!this._lockXAxle && this._x !== obj.x) {
-                            this._x = obj.x;
-                            model.set("x", this.projectionX().invert(obj.x));
-                            this.notify("x");
-                            isModified = true;
-                        }
+                    if (obj.x != null && !this._lockXAxle && this._x !== obj.x) {
+                        this._x = obj.x;
+                        model.set("x", obj.x);
+                        this.notify("x");
+                        isModified = true;
                     }
 
-                    if (obj.y != null) {
-                        if (!this._lockYAxle && this._y !== obj.y) {
-                            this._y = obj.y;
-                            model.set("y", this.projectionY().invert(obj.y));
-                            this.notify("y");
-                            isModified = true;
-                        }
+                    if (obj.y != null && !this._lockYAxle && this._y !== obj.y) {
+                        this._y = obj.y;
+                        model.set("y", obj.y);
+                        this.notify("y");
+                        isModified = true;
                     }
 
                     if (isModified) {
-                        this.notify('position');
-                        this.notify('vector');
+                        this.view().setTransform(this._x, this._y);
                         this.update();
                     }
                     return isModified;
 
+                }
+            },
+            absolutePosition: {
+                dependencies: ['position'],
+                get: function () {
+                    var position = this.position();
+                    var topoMatrix = this.topology().matrix();
+                    var stageScale = topoMatrix.scale();
+                    return {
+                        x: position.x * stageScale + topoMatrix.x(),
+                        y: position.y * stageScale + topoMatrix.y()
+                    };
+                }
+            },
+            matrix: {
+                dependencies: ['position'],
+                get: function () {
+                    var position = this.position();
+                    var stageScale = this.stageScale();
+                    return [
+                        [stageScale, 0, 0],
+                        [0, stageScale, 0],
+                        [position.x, position.y, 1]
+                    ];
+                }
+            },
+            /**
+             * Get topology's scale
+             * @property scale
+             */
+            scale: {
+                get: function () {
+                    //return this.topology().scale() || 1;
+                }
+            },
+            stageScale: {
+                set: function (value) {
+                    this.view().setTransform(null, null, value);
+                }
+            },
+            /**
+             * Get  node's vector
+             * @property  vector
+             */
+            vector: {
+                dependencies: ['position'],
+                get: function () {
+                    return new Vector(this.x(), this.y());
                 }
             },
             /**
@@ -56,6 +99,7 @@
              * @property  x
              */
             x: {
+                dependencies: ['position'],
                 get: function () {
                     return this._x || 0;
                 },
@@ -68,6 +112,7 @@
              * @property  y
              */
             y: {
+                dependencies: ['position'],
                 get: function () {
                     return this._y || 0;
                 },
@@ -94,52 +139,6 @@
              * @property  topology
              */
             topology: {},
-            /**
-             * Get node's layer
-             * @property nodesLayer
-             */
-            nodesLayer: {
-                get: function () {
-                    return this.owner();
-                }
-            },
-            /**
-             * Get topology's x scale object
-             * @property projectionX
-             */
-            projectionX: {
-                get: function () {
-                    return this.topology().projectionX();
-                }
-            },
-            /**
-             * Get topology's y scale object
-             * @property projectionY
-             */
-            projectionY: {
-                get: function () {
-                    return this.topology().projectionY();
-                }
-            },
-
-            /**
-             * Get topology's scale
-             * @property scale
-             */
-            scale: {
-                get: function () {
-                    return this.topology().scale() || 1;
-                }
-            },
-            /**
-             * Get  node's vector
-             * @property  vector
-             */
-            vector: {
-                get: function () {
-                    return new Vector(this.x(), this.y());
-                }
-            },
             /**
              * Get node's id
              * @property id
@@ -174,9 +173,6 @@
             },
             fade: {
                 value: false
-            },
-            fadeValue: {
-                value: 0.5
             }
         },
         methods: {
@@ -196,16 +192,11 @@
              * Factory function , will be call when set model
              */
             setModel: function (model) {
-                var topo = this.topology();
-                var projectionX = topo.projectionX();
-                var projectionY = topo.projectionY();
-
                 this.model(model);
-
                 model.upon('updateCoordinate', function (sender, position) {
                     this.position({
-                        x: projectionX.get(position.x),
-                        y: projectionY.get(position.y)
+                        x: position.x,
+                        y: position.y
                     });
                     this.notify('position');
                     /**
@@ -221,8 +212,8 @@
                 this.setBinding("visible", "model.visible");
 
                 this.position({
-                    x: projectionX.get(model.get("x")),
-                    y: projectionY.get(model.get("y"))
+                    x: model.get("x"),
+                    y: model.get("y")
                 });
 
 
@@ -256,74 +247,25 @@
                     obj.to.y = y;
 
                     if (callback) {
-                        obj.complete = callback.bind(this);
+                        obj.complete = callback;
                     }
-
                     this.animate(obj);
                 } else {
                     this.position({x: x, y: y});
                 }
             },
             /**
-             * Use css to move node for high performance, when use this method, related link can't recive notification. Could hide links during transition.
-             * @method cssMoveTo
+             * Use css translate to move node for high performance, when use this method, related link can't recive notification. Could hide links during transition.
+             * @method translateTo
              * @param x {Number}
              * @param y {Number}
              * @param callback {Function}
              */
-            cssMoveTo: function (x, y, callback) {
+            translateTo: function (x, y, callback) {
 
             },
             /**
-             * Fade out a node
-             * @method fadeOut
-             */
-            fadeOut: function () {
-                this.root().addClass('n-transition');
-                this.resolve("@root").setStyle('opacity', this.fadeValue());
-                this.fade(true);
-            },
-            /**
-             * Fade in a node
-             * @method fadeIn
-             */
-            fadeIn: function () {
-                if (this.enable()) {
-                    this.resolve("@root").setStyle('opacity', 1);
-                    this.fade(false);
-                }
-            },
-            /**
-             * Get all links connect to this node
-             * @returns {Array}
-             * @method getLinks
-             */
-            getLinks: function () {
-                return this.nodesLayer().getNodeConnectedLinks(this);
-            },
-            /**
-             * Get Connected linkSet
-             * @method getConnectedLinkSet
-             * @returns {Array}
-             */
-            getConnectedLinkSet: function () {
-                var model = this.model();
-                var topo = this.topology();
-                var selfID = model.id();
-                var linkSetAry = [];
-                model.eachConnectedVertices(function (vertex) {
-                    var id = vertex.id();
-                    var linkSet = topo.getLinkSet(selfID, id);
-                    if (linkSet) {
-                        linkSetAry.push(linkSet);
-                    }
-                }, this);
-
-                return linkSetAry;
-
-            },
-            /**
-             * Traverse all links connected to this node
+             * Iterate  all connected links to this node
              * @method eachLink
              * @param fn
              * @param context
@@ -340,24 +282,46 @@
                 }, this);
             },
             /**
-             * Get all connected nodes
-             * @method getConnectedNodes
+             * Get all links connect to this node
              * @returns {Array}
+             * @method getLinks
              */
-            getConnectedNodes: function () {
-                var nodes = [];
-                this.eachConnectedNodes(function (node) {
-                    nodes.push(node);
-                });
-                return nodes;
+            getLinks: function () {
+                var ary = [];
+                this.eachLink(function (link) {
+                    ary[ary.length] = link;
+                }, this);
+                return ary;
+            },
+            eachLinkSet: function (fn, context) {
+                var model = this.model();
+                var topo = this.topology();
+                model.eachEdgeSet(function (edgeSet, linkKey) {
+                    var linkSet = topo.getLinkSetByLinkKey(linkKey);
+                    if (linkSet) {
+                        fn.call(context || this, linkSet, edgeSet);
+                    }
+                }, this);
             },
             /**
-             * Iterate all connected nodes
-             * @method eachConnectedNodes
+             * Get all connected linkSet
+             * @method getLinkSet
+             * @returns {Array}
+             */
+            getLinkSet: function () {
+                var linkSetAry = [];
+                this.eachLinkSet(function (linkSet, edgeSet) {
+                    linkSetAry[linkSetAry.length] = linkSet;
+                }, this);
+                return linkSetAry;
+            },
+            /**
+             * Iterate all connected node
+             * @method eachConnectedNode
              * @param fn {Function}
              * @param context {Object}
              */
-            eachConnectedNodes: function (fn, context) {
+            eachConnectedNode: function (fn, context) {
                 var model = this.model();
                 var topo = this.topology();
                 model.eachConnectedVertices(function (vertex) {
@@ -366,10 +330,22 @@
                     if (node) {
                         fn.call(context || this, topo.getNode(id), id);
                     } else {
-                        console.log(id);
+                        //console.log(id);
                     }
 
                 }, this);
+            },
+            /**
+             * Get all connected nodes
+             * @method getConnectedNodes
+             * @returns {Array}
+             */
+            getConnectedNodes: function () {
+                var nodes = [];
+                this.eachConnectedNode(function (node) {
+                    nodes.push(node);
+                }, this);
+                return nodes;
             },
             _processPropertyValue: function (propertyValue) {
                 var value = propertyValue;

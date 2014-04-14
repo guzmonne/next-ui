@@ -80,6 +80,9 @@
              * @method get
              */
             get: function (value) {
+
+
+
                 var input = this.input();
                 var output = this.output();
                 var rate = this.rate();

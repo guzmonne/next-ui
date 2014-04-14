@@ -1,15 +1,37 @@
 (function (nx, util, global) {
 
     /** Links layer
-     Could use topo.getLayer('linksLayer') get this
+     Could use topo.getLayer('linkSet') get this
      * @class nx.graphic.Topology.LinksLayer
      * @extend nx.graphic.Topology.Layer
      */
 
-    nx.define('nx.graphic.Topology.LinkSetLayer', nx.graphic.Topology.Layer, {
-        events: ['pressLinkSetNumber', 'clickLinkSetNumber', 'enterLinkSetNumber', 'leaveLinkSetNumber', 'collapsedLinkSet', 'expandLinkSet'],
+    var CLZ = nx.define('nx.graphic.Topology.LinkSetLayer', nx.graphic.Topology.Layer, {
+        statics: {
+            defaultConfig: {
+                linkType: 'parallel',
+                label: null,
+                sourceLabel: null,
+                targetLabel: null,
+                color: null,
+                width: null,
+                dotted: false,
+                style: null,
+                enable: true,
+                collapsedRule: function (model) {
+                    if (model.type() == 'edgeSetCollection') {
+                        return true;
+                    }
+                    var linkType = this.linkType();
+                    var edges = model.getEdges();
+                    var maxLinkNumber = linkType === 'curve' ? 9 : 5;
+                    return edges.length > maxLinkNumber;
+                }
+            }
+        },
+        events: ['pressLinkSetNumber', 'clickLinkSetNumber', 'enterLinkSetNumber', 'leaveLinkSetNumber', 'collapseLinkSet', 'expandLinkSet'],
         properties: {
-            linkSetCollection: {
+            linkSetArray: {
                 value: function () {
                     return [];
                 }
@@ -24,24 +46,20 @@
             attach: function (args) {
                 this.inherited(args);
                 var topo = this.topology();
-                topo.watch('revisionScale', this._watchRevisionScale = function (prop, value) {
-                    var links = this.linkSetCollection();
-                    nx.each(links, function (link) {
-                        link.view('numBg').setStyle('stroke-width', value * 16);
-                        link.view('num').setStyle('font-size', Math.round(value * 9 + 3));
-                    });
 
+                topo.watch('stageScale', this.__watchStageScaleFN = function (prop, value) {
+                    this.eachLinkSet(function (linkSet) {
+                        linkSet.stageScale(value);
+                    });
                 }, this);
 
             },
             addLinkSet: function (edgeSet) {
-                var linkSetCollection = this.linkSetCollection();
+                var linkSetArray = this.linkSetArray();
                 var linkSetMap = this.linkSetMap();
                 var linkSet = this._generateLinkSet(edgeSet);
-
                 linkSetMap[edgeSet.linkKey()] = linkSet;
-                linkSetCollection.push(linkSet);
-
+                linkSetArray[linkSetArray.length] = linkSet;
                 return linkSet;
             },
             updateLinkSet: function (edgeSet) {
@@ -49,76 +67,58 @@
                 linkSet.updateLinkSet();
             },
             removeLinkSet: function (edgeSet) {
-                var linkSetCollection = this.linkSetCollection();
+                var linkSetArray = this.linkSetArray();
                 var linkSetMap = this.linkSetMap();
                 var linkKey = edgeSet.linkKey();
                 var linkSet = linkSetMap[linkKey];
                 if (linkSet) {
-                    linkSet.model().removeEdges();
+                    linkSet.model().disposeEdges();
                     linkSet.dispose();
-                    linkSetCollection.splice(linkSetCollection.indexOf(linkSet), 1);
+                    linkSetArray.splice(linkSetArray.indexOf(linkSet), 1);
                     delete linkSetMap[linkKey];
                     return true;
                 } else {
                     return false;
                 }
             },
-
-            removeNode: function (vertex) {
-            },
-
             _generateLinkSet: function (edgeSet) {
                 var linkKey = edgeSet.linkKey();
                 var topo = this.topology();
-                var linkset = new nx.graphic.Topology.LinkSet({
-                    topology: topo
+                var linkSet = new nx.graphic.Topology.LinkSet({
+                    topology: topo,
+                    stageScale: topo.stageScale()
                 });
+                //set model
+                linkSet.setModel(edgeSet, false);
+                linkSet.attach(this.resolve('static'));
 
-                var root = linkset.resolve('@root');
-                root.set('data-nx-type', 'nx.graphic.Topology.LinkSet');
-                root.set('data-linkKey', linkKey);
-                root.set('data-source-node-id', edgeSet.source().id());
-                root.set('data-target-node-id', edgeSet.target().id());
+                //set element attribute
+                linkSet.resolve('@root').sets({
+                    'data-nx-type': 'nx.graphic.Topology.LinkSet',
+                    'data-linkKey': linkKey,
+                    'data-source-node-id': edgeSet.source().id(),
+                    'data-target-node-id': edgeSet.target().id()
 
-                linkset.attach(this.resolve('static'));
-                linkset.setModel(edgeSet, false);
-
-
-                var defaultConfig = {
-                    linkType: 'parallel',
-                    gutter: 0,
-                    label: null,
-                    sourceLabel: null,
-                    targetLabel: null,
-                    color: null,
-                    width: null,
-                    dotted: false,
-                    style: null,
-                    enable: true,
-                    collapsed: function (model) {
-                        if (this.model().containEdgeSet()) {
-                            return true;
-                        }
-                        var linkType = this.linkType();
-                        var edges = model.getSubEdges();
-                        var maxLinkNumber = linkType === 'curve' ? 9 : 5;
-                        return edges.length > maxLinkNumber;
-                    }
-                };
-                var linkSetConfig = nx.extend(defaultConfig, topo.linkSetConfig());
-                nx.each(nx.extend(defaultConfig, linkSetConfig), function (value, key) {
-                    util.setProperty(linkset, key, value, topo);
+                });
+                //set properties
+                var linkSetConfig = nx.extend({}, CLZ.defaultConfig, topo.linkSetConfig());
+                nx.each(linkSetConfig, function (value, key) {
+                    util.setProperty(linkSet, key, value, topo);
                 }, this);
 
+                //delegate elements events
                 var superEvents = nx.graphic.Component.__events__;
-                nx.each(linkset.__events__, function (e) {
+                nx.each(linkSet.__events__, function (e) {
+                    //exclude basic events
                     if (superEvents.indexOf(e) == -1) {
-                        linkset.on(e, function (sender, event) {
-                            this.fire(e, linkset);
+                        linkSet.on(e, function (sender, event) {
+                            this.fire(e, linkSet);
                         }, this);
                     }
                 }, this);
-                return linkset;
+
+                linkSet.updateLinkSet();
+                return linkSet;
             },
             /**
              * Iterate all linkSet
@@ -156,16 +156,16 @@
             /**
              * Highlight linkSet
              * @method highlightLinkSet
-             * @param linkSet {Array} linkSet array
+             * @param linkSetAry {Array} linkSet array
              */
-            highlightLinkSet: function (linkSet) {
+            highlightLinkSet: function (linkSetAry) {
                 var topo = this.topology();
                 var linksLayer = topo.getLayer('links');
-                nx.each(linkSet, function (ls) {
-                    if (ls.collapsed()) {
-                        this.highlightElement(ls);
+                nx.each(linkSetAry, function (linkSet) {
+                    if (linkSet.activated()) {
+                        this.highlightElement(linkSet);
                     } else {
-                        linksLayer.highlightLinks(ls.links());
+                        linksLayer.highlightLinks(linkSet.links());
                     }
                 }, this);
             },
@@ -174,11 +174,15 @@
              * @method clear
              */
             clear: function () {
-                nx.each(this.linkSetCollection(), function (linkSet) {
+                nx.each(this.linkSetArray(), function (linkSet) {
                     linkSet.dispose();
                 });
-                this.linkSetCollection([]);
+                this.linkSetArray([]);
                 this.linkSetMap({});
+                this.inherited();
+            },
+            dispose: function () {
+                this.topology().unwatch('stageScale', this.__watchStageScaleFN, this);
                 this.inherited();
             }
         }

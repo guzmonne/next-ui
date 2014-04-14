@@ -2,12 +2,25 @@
 
     /**
      * Links layer
-     Could use topo.getLayer('linksLayer') get this
+     Could use topo.getLayer('links') get this
      * @class nx.graphic.Topology.LinksLayer
      * @extend nx.graphic.Topology.Layer
      */
 
-    nx.define('nx.graphic.Topology.LinksLayer', nx.graphic.Topology.Layer, {
+    var CLZ = nx.define('nx.graphic.Topology.LinksLayer', nx.graphic.Topology.Layer, {
+        statics: {
+            defaultConfig: {
+                linkType: 'parallel',
+                label: null,
+                sourceLabel: null,
+                targetLabel: null,
+                color: null,
+                width: null,
+                dotted: false,
+                style: null,
+                enable: true
+            }
+        },
         events: ['pressLink', 'clickLink', 'enterLink', 'leaveLink'],
         properties: {
             /**
@@ -30,6 +43,16 @@
             }
         },
         methods: {
+            attach: function (args) {
+                this.inherited(args);
+                var topo = this.topology();
+
+                topo.watch('stageScale', this.__watchStageScaleFN = function (prop, value) {
+                    this.eachLink(function (link) {
+                        link.stageScale(value);
+                    });
+                }, this);
+            },
             /**
              * Add a link
              * @param edge
@@ -37,12 +60,12 @@
              */
 
             addLink: function (edge) {
+                var links = this.links();
+                var linksMap = this.linksMap();
                 var id = edge.id();
                 var link = this._generateLink(edge);
-
-                link.attach(this.resolve('static'));
-                this.links().push(link);
-                this.linksMap()[id] = link;
+                links[links.length] = link;
+                linksMap[id] = link;
                 return link;
             },
             /**
@@ -72,39 +95,30 @@
             _generateLink: function (edge) {
                 var id = edge.id();
                 var topo = this.topology();
-                var linkSet;
-
                 var link = new nx.graphic.Topology.Link({
-                    topology: topo
+                    topology: topo,
+                    stageScale: topo.stageScale()
                 });
+                //set model
                 link.setModel(edge, false);
-                link.resolve('@root').set('class', 'link');
-                link.resolve('@root').set('data-link-id', id);
-                link.resolve('@root').set('data-linkKey', edge.linkKey());
-                link.resolve('@root').set('data-source-node-id', edge.source().id());
-                link.resolve('@root').set('data-target-node-id', edge.target().id());
+                link.attach(this.resolve('static'));
 
+                //set element attribute
+                link.sets({
+                    'class': 'link',
+                    'data-link-id': id,
+                    'data-linkKey': edge.linkKey(),
+                    'data-source-node-id': edge.source().id(),
+                    'data-target-node-id': edge.target().id()
+                });
 
-                var defaultConfig = {
-                    linkType: 'parallel',
-                    gutter: 0,
-                    label: null,
-                    sourceLabel: null,
-                    targetLabel: null,
-                    color: null,
-                    width: null,
-                    dotted: false,
-                    style: null,
-                    enable: true
-                };
-
-                var linkConfig = nx.extend(defaultConfig, topo.linkConfig());
-                nx.each(linkConfig, function (value, key) {
+                //set properties
+                nx.each(nx.extend({},CLZ.defaultConfig, topo.linkConfig()), function (value, key) {
                     util.setProperty(link, key, value, topo);
                 }, this);
                 link.update();
 
-
+                //delegate link's events
                 var superEvents = nx.graphic.Component.__events__;
                 nx.each(link.__events__, function (e) {
                     if (superEvents.indexOf(e) == -1) {
@@ -114,16 +128,13 @@
                     }
                 }, this);
 
-                link.set('class', 'link');
-                link.set('data-link-id', id);
-                link.set('data-source-node-id', edge.source().id());
-                link.set('data-target-node-id', edge.target().id());
 
+                // add parent linkset
                 if (topo.supportMultipleLink()) {
-                    linkSet = topo.getLinkSetByLinkKey(edge.linkKey());
+                    var linkSet = topo.getLinkSetByLinkKey(edge.linkKey());
                     link.set('parentLinkSet', linkSet);
                 }
-                
+
                 return link;
 
             },
@@ -167,6 +178,10 @@
 
                 this.links([]);
                 this.linksMap({});
+                this.inherited();
+            },
+            dispose: function () {
+                this.topology().unwatch('stageScale', this.__watchStageScaleFN, this);
                 this.inherited();
             }
         }

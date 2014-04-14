@@ -178,6 +178,11 @@
                     return {};
                 }
             },
+            edgeSetCollection: {
+                value: function () {
+                    return {};
+                }
+            },
             /**
              * Vertex parent vertex set, if exist
              * @property parentVertexSet {nx.data.VertexSet}
@@ -226,6 +231,16 @@
                 var _edgeSet = this.edgeSet();
                 delete  _edgeSet[linkKey];
             },
+
+
+            addEdgeSetCollection: function (esc, linkKey) {
+                var edgeSetCollection = this.edgeSetCollection();
+                edgeSetCollection[linkKey] = esc;
+            },
+            removeEdgeSetCollection: function (esc, linkKey) {
+                var edgeSetCollection = this.edgeSetCollection();
+                delete edgeSetCollection[linkKey];
+            },
             /**
              * Iterate all connected edgeSet
              * @method eachEdgeSet
@@ -253,11 +268,15 @@
 
             /**
              * Get all connected edgeSet
-             * @method getConnectedEdgeSet
-             * @returns {Object}
+             * @method getEdgeSetCollection
+             * @returns {Array}
              */
-            getEdgeSet: function () {
-                return this.edgeSet();
+            getEdgeSetCollection: function () {
+                var ary = [];
+                this.eachEdgeSet(function (edgeSet) {
+                    ary[ary.length] = edgeSet;
+                }, this);
+                return ary;
             },
             /**
              * Iterate all connected edges
@@ -281,17 +300,6 @@
                     obj[edge.id()] = edge;
                 }, this);
                 return obj;
-            },
-            /**
-             * Iterate all connected edges
-             * @method eachSubEdges
-             * @param callback {Function}
-             * @param context {Object}
-             */
-            eachSubEdge: function (callback, context) {
-                this.eachEdgeSet(function (edgeSet) {
-                    edgeSet.eachSubEdge(callback, context || this);
-                }, this);
             },
             /**
              * Iterate all connected vertices
@@ -327,6 +335,15 @@
                 var parentVertexSet = this.parentVertexSet();
 
                 while (parentVertexSet && parentVertexSet.parentVertexSet()) {
+                    parentVertexSet = parentVertexSet.parentVertexSet();
+                }
+
+                return parentVertexSet;
+            },
+            getVisibleParentVertexSet: function () {
+                var parentVertexSet = this.parentVertexSet();
+
+                while (parentVertexSet && parentVertexSet.parentVertexSet() && !parentVertexSet.visible()) {
                     parentVertexSet = parentVertexSet.parentVertexSet();
                 }
 

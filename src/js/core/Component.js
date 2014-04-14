@@ -226,9 +226,12 @@
                 var scl = scale != null ? scale : this.scale();
 
 
+//                this.setStyle('transform', ' matrix(' + scl + ',' + 0 + ',' + 0 + ',' + scl + ',' + tx + ', ' + ty + ')', duration);
+
                 this.setStyle('transform', ' translate(' + tx + 'px, ' + ty + 'px) scale(' + scl + ')', duration);
 
-
+//                this.set('data-translate-x', tx);
+//                this.set('data-translate-y', ty);
                 this._translateX = tx;
                 this._translateY = ty;
                 this._scale = scl;
@@ -242,14 +245,28 @@
              */
             setStyle: function (key, value, duration) {
                 var el = this.resolve('@root');
-                if (duration) {
-                    //el.setStyle('-webkit-transition', 'all ' + duration + 's ease');
-                    el.setStyle('transition', 'all ' + duration + 's ease');
-                } else {
-                  //  el.setStyle('-webkit-transition', '');
-                    el.setStyle('transition', '');
-                }
+                this.setTransition(null, null, duration);
                 el.setStyle(key, value);
+            },
+            setTransition: function (callback, context, duration) {
+                var el = this.resolve('@root');
+                if (duration) {
+                    el.setStyle('transition', 'all ' + duration + 's ease');
+                    this.on('transitionend', function fn() {
+                        if (callback) {
+                            callback.call(context || this);
+                        }
+                        el.setStyle('transition', '');
+                        this.off('transitionend', fn, this);
+                    }, this);
+                } else {
+                    el.setStyle('transition', '');
+                    if (callback) {
+                        setTimeout(function () {
+                            callback.call(context || this);
+                        }, 0);
+                    }
+                }
             },
             /**
              * Inherited nx.ui.component's upon function, fixed mouseleave & mouseenter event

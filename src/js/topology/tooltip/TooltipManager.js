@@ -231,14 +231,7 @@
                 }
             },
             _getNodeAbsolutePosition: function (node) {
-                var topo = this.topology();
-                var position = node.position();
-                var topologyOffset = topo.resolve('@root').getOffset();
-                var stageTranslate = topo.stage().translate();
-                return {
-                    x: position.x + topologyOffset.left + stageTranslate.x,
-                    y: position.y + topologyOffset.top + stageTranslate.y
-                };
+                return node.absolutePosition();
             },
             /**
              * Open a node's tooltip

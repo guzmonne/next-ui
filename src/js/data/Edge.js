@@ -154,13 +154,6 @@
              */
             getData: function () {
                 return this._data;
-            },
-            getRootEdgeSet: function () {
-                var parent = this.parentEdgeSet();
-                while (parent.parentEdgeSet()) {
-                    parent = parent.parentEdgeSet();
-                }
-                return parent;
             }
         }
     });

@@ -394,7 +394,7 @@
                 var icon = sender;
                 scene.upon('finish', function fn(sender, bound) {
                     if (bound) {
-                        topo.zoomByBound(topo.getInsideBound(bound), topo._recoverStageScale.bind(topo));
+                        topo.zoomByBound(topo.getInsideBound(bound));
                     }
                     topo.activateScene(currentSceneName);
                     icon.dom().removeClass('n-topology-nav-zoom-selection-selected');
@@ -480,7 +480,7 @@
             _toggleNodeLabel: function (sender, events) {
                 var checked = sender.get('checked');
                 this.topology().eachNode(function (node) {
-                    node.labelVisible(checked);
+                    node.labelVisibility(checked);
                 });
             }
         }

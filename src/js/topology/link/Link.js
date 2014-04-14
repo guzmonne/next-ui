@@ -8,7 +8,7 @@
      * @module nx.graphic.Topology
      */
 
-    var gutterStep = 5;
+    var offsetRadix = 5;
 
     nx.define('nx.graphic.Topology.Link', nx.graphic.Topology.AbstractLink, {
         events: ['pressLink', 'clickLink', 'enterLink', 'leaveLink'],
@@ -32,17 +32,17 @@
                 }
             },
             /**
-             * Get/set link's gutter percentage
-             * @property gutter {Float}
+             * Get/set link's offset percentage
+             * @property offset {Float}
              */
-            gutter: {
+            offsetPercentage: {
                 value: 0
             },
             /**
-             * Get/set link's gutter step
-             * @property gutterStep {Number}
+             * Get/set link's offset step
+             * @property offsetRadix {Number}
              */
-            gutterStep: {
+            offsetRadix: {
                 value: 5
             },
             /**
@@ -52,8 +52,7 @@
             label: {
                 set: function (inValue) {
                     var label = this._processPropertyValue(inValue);
-                    var el = this.resolve("label");
-                    /*jshint -W083*/
+                    var el = this.view("label");
                     if (label != null) {
                         el.append();
                     } else {
@@ -69,7 +68,7 @@
             sourceLabel: {
                 set: function (inValue) {
                     var label = this._processPropertyValue(inValue);
-                    var el = this.resolve("sourceLabel");
+                    var el = this.view("sourceLabel");
                     if (label != null) {
                         el.append();
                     } else {
@@ -85,7 +84,7 @@
             targetLabel: {
                 set: function (inValue) {
                     var label = this._processPropertyValue(inValue);
-                    var el = this.resolve("targetLabel");
+                    var el = this.view("targetLabel");
                     if (label != null) {
                         el.append();
                     } else {
@@ -115,7 +114,15 @@
                     var value = this._processPropertyValue(inValue);
                     this.$('line').setStyle('stroke-width', value);
                     this.$('path').setStyle('stroke-width', value);
-                    this._color = value;
+                    this._width = value;
+                }
+            },
+            stageScale: {
+                set: function (value) {
+                    var width = (this._width || 1) * value;
+                    this.$('line').setStyle('stroke-width', width);
+                    this.$('path').setStyle('stroke-width', width);
+                    this._stageScale = value;
                 }
             },
             /**
@@ -143,9 +150,6 @@
                     this.$('line').setStyles(value);
                     this.$('path').setStyles(value);
                 }
-            },
-            fade: {
-                value: false
             },
             /**
              * Get link's parent linkSet
@@ -186,10 +190,10 @@
                     var value = this._processPropertyValue(inValue);
                     this._enable = value;
                     if (value) {
-                        this.resolve("disableLabel").remove();
+                        this.view("disableLabel").remove();
 
                     } else {
-                        this.resolve('disableLabel').append();
+                        this.view('disableLabel').append();
                         this.root().addClass('disable');
                     }
                 }
@@ -217,13 +221,6 @@
                             type: 'nx.graphic.Path',
                             props: {
                                 'class': 'link'
-                            }
-                        },
-                        {
-                            name: 'overPath',
-                            type: 'nx.graphic.Path',
-                            props: {
-                                style: 'stroke:#f00'
                             }
                         },
                         {
@@ -292,49 +289,48 @@
 
                 this.inherited();
 
-                var _gutter = this.gutter() * this.gutterStep();
-                var gutter = new Vector(0, _gutter);
-                var line = this.line();
+                var _offset = this.getOffset();
+                var offset = new Vector(0, _offset);
+                var width = (this._width || 1) * (this._stageScale || 1);
+                var line = this.reverse() ? this.line().negate() : this.line();
                 var d;
 
-                if (this.reverse()) {
-                    line = line.negate();
-                }
                 if (this.drawMethod()) {
                     d = this.drawMethod().call(this, this.model(), this);
-                    this.resolve('path').append();
-                    this.resolve('line').remove();
-                    this.resolve('path').set('d', d);
+                    this.view('path').append();
+                    this.view('line').remove();
+                    this.view('path').set('d', d);
+                    this.$('path').setStyle('stroke-width', width);
 
                 } else if (this.linkType() == 'curve') {
                     var path = [];
                     var n, point;
-
-                    _gutter = _gutter * 3;
-                    n = line.normal().multiply(_gutter);
+                    n = line.normal().multiply(_offset * 3);
                     point = line.center().add(n);
                     path.push('M', line.start.x, line.start.y);
                     path.push('Q', point.x, point.y, line.end.x, line.end.y);
-                    path.push('Q', point.x + 1, point.y + 1, line.start.x, line.start.y);
-                    path.push('Z');
                     d = path.join(' ');
-                    this.resolve('path').append();
-                    this.resolve('line').remove();
-                    this.resolve('path').set('d', d);
+
+                    this.view('path').append();
+                    this.view('line').remove();
+                    this.view('path').set('d', d);
+                    this.$('path').setStyle('stroke-width', width);
                 } else {
-                    var lineEl = this.resolve('line');
-                    var newLine = line.translate(gutter);
+                    var lineEl = this.view('line');
+                    var newLine = line.translate(offset);
                     lineEl.sets({
                         x1: newLine.start.x,
                         y1: newLine.start.y,
                         x2: newLine.end.x,
                         y2: newLine.end.y
                     });
-                    this.resolve('path').remove();
-                    this.resolve('line').append();
+                    this.view('path').remove();
+                    this.view('line').append();
+                    this.$('line').setStyle('stroke-width', width);
                 }
+
+
                 this._updateLabel();
-                //  this._setHintPosition();
             },
             /**
              * Get link's padding Line
@@ -342,30 +338,30 @@
              * @returns {*}
              */
             getPaddingLine: function () {
-                var _gutter = this.gutter() * gutterStep;
+                var _offset = this.offset() * offsetRadix;
                 var sourceSize = this.sourceNode().getBound(true);
                 var sourceRadius = Math.max(sourceSize.width, sourceSize.height) / 1.3;
                 var targetSize = this.targetNode().getBound(true);
                 var targetRadius = Math.max(targetSize.width, targetSize.height) / 1.3;
                 var line = this.line().pad(sourceRadius, targetRadius);
-                var n = line.normal().multiply(_gutter);
+                var n = line.normal().multiply(_offset);
                 return line.translate(n);
             },
             /**
-             * Get calculated gutter number
-             * @method getGutter
+             * Get calculated offset number
+             * @method getoffset
              * @returns {number}
              */
-            getGutter: function () {
-                return this.gutter() * this.gutterStep();
+            getOffset: function () {
+                return this.offsetPercentage() * this.offsetRadix() * this._stageScale;
             },
             _updateLabel: function () {
                 var el, point;
-                var _gutter = this.gutter() * gutterStep;
+                var _offset = this.getOffset();
                 var line = this.line();
-                var n = line.normal().multiply(_gutter);
+                var n = line.normal().multiply(_offset);
                 if (this._label != null) {
-                    el = this.resolve("label");
+                    el = this.view("label");
                     point = line.center().add(n);
                     el.set('x', point.x);
                     el.set('y', point.y);
@@ -373,7 +369,7 @@
                 }
 
                 if (this._sourceLabel) {
-                    el = this.resolve("sourceLabel");
+                    el = this.view("sourceLabel");
                     point = this.sourcePoint();
                     el.set('x', point.x);
                     el.set('y', point.y);
@@ -382,7 +378,7 @@
 
 
                 if (this._targetLabel) {
-                    el = this.resolve("targetLabel");
+                    el = this.view("targetLabel");
                     point = this.targetPoint();
                     el.set('x', point.x);
                     el.set('y', point.y);
@@ -391,7 +387,7 @@
 
 
                 if (!this.enable()) {
-                    el = this.resolve("disableLabel");
+                    el = this.view("disableLabel");
                     point = line.center().add(n);
                     el.set('x', point.x);
                     el.set('y', point.y);
@@ -422,26 +418,6 @@
 
                 overPath.setAttribute('d', pathAry.join(" "));
 
-            },
-            /**
-             * Fade out link
-             * @method fadeOut
-             * @param force {Boolean}
-             */
-            fadeOut: function (force) {
-                this.inherited(force);
-                var parentLinkSet = this.parentLinkSet();
-                if (parentLinkSet) {
-                    parentLinkSet.fadeOut(force);
-                }
-            },
-            /**
-             * Recover link's fade status
-             * @param force
-             */
-            recover: function (force) {
-                this.selected(false);
-                this.fadeIn(force);
             },
             _mousedown: function () {
                 if (this.enable()) {

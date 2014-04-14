@@ -152,33 +152,6 @@
                 value: null
             },
             /**
-             * Get topology's x scale object
-             * @property projectionX
-             */
-            projectionX: {
-                get: function () {
-                    return this.topology().projectionX();
-                }
-            },
-            /**
-             * Get topology's y scale object
-             * @property projectionY
-             */
-            projectionY: {
-                get: function () {
-                    return this.topology().projectionY();
-                }
-            },
-            /**
-             * Get topology's scale
-             * @property scale
-             */
-            scale: {
-                get: function () {
-                    return this.topology().scale() || 1;
-                }
-            },
-            /**
              * Get link's id
              * @property id
              */
@@ -220,9 +193,6 @@
              */
             enable: {
                 value: true
-            },
-            fade: {
-                value: false
             }
 
         },
@@ -264,33 +234,6 @@
                 this.notify('position');
                 this.notify('targetVector');
                 this.notify('sourceVector');
-            },
-            /**
-             * Fade out a node
-             * @method fadeOut
-             */
-            fadeOut: function () {
-                this.root().setStyle('opacity', this.fadeValue());
-                this.fade(true);
-            },
-            /**
-             * Fade in a link
-             * @method fadeIn
-             */
-            fadeIn: function () {
-                if (this.enable()) {
-                    var sourceNode = this.sourceNode();
-                    var targetNode = this.targetNode();
-
-                    if (!sourceNode.enable() || !targetNode.enable() || sourceNode.fade() || targetNode.fade()) {
-                        this.fadeOut();
-                    } else {
-                        this.root().setStyle('opacity', 1);
-                        this.fade(false);
-                    }
-                } else {
-                    this.fadeOut();
-                }
             },
             dispose: function () {
                 var model = this.model();

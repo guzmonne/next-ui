@@ -6,7 +6,16 @@
      * @module nx.graphic.Topology
      */
     nx.define('nx.graphic.Topology.Event', {
-        events: ['clickStage', 'pressStage', 'dragStageStart', 'dragStage', 'dragStageEnd', 'up', 'down', 'left', 'right', 'esc', 'space', 'enter'],
+        events: ['clickStage', 'pressStage', 'dragStageStart', 'dragStage', 'dragStageEnd', 'projectionChange', 'zooming', 'zoomend', 'resetzooming', 'fitStage', 'up', 'down', 'left', 'right', 'esc', 'space', 'enter'],
+        properties: {
+            /**
+             * Enabling gradual scaling feature when zooming, set to false will improve the performance
+             * @property enableGradualScaling {Boolean}
+             */
+            enableGradualScaling: {
+                value: true
+            }
+        },
         methods: {
             _mousewheel: function (sender, event) {
                 if (this.scalable()) {
@@ -17,26 +26,59 @@
                         y: event.offsetY
                     };
 
-                    this._scale = Math.max(Math.min(this._maxScale, this.scale() + data / step), this._minScale);
+                    var stage = this.stage();
+                    var scale = Math.max(Math.min(this._maxScale, this.scale() + data / step), this._minScale);
 
-
-                    if (!this.__zoomStart) {
-                        this.__zooming = true;
-                        this.__zoomStart = true;
-                        this._gradualZoom();
+                    if (!this.__zoomWheelDelta) {
+                        this.__zoomWheelDelta = 0;
+                        this.fire('zoomstart');
                     }
 
+                    this.__zoomWheelDelta += data / step;
+
+                    if (this._enableGradualScaling) {
+                        if (Math.abs(this.__zoomWheelDelta) < 0.15) {
+                            stage.disableUpdateStageScale(true);
+                        } else {
+                            this.__zoomWheelDelta = 0;
+                            stage.disableUpdateStageScale(false);
+                        }
+                    } else {
+                        stage.disableUpdateStageScale(true);
+                    }
+
+
+                    stage.applyStageScale(scale / this._scale, [event.clientX, event.clientY]);
 
                     if (this._zooomEventTimer) {
                         clearTimeout(this._zooomEventTimer);
                     }
 
                     this._zooomEventTimer = setTimeout(function () {
-                        delete this.__zooming;
-                        delete this.__zoomStart;
-                        delete this._zoomCenterPoint;
-                    }.bind(this), 100);
+                        stage.resetStageMatrix();
+                        delete this.__zoomWheelDelta;
 
+                        /**
+                         * Fired when end zooming
+                         * @event zoomend
+                         * @param sender{Object} trigger instance
+                         * @param event {Object} original event object
+                         */
+                        this.fire('zoomend');
+
+                    }.bind(this), 200);
+
+                    this._scale = scale;
+
+                    this.notify('scale');
+
+                    /**
+                     * Fired when zooming stage
+                     * @event zooming
+                     * @param sender{Object} trigger instance
+                     * @param scale {Number} stage current scale
+                     */
+                    this.fire('zooming', scale);
                 }
                 event.preventDefault();
                 return false;

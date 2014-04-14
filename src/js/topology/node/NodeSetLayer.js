@@ -1,8 +1,12 @@
 (function (nx, util, global) {
-    nx.define('nx.graphic.Topology.NodeSetLayer', nx.graphic.Topology.Layer, {
+    var CLZ = nx.define('nx.graphic.Topology.NodeSetLayer', nx.graphic.Topology.Layer, {
+        statics: {
+            defaultConfig: {
+            }
+        },
         events: ['clickNodeSet', 'enterNodeSet', 'leaveNodeSet', 'dragNodeSetStart', 'dragNodeSet', 'dragNodeSetEnd', 'hideNodeSet', 'pressNodeSet', 'selectNodeSet', 'updateNodeSetCoordinate', 'expandNodeSet', 'collapseNodeSet'],
         properties: {
-            nodeSet: {
+            nodeSetArray: {
                 value: function () {
                     return [];
                 }
@@ -14,54 +18,62 @@
             }
         },
         methods: {
-            attach: function () {
-                this.attach.__super__.apply(this, arguments);
+            attach: function (args, index) {
+                this.inherited(args, index);
                 var topo = this.topology();
-                topo.on('projectionChange', this._projectionChangeFN = function (sender, event) {
-                    var projectionX = topo.projectionX();
-                    var projectionY = topo.projectionY();
-                    var nodeSet = this.nodeSet();
-                    nx.each(nodeSet, function (nodeset) {
-                        var model = nodeset.model();
-                        nodeset.position({
-                            x: projectionX.get(model.get('x')),
-                            y: projectionY.get(model.get('y'))
-                        });
-                    }, this);
+                topo.watch('stageScale', this.__watchStageScaleFN = function (prop, value) {
+                    this.eachNodeSet(function (nodeSet) {
+                        nodeSet.stageScale(value);
+                    });
                 }, this);
-            },
-            draw: function () {
-
             },
             addNodeSet: function (vertexSet) {
                 var nodeSetMap = this.nodeSetMap();
-                var nodeSet = this.nodeSet();
+                var nodeSetArray = this.nodeSetArray();
                 var id = vertexSet.id();
+                var nodeSet = this._generateNodeSet(vertexSet);
 
-                var nodeset = this._generateNodeSet(vertexSet);
-
-                nodeSet.push(nodeset);
-                nodeSetMap[id] = nodeset;
-                nodeset.attach(this.resolve('static'));
+                nodeSetArray[nodeSetArray.length] = nodeSet;
+                nodeSetMap[id] = nodeSet;
+                return nodeSet;
             },
 
+            updateNodeRevisionScale: function (value) {
+                var radius = 6;
+                var topo = this.topology();
+                if (value == 0.6) {
+                    radius = 4;
+                } else if (value <= 0.4) {
+                    radius = 2;
+                }
+
+                this.eachNodeSet(function (nodeSet) {
+                    if(topo.showIcon()){
+                        nodeSet.showIcon(value == 1);
+                    }
+                    nodeSet.radius(radius);
+                    nodeSet.view('label').set('visible', value > 0.4);
+                }, this);
+            },
 
             removeNodeSet: function (vertexSet) {
                 var nodeSetMap = this.nodeSetMap();
-                var nodeSet = this.nodeSet();
+                var nodeSetArray = this.nodeSetArray();
                 var id = vertexSet.id();
-                var nodeset = nodeSetMap[id];
+                var nodeSet = nodeSetMap[id];
 
-                nodeset.dispose();
-                nodeSet.splice(nodeSet.indexOf(nodeset), 1);
+                nodeSet.dispose();
+                nodeSetArray.splice(nodeSetArray.indexOf(nodeSet), 1);
                 delete nodeSetMap[id];
             },
             updateNodeSet: function (nodeSetMap) {
             },
             _generateNodeSet: function (vertexSet) {
-                var Clz;
-                //get node class
+
                 var topo = this.topology();
+
+                //get node class
+                var Clz;
                 var nodeSetInstanceClass = topo.nodeSetInstanceClass();
                 if (nx.is(nodeSetInstanceClass, 'Function')) {
                     Clz = nodeSetInstanceClass.call(this, vertexSet);
@@ -77,56 +89,44 @@
                 }
 
 
-                var nodeset = new Clz();
-                nodeset.sets({
-                    'topology': topo,
-                    'class': 'node nodeset'
+                var nodeSet = new Clz({
+                    topology: topo
+                });
+                nodeSet.setModel(vertexSet);
+                nodeSet.attach(this.resolve('static'));
+
+                nodeSet.sets({
+                    'data-node-id': nodeSet.id(),
+                    'class': 'node nodeset',
+                    stageScale: topo.stageScale()
                 }, topo);
 
-                nodeset.setModel(vertexSet);
 
-                var defaultConfig = {
-                    showIcon: topo.showIcon()
-                };
-                var nodeSetConfig = nx.extend(defaultConfig, topo.nodeSetConfig());
-
-                var label = nodeSetConfig.label;
-                delete nodeSetConfig.label;
-
+                var nodeSetConfig = nx.extend({},CLZ.defaultConfig, topo.nodeSetConfig());
                 nx.each(nodeSetConfig, function (value, key) {
-                    util.setProperty(nodeset, key, value, topo);
+                    util.setProperty(nodeSet, key, value, topo);
                 }, this);
-
-                util.setProperty(nodeset, 'label', label, topo);
-
+                util.setProperty(nodeSet, 'showIcon', topo.showIcon());
+                util.setProperty(nodeSet, 'label', nodeSetConfig.label, topo);
 
                 //register events
                 var superEvents = nx.graphic.Component.__events__;
-                nx.each(nodeset.__events__, function (e) {
+                nx.each(nodeSet.__events__, function (e) {
                     if (superEvents.indexOf(e) == -1) {
-                        nodeset.on(e, function (sender, event) {
-                            this.fire(e.replace('Node', 'NodeSet'), nodeset);
+                        nodeSet.on(e, function (sender, event) {
+                            this.fire(e.replace('Node', 'NodeSet'), nodeSet);
                         }, this);
                     }
                 }, this);
 
                 //register multiple move
-                nodeset.on('dragNode', function (sender, event) {
-                    this._moveSelectionNodes(event, nodeset);
+                nodeSet.on('dragNode', function (sender, event) {
+                    topo._moveSelectionNodes(event, nodeSet);
                 }, this);
 
-                nodeset.set('data-node-id', vertexSet.id());
-                return nodeset;
-            },
+                nodeSet.set('data-node-id', vertexSet.id());
 
-            /**
-             * Iterate all nodeSet
-             * @method eachNode
-             * @param fn
-             * @param context
-             */
-            eachNodeSet: function (fn, context) {
-                nx.each(this.nodeSet(), fn, context || this);
+                return nodeSet;
             },
             /**
              * Get node by id
@@ -134,90 +134,34 @@
              * @returns {*}
              * @method getNode
              */
-            getNodeSet: function (id) {
+            getNodeSetByID: function (id) {
                 var nodeSetMap = this.nodeSetMap();
                 return nodeSetMap[id];
             },
-            getNodeConnectedLinks: function (nodeset) {
-                var links = [];
-                var model = nodeset.model();
-                var topo = this.topology();
-                model.eachEdge(function (edge) {
-                    var id = edge.id();
-                    var link = topo.getLink(id);
-                    links.push(link);
-                }, this);
-                return links;
-            },
-            getNodeConnectedLinkSet: function (nodeset) {
-                var model = nodeset.model();
-                var topo = this.topology();
-                var linkSetAry = [];
-
-                model.eachEdgeSet(function (edgeSet) {
-                    var linkSet = topo.getLinkSetByLinkKey(edgeSet.linkKey());
-                    if (linkSet) {
-                        linkSetAry.push(linkSet);
-                    }
-                }, this);
-                return linkSetAry;
-            },
-            highlightNode: function (nodeset) {
-                this.highlightElement(nodeset);
-            },
-            highlightRelatedNode: function (nodeset) {
-                var topo = this.topology();
-
-                this.highlightElement(nodeset);
-
-                nodeset.eachConnectedNodes(function (n) {
-                    this.highlightElement(n);
-                }, this);
-
-
-
-
-                if (topo.supportMultipleLink()) {
-                    topo.getLayer('linkSet').highlightLinkSet(this.getNodeConnectedLinkSet(nodeset));
-                    topo.getLayer('linkSet').fadeOut();
-                } else {
-                    topo.getLayer('links').highlightLinks(this.getNodeConnectedLinks(nodeset));
-                    topo.getLayer('links').fadeOut();
-                }
-
-                this.fadeOut();
-            },
             /**
-             * Reset node's position, especially when reset projection, this will have transition
-             * @method resetPosition
+             * Iterate all nodeSet
+             * @method eachNode
+             * @param fn
+             * @param context
              */
-            resetPosition: function () {
-                var nodes = this.nodes();
-                nx.each(nodes, function (node) {
-                    var model = node.model();
-                    node.moveTo(projectionX.get(model.get('x')), projectionY.get(model.get('y')));
-                }, this);
+            eachNodeSet: function (fn, context) {
+                nx.each(this.nodeSetArray(), fn, context || this);
+            },
+            getNodeSet: function () {
+                return this.nodeSetArray();
             },
             clear: function () {
-                //this.topology().off('projectionChange', this._projectionChangeFN, this);
-                nx.each(this.nodeSet(), function (nodeset) {
-                    nodeset.dispose();
+                nx.each(this.nodeSetArray(), function (nodeSet) {
+                    nodeSet.dispose();
                 });
 
-                this.nodeSet([]);
+                this.nodeSetArray([]);
                 this.nodeSetMap({});
                 this.inherited();
             },
-            _moveSelectionNodes: function (event, node) {
-                var topo = this.topology();
-                var nodes = topo.selectedNodes().toArray();
-                if (nodes.indexOf(node) === -1) {
-                    nodes.push(node);
-                }
-
-                nx.each(nodes, function (node) {
-                    node.move(event.drag.delta[0], event.drag.delta[1]);
-                });
+            dispose: function () {
+                this.topology().unwatch('stageScale', this.__watchStageScaleFN, this);
+                this.inherited();
             }
         }
     });

@@ -50,7 +50,6 @@
 
                     topo._dataBound = graph.getBound(_data.nodes);
 
-                    topo._setProjection(false, false);
 
 
                     var px = topo.projectionX();

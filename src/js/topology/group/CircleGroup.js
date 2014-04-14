@@ -46,7 +46,10 @@
 
             draw: function () {
                 var topo = this.topology();
-                var translate = topo.stage().translate();
+                var translate = {
+                    x: topo.matrix().x(),
+                    y: topo.matrix().y()
+                };
                 var bound = topo.getBoundByNodes(this.nodes().toArray());
                 var radius = Math.sqrt(Math.pow(bound.width / 2, 2) + Math.pow(bound.height / 2, 2));
 
@@ -56,14 +59,16 @@
                     cy: bound.top - translate.y + bound.height / 2,
                     r: radius,
                     fill: this.color(),
-                    stroke: this.color()
+                    stroke: this.color(),
+                    scale: topo.stageScale()
                 });
 
 
                 var text = this.view('text');
                 text.sets({
                     x: bound.left - translate.x + bound.width / 2,
-                    y: bound.top - translate.y + bound.height / 2 - radius - 6
+                    y: bound.top - translate.y + bound.height / 2 - radius - 12,
+                    scale: topo.stageScale()
                 });
                 text.view().dom().setStyle('fill', this.color());
             },

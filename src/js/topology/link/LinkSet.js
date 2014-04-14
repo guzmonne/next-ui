@@ -47,25 +47,26 @@
                 }
             },
             /**
-             * Is linkSet is auto collapes
-             * @property autoCollapse
-             */
-            autoCollapse: {
-                value: true
-            },
-            /**
              * LinkSet's color
              * @property color
              */
             color: {
                 set: function (inValue) {
                     var value = this._processPropertyValue(inValue);
-                    this.view('numBg').setStyle('fill', value);
-                    this.view('path').setStyle('stroke', value);
+                    this.$('numBg').setStyle('fill', value);
+                    this.$('path').setStyle('stroke', value);
                     this._color = value;
                 }
             },
-
+            stageScale: {
+                set: function (value) {
+                    this.$('path').setStyle('stroke-width', value);
+                    this.view('number').setTransform(null, null, value);
+                    /* jshint -W030 */
+                    this.model() && this._updateLinksOffset();
+                    this._stageScale = value;
+                }
+            },
             /**
              * Set/get link's usability
              * @property enable {Boolean}
@@ -82,28 +83,12 @@
                     });
                 }
             },
-            fade: {
-                value: false
-            },
             /**
              * Collapsed statues
              * @property collapsed
              */
-            collapsed: {
-                get: function () {
-                    return this._collapsed;
-                },
-                set: function (inValue) {
-                    var value = this._processPropertyValue(inValue);
-                    if (this._collapsed !== value) {
-                        this._collapsed = value;
-                        this._activated = !value;
-                        this.activated(value);
-                        return true;
-                    } else {
-                        return false;
-                    }
-                }
+            collapsedRule: {
+                value: false
             },
             activated: {
                 get: function () {
@@ -112,7 +97,6 @@
                 set: function (value) {
                     if (this._activated !== value) {
                         this._activated = value;
-                        this.updateLinkSet();
                         return true;
                     } else {
                         return false;
@@ -135,25 +119,33 @@
                     }
                 },
                 {
-                    name: 'numBg',
-                    type: 'nx.graphic.Rect',
-                    props: {
-                        'class': 'link-set-circle',
-                        height: 1
-                    },
-                    events: {
-                        'mousedown': '{#_number_mouseup}',
-                        'mouseenter': '{#_number_mouseenter}',
-                        'mouseleave': '{#_number_mouseleave}'
-                    }
-                },
-                {
-                    name: 'num',
-                    type: 'nx.graphic.Text',
-                    props: {
-                        'class': 'link-set-text'
-                    }
+                    name: 'number',
+                    type: 'nx.graphic.Group',
+                    content: [
+                        {
+                            name: 'numBg',
+                            type: 'nx.graphic.Rect',
+                            props: {
+                                'class': 'link-set-circle',
+                                height: 1
+                            },
+                            events: {
+                                'mousedown': '{#_number_mouseup}',
+                                'mouseenter': '{#_number_mouseenter}',
+                                'mouseleave': '{#_number_mouseleave}'
+                            }
+                        },
+                        {
+                            name: 'num',
+                            type: 'nx.graphic.Text',
+                            props: {
+                                'class': 'link-set-text',
+                                y: 1
+                            }
+                        }
+                    ]
                 }
+
             ]
         },
         methods: {
@@ -164,9 +156,8 @@
             },
             update: function () {
                 if (this._activated) {
-                    var lineEl = this.view('path');
                     var line = this.line();
-                    lineEl.sets({
+                    this.view('path').sets({
                         x1: line.start.x,
                         y1: line.start.y,
                         x2: line.end.x,
@@ -174,10 +165,7 @@
                     });
                     //num
                     var centerPoint = this.centerPoint();
-                    this.view('num').set('x', centerPoint.x);
-                    this.view('num').set('y', centerPoint.y);
-                    this.view('numBg').set('x', centerPoint.x);
-                    this.view('numBg').set('y', centerPoint.y);
+                    this.view('number').setTransform(centerPoint.x, centerPoint.y);
                 }
             },
             /**
@@ -185,7 +173,10 @@
              * @property updateLinkSet
              */
             updateLinkSet: function () {
-                if (this._activated) {
+                var value = this._processPropertyValue(this.collapsedRule());
+                this._activated = !value;
+                this.activated(value);
+                if (value) {
                     this.append();
                     this.update();
                     this._updateLinkNumber();
@@ -198,7 +189,7 @@
                     this.fire('collapseLinkSet');
                 } else {
                     this.remove();
-                    this._updateLinksGutter();
+                    this._updateLinksOffset();
                     /**
                      * Fired when expend linkSet
                      * @event expandLinkSet
@@ -231,7 +222,7 @@
             },
 
             _updateLinkNumber: function () {
-                var edges = this.model().getSubEdges();
+                var edges = this.model().getEdges();
                 var numEl = this.view('num');
                 var numBg = this.view('numBg');
                 if (edges.length == 1) {
@@ -255,7 +246,7 @@
                 }
 
             },
-            _updateLinksGutter: function () {
+            _updateLinksOffset: function () {
                 if (!this._activated) {
                     var obj = {};
                     this.eachLink(function (link, edge) {
@@ -266,14 +257,13 @@
                         } else {
                             link.updateLinkSet();
                         }
-
                     }, this);
 
                     nx.each(obj, function (links, linkKey) {
                         if (links.length > 1) {
                             var offset = (links.length - 1) / 2;
                             nx.each(links, function (link, index) {
-                                link.gutter(index * -1 + offset);
+                                link.offsetPercentage(index * -1 + offset);
                                 link.update();
                             }, this);
                         }

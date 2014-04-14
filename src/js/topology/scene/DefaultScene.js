@@ -70,7 +70,7 @@
             },
             dragStage: function (sender, event) {
                 var stage = this._topo.stage();
-                stage.setTransform(stage._translateX + event.drag.delta[0], stage._translateY + event.drag.delta[1]);
+                stage.applyTranslate(event.drag.delta[0], event.drag.delta[1]);
             },
             dragStageEnd: function (sender, event) {
                 this._topo.getLayer('links').root().setStyle('display', 'block');
@@ -120,7 +120,7 @@
                 clearTimeout(this._sceneTimer);
                 if (!this._nodeDragging) {
                     this._sceneTimer = setTimeout(function () {
-                        this._nodesLayer.highlightRelatedNode(node);
+                        this._topo.highlightRelatedNode(node);
                     }.bind(this), this._interval);
 //                    this._recover();
                 }
@@ -194,15 +194,15 @@
             },
 
 
-
             enterLink: function (sender, events) {
             },
 
             pressNodeSet: function (sender, nodeSet) {
             },
             clickNodeSet: function (sender, nodeSet) {
-//                clearTimeout(this._sceneTimer);
-//                this._recover();
+                clearTimeout(this._sceneTimer);
+                this._recover();
+                nodeSet.visible(false);
                 nodeSet.collapsed(!nodeSet.collapsed());
             },
 
@@ -210,21 +210,20 @@
                 clearTimeout(this._sceneTimer);
                 if (!this._nodeDragging) {
                     this._sceneTimer = setTimeout(function () {
-                        this._nodeSetLayer.highlightRelatedNode(nodeSet);
+                        this._topo.highlightRelatedNode(nodeSet);
                     }.bind(this), this._interval);
-                    //this._recover();
                 }
             },
             leaveNodeSet: function (sender, nodeSet) {
-//                clearTimeout(this._sceneTimer);
-//                if (!this._nodeDragging) {
-//                    this._recover();
-//                }
+                clearTimeout(this._sceneTimer);
+                if (!this._nodeDragging) {
+                    this._recover();
+                }
             },
             expandNodeSet: function (sender, nodeSet) {
-                nodeSet.visible(false);
                 clearTimeout(this._sceneTimer);
                 this._recover();
+                this._topo.zoomByNodes(nodeSet.getNodes());
                 this._topo.adjustLayout();
             },
             collapseNodeSet: function (sender, nodeSet) {
@@ -243,6 +242,15 @@
                 }
             },
 
+            addNode: function () {
+                this._topo.adjustLayout();
+            },
+            addNodeSet: function () {
+                this._topo.adjustLayout();
+            },
+            removeNode: function () {
+                this._topo.adjustLayout();
+            },
             right: function (sender, events) {
                 this._topo.move(30, null, 0.5);
             },

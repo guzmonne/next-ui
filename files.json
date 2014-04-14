@@ -10,11 +10,18 @@
         "src/js/ui/Popover.js",
 
 
-
         "src/js/core/DragManager.js",
         "src/js/core/Component.js",
         "src/js/render/svg/Icons.js",
         "src/js/render/svg/Components.js",
+        "src/js/render/svg/Stage.js",
+
+
+        "src/js/geometry/MatrixSupport.js",
+        "src/js/geometry/Matrix.js",
+        "src/js/geometry/Math.js",
+        "src/js/geometry/BezierCurve.js",
+        "src/js/geometry/Vector.js",
         "src/js/data/Vector.js",
         "src/js/data/Line.js",
 
@@ -27,6 +34,7 @@
         "src/js/data/Edge.js",
         "src/js/data/VertexSet.js",
         "src/js/data/EdgeSet.js",
+        "src/js/data/EdgeSetCollection.js",
 
         "src/js/data/processor/NeXtForce.js",
         "src/js/data/processor/Force.js",
@@ -64,7 +72,6 @@
         "src/js/topology/link/LinkSet.js",
         "src/js/topology/link/LinkSetLayer.js",
 
-
         "src/js/topology/layout/NeXtForceLayout.js",
         "src/js/topology/layout/USMapLayout.js",
         "src/js/topology/layout/WorldMapLayout.js",
@@ -82,22 +89,16 @@
         "src/js/topology/scene/SelectionNodeScene.js",
         "src/js/topology/scene/ZoomBySelection.js",
 
-
         "src/js/topology/group/GroupsLayer.js",
         "src/js/topology/group/GroupItem.js",
         "src/js/topology/group/RectGroup.js",
         "src/js/topology/group/CircleGroup.js",
         "src/js/topology/group/PolygonGroup.js",
 
-
         "src/js/topology/path/Path.js",
         "src/js/topology/path/PathLayer.js",
 
         "src/js/topology/plugin/Nav.js",
         "src/js/topology/plugin/Search.js"
-
-
-
-
     ]
 }

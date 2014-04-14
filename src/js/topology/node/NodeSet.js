@@ -18,11 +18,6 @@
                     return [];
                 }
             },
-            links: {
-                value: function () {
-                    return [];
-                }
-            },
             showIcon: {
                 set: function (inValue) {
                     var value = this._processPropertyValue(inValue);
@@ -54,17 +49,17 @@
              */
             collapsed: {
                 get: function () {
-                    return this._collapsed !== undefined ? this._collapsed : null;
+                    return this._collapsed !== undefined ? this._collapsed : true;
                 },
                 set: function (inValue) {
                     var value = this._processPropertyValue(inValue);
                     if (this._collapsed !== value) {
                         this._collapsed = value;
+                        this.model().visible(value);
+                        this.activated(value);
                         if (value) {
-                            this.model().visible(true);
                             this._collapse();
                         } else {
-                            this.model().visible(false);
                             this._expand();
                         }
                         return true;
@@ -72,6 +67,9 @@
                         return false;
                     }
                 }
+            },
+            activated: {
+                value: true
             }
         },
         view: {
@@ -194,77 +192,102 @@
             setModel: function (model) {
                 this.inherited(model);
                 //init
-                this._collapsed = model._activated;
+                this._activated = model.activated();
                 //set binding
-                this.setBinding('collapsed', 'model.activated,direction=<>', this);
+                this.setBinding('activated', 'model.activated,direction=<>', this);
             },
             _expand: function () {
+                var nodesPositionMap = {};
+                var position = this.position();
+                this.set('visible', false);
 
-                this._originalVerteicesPosition = {};
 
-                var vertices = this.model().vertices();
-
-                nx.each(vertices, function (vertex) {
-                    var postion = this.model().position();
-                    this._originalVerteicesPosition[vertex.id()] = vertex.position();
-                    vertex.position(postion);
+                this.eachNode(function (node) {
+                    nodesPositionMap[node.id()] = node.position();
+                    node.position(position);
                 }, this);
-
-
-                this.remove();
-
-
+                this.eachNode(function (node) {
+                    var position = nodesPositionMap[node.id()];
+                    node.moveTo(position.x, position.y, null, true, 900);
+                }, this);
                 setTimeout(function () {
-                    var topo = this.topology();
-                    nx.each(this.getNodes(), function (node) {
-                        var position = topo.getProjectedPosition(this._originalVerteicesPosition[node.id()]);
-                        node.moveTo(position.x, position.y, null, true, 300);
-//                        node.cssMoveTo(position.x, position.y);
-                    }, this);
-
-                    setTimeout(function () {
-                        this.fire('expandNode', this);
-                    }.bind(this), 300);
-
-
-                }.bind(this), 0);
+                    this.fire('expandNode', this);
+                }.bind(this), 1200);
             },
 
             _collapse: function () {
-                this.append();
+                this.set('visible', true);
                 this.fire('collapseNode');
             },
 
             /**
+             * Iterate chi;ld nodes/nodeSet in this nodeSet
+             * @method eachNode
+             * @param callback
+             * @param context
+             */
+            eachNode: function (callback, context) {
+                var topo = this.topology();
+                var vertices = this.model().vertices();
+                var vertexSet = this.model().vertexSet();
+
+                if (!callback) {
+                    return;
+                }
+                nx.each(nx.extend({}, vertices, vertexSet), function (vertex) {
+                    var node = topo.getNode(vertex.id());
+                    if (node) {
+                        callback.call(context || this, node);
+                    }
+                });
+
+            },
+            /**
              * Get all sub nodes
+             * @method getNodes
              * @returns {Array}
              */
             getNodes: function () {
-                var vertices = this.model().vertices();
-                var topo = this.topology();
                 var nodes = [];
-
-                nx.each(vertices, function (vertex) {
-                    nodes.push(topo.getNode(vertex.id()));
-                });
-
+                this.eachNode(function (node) {
+                    nodes[nodes.length] = node;
+                }, this);
                 return nodes;
             },
-            getAllLeafNodes: function () {
-                var vertices = this.model().vertices();
-                var layer = this.owner();
-                var nodes = [];
-
-                nx.each(vertices, function (vertex) {
-                    var node = layer.getNode(vertex.id());
-                    if (node instanceof  nx.graphic.Topology.NodeSet) {
-                        nodes = nodes.concat(node.getLeafNodes());
+            /**
+             * Iterate all sub nodes in this node set
+             * @method eachSunNode
+             * @param callback
+             * @param context
+             */
+            eachSunNode: function (callback, context) {
+                if (!callback) {
+                    return;
+                }
+                this.eachNode(function (node) {
+                    if (nx.is(node, 'nx.graphic.Topology.NodeSet')) {
+                        node.eachSunNode(callback, context);
                     } else {
-                        nodes.push(node);
+                        callback.call(context || this, node);
                     }
-                });
+                }, this);
+            },
+            /**
+             * Get all sub nodes
+             * @method getSubNodes
+             * @returns {Array}
+             */
+            getSubNodes: function () {
+                var nodes = [];
+                this.eachSunNode(function (node) {
+                    nodes[nodes.length] = node;
+                }, this);
                 return nodes;
             },
+            /**
+             * Get root parent node set
+             * @returns {*}
+             */
             getRootParentNodeSet: function () {
                 var parentEdgeSet = this.model().getTopParentVertexSet();
                 if (parentEdgeSet) {

@@ -44,7 +44,7 @@
                 value: "auto"
             },
             /**
-             * Get/set a path's gutter
+             * Get/set a path's offset
              * @property pathGutter
              */
             pathGutter: {
@@ -83,7 +83,8 @@
             },
             owner: {
 
-            }
+            },
+            topology: {}
         },
         methods: {
             init: function (props) {
@@ -128,14 +129,14 @@
                 //first
                 var firstLink = links[0];
 
-                var gutter = firstLink.getGutter();
+                var offset = firstLink.getOffset();
                 if (firstLink.reverse()) {
-                    gutter *= -1;
+                    offset *= -1;
                 }
 
-                gutter = new Vector(0, this.reverse() ? gutter * -1 : gutter);
+                offset = new Vector(0, this.reverse() ? offset * -1 : offset);
 
-                line1 = linksSequentialArray[0].translate(gutter);
+                line1 = linksSequentialArray[0].translate(offset);
 
                 if (pathPadding === "auto") {
                     paddingStart = Math.min(firstLink.sourceNode().showIcon() ? 24 : 4, line1.length() / 4);
@@ -166,7 +167,7 @@
                 if (links.length > 1) {
                     for (var i = 1; i < count; i++) {
                         link = links[i];
-                        line2 = linksSequentialArray[i].translate(new Vector(0, link.getGutter()));
+                        line2 = linksSequentialArray[i].translate(new Vector(0, link.getOffset()));
                         pt = line1.translate(v1).intersection(line2.translate(v1));
 
                         if (isFinite(pt.x) && isFinite(pt.y)) {
@@ -222,7 +223,7 @@
                 }
 
                 this.resolve("path").set('d', d1.concat(d2).join(' '));
-
+                //this.resolve("path").setTransform(null, null, this.topology().stageScale());
 
                 //todo
 //                if (links.length == 1) {

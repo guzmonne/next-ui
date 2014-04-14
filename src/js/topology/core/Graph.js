@@ -30,11 +30,11 @@
                     return this.graph().getData();
                 },
                 set: function (value) {
+                    if (!value) {
+                        return;
+                    }
 
                     var fn = function (data) {
-                        if (!data) {
-                            return;
-                        }
                         /**
                          * Fired before start process data
                          * @event beforeSetData
@@ -44,8 +44,8 @@
                         this.fire("beforeSetData", data);
                         this.clear();
                         this.graph().sets({
-                            width: this.visibleContainerWidth(),
-                            height: this.visibleContainerHeight()
+                            width: this.width(),
+                            height: this.height()
                         });
                         // set Data;
                         this.graph().setData(data);
@@ -194,14 +194,10 @@
                 }, this);
 
                 graph.on("removeEdgeSet", function (sender, edgeSet) {
-                    if (this.supportMultipleLink()) {
-                        linkSetLayer.removeLinkSet(edgeSet);
-                    }
+                    linkSetLayer.removeLinkSet(edgeSet);
                 }, this);
                 graph.on("updateEdgeSet", function (sender, edgeSet) {
-                    if (this.supportMultipleLink()) {
-                        linkSetLayer.updateLinkSet(edgeSet);
-                    }
+                    linkSetLayer.updateLinkSet(edgeSet);
                 }, this);
 
 
@@ -222,6 +218,17 @@
                 }, this);
 
 
+                graph.on("addEdgeSetCollection", function (sender, esc) {
+                    linkSetLayer.addLinkSet(esc);
+                }, this);
+
+                graph.on("removeEdgeSetCollection", function (sender, esc) {
+                    linkSetLayer.removeLinkSet(esc);
+                }, this);
+                graph.on("updateEdgeSetCollection", function (sender, esc) {
+                    linkSetLayer.updateLinkSet(esc);
+                }, this);
+
                 graph.on("setData", function (sender, data) {
 
                 }, this);
@@ -238,9 +245,13 @@
 
 
                 graph.on("startGenerate", function (sender, event) {
-                    this._setProjection();
+                    //this._setProjection();
                 }, this);
                 graph.on("endGenerate", function (sender, event) {
+
+                    this.stage().fit();
+
+
                     /**
                      * Fired when all topology elements generated
                      * @event topologyGenerated
@@ -254,13 +265,14 @@
                         });
                     } else if (this.enableSmartLabel()) {
                         setTimeout(function () {
+
                             this.fire('topologyGenerated');
                         }.bind(this), 100);
                     } else {
                         this.fire('topologyGenerated');
                     }
 
-                    this.hideLoading();
+                    //this.hideLoading();
 
                 }, this);
 

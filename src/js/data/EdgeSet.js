@@ -68,18 +68,10 @@
                 set: function (value) {
                     var graph = this.graph();
                     this.eachEdge(function (edge) {
-                        if (edge.type() == 'edge') {
-                            if (value) {
-                                graph.fire('removeEdge', edge);
-                            } else {
-                                graph.fire('addEdge', edge);
-                            }
-                        } else if (edge.type() == 'edgeSet') {
-                            if (value) {
-                                graph.fire('removeEdgeSet', edge);
-                            } else {
-                                graph.fire('addEdgeSet', edge);
-                            }
+                        if (value) {
+                            graph.fire('removeEdge', edge);
+                        } else {
+                            graph.fire('addEdge', edge);
                         }
                     }, this);
                     this._activated = value;
@@ -124,71 +116,22 @@
                 nx.each(this.edges(), callback, context || this);
             },
             /**
+             * Get all child edges
              * @method getEdges
              * @returns {Array}
              */
             getEdges: function () {
                 var edges = [];
-                this.eachEdge(function (edge, edgeID) {
+                this.eachEdge(function (edge) {
                     edges.push(edge);
                 }, this);
                 return edges;
             },
-            /**
-             * Get all sub edges
-             * @returns {Array}
-             */
-            getSubEdges: function () {
-                var edges = [];
-                this.eachEdge(function (edge, edgeID) {
-                    if (edge instanceof nx.data.EdgeSet) {
-                        edges = edges.concat(edge.getSubEdges());
-                    } else {
-                        edges.push(edge);
-                    }
-                }, this);
-                return edges;
-            },
-            /**
-             * Iterate each sub edges
-             * @method eachSubEdge
-             * @param callback {Function}
-             * @param context {Object}
-             */
-            eachSubEdge: function (callback, context) {
-                var edges = this.getSubEdges();
-                nx.each(edges, callback, context);
-            },
-            getRootEdgeSet: function () {
-                var parent = this.parentEdgeSet();
-                while (parent) {
-                    parent = parent.parentEdgeSet();
-                }
-                return parent;
-            },
-            /**
-             * Detect is this edge set include sub edge set
-             * @method containEdgeSet
-             * @returns {boolean}
-             */
-            containEdgeSet: function () {
-                var result = false;
-                this.eachEdge(function (edge) {
-                    if (edge instanceof nx.data.EdgeSet) {
-                        result = true;
-                    }
-                }, this);
-                return result;
-            },
-            removeEdges: function () {
+            disposeEdges: function () {
                 var graph = this.graph();
                 nx.each(this.edges(), function (edge) {
                     edge.generated(false);
-                    if (edge.type() == 'edge') {
-                        graph.fire('removeEdge', edge);
-                    } else if (edge.type() == 'edgeSet') {
-                        graph.fire('removeEdgeSet', edge);
-                    }
+                    graph.fire('removeEdge', edge);
                 });
             }
         }

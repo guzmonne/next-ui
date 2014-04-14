@@ -96,12 +96,14 @@
                 },
                 {
                     name: "stage",
-                    type: "nx.graphic.TopologyStage",
+                    type: "nx.graphic.Stage",
                     props: {
                         width: "{#width}",
                         height: "{#height}",
-                        translateX: '{#paddingLeft}',
-                        translateY: '{#paddingTop}'
+                        matrixObject: '{#matrix,direction=<>}',
+                        stageScale: '{#stageScale,direction=<>}',
+                        padding: '{#padding}'
+
                     },
                     events: {
                         ':mousedown': '{#_pressStage}',
@@ -153,6 +155,7 @@
                 this.inherited(args);
                 this.sets(args);
 
+                this.initStage();
                 this.initLayer();
                 this.initGraph();
                 this.initNode();

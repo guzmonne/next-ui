@@ -49,7 +49,10 @@
 
             draw: function () {
                 var topo = this.topology();
-                var translate = topo.stage().translate();
+                var translate = {
+                    x: topo.matrix().x(),
+                    y: topo.matrix().y()
+                };
                 var bound = topo.getBoundByNodes(this.nodes().toArray());
                 bound.left -= translate.x;
                 bound.top -= translate.y;
@@ -66,13 +69,14 @@
                 });
 
                 shape.nodes(vectorArray);
-                shape.setStyle('stroke-width',60);
+                shape.setStyle('stroke-width', 60);
 
 
                 var text = this.view('text');
                 text.sets({
                     x: bound.left + bound.width / 2,
-                    y: bound.top - 3
+                    y: bound.top - 3,
+                    scale: topo.stageScale()
                 });
                 text.view().dom().setStyle('fill', this.color());
             },
