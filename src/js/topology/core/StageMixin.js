@@ -71,7 +71,9 @@
                 value: 1
             },
             matrix: {
-                value: nx.geometry.Matrix.I
+                value: function () {
+                    return new nx.geometry.Matrix(nx.geometry.Matrix.I);
+                }
             },
             /**
              * Set/get is topology use projection, or just use the data's original position information
@@ -299,7 +301,7 @@
                 if (this._adjustLayoutTimer) {
                     clearTimeout(this._adjustLayoutTimer);
                 }
-                this._adjustLayoutTimer = setTimeout(function() {
+                this._adjustLayoutTimer = setTimeout(function () {
                     var graph = this.graph();
                     if (graph) {
                         var startTime = new Date();

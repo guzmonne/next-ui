@@ -168,16 +168,26 @@
                 var stageBound = this.stage().getBound();
                 var topoBound = this.view().dom().getBound();
 
-                return {
-                    left: stageBound.left - topoBound.left,
-                    top: stageBound.top - topoBound.top,
-                    width: stageBound.width,
-                    height: stageBound.height
-                };
+                if (stageBound.left == 0 && stageBound.top == 0 && stageBound.width == 0 && stageBound.height == 0) {
+                    var padding = this.padding();
+                    return {
+                        left: padding,
+                        top: padding,
+                        height: this.height() - padding * 2,
+                        width: this.width() - padding * 2
+                    };
+                } else {
+                    return {
+                        left: stageBound.left - topoBound.left,
+                        top: stageBound.top - topoBound.top,
+                        width: stageBound.width,
+                        height: stageBound.height
+                    };
+                }
             },
             calcRectZoomMatrix: function (graph, rect) {
                 var s = Math.min(graph.height / Math.abs(rect.height), graph.width / Math.abs(rect.width));
-                var p = [(s * (rect.left + rect.width / 2) - (graph.left + graph.width / 2)) / (s - 1), (s * (rect.top + rect.height / 2) - (graph.top + graph.height / 2)) / (s - 1)];
+                var p = s == 1 ? [0, 0] : [(s * (rect.left + rect.width / 2) - (graph.left + graph.width / 2)) / (s - 1), (s * (rect.top + rect.height / 2) - (graph.top + graph.height / 2)) / (s - 1)];
                 return nx.geometry.Matrix.multiply([
                     [1, 0, 0],
                     [0, 1, 0],
