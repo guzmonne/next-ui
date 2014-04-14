@@ -10,6 +10,7 @@
     <script type="text/javascript" src="../src/js/Aspect.js"></script>
     <script type="text/javascript" src="../src/js/Env.js"></script>
     <script type="text/javascript" src="../src/js/Util.js"></script>
+    <script type="text/javascript" src="../src/js/Debugger.js"></script>
     <script type="text/javascript" src="../src/js/HttpClient.js"></script>
     <script type="text/javascript" src="../src/js/dom/Node.js"></script>
     <script type="text/javascript" src="../src/js/dom/Text.js"></script>
@@ -284,6 +285,9 @@ var MyComp = nx.define(nx.ui.Component, {
         dict: null
     },
     methods: {
+        init:function(){
+
+        },
         onClick: function (sender, event) {
             console.log('onClick', sender, event);
         },
