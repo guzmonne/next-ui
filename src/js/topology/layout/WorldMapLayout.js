@@ -50,7 +50,8 @@
      */
     nx.define("nx.graphic.Topology.WorldMapLayout", {
         properties: {
-            topology: {}
+            topology: {},
+            projection: {}
         },
         methods: {
             process: function (graph, config, callback) {
@@ -97,12 +98,6 @@
                 var longitude = config.longitude || 'model.longitude',
                     latitude = config.latitude || 'model.latitude';
 
-
-                topo.projectionXRange([0, 960]);
-                topo.projectionYRange([0, 500]);
-
-                topo._setProjection(false, false);
-
                 topo.eachNode(function (n) {
 
                     var model = n.model();
@@ -114,12 +109,12 @@
                     });
                 });
 
-                topo.adjustLayout();
-
-                topo.getLayer("worldMap").updateMap();
+                this.projection(projection);
 
                 if (callback) {
-                    callback.call(topo);
+                    topo.getLayer("worldMap").complete(function () {
+                        callback.call(topo);
+                    });
                 }
             }
 
@@ -130,6 +125,9 @@
     //
 
     nx.define("nx.graphic.Topology.WorldMapLayer", nx.graphic.Topology.Layer, {
+        properties: {
+            complete: {}
+        },
         view: {
             type: 'nx.graphic.Group',
             content: {
@@ -141,7 +139,7 @@
             draw: function () {
 
                 var map = this.view('map');
-
+                var topo = this.topology();
                 var group = d3.select(map.view().dom().$dom);
 
                 var path = d3.geo.path().projection(projection);
@@ -158,18 +156,24 @@
                         }))
                         .attr("class", "boundary mapBoundary")
                         .attr("d", path);
-                });
 
-                this.topology().on("resetzooming", this.update, this);
-                this.topology().on("zoomend", this.update, this);
-                this.topology().on("fitStage", this.updateMap, this);
+                    topo.fit();
+                    if (this.complete()) {
+                        this.complete().call();
+                    }
+
+                }.bind(this));
+
             },
             updateMap: function () {
-                var g = this.view('map');
-                var scale = Math.min(this.topology().containerWidth() / width, this.topology().containerHeight() / height);
-                var translateX = (this.topology().containerWidth() - width * scale) / 2;
-                var translateY = (this.topology().containerHeight() - height * scale) / 2;
-                g.setTransform(translateX, translateY, scale);
+//                var topo = this.topology();
+//                var g = this.view('map');
+//                var width = 960, height = 500;
+//                var containerWidth = topo._width - topo._padding * 2, containerHeight = topo._height - topo._padding * 2;
+//                var scale = Math.min(containerWidth / width, containerHeight / height);
+//                var translateX = (containerWidth - width * scale) / 2;
+//                var translateY = (containerHeight - height * scale) / 2;
+//                g.setTransform(translateX, translateY, scale);
             },
             update: function () {
                 var topo = this.topology();

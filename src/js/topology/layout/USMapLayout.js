@@ -41,7 +41,8 @@
 
     nx.define("nx.graphic.Topology.USMapLayout", {
         properties: {
-            topology: {}
+            topology: {},
+            projection: {}
         },
         methods: {
             process: function (graph, config, callback) {
@@ -65,11 +66,6 @@
                     latitude = config.latitude || 'model.latitude';
 
 
-                topo.projectionXRange([0, 960]);
-                topo.projectionYRange([0, 500]);
-
-                topo._setProjection(false, false);
-
                 topo.eachNode(function (n) {
 
                     var model = n.model();
@@ -81,9 +77,9 @@
                     });
                 });
 
-                topo.adjustLayout();
+                topo.fit();
 
-                topo.getLayer("usmap").updateMap();
+                this.projection(projection);
 
                 if (callback) {
                     callback.call(topo);
@@ -106,29 +102,22 @@
         },
         methods: {
             draw: function () {
-
                 var map = this.view('map');
                 var ns = "http://www.w3.org/2000/svg";
                 var el = new DOMParser().parseFromString('<svg  xmlns="' + ns + '">' + USMAP + '</svg>', 'text/xml');
                 map.view().dom().$dom.appendChild(document.importNode(el.documentElement.firstChild, true));
-
-
-                this.topology().on("resetzooming", this.update, this);
-                this.topology().on("zoomend", this.update, this);
-                this.topology().on("fitStage", this.updateMap, this);
             },
             updateMap: function () {
-                var g = this.view('map');
-                var width = 960, height = 500;
-                var scale = Math.min(this.topology().containerWidth() / width, this.topology().containerHeight() / height);
-                var translateX = (this.topology().containerWidth() - width * scale) / 2;
-                var translateY = (this.topology().containerHeight() - height * scale) / 2;
-                g.setTransform(translateX, translateY, scale);
-            },
-            update: function () {
-                var topo = this.topology();
-                this.set("scale", topo.scale());
+//                var topo = this.topology();
+//                var g = this.view('map');
+//                var width = 960, height = 500;
+//                var containerWidth = topo._width - topo._padding * 2, containerHeight = topo._height - topo._padding * 2;
+//                var scale = Math.min(containerWidth / width, containerHeight / height);
+//                var translateX = (containerWidth - width * scale) / 2;
+//                var translateY = (containerHeight - height * scale) / 2;
+//                g.setTransform(translateX, translateY, scale);
             }
+
         }
     });
 
