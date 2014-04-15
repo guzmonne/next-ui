@@ -219,7 +219,7 @@
                 return {
                     x: (obj.x || 1) * matrix.scale(),
                     y: (obj.y || 1) * matrix.scale()
-                }
+                };
             },
             /**
              * Make topology graphic fit stage
