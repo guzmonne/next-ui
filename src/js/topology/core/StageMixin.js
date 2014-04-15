@@ -215,10 +215,11 @@
                 };
             },
             getAbsolutePosition: function (obj) {
-                var matrix = this.matrix();
+                var topoMatrix = this.matrix();
+                var stageScale = topoMatrix.scale();
                 return {
-                    x: (obj.x || 1) * matrix.scale(),
-                    y: (obj.y || 1) * matrix.scale()
+                    x: obj.x * stageScale + topoMatrix.x(),
+                    y: obj.y * stageScale + topoMatrix.y()
                 };
             },
             /**
