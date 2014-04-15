@@ -303,7 +303,7 @@
                     content.sets({
                         topology: topo,
                         nodeSet: nodeSet,
-                        model: topo.graph()
+                        model: topo.model()
                     });
                 }
 
@@ -346,7 +346,7 @@
                     content.sets({
                         topology: topo,
                         link: link,
-                        model: topo.graph()
+                        model: topo.model()
                     });
                 }
 
@@ -380,16 +380,13 @@
                 }
 
                 var pos = position || topo.getAbsolutePosition(linkSet.centerPoint());
-                var stageBound = topo.view().dom().getBound();
-
-
                 var contentClass = nx.path(global, this.linkSetTooltipContentClass());
                 if (contentClass) {
                     content = new contentClass();
                     content.sets({
                         topology: topo,
                         linkSet: linkSet,
-                        model: topo.graph()
+                        model: topo.model()
                     });
                 }
 
@@ -403,7 +400,6 @@
                     offsetX: 0,
                     offsetY: 8
                 });
-
 
                 this.fire("openLinkSetToolTip", linkSet);
             },
