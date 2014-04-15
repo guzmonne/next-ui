@@ -32,13 +32,17 @@
                 },
                 {
                     name: 'text',
-                    type: 'nx.graphic.Text',
-                    props: {
-                        'class': 'groupLabel',
-                        text: '{#label}'
-                    },
-                    events: {
-                        'click': '{#_clickLabel}'
+                    type: 'nx.graphic.Group',
+                    content: {
+                        name: 'label',
+                        type: 'nx.graphic.Text',
+                        props: {
+                            'class': 'groupLabel',
+                            text: '{#label}'
+                        },
+                        events: {
+                            'click': '{#_clickLabel}'
+                        }
                     }
                 }
             ]
@@ -49,16 +53,18 @@
 
             draw: function () {
                 var topo = this.topology();
+                var stageScale = topo.stageScale();
                 var translate = {
                     x: topo.matrix().x(),
                     y: topo.matrix().y()
                 };
                 var bound = topo.getBoundByNodes(this.nodes().toArray());
-
+                bound.left -= translate.x;
+                bound.top -= translate.y;
                 var shape = this.view('shape');
                 shape.sets({
-                    x: bound.left - translate.x,
-                    y: bound.top - translate.y,
+                    x: bound.left,
+                    y: bound.top,
                     width: bound.width,
                     height: bound.height,
                     fill: this.color(),
@@ -68,12 +74,19 @@
 
 
                 var text = this.view('text');
-                text.sets({
-                    x: bound.left - translate.x + bound.width / 2,
-                    y: bound.top - translate.y - 12,
-                    scale: topo.stageScale()
-                });
+
+
+
+                text.setTransform((bound.left + bound.width / 2) * stageScale, (bound.top - 12) * stageScale, stageScale);
                 text.view().dom().setStyle('fill', this.color());
+
+//
+//                text.sets({
+//                    x: bound.left - translate.x + bound.width / 2,
+//                    y: bound.top - translate.y - 12,
+//                    scale: topo.stageScale()
+//                });
+//                text.view().dom().setStyle('fill', this.color());
             },
             _clickLabel: function (sender, event) {
                 /**
@@ -116,8 +129,9 @@
                 this.fire('dragGroupEnd', event);
             },
             _updateNodesPosition: function (x, y) {
+                var stageScale = this.topology().stageScale();
                 this.nodes().each(function (node) {
-                    node.move(x, y);
+                    node.move(x * stageScale, y * stageScale);
                 });
             }
         }

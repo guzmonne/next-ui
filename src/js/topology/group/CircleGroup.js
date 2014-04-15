@@ -29,13 +29,17 @@
                 },
                 {
                     name: 'text',
-                    type: 'nx.graphic.Text',
-                    props: {
-                        'class': 'groupLabel',
-                        text: '{#label}'
-                    },
-                    events: {
-                        'click': '{#_clickLabel}'
+                    type: 'nx.graphic.Group',
+                    content: {
+                        name: 'label',
+                        type: 'nx.graphic.Text',
+                        props: {
+                            'class': 'groupLabel',
+                            text: '{#label}'
+                        },
+                        events: {
+                            'click': '{#_clickLabel}'
+                        }
                     }
                 }
             ]
@@ -65,11 +69,11 @@
 
 
                 var text = this.view('text');
-                text.sets({
-                    x: bound.left - translate.x + bound.width / 2,
-                    y: bound.top - translate.y + bound.height / 2 - radius - 12,
-                    scale: topo.stageScale()
-                });
+                var stageScale = topo.stageScale();
+                bound.left -= translate.x;
+                bound.top -= translate.y;
+
+                text.setTransform((bound.left + bound.width / 2) * stageScale, (bound.top + bound.height / 2 - radius - 12) * stageScale, stageScale);
                 text.view().dom().setStyle('fill', this.color());
             },
             _clickLabel: function (sender, event) {
@@ -113,8 +117,9 @@
                 this.fire('dragGroupEnd', event);
             },
             _updateNodesPosition: function (x, y) {
+                var stageScale = this.topology().stageScale();
                 this.nodes().each(function (node) {
-                    node.move(x, y);
+                    node.move(x * stageScale, y * stageScale);
                 });
             }
         }

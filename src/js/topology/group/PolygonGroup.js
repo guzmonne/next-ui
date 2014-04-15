@@ -32,13 +32,17 @@
                 },
                 {
                     name: 'text',
-                    type: 'nx.graphic.Text',
-                    props: {
-                        'class': 'groupLabel',
-                        text: '{#label}'
-                    },
-                    events: {
-                        'click': '{#_clickLabel}'
+                    type: 'nx.graphic.Group',
+                    content: {
+                        name: 'label',
+                        type: 'nx.graphic.Text',
+                        props: {
+                            'class': 'groupLabel',
+                            text: '{#label}'
+                        },
+                        events: {
+                            'click': '{#_clickLabel}'
+                        }
                     }
                 }
             ]
@@ -49,35 +53,35 @@
 
             draw: function () {
                 var topo = this.topology();
+                var stageScale = topo.stageScale();
                 var translate = {
                     x: topo.matrix().x(),
                     y: topo.matrix().y()
                 };
+
+                var vectorArray = [];
+                this.nodes().each(function (node) {
+                    if (node.visible()) {
+                        vectorArray.push({x: node.x(), y: node.y()});
+                    }
+                });
+                var shape = this.view('shape');
+                var text = this.view('text');
+                shape.sets({
+                    fill: this.color()
+                });
+                shape.setStyle('stroke', this.color());
+                shape.setStyle('stroke-width', 60 * stageScale);
+                shape.nodes(vectorArray);
+
+
+
+
                 var bound = topo.getBoundByNodes(this.nodes().toArray());
                 bound.left -= translate.x;
                 bound.top -= translate.y;
 
-                var shape = this.view('shape');
-                shape.sets({
-                    fill: this.color(),
-                    stroke: this.color()
-                });
-
-                var vectorArray = [];
-                this.nodes().each(function (node) {
-                    vectorArray.push({x: node.x(), y: node.y()});
-                });
-
-                shape.nodes(vectorArray);
-                shape.setStyle('stroke-width', 60);
-
-
-                var text = this.view('text');
-                text.sets({
-                    x: bound.left + bound.width / 2,
-                    y: bound.top - 3,
-                    scale: topo.stageScale()
-                });
+                text.setTransform((bound.left + bound.width / 2) * stageScale, (bound.top - 5) * stageScale, stageScale);
                 text.view().dom().setStyle('fill', this.color());
             },
             _clickLabel: function (sender, event) {
@@ -121,8 +125,9 @@
                 this.fire('dragGroupEnd', event);
             },
             _updateNodesPosition: function (x, y) {
+                var stageScale = this.topology().stageScale();
                 this.nodes().each(function (node) {
-                    node.move(x, y);
+                    node.move(x * stageScale, y * stageScale);
                 });
             }
         }

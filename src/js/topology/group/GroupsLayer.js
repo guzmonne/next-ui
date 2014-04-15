@@ -70,9 +70,7 @@
             attach: function (args) {
                 this.inherited(args);
                 var topo = this.topology();
-                topo.on('resetzooming', this._draw, this);
                 topo.on('zoomend', this._draw, this);
-
             },
             /**
              * Add a group to group layer

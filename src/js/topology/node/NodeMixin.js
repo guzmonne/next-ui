@@ -124,18 +124,21 @@
 
                 var boundAry = [];
 
-                var lastIndex = inNodes.length - 1;
+
 
 
                 nx.each(inNodes, function (node) {
-                    if (isNotIncludeLabel) {
-                        boundAry.push(node.getIconBound());
-                    } else {
-                        boundAry.push(this.getInsideBound(node.getBound()));
+                    if (node.visible()) {
+                        if (isNotIncludeLabel) {
+                            boundAry.push(node.getIconBound());
+                        } else {
+                            boundAry.push(this.getInsideBound(node.getBound()));
+                        }
                     }
                 }, this);
 
 
+                var lastIndex = boundAry.length - 1;
                 var bound = {
                     left: 0,
                     top: 0,
@@ -204,8 +207,8 @@
              */
             addNodeSet: function (obj, inOption) {
                 var vertex = this.graph().addVertexSet(obj, inOption);
-                var nodeSet =  this.getNode(vertex.id());
-                this.fire("addNodeSet",nodeSet);
+                var nodeSet = this.getNode(vertex.id());
+                this.fire("addNodeSet", nodeSet);
                 return nodeSet;
             },
             aggregationNodes: function (inNodes, inName) {

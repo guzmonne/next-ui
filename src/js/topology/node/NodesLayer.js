@@ -77,6 +77,8 @@
             updateNode: function (vertex) {
 
             },
+            highlightRelatedNode: function () {
+            },
 
             updateNodeRevisionScale: function (value) {
                 var radius = 6;
@@ -89,7 +91,7 @@
 
 
                 this.eachNode(function (node) {
-                    if(topo.showIcon()){
+                    if (topo.showIcon()) {
                         node.showIcon(value == 1);
                     }
                     node.radius(radius);
