@@ -133,7 +133,9 @@
                     // attach to the event
                     evt.drag = this._makeDragData(evt);
                     // fire events
-                    node.fire("dragend", evt);
+                    if (this.dragging()) {
+                        node.fire("dragend", evt);
+                    }
                     // clear status
                     this.node(null);
                     this.track(null);
