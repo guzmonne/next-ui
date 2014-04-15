@@ -4,24 +4,10 @@
     <title></title>
     <title>Test for NeXt UI</title>
     <link type="text/css" rel="stylesheet" href="qunit/qunit-1.12.0.css">
-    <script type="text/javascript" src="qunit/qunit-1.12.0.js"></script>
-    <script type="text/javascript" src="qunit/qunit-reporter-junit.js"></script>
-    <script type="text/javascript" src="../lib/next/next-core.js"></script>
-    <script type="text/javascript" src="../src/js/Aspect.js"></script>
-    <script type="text/javascript" src="../src/js/Env.js"></script>
-    <script type="text/javascript" src="../src/js/Util.js"></script>
-    <script type="text/javascript" src="../src/js/Debugger.js"></script>
-    <script type="text/javascript" src="../src/js/HttpClient.js"></script>
-    <script type="text/javascript" src="../src/js/dom/Node.js"></script>
-    <script type="text/javascript" src="../src/js/dom/Text.js"></script>
-    <script type="text/javascript" src="../src/js/dom/Fragment.js"></script>
-    <script type="text/javascript" src="../src/js/dom/Element.js"></script>
-    <script type="text/javascript" src="../src/js/dom/Document.js"></script>
-    <script type="text/javascript" src="../src/js/ui/AbstractComponent.js"></script>
-    <script type="text/javascript" src="../src/js/ui/Component.js"></script>
-    <script type="text/javascript" src="../src/js/ui/Behavior.js"></script>
-    <script type="text/javascript" src="../src/js/ui/DraggableBehavior.js"></script>
-    <script type="text/javascript" src="../src/js/ui/Application.js"></script>
+    <script type="text/javascript"
+            src="http://10.75.161.96:8080/jenkins/job/DailyBuild/lastSuccessfulBuild/artifact/dest/next-core.js"></script>
+    <script type="text/javascript"
+            src="http://10.75.161.96:8080/jenkins/job/nextui/lastSuccessfulBuild/artifact/dest/js/next-ui.js"></script>
     <!--<script type="text/javascript" src="ComponentBase.js"></script>-->
     <!--<script type="text/javascript" src="UIComponent.js"></script>-->
 </head>
@@ -285,9 +271,6 @@ var MyComp = nx.define(nx.ui.Component, {
         dict: null
     },
     methods: {
-        init:function(){
-
-        },
         onClick: function (sender, event) {
             console.log('onClick', sender, event);
         },
