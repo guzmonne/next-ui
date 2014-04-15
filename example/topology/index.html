@@ -394,6 +394,25 @@ var Demo = nx.define(nx.ui.Component, {
             });
 
             this.addItem({
+                categoryName: 'Tooltip',
+                itemKey: 'base',
+                itemLabel: 'Node tooltip',
+                files: ['tooltip/node.js'],
+                itemClass: 'Tooltip.Node'
+            });
+
+
+            this.addItem({
+                categoryName: 'Tooltip',
+                itemKey: 'base',
+                itemLabel: 'Link tooltip',
+                files: ['tooltip/link.js'],
+                itemClass: 'Tooltip.Link'
+            });
+
+
+
+            this.addItem({
                 categoryName: 'Layout',
                 itemKey: 'force',
                 itemLabel: 'Force Layout',
@@ -513,7 +532,7 @@ var Demo = nx.define(nx.ui.Component, {
                     clz = nx.path(nx.global, clz);
                 }
                 if (this.currentItem()) {
-                    this.currentItem().dispose();
+                   this.currentItem().dispose();
                 }
 
                 var demo = new clz();
@@ -525,6 +544,8 @@ var Demo = nx.define(nx.ui.Component, {
 
                 this.currentItem(demo);
                 this.currentConfig(config);
+
+
                 var siteRootUrl = window.location.href.split("#").shift();
                 window.location.href = siteRootUrl + '#' + '' + config.categoryName + '/' + config.itemKey;
 

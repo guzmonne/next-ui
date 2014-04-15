@@ -69,6 +69,11 @@
       stroke: @secondaryColor;
       stroke-width: 1px;
       fill: transparent;
+      cursor: pointer;
+    }
+
+    path:hover, line:hover {
+      stroke: darken(@secondaryColor, 15.5%)
     }
 
     .link-label {
@@ -194,8 +199,6 @@
       stroke-width: 8px !important;
     }
   }
-
-
 
   .mapPath {
     fill: lighten(@primaryColor, 50%);

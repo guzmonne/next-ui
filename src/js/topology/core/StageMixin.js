@@ -217,9 +217,10 @@
             getAbsolutePosition: function (obj) {
                 var topoMatrix = this.matrix();
                 var stageScale = topoMatrix.scale();
+                var topoOffset = this.view().dom().getOffset();
                 return {
-                    x: obj.x * stageScale + topoMatrix.x(),
-                    y: obj.y * stageScale + topoMatrix.y()
+                    x: obj.x * stageScale + topoMatrix.x() + topoOffset.left,
+                    y: obj.y * stageScale + topoMatrix.y() + topoOffset.top
                 };
             },
             /**

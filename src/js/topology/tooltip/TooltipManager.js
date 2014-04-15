@@ -230,9 +230,6 @@
                     }
                 }
             },
-            _getNodeAbsolutePosition: function (node) {
-                return node.absolutePosition();
-            },
             /**
              * Open a node's tooltip
              * @param node {nx.graphic.Topology.Node}
@@ -251,7 +248,7 @@
                 }
 
 
-                var pos = position || this._getNodeAbsolutePosition(node);
+                var pos = position || topo.getAbsolutePosition(node.position());
 
                 var contentClass = nx.path(global, this.nodeTooltipContentClass());
                 if (contentClass) {
@@ -295,7 +292,7 @@
                 }
 
 
-                var pos = position || this._getNodeAbsolutePosition(nodeSet);
+                var pos = position || topo.getAbsolutePosition(nodeSet.position());
 
                 var contentClass = nx.path(global, this.nodeSetTooltipContentClass());
                 if (contentClass) {

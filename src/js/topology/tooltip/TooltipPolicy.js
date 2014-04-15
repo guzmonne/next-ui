@@ -29,10 +29,10 @@
                 this._tm.openLinkSetTooltip(linkSet);
             },
             dragStageStart: function () {
-               this._tm.closeAll();
+                this._tm.closeAll();
             },
-            enterLink:function(link){
-                //this._tm.openLinkTooltip(link);
+            clickLink: function (link) {
+                this._tm.openLinkTooltip(link);
             }
         }
     });

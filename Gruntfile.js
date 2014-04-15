@@ -66,4 +66,5 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib');
 
     grunt.registerTask('default', ['clean', 'less', 'cssmin', 'copy', 'jshint', 'concat', 'yuidoc', 'uglify']);
+    grunt.registerTask('test', ['clean', 'less', 'cssmin', 'copy', 'concat']);
 };
