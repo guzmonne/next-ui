@@ -44,6 +44,11 @@
                 set: function (value) {
                     this.view().style(value);
                 }
+            },
+            dom: {
+                get: function () {
+                    return this.resolve('@root');
+                }
             }
         },
         methods: {
