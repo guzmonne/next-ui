@@ -103,8 +103,6 @@
              * @property disableUpdateStageScale {Boolean} false
              */
             disableUpdateStageScale: {value: false},
-
-            enableMatrixProjection: {value: true},
             /**
              * Stage transform matrix
              * @property matrix {nx.geometry.Math} nx.geometry.Matrix.I
@@ -190,21 +188,10 @@
                 }
             },
             calcRectZoomMatrix: function (graph, rect) {
-                var s = Math.min(graph.height / Math.abs(rect.height), graph.width / Math.abs(rect.width));
-                var p = s == 1 ? [0, 0] : [(s * (rect.left + rect.width / 2) - (graph.left + graph.width / 2)) / (s - 1), (s * (rect.top + rect.height / 2) - (graph.top + graph.height / 2)) / (s - 1)];
-                return nx.geometry.Matrix.multiply([
-                    [1, 0, 0],
-                    [0, 1, 0],
-                    [-p[0], -p[1], 1]
-                ], [
-                    [s, 0, 0],
-                    [0, s, 0],
-                    [0, 0, 1]
-                ], [
-                    [1, 0, 0],
-                    [0, 1, 0],
-                    [p[0], p[1], 1]
-                ]);
+                var s = (!rect.width && !rect.height) ? 1 : Math.min(graph.height / Math.abs(rect.height), graph.width / Math.abs(rect.width));
+                var dx = (graph.left + graph.width / 2) - s * (rect.left + rect.width / 2);
+                var dy = (graph.top + graph.height / 2) - s * (rect.top + rect.height / 2);
+                return [[s, 0, 0], [0, s, 0], [dx, dy, 1]];
             },
             fit: function (callback, context, duration) {
                 var contentBound = this.getContentBound();

@@ -76,13 +76,6 @@
                 }
             },
             /**
-             * Set/get is topology use projection, or just use the data's original position information
-             * @property enableProjection {Boolean}
-             */
-            enableProjection: {
-                value: true
-            },
-            /**
              * Set to true will adapt to topology's outside container, set to ture will ignore width/height
              * @property adaptive {Boolean}
              */

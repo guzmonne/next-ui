@@ -102,10 +102,7 @@
                         height: "{#height}",
                         padding: '{#padding}',
                         matrixObject: '{#matrix,direction=<>}',
-                        stageScale: '{#stageScale,direction=<>}',
-                        enableProjection: '{#enableProjection}'
-
-
+                        stageScale: '{#stageScale,direction=<>}'
                     },
                     events: {
                         ':mousedown': '{#_pressStage}',
