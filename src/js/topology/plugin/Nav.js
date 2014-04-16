@@ -150,19 +150,17 @@
                                 'click': '{#_fit}'
                             }
                         },
-//                        {
-//                            tag: 'li',
-//                            name: 'agr',
-//                            props: {
-//                                'class': 'n-icon-thumbnail-collapse-x16 n-topology-nav-agr',
-//                                title: "Aggregation",
-//                                visible: false
-//                            },
-//                            events: {
-//                                'click': '{#_agr}'
-//                            }
-//                        },
-
+                        {
+                            tag: 'li',
+                            name: 'agr',
+                            props: {
+                                'class': 'n-topology-nav-agr glyphicon glyphicon-edit',
+                                title: "Aggregation"
+                            },
+                            events: {
+                                'click': '{#_agr}'
+                            }
+                        },
                         {
                             tag: 'li',
                             name: 'fullscreen',
@@ -358,6 +356,12 @@
                         top: 72 - (scale - minScale) * step + 14
                     });
                 }, this);
+
+                topo.selectedNodes().watch('count', function (prop, value) {
+                    this.view('agr').dom().setStyle('display', value !== 0 ? 'block' : 'none');
+                }, this);
+                this.view('agr').dom().setStyle('display','none');
+
                 topo.notify('scale');
             },
             _switchSelectionMode: function (sender, event) {
@@ -482,6 +486,11 @@
                 this.topology().eachNode(function (node) {
                     node.labelVisibility(checked);
                 });
+            },
+            _agr: function () {
+                var topo = this.topology();
+                topo.aggregationNodes(topo.selectedNodes().toArray());
+                topo.selectedNodes().clear();
             }
         }
     });

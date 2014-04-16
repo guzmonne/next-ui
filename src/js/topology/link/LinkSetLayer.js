@@ -74,7 +74,6 @@
                 var linkKey = edgeSet.linkKey();
                 var linkSet = linkSetMap[linkKey];
                 if (linkSet) {
-                    linkSet.model().disposeEdges();
                     linkSet.dispose();
                     linkSetArray.splice(linkSetArray.indexOf(linkSet), 1);
                     delete linkSetMap[linkKey];

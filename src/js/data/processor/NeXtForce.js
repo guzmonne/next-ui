@@ -45,7 +45,7 @@
                     }
                 } else {
                     var step = 0;
-                    while (++step < 300) {
+                    while (++step < 900) {
                         force.tick();
                     }
                 }

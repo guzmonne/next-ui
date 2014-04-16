@@ -125,8 +125,6 @@
                 var boundAry = [];
 
 
-
-
                 nx.each(inNodes, function (node) {
                     if (node.visible()) {
                         if (isNotIncludeLabel) {
@@ -211,24 +209,25 @@
                 this.fire("addNodeSet", nodeSet);
                 return nodeSet;
             },
-            aggregationNodes: function (inNodes, inName) {
+            aggregationNodes: function (inNodes, inName, rootNodeID) {
 
-//                var vertexSet = {nodes: []};
-//
-//                nx.each(inNodes, function (node) {
-//                    vertexSet.nodes.push(node.id());
-//                });
-//
-//                vertexSet.label = inName;
-//                if (!inName) {
-//                    vertexSet.label = [inNodes[0].label(), inNodes[inNodes.length - 1].label()].sort().join("-");
-//                }
-//
-//                vertexSet.x = inNodes[0].model().x();
-//                vertexSet.y = inNodes[0].model().y();
-//
-//
-//                this.addNodeSet(vertexSet);
+                var vertexSet = {nodes: []};
+
+                nx.each(inNodes, function (node) {
+                    vertexSet.nodes.push(node.id());
+                });
+
+                vertexSet.label = inName;
+                if (!inName) {
+                    vertexSet.label = [inNodes[0].label(), inNodes[inNodes.length - 1].label()].sort().join("-");
+                }
+
+                vertexSet.x = inNodes[0].model().x();
+                vertexSet.y = inNodes[0].model().y();
+                vertexSet.root = rootNodeID || inNodes[0].id();
+
+
+                this.addNodeSet(vertexSet);
             },
             /**
              * Remove a node

@@ -224,6 +224,28 @@
                 clearTimeout(this._sceneTimer);
                 this._recover();
                 this._topo.zoomByNodes(nodeSet.getNodes());
+
+
+                var topo = this._topo;
+                var node = topo.getNode(nodeSet.model().get('root'));
+
+
+                if (!node.dot) {
+                    var dot = new nx.graphic.Icon({
+//                            y: -30,
+                        iconType: "collapse"
+                    });
+                    dot.attach(node);
+                    node.dot = dot;
+                    dot.on('click', function () {
+                        nodeSet.collapsed(true);
+                        topo.fit();
+                    });
+
+
+                }
+
+
                 this._topo.adjustLayout();
             },
             collapseNodeSet: function (sender, nodeSet) {

@@ -100,25 +100,16 @@
 
                             nx.each(this.outerEdgeSetMap(), function (edgeSetAry, vertexID) {
                                 var vertex = graph.getVertex(vertexID);
-                                var rootVertex = vertex.getVisibleParentVertexSet();
-                                var _vertex;
-
-                                if (vertex.visible()) {
-                                    _vertex = vertex;
-                                } else if (rootVertex && rootVertex != this) {
-                                    _vertex = rootVertex;
-                                } else {
-                                    //todo: get visible parent vertex set
-                                    return;
+                                if (!vertex.visible()) {
+                                    vertex = vertex.getVisibleParentVertexSet();
                                 }
-
-                                var esc = graph._getEdgeSetCollectionByVertex(selfID, _vertex.id());
+                                var esc = graph._getEdgeSetCollectionByVertex(selfID, vertex.id());
                                 if (!esc) {
                                     esc = graph._addEdgeSetCollection({
                                         sourceID: selfID,
-                                        targetID: _vertex.id(),
+                                        targetID: vertex.id(),
                                         source: this,
-                                        target: _vertex
+                                        target: vertex
                                     });
                                 }
 
@@ -128,27 +119,19 @@
 
                                 graph.fire('updateEdgeSetCollection', esc);
 
-
-                                nx.each(edgeSetAry, function (edgeSet) {
-                                    if (edgeSet.generated()) {
-                                        edgeSet.visible(false);
-                                        edgeSet.generated(false);
-                                        edgeSet._activated = null;
-                                        graph.fire('removeEdgeSet', edgeSet);
-                                    }
-                                }, this);
-
                             }, this);
 
 
                             nx.each(this.innerEdgeSetMap(), function (edgeSet, linkKey) {
-                                if (edgeSet.type() == 'edgeSet') {
-                                    edgeSet.visible(false);
-                                    edgeSet.generated(false);
-                                    edgeSet._activated = null;
-                                    graph.fire('removeEdgeSet', edgeSet);
-                                } else if (edgeSet.type() == 'edgeSetCollection') {
-                                    graph._removeEdgeSetCollection(edgeSet);
+                                if (edgeSet.generated()) {
+                                    if (edgeSet.type() == 'edgeSet') {
+                                        edgeSet.visible(false);
+                                        edgeSet.generated(false);
+                                        edgeSet._activated = null;
+                                        graph.fire('removeEdgeSet', edgeSet);
+                                    } else if (edgeSet.type() == 'edgeSetCollection') {
+                                        graph._removeEdgeSetCollection(edgeSet);
+                                    }
                                 }
                             }, this);
 
@@ -177,50 +160,88 @@
                             }, this);
 
 
-                            nx.each(this.outerEdgeSetMap(), function (edgeSetAry, vertexID) {
-                                var vertex = graph.getVertex(vertexID);
-                                var rootVertex = vertex.getVisibleParentVertexSet();
+                            //
 
-                                if (vertex.visible()) {
-                                    nx.each(edgeSetAry, function (edgeSet) {
+
+                            var map = {};
+                            nx.each(this.outerEdgeSetMap(), function (edgeSetAry, vertexID) {
+                                nx.each(edgeSetAry, function (edgeSet) {
+                                    map[edgeSet.linkKey()] = edgeSet;
+                                });
+                            }, this);
+
+
+                            nx.each(map, function (edgeSet, linkKey) {
+                                var obj = this._getVisibleVertex(edgeSet);
+                                var source = obj.source, target = obj.target;
+                                if (source && target) {
+                                    var sourceID = source.id(), targetID = target.id();
+                                    var _sourceID = edgeSet.sourceID(), _targetID = edgeSet.targetID();
+                                    if (source.type() == 'edgeSet' && target.type() == 'edgeSet') {
                                         edgeSet.visible(true);
                                         edgeSet.generated(true);
                                         graph.fire('addEdgeSet', edgeSet);
-                                    }, this);
-                                } else if (rootVertex) {
-                                    var _vertex = rootVertex;
-
-                                    nx.each(edgeSetAry, function (edgeSet) {
-                                        var _source, _target;
-                                        if (edgeSet.sourceID() == vertexID) {
-                                            _source = _vertex;
-                                            _target = edgeSet.target();
-                                        } else {
-                                            _source = edgeSet.source();
-                                            _target = _vertex;
-                                        }
-
-
-                                        var esc = graph._getEdgeSetCollectionByVertex(_source.id(), _target.id());
+                                    } else {
+                                        var esc = graph._getEdgeSetCollectionByVertex(sourceID, targetID);
                                         if (!esc) {
                                             esc = graph._addEdgeSetCollection({
-                                                sourceID: _source.id(),
-                                                targetID: _target.id(),
-                                                source: _source,
-                                                target: _target
+                                                sourceID: sourceID,
+                                                targetID: targetID,
+                                                source: source,
+                                                target: target
                                             });
                                         }
                                         esc.addEdgeSet(edgeSet);
                                         graph.fire('updateEdgeSetCollection', esc);
-
-                                    }, this);
-
-
-                                } else {
-                                    //console.log();
+                                    }
                                 }
-
                             }, this);
+
+
+//                            nx.each(this.outerEdgeSetMap(), function (edgeSetAry, vertexID) {
+//                                var vertex = graph.getVertex(vertexID);
+//                                var rootVertex = vertex.getVisibleParentVertexSet();
+//
+//                                if (vertex.visible()) {
+//                                    nx.each(edgeSetAry, function (edgeSet) {
+//                                        edgeSet.visible(true);
+//                                        edgeSet.generated(true);
+//                                        graph.fire('addEdgeSet', edgeSet);
+//                                    }, this);
+//                                } else if (rootVertex) {
+//                                    var _vertex = rootVertex;
+//
+//                                    nx.each(edgeSetAry, function (edgeSet) {
+//                                        var _source, _target;
+//                                        if (edgeSet.sourceID() == vertexID) {
+//                                            _source = _vertex;
+//                                            _target = edgeSet.target();
+//                                        } else {
+//                                            _source = edgeSet.source();
+//                                            _target = _vertex;
+//                                        }
+//
+//
+//                                        var esc = graph._getEdgeSetCollectionByVertex(_source.id(), _target.id());
+//                                        if (!esc) {
+//                                            esc = graph._addEdgeSetCollection({
+//                                                sourceID: _source.id(),
+//                                                targetID: _target.id(),
+//                                                source: _source,
+//                                                target: _target
+//                                            });
+//                                        }
+//                                        esc.addEdgeSet(edgeSet);
+//                                        graph.fire('updateEdgeSetCollection', esc);
+//
+//                                    }, this);
+//
+//
+//                                } else {
+//                                    //console.log();
+//                                }
+//
+//                            }, this);
 
                             //add inner edgeset
                             nx.each(this.innerEdgeSetMap(), function (edgeSet, linkKey) {
@@ -259,41 +280,58 @@
                 var outerEdgeSetMap = {};
                 var innerEdgeSetMap = {};
 
+
                 var map = {};
 
                 var nodes = util.uniq(this.nodes().concat(inNodes));
+                var _nodes = nodes.slice();
+                var _edgeSetMap = {};
 
-                //iterate all nodes
+
                 nx.each(nodes, function (nodeID) {
-                    // get vertex or vertexSet
                     var vertex = graph.verticesMap[nodeID] || graph._vertexSetMap[nodeID];
                     if (vertex) {
-                        //iterate vertex's all connected visible edgeSet
-
-                        vertex.eachEdgeSet(function (edgeSet, linkKey) {
-                            // get the the other vertex
-                            var _vertex = edgeSet.sourceID() == nodeID ? edgeSet.target() : edgeSet.source();
-                            var _vertexID = _vertex.id();
-                            // if _vertex is outer vertex
-                            if (nodes.indexOf(_vertexID) == -1 && _vertexID !== vertexSetID) {
-                                map = outerEdgeSetMap[_vertexID] = outerEdgeSetMap[_vertexID] || [];
-                                map[map.length] = edgeSet;
-                            } else {
-                                edgeSet.visible(false);
-                                innerEdgeSetMap[linkKey] = edgeSet;
-                            }
-                        }, this);
-
-                        vertex.visible(false);
-                        vertex.parentVertexSet(this);
-                        if (vertex.type() == 'vertex') {
+                        if (graph.verticesMap[nodeID]) {
                             vertices[nodeID] = vertex;
-                        } else {
+                            nx.extend(_edgeSetMap, vertex.edgeSet());
+                        } else if (graph._vertexSetMap[nodeID]) {
                             vertexSet[nodeID] = vertex;
+                            nx.each(vertex.outerEdgeSetMap(), function (edgeSetAry) {
+                                nx.each(edgeSetAry, function (edgeSet) {
+                                    _edgeSetMap[edgeSet.linkKey()] = edgeSet;
+                                });
+                            });
+                            vertex.eachSubVertex(function (v) {
+                                _nodes[_nodes.length] = v.id();
+                            });
                         }
-
                     }
                 }, this);
+
+
+                nx.each(_edgeSetMap, function (edgeSet, linkKey) {
+                    var obj = this._getVisibleVertex(edgeSet);
+                    var source = obj.source, target = obj.target;
+                    if (source && target) {
+                        var sourceID = source.id(), targetID = target.id();
+                        var _sourceID = edgeSet.sourceID(), _targetID = edgeSet.targetID();
+                        if (_nodes.indexOf(sourceID) !== -1 && _nodes.indexOf(targetID) !== -1) {
+                            innerEdgeSetMap[linkKey] = edgeSet;
+                        } else if (_nodes.indexOf(sourceID) !== -1) {
+                            map = outerEdgeSetMap[_targetID] = outerEdgeSetMap[_targetID] || [];
+                            map[map.length] = edgeSet;
+                        } else if (_nodes.indexOf(targetID) !== -1) {
+                            map = outerEdgeSetMap[_sourceID] = outerEdgeSetMap[_sourceID] || [];
+                            map[map.length] = edgeSet;
+                        }
+                    }
+                }, this);
+
+                nx.each(nx.extend({}, vertices, vertexSet), function (vertex) {
+                    vertex._visible = false;
+                    vertex.parentVertexSet(this);
+                }, this);
+
 
                 this.nodes(nodes);
                 this.vertices(vertices);
@@ -305,7 +343,26 @@
             eachVertex: function (callback, context) {
                 nx.each(nx.extend({}, this.vertices(), this.vertexSet()), callback, context || this);
             },
-
+            eachSubVertex: function (callback, context) {
+                nx.each(this.vertices(), callback, context || this);
+                nx.each(this.vertexSet(), function (vertex) {
+                    vertex.eachVertex(callback, context);
+                }, this);
+            },
+            _getVisibleVertex: function (edgeSet) {
+                var source = edgeSet.source();
+                if (!source.visible()) {
+                    source = source.getVisibleParentVertexSet();
+                }
+                var target = edgeSet.target();
+                if (!target.visible()) {
+                    target = target.getVisibleParentVertexSet();
+                }
+                return {
+                    source: source,
+                    target: target
+                };
+            },
             /**
              * Remove vertex
              * @param vertex {nx.data.Vertex}
@@ -318,4 +375,6 @@
         }
     });
 
-})(nx, nx.global);
+
+})
+(nx, nx.global);

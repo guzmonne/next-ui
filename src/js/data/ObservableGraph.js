@@ -254,6 +254,7 @@
                     edgeSet.visible(false);
                     edgeSet.generated(false);
                     edgeSet._activated = null;
+                    edgeSet.disposeEdges();
                     this.fire('removeEdgeSet', edgeSet);
                 }, this);
 
@@ -353,17 +354,22 @@
                 var vertexSet = this._addVertexSet(data, inOptions);
 
                 if (isGenerate !== false) {
-                    var addedEdgeSet = this._processVertexSet(vertexSet);
+                    this._processVertexSet(vertexSet);
+                    vertexSet.generated(true);
+                    vertexSet.visible(true);
                     /**
                      * @event addVertexSet
                      * @param sender {Object}  Trigger instance
                      * @param {nx.data.VertexSet} vertexSet VertexSet object
                      */
                     this.fire('addVertexSet', vertexSet);
+                    setTimeout(function () {
+                        vertexSet.activated(true);
+                    }, 0);
 
-                    nx.each(addedEdgeSet, function (edgeSet) {
-                        this.fire('addEdgeSet', edgeSet);
-                    }, this);
+//                    nx.each(addedEdgeSet, function (edgeSet) {
+//                        this.fire('addEdgeSet', edgeSet);
+//                    }, this);
                 }
                 return vertexSet;
             },

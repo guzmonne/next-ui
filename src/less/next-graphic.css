@@ -429,6 +429,18 @@
 .n-topology.n-topology-blue .n-topology-nav-fit:hover {
   color: #4d4d4d;
 }
+.n-topology.n-topology-blue .n-topology-nav-agr {
+  cursor: pointer;
+  line-height: 32px;
+  text-align: center;
+  font-size: 20px;
+  height: 32px;
+  color: #999999;
+  display: none;
+}
+.n-topology.n-topology-blue .n-topology-nav-agr:hover {
+  color: #4d4d4d;
+}
 .n-topology.n-topology-blue .n-topology-nav-full {
   cursor: pointer;
   line-height: 32px;
@@ -966,6 +978,18 @@
   color: #666666;
 }
 .n-topology.n-topology-dark .n-topology-nav-fit:hover {
+  color: #b3b3b3;
+}
+.n-topology.n-topology-dark .n-topology-nav-agr {
+  cursor: pointer;
+  line-height: 32px;
+  text-align: center;
+  font-size: 20px;
+  height: 32px;
+  color: #666666;
+  display: none;
+}
+.n-topology.n-topology-dark .n-topology-nav-agr:hover {
   color: #b3b3b3;
 }
 .n-topology.n-topology-dark .n-topology-nav-full {
@@ -1507,6 +1531,18 @@
 .n-topology.n-topology-green .n-topology-nav-fit:hover {
   color: #4d4d4d;
 }
+.n-topology.n-topology-green .n-topology-nav-agr {
+  cursor: pointer;
+  line-height: 32px;
+  text-align: center;
+  font-size: 20px;
+  height: 32px;
+  color: #999999;
+  display: none;
+}
+.n-topology.n-topology-green .n-topology-nav-agr:hover {
+  color: #4d4d4d;
+}
 .n-topology.n-topology-green .n-topology-nav-full {
   cursor: pointer;
   line-height: 32px;
@@ -2046,6 +2082,18 @@
 .n-topology.n-topology-slate .n-topology-nav-fit:hover {
   color: #d5d5d5;
 }
+.n-topology.n-topology-slate .n-topology-nav-agr {
+  cursor: pointer;
+  line-height: 32px;
+  text-align: center;
+  font-size: 20px;
+  height: 32px;
+  color: #888888;
+  display: none;
+}
+.n-topology.n-topology-slate .n-topology-nav-agr:hover {
+  color: #d5d5d5;
+}
 .n-topology.n-topology-slate .n-topology-nav-full {
   cursor: pointer;
   line-height: 32px;
@@ -2583,6 +2631,18 @@
   color: #666666;
 }
 .n-topology.n-topology-yellow .n-topology-nav-fit:hover {
+  color: #b3b3b3;
+}
+.n-topology.n-topology-yellow .n-topology-nav-agr {
+  cursor: pointer;
+  line-height: 32px;
+  text-align: center;
+  font-size: 20px;
+  height: 32px;
+  color: #666666;
+  display: none;
+}
+.n-topology.n-topology-yellow .n-topology-nav-agr:hover {
   color: #b3b3b3;
 }
 .n-topology.n-topology-yellow .n-topology-nav-full {
