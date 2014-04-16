@@ -1,4 +1,5 @@
-(function (nx, util, global) {
+(function (nx, global) {
+    var util = nx.util;
     /**
      * Vertex set ckass
      * @class nx.data.VertexSet
@@ -317,4 +318,4 @@
         }
     });
 
-})(nx, nx.util, nx.global);
+})(nx, nx.global);

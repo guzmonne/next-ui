@@ -1,5 +1,5 @@
-(function (nx, util, global) {
-
+(function (nx, global) {
+    var xlink = 'http://www.w3.org/1999/xlink';
     /**
      * Topology device icons collection
      * @class nx.graphic.Icons
@@ -259,4 +259,4 @@
         };
     });
 
-})(nx, nx.util, nx.global);
+})(nx, nx.global);

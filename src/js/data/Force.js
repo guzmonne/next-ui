@@ -1,4 +1,4 @@
-(function (nx, util, global) {
+(function (nx, global) {
     nx.data.Force = function () {
         var force = {};
         var size = [ 100, 100 ];
@@ -284,4 +284,4 @@
             if (children[3]) quadtreeVisit(f, children[3], sx, sy, x2, y2);
         }
     };
-})(nx, nx.util, nx.global);
+})(nx, nx.global);

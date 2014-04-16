@@ -1,4 +1,4 @@
-(function (nx, util, global) {
+(function (nx, global) {
 
     /**
      * Zoom by selection scene
@@ -22,4 +22,4 @@
     });
 
 
-})(nx, nx.util, nx.global);
+})(nx, nx.global);

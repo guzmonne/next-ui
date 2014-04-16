@@ -1,4 +1,5 @@
-(function (nx, util, global) {
+(function (nx, global) {
+    var util = nx.util;
 
     /**
      * Links layer
@@ -188,4 +189,4 @@
     });
 
 
-})(nx, nx.util, nx.global);
+})(nx, nx.global);

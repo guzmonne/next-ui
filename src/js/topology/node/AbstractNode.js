@@ -1,6 +1,6 @@
-(function (nx, util, global) {
+(function (nx, global) {
 
-    var Vector = nx.math.Vector;
+    var Vector = nx.geometry.Vector;
     /**
      * Abstract node class
      * @class nx.graphic.Topology.AbstractNode
@@ -171,8 +171,14 @@
                     return this;
                 }
             },
+            showIcon: {
+
+            },
             fade: {
                 value: false
+            },
+            revisionScale: {
+                value: 1
             }
         },
         methods: {
@@ -362,4 +368,4 @@
     });
 
 
-})(nx, nx.util, nx.global);
+})(nx, nx.global);

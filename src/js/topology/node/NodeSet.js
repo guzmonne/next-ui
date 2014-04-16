@@ -1,4 +1,4 @@
-(function (nx, util, global) {
+(function (nx, global) {
 
     /**
      * NodeSet class
@@ -70,6 +70,22 @@
             },
             activated: {
                 value: true
+            },
+            revisionScale: {
+                set: function (value) {
+                    var topo = this.topology();
+                    var radius = 6;
+                    if (value == 0.6) {
+                        radius = 4;
+                    } else if (value <= 0.4) {
+                        radius = 2;
+                    }
+                    if (topo.showIcon()) {
+                        this.showIcon(value == 1);
+                    }
+                    //this.radius(radius);
+                    this.view('label').set('visible', value > 0.4);
+                }
             }
         },
         view: {
@@ -315,12 +331,12 @@
                 var el = this.view("iconContainer");
                 var size = this.view("icon").size();
                 var radius = this.showIcon() ? Math.max(size.width / 2, size.height / 2) + (this.showIcon() ? 12 : 8) : 12;
-                var labelVector = new nx.math.Vector(radius, 0).rotate(angle);
+                var labelVector = new nx.geometry.Vector(radius, 0).rotate(angle);
                 el.setTransform(labelVector.x, labelVector.y);
                 var labelEL = this.view("label");
 
                 radius = (radius - 10) * 2 + 12;
-                labelVector = new nx.math.Vector(radius, 0).rotate(angle);
+                labelVector = new nx.geometry.Vector(radius, 0).rotate(angle);
                 labelEL.sets({
                     x: labelVector.x,
                     y: labelVector.y
@@ -331,4 +347,4 @@
 
     });
 
-})(nx, nx.util, nx.global);
+})(nx, nx.global);

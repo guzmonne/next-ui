@@ -1,10 +1,11 @@
-(function (nx, util, global) {
+(function (nx, global) {
 
     var D3URL = 'http://d3js.org/d3.v3.min.js';
     var D3TOPOJSON = 'http://d3js.org/topojson.v1.min.js';
     var WORLDMAPTopoJSON = 'http://bl.ocks.org/mbostock/raw/4090846/world-50m.json';
     var width = 960, height = 480;
     var projection;
+    var util = nx.util;
 
 
     /**
@@ -183,4 +184,4 @@
     });
 
 
-})(nx, nx.util, nx.global);
+})(nx, nx.global);

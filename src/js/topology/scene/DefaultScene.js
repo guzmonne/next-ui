@@ -1,4 +1,4 @@
-(function (nx, util, global) {
+(function (nx, global) {
     /**
      * Default Scene for topology
      * @class nx.graphic.Topology.DefaultScene
@@ -282,4 +282,4 @@
             }
         }
     });
-})(nx, nx.util, nx.global);
+})(nx, nx.global);

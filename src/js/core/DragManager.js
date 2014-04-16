@@ -1,4 +1,4 @@
-(function (nx, util, global) {
+(function (nx, global) {
     /**
      * Global drag manager
 
@@ -174,4 +174,4 @@
         }
     });
 
-})(nx, nx.util, nx.global);
+})(nx, nx.global);

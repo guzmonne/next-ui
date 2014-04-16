@@ -1,4 +1,4 @@
-(function (nx, util, global) {
+(function (nx, global) {
 
 
     nx.define("nx.graphic.Topology.Nav", nx.ui.Component, {
@@ -487,4 +487,4 @@
     });
 
 
-})(nx, nx.util, nx.global);
+})(nx, nx.global);

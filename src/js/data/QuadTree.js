@@ -1,4 +1,4 @@
-(function (nx, util, global) {
+(function (nx, global) {
 
 
     /*
@@ -96,4 +96,4 @@
         };
     };
 
-})(nx, nx.util, nx.global);
+})(nx, nx.global);

@@ -1,4 +1,4 @@
-(function (nx, util, global) {
+(function (nx, global) {
     /**
      * Convex algorithm
      * @class nx.data.Convex
@@ -68,4 +68,4 @@
     });
 
 
-})(nx, nx.util, nx.global);
+})(nx, nx.global);

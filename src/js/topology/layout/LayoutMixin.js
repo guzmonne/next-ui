@@ -1,4 +1,4 @@
-(function (nx, util, global) {
+(function (nx, global) {
     /**
      * Layout mixin class
      * @class nx.graphic.Topology.LayoutMixin
@@ -83,4 +83,4 @@
     });
 
 
-})(nx, nx.util, nx.global);
+})(nx, nx.global);

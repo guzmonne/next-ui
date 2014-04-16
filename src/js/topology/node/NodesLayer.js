@@ -1,6 +1,5 @@
-(function (nx, util, global) {
-
-
+(function (nx, global) {
+    var util = nx.util;
     /**
      * Nodes layer
      Could use topo.getLayer('nodes') get this
@@ -81,21 +80,8 @@
             },
 
             updateNodeRevisionScale: function (value) {
-                var radius = 6;
-                var topo = this.topology();
-                if (value == 0.6) {
-                    radius = 4;
-                } else if (value <= 0.4) {
-                    radius = 2;
-                }
-
-
-                this.eachNode(function (node) {
-                    if (topo.showIcon()) {
-                        node.showIcon(value == 1);
-                    }
-                    node.radius(radius);
-                    node.view('label').set('visible', value > 0.4);
+                this.eachVisibleNode(function (node) {
+                    node.revisionScale(value);
                 }, this);
             },
 
@@ -169,6 +155,10 @@
             eachNode: function (fn, context) {
                 nx.each(this.nodes(), fn, context || this);
             },
+            //todo
+            eachVisibleNode: function (fn, context) {
+                nx.each(this.nodes(), fn, context || this);
+            },
             /**
              * Get node by id
              * @param id
@@ -196,4 +186,4 @@
     });
 
 
-})(nx, nx.util, nx.global);
+})(nx, nx.global);

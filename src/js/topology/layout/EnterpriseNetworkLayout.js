@@ -1,4 +1,4 @@
-(function (nx, util, global) {
+(function (nx, global) {
 
     nx.define("nx.graphic.Topology.EnterpriseNetworkLayout", {
         properties: {
@@ -284,4 +284,4 @@
     });
 
 
-})(nx, nx.util, nx.global);
+})(nx, nx.global);

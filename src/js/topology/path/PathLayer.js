@@ -1,5 +1,5 @@
 (function (nx, global) {
-
+    var util = nx.util;
     /**
      * Path layer class
      Could use topo.getLayer("pathLayer") get this

@@ -1,4 +1,4 @@
-(function (nx, util, global) {
+(function (nx, global) {
 
     /**
      * Node mixin class
@@ -383,4 +383,4 @@
     });
 
 
-})(nx, nx.util, nx.global);
+})(nx, nx.global);

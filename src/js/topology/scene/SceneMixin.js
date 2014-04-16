@@ -1,4 +1,4 @@
-(function (nx, util, global) {
+(function (nx, global) {
     /**
      * Scene mixin
      * @class nx.graphic.Topology.SceneMixin
@@ -101,4 +101,4 @@
             }
         }
     });
-})(nx, nx.util, nx.global);
+})(nx, nx.global);

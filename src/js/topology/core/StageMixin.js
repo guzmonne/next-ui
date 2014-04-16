@@ -1,4 +1,4 @@
-(function (nx, util, global) {
+(function (nx, global) {
     /**
      * Topology stage class
      * @class nx.graphic.Topology.StageMixin
@@ -83,19 +83,6 @@
                 value: true
             },
             /**
-             * Set the x projection input range e.g. [0,100]
-             * @projectionXRange {Array}
-             */
-            projectionXRange: {
-            },
-            /**
-             * Set the y projection input range e.g. [0,100]
-             * @projectionYRange {Array}
-             */
-            projectionYRange: {
-            },
-
-            /**
              * Set to true will adapt to topology's outside container, set to ture will ignore width/height
              * @property adaptive {Boolean}
              */
@@ -116,6 +103,9 @@
              * @property enableSmartNode {Boolean}
              */
             enableSmartNode: {
+                value: true
+            },
+            autoFit: {
                 value: true
             }
         },
@@ -450,4 +440,4 @@
     })
     ;
 })
-(nx, nx.util, nx.global);
+(nx, nx.global);

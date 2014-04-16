@@ -1,4 +1,4 @@
-(function (nx, util, global) {
+(function (nx, global) {
 
     /**
      * Topology graph model class
@@ -249,7 +249,9 @@
                 }, this);
                 graph.on("endGenerate", function (sender, event) {
 
-                    this.stage().fit();
+                    if (this.autoFit()) {
+                        this.stage().fit();
+                    }
 
 
                     /**
@@ -333,4 +335,4 @@
     });
 
 
-})(nx, nx.util, nx.global);
+})(nx, nx.global);

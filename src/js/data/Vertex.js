@@ -1,4 +1,4 @@
-(function (nx, util, global) {
+(function (nx, global) {
 
     /**
      * Vertex class
@@ -7,7 +7,7 @@
      * @module nx.data
      */
 
-    var Vector = nx.math.Vector;
+    var Vector = nx.geometry.Vector;
     nx.define('nx.data.Vertex', nx.data.ObservableObject, {
         events: ['updateCoordinate'],
         properties: {
@@ -370,4 +370,4 @@
     });
 
 
-})(nx, nx.util, nx.global);
+})(nx, nx.global);

@@ -1,7 +1,7 @@
 (function (nx, global) {
 
-    var Vector = nx.math.Vector;
-    var Line = nx.math.Line;
+    var Vector = nx.geometry.Vector;
+    var Line = nx.geometry.Line;
     var colorIndex = 0;
     var colorTable = ['#b2e47f', '#e4e47f', '#bec2f9', '#b6def7', '#89f0de'];
     /**

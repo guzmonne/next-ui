@@ -1,4 +1,4 @@
-(function (nx, util, global, logger) {
+(function (nx, global, logger) {
     /**
      * Force layout processor
      * @class nx.data.ObservableGraph.ForceProcessor
@@ -57,4 +57,4 @@
         }
     });
 
-})(nx, nx.util, nx.global, nx.logger);
+})(nx, nx.global, nx.logger);

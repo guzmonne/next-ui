@@ -1,4 +1,5 @@
-(function (nx, util, global) {
+(function (nx, global) {
+    var util = nx.util;
     var CLZ = nx.define('nx.graphic.Topology.NodeSetLayer', nx.graphic.Topology.Layer, {
         statics: {
             defaultConfig: {
@@ -39,20 +40,8 @@
             },
 
             updateNodeRevisionScale: function (value) {
-                var radius = 6;
-                var topo = this.topology();
-                if (value == 0.6) {
-                    radius = 4;
-                } else if (value <= 0.4) {
-                    radius = 2;
-                }
-
-                this.eachNodeSet(function (nodeSet) {
-                    if(topo.showIcon()){
-                        nodeSet.showIcon(value == 1);
-                    }
-                    nodeSet.radius(radius);
-                    nodeSet.view('label').set('visible', value > 0.4);
+                this.eachVisibleNodeSet(function (nodeSet) {
+                    nodeSet.revisionScale(value);
                 }, this);
             },
 
@@ -102,7 +91,7 @@
                 }, topo);
 
 
-                var nodeSetConfig = nx.extend({},CLZ.defaultConfig, topo.nodeSetConfig());
+                var nodeSetConfig = nx.extend({}, CLZ.defaultConfig, topo.nodeSetConfig());
                 nx.each(nodeSetConfig, function (value, key) {
                     util.setProperty(nodeSet, key, value, topo);
                 }, this);
@@ -147,6 +136,9 @@
             eachNodeSet: function (fn, context) {
                 nx.each(this.nodeSetArray(), fn, context || this);
             },
+            eachVisibleNodeSet: function (fn, context) {
+                nx.each(this.nodeSetArray(), fn, context || this);
+            },
             getNodeSet: function () {
                 return this.nodeSetArray();
             },
@@ -167,4 +159,4 @@
     });
 
 
-})(nx, nx.util, nx.global);
+})(nx, nx.global);

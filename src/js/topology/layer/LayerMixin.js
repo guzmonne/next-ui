@@ -1,4 +1,4 @@
-(function (nx, util, global) {
+(function (nx, global) {
     nx.define("nx.graphic.Topology.LayerMixin", {
         events: [],
         properties: {
@@ -152,4 +152,4 @@
             }
         }
     });
-})(nx, nx.util, nx.global);
+})(nx, nx.global);

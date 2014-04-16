@@ -1,4 +1,4 @@
-(function (nx, util, global) {
+(function (nx, global) {
 
     /**
      * Links mixin class
@@ -128,4 +128,4 @@
     });
 
 
-})(nx, nx.util, nx.global);
+})(nx, nx.global);

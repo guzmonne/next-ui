@@ -1,4 +1,4 @@
-(function (nx, util, global) {
+(function (nx, global) {
     nx.define("nx.data.ObservableGraph.QuickProcessor", {
         methods: {
             process: function (data, key, model) {
@@ -13,4 +13,4 @@
         }
     });
 
-})(nx, nx.util, nx.global);
+})(nx, nx.global);

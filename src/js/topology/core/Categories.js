@@ -1,4 +1,4 @@
-(function (nx, util, global) {
+(function (nx, global) {
     /**
      * Topology's batch operation class
      * @class nx.graphic.Topology.Categories
@@ -58,4 +58,4 @@
     });
 
 
-})(nx, nx.util, nx.global);
+})(nx, nx.global);

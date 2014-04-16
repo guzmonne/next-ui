@@ -1,4 +1,4 @@
-(function (nx, util, global) {
+(function (nx, global) {
 
     nx.graphic.define("nx.graphic.Hint", {
         properties: {
@@ -188,4 +188,4 @@
     });
 
 
-})(nx, nx.util, nx.global);
+})(nx, nx.global);

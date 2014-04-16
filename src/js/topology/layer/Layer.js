@@ -1,4 +1,4 @@
-(function (nx, util, global) {
+(function (nx, global) {
 
     /**
      * Topology basic layer class
@@ -160,4 +160,4 @@
             }
         }
     });
-})(nx, nx.util, nx.global);
+})(nx, nx.global);

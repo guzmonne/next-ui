@@ -1,4 +1,4 @@
-(function (nx, util, global) {
+(function (nx, global) {
     /**
      * Topology base class
 
@@ -100,9 +100,11 @@
                     props: {
                         width: "{#width}",
                         height: "{#height}",
+                        padding: '{#padding}',
                         matrixObject: '{#matrix,direction=<>}',
                         stageScale: '{#stageScale,direction=<>}',
-                        padding: '{#padding}'
+                        enableProjection: '{#enableProjection}'
+
 
                     },
                     events: {
@@ -168,4 +170,4 @@
             }
         }
     });
-})(nx, nx.util, nx.global);
+})(nx, nx.global);

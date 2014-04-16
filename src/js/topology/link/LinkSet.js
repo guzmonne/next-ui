@@ -1,7 +1,7 @@
-(function (nx, util, global) {
+(function (nx, global) {
 
-    var Vector = nx.math.Vector;
-    var Line = nx.math.Line;
+    var Vector = nx.geometry.Vector;
+    var Line = nx.geometry.Line;
 
     /**
      * LinkSet class
@@ -320,4 +320,4 @@
     });
 
 
-})(nx, nx.util, nx.global);
+})(nx, nx.global);

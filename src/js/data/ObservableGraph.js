@@ -1,7 +1,9 @@
-(function (nx, util, global, logger) {
+(function (nx, global, logger) {
 
 
     'use strict';
+
+    var util = nx.util;
 
     /**
      * ObservableGraph class
@@ -1017,4 +1019,4 @@
         }
     });
 
-})(nx, nx.util, nx.global, nx.logger);
+})(nx, nx.global, nx.logger);

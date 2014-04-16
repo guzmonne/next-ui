@@ -1,16 +1,16 @@
 (function (nx) {
-    var Vector = nx.math.Vector;
+    var Vector = nx.geometry.Vector;
 
     /**
      * Mathematics Line class
-     * @class nx.math.Line
+     * @class nx.geometry.Line
      * @module nx.math
      */
 
     /**
      * Line class constructor function
-     * @param start {nx.math.Vector}
-     * @param end {nx.math.Vector}
+     * @param start {nx.geometry.Vector}
+     * @param end {nx.geometry.Vector}
      * @constructor
      */
     function Line(start, end) {
@@ -55,7 +55,7 @@
         },
         /**
          * @method center
-         * @returns {nx.math.Vector}
+         * @returns {nx.geometry.Vector}
          */
         center: function () {
             return this.start.add(this.end).divide(2);
@@ -83,8 +83,8 @@
         },
         /**
          * @method intersection
-         * @param l {nx.math.Line}
-         * @returns {nx.math.Vector}
+         * @param l {nx.geometry.Line}
+         * @returns {nx.geometry.Vector}
          */
         intersection: function (l) {
             var g0 = this.general(),
@@ -96,8 +96,8 @@
         },
         /**
          * @method pedal
-         * @param v {nx.math.Vector}
-         * @returns {nx.math.Vector}
+         * @param v {nx.geometry.Vector}
+         * @returns {nx.geometry.Vector}
          */
         pedal: function (v) {
             var dir = this.dir,
@@ -110,7 +110,7 @@
         },
         /**
          * @method translate
-         * @param v {nx.math.Vector}
+         * @param v {nx.geometry.Vector}
          * @returns {mx.math.Line}
          */
         translate: function (v) {
@@ -120,21 +120,21 @@
         /**
          * @method rotate
          * @param a {Number}
-         * @returns {nx.math.Line}
+         * @returns {nx.geometry.Line}
          */
         rotate: function (a) {
             return new Line(this.start.rotate(a), this.end.rotate(a));
         },
         /**
          * @method negate
-         * @returns {nx.math.Line}
+         * @returns {nx.geometry.Line}
          */
         negate: function () {
             return new Line(this.end, this.start);
         },
         /**
          * @method normal
-         * @returns {nx.math.Vector}
+         * @returns {nx.geometry.Vector}
          */
         normal: function () {
             var dir = this.dir, l = this.dir.length();
@@ -142,9 +142,9 @@
         },
         /**
          * @method pad
-         * @param a {nx.math.Vector}
-         * @param b {nx.math.Vector}
-         * @returns {nx.math.Line}
+         * @param a {nx.geometry.Vector}
+         * @param b {nx.geometry.Vector}
+         * @returns {nx.geometry.Line}
          */
         pad: function (a, b) {
             var n = this.dir.normalize();
@@ -152,12 +152,12 @@
         },
         /**
          * @method clone
-         * @returns {nx.math.Line}
+         * @returns {nx.geometry.Line}
          */
         clone: function () {
             return new Line(this.start, this.end);
         }
     };
 
-    nx.math.Line = Line;
+    nx.geometry.Line = Line;
 })(nx);

@@ -1,6 +1,6 @@
-(function (nx, util, global) {
-    var Vector = nx.math.Vector;
-    var Line = nx.math.Line;
+(function (nx, global) {
+    var Vector = nx.geometry.Vector;
+    var Line = nx.geometry.Line;
     /**
      * Link class
      * @class nx.graphic.Topology.Link
@@ -467,4 +467,4 @@
     });
 
 
-})(nx, nx.util, nx.global);
+})(nx, nx.global);

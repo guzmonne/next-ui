@@ -1,4 +1,4 @@
-(function (nx, util, global) {
+(function (nx, global) {
     var d = 500;
 
     /**
@@ -309,4 +309,4 @@
     });
 
 
-})(nx, nx.util, nx.global);
+})(nx, nx.global);

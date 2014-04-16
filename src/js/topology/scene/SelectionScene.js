@@ -1,4 +1,4 @@
-(function (nx, util, global) {
+(function (nx, global) {
 
 
     /**
@@ -42,7 +42,7 @@
                     height: 0,
                     'class': 'selectionRect'
                 });
-                rect.attach(topo.stage().floatingLayer());
+                rect.attach(topo.stage().staticLayer());
             },
             dragStageStart: function (sender, event) {
                 this._offset = {
@@ -110,4 +110,4 @@
     });
 
 
-})(nx, nx.util, nx.global);
+})(nx, nx.global);

@@ -1,4 +1,4 @@
-(function (nx, util, global) {
+(function (nx, global) {
 
     /**
      * NeXt force layout algorithm class
@@ -281,4 +281,4 @@
             return true;
         };
     };
-})(nx, nx.util, nx.global);
+})(nx, nx.global);

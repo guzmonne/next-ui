@@ -1,4 +1,4 @@
-(function (nx, util, global) {
+(function (nx, global) {
     /**
      * Node class
      * @class nx.graphic.Topology.Node
@@ -176,6 +176,22 @@
                     } else {
                         this.root().addClass('disable');
                     }
+                }
+            },
+            revisionScale: {
+                set: function (value) {
+                    var topo = this.topology();
+                    var radius = 6;
+                    if (value == 0.6) {
+                        radius = 4;
+                    } else if (value <= 0.4) {
+                        radius = 2;
+                    }
+                    if (topo.showIcon()) {
+                        this.showIcon(value == 1);
+                    }
+                    this.radius(radius);
+                    this.view('label').set('visible', value > 0.4);
                 }
             }
         },
@@ -446,7 +462,7 @@
 
                 // get the min incline angle
 
-                var startVector = new nx.math.Vector(1, 0);
+                var startVector = new nx.geometry.Vector(1, 0);
                 var maxAngle = 0, labelAngle;
 
                 if (vectors.length === 0) {
@@ -500,7 +516,7 @@
                 //
                 var size = this.getBound(true);
                 var radius = Math.max(size.width / 2, size.height / 2) + (this.showIcon() ? 12 : 8);
-                var labelVector = new nx.math.Vector(radius, 0).rotate(angle);
+                var labelVector = new nx.geometry.Vector(radius, 0).rotate(angle);
 
 
                 el.set('x', labelVector.x);
@@ -512,4 +528,4 @@
             }
         }
     });
-})(nx, nx.util, nx.global);
+})(nx, nx.global);

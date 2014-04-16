@@ -1,4 +1,4 @@
-(function (nx, util, global) {
+(function (nx, global) {
 
     /**
      * Topology's base config
@@ -58,4 +58,4 @@
         }
     });
 
-})(nx, nx.util, nx.global);
+})(nx, nx.global);

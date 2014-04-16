@@ -1,4 +1,4 @@
-(function (nx, util, global) {
+(function (nx, global) {
 
     "use strict";
     /**
@@ -8,7 +8,7 @@
      * @module nx.data
      */
 
-    var Line = nx.math.Line;
+    var Line = nx.geometry.Line;
     nx.define('nx.data.Edge', nx.data.ObservableObject, {
         properties: {
             /**
@@ -106,7 +106,7 @@
             parentEdgeSet: {},
             /**
              * Edge line object
-             * @property line {nx.math.Line}
+             * @property line {nx.geometry.Line}
              * @readOnly
              */
             line: {
@@ -158,4 +158,4 @@
         }
     });
 
-})(nx, nx.util, nx.global);
+})(nx, nx.global);

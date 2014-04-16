@@ -1,4 +1,4 @@
-(function (nx, util, global) {
+(function (nx, global) {
     nx.define("nx.data.ObservableGraph.CircleProcessor", {
         methods: {
             process: function (data) {
@@ -7,4 +7,4 @@
         }
     });
 
-})(nx, nx.util, nx.global);
+})(nx, nx.global);

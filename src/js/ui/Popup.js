@@ -201,15 +201,6 @@
 
 
                 var popupSize = this._popupSize = root.getBound();
-//                var margin = position.margin(this._element);
-//                var border = position.border(this._element);
-//                popupSize.height += margin.top + margin.bottom - border.top - border.bottom;
-//                popupSize.width += margin.left + margin.right - border.left - border.right;
-
-//                position.setWidth(this._element, popupSize.width);
-//                position.setHeight(this._element, popupSize.height);
-
-
                 var offset = this.offset();
                 var innerPositionMap = {
                     "outer": {

@@ -1,4 +1,4 @@
-(function (nx, util, global) {
+(function (nx, global) {
 
     /**
      * Topology force layout
@@ -86,4 +86,4 @@
             }
         }
     });
-})(nx, nx.util, nx.global);
+})(nx, nx.global);

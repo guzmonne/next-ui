@@ -1,4 +1,4 @@
-(function (nx, util, global) {
+(function (nx, global) {
 
     nx.Object.delegateEvent = function (source, sourceEvent, target, targetEvent) {
         if (!target.can(targetEvent)) {
@@ -385,4 +385,4 @@
         }
     });
 
-})(nx, nx.util, nx.global);
+})(nx, nx.global);

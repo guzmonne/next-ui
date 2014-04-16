@@ -1,4 +1,4 @@
-(function (nx, util, global) {
+(function (nx, global) {
     /**
      * Node tooltip content class
      * @class nx.graphic.NodeTooltipContent
@@ -78,4 +78,4 @@
             }
         }
     });
-})(nx, nx.util, nx.global);
+})(nx, nx.global);

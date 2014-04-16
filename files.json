@@ -1,6 +1,7 @@
 {
     "scripts": [
         "src/js/util/util.js",
+        "src/js/util/query.js",
         "src/js/util/Animation.js",
 
 
@@ -12,24 +13,34 @@
 
         "src/js/core/DragManager.js",
         "src/js/core/Component.js",
-        "src/js/render/svg/Icons.js",
-        "src/js/render/svg/Components.js",
-        "src/js/render/svg/Stage.js",
 
+
+        "src/js/svg/Group.js",
+        "src/js/svg/ICON.js",
+        "src/js/svg/Icons.js",
+        "src/js/svg/Circle.js",
+        "src/js/svg/Image.js",
+        "src/js/svg/Line.js",
+        "src/js/svg/Path.js",
+        "src/js/svg/Polygon.js",
+        "src/js/svg/Rect.js",
+        "src/js/svg/Stage.js",
+        "src/js/svg/Text.js",
+        "src/js/svg/Triangle.js",
+        "src/js/svg/BezierCurves.js",
 
         "src/js/geometry/MatrixSupport.js",
         "src/js/geometry/Matrix.js",
         "src/js/geometry/Math.js",
         "src/js/geometry/BezierCurve.js",
         "src/js/geometry/Vector.js",
-        "src/js/data/Vector.js",
-        "src/js/data/Line.js",
+        "src/js/geometry/Vector.js",
+        "src/js/geometry/Line.js",
 
         "src/js/data/QuadTree.js",
         "src/js/data/NeXtForce.js",
         "src/js/data/Force.js",
         "src/js/data/Convex.js",
-
         "src/js/data/Vertex.js",
         "src/js/data/Edge.js",
         "src/js/data/VertexSet.js",
@@ -41,7 +52,6 @@
         "src/js/data/processor/Quick.js",
         "src/js/data/processor/Circle.js",
         "src/js/data/ObservableGraph.js",
-        "src/js/data/Projection.js",
 
 
         "src/js/topology/core/Config.js",

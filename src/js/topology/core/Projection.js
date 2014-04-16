@@ -1,4 +1,4 @@
-(function (nx, util, global) {
+(function (nx, global) {
 
     /**
      * Topology projection class
@@ -205,4 +205,4 @@
         }
     });
 
-})(nx, nx.util, nx.global);
+})(nx, nx.global);
