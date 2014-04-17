@@ -41,6 +41,7 @@
         "src/js/data/NeXtForce.js",
         "src/js/data/Force.js",
         "src/js/data/Convex.js",
+
         "src/js/data/Vertex.js",
         "src/js/data/Edge.js",
         "src/js/data/VertexSet.js",
@@ -82,6 +83,9 @@
         "src/js/topology/link/LinkSet.js",
         "src/js/topology/link/LinkSetLayer.js",
 
+
+        "src/js/topology/layout/HierarchicalLayout.js",
+        "src/js/topology/layout/EnterpriseNetworkLayout.js",
         "src/js/topology/layout/NeXtForceLayout.js",
         "src/js/topology/layout/USMapLayout.js",
         "src/js/topology/layout/WorldMapLayout.js",

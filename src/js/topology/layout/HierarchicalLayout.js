@@ -7,7 +7,7 @@
                 value: function () {
                     return function (inNode) {
                         return inNode.model().get("role");
-                    }
+                    };
                 }
             },
             sortOrder: {
@@ -52,7 +52,7 @@
                         var group = groups[key] = groups[key] || [];
                         group.push(node);
                     } else {
-                        groups['__other__'].push(node);
+                        groups.__other__.push(node);
                     }
 
                 });
@@ -108,7 +108,7 @@
                                 nodesPositionObject[node.id()] = {
                                     x: p[0],
                                     y: p[1]
-                                }
+                                };
                             });
                             y += perY;
                         } else {
@@ -119,7 +119,7 @@
                                 nodesPositionObject[node.id()] = {
                                     x: p[0],
                                     y: p[1]
-                                }
+                                };
                             });
                             x += perX;
                         }
@@ -147,6 +147,7 @@
                     var firstGroup = groups[order[i]];
                     var secondGroup = groups[order[i + 1]];
                     var ary = [], indexs = [];
+                    /* jshint -W083 */
                     nx.each(firstGroup, function (fNode) {
                         var temp = [];
                         nx.each(secondGroup, function (sNode, i) {
@@ -162,6 +163,7 @@
                         ary = ary.concat(temp);
                     });
 
+                    /* jshint -W083 */
                     nx.each(ary, function (node, i) {
                         var index = secondGroup.indexOf(node);
                         if (index !== -1) {
