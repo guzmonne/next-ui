@@ -7,65 +7,93 @@
      */
     nx.define("nx.graphic.Topology.NeXtForceLayout", {
         properties: {
-            topology: {}
+            topology: {},
+            bound: {}
         },
         methods: {
             process: function (graph, config, callback) {
 
                 var topo = this.topology();
-                var data = graph._originalData;
-                var key = graph.identityKey();
+                var stage = topo.stage();
+                var linksLayer = topo.getLayer('links');
+                var linkSetLayer = topo.getLayer('linkSet');
+                var data = {nodes: [], links: []};
+                var nodeMap = {}, linkMap = {};
 
-
-                var _data = {nodes: data.nodes, links: []};
-                var nodeIdMap = {};
-                nx.each(data.nodes, function (node, index) {
-                    nodeIdMap[node[key]] = index;
+                topo.eachVisibleNode(function (node) {
+                    data.nodes.push({
+                        id: node.id()
+                    });
                 });
 
+                if (topo.supportMultipleLink()) {
+                    linkSetLayer.eachLinkSet(function (linkSet) {
+                        if (!linkMap[linkSet.linkKey()]) {
+                            data.links.push({
+                                source: linkSet.sourceNodeID(),
+                                target: linkSet.targetNodeID()
+                            });
+                            linkMap[linkSet.linkKey()] = linkSet;
+                        }
 
-                // if source and target is not number, force will search node
-                nx.each(data.links, function (link) {
-                    if (!nx.is(link.source, 'Object') && nodeIdMap[link.source] !== undefined && !nx.is(link.target, 'Object') && nodeIdMap[link.target] !== undefined) {
-                        _data.links.push({
-                            source: nodeIdMap[link.source],
-                            target: nodeIdMap[link.target]
-                        });
-                    }
-                });
-
-
+                    })
+                } else {
+                    linksLayer.eachLink(function (link) {
+                        if (!linkMap[link.id()]) {
+                            data.links.push({
+                                source: link.sourceNodeID(),
+                                target: link.targetNodeID()
+                            });
+                            linkMap[link.id()] = link;
+                        }
+                    });
+                }
                 setTimeout(function () {
-
-
                     // force
-                    var force = new nx.data.Force(topo.containerWidth(), topo.containerHeight());
-                    force.setData(_data);
 
-                    var step = 0;
-                    while (++step < 300) {
+                    var force = new nx.data.Force();
+                    force.nodes(data.nodes);
+                    force.links(data.links);
+                    force.start();
+                    while (force.alpha()) {
                         force.tick();
                     }
+                    force.stop();
 
 
-                    topo._dataBound = graph.getBound(_data.nodes);
+//                    console.log(JSON.stringify(data));
+
+//                    var force = new nx.data.NextForce(100, 100);
+//                    force.setData(data);
+//                    if (data.nodes.length < 50) {
+//                        while (true) {
+//                            force.tick();
+//                            if (force.maxEnergy < data.nodes.length * 0.1) {
+//                                break;
+//                            }
+//                        }
+//                    } else {
+//                        var step = 0;
+//                        while (++step < 900) {
+//                            force.tick();
+//                        }
+//                    }
 
 
-
-                    var px = topo.projectionX();
-                    var py = topo.projectionY();
+                    var bound = this._getBound(data.nodes);
+                    var matrix = stage.calcRectZoomMatrix(topo.graph().getBound(), bound);
+                    var transform = nx.geometry.Vector.transform;
 
                     topo.getLayer('links').hide();
                     topo.getLayer('links').fadeIn();
 
 
-                    nx.each(_data.nodes, function (n, i) {
-                        var id = n[key] || i;
-                        var node = topo.getNode(id);
+                    nx.each(data.nodes, function (n, i) {
+                        var node = topo.getNode(n.id);
                         if (node) {
-                            node.cssMoveTo(px.get(n.x), py.get(n.y));
+                            var p = transform([n.x, n.y], matrix);
+                            node.translateTo(p[0], p[1]);
                         } else {
-                            console.log(n);
                         }
                     }, this);
 
@@ -80,9 +108,43 @@
                     }, 500);
 
 
-                }, 300);
+                }.bind(this), 300);
 
 
+            },
+            _getBound: function (nodes) {
+                var lastIndex = nodes.length - 1;
+                var bound = {
+                    left: 0,
+                    x: 0,
+                    top: 0,
+                    y: 0,
+                    width: 0,
+                    height: 0,
+                    maxX: 0,
+                    maxY: 0
+                };
+
+
+                //
+                nodes.sort(function (a, b) {
+                    return a.x - b.x;
+                });
+
+                bound.x = bound.left = nodes[0].x;
+                bound.maxX = nodes[lastIndex].x;
+                bound.width = bound.maxX - bound.x;
+
+
+                //
+                nodes.sort(function (a, b) {
+                    return a.y - b.y;
+                });
+
+                bound.y = bound.top = nodes[0].y;
+                bound.maxY = nodes[lastIndex].y;
+                bound.height = bound.maxY - bound.x;
+                return bound;
             }
         }
     });

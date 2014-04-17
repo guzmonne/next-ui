@@ -285,15 +285,10 @@
             translateTo: function (x, y, callback) {
                 var el = this.view();
                 el.upon('transitionend', function () {
-                    this._x = x;
-                    this._y = y;
-                    this.notify('position');
-
-                    this.model().set("position", {
+                    this.position({
                         x: x,
                         y: y
                     });
-
                     this.calcLabelPosition(true);
                     el.upon('transitionend', null);
                 }, this);

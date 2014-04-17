@@ -321,6 +321,16 @@
                 }, this);
                 return linkSetAry;
             },
+            eachVisibleLinkSet: function (fn, context) {
+                var model = this.model();
+                var topo = this.topology();
+                model.eachVisibleEdgeSet(function (edgeSet, linkKey) {
+                    var linkSet = topo.getLinkSetByLinkKey(linkKey);
+                    if (linkSet) {
+                        fn.call(context || this, linkSet, edgeSet);
+                    }
+                }, this);
+            },
             /**
              * Iterate all connected node
              * @method eachConnectedNode

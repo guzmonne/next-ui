@@ -148,7 +148,7 @@
                 this._originalData.nodeSet = this._originalData.nodeSet.concat(inData.nodeSet || []);
 
 
-                var data = this._preProcessData(this._originalData);
+                var data = this._preProcessData(inData);
 
                 // process
                 this._processData(data);
@@ -997,6 +997,8 @@
                 return {
                     x: min_x,
                     y: min_y,
+                    left: min_x,
+                    top: min_y,
                     width: max_x - min_x,
                     height: max_y - min_y,
                     maxX: max_x,

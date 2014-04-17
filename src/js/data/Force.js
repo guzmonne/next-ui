@@ -100,6 +100,11 @@
             charge = typeof x === "function" ? x : +x;
             return force;
         };
+        force.size = function (x) {
+            if (!arguments.length) return size;
+            size = x;
+            return force;
+        };
         force.alpha = function (x) {
             if (!arguments.length) return alpha;
             if (alpha) {

@@ -157,7 +157,7 @@
                                     name: 'dot',
                                     type: 'nx.graphic.Circle',
                                     props: {
-                                        r: '{#radius}',
+                                        r: '7',
                                         x: 0,
                                         y: 0,
                                         'class': 'dot'
@@ -167,9 +167,9 @@
                                     name: 'line1',
                                     type: 'nx.graphic.Rect',
                                     props: {
-                                        translateX: -3,
+                                        translateX: -5,
                                         translateY: -0.5,
-                                        width: 6,
+                                        width: 10,
                                         height: 1,
                                         'class': 'bg'
                                     }
@@ -179,9 +179,9 @@
                                     type: 'nx.graphic.Rect',
                                     props: {
                                         translateX: -0.5,
-                                        translateY: -3,
+                                        translateY: -5,
                                         width: 1,
-                                        height: 6,
+                                        height: 10,
                                         'class': 'bg'
                                     }
                                 }
