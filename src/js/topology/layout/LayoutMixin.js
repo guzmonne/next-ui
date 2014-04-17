@@ -36,6 +36,10 @@
                 this.registerLayout('force', new nx.graphic.Topology.NeXtForceLayout());
                 this.registerLayout('USMap', new nx.graphic.Topology.USMapLayout());
                 this.registerLayout('WorldMap', new nx.graphic.Topology.WorldMapLayout());
+                this.registerLayout('hierarchicalLayout', new nx.graphic.Topology.HierarchicalLayout());
+                this.registerLayout('enterpriseNetworkLayout', new nx.graphic.Topology.EnterpriseNetworkLayout());
+
+
             },
             /**
              * Register a layout

@@ -251,6 +251,20 @@
                 nx.each(this.edgeSet(), callback, context || this);
             },
             /**
+             * Get all edgeSet
+             * @method getEdgeSet
+             * @returns {Array}
+             */
+            getEdgeSet: function () {
+                var ary = [];
+                this.eachEdgeSet(function (edgeSet) {
+                    ary[ary.length] = edgeSet;
+                }, this);
+                return ary;
+            },
+
+
+            /**
              * Iterate all connected visible edgeSet
              * @method eachVisibleEdgeSet
              * @param callback {Function}
@@ -295,11 +309,11 @@
              * @return {Object}
              */
             getEdges: function () {
-                var obj = {};
+                var ary = [];
                 this.eachEdge(function (edge) {
-                    obj[edge.id()] = edge;
+                    ary[ary.length] = edge;
                 }, this);
-                return obj;
+                return ary;
             },
             /**
              * Iterate all connected vertices

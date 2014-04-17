@@ -21,7 +21,7 @@
                 return result;
             },
             uniq: function (array, iterator, context) {
-                var initial = iterator ? array.map(array, iterator.bind(context || this)) : array;
+                var initial = iterator ? array.map(iterator.bind(context || this)) : array;
                 var results = [];
                 nx.each(initial, function (value, index) {
                     if (results.indexOf(value) == -1) {

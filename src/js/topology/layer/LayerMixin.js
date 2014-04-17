@@ -103,8 +103,9 @@
                 if (layerObj) {
                     layerObj.attach(this.stage(), 0);
                     layersMap[name] = layerObj;
-                    layers.unshift(layerObj);
+                    layers.push(layerObj);
                 }
+                return layerObj;
             },
             /**
              * Insert a layer under a certain layer, that should be subclass of nx.graphic.Topology.Layer

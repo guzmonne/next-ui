@@ -36,7 +36,7 @@
                             linkMap[linkSet.linkKey()] = linkSet;
                         }
 
-                    })
+                    });
                 } else {
                     linksLayer.eachLink(function (link) {
                         if (!linkMap[link.id()]) {

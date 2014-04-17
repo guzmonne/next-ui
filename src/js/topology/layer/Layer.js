@@ -71,19 +71,19 @@
              * fade out layer
              * @method fadeOut
              * @param [force] {Boolean} force layer fade out and can't fade in
-             * @param [fn] {Function} callback after fade out
+             * @param [callback] {Function} callback after fade out
              * @param [context] {Object} callback context
              */
-            fadeOut: function (force, fn, context) {
-                var el = this.resolve('static');
+            fadeOut: function (force, callback, context) {
+                var el = this.resolve('static') || this.resolve('@root');
                 var _force = force !== undefined;
-                if (this._fade) {
+                if (this._fade && !_force) {
                     return;
                 }
-                if (fn) {
-                    el.upon('transitionend', function callback() {
-                        fn.call(context || this);
-                        el.upon('transitionend', null, this);
+                if (callback) {
+                    el.on('transitionend', function fn() {
+                        callback.call(context || this);
+                        el.off('transitionend', fn, this);
                     }, this);
                 }
                 el.setStyle('opacity', 0.2, 0.5);
@@ -93,17 +93,18 @@
             /**
              * Fade in layer
              * @method fadeIn
-             * @param [fn] {Function} callback after fade out
+             * @param [callback] {Function} callback after fade out
              * @param [context] {Object} callback context
              */
-            fadeIn: function (fn, context) {
+            fadeIn: function (callback, context) {
                 var el = this.resolve('static') || this.resolve('@root');
-                if (fn) {
-                    el.upon('transitionend', function () {
-                        fn.call(context || this);
-                        el.upon('transitionend', null, this);
+                if (callback) {
+                    el.on('transitionend', function fn() {
+                        callback.call(context || this);
+                        el.off('transitionend', fn, this);
                     }, this);
                 }
+
                 el.setStyle('opacity', 1, 0.5);
             },
             /**
@@ -127,16 +128,20 @@
              * Recover layer's fade statues
              * @param force {Boolean} force recover all items
              */
-            recover: function (force) {
+            recover: function (force, callback, context) {
                 var staticEl = this.resolve('static');
                 if (this._fade && !force) {
                     return;
                 }
+                //this.show();
                 this.fadeIn(function () {
                     nx.each(this.highlightElements(), function (el) {
                         el.append(staticEl);
                     }, this);
                     this.highlightElements([]);
+                    if (callback) {
+                        callback.call(context || this);
+                    }
                 }, this);
                 delete this._fade;
             },
