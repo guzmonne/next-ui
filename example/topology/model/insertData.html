@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Example</title>
+    <link rel="stylesheet" href="../../../../next-ui/dest/css/next-blue.css"/>
+    <link rel="stylesheet" href="../../../src/less/next-graphic.css"/>
+    <script src="../../../../next-ui/lib/jquery/jquery-1.10.2.min.js"></script>
+    <script src="../../../../next-core/dest/next-core.js"></script>
+    <script src="../../../../next-ui/dest/js/next-ui.js"></script>
+    <script type="text/javascript" src="../../../lib/GraphGenerator.js"></script>
+    <script type="text/javascript" src="../../../src/js/next-graphic.js"></script>
+    <script type="text/javascript" src="data_800.js"></script>
+
+</head>
+<style>
+    html, body {
+        padding: 0px;
+        height: 100%;
+        width: 100%;
+    }
+
+    .row, #topo, #list {
+        height: 100%;
+    }
+</style>
+<body>
+
+
+<div class="row">
+
+    <div id="topo" class="col-md-10"></div>
+    <div id="list" class="col-md-2" style="padding: 30px; background: #000 ">
+        <button id="insert">Insert Data</button>
+        <button id="relayout">Re-layout</button>
+
+    </div>
+</div>
+
+
+<script type="text/javascript">
+
+    var nodeIndex = 10;
+    var nodeNumber = 10;
+
+    var g = new GraphGenerator();
+    g.generate(nodeNumber);
+
+
+    nx.each(g.links, function (link, index) {
+        link.source = g.nodes[link.source].id;
+        link.target = g.nodes[link.target].id;
+    });
+
+
+    var topologyData = {nodes: g.nodes, links: g.links};
+
+    var topo = new nx.graphic.Topology({
+        adaptive: true,
+        identityKey: 'id',
+        dataProcessor: 'force',
+        nodeConfig: {
+            label: 'model.id'
+        },
+        theme: 'yellow',
+        showIcon: true,
+        data: topologyData
+    });
+
+
+    var app = new nx.ui.Application();
+    app.container(document.getElementById('topo'));
+    topo.attach(app);
+
+
+    $("#insert").click(function () {
+        var g = new GraphGenerator();
+        g.generate(nodeNumber);
+
+
+        nx.each(g.nodes, function (node, index) {
+            node.id = nodeIndex + node.id;
+        });
+
+
+        nx.each(g.links, function (link, index) {
+            link.source = g.nodes[link.source].id;
+            link.target = g.nodes[link.target].id;
+        });
+
+        // add a link
+        g.links.push({
+            source: nodeIndex - 1,
+            target: nodeIndex
+        });
+
+
+        var topologyData = {nodes: g.nodes, links: g.links};
+        topo.insertData(topologyData);
+
+        nodeIndex += nodeNumber;
+
+
+    });
+
+
+    $('#relayout').click(function () {
+        topo.activateLayout('force', null, function () {
+            topo.layoutType(null);
+        });
+    });
+
+</script>
+
+
+</body>
+</html>

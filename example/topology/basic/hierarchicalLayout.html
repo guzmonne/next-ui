@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Example</title>
+    <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/nextui/ws/lib/jquery/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/DailyBuild/lastSuccessfulBuild/artifact/dest/next-core.js"></script>
+    <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/nextui/lastSuccessfulBuild/artifact/dest/js/next-ui.js"></script>
+    <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/Next-graphic/lastSuccessfulBuild/artifact/dest/js/next-graphic.js"></script>
+    <!--<script type="text/javascript" src="../../../src/js/next-graphic.js"></script>-->
+    <link rel="stylesheet" href="http://10.75.161.96:8080/jenkins/job/nextui/lastSuccessfulBuild/artifact/dest/css/next-blue.css"/>
+    <link rel="stylesheet" href="../../../src/less/next-graphic.css"/>
+    <script type="text/javascript" src="../../../lib/GraphGenerator.js"></script>
+
+
+</head>
+<style>
+    html, body {
+        padding: 0px;
+        height: 100%;
+        width: 100%;
+    }
+
+    .row, #topo, #list {
+        height: 100%;
+    }
+</style>
+<body>
+
+
+<div class="row">
+
+    <div id="topo" class="col-md-10"></div>
+    <div id="list" class="col-md-2" style="padding: 30px; background: #000 ">
+        <button id="h">Horizontal layout</button>
+        <button id="v">Vertical layout</button>
+
+
+    </div>
+</div>
+
+<script type="text/javascript">
+
+var topologyData = { "nodes": [
+    {"device_type": "router", "label": "CORE0", "id": "0", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "Core", "nodeType": "device"},
+    {"device_type": "router", "label": "CORE1", "id": "1", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "Core", "nodeType": "device"},
+    {"device_type": "router", "label": "CORE2", "id": "2", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "Core", "nodeType": "device"},
+    {"device_type": "router", "label": "Distribution3", "id": "3", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "Distribution", "nodeType": "device"},
+    {"device_type": "router", "label": "Distribution4", "id": "4", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "Distribution", "nodeType": "device"},
+    {"device_type": "router", "label": "Distribution5", "id": "5", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "Distribution", "nodeType": "device"},
+    {"device_type": "router", "label": "Distribution6", "id": "6", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "Distribution", "nodeType": "device"},
+    {"device_type": "router", "label": "Distribution7", "id": "7", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "Distribution", "nodeType": "device"},
+    {"device_type": "router", "label": "Distribution8", "id": "8", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "Distribution", "nodeType": "device"},
+    {"device_type": "router", "label": "Distribution9", "id": "9", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "Distribution", "nodeType": "device"},
+    {"device_type": "switch", "label": "Access10", "id": "10", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "Access", "nodeType": "device"},
+    {"device_type": "switch", "label": "Access11", "id": "11", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "Access", "nodeType": "device"},
+    {"device_type": "switch", "label": "Access12", "id": "12", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "Access", "nodeType": "device"},
+    {"device_type": "switch", "label": "Access13", "id": "13", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "Access", "nodeType": "device"},
+    {"device_type": "switch", "label": "Access14", "id": "14", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "Access", "nodeType": "device"},
+    {"device_type": "switch", "label": "Access15", "id": "15", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "Access", "nodeType": "device"},
+    {"device_type": "switch", "label": "Access16", "id": "16", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "Access", "nodeType": "device"},
+    {"device_type": "switch", "label": "Access17", "id": "17", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "Access", "nodeType": "device"},
+    {"device_type": "switch", "label": "Access18", "id": "18", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "Access", "nodeType": "device"},
+    {"device_type": "switch", "label": "Access19", "id": "19", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "Access", "nodeType": "device"},
+    {"device_type": "switch", "label": "Access20", "id": "20", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "Access", "nodeType": "device"},
+    {"device_type": "switch", "label": "Access21", "id": "21", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "Access", "nodeType": "device"},
+    {"device_type": "switch", "label": "Access22", "id": "22", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "Access", "nodeType": "device"},
+    {"device_type": "switch", "label": "Access23", "id": "23", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "Access", "nodeType": "device"},
+    {"device_type": "switch", "label": "Access24", "id": "24", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "Access", "nodeType": "device"},
+    {"device_type": "switch", "label": "Access25", "id": "25", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "Access", "nodeType": "device"},
+    {"device_type": "switch", "label": "Access26", "id": "26", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "Access", "nodeType": "device"},
+    {"device_type": "switch", "label": "Access27", "id": "27", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "Access", "nodeType": "device"},
+    {"device_type": "switch", "label": "Access28", "id": "28", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "Access", "nodeType": "device"},
+    {"device_type": "switch", "label": "Access29", "id": "29", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "Access", "nodeType": "device"},
+    {"device_type": "wired", "label": "Host30", "id": "30", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "", "nodeType": "host"},
+    {"device_type": "wired", "label": "Host31", "id": "31", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "", "nodeType": "host"},
+    {"device_type": "wired", "label": "Host32", "id": "32", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "", "nodeType": "host"},
+    {"device_type": "wired", "label": "Host33", "id": "33", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "", "nodeType": "host"},
+    {"device_type": "wired", "label": "Host34", "id": "34", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "", "nodeType": "host"},
+    {"device_type": "wired", "label": "Host35", "id": "35", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "", "nodeType": "host"},
+    {"device_type": "wired", "label": "Host36", "id": "36", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "", "nodeType": "host"},
+    {"device_type": "wired", "label": "Host37", "id": "37", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "", "nodeType": "host"},
+    {"device_type": "wired", "label": "Host38", "id": "38", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "", "nodeType": "host"},
+    {"device_type": "wired", "label": "Host39", "id": "39", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "", "nodeType": "host"},
+    {"device_type": "wired", "label": "Host40", "id": "40", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "", "nodeType": "host"},
+    {"device_type": "wired", "label": "Host41", "id": "41", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "", "nodeType": "host"},
+    {"device_type": "wired", "label": "Host42", "id": "42", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "", "nodeType": "host"},
+    {"device_type": "wired", "label": "Host43", "id": "43", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "", "nodeType": "host"},
+    {"device_type": "wired", "label": "Host44", "id": "44", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "", "nodeType": "host"},
+    {"device_type": "wired", "label": "Host45", "id": "45", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "", "nodeType": "host"},
+    {"device_type": "wired", "label": "Host46", "id": "46", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "", "nodeType": "host"},
+    {"device_type": "wired", "label": "Host47", "id": "47", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "", "nodeType": "host"},
+    {"device_type": "wired", "label": "Host48", "id": "48", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "", "nodeType": "host"},
+    {"device_type": "wired", "label": "Host49", "id": "49", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "", "nodeType": "host"},
+    {"device_type": "wired", "label": "Host50", "id": "50", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "", "nodeType": "host"},
+    {"device_type": "wired", "label": "Host51", "id": "51", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "", "nodeType": "host"},
+    {"device_type": "wired", "label": "Host52", "id": "52", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "", "nodeType": "host"},
+    {"device_type": "wired", "label": "Host53", "id": "53", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "", "nodeType": "host"},
+    {"device_type": "wired", "label": "Host54", "id": "54", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "", "nodeType": "host"},
+    {"device_type": "wired", "label": "Host55", "id": "55", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "", "nodeType": "host"},
+    {"device_type": "wired", "label": "Host56", "id": "56", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "", "nodeType": "host"},
+    {"device_type": "wired", "label": "Host57", "id": "57", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "", "nodeType": "host"},
+    {"device_type": "wired", "label": "Host58", "id": "58", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "", "nodeType": "host"},
+    {"device_type": "wired", "label": "Host59", "id": "59", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "", "nodeType": "host"},
+    {"device_type": "wired", "label": "Host60", "id": "60", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "", "nodeType": "host"},
+    {"device_type": "wired", "label": "Host61", "id": "61", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "", "nodeType": "host"},
+    {"device_type": "wired", "label": "Host62", "id": "62", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "", "nodeType": "host"},
+    {"device_type": "wired", "label": "Host63", "id": "63", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "", "nodeType": "host"},
+    {"device_type": "wired", "label": "Host64", "id": "64", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "", "nodeType": "host"},
+    {"device_type": "wired", "label": "Host65", "id": "65", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "", "nodeType": "host"},
+    {"device_type": "wired", "label": "Host66", "id": "66", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "", "nodeType": "host"},
+    {"device_type": "wired", "label": "Host67", "id": "67", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "", "nodeType": "host"},
+    {"device_type": "wired", "label": "Host68", "id": "68", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "", "nodeType": "host"},
+    {"device_type": "wired", "label": "Host69", "id": "69", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "", "nodeType": "host"},
+    {"device_type": "wired", "label": "Host70", "id": "70", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "", "nodeType": "host"},
+    {"device_type": "wired", "label": "Host71", "id": "71", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "", "nodeType": "host"},
+    {"device_type": "wired", "label": "Host72", "id": "72", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "", "nodeType": "host"},
+    {"device_type": "wired", "label": "Host73", "id": "73", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "", "nodeType": "host"},
+    {"device_type": "wired", "label": "Host74", "id": "74", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "", "nodeType": "host"},
+    {"device_type": "wired", "label": "Host75", "id": "75", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "", "nodeType": "host"},
+    {"device_type": "wired", "label": "Host76", "id": "76", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "", "nodeType": "host"},
+    {"device_type": "wired", "label": "Host77", "id": "77", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "", "nodeType": "host"},
+    {"device_type": "wired", "label": "Host78", "id": "78", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "", "nodeType": "host"},
+    {"device_type": "wired", "label": "Host79", "id": "79", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "", "nodeType": "host"},
+    {"device_type": "wired", "label": "Host80", "id": "80", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "", "nodeType": "host"},
+    {"device_type": "wired", "label": "Host81", "id": "81", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "", "nodeType": "host"},
+    {"device_type": "wired", "label": "Host82", "id": "82", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "", "nodeType": "host"},
+    {"device_type": "wired", "label": "Host83", "id": "83", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "", "nodeType": "host"},
+    {"device_type": "wired", "label": "Host84", "id": "84", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "", "nodeType": "host"},
+    {"device_type": "wired", "label": "Host85", "id": "85", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "", "nodeType": "host"},
+    {"device_type": "wired", "label": "Host86", "id": "86", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "", "nodeType": "host"},
+    {"device_type": "wired", "label": "Host87", "id": "87", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "", "nodeType": "host"},
+    {"device_type": "wired", "label": "Host88", "id": "88", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "", "nodeType": "host"},
+    {"device_type": "wired", "label": "Host89", "id": "89", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "", "nodeType": "host"},
+    {"device_type": "wired", "label": "Host90", "id": "90", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "", "nodeType": "host"},
+    {"device_type": "wired", "label": "Host91", "id": "91", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "", "nodeType": "host"},
+    {"device_type": "wired", "label": "Host92", "id": "92", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "", "nodeType": "host"},
+    {"device_type": "wired", "label": "Host93", "id": "93", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "", "nodeType": "host"},
+    {"device_type": "wired", "label": "Host94", "id": "94", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "", "nodeType": "host"},
+    {"device_type": "wired", "label": "Host95", "id": "95", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "", "nodeType": "host"},
+    {"device_type": "wired", "label": "Host96", "id": "96", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "", "nodeType": "host"},
+    {"device_type": "wired", "label": "Host97", "id": "97", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "", "nodeType": "host"},
+    {"device_type": "wired", "label": "Host98", "id": "98", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "", "nodeType": "host"},
+    {"device_type": "wired", "label": "Host99", "id": "99", "x": 0, "y": 0, "ip": "25.5.5.62", "role": "", "nodeType": "host"}
+],
+    "links": [
+        {"source": "24", "startPortID": "", "target": "30", "endPortID": "", "linkStatus": ""},
+        {"source": "16", "startPortID": "", "target": "31", "endPortID": "", "linkStatus": ""},
+        {"source": "26", "startPortID": "", "target": "32", "endPortID": "", "linkStatus": ""},
+        {"source": "24", "startPortID": "", "target": "33", "endPortID": "", "linkStatus": ""},
+        {"source": "27", "startPortID": "", "target": "34", "endPortID": "", "linkStatus": ""},
+        {"source": "17", "startPortID": "", "target": "35", "endPortID": "", "linkStatus": ""},
+        {"source": "15", "startPortID": "", "target": "36", "endPortID": "", "linkStatus": ""},
+        {"source": "10", "startPortID": "", "target": "37", "endPortID": "", "linkStatus": ""},
+        {"source": "18", "startPortID": "", "target": "38", "endPortID": "", "linkStatus": ""},
+        {"source": "18", "startPortID": "", "target": "39", "endPortID": "", "linkStatus": ""},
+        {"source": "28", "startPortID": "", "target": "40", "endPortID": "", "linkStatus": ""},
+        {"source": "12", "startPortID": "", "target": "41", "endPortID": "", "linkStatus": ""},
+        {"source": "19", "startPortID": "", "target": "42", "endPortID": "", "linkStatus": ""},
+        {"source": "25", "startPortID": "", "target": "43", "endPortID": "", "linkStatus": ""},
+        {"source": "10", "startPortID": "", "target": "44", "endPortID": "", "linkStatus": ""},
+        {"source": "11", "startPortID": "", "target": "45", "endPortID": "", "linkStatus": ""},
+        {"source": "29", "startPortID": "", "target": "46", "endPortID": "", "linkStatus": ""},
+        {"source": "28", "startPortID": "", "target": "47", "endPortID": "", "linkStatus": ""},
+        {"source": "16", "startPortID": "", "target": "48", "endPortID": "", "linkStatus": ""},
+        {"source": "13", "startPortID": "", "target": "49", "endPortID": "", "linkStatus": ""},
+        {"source": "29", "startPortID": "", "target": "50", "endPortID": "", "linkStatus": ""},
+        {"source": "23", "startPortID": "", "target": "51", "endPortID": "", "linkStatus": ""},
+        {"source": "19", "startPortID": "", "target": "52", "endPortID": "", "linkStatus": ""},
+        {"source": "12", "startPortID": "", "target": "53", "endPortID": "", "linkStatus": ""},
+        {"source": "19", "startPortID": "", "target": "54", "endPortID": "", "linkStatus": ""},
+        {"source": "27", "startPortID": "", "target": "55", "endPortID": "", "linkStatus": ""},
+        {"source": "16", "startPortID": "", "target": "56", "endPortID": "", "linkStatus": ""},
+        {"source": "17", "startPortID": "", "target": "57", "endPortID": "", "linkStatus": ""},
+        {"source": "15", "startPortID": "", "target": "58", "endPortID": "", "linkStatus": ""},
+        {"source": "16", "startPortID": "", "target": "59", "endPortID": "", "linkStatus": ""},
+        {"source": "29", "startPortID": "", "target": "60", "endPortID": "", "linkStatus": ""},
+        {"source": "25", "startPortID": "", "target": "61", "endPortID": "", "linkStatus": ""},
+        {"source": "27", "startPortID": "", "target": "62", "endPortID": "", "linkStatus": ""},
+        {"source": "17", "startPortID": "", "target": "63", "endPortID": "", "linkStatus": ""},
+        {"source": "10", "startPortID": "", "target": "64", "endPortID": "", "linkStatus": ""},
+        {"source": "10", "startPortID": "", "target": "65", "endPortID": "", "linkStatus": ""},
+        {"source": "28", "startPortID": "", "target": "66", "endPortID": "", "linkStatus": ""},
+        {"source": "19", "startPortID": "", "target": "67", "endPortID": "", "linkStatus": ""},
+        {"source": "17", "startPortID": "", "target": "68", "endPortID": "", "linkStatus": ""},
+        {"source": "22", "startPortID": "", "target": "69", "endPortID": "", "linkStatus": ""},
+        {"source": "15", "startPortID": "", "target": "70", "endPortID": "", "linkStatus": ""},
+        {"source": "26", "startPortID": "", "target": "71", "endPortID": "", "linkStatus": ""},
+        {"source": "28", "startPortID": "", "target": "72", "endPortID": "", "linkStatus": ""},
+        {"source": "12", "startPortID": "", "target": "73", "endPortID": "", "linkStatus": ""},
+        {"source": "22", "startPortID": "", "target": "74", "endPortID": "", "linkStatus": ""},
+        {"source": "18", "startPortID": "", "target": "75", "endPortID": "", "linkStatus": ""},
+        {"source": "18", "startPortID": "", "target": "76", "endPortID": "", "linkStatus": ""},
+        {"source": "28", "startPortID": "", "target": "77", "endPortID": "", "linkStatus": ""},
+        {"source": "16", "startPortID": "", "target": "78", "endPortID": "", "linkStatus": ""},
+        {"source": "20", "startPortID": "", "target": "79", "endPortID": "", "linkStatus": ""},
+        {"source": "17", "startPortID": "", "target": "80", "endPortID": "", "linkStatus": ""},
+        {"source": "19", "startPortID": "", "target": "81", "endPortID": "", "linkStatus": ""},
+        {"source": "18", "startPortID": "", "target": "82", "endPortID": "", "linkStatus": ""},
+        {"source": "29", "startPortID": "", "target": "83", "endPortID": "", "linkStatus": ""},
+        {"source": "13", "startPortID": "", "target": "84", "endPortID": "", "linkStatus": ""},
+        {"source": "19", "startPortID": "", "target": "85", "endPortID": "", "linkStatus": ""},
+        {"source": "19", "startPortID": "", "target": "86", "endPortID": "", "linkStatus": ""},
+        {"source": "13", "startPortID": "", "target": "87", "endPortID": "", "linkStatus": ""},
+        {"source": "29", "startPortID": "", "target": "88", "endPortID": "", "linkStatus": ""},
+        {"source": "20", "startPortID": "", "target": "89", "endPortID": "", "linkStatus": ""},
+        {"source": "28", "startPortID": "", "target": "90", "endPortID": "", "linkStatus": ""},
+        {"source": "17", "startPortID": "", "target": "91", "endPortID": "", "linkStatus": ""},
+        {"source": "17", "startPortID": "", "target": "92", "endPortID": "", "linkStatus": ""},
+        {"source": "16", "startPortID": "", "target": "93", "endPortID": "", "linkStatus": ""},
+        {"source": "28", "startPortID": "", "target": "94", "endPortID": "", "linkStatus": ""},
+        {"source": "13", "startPortID": "", "target": "95", "endPortID": "", "linkStatus": ""},
+        {"source": "18", "startPortID": "", "target": "96", "endPortID": "", "linkStatus": ""},
+        {"source": "20", "startPortID": "", "target": "97", "endPortID": "", "linkStatus": ""},
+        {"source": "18", "startPortID": "", "target": "98", "endPortID": "", "linkStatus": ""},
+        {"source": "15", "startPortID": "", "target": "99", "endPortID": "", "linkStatus": ""},
+        {"source": "3", "startPortID": "", "target": "10", "endPortID": "", "linkStatus": ""},
+        {"source": "5", "startPortID": "", "target": "11", "endPortID": "", "linkStatus": ""},
+        {"source": "7", "startPortID": "", "target": "12", "endPortID": "", "linkStatus": ""},
+        {"source": "6", "startPortID": "", "target": "13", "endPortID": "", "linkStatus": ""},
+        {"source": "8", "startPortID": "", "target": "14", "endPortID": "", "linkStatus": ""},
+        {"source": "7", "startPortID": "", "target": "15", "endPortID": "", "linkStatus": ""},
+        {"source": "5", "startPortID": "", "target": "16", "endPortID": "", "linkStatus": ""},
+        {"source": "5", "startPortID": "", "target": "17", "endPortID": "", "linkStatus": ""},
+        {"source": "6", "startPortID": "", "target": "18", "endPortID": "", "linkStatus": ""},
+        {"source": "9", "startPortID": "", "target": "19", "endPortID": "", "linkStatus": ""},
+        {"source": "6", "startPortID": "", "target": "20", "endPortID": "", "linkStatus": ""},
+        {"source": "9", "startPortID": "", "target": "21", "endPortID": "", "linkStatus": ""},
+        {"source": "7", "startPortID": "", "target": "22", "endPortID": "", "linkStatus": ""},
+        {"source": "4", "startPortID": "", "target": "23", "endPortID": "", "linkStatus": ""},
+        {"source": "8", "startPortID": "", "target": "24", "endPortID": "", "linkStatus": ""},
+        {"source": "5", "startPortID": "", "target": "25", "endPortID": "", "linkStatus": ""},
+        {"source": "8", "startPortID": "", "target": "26", "endPortID": "", "linkStatus": ""},
+        {"source": "4", "startPortID": "", "target": "27", "endPortID": "", "linkStatus": ""},
+        {"source": "6", "startPortID": "", "target": "28", "endPortID": "", "linkStatus": ""},
+        {"source": "9", "startPortID": "", "target": "29", "endPortID": "", "linkStatus": ""},
+        {"source": "3", "startPortID": "", "target": "3", "endPortID": "", "linkStatus": ""},
+        {"source": "1", "startPortID": "", "target": "4", "endPortID": "", "linkStatus": ""},
+        {"source": "2", "startPortID": "", "target": "5", "endPortID": "", "linkStatus": ""},
+        {"source": "1", "startPortID": "", "target": "6", "endPortID": "", "linkStatus": ""},
+        {"source": "2", "startPortID": "", "target": "7", "endPortID": "", "linkStatus": ""},
+        {"source": "1", "startPortID": "", "target": "8", "endPortID": "", "linkStatus": ""},
+        {"source": "1", "startPortID": "", "target": "9", "endPortID": "", "linkStatus": ""}
+    ]}
+
+
+</script>
+
+
+<script type="text/javascript">
+
+    var topo = new nx.graphic.Topology({
+        adaptive: true,
+        identityKey: 'id',
+        dataProcessor: 'force',
+        nodeConfig: {
+            label: 'model.id'
+        },
+        theme: 'yellow',
+        showIcon: true,
+        data: topologyData
+    });
+
+    var app = new nx.ui.Application();
+    app.container(document.getElementById('topo'));
+    topo.attach(app);
+
+
+    $('#h').click(function () {
+        var layout = topo.getLayout('hierarchicalLayout');
+        layout.direction('horizontal');
+        layout.levelBy(function (node, model) {
+            return model.get('role');
+//            return Math.floor(model.id() / 16);
+        });
+        topo.activateLayout('hierarchicalLayout');
+    });
+
+    $('#v').click(function () {
+        var layout = topo.getLayout('hierarchicalLayout');
+        layout.direction('vertical');
+        layout.sortOrder(['Core', 'Distribution', 'Access']);
+        layout.levelBy(function (node, model) {
+            return model.get('role');
+        });
+        topo.activateLayout('hierarchicalLayout');
+    });
+
+
+</script>
+
+
+</body>
+</html>
