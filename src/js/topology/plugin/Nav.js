@@ -180,7 +180,7 @@
                                     name: 'icon',
                                     tag: 'span',
                                     props: {
-                                        'class': 'n-topology-nav-setting-icon icon-toolbar_viewsetting'
+                                        'class': 'n-topology-nav-setting-icon icon-gear'
                                     },
                                     events: {
                                         mouseenter: "{#_openPopover}",
@@ -239,6 +239,7 @@
                                             }
                                         },
                                         {
+                                            name: 'displayLabelSetting',
                                             tag: 'h5',
                                             content: [
                                                 {
@@ -360,7 +361,7 @@
                 topo.selectedNodes().watch('count', function (prop, value) {
                     this.view('agr').dom().setStyle('display', value !== 0 ? 'block' : 'none');
                 }, this);
-                this.view('agr').dom().setStyle('display','none');
+                this.view('agr').dom().setStyle('display', 'none');
 
                 topo.notify('scale');
             },
@@ -409,12 +410,12 @@
             },
             _in: function (sender, event) {
                 var topo = this.topology();
-                topo.zoom(topo.scale() + 0.5);
+                topo.stage().zoom(1.2, topo.adjustLayout, topo);
                 event.preventDefault();
             },
             _out: function (sender, event) {
                 var topo = this.topology();
-                topo.zoom(topo.scale() - 0.5);
+                topo.stage().zoom(0.8, topo.adjustLayout, topo);
                 event.preventDefault();
             },
             _full: function () {

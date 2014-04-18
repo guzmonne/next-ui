@@ -187,16 +187,6 @@
                     };
                 }
             },
-            calcRectZoomMatrix: function (graph, rect) {
-                var s = (!rect.width && !rect.height) ? 1 : Math.min(graph.height / Math.abs(rect.height), graph.width / Math.abs(rect.width));
-                var dx = (graph.left + graph.width / 2) - s * (rect.left + rect.width / 2);
-                var dy = (graph.top + graph.height / 2) - s * (rect.top + rect.height / 2);
-                return [
-                    [s, 0, 0],
-                    [0, s, 0],
-                    [dx, dy, 1]
-                ];
-            },
             fit: function (callback, context, duration) {
                 var contentBound = this.getContentBound();
                 var padding = this.padding();
@@ -213,6 +203,10 @@
                 this.scalingLayer().setTransition(null, null, 0.6);
                 this._setStageMatrix(nx.geometry.Matrix.I);
             },
+            zoom: function (value, callback, context) {
+                this.scalingLayer().setTransition(callback, context, 0.6);
+                this.applyStageScale(value);
+            },
             zoomByBound: function (inBound, callback, context, duration) {
                 var padding = this.padding();
                 var stageBound = {
@@ -223,6 +217,16 @@
                 };
                 this.scalingLayer().setTransition(callback, context, duration);
                 this.applyStageMatrix(this.calcRectZoomMatrix(stageBound, inBound));
+            },
+            calcRectZoomMatrix: function (graph, rect) {
+                var s = (!rect.width && !rect.height) ? 1 : Math.min(graph.height / Math.abs(rect.height), graph.width / Math.abs(rect.width));
+                var dx = (graph.left + graph.width / 2) - s * (rect.left + rect.width / 2);
+                var dy = (graph.top + graph.height / 2) - s * (rect.top + rect.height / 2);
+                return [
+                    [s, 0, 0],
+                    [0, s, 0],
+                    [dx, dy, 1]
+                ];
             },
             applyTranslate: function (x, y, duration) {
                 var matrix = this.matrixObject();

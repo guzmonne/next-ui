@@ -50,7 +50,12 @@
              */
             viewSettingPanel: {
                 get: function () {
-                    return this.resolve("nav").resolve("customize");
+                    return this.view("nav").view("customize");
+                }
+            },
+            viewSettingPopover: {
+                get: function () {
+                    return this.view("nav").view("customize");
                 }
             }
         },

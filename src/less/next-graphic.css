@@ -19,6 +19,9 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+.icon-gear:before {
+  content: "\e60f";
+}
 .icon-interface:before {
   content: "\e600";
 }
@@ -361,7 +364,7 @@
 }
 .n-topology.n-topology-blue .n-topology-nav-zoom {
   position: relative;
-  height: 118px;
+  height: 49px;
   margin-top: 18px !important;
 }
 .n-topology.n-topology-blue .n-topology-nav-zoom > span {
@@ -382,7 +385,7 @@
   color: #d8d8d8;
 }
 .n-topology.n-topology-blue .n-topology-nav-zoom-out {
-  top: 97px;
+  top: 27px;
   left: 7px;
   cursor: pointer;
 }
@@ -396,6 +399,7 @@
   width: 14px;
   height: 2px;
   background: #999999;
+  display: none !important;
 }
 .n-topology.n-topology-blue .n-topology-nav-zoom-bar {
   top: 20px;
@@ -403,6 +407,7 @@
   background: #eaeaea !important;
   width: 4px;
   height: 77px;
+  display: none !important;
 }
 .n-topology.n-topology-blue .n-topology-nav-zoom-selection {
   cursor: pointer;
@@ -465,7 +470,7 @@
   cursor: pointer;
   line-height: 32px;
   text-align: center;
-  font-size: 14px;
+  font-size: 18px;
   height: 32px;
   color: #999999;
   -webkit-transition: none 0 !important;
@@ -912,7 +917,7 @@
 }
 .n-topology.n-topology-dark .n-topology-nav-zoom {
   position: relative;
-  height: 118px;
+  height: 49px;
   margin-top: 18px !important;
 }
 .n-topology.n-topology-dark .n-topology-nav-zoom > span {
@@ -933,7 +938,7 @@
   color: #4d4d4d;
 }
 .n-topology.n-topology-dark .n-topology-nav-zoom-out {
-  top: 97px;
+  top: 27px;
   left: 7px;
   cursor: pointer;
 }
@@ -947,6 +952,7 @@
   width: 14px;
   height: 2px;
   background: #666666;
+  display: none !important;
 }
 .n-topology.n-topology-dark .n-topology-nav-zoom-bar {
   top: 20px;
@@ -954,6 +960,7 @@
   background: #333333 !important;
   width: 4px;
   height: 77px;
+  display: none !important;
 }
 .n-topology.n-topology-dark .n-topology-nav-zoom-selection {
   cursor: pointer;
@@ -1016,7 +1023,7 @@
   cursor: pointer;
   line-height: 32px;
   text-align: center;
-  font-size: 14px;
+  font-size: 18px;
   height: 32px;
   color: #666666;
   -webkit-transition: none 0 !important;
@@ -1463,7 +1470,7 @@
 }
 .n-topology.n-topology-green .n-topology-nav-zoom {
   position: relative;
-  height: 118px;
+  height: 49px;
   margin-top: 18px !important;
 }
 .n-topology.n-topology-green .n-topology-nav-zoom > span {
@@ -1484,7 +1491,7 @@
   color: #d8d8d8;
 }
 .n-topology.n-topology-green .n-topology-nav-zoom-out {
-  top: 97px;
+  top: 27px;
   left: 7px;
   cursor: pointer;
 }
@@ -1498,6 +1505,7 @@
   width: 14px;
   height: 2px;
   background: #999999;
+  display: none !important;
 }
 .n-topology.n-topology-green .n-topology-nav-zoom-bar {
   top: 20px;
@@ -1505,6 +1513,7 @@
   background: #eaeaea !important;
   width: 4px;
   height: 77px;
+  display: none !important;
 }
 .n-topology.n-topology-green .n-topology-nav-zoom-selection {
   cursor: pointer;
@@ -1567,7 +1576,7 @@
   cursor: pointer;
   line-height: 32px;
   text-align: center;
-  font-size: 14px;
+  font-size: 18px;
   height: 32px;
   color: #999999;
   -webkit-transition: none 0 !important;
@@ -2014,7 +2023,7 @@
 }
 .n-topology.n-topology-slate .n-topology-nav-zoom {
   position: relative;
-  height: 118px;
+  height: 49px;
   margin-top: 18px !important;
 }
 .n-topology.n-topology-slate .n-topology-nav-zoom > span {
@@ -2035,7 +2044,7 @@
   color: #5680a8;
 }
 .n-topology.n-topology-slate .n-topology-nav-zoom-out {
-  top: 97px;
+  top: 27px;
   left: 7px;
   cursor: pointer;
 }
@@ -2049,6 +2058,7 @@
   width: 14px;
   height: 2px;
   background: #888888;
+  display: none !important;
 }
 .n-topology.n-topology-slate .n-topology-nav-zoom-bar {
   top: 20px;
@@ -2056,6 +2066,7 @@
   background: #446787 !important;
   width: 4px;
   height: 77px;
+  display: none !important;
 }
 .n-topology.n-topology-slate .n-topology-nav-zoom-selection {
   cursor: pointer;
@@ -2118,7 +2129,7 @@
   cursor: pointer;
   line-height: 32px;
   text-align: center;
-  font-size: 14px;
+  font-size: 18px;
   height: 32px;
   color: #888888;
   -webkit-transition: none 0 !important;
@@ -2565,7 +2576,7 @@
 }
 .n-topology.n-topology-yellow .n-topology-nav-zoom {
   position: relative;
-  height: 118px;
+  height: 49px;
   margin-top: 18px !important;
 }
 .n-topology.n-topology-yellow .n-topology-nav-zoom > span {
@@ -2586,7 +2597,7 @@
   color: #4d4d4d;
 }
 .n-topology.n-topology-yellow .n-topology-nav-zoom-out {
-  top: 97px;
+  top: 27px;
   left: 7px;
   cursor: pointer;
 }
@@ -2600,6 +2611,7 @@
   width: 14px;
   height: 2px;
   background: #666666;
+  display: none !important;
 }
 .n-topology.n-topology-yellow .n-topology-nav-zoom-bar {
   top: 20px;
@@ -2607,6 +2619,7 @@
   background: #333333 !important;
   width: 4px;
   height: 77px;
+  display: none !important;
 }
 .n-topology.n-topology-yellow .n-topology-nav-zoom-selection {
   cursor: pointer;
@@ -2669,7 +2682,7 @@
   cursor: pointer;
   line-height: 32px;
   text-align: center;
-  font-size: 14px;
+  font-size: 18px;
   height: 32px;
   color: #666666;
   -webkit-transition: none 0 !important;

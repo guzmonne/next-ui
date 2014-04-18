@@ -112,8 +112,9 @@
             width: {
                 set: function (inValue) {
                     var value = this._processPropertyValue(inValue);
-                    this.$('line').setStyle('stroke-width', value);
-                    this.$('path').setStyle('stroke-width', value);
+                    var width = (this._stageScale || 1) * value;
+                    this.$('line').setStyle('stroke-width', width);
+                    this.$('path').setStyle('stroke-width', width);
                     this._width = value;
                 }
             },
