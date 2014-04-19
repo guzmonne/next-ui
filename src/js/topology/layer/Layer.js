@@ -129,12 +129,12 @@
              * @param force {Boolean} force recover all items
              */
             recover: function (force, callback, context) {
-                var staticEl = this.resolve('static');
+                var staticEl = this.resolve('static') || this.resolve('@root');
                 if (this._fade && !force) {
                     return;
                 }
-                //this.show();
-                this.fadeIn(function () {
+
+                var fn = function () {
                     nx.each(this.highlightElements(), function (el) {
                         el.append(staticEl);
                     }, this);
@@ -142,7 +142,18 @@
                     if (callback) {
                         callback.call(context || this);
                     }
-                }, this);
+                };
+
+                if (force) {
+                    staticEl.setStyle('opacity', 1);
+                    fn.call(this);
+                } else {
+                    this.fadeIn(fn, this);
+                }
+
+
+                //this.show();
+
                 delete this._fade;
             },
             /**

@@ -114,7 +114,9 @@
                 });
 
                 //set properties
-                nx.each(nx.extend({},CLZ.defaultConfig, topo.linkConfig()), function (value, key) {
+                var linkConfig = nx.extend({}, CLZ.defaultConfig, topo.linkConfig());
+                delete linkConfig.__owner__; //fix bug
+                nx.each(linkConfig, function (value, key) {
                     util.setProperty(link, key, value, topo);
                 }, this);
                 link.update();

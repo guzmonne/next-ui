@@ -103,6 +103,7 @@
                 });
                 //set properties
                 var linkSetConfig = nx.extend({}, CLZ.defaultConfig, topo.linkSetConfig());
+                delete linkSetConfig.__owner__; //fix bug
                 nx.each(linkSetConfig, function (value, key) {
                     util.setProperty(linkSet, key, value, topo);
                 }, this);

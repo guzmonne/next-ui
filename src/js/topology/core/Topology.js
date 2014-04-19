@@ -87,14 +87,6 @@
             },
             content: [
                 {
-                    name: 'nav',
-                    type: 'nx.graphic.Topology.Nav',
-                    props: {
-                        visible: '{#showNavigation}',
-                        showIcon: '{#showIcon,direction=<>}'
-                    }
-                },
-                {
                     name: "stage",
                     type: "nx.graphic.Stage",
                     props: {
@@ -115,6 +107,14 @@
                         'dragStage': '{#_dragStage}',
                         'dragStageEnd': '{#_dragStageEnd}'
 
+                    }
+                },
+                {
+                    name: 'nav',
+                    type: 'nx.graphic.Topology.Nav',
+                    props: {
+                        visible: '{#showNavigation}',
+                        showIcon: '{#showIcon,direction=<>}'
                     }
                 },
                 {

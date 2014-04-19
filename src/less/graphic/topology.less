@@ -10,8 +10,20 @@
     outline: 0 none;
   }
 
+  &.n-topology-loading {
+    svg, .n-topology-nav {
+      -webkit-filter: blur(5px);
+      -moz-filter: blur(5px)
+    }
+  }
+
   svg {
     box-sizing: content-box;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     //    background: #c09853;
   }
 

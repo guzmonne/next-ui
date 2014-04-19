@@ -92,6 +92,7 @@
 
 
                 var nodeSetConfig = nx.extend({}, CLZ.defaultConfig, topo.nodeSetConfig());
+                delete nodeSetConfig.__owner__; //fix bug
                 nx.each(nodeSetConfig, function (value, key) {
                     util.setProperty(nodeSet, key, value, topo);
                 }, this);

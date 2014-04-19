@@ -92,8 +92,18 @@
 .n-topology.n-topology-blue:focus {
   outline: 0 none;
 }
+.n-topology.n-topology-blue.n-topology-loading svg,
+.n-topology.n-topology-blue.n-topology-loading .n-topology-nav {
+  -webkit-filter: blur(5px);
+  -moz-filter: blur(5px);
+}
 .n-topology.n-topology-blue svg {
   box-sizing: content-box;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 }
 .n-topology.n-topology-blue g {
   pointer-events: all;
@@ -645,8 +655,18 @@
 .n-topology.n-topology-dark:focus {
   outline: 0 none;
 }
+.n-topology.n-topology-dark.n-topology-loading svg,
+.n-topology.n-topology-dark.n-topology-loading .n-topology-nav {
+  -webkit-filter: blur(5px);
+  -moz-filter: blur(5px);
+}
 .n-topology.n-topology-dark svg {
   box-sizing: content-box;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 }
 .n-topology.n-topology-dark g {
   pointer-events: all;
@@ -1198,8 +1218,18 @@
 .n-topology.n-topology-green:focus {
   outline: 0 none;
 }
+.n-topology.n-topology-green.n-topology-loading svg,
+.n-topology.n-topology-green.n-topology-loading .n-topology-nav {
+  -webkit-filter: blur(5px);
+  -moz-filter: blur(5px);
+}
 .n-topology.n-topology-green svg {
   box-sizing: content-box;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 }
 .n-topology.n-topology-green g {
   pointer-events: all;
@@ -1751,8 +1781,18 @@
 .n-topology.n-topology-slate:focus {
   outline: 0 none;
 }
+.n-topology.n-topology-slate.n-topology-loading svg,
+.n-topology.n-topology-slate.n-topology-loading .n-topology-nav {
+  -webkit-filter: blur(5px);
+  -moz-filter: blur(5px);
+}
 .n-topology.n-topology-slate svg {
   box-sizing: content-box;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 }
 .n-topology.n-topology-slate g {
   pointer-events: all;
@@ -2304,8 +2344,18 @@
 .n-topology.n-topology-yellow:focus {
   outline: 0 none;
 }
+.n-topology.n-topology-yellow.n-topology-loading svg,
+.n-topology.n-topology-yellow.n-topology-loading .n-topology-nav {
+  -webkit-filter: blur(5px);
+  -moz-filter: blur(5px);
+}
 .n-topology.n-topology-yellow svg {
   box-sizing: content-box;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 }
 .n-topology.n-topology-yellow g {
   pointer-events: all;

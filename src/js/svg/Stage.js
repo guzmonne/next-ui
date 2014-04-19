@@ -266,6 +266,7 @@
                 this.stageScale(1 / m.scale());
             },
             _setStageMatrix: function (matrix, according) {
+
                 according = according || [this.width() / 2, this.height() / 2];
                 var m = new nx.geometry.Matrix(matrix);
 //                if (m.scale() > this.maxScale()) {
