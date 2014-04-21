@@ -9,13 +9,13 @@
             linkSet: {
                 set: function (value) {
                     var items = [];
-                    var edges = value.model().getSubEdges();
+                    var edges = value.model().getEdges();
                     nx.each(edges, function (edge) {
                         items.push({
                             item: "Source:" + edge.sourceID() + " Target :" + edge.targetID(),
                             edge: edge});
                     });
-                    this.resolve("list").items(items);
+                    this.view("list").items(items);
                 }
             },
             topology: {}
