@@ -10,39 +10,29 @@
         events: [],
         properties: {
             /**
-             * get tooltip manager
-             * @property tooltipManager
-             */
-            tooltipManager: {
-                value: function () {
-                    return new nx.graphic.Topology.TooltipManager({topology: this});
-                }
-            },
-            /**
              * Set/get the tooltip manager config
              * @property tooltipManagerConfig
              */
             tooltipManagerConfig: {
                 get: function () {
-                    return this._tooltipManagerConfig;
+                    return this._tooltipManagerConfig || {};
                 },
                 set: function (value) {
-                    if (value) {
-                        var tooltipManager = this.tooltipManager();
-                        nx.each(value, function (value, prop) {
-                            tooltipManager.set(prop, value);
-                        });
-
-                        if (value.tooltipPolicyClass) {
-                            var tooltipPolicyClass = nx.path(global, value.tooltipPolicyClass);
-                            var tooltipPolicy = new tooltipPolicyClass({
-                                topology: this,
-                                tooltipManager: tooltipManager
-                            });
-                            tooltipManager.tooltipPolicy(tooltipPolicy);
-                        }
+                    var tooltipManager = this.tooltipManager();
+                    if (tooltipManager) {
+                        tooltipManager.sets(value);
                     }
                     this._tooltipManagerConfig = value;
+                }
+            },
+            /**
+             * get tooltip manager
+             * @property tooltipManager
+             */
+            tooltipManager: {
+                value: function () {
+                    var config = this.tooltipManagerConfig();
+                    return new nx.graphic.Topology.TooltipManager(nx.extend({}, {topology: this}, config));
                 }
             }
         },

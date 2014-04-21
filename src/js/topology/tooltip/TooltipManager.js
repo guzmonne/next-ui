@@ -121,15 +121,52 @@
              * @property tooltipPolicyClass
              */
             tooltipPolicyClass: {
-                value: 'nx.graphic.Topology.TooltipPolicy'
+                get: function () {
+                    return this._tooltipPolicyClass !== undefined ? this._tooltipPolicyClass : 'nx.graphic.Topology.TooltipPolicy';
+                },
+                set: function (value) {
+                    if (this._tooltipPolicyClass !== value) {
+                        this._tooltipPolicyClass = value;
+                        var topology = this.topology();
+                        var tooltipPolicyClass = nx.path(global, this.tooltipPolicyClass());
+                        if (tooltipPolicyClass) {
+                            var tooltipPolicy = new tooltipPolicyClass({
+                                topology: topology,
+                                tooltipManager: this
+                            });
+                            this.tooltipPolicy(tooltipPolicy);
+                        }
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
             },
-            tooltipPolicy: {},
+            tooltipPolicy: {
+                value: function () {
+                    var topology = this.topology();
+                    return new nx.graphic.Topology.TooltipPolicy({
+                        topology: topology,
+                        tooltipManager: this
+                    });
+                }
+            },
             /**
              * Set/get tooltip's activate statues
              * @property activated
              */
             activated: {
-                value: true
+                get: function () {
+                    return this._activated !== undefined ? this._activated : true;
+                },
+                set: function (value) {
+                    if (this._activated !== value) {
+                        this._activated = value;
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
             }
         },
         methods: {
@@ -408,6 +445,13 @@
                 this.tooltips().each(function (obj, name) {
                     obj.value().close(true);
                 }, this);
+            },
+            dispose: function () {
+                this.tooltips().each(function (obj, name) {
+                    obj.value().close(true);
+                    obj.value().dispose();
+                }, this);
+                this.inherited();
             }
         }
     });

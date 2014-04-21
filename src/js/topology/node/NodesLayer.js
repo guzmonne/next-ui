@@ -174,14 +174,16 @@
                 nx.each(this.nodes(), function (node) {
                     node.dispose();
                 });
-
                 this.nodes([]);
                 this.nodesMap({});
                 this.inherited();
             },
             dispose: function () {
+                this.eachNode(function (node) {
+                    node.dispose();
+                });
                 this.topology().unwatch('stageScale', this.__watchStageScaleFN, this);
-                this.inherited();
+                //this.inherited();
             }
         }
     });

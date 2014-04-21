@@ -108,23 +108,6 @@
                 el.setStyle('opacity', 1, 0.5);
             },
             /**
-             * Move a element to 'active' group for highlight this element
-
-             layer.highlightElement(this.view('node1'));
-             layer.fadeout();
-
-             * @method highlightElement
-             * @param el {nx.graphic.Component} element for highlight
-             */
-            highlightElement: function (el) {
-                var highlightElements = this.highlightElements();
-                var activeEl = this.resolve('active');
-
-                highlightElements.push(el);
-                el.append(activeEl);
-                this.resolve('static').upon('transitionend', null, this);
-            },
-            /**
              * Recover layer's fade statues
              * @param force {Boolean} force recover all items
              */
@@ -144,17 +127,30 @@
                     }
                 };
 
-                if (force) {
-                    staticEl.setStyle('opacity', 1);
-                    fn.call(this);
-                } else {
-                    this.fadeIn(fn, this);
-                }
-
+                staticEl.setStyle('opacity', 1);
+                fn.call(this);
+//                this.fadeIn(fn, this);
 
                 //this.show();
 
                 delete this._fade;
+            },
+            /**
+             * Move a element to 'active' group for highlight this element
+
+             layer.highlightElement(this.view('node1'));
+             layer.fadeout();
+
+             * @method highlightElement
+             * @param el {nx.graphic.Component} element for highlight
+             */
+            highlightElement: function (el) {
+                var highlightElements = this.highlightElements();
+                var activeEl = this.resolve('active');
+
+                highlightElements.push(el);
+                el.append(activeEl);
+                this.resolve('static').upon('transitionend', null, this);
             },
             /**
              * clear layer's content

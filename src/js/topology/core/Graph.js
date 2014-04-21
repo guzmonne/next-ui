@@ -59,6 +59,8 @@
                         this.fire("afterSetData", data);
                     };
 
+
+
                     if (this.status() === 'appended') {
                         fn.call(this, value);
                     } else {

@@ -144,12 +144,6 @@
                 nx.each(this.layers(), function (layer) {
                     layer.clear();
                 });
-            },
-            dispose: function () {
-                nx.each(this.layers(), function (layer) {
-                    layer.dispose();
-                });
-                this.inherited();
             }
         }
     });

@@ -371,7 +371,10 @@
                 return value;
             },
             dispose: function () {
-                this.model().upon('updateCoordinate', null);
+                var model = this.model();
+                if(model){
+                    model.upon('updateCoordinate', null);
+                }
                 this.inherited();
             }
         }

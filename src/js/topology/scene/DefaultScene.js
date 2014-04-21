@@ -29,8 +29,6 @@
                 var topo = this._topo;
                 var tooltipManager = this._tooltipManager;
 
-                tooltipManager.activated(true);
-
                 nx.each(topo.__events__, this._aop = function (eventName) {
                     topo.upon(eventName, function (sender, data) {
                         tooltipManager.executeAction(eventName, data);
@@ -122,7 +120,7 @@
                     this._sceneTimer = setTimeout(function () {
                         this._topo.highlightRelatedNode(node);
                     }.bind(this), this._interval);
-//                    this._recover();
+                    this._recover();
                 }
                 nx.dom.Document.body().addClass('n-dragCursor');
             },

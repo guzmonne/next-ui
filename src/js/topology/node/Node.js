@@ -520,6 +520,10 @@
 
                 el.set('text-anchor', anchor);
 
+            },
+            dispose: function () {
+                clearTimeout(this._centralizedTextTimer);
+                this.inherited();
             }
         }
     });

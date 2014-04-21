@@ -164,6 +164,16 @@
             attach: function (args) {
                 this.inherited(args);
                 this._adaptiveTimer();
+            },
+            dispose: function () {
+                nx.each(this.layers(), function (layer) {
+                    layer.dispose();
+                });
+
+                this.tooltipManager().dispose();
+
+
+                this.inherited();
             }
         }
     });
