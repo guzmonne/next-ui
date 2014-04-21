@@ -52,7 +52,7 @@
             label: {
                 set: function (inValue) {
                     var label = this._processPropertyValue(inValue);
-                    var el = this.view("label");
+                    var el = this.view('label');
                     if (label != null) {
                         el.append();
                     } else {
@@ -68,7 +68,7 @@
             sourceLabel: {
                 set: function (inValue) {
                     var label = this._processPropertyValue(inValue);
-                    var el = this.view("sourceLabel");
+                    var el = this.view('sourceLabel');
                     if (label != null) {
                         el.append();
                     } else {
@@ -84,7 +84,7 @@
             targetLabel: {
                 set: function (inValue) {
                     var label = this._processPropertyValue(inValue);
-                    var el = this.view("targetLabel");
+                    var el = this.view('targetLabel');
                     if (label != null) {
                         el.append();
                     } else {
@@ -191,11 +191,11 @@
                     var value = this._processPropertyValue(inValue);
                     this._enable = value;
                     if (value) {
-                        this.view("disableLabel").remove();
+                        this.view('disableLabel').remove();
 
                     } else {
                         this.view('disableLabel').append();
-                        this.root().addClass('disable');
+                        this.dom().addClass('disable');
                     }
                 }
             },
@@ -243,31 +243,35 @@
                 },
                 {
                     name: 'label',
-                    type: 'nx.graphic.Text',
-                    props: {
-                        'alignment-baseline': 'text-before-edge',
-                        'text-anchor': 'middle',
-                        'class': 'link-label'
+                    type: 'nx.graphic.Group',
+                    content: {
+                        name: 'labelText',
+                        type: 'nx.graphic.Text',
+                        props: {
+                            'alignment-baseline': 'text-before-edge',
+                            'text-anchor': 'middle',
+                            'class': 'link-label'
+                        }
                     }
                 },
-                {
-                    name: 'sourceLabel',
-                    type: 'nx.graphic.Text',
-                    props: {
-                        'alignment-baseline': 'text-before-edge',
-                        'text-anchor': 'start',
-                        'class': 'source-label'
-                    }
-                },
-                {
-                    name: 'targetLabel',
-                    type: 'nx.graphic.Text',
-                    props: {
-                        'alignment-baseline': 'text-before-edge',
-                        'text-anchor': 'end',
-                        'class': 'target-label'
-                    }
-                },
+//                {
+//                    name: 'sourceLabel',
+//                    type: 'nx.graphic.Text',
+//                    props: {
+//                        'alignment-baseline': 'text-before-edge',
+//                        'text-anchor': 'start',
+//                        'class': 'source-label'
+//                    }
+//                },
+//                {
+//                    name: 'targetLabel',
+//                    type: 'nx.graphic.Text',
+//                    props: {
+//                        'alignment-baseline': 'text-before-edge',
+//                        'text-anchor': 'end',
+//                        'class': 'target-label'
+//                    }
+//                },
                 {
                     name: 'disableLabel',
                     type: 'nx.graphic.Text',
@@ -275,7 +279,8 @@
                         'alignment-baseline': 'central',
                         'text-anchor': 'middle',
                         'class': 'disable-label',
-                        text: 'x'
+                        text: 'x',
+                        visible:false
                     }
                 }
             ]
@@ -362,15 +367,14 @@
                 var line = this.line();
                 var n = line.normal().multiply(_offset);
                 if (this._label != null) {
-                    el = this.view("label");
+                    el = this.view('label');
                     point = line.center().add(n);
-                    el.set('x', point.x);
-                    el.set('y', point.y);
-                    el.set('text', this._label);
+                    el.setTransform(point.x, point.y, this.stageScale());
+                    this.view('labelText').set('text', this._label);
                 }
 
                 if (this._sourceLabel) {
-                    el = this.view("sourceLabel");
+                    el = this.view('sourceLabel');
                     point = this.sourcePoint();
                     el.set('x', point.x);
                     el.set('y', point.y);
@@ -379,7 +383,7 @@
 
 
                 if (this._targetLabel) {
-                    el = this.view("targetLabel");
+                    el = this.view('targetLabel');
                     point = this.targetPoint();
                     el.set('x', point.x);
                     el.set('y', point.y);
@@ -388,7 +392,7 @@
 
 
                 if (!this.enable()) {
-                    el = this.view("disableLabel");
+                    el = this.view('disableLabel');
                     point = line.center().add(n);
                     el.set('x', point.x);
                     el.set('y', point.y);
@@ -397,8 +401,8 @@
             },
 
             __drawOverPath: function () {
-                var path = this.$("path").$dom;
-                var overPath = this.$("overPath").$dom;
+                var path = this.$('path').$dom;
+                var overPath = this.$('overPath').$dom;
                 var length = path.getTotalLength();
                 var index = path.getPathSegAtLength(length * 0.5);
                 var endPoint = path.getPointAtLength(length * 0.5);
@@ -415,9 +419,9 @@
                 pathAry.pop();
                 pathAry.pop();
                 pathAry.push(endPoint.x, endPoint.y);
-                //pathAry.push("Z");
+                //pathAry.push('Z');
 
-                overPath.setAttribute('d', pathAry.join(" "));
+                overPath.setAttribute('d', pathAry.join(' '));
 
             },
             _mousedown: function () {

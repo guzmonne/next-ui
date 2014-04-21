@@ -8,7 +8,7 @@
      * @extend nx.graphic.Topology.Layer
      */
 
-    var CLZ = nx.define('nx.graphic.Topology.LinkSetLayer', nx.graphic.Topology.Layer, {
+    var CLZ = nx.define('nx.graphic.Topology.LinkSetLayer', nx.graphic.Topology.DoubleLayer, {
         statics: {
             defaultConfig: {
                 linkType: 'parallel',
@@ -157,17 +157,35 @@
             },
             /**
              * Highlight linkSet
-             * @method highlightLinkSet
+             * @method highlightLinkSetArray
              * @param linkSetAry {Array} linkSet array
              */
-            highlightLinkSet: function (linkSetAry) {
+            highlightLinkSetArray: function (linkSetAry) {
                 var topo = this.topology();
                 var linksLayer = topo.getLayer('links');
+                var highlightElements = this.highlightElements();
                 nx.each(linkSetAry, function (linkSet) {
                     if (linkSet.activated()) {
-                        this.highlightElement(linkSet);
+                        highlightElements.add(linkSet);
                     } else {
                         linksLayer.highlightLinks(linkSet.links());
+                    }
+                }, this);
+            },
+            /**
+             * Active linkSet
+             * @method highlightLinkSetArray
+             * @param linkSetAry {Array} linkSet array
+             */
+            activeLinkSetArray: function (linkSetAry) {
+                var topo = this.topology();
+                var linksLayer = topo.getLayer('links');
+                var activeElements = this.activeElements();
+                nx.each(linkSetAry, function (linkSet) {
+                    if (linkSet.activated()) {
+                        activeElements.add(linkSet);
+                    } else {
+                        linksLayer.activeLinks(linkSet.links());
                     }
                 }, this);
             },

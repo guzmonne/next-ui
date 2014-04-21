@@ -172,9 +172,9 @@
                     var value = this._processPropertyValue(inValue);
                     this._enable = value;
                     if (value) {
-                        this.root().removeClass('disable');
+                        this.dom().removeClass('disable');
                     } else {
-                        this.root().addClass('disable');
+                        this.dom().addClass('disable');
                     }
                 }
             },

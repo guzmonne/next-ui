@@ -7,7 +7,7 @@
      * @extend nx.graphic.Topology.Layer
      *
      */
-    var CLZ = nx.define('nx.graphic.Topology.NodesLayer', nx.graphic.Topology.Layer, {
+    var CLZ = nx.define('nx.graphic.Topology.NodesLayer', nx.graphic.Topology.DoubleLayer, {
         statics: {
             defaultConfig: {
             }

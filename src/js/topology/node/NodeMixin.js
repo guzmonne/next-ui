@@ -47,15 +47,11 @@
                 set: function (value) {
                     if (this._showIcon !== value) {
                         this._showIcon = value;
-
-
                         if (this.status() !== "initializing") {
                             this.eachNode(function (node) {
                                 node.showIcon(value);
                             });
                         }
-
-
                         return true;
                     } else {
                         return false;
@@ -110,80 +106,6 @@
                 });
             },
             /**
-             * Get the bound of passing node's
-             * @param inNodes {Array}
-             * @param isNotIncludeLabel {Boolean}
-             * @returns {Array}
-             */
-
-            getBoundByNodes: function (inNodes, isNotIncludeLabel) {
-
-                if (inNodes.length === 0) {
-                    return null;
-                }
-
-                var boundAry = [];
-
-
-                nx.each(inNodes, function (node) {
-                    if (node.visible()) {
-                        if (isNotIncludeLabel) {
-                            boundAry.push(node.getIconBound());
-                        } else {
-                            boundAry.push(this.getInsideBound(node.getBound()));
-                        }
-                    }
-                }, this);
-
-
-                var lastIndex = boundAry.length - 1;
-                var bound = {
-                    left: 0,
-                    top: 0,
-                    x: 0,
-                    y: 0,
-                    width: 0,
-                    height: 0,
-                    maxX: 0,
-                    maxY: 0
-                };
-
-
-                //
-                boundAry.sort(function (a, b) {
-                    return a.left - b.left;
-                });
-
-                bound.x = bound.left = boundAry[0].left;
-                bound.maxX = boundAry[lastIndex].left;
-
-                boundAry.sort(function (a, b) {
-                    return (a.left + a.width) - (b.left + b.width);
-                });
-
-                bound.width = boundAry[lastIndex].left + boundAry[lastIndex].width - bound.x;
-
-
-                //
-                boundAry.sort(function (a, b) {
-                    return a.top - b.top;
-                });
-
-                bound.y = bound.top = boundAry[0].top;
-                bound.maxY = boundAry[lastIndex].top;
-
-                boundAry.sort(function (a, b) {
-                    return (a.top + a.height) - (b.top + b.height);
-                });
-
-                bound.height = boundAry[lastIndex].top + boundAry[lastIndex].height - bound.y;
-
-                return bound;
-
-
-            },
-
-            /**
              * Add a node to topology
              * @method addNode
              * @param obj
@@ -196,6 +118,7 @@
                 this.fire("addNode", node);
                 return node;
             },
+
             /**
              * Add a nodeSet
              * @method addNodeSet
@@ -294,7 +217,6 @@
             getNodes: function () {
                 return this.getLayer("nodes").nodes().concat(this.getLayer("nodeSet").nodeSetArray());
             },
-
             /**
              * Register a customize icon
              * @param name {String}
@@ -325,19 +247,6 @@
                 this.stage().addDef(icon);
             },
             /**
-             * HighLight node, after call this, should call fadeOut();
-             * @method highlightNode
-             * @param node
-             */
-            highlightNode: function (node) {
-                var layer = this.getLayer('nodes');
-
-                if (nx.is(node, 'nx.graphic.Topology.NodeSet')) {
-                    layer = this.getLayer('nodeSet');
-                }
-                layer.highlightElement(node);
-            },
-            /**
              * Batch action, highlight node and related nodes and connected links.
              * @param node
              */
@@ -347,15 +256,16 @@
                 if (nx.is(node, 'nx.graphic.Topology.NodeSet')) {
                     layer = this.getLayer('nodeSet');
                 }
-                layer.highlightElement(node);
+                layer.highlightElements().add(node);
+
 
                 node.eachConnectedNode(function (n) {
-                    layer.highlightElement(n);
+                    layer.highlightElements().add(n);
                 }, this);
 
 
                 if (this.supportMultipleLink()) {
-                    this.getLayer('linkSet').highlightLinkSet(node.getLinkSet());
+                    this.getLayer('linkSet').highlightLinkSetArray(node.getLinkSet());
                     this.getLayer('linkSet').fadeOut();
                     this.getLayer('links').fadeOut();
                 } else {
@@ -364,6 +274,108 @@
                 }
 
                 layer.fadeOut();
+            },
+            /**
+             * Batch action, highlight node and related nodes and connected links.
+             * @param node
+             */
+            activeRelatedNode: function (node) {
+                var layer = this.getLayer('nodes');
+
+                if (nx.is(node, 'nx.graphic.Topology.NodeSet')) {
+                    layer = this.getLayer('nodeSet');
+                }
+                layer.activeElements().add(node);
+
+
+                node.eachConnectedNode(function (n) {
+                    layer.activeElements().add(n);
+                }, this);
+
+
+                if (this.supportMultipleLink()) {
+                    this.getLayer('linkSet').activeLinkSetArray(node.getLinkSet());
+                    this.getLayer('linkSet').fadeOut();
+                    this.getLayer('links').fadeOut();
+                } else {
+                    this.getLayer('links').activeLinks(node.getLinks());
+                    this.getLayer('links').fadeOut();
+                }
+
+                layer.fadeOut();
+            },
+            /**
+             * Get the bound of passing node's
+             * @param inNodes {Array}
+             * @param isNotIncludeLabel {Boolean}
+             * @returns {Array}
+             */
+
+            getBoundByNodes: function (inNodes, isNotIncludeLabel) {
+
+                if (inNodes.length === 0) {
+                    return null;
+                }
+
+                var boundAry = [];
+
+
+                nx.each(inNodes, function (node) {
+                    if (node.visible()) {
+                        if (isNotIncludeLabel) {
+                            boundAry.push(node.getIconBound());
+                        } else {
+                            boundAry.push(this.getInsideBound(node.getBound()));
+                        }
+                    }
+                }, this);
+
+
+                var lastIndex = boundAry.length - 1;
+                var bound = {
+                    left: 0,
+                    top: 0,
+                    x: 0,
+                    y: 0,
+                    width: 0,
+                    height: 0,
+                    maxX: 0,
+                    maxY: 0
+                };
+
+
+                //
+                boundAry.sort(function (a, b) {
+                    return a.left - b.left;
+                });
+
+                bound.x = bound.left = boundAry[0].left;
+                bound.maxX = boundAry[lastIndex].left;
+
+                boundAry.sort(function (a, b) {
+                    return (a.left + a.width) - (b.left + b.width);
+                });
+
+                bound.width = boundAry[lastIndex].left + boundAry[lastIndex].width - bound.x;
+
+
+                //
+                boundAry.sort(function (a, b) {
+                    return a.top - b.top;
+                });
+
+                bound.y = bound.top = boundAry[0].top;
+                bound.maxY = boundAry[lastIndex].top;
+
+                boundAry.sort(function (a, b) {
+                    return (a.top + a.height) - (b.top + b.height);
+                });
+
+                bound.height = boundAry[lastIndex].top + boundAry[lastIndex].height - bound.y;
+
+                return bound;
+
+
             },
             _moveSelectionNodes: function (event, node) {
                 if (this.nodeDraggable()) {

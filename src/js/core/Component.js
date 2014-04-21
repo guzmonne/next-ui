@@ -51,17 +51,8 @@
              * @property translateX
              */
             translateX: {
-                get: function () {
-                    return this._translateX !== undefined ? this._translateX : 0;
-                },
                 set: function (value) {
-                    if (this._translateX !== value) {
-                        this._translateX = value;
-                        this.setTransform(this._translateX);
-                        return true;
-                    } else {
-                        return false;
-                    }
+                    this.setTransform(value);
                 }
             },
             /**
@@ -69,17 +60,8 @@
              * @property translateY
              */
             translateY: {
-                get: function () {
-                    return this._translateY !== undefined ? this._translateY : 0;
-                },
                 set: function (value) {
-                    if (this._translateY !== value) {
-                        this._translateY = value;
-                        this.setTransform(null, this._translateY);
-                        return true;
-                    } else {
-                        return false;
-                    }
+                    this.setTransform(null, value);
                 }
             },
             /**
@@ -87,17 +69,8 @@
              * @property scale
              */
             scale: {
-                get: function () {
-                    return this._scale !== undefined ? this._scale : 1;
-                },
                 set: function (value) {
-                    if (this._scale !== value) {
-                        this._scale = value;
-                        this.setTransform(null, null, this._scale);
-                        return true;
-                    } else {
-                        return false;
-                    }
+                    this.setTransform(null, null, value);
                 }
             },
             /**
@@ -124,8 +97,8 @@
                     return this._visible !== undefined ? this._visible : true;
                 },
                 set: function (value) {
-                    this.resolve('@root').setStyle("display", value ? "" : "none");
-                    this.resolve('@root').setStyle("pointer-events", value ? "all" : "none");
+                    this.dom().setStyle("display", value ? "" : "none");
+                    this.dom().setStyle("pointer-events", value ? "all" : "none");
                     this._visible = value;
                 }
             },
@@ -135,12 +108,12 @@
              */
             'class': {
                 get: function () {
-                    return this._class !== undefined ? this._class : 0;
+                    return this._class !== undefined ? this._class : '';
                 },
                 set: function (value) {
                     if (this._class !== value) {
                         this._class = value;
-                        this.root().addClass(value);
+                        this.dom().addClass(value);
                         return true;
                     } else {
                         return false;
@@ -155,18 +128,65 @@
                 this.sets(args);
             },
             /**
-             * Resolve a resource.
-             * @method resolve
-             * @param name
-             * @returns {Any}
+             * Get component dom element by name
+             * @param name {String}
+             * @returns {nx.dom.Element}
              */
-            resolve: function (name) {
-                var resources = this._resources;
-                if (!this._resources) {
-                    return null;
-                }
-                if (name in resources) {
-                    return resources[name];
+            $: function (name) {
+                return this.view(name).dom();
+            },
+            /**
+             * Set component's transform
+             * @method setTransform
+             * @param [translateX] {Number} x axle translate
+             * @param [translateY] {Number} y axle translate
+             * @param [scale] {Number} element's scale
+             * @param [duration=0] {Number} transition time, unite is second
+             */
+            setTransform: function (translateX, translateY, scale, duration) {
+
+                var tx = translateX != null ? translateX : this._translateX || 0;
+                var ty = translateY != null ? translateY : this._translateY || 0;
+                var scl = scale != null ? scale : this._scale || 1;
+
+//                this.setStyle('transform', ' matrix(' + scl + ',' + 0 + ',' + 0 + ',' + scl + ',' + tx + ', ' + ty + ')', duration);
+                this.setStyle('transform', ' translate(' + tx + 'px, ' + ty + 'px) scale(' + scl + ')', duration);
+
+                this._translateX = tx;
+                this._translateY = ty;
+                this._scale = scl;
+            },
+            /**
+             * Set component's css style
+             * @method setStyle
+             * @param key {String} css key
+             * @param value {*} css value
+             * @param [duration=0] {Number} set transition time
+             * @param [callback]
+             * @param [context]
+             */
+            setStyle: function (key, value, duration, callback, context) {
+                this.setTransition(callback, context, duration);
+                this.dom().setStyle(key, value);
+            },
+            setTransition: function (callback, context, duration) {
+                var el = this.dom();
+                if (duration) {
+                    el.setStyle('transition', 'all ' + duration + 's ease');
+                    this.on('transitionend', function fn() {
+                        if (callback) {
+                            callback.call(context || this);
+                        }
+                        el.setStyle('transition', '');
+                        this.off('transitionend', fn, this);
+                    }, this);
+                } else {
+                    el.setStyle('transition', '');
+                    if (callback) {
+                        setTimeout(function () {
+                            callback.call(context || this);
+                        }, 0);
+                    }
                 }
             },
             /**
@@ -196,79 +216,6 @@
                 }
             },
             /**
-             * Get component dom element by name
-             * @param name {String}
-             * @returns {nx.dom.Element}
-             */
-            $: function (name) {
-                return this.resolve(name).resolve('@root');
-            },
-            /**
-             * Get component's root dom element
-             * @method root
-             * @returns {nx.dom.Element}
-             */
-            root: function () {
-                return this.resolve('@root');
-            },
-            /**
-             * Set component's transform
-             * @method setTransform
-             * @param [translateX] {Number} x axle translate
-             * @param [translateY] {Number} y axle translate
-             * @param [scale] {Number} element's scale
-             * @param [duration=0] {Number} transition time, unite is second
-             */
-            setTransform: function (translateX, translateY, scale, duration) {
-
-                var tx = translateX != null ? translateX : this._translateX || 0;
-                var ty = translateY != null ? translateY : this._translateY || 0;
-                var scl = scale != null ? scale : this.scale();
-
-
-//                this.setStyle('transform', ' matrix(' + scl + ',' + 0 + ',' + 0 + ',' + scl + ',' + tx + ', ' + ty + ')', duration);
-
-                this.setStyle('transform', ' translate(' + tx + 'px, ' + ty + 'px) scale(' + scl + ')', duration);
-
-//                this.set('data-translate-x', tx);
-//                this.set('data-translate-y', ty);
-                this._translateX = tx;
-                this._translateY = ty;
-                this._scale = scl;
-            },
-            /**
-             * Set component's css style
-             * @method setStyle
-             * @param key {String} css key
-             * @param value {*} css value
-             * @param [duration=0] {Number} set transition time
-             */
-            setStyle: function (key, value, duration) {
-                var el = this.resolve('@root');
-                this.setTransition(null, null, duration);
-                el.setStyle(key, value);
-            },
-            setTransition: function (callback, context, duration) {
-                var el = this.resolve('@root');
-                if (duration) {
-                    el.setStyle('transition', 'all ' + duration + 's ease');
-                    this.on('transitionend', function fn() {
-                        if (callback) {
-                            callback.call(context || this);
-                        }
-                        el.setStyle('transition', '');
-                        this.off('transitionend', fn, this);
-                    }, this);
-                } else {
-                    el.setStyle('transition', '');
-                    if (callback) {
-                        setTimeout(function () {
-                            callback.call(context || this);
-                        }, 0);
-                    }
-                }
-            },
-            /**
              * Inherited nx.ui.component's upon function, fixed mouseleave & mouseenter event
              * @method upon
              * @param name {String} event name
@@ -285,7 +232,7 @@
                 this.inherited(name, handler, context);
             },
             _mouseenter: function (sender, event) {
-                var element = this.root().$dom;
+                var element = this.dom().$dom;
                 var target = event.currentTarget, related = event.relatedTarget || event.fromElement;
                 if (target && !element.contains(related) && target !== related) {
                     /**
@@ -298,7 +245,7 @@
                 }
             },
             _mouseleave: function (sender, event) {
-                var element = this.root().$dom;
+                var element = this.dom().$dom;
                 var target = event.currentTarget, related = event.toElement || event.relatedTarget;
                 if (!element.contains(related) && target !== related) {
                     /**
@@ -316,11 +263,11 @@
              * @returns {*|ClientRect}
              */
             getBound: function () {
-                return this.root().$dom.getBoundingClientRect();
+                return this.dom().$dom.getBoundingClientRect();
             },
             dispose: function () {
                 if (this._resources && this._resources['@root']) {
-                    this.root().$dom.remove();
+                    this.dom().$dom.remove();
                 }
                 this.inherited();
             },

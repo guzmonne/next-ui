@@ -1,4 +1,4 @@
-(function (nx,global) {
+(function (nx, global) {
     var xlink = 'http://www.w3.org/1999/xlink';
     /**
      * SVG icon component, which icon's define in nx framework
@@ -24,7 +24,6 @@
                     var size = icon.size;
                     this.size(size);
                     this._iconType = icon.name;
-
                     this.view().dom().$dom.setAttributeNS(xlink, 'xlink:href', '#' + value);
                 }
             },

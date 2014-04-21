@@ -112,7 +112,7 @@
                     return this._matrix || nx.geometry.Matrix.I;
                 },
                 set: function (matrix) {
-                    this.scalingLayer().view().dom().setStyle('transform', "matrix(" + nx.geometry.Matrix.toString(matrix) + ")");
+                    this.scalingLayer().dom().setStyle('transform', "matrix(" + nx.geometry.Matrix.toString(matrix) + ")");
                     this._matrix = matrix;
                 }
             },
@@ -151,7 +151,7 @@
              * @param el {SVGDOM}
              */
             addDef: function (el) {
-                this.resolve("defs").resolve("@root").$dom.appendChild(el);
+                this.view("defs").dom().$dom.appendChild(el);
             },
             /**
              * Add svg def element into the stage in string format
@@ -159,7 +159,7 @@
              * @param str {String}
              */
             addDefString: function (str) {
-                this.resolve("defs").resolve("@root").$dom.appendChild(new DOMParser().parseFromString(str, "text/xml").documentElement);
+                this.view("defs").dom().$dom.appendChild(new DOMParser().parseFromString(str, "text/xml").documentElement);
             },
             /**
              * Get content's relative bound
@@ -289,7 +289,7 @@
                 event.captureDrag(sender);
             },
             _dragstart: function (sender, event) {
-                this.resolve("scalingLayer").resolve("@root").setStyle('pointer-events', 'none');
+                this.view("scalingLayer").dom().setStyle('pointer-events', 'none');
                 this.fire('dragStageStart', event);
             },
             _drag: function (sender, event) {
@@ -297,7 +297,7 @@
             },
             _dragend: function (sender, event) {
                 this.fire('dragStageEnd', event);
-                this.resolve("scalingLayer").resolve("@root").setStyle('pointer-events', 'all');
+                this.view("scalingLayer").dom().setStyle('pointer-events', 'all');
             }
         }
     });

@@ -60,7 +60,7 @@
             dragStageStart: function (sender, event) {
                 var nodes = this._topo.getLayer('nodes').nodes().length;
                 if (nodes > 300) {
-                    this._topo.getLayer('links').root().setStyle('display', 'none');
+                    this._topo.getLayer('links').setStyle('display', 'none');
                 }
                 this._recover();
                 this._blockEvent(true);
@@ -71,7 +71,7 @@
                 stage.applyTranslate(event.drag.delta[0], event.drag.delta[1]);
             },
             dragStageEnd: function (sender, event) {
-                this._topo.getLayer('links').root().setStyle('display', 'block');
+                this._topo.getLayer('links').setStyle('display', 'block');
                 this._blockEvent(false);
                 nx.dom.Document.body().removeClass('n-moveCursor');
             },
@@ -83,7 +83,7 @@
             zooming: function () {
                 var nodes = this._topo.getLayer('nodes').nodes().length;
                 if (nodes > 300) {
-                    this._topo.getLayer('links').root().setStyle('display', 'none');
+                    this._topo.getLayer('links').setStyle('display', 'none');
                 }
                 this._nodesLayer.recover();
                 this._linksLayer.recover();
@@ -93,7 +93,7 @@
             },
 
             zoomend: function () {
-                this._topo.getLayer('links').root().setStyle('display', 'block');
+                this._topo.getLayer('links').setStyle('display', 'block');
                 this._topo.adjustLayout();
             },
 
@@ -118,7 +118,7 @@
                 clearTimeout(this._sceneTimer);
                 if (!this._nodeDragging) {
                     this._sceneTimer = setTimeout(function () {
-                        this._topo.highlightRelatedNode(node);
+                        this._topo.activeRelatedNode(node);
                     }.bind(this), this._interval);
                     this._recover();
                 }
@@ -291,6 +291,14 @@
                 this._nodeSetLayer.recover();
                 this._linksLayer.recover();
                 this._linkSetLayer.recover();
+
+
+                this._nodesLayer.activeElements().clear();
+                this._nodeSetLayer.activeElements().clear();
+                this._linksLayer.activeElements().clear();
+                this._linkSetLayer.activeElements().clear();
+
+
             },
             _blockEvent: function (value) {
                 if (value) {

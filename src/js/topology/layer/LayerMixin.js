@@ -135,6 +135,20 @@
                     layer.recover(force);
                 }, this);
             },
+            recoverActive: function () {
+                nx.each(this.layers(), function (layer) {
+                    if (layer.activeElements) {
+                        layer.activeElements().clear();
+                    }
+                }, this);
+            },
+            recoverHighlight: function () {
+                nx.each(this.layers(), function (layer) {
+                    if (layer.highlightElements) {
+                        layer.highlightElements().clear();
+                    }
+                }, this);
+            },
             /**
              * Clear all layer's content
              * @method clear

@@ -1,6 +1,6 @@
 (function (nx, global) {
     var util = nx.util;
-    var CLZ = nx.define('nx.graphic.Topology.NodeSetLayer', nx.graphic.Topology.Layer, {
+    var CLZ = nx.define('nx.graphic.Topology.NodeSetLayer', nx.graphic.Topology.DoubleLayer, {
         statics: {
             defaultConfig: {
             }

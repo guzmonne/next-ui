@@ -70,8 +70,8 @@
                 shape.sets({
                     fill: this.color()
                 });
-                shape.setStyle('stroke', this.color());
-                shape.setStyle('stroke-width', 60 * stageScale);
+                shape.dom().setStyle('stroke', this.color());
+                shape.dom().setStyle('stroke-width', 60 * stageScale);
                 shape.nodes(vectorArray);
 
 

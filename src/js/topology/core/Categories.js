@@ -39,12 +39,12 @@
                 img.setAttribute('src', 'data:image/svg+xml;base64,' + b64);
 //                var ctx = canvas.getContext("2d");
 //                ctx.drawImage(img, 10, 10);
-                this.resolve("stage").resolve("@root").setStyle("display", "none");
+                this.view("stage").dom().setStyle("display", "none");
                 console.log('Generate image', new Date() - start);
             },
             __drawBG: function (inBound) {
                 var bound = inBound || this.stage().getContentBound();
-                var bg = this.stage().resolve('bg').root();
+                var bg = this.stage().view('bg');
                 bg.sets({
                     x: bound.left,
                     y: bound.top,
@@ -52,7 +52,7 @@
                     height: bound.height,
                     visible: true
                 });
-                this.stage().resolve('bg').set('visible', true);
+                bg.set('visible', true);
             }
         }
     });
