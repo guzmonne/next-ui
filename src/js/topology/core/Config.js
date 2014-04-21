@@ -55,7 +55,7 @@
             },
             viewSettingPopover: {
                 get: function () {
-                    return this.view("nav").view("customize");
+                    return this.view("nav").view("settingPopover");
                 }
             }
         },
