@@ -177,6 +177,7 @@
                 this.nodes([]);
                 this.nodesMap({});
                 this.inherited();
+
             },
             dispose: function () {
                 this.eachNode(function (node) {

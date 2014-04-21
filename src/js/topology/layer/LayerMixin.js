@@ -6,7 +6,9 @@
              * @property layersMap
              */
             layersMap: {
-                value: {}
+                value: function () {
+                    return {}
+                }
             },
             /**
              * @property layers
@@ -18,13 +20,10 @@
             }
         },
         methods: {
-            init: function () {
+            initLayer: function () {
                 this.layersMap({});
                 this.layers([]);
-            },
-            initLayer: function () {
                 this.attachLayer("groups", "nx.graphic.Topology.GroupsLayer");
-//                this.attachLayer("aggregationLayer", "nx.graphic.Topology.AggregationLayer");
                 this.attachLayer("links", "nx.graphic.Topology.LinksLayer");
                 this.attachLayer("linkSet", "nx.graphic.Topology.LinkSetLayer");
                 this.attachLayer("nodes", "nx.graphic.Topology.NodesLayer");
@@ -141,6 +140,7 @@
              * @method clear
              */
             clear: function () {
+                debugger;
                 nx.each(this.layers(), function (layer) {
                     layer.clear();
                 });

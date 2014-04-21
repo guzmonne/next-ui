@@ -98,7 +98,9 @@
              * @property registeredPositionMap
              */
             registeredPositionMap: {
-                value: {}
+                value: function () {
+                    return {}
+                }
             },
             scrollClose: {
                 value: false
