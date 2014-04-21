@@ -28,9 +28,9 @@
         properties: {
             /**
              * Layer's highlight element's collection
-             * @property highlightElements
+             * @property highlightedElements
              */
-            highlightElements: {
+            highlightedElements: {
                 value: function () {
                     return new nx.data.ObservableCollection();
                 }
@@ -49,10 +49,10 @@
                 var staticEL = this.view('static') || this.view();
                 var activeEl = this.view('active') || this.view();
 
-                var highlightElements = this.highlightElements();
+                var highlightedElements = this.highlightedElements();
                 var activeElements = this.activeElements();
 
-                highlightElements.on('change', function (sender, args) {
+                highlightedElements.on('change', function (sender, args) {
                     if (args.action == 'add') {
                         nx.each(args.items, function (el) {
                             el.append(highlightEL);
@@ -68,9 +68,9 @@
                 activeElements.on('change', function (sender, args) {
                     if (args.action == 'add') {
                         nx.each(args.items, function (el) {
-                            if (highlightElements.indexOf(el) !== -1) {
+                            if (highlightedElements.indexOf(el) !== -1) {
                                 activeElements.remove(el);
-                                highlightElements.add(el);
+                                highlightedElements.add(el);
                             } else {
                                 el.append(activeEl);
                             }
@@ -154,12 +154,12 @@
                 this.view('static').dom().empty();
                 this.view('highlight').dom().empty();
                 this.view('static').dom().setStyle('opacity', 1);
-                this.highlightElements().clear();
+                this.highlightedElements().clear();
                 this.activeElements().clear();
             },
             dispose: function () {
                 this.clear();
-                this.highlightElements().clear();
+                this.highlightedElements().clear();
                 this.activeElements().clear();
                 this.inherited();
             }

@@ -163,10 +163,10 @@
             highlightLinkSetArray: function (linkSetAry) {
                 var topo = this.topology();
                 var linksLayer = topo.getLayer('links');
-                var highlightElements = this.highlightElements();
+                var highlightedElements = this.highlightedElements();
                 nx.each(linkSetAry, function (linkSet) {
                     if (linkSet.activated()) {
-                        highlightElements.add(linkSet);
+                        highlightedElements.add(linkSet);
                     } else {
                         linksLayer.highlightLinks(linkSet.links());
                     }

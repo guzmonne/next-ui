@@ -256,11 +256,11 @@
                 if (nx.is(node, 'nx.graphic.Topology.NodeSet')) {
                     layer = this.getLayer('nodeSet');
                 }
-                layer.highlightElements().add(node);
+                layer.highlightedElements().add(node);
 
 
                 node.eachConnectedNode(function (n) {
-                    layer.highlightElements().add(n);
+                    layer.highlightedElements().add(n);
                 }, this);
 
 

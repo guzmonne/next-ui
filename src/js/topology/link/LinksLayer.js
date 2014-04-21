@@ -166,9 +166,9 @@
              * @param links {Array} links array
              */
             highlightLinks: function (links) {
-                var highlightElements = this.highlightElements();
+                var highlightedElements = this.highlightedElements();
                 nx.each(links, function (link) {
-                    highlightElements.add(link);
+                    highlightedElements.add(link);
                 }, this);
             },
             activeLinks: function (links) {

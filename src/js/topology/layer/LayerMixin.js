@@ -144,8 +144,8 @@
             },
             recoverHighlight: function () {
                 nx.each(this.layers(), function (layer) {
-                    if (layer.highlightElements) {
-                        layer.highlightElements().clear();
+                    if (layer.highlightedElements) {
+                        layer.highlightedElements().clear();
                     }
                 }, this);
             },
