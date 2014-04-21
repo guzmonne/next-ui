@@ -7,7 +7,7 @@
              */
             layersMap: {
                 value: function () {
-                    return {}
+                    return {};
                 }
             },
             /**
@@ -140,7 +140,6 @@
              * @method clear
              */
             clear: function () {
-                debugger;
                 nx.each(this.layers(), function (layer) {
                     layer.clear();
                 });

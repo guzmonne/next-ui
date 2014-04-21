@@ -99,7 +99,7 @@
              */
             registeredPositionMap: {
                 value: function () {
-                    return {}
+                    return {};
                 }
             },
             scrollClose: {
