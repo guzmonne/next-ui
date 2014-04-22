@@ -311,7 +311,7 @@
                 if (this._selected) {
                     var bound = this.getBound(true);
                     var radius = Math.max(bound.height, bound.width) / 2;
-                    el.set('r', radius * 1.5 * (this._nodeScale || 1));
+                    el.set('r', radius +10);
                 }
                 el.set('visible', this._selected);
             },

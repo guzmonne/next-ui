@@ -201,7 +201,7 @@
                 } else {
                     parentElement = this._parentElement = this._parentElement || this.resolve("@root").parentNode();//|| this.parent().resolve("@root");
                 }
-                if (parentElement && parentElement.$dom && this.resolve("@root") && !parentElement.contains(this.resolve("@root"))) {
+                if (parentElement && parentElement.$dom && this._resources && this.resolve("@root") && !parentElement.contains(this.resolve("@root"))) {
                     parentElement.appendChild(this.resolve("@root"));
                 }
             },
@@ -211,7 +211,7 @@
              */
             remove: function () {
                 var parentElement = this._parentElement = this._parentElement || this.resolve("@root").parentNode();
-                if (parentElement && this.resolve("@root")) {
+                if (parentElement && this._resources && this.resolve("@root")) {
                     parentElement.removeChild(this.resolve("@root"));
                 }
             },

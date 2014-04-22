@@ -79,9 +79,9 @@
         methods: {
             init: function (args) {
                 this.init.__super__.apply(this, args);
-                this._clear();
+                this.clear();
             },
-            _clear: function () {
+            clear: function () {
                 this._originalData = {nodes: [], links: [], nodeSet: []};
 
                 this.vertices = [];
@@ -100,10 +100,6 @@
                 this._edgeSetCollectionMap = {};
                 this._edgeSetCollection = [];
 
-                //[TODO] observable collection
-                //this.ObservableVertex()
-
-
                 this.fire('clear');
             },
 
@@ -114,7 +110,7 @@
              */
             setData: function (inData) {
 
-                this._clear();
+                this.clear();
 
                 this._originalData.nodes = inData.nodes || [];
                 this._originalData.links = inData.links || [];
@@ -1022,6 +1018,10 @@
                 this.eachVertex(function (vertex) {
                     vertex.reset();
                 });
+            },
+            dispose: function () {
+                this.clear();
+                this.inherited();
             }
 
         }

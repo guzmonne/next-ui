@@ -171,7 +171,7 @@
                 });
 
                 this.tooltipManager().dispose();
-
+                this.graph().dispose();
 
                 this.inherited();
             }
