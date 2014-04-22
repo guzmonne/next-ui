@@ -51,7 +51,7 @@
         methods: {
             _click: function (sender, events) {
                 var link = sender.model().edge;
-                //this.topology().fire('clickLink', link);
+//                this.topology().fire('clickLink', link);
             }
         }
     });

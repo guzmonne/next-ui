@@ -219,7 +219,9 @@
                 }, this, duration !== undefined ? duration : 0.6);
 
             },
-
+            precisionFit: function (duration) {
+                this.stage().precisionFit(duration);
+            },
             /**
              * Zoom topology
              * @param value {Number}

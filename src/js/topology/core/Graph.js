@@ -269,10 +269,10 @@
                         });
                     } else if (this.enableSmartLabel()) {
                         setTimeout(function () {
-
                             this.fire('topologyGenerated');
                         }.bind(this), 100);
                     } else {
+
                         this.fire('topologyGenerated');
                     }
 

@@ -105,6 +105,9 @@
   right: 0;
   bottom: 0;
 }
+.n-topology.n-topology-blue text:empty {
+  display: none;
+}
 .n-topology.n-topology-blue g {
   pointer-events: all;
 }
@@ -667,6 +670,9 @@
   left: 0;
   right: 0;
   bottom: 0;
+}
+.n-topology.n-topology-dark text:empty {
+  display: none;
 }
 .n-topology.n-topology-dark g {
   pointer-events: all;
@@ -1231,6 +1237,9 @@
   right: 0;
   bottom: 0;
 }
+.n-topology.n-topology-green text:empty {
+  display: none;
+}
 .n-topology.n-topology-green g {
   pointer-events: all;
 }
@@ -1794,6 +1803,9 @@
   right: 0;
   bottom: 0;
 }
+.n-topology.n-topology-slate text:empty {
+  display: none;
+}
 .n-topology.n-topology-slate g {
   pointer-events: all;
 }
@@ -2356,6 +2368,9 @@
   left: 0;
   right: 0;
   bottom: 0;
+}
+.n-topology.n-topology-yellow text:empty {
+  display: none;
 }
 .n-topology.n-topology-yellow g {
   pointer-events: all;

@@ -199,6 +199,17 @@
                 this.scalingLayer().setTransition(callback, context, duration);
                 this.applyStageMatrix(this.calcRectZoomMatrix(stageBound, contentBound));
             },
+            precisionFit: function (duration) {
+                var padding = this.padding();
+                this.fit(function () {
+                    setTimeout(function () {
+                        var contentBound = this.getContentBound();
+                        if (contentBound.left > padding * 1.2) {
+                            this.precisionFit(duration);
+                        }
+                    }.bind(this), 30);
+                }, this, duration);
+            },
             actualSize: function () {
                 this.scalingLayer().setTransition(null, null, 0.6);
                 this._setStageMatrix(nx.geometry.Matrix.I);
@@ -276,8 +287,8 @@
 //                    m.applyScale(this.minScale() / m.scale(), according);
 //                }
                 if (!nx.geometry.Matrix.approximate(this.matrix(), m.matrix())) {
-                    this.matrix(m.matrix());
                     this.matrixObject(m);
+                    this.matrix(m.matrix());
                     /* jshint -W030 */
                     !this.disableUpdateStageScale() && this.stageScale(1 / m.scale());
                 }
