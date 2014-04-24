@@ -64,7 +64,6 @@
     nx.define("nx.graphic.Topology", nx.ui.Component, {
         mixins: [
             nx.graphic.Topology.Config,
-            nx.graphic.Topology.Projection,
             nx.graphic.Topology.Graph,
             nx.graphic.Topology.Event,
             nx.graphic.Topology.StageMixin,
@@ -166,14 +165,19 @@
                 this._adaptiveTimer();
             },
             dispose: function () {
-                nx.each(this.layers(), function (layer) {
-                    layer.dispose();
-                });
+                try {
+                    nx.each(this.layers(), function (layer) {
+                        layer.dispose();
+                    });
 
-                this.tooltipManager().dispose();
-                this.graph().dispose();
+                    this.tooltipManager().dispose();
+                    this.graph().dispose();
 
-                this.inherited();
+                    this.inherited();
+                } catch (e) {
+
+                }
+
             }
         }
     });

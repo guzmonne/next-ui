@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Add/remove node and link</title>
-    <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/nextui/ws/lib/jquery/jquery-1.10.2.min.js"></script>
-    <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/DailyBuild/lastSuccessfulBuild/artifact/dest/next-core.js"></script>
-    <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/nextui/lastSuccessfulBuild/artifact/dest/js/next-ui.js"></script>
+    <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/NeXt-UI/ws/lib/jquery/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/NeXt-Core/lastSuccessfulBuild/artifact/dest/next-core.js"></script>
+    <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/NeXt-UI/lastSuccessfulBuild/artifact/dest/js/next-ui.js"></script>
     <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/UI_Component/lastSuccessfulBuild/artifact/dest/js/next-components.js"></script>
-    <link rel="stylesheet" href="http://10.75.161.96:8080/jenkins/job/nextui/lastSuccessfulBuild/artifact/dest/css/next-blue.css"/>
-    <script type="text/javascript" src="../../../lib/GraphGenerator.js"></script>
-    <link rel="stylesheet" href="../../../src/less/next-graphic.css"/>
-    <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/Next-graphic/lastSuccessfulBuild/artifact/dest/js/next-graphic.js"></script>
-    <!--<script type="text/javascript" src="../../../src/js/next-graphic.js"></script>-->
+    <link rel="stylesheet" href="http://10.75.161.96:8080/jenkins/job/NeXt-UI/lastSuccessfulBuild/artifact/dest/css/next-blue.css"/>
+    <script type="text/javascript" src="../lib/GraphGenerator.js"></script>
+    <link rel="stylesheet" href="../src/less/next-graphic.css"/>
+    <!--<script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/Next-Graphic/lastSuccessfulBuild/artifact/dest/js/next-graphic.js"></script>-->
+    <script type="text/javascript" src="../src/js/next-graphic.js"></script>
     <style type="text/css">
         body, html {
             height: 100%;
@@ -106,8 +106,8 @@
         linkConfig: {
             label: 'model.id'
         },
-        showIcon: true
-        //data: topologyData
+        showIcon: true,
+        data: topologyData
     });
 
     topo.on("ready", function () {

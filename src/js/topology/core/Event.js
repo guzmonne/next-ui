@@ -37,6 +37,7 @@
                     this.__zoomWheelDelta += data / step;
 
                     if (this._enableGradualScaling) {
+
                         if (Math.abs(this.__zoomWheelDelta) < 0.15) {
                             stage.disableUpdateStageScale(true);
                         } else {
@@ -44,11 +45,12 @@
                             stage.disableUpdateStageScale(false);
                         }
                     } else {
+
                         stage.disableUpdateStageScale(true);
                     }
 
 
-                    stage.applyStageScale(scale / this._scale, [event.clientX, event.clientY]);
+                    stage.applyStageScale(scale / this._scale, [event.offsetX, event.offsetY]);
 
                     if (this._zooomEventTimer) {
                         clearTimeout(this._zooomEventTimer);

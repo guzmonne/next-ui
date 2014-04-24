@@ -12,14 +12,14 @@
         statics: {
             defaultConfig: {
                 linkType: 'parallel',
-//                label: null,
-//                sourceLabel: null,
-//                targetLabel: null,
-//                color: null,
-//                width: null,
-//                dotted: false,
-//                style: null,
-//                enable: true
+                label: null,
+                sourceLabel: null,
+                targetLabel: null,
+                color: null,
+                width: null,
+                dotted: false,
+                style: null,
+                enable: true
             }
         },
         events: ['pressLink', 'clickLink', 'enterLink', 'leaveLink'],

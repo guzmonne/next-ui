@@ -390,7 +390,8 @@
                 }
             },
             _fit: function (sender, event) {
-                this.topology().precisionFit(0.6);
+                //this.topology().precisionFit(0.6);
+                this.topology().fit();
             },
             _zoombyselection: function (sender, event) {
                 var topo = this.topology();

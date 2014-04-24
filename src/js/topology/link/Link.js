@@ -192,9 +192,11 @@
                     this._enable = value;
                     if (value) {
                         this.view('disableLabel').remove();
+                        this.view('disableLabel').visible(false);
 
                     } else {
                         this.view('disableLabel').append();
+                        this.view('disableLabel').visible(true);
                         this.dom().addClass('disable');
                     }
                 }
@@ -254,34 +256,48 @@
                         }
                     }
                 },
-//                {
-//                    name: 'sourceLabel',
-//                    type: 'nx.graphic.Text',
-//                    props: {
-//                        'alignment-baseline': 'text-before-edge',
-//                        'text-anchor': 'start',
-//                        'class': 'source-label'
-//                    }
-//                },
-//                {
-//                    name: 'targetLabel',
-//                    type: 'nx.graphic.Text',
-//                    props: {
-//                        'alignment-baseline': 'text-before-edge',
-//                        'text-anchor': 'end',
-//                        'class': 'target-label'
-//                    }
-//                },
                 {
-                    name: 'disableLabel',
+                    name: 'sourceLabel',
                     type: 'nx.graphic.Text',
                     props: {
-                        'alignment-baseline': 'central',
-                        'text-anchor': 'middle',
-                        'class': 'disable-label',
-                        text: 'x',
-                        visible:false
+                        'alignment-baseline': 'text-before-edge',
+                        'text-anchor': 'start',
+                        'class': 'source-label'
                     }
+                },
+                {
+                    name: 'targetLabel',
+                    type: 'nx.graphic.Text',
+                    props: {
+                        'alignment-baseline': 'text-before-edge',
+                        'text-anchor': 'end',
+                        'class': 'target-label'
+                    }
+                },
+                {
+                    name: 'disableLabel',
+                    type: 'nx.graphic.Group',
+                    props: {
+                        visible: false
+                    },
+                    content: [
+                        {
+                            type: 'nx.graphic.Circle',
+                            props: {
+                                r: 8,
+                                'class': 'disable-bg'
+                            }
+                        },
+                        {
+                            type: 'nx.graphic.Text',
+                            props: {
+                                'alignment-baseline': 'central',
+                                'text-anchor': 'middle',
+                                'class': 'disable-label',
+                                text: 'X'
+                            }
+                        }
+                    ]
                 }
             ]
         },
@@ -394,8 +410,7 @@
                 if (!this.enable()) {
                     el = this.view('disableLabel');
                     point = line.center().add(n);
-                    el.set('x', point.x);
-                    el.set('y', point.y);
+                    el.setTransform(point.x, point.y);
                 }
 
             },

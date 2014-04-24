@@ -89,7 +89,7 @@
                 nx.each(this.nodes().toArray(), function (node) {
                     node.off('updateNodeCoordinate', this.draw, this);
                 }, this);
-                this.dispose.__super__.apply(this, arguments);
+                this.inherited();
             }
         }
     });

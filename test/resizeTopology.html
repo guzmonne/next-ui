@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Example</title>
+    <link rel="stylesheet" href="../../next-ui/dest/css/next-blue.css"/>
+    <link rel="stylesheet" href="../src/less/next-graphic.css"/>
+    <script src="../../next-ui/lib/jquery/jquery-1.10.2.min.js"></script>
+    <script src="../../next-core/dest/next-core.js"></script>
+    <script src="../../next-ui/dest/js/next-ui.js"></script>
+    <script type="text/javascript" src="../lib/GraphGenerator.js"></script>
+    <script type="text/javascript" src="../src/js/next-graphic.js"></script>
+
+
+</head>
+<style>
+    html, body {
+        padding: 0px;
+        height: 100%;
+        width: 100%;
+    }
+
+    .row, #topo, #list {
+        height: 100%;
+    }
+</style>
+<body>
+
+
+<div class="row">
+
+    <div id="topo" class="col-md-10"></div>
+    <div id="list" class="col-md-2" style="padding: 30px; background: #000 ">
+
+
+        <span style="color: #fff">Node Label</span>
+
+        <div class="btn-group" style="display: inline-block; width: 120px; margin-left: 12px;">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                ID <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu" id="labels">
+                <li><a href="#" value="role">Role</a></li>
+                <li><a href="#" value="id">ID</a></li>
+                <li><a href="#" value="label">Label</a></li>
+            </ul>
+        </div>
+
+
+    </div>
+</div>
+
+
+<script type="text/javascript">
+
+
+    var g = new GraphGenerator();
+    g.generate(50);
+
+    var topologyData = {nodes: g.nodes, links: g.links};
+
+    var topo = new nx.graphic.Topology({
+        adaptive: true,
+        identityKey: 'id',
+        dataProcessor: 'force',
+        nodeConfig: {
+            label: 'model.id'
+        },
+        theme: 'yellow',
+        showIcon: true,
+        data: topologyData
+    });
+
+
+    var app = new nx.ui.Application();
+    app.container(document.getElementById('topo'));
+    topo.attach(app);
+
+
+    setTimeout(function () {
+
+        for (var i = 0; i < 10; i++) {
+            topo.getNode(i * 3).selected(true);
+        }
+
+        setTimeout(x, 1000);
+
+
+    }, 1000);
+
+    var x = function () {
+        topo.view().dom().setStyles({
+            'transition': 'all 1.0s',
+            'margin-top': 300
+        });
+        topo.stage().view().dom().setStyles({
+            'transition': 'all 1.0s'
+        });
+
+        topo.adaptive(false);
+        topo.resize(500, 500);
+
+
+        var nodesBound = topo.getBoundByNodes(topo.selectedNodes().toArray());
+        var bound = {left: 50, top: 50, width: 400, height: 400};
+
+        var stage = topo.stage();
+        stage.scalingLayer().setTransition(function () {
+            topo.adjustLayout();
+            alert(1);
+            y();
+        }, null, 1.0);
+        stage.applyStageMatrix(stage.calcRectZoomMatrix(bound, nodesBound));
+    };
+
+
+    var y = function () {
+        topo.view().dom().setStyle('margin-top', 0);
+        topo.adaptive(true);
+        topo.adaptToContainer();
+    }
+
+
+</script>
+
+
+</body>
+</html>

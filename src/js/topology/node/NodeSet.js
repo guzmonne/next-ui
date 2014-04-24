@@ -14,8 +14,8 @@
              * Get all sub nodes
              */
             nodes: {
-                value: function () {
-                    return [];
+                get: function () {
+                    return this.getNodes();
                 }
             },
             showIcon: {

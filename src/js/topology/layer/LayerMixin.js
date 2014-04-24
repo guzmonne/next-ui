@@ -125,14 +125,16 @@
                     layers.splice(index + 1, 0, layerObj);
                 }
             },
-            /**
-             * Call all layer's recover
-             * @method recover
-             * @param force
-             */
-            recover: function (force) {
+
+
+            fadeIn: function (force, callback, context) {
                 nx.each(this.layers(), function (layer) {
-                    layer.recover(force);
+                    layer.fadeIn(force);
+                }, this);
+            },
+            fadeOut: function (force, callback, context) {
+                nx.each(this.layers(), function (layer) {
+                    layer.fadeIn(force);
                 }, this);
             },
             recoverActive: function () {

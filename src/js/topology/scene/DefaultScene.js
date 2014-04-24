@@ -8,7 +8,12 @@
     nx.define("nx.graphic.Topology.DefaultScene", nx.graphic.Topology.Scene, {
         events: [],
         methods: {
-            __construct: function () {
+            /**
+             * active scene
+             * @method activate
+             */
+
+            activate: function () {
                 this._topo = this.topology();
                 this._nodesLayer = this._topo.getLayer("nodes");
                 this._nodeSetLayer = this._topo.getLayer("nodeSet");
@@ -19,36 +24,12 @@
                 this._sceneTimer = null;
                 this._interval = 600;
             },
-            /**
-             * active scene
-             * @method activate
-             */
-
-            activate: function () {
-                this.__construct();
-                var topo = this._topo;
-                var tooltipManager = this._tooltipManager;
-
-                nx.each(topo.__events__, this._aop = function (eventName) {
-                    topo.upon(eventName, function (sender, data) {
-                        tooltipManager.executeAction(eventName, data);
-                        if (this[eventName]) {
-                            this[eventName].call(this, sender, data);
-                        }
-                    }, this);
-                }, this);
-            },
             deactivate: function () {
                 this._tooltipManager.closeAll();
             },
-
-            _dispatch: function (eventName, sender, data) {
-                if (this[eventName]) {
-                    this._tooltipManager.executeAction(eventName, data);
-                    this[eventName].call(this, sender, data);
-                }
+            dispatch: function (eventName, sender, data) {
+                this._tooltipManager.executeAction(eventName, data);
             },
-
             pressStage: function (sender, event) {
             },
             clickStage: function (sender, event) {
@@ -85,13 +66,9 @@
                 if (nodes > 300) {
                     this._topo.getLayer('links').setStyle('display', 'none');
                 }
-                this._nodesLayer.recover();
-                this._linksLayer.recover();
-                this._linkSetLayer.recover();
+                this._recover();
                 this._topo.adjustLayout();
-
             },
-
             zoomend: function () {
                 this._topo.getLayer('links').setStyle('display', 'block');
                 this._topo.adjustLayout();
@@ -283,18 +260,8 @@
                 this._topo.adjustLayout();
             },
             _recover: function () {
-                this._nodesLayer.recover();
-                this._nodeSetLayer.recover();
-                this._linksLayer.recover();
-                this._linkSetLayer.recover();
-
-
-                this._nodesLayer.activeElements().clear();
-                this._nodeSetLayer.activeElements().clear();
-                this._linksLayer.activeElements().clear();
-                this._linkSetLayer.activeElements().clear();
-
-
+                this._topo.fadeIn();
+                this._topo.recoverActive();
             },
             _blockEvent: function (value) {
                 if (value) {

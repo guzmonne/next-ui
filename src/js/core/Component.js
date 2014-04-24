@@ -231,32 +231,6 @@
                 }
                 this.inherited(name, handler, context);
             },
-            _mouseenter: function (sender, event) {
-                var element = this.dom().$dom;
-                var target = event.currentTarget, related = event.relatedTarget || event.fromElement;
-                if (target && !element.contains(related) && target !== related) {
-                    /**
-                     * Fire when mouse enter
-                     * @event mouseenter
-                     * @param sender {Object}  Trigger instance
-                     * @param event {Object} original event object
-                     */
-                    this.fire("mouseenter", event);
-                }
-            },
-            _mouseleave: function (sender, event) {
-                var element = this.dom().$dom;
-                var target = event.currentTarget, related = event.toElement || event.relatedTarget;
-                if (!element.contains(related) && target !== related) {
-                    /**
-                     * Fire when mouse leave
-                     * @event mouseenter
-                     * @param sender {Object}  Trigger instance
-                     * @param event {Object} original event object
-                     */
-                    this.fire("mouseleave", event);
-                }
-            },
             /**
              * Get component's bound, delegate element's getBoundingClientRect function
              * @method getBound
@@ -264,12 +238,6 @@
              */
             getBound: function () {
                 return this.dom().$dom.getBoundingClientRect();
-            },
-            dispose: function () {
-                if (this._resources && this._resources['@root']) {
-                    this.dom().$dom.remove();
-                }
-                this.inherited();
             },
             /**
              * Set animation for element,pass a config to this function
@@ -328,6 +296,32 @@
                     this.fire("animationCompleted");
                 }, this);
                 ani.start();
+            },
+            _mouseenter: function (sender, event) {
+                var element = this.dom().$dom;
+                var target = event.currentTarget, related = event.relatedTarget || event.fromElement;
+                if (target && !element.contains(related) && target !== related) {
+                    /**
+                     * Fire when mouse enter
+                     * @event mouseenter
+                     * @param sender {Object}  Trigger instance
+                     * @param event {Object} original event object
+                     */
+                    this.fire("mouseenter", event);
+                }
+            },
+            _mouseleave: function (sender, event) {
+                var element = this.dom().$dom;
+                var target = event.currentTarget, related = event.toElement || event.relatedTarget;
+                if (!element.contains(related) && target !== related) {
+                    /**
+                     * Fire when mouse leave
+                     * @event mouseenter
+                     * @param sender {Object}  Trigger instance
+                     * @param event {Object} original event object
+                     */
+                    this.fire("mouseleave", event);
+                }
             }
         }
     });

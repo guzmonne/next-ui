@@ -24,11 +24,15 @@
                     return [];
                 }
             },
+            currentScene: {},
             /**
              * Current scene name
              * @property currentSceneName
              */
-            currentSceneName: {}
+            currentSceneName: {},
+            sceneEnabling: {
+                value: true
+            }
         },
         methods: {
             initScene: function () {
@@ -36,6 +40,7 @@
                 this.registerScene("selection", "nx.graphic.Topology.SelectionNodeScene");
                 this.registerScene("zoomBySelection", "nx.graphic.Topology.ZoomBySelection");
                 this.activateScene('default');
+                this._registerEvents();
 
             },
             /**
@@ -78,7 +83,7 @@
                 var scene = scenesMap[sceneName] || scenesMap["default"];
                 //
                 this.deactivateScene();
-                this.currentScene = scene;
+                this.currentScene(scene);
                 this.currentSceneName(sceneName);
 
                 scene.activate();
@@ -93,11 +98,28 @@
              * @method deactivateScene
              */
             deactivateScene: function () {
-                if (this.currentScene && this.currentScene.deactivate) {
-                    this.currentScene.deactivate();
-
+                if (this.currentScene() && this.currentScene().deactivate) {
+                    this.currentScene().deactivate();
                 }
-                this.currentScene = null;
+                this.currentScene(null);
+            },
+            disableCurrentScene: function (value) {
+                this.sceneEnabling(!value);
+            },
+            _registerEvents: function () {
+                nx.each(this.__events__, this._aop = function (eventName) {
+                    this.upon(eventName, function (sender, data) {
+                        if (this.sceneEnabling()) {
+                            var currentScene = this.currentScene();
+                            if (currentScene.dispatch) {
+                                currentScene.dispatch(eventName, sender, data);
+                            }
+                            if (currentScene[eventName]) {
+                                currentScene[eventName].call(currentScene, sender, data);
+                            }
+                        }
+                    }, this);
+                }, this);
             }
         }
     });

@@ -181,7 +181,10 @@
   font-size: 12px;
 }
 .n-topology.n-topology-blue .link .disable-label {
-  fill: #da534f;
+  fill: #fff;
+}
+.n-topology.n-topology-blue .link .disable-bg {
+  fill: #ccc;
 }
 .n-topology.n-topology-blue .link.disable path,
 .n-topology.n-topology-blue .link.disable line {
@@ -232,6 +235,12 @@
   font-size: 18px;
   font-family: "Cisco Sans Reg";
   text-anchor: middle;
+  alignment-baseline: inherit;
+}
+.n-topology.n-topology-blue .group .nodeSetGroupLabel {
+  cursor: pointer;
+  font-size: 18px;
+  font-family: "Cisco Sans Reg";
   alignment-baseline: inherit;
 }
 .n-topology.n-topology-blue .group .groupLabel:hover ~ .bg {
@@ -747,7 +756,10 @@
   font-size: 12px;
 }
 .n-topology.n-topology-dark .link .disable-label {
-  fill: #b51525;
+  fill: #fff;
+}
+.n-topology.n-topology-dark .link .disable-bg {
+  fill: #ccc;
 }
 .n-topology.n-topology-dark .link.disable path,
 .n-topology.n-topology-dark .link.disable line {
@@ -798,6 +810,12 @@
   font-size: 18px;
   font-family: "Cisco Sans Reg";
   text-anchor: middle;
+  alignment-baseline: inherit;
+}
+.n-topology.n-topology-dark .group .nodeSetGroupLabel {
+  cursor: pointer;
+  font-size: 18px;
+  font-family: "Cisco Sans Reg";
   alignment-baseline: inherit;
 }
 .n-topology.n-topology-dark .group .groupLabel:hover ~ .bg {
@@ -1313,7 +1331,10 @@
   font-size: 12px;
 }
 .n-topology.n-topology-green .link .disable-label {
-  fill: #da534f;
+  fill: #fff;
+}
+.n-topology.n-topology-green .link .disable-bg {
+  fill: #ccc;
 }
 .n-topology.n-topology-green .link.disable path,
 .n-topology.n-topology-green .link.disable line {
@@ -1364,6 +1385,12 @@
   font-size: 18px;
   font-family: "Cisco Sans Reg";
   text-anchor: middle;
+  alignment-baseline: inherit;
+}
+.n-topology.n-topology-green .group .nodeSetGroupLabel {
+  cursor: pointer;
+  font-size: 18px;
+  font-family: "Cisco Sans Reg";
   alignment-baseline: inherit;
 }
 .n-topology.n-topology-green .group .groupLabel:hover ~ .bg {
@@ -1879,7 +1906,10 @@
   font-size: 12px;
 }
 .n-topology.n-topology-slate .link .disable-label {
-  fill: #c8003f;
+  fill: #fff;
+}
+.n-topology.n-topology-slate .link .disable-bg {
+  fill: #ccc;
 }
 .n-topology.n-topology-slate .link.disable path,
 .n-topology.n-topology-slate .link.disable line {
@@ -1930,6 +1960,12 @@
   font-size: 18px;
   font-family: "Cisco Sans Reg";
   text-anchor: middle;
+  alignment-baseline: inherit;
+}
+.n-topology.n-topology-slate .group .nodeSetGroupLabel {
+  cursor: pointer;
+  font-size: 18px;
+  font-family: "Cisco Sans Reg";
   alignment-baseline: inherit;
 }
 .n-topology.n-topology-slate .group .groupLabel:hover ~ .bg {
@@ -2445,7 +2481,10 @@
   font-size: 12px;
 }
 .n-topology.n-topology-yellow .link .disable-label {
-  fill: #b7665f;
+  fill: #fff;
+}
+.n-topology.n-topology-yellow .link .disable-bg {
+  fill: #ccc;
 }
 .n-topology.n-topology-yellow .link.disable path,
 .n-topology.n-topology-yellow .link.disable line {
@@ -2496,6 +2535,12 @@
   font-size: 18px;
   font-family: "Cisco Sans Reg";
   text-anchor: middle;
+  alignment-baseline: inherit;
+}
+.n-topology.n-topology-yellow .group .nodeSetGroupLabel {
+  cursor: pointer;
+  font-size: 18px;
+  font-family: "Cisco Sans Reg";
   alignment-baseline: inherit;
 }
 .n-topology.n-topology-yellow .group .groupLabel:hover ~ .bg {

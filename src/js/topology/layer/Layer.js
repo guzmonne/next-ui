@@ -66,20 +66,20 @@
             /**
              * Fade in layer
              * @method fadeIn
-             * @param [callback] {Function} callback after fade out
-             * @param [context] {Object} callback context
-             */
-            fadeIn: function (callback, context) {
-                var el = this.view();
-                el.setStyle('opacity', 0.2, 1, callback, context);
-            },
-            /**
-             * Recover layer's fade statues
              * @param force {Boolean} force recover all items
              * @param [callback] {Function} callback after fade out
              * @param [context] {Object} callback context
              */
             recover: function (force, callback, context) {
+                this.fadeIn(force, callback, context);
+            },
+            /**
+             * Fade in layer's fade statues
+             * @param force {Boolean} force recover all items
+             * @param [callback] {Function} callback after fade out
+             * @param [context] {Object} callback context
+             */
+            fadeIn: function (force, callback, context) {
                 var el = this.view();
                 if (this._fade && !force) {
                     return;

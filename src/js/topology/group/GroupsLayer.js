@@ -4,7 +4,8 @@
     var shapeMap = {
         'rect': 'nx.graphic.Topology.RectGroup',
         'circle': 'nx.graphic.Topology.CircleGroup',
-        'polygon': 'nx.graphic.Topology.PolygonGroup'
+        'polygon': 'nx.graphic.Topology.PolygonGroup',
+        'nodeSetPolygon': 'nx.graphic.Topology.NodeSetPolygonGroup'
     };
 
 
@@ -70,7 +71,7 @@
             attach: function (args) {
                 this.inherited(args);
                 var topo = this.topology();
-                topo.on('zoomend', this._draw, this);
+                topo.on('zoomend', this._redraw.bind(this), this);
             },
             /**
              * Add a group to group layer
@@ -105,17 +106,20 @@
                 return group;
 
             },
-            /**
-             * Re-draw all group, for update
-             * @method reDrawAllGroup
-             */
-            reDrawAllGroup: function () {
+            _redraw: function () {
                 nx.each(this.groups(), function (group) {
                     group.draw();
                 }, this);
             },
-            _draw: function () {
-                this.reDrawAllGroup();
+            /**
+             * Remove a group
+             * @method removeGroup
+             * @param group
+             */
+            removeGroup: function (group) {
+                var groups = this.groups();
+                groups.splice(groups.indexOf(group), 1);
+                group.dispose();
             },
             clear: function () {
                 nx.each(this.groups(), function (group) {
@@ -124,8 +128,7 @@
                 this.groups([]);
 
                 var topo = this.topology();
-                topo.off('resetzooming', this.reDrawAllGroup, this);
-                topo.off('zoomend', this.reDrawAllGroup, this);
+                topo.off('zoomend', this._redraw.bind(this), this);
                 this.clear.__super__.apply(this, arguments);
             }
 

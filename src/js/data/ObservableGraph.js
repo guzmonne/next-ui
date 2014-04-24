@@ -1,8 +1,6 @@
 (function (nx, global, logger) {
 
 
-    'use strict';
-
     var util = nx.util;
 
     /**

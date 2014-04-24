@@ -2,14 +2,14 @@
 <html>
 <head>
     <title>Example</title>
-    <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/nextui/ws/lib/jquery/jquery-1.10.2.min.js"></script>
-    <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/DailyBuild/lastSuccessfulBuild/artifact/dest/next-core.js"></script>
-    <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/nextui/lastSuccessfulBuild/artifact/dest/js/next-ui.js"></script>
-    <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/Next-graphic/lastSuccessfulBuild/artifact/dest/js/next-graphic.js"></script>
+    <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/NeXt-UI/ws/lib/jquery/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/NeXt-Core/lastSuccessfulBuild/artifact/dest/next-core.js"></script>
+    <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/NeXt-UI/lastSuccessfulBuild/artifact/dest/js/next-ui.js"></script>
+    <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/Next-Graphic/lastSuccessfulBuild/artifact/dest/js/next-graphic.js"></script>
     <!--<script type="text/javascript" src="../../../src/js/next-graphic.js"></script>-->
-    <link rel="stylesheet" href="http://10.75.161.96:8080/jenkins/job/nextui/lastSuccessfulBuild/artifact/dest/css/next-blue.css"/>
-    <link rel="stylesheet" href="../../../src/less/next-graphic.css"/>
-    <script type="text/javascript" src="../../../lib/GraphGenerator.js"></script>
+    <link rel="stylesheet" href="http://10.75.161.96:8080/jenkins/job/NeXt-UI/lastSuccessfulBuild/artifact/dest/css/next-blue.css"/>
+    <link rel="stylesheet" href="../src/less/next-graphic.css"/>
+    <script type="text/javascript" src="../lib/GraphGenerator.js"></script>
 
 
 </head>
@@ -26,17 +26,6 @@
 </style>
 <body>
 
-
-<div class="row">
-
-    <div id="topo" class="col-md-10"></div>
-    <div id="list" class="col-md-2" style="padding: 30px; background: #000 ">
-        <button id="h">Horizontal layout</button>
-        <button id="v">Vertical layout</button>
-
-
-    </div>
-</div>
 
 <script type="text/javascript">
 
@@ -255,35 +244,25 @@ var topologyData = { "nodes": [
         nodeConfig: {
             label: 'model.id'
         },
-        theme: 'yellow',
+        theme: 'slate',
         showIcon: true,
         data: topologyData
     });
 
     var app = new nx.ui.Application();
-    app.container(document.getElementById('topo'));
     topo.attach(app);
 
 
-    $('#h').click(function () {
-        var layout = topo.getLayout('hierarchicalLayout');
-        layout.direction('horizontal');
-        layout.levelBy(function (node, model) {
-            return model.get('role');
-//            return Math.floor(model.id() / 16);
-        });
-        topo.activateLayout('hierarchicalLayout');
-    });
-
-    $('#v').click(function () {
-        var layout = topo.getLayout('hierarchicalLayout');
-        layout.direction('vertical');
+    topo.on('topologyGenerated', function () {
+        var layout = topo.getLayout('enterpriseNetworkLayout');
         layout.sortOrder(['Core', 'Distribution', 'Access']);
         layout.levelBy(function (node, model) {
             return model.get('role');
         });
-        topo.activateLayout('hierarchicalLayout');
+        topo.activateLayout('enterpriseNetworkLayout');
     });
+
+
 
 
 </script>
