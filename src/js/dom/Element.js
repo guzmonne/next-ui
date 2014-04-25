@@ -401,11 +401,11 @@
              * @returns {*}
              */
             getStyle: function (inName, isInline) {
+                var property = util.getStyleProperty(inName);
                 if (isInline) {
-                    return this.$dom.style[inName];
+                    return this.$dom.style[property];
                 } else {
                     var styles = getComputedStyle(this.$dom, null);
-                    var property = util.getStyleProperty(inName);
                     return styles[property] || '';
                 }
             },
