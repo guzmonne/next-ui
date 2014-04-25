@@ -39,11 +39,13 @@
         methods: {
             start: function () {
                 topo.attach(app);
+                topo.showLoading();
                 $.getJSON('lab-topo.json', function (data) {
                     var start = new Date();
                     console.log('Start rendering...');
                     topo.data(data.response);
                     topo.fit();
+                    topo.hideLoading();
                     console.log('End render,cost :' + (new Date() - start) + 'ms');
                 });
             }
