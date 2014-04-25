@@ -97,7 +97,7 @@
             },
             dispose: function () {
                 this.clear();
-                //this.inherited();
+                this.inherited();
             }
         }
     });

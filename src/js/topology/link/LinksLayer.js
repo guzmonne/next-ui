@@ -191,7 +191,11 @@
                 this.inherited();
             },
             dispose: function () {
+                this.eachLink(function (link) {
+                    link.dispose();
+                });
                 this.topology().unwatch('stageScale', this.__watchStageScaleFN, this);
+                this.clear();
                 this.inherited();
             }
         }

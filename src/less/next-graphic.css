@@ -458,22 +458,47 @@
 }
 .n-topology.n-topology-blue .n-topology-nav-agr {
   cursor: pointer;
-  line-height: 32px;
+  line-height: 24px;
   text-align: center;
   font-size: 20px;
-  height: 32px;
+  height: 24px;
   color: #999999;
   display: none;
 }
 .n-topology.n-topology-blue .n-topology-nav-agr:hover {
   color: #4d4d4d;
 }
+@-webkit-keyframes agr-icon-ani {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+.n-topology.n-topology-blue .n-topology-nav .agr-icon {
+  -webkit-animation-duration: 3s;
+  -webkit-animation-name: agr-icon-ani;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-direction: normal;
+  -webkit-animation-timing-function: linear;
+  -webkit-transition: 0 none;
+  color: #0396eb;
+}
+.n-topology.n-topology-blue .n-topology-nav .agr-text {
+  font-size: 10px;
+  color: #eaeaea;
+  position: absolute;
+  left: 13px;
+  margin-top: -1px;
+  height: 12px;
+}
 .n-topology.n-topology-blue .n-topology-nav-full {
   cursor: pointer;
-  line-height: 32px;
+  line-height: 24px;
   text-align: center;
   font-size: 16px;
-  height: 32px;
+  height: 24px;
   color: #999999;
 }
 .n-topology.n-topology-blue .n-topology-nav-full:hover {
@@ -1033,22 +1058,47 @@
 }
 .n-topology.n-topology-dark .n-topology-nav-agr {
   cursor: pointer;
-  line-height: 32px;
+  line-height: 24px;
   text-align: center;
   font-size: 20px;
-  height: 32px;
+  height: 24px;
   color: #666666;
   display: none;
 }
 .n-topology.n-topology-dark .n-topology-nav-agr:hover {
   color: #b3b3b3;
 }
+@-webkit-keyframes agr-icon-ani {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+.n-topology.n-topology-dark .n-topology-nav .agr-icon {
+  -webkit-animation-duration: 3s;
+  -webkit-animation-name: agr-icon-ani;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-direction: normal;
+  -webkit-animation-timing-function: linear;
+  -webkit-transition: 0 none;
+  color: #1ab2ff;
+}
+.n-topology.n-topology-dark .n-topology-nav .agr-text {
+  font-size: 10px;
+  color: #333333;
+  position: absolute;
+  left: 13px;
+  margin-top: -1px;
+  height: 12px;
+}
 .n-topology.n-topology-dark .n-topology-nav-full {
   cursor: pointer;
-  line-height: 32px;
+  line-height: 24px;
   text-align: center;
   font-size: 16px;
-  height: 32px;
+  height: 24px;
   color: #666666;
 }
 .n-topology.n-topology-dark .n-topology-nav-full:hover {
@@ -1608,22 +1658,47 @@
 }
 .n-topology.n-topology-green .n-topology-nav-agr {
   cursor: pointer;
-  line-height: 32px;
+  line-height: 24px;
   text-align: center;
   font-size: 20px;
-  height: 32px;
+  height: 24px;
   color: #999999;
   display: none;
 }
 .n-topology.n-topology-green .n-topology-nav-agr:hover {
   color: #4d4d4d;
 }
+@-webkit-keyframes agr-icon-ani {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+.n-topology.n-topology-green .n-topology-nav .agr-icon {
+  -webkit-animation-duration: 3s;
+  -webkit-animation-name: agr-icon-ani;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-direction: normal;
+  -webkit-animation-timing-function: linear;
+  -webkit-transition: 0 none;
+  color: #2badb3;
+}
+.n-topology.n-topology-green .n-topology-nav .agr-text {
+  font-size: 10px;
+  color: #eaeaea;
+  position: absolute;
+  left: 13px;
+  margin-top: -1px;
+  height: 12px;
+}
 .n-topology.n-topology-green .n-topology-nav-full {
   cursor: pointer;
-  line-height: 32px;
+  line-height: 24px;
   text-align: center;
   font-size: 16px;
-  height: 32px;
+  height: 24px;
   color: #999999;
 }
 .n-topology.n-topology-green .n-topology-nav-full:hover {
@@ -2183,22 +2258,47 @@
 }
 .n-topology.n-topology-slate .n-topology-nav-agr {
   cursor: pointer;
-  line-height: 32px;
+  line-height: 24px;
   text-align: center;
   font-size: 20px;
-  height: 32px;
+  height: 24px;
   color: #888888;
   display: none;
 }
 .n-topology.n-topology-slate .n-topology-nav-agr:hover {
   color: #d5d5d5;
 }
+@-webkit-keyframes agr-icon-ani {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+.n-topology.n-topology-slate .n-topology-nav .agr-icon {
+  -webkit-animation-duration: 3s;
+  -webkit-animation-name: agr-icon-ani;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-direction: normal;
+  -webkit-animation-timing-function: linear;
+  -webkit-transition: 0 none;
+  color: #ffffff;
+}
+.n-topology.n-topology-slate .n-topology-nav .agr-text {
+  font-size: 10px;
+  color: #446787;
+  position: absolute;
+  left: 13px;
+  margin-top: -1px;
+  height: 12px;
+}
 .n-topology.n-topology-slate .n-topology-nav-full {
   cursor: pointer;
-  line-height: 32px;
+  line-height: 24px;
   text-align: center;
   font-size: 16px;
-  height: 32px;
+  height: 24px;
   color: #888888;
 }
 .n-topology.n-topology-slate .n-topology-nav-full:hover {
@@ -2758,22 +2858,47 @@
 }
 .n-topology.n-topology-yellow .n-topology-nav-agr {
   cursor: pointer;
-  line-height: 32px;
+  line-height: 24px;
   text-align: center;
   font-size: 20px;
-  height: 32px;
+  height: 24px;
   color: #666666;
   display: none;
 }
 .n-topology.n-topology-yellow .n-topology-nav-agr:hover {
   color: #b3b3b3;
 }
+@-webkit-keyframes agr-icon-ani {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+.n-topology.n-topology-yellow .n-topology-nav .agr-icon {
+  -webkit-animation-duration: 3s;
+  -webkit-animation-name: agr-icon-ani;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-direction: normal;
+  -webkit-animation-timing-function: linear;
+  -webkit-transition: 0 none;
+  color: #ffc81a;
+}
+.n-topology.n-topology-yellow .n-topology-nav .agr-text {
+  font-size: 10px;
+  color: #333333;
+  position: absolute;
+  left: 13px;
+  margin-top: -1px;
+  height: 12px;
+}
 .n-topology.n-topology-yellow .n-topology-nav-full {
   cursor: pointer;
-  line-height: 32px;
+  line-height: 24px;
   text-align: center;
   font-size: 16px;
-  height: 32px;
+  height: 24px;
   color: #666666;
 }
 .n-topology.n-topology-yellow .n-topology-nav-full:hover {

@@ -180,11 +180,9 @@
 
             },
             dispose: function () {
-//                this.eachNode(function (node) {
-//                    node.dispose();
-//                });
+                this.clear();
                 this.topology().unwatch('stageScale', this.__watchStageScaleFN, this);
-                //this.inherited();
+                this.inherited();
             }
         }
     });

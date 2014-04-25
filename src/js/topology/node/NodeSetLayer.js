@@ -153,6 +153,7 @@
                 this.inherited();
             },
             dispose: function () {
+                this.clear();
                 this.topology().unwatch('stageScale', this.__watchStageScaleFN, this);
                 this.inherited();
             }

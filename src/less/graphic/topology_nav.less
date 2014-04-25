@@ -160,23 +160,55 @@
 
     &-agr {
       cursor: pointer;
-      line-height: 32px;
+      line-height: 24px;
       text-align: center;
       font-size: 20px;
-      height: 32px;
+      height: 24px;
       color: @toolbarColor;
       display: none;
       &:hover {
         color: @iconHoverBG;
       }
+
+//      border:solid 2px @toolbarColor;
+//      border-radius: 16px;
+    }
+
+    @-webkit-keyframes agr-icon-ani {
+      0% {
+        -webkit-transform: rotate(0deg);
+      }
+      100% {
+        -webkit-transform: rotate(360deg);
+      }
+    }
+
+    .agr-icon {
+      -webkit-animation-duration: 3s;
+      -webkit-animation-name: agr-icon-ani;
+      -webkit-animation-iteration-count: infinite;
+      -webkit-animation-direction: normal;
+      -webkit-animation-timing-function: linear;
+      -webkit-transition: 0 none;
+      color:lighten(@brand-primary, 5%);
+    }
+
+    .agr-text {
+      font-size: 10px;
+      color: @toolBarModeBg; //;lighten(@brand-primary, 5%);
+      position: absolute;
+      left: 13px;
+      margin-top: -1px;
+      height: 12px;
+
     }
 
     &-full {
       cursor: pointer;
-      line-height: 32px;
+      line-height: 24px;
       text-align: center;
       font-size: 16px;
-      height: 32px;
+      height: 24px;
       color: @toolbarColor;
       &:hover {
         color: @iconHoverBG;

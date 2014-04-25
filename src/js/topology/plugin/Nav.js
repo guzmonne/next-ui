@@ -154,9 +154,24 @@
                             tag: 'li',
                             name: 'agr',
                             props: {
-                                'class': 'n-topology-nav-agr glyphicon glyphicon-edit',
+                                'class': 'n-topology-nav-agr',
                                 title: "Aggregation"
                             },
+                            content: [
+                                {
+                                    tag: 'span',
+                                    props: {
+                                        'class': 'glyphicon glyphicon-certificate   agr-icon'
+                                    }
+                                },
+                                {
+                                    tag: 'span',
+                                    content: 'A',
+                                    props: {
+                                        'class': 'agr-text'
+                                    }
+                                }
+                            ],
                             events: {
                                 'click': '{#_agr}'
                             }
@@ -359,7 +374,7 @@
                 }, this);
 
                 topo.selectedNodes().watch('count', function (prop, value) {
-                    this.view('agr').dom().setStyle('display', value !== 0 ? 'block' : 'none');
+                    this.view('agr').dom().setStyle('display', value > 1 ? 'block' : 'none');
                 }, this);
                 this.view('agr').dom().setStyle('display', 'none');
 

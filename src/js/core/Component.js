@@ -322,6 +322,12 @@
                      */
                     this.fire("mouseleave", event);
                 }
+            },
+            dispose: function () {
+                if (this._resources && this._resources['@root']) {
+                    this.view().dom().$dom.remove();
+                }
+                this.inherited();
             }
         }
     });

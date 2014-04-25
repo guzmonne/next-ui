@@ -126,10 +126,13 @@
                     group.dispose();
                 }, this);
                 this.groups([]);
-
+                this.inherited();
+            },
+            dispose: function () {
+                this.clear();
                 var topo = this.topology();
                 topo.off('zoomend', this._redraw.bind(this), this);
-                this.clear.__super__.apply(this, arguments);
+                this.inherited();
             }
 
         }
