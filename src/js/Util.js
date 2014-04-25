@@ -21,12 +21,16 @@
     var styleHooks = {
         float: 'cssFloat'
     };
+
+    var stylePropCache = {};
+    var styleNameCache = {};
+
     /**
      * This is Util
      * @class nx.Util
      * @constructor
      */
-    var util = nx.define('nx.Util',{
+    var util = nx.define('nx.Util', {
         static: true,
         methods: {
             /**
@@ -37,9 +41,9 @@
              */
             getCssText: function (inStyles) {
                 var cssText = [''];
-                nx.each(inStyles,function (styleValue,styleName) {
-                    cssText.push(this.getStyleProperty(styleName,true) + ':' + this.getStyleValue(styleName,styleValue));
-                },this);
+                nx.each(inStyles, function (styleValue, styleName) {
+                    cssText.push(this.getStyleProperty(styleName, true) + ':' + this.getStyleValue(styleName, styleValue));
+                }, this);
                 return cssText.join(';');
             },
             /**
@@ -49,7 +53,7 @@
              * @param inValue
              * @returns {*}
              */
-            getStyleValue: function (inName,inValue) {
+            getStyleValue: function (inName, inValue) {
                 var property = this.getStyleProperty(inName);
                 var value = inValue;
                 if (rsizeElement.test(property)) {
@@ -66,20 +70,34 @@
              * @param isLowerCase
              * @returns {*}
              */
-            getStyleProperty: function (inName,isLowerCase) {
-                var property = this.lowerCamelCase(inName);
+            getStyleProperty: function (inName, isLowerCase) {
+                if (isLowerCase) {
+                    if (inName in styleNameCache) {
+                        return styleNameCache[inName];
+                    }
+                }
+                else {
+                    if (inName in stylePropCache) {
+                        return stylePropCache[inName];
+                    }
+                }
+
+                var property = styleHooks[inName] || this.lowerCamelCase(inName);
                 if (property in tempStyle) {
                     if (isLowerCase) {
                         property = this.deCamelCase(inName);
+                        styleNameCache[inName] = property;
                     }
                 } else {
                     if (isLowerCase) {
                         property = env.prefix()[1] + inName;
+                        styleNameCache[inName] = property;
                     } else {
                         property = env.prefix()[0] + this.upperCamelCase(inName);
+                        stylePropCache[inName] = property;
                     }
                 }
-                return styleHooks[inName] || property;
+                return property;
             },
             /**
              * Lower camel case.
@@ -98,7 +116,7 @@
              * @returns {*|string|void}
              */
             upperCamelCase: function (inName) {
-                return inName.replace(rUpperCameCase,function (match,group1) {
+                return inName.replace(rUpperCameCase, function (match, group1) {
                     return group1.toUpperCase();
                 });
             },
@@ -109,7 +127,7 @@
              * @returns {*|string|void}
              */
             deCamelCase: function (inName) {
-                return inName.replace(rDeCameCase,function (match,group1) {
+                return inName.replace(rDeCameCase, function (match, group1) {
                     return '-' + group1.toLowerCase();
                 });
             },
