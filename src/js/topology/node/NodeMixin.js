@@ -264,14 +264,14 @@
                 }, this);
 
 
-                if (this.supportMultipleLink()) {
-                    this.getLayer('linkSet').highlightLinkSetArray(node.getLinkSet());
-                    this.getLayer('linkSet').fadeOut();
-                    this.getLayer('links').fadeOut();
-                } else {
-                    this.getLayer('links').highlightLinks(node.getLinks());
-                    this.getLayer('links').fadeOut();
-                }
+
+                this.getLayer('linkSet').highlightLinkSetArray(node.getLinkSet());
+                this.getLayer('linkSet').fadeOut();
+                this.getLayer('links').fadeOut();
+
+//                this.getLayer('links').highlightLinks(node.getLinks());
+//                this.getLayer('links').fadeOut();
+
 
                 layer.fadeOut();
             },
@@ -281,28 +281,19 @@
              */
             activeRelatedNode: function (node) {
                 var layer = this.getLayer('nodes');
-
                 if (nx.is(node, 'nx.graphic.Topology.NodeSet')) {
                     layer = this.getLayer('nodeSet');
                 }
                 layer.activeElements().add(node);
 
-
                 node.eachConnectedNode(function (n) {
                     layer.activeElements().add(n);
                 }, this);
 
+                this.getLayer('linkSet').activeLinkSetArray(node.getLinkSet());
+                this.getLayer('links').activeLinks(node.getLinks());
 
-                if (this.supportMultipleLink()) {
-                    this.getLayer('linkSet').activeLinkSetArray(node.getLinkSet());
-                    this.getLayer('linkSet').fadeOut();
-                    this.getLayer('links').fadeOut();
-                } else {
-                    this.getLayer('links').activeLinks(node.getLinks());
-                    this.getLayer('links').fadeOut();
-                }
-
-                layer.fadeOut();
+                topo.fadeOut();
             },
             /**
              * Get the bound of passing node's

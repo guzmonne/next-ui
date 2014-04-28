@@ -49,7 +49,7 @@
          * @param sender {Object}  Trigger instance
          * @param event {Object} original event object
          */
-        events: ['mouseenter', 'mouseleave', 'dragstart', 'dragmove', 'dragend'],
+        events: ['dragstart', 'dragmove', 'dragend'],
         properties: {
             /**
              * Set/get x translate
@@ -85,8 +85,8 @@
             translate: {
                 get: function () {
                     return{
-                        x: this._translateX,
-                        y: this._translateY
+                        x: this._translateX || 0,
+                        y: this._translateY || 0
                     };
                 },
                 set: function (value) {
@@ -103,7 +103,7 @@
                 },
                 set: function (value) {
                     this.dom().setStyle("display", value ? "" : "none");
-                    this.dom().setStyle("pointer-events", value ? "all" : "none");
+                    //this.dom().setStyle("pointer-events", value ? "all" : "none");
                     this._visible = value;
                 }
             },
@@ -235,12 +235,12 @@
              * @param [context] {Object} event handler's context
              */
             upon: function (name, handler, context) {
-                if (name == 'mouseenter') {
-                    this.inherited('mouseover', this._mouseenter.bind(this), context);
-                }
-                if (name == 'mouseleave') {
-                    this.inherited('mouseout', this._mouseleave.bind(this), context);
-                }
+//                if (name == 'mouseenter') {
+//                    this.inherited('mouseover', this._mouseenter.bind(this), context);
+//                }
+//                if (name == 'mouseleave') {
+//                    this.inherited('mouseout', this._mouseleave.bind(this), context);
+//                }
                 this.inherited(name, handler, context);
             },
             /**

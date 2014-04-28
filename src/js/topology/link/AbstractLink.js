@@ -8,8 +8,8 @@
      * @extend nx.graphic.Group
      * @module nx.graphic.Topology
      */
-    nx.define("nx.graphic.Topology.AbstractLink", nx.graphic.Group, {
-        events: ["hide", "show"],
+    nx.define('nx.graphic.Topology.AbstractLink', nx.graphic.Group, {
+        events: ['hide', 'show','remove'],
         properties: {
             /**
              * Get source node's instance
@@ -205,18 +205,18 @@
                 //
                 this.model(model);
                 //
-                model.source().watch("position", this._watchS = function (prop, value) {
-                    this.notify("sourcePosition");
+                model.source().watch('position', this._watchS = function (prop, value) {
+                    this.notify('sourcePosition');
                     this.update();
                 }, this);
 
-                model.target().watch("position", this._watchT = function () {
-                    this.notify("targetPosition");
+                model.target().watch('position', this._watchT = function () {
+                    this.notify('targetPosition');
                     this.update();
                 }, this);
 
                 //bind model's visible with element's visible
-                this.setBinding("visible", "model.visible,direction=<>", this);
+                this.setBinding('visible', 'model.visible,direction=<>', this);
 
                 if (isUpdate !== false) {
                     this.update();
@@ -238,9 +238,10 @@
             dispose: function () {
                 var model = this.model();
                 if (model) {
-                    model.source().unwatch("position", this._watchS, this);
-                    model.target().unwatch("position", this._watchT, this);
+                    model.source().unwatch('position', this._watchS, this);
+                    model.target().unwatch('position', this._watchT, this);
                 }
+                this.fire('remove');
                 this.inherited();
             },
             _processPropertyValue: function (propertyValue) {

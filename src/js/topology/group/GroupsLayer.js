@@ -72,6 +72,7 @@
                 this.inherited(args);
                 var topo = this.topology();
                 topo.on('zoomend', this._redraw.bind(this), this);
+                topo.watch('revisionScale', this._redraw.bind(this), this);
             },
             /**
              * Add a group to group layer
@@ -99,7 +100,6 @@
                 group.nodes().addRange(nodes);
 
 
-                group.draw();
                 group.attach(this);
                 this.groups().push(group);
 
@@ -132,6 +132,8 @@
                 this.clear();
                 var topo = this.topology();
                 topo.off('zoomend', this._redraw.bind(this), this);
+                topo.off('fit', this._redraw.bind(this), this);
+                topo.unwatch('revisionScale', this._redraw.bind(this), this);
                 this.inherited();
             }
 

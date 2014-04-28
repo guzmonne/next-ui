@@ -89,6 +89,8 @@
                 event.captureDrag(this.view('shape'));
             },
             _dragstart: function (sender, event) {
+                this.blockDrawing(true);
+
                 /**
                  * Fired when start drag a group
                  * @event dragGroupStart
@@ -106,8 +108,14 @@
                  */
                 this.fire('dragGroup', event);
                 this._updateNodesPosition(event.drag.delta[0], event.drag.delta[1]);
+
+                var stageScale = this.topology().stageScale();
+                this.move(event.drag.delta[0] * stageScale, event.drag.delta[1] * stageScale);
             },
             _dragend: function (sender, event) {
+                this.blockDrawing(false);
+                this.draw();
+                this.setTransform(0, 0);
                 /**
                  * Fired finish dragging
                  * @event dragGroupEnd

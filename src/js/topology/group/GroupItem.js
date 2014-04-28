@@ -10,7 +10,7 @@
      */
 
 
-    nx.define("nx.graphic.Topology.GroupItem", nx.graphic.Component, {
+    nx.define("nx.graphic.Topology.GroupItem", nx.graphic.Group, {
         events: [],
         properties: {
             /**
@@ -43,6 +43,9 @@
              */
             label: {
 
+            },
+            blockDrawing: {
+                value: false
             }
         },
         view: {
@@ -62,20 +65,21 @@
                     if (action == 'add') {
 
                         nx.each(items, function (node) {
-                            node.on('updateNodeCoordinate', this.draw, this);
+                            node.on('updateNodeCoordinate', this._draw, this);
+                            node.on('remove', this.removeNode, this);
                         }, this);
 
                         this.draw();
 
                     } else if (action == 'remove') {
                         nx.each(items, function (node) {
-                            node.off('updateNodeCoordinate', this.draw, this);
+                            node.off('updateNodeCoordinate', this._draw, this);
                         }, this);
 
                         this.draw();
                     } else if (action == 'clear') {
                         nx.each(items, function (node) {
-                            node.off('updateNodeCoordinate', this.draw, this);
+                            node.off('updateNodeCoordinate', this._draw, this);
                         }, this);
 
                         this.dispose();
@@ -83,7 +87,15 @@
                 }, this);
 
             },
+            _draw: function () {
+                if (!this.blockDrawing()) {
+                    this.draw();
+                }
+            },
             draw: function () {
+            },
+            removeNode: function (node) {
+                this.nodes().remove(node);
             },
             dispose: function () {
                 nx.each(this.nodes().toArray(), function (node) {

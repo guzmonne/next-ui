@@ -15,25 +15,12 @@
         view: {
             type: 'nx.graphic.Group',
             props: {
-                'class': 'group n-transition'
+                'class': 'group'
             },
             content: [
                 {
-//                    name: 'shape',
-//                    type: 'nx.graphic.Polygon',
-//                    props: {
-//                        'class': 'bg'
-//                    },
-//                    events: {
-//                        'mousedown': '{#_mousedown}',
-//                        'dragstart': '{#_dragstart}',
-//                        'dragmove': '{#_drag}',
-//                        'dragend': '{#_dragend}'
-//                    }
-
-
                     name: 'shape',
-                    type: 'nx.graphic.Rect',
+                    type: 'nx.graphic.Polygon',
                     props: {
                         'class': 'bg'
                     },
@@ -43,6 +30,19 @@
                         'dragmove': '{#_drag}',
                         'dragend': '{#_dragend}'
                     }
+
+
+//                    name: 'shape',
+//                    type: 'nx.graphic.Rect',
+//                    props: {
+//                        'class': 'bg'
+//                    },
+//                    events: {
+//                        'mousedown': '{#_mousedown}',
+//                        'dragstart': '{#_dragstart}',
+//                        'dragmove': '{#_drag}',
+//                        'dragend': '{#_dragend}'
+//                    }
                 },
                 {
                     name: 'minus',
@@ -88,7 +88,8 @@
             }
         },
         properties: {
-            nodeSet: {}
+            nodeSet: {},
+            topology: {}
         },
         methods: {
 
@@ -143,53 +144,78 @@
                     y: topo.matrix().y()
                 };
 
-//                var vectorArray = [];
-//                this.nodes().each(function (node) {
-//                    if (node.visible()) {
-//                        vectorArray.push({x: node.x(), y: node.y()});
-//                    }
-//                });
-//                var shape = this.view('shape');
-//                var text = this.view('text');
-//                shape.sets({
-//                    fill: this.color()
-//                });
-//                shape.dom().setStyle('stroke', this.color());
-//                shape.dom().setStyle('stroke-width', 60 * stageScale);
-//                shape.nodes(vectorArray);
+                if (this.nodes().count() == 0) {
+                    return;
+                }
 
 
-//                var bound = topo.getBoundByNodes(this.nodes().toArray());
-//                bound.left -= translate.x;
-//                bound.top -= translate.y;
+                var vectorArray = [];
+                this.nodes().each(function (node) {
+                    if (node.visible()) {
+                        vectorArray.push({x: node.x(), y: node.y()});
+                    }
+                });
+                var shape = this.view('shape');
+                var text = this.view('text');
+                shape.sets({
+                    fill: this.color()
+                });
+                shape.dom().setStyle('stroke', this.color());
+                //
+                shape.nodes(vectorArray);
+
 
                 var bound = topo.getBoundByNodes(this.nodes().toArray());
                 bound.left -= translate.x;
                 bound.top -= translate.y;
-                var shape = this.view('shape');
-                var text = this.view('text');
-                shape.sets({
-                    x: bound.left,
-                    y: bound.top,
-                    width: bound.width,
-                    height: bound.height,
-                    fill: this.color(),
-                    stroke: this.color(),
-                    scale: topo.stageScale()
-                });
+
+//                var bound = topo.getBoundByNodes(this.nodes().toArray());
+//                bound.left -= translate.x;
+//                bound.top -= translate.y;
+//                var shape = this.view('shape');
+//                var text = this.view('text');
+//                shape.sets({
+//                    x: bound.left,
+//                    y: bound.top,
+//                    width: bound.width,
+//                    height: bound.height,
+//                    fill: this.color(),
+//                    stroke: this.color(),
+//                    scale: topo.stageScale()
+//                });
 
 
-                var iconImg = this.view('iconImg');
-                iconImg.set('iconType', this.nodeSet().iconType());
+                if (topo.showIcon() && topo.revisionScale() == 1) {
 
-                var iconSize = iconImg.size();
 
-                this.view('minus').setTransform((bound.left) * stageScale, (bound.top - 12 - iconSize.height / 2) * stageScale, stageScale);
-                this.view('icon').setTransform((bound.left + 38) * stageScale, (bound.top - 26) * stageScale, stageScale);
-                this.view('iconImg').set('iconType', this.nodeSet().iconType());
+                    shape.dom().setStyle('stroke-width', 60 * stageScale);
 
-                text.setTransform((bound.left + 12 + iconSize.width + 10) * stageScale, (bound.top - 12 - 5) * stageScale, stageScale);
-                text.view().dom().setStyle('fill', this.color());
+
+                    var iconImg = this.view('iconImg');
+                    iconImg.set('iconType', this.nodeSet().iconType());
+
+                    var iconSize = iconImg.size();
+
+                    this.view('minus').setTransform((bound.left) * stageScale, (bound.top - 12 - iconSize.height / 2) * stageScale, stageScale);
+
+                    this.view('icon').visible(true);
+                    this.view('icon').setTransform((bound.left + 38) * stageScale, (bound.top - 26) * stageScale, stageScale);
+                    this.view('iconImg').set('iconType', this.nodeSet().iconType());
+
+                    text.setTransform((bound.left + 12 + iconSize.width + 10) * stageScale, (bound.top - 12 - 5) * stageScale, stageScale);
+                    text.view().dom().setStyle('fill', this.color());
+
+                } else {
+                    shape.dom().setStyle('stroke-width', 25 * stageScale);
+
+
+                    this.view('minus').setTransform((bound.left) * stageScale, (bound.top - 22) * stageScale, stageScale);
+                    this.view('icon').visible(false);
+
+                    text.setTransform((bound.left + 18) * stageScale, (bound.top - 9) * stageScale, stageScale);
+                    text.view().dom().setStyle('fill', this.color());
+
+                }
 
 
             },
@@ -206,6 +232,7 @@
                 event.captureDrag(this.view('shape'));
             },
             _dragstart: function (sender, event) {
+                this.blockDrawing(true);
                 /**
                  * Fired when start drag a group
                  * @event dragGroupStart
@@ -223,8 +250,15 @@
                  */
                 this.fire('dragGroup', event);
                 this._updateNodesPosition(event.drag.delta[0], event.drag.delta[1]);
+
+
+                var stageScale = this.topology().stageScale();
+                this.move(event.drag.delta[0] * stageScale, event.drag.delta[1] * stageScale);
             },
             _dragend: function (sender, event) {
+                this.blockDrawing(false);
+                this.draw();
+                this.setTransform(0, 0);
                 /**
                  * Fired finish dragging
                  * @event dragGroupEnd
@@ -232,6 +266,7 @@
                  * @param event {Object} original event object
                  */
                 this.fire('dragGroupEnd', event);
+
             },
             _updateNodesPosition: function (x, y) {
                 var stageScale = this.topology().stageScale();
@@ -245,13 +280,19 @@
                     nodeSet.collapsed(true);
                 }
             },
-            hide: function () {
+            hide: function (force) {
+
                 if (this.__timer) {
                     clearTimeout(this.__timer);
                 }
-                this.__timer = setTimeout(function () {
+                if (force) {
                     this.view().dom().setStyle('opacity', 0);
-                }.bind(this), 300);
+                } else {
+                    this.__timer = setTimeout(function () {
+                        this.view().dom().setStyle('opacity', 0);
+                    }.bind(this), 300);
+                }
+
             },
             show: function () {
                 if (this.__timer) {
@@ -279,3 +320,9 @@
 
 
 })(nx, nx.global);
+
+
+
+
+
+

@@ -5,7 +5,7 @@
      * @extend nx.graphic.Topology.Scene
      */
 
-    nx.define("nx.graphic.Topology.DefaultScene", nx.graphic.Topology.Scene, {
+    nx.define('nx.graphic.Topology.DefaultScene', nx.graphic.Topology.Scene, {
         events: [],
         methods: {
             /**
@@ -15,10 +15,11 @@
 
             activate: function () {
                 this._topo = this.topology();
-                this._nodesLayer = this._topo.getLayer("nodes");
-                this._nodeSetLayer = this._topo.getLayer("nodeSet");
-                this._linksLayer = this._topo.getLayer("links");
-                this._linkSetLayer = this._topo.getLayer("linkSet");
+                this._nodesLayer = this._topo.getLayer('nodes');
+                this._nodeSetLayer = this._topo.getLayer('nodeSet');
+                this._linksLayer = this._topo.getLayer('links');
+                this._linkSetLayer = this._topo.getLayer('linkSet');
+                this._groupsLayer = this._topo.getLayer('groups');
                 this._tooltipManager = this._topo.tooltipManager();
                 this._nodeDragging = false;
                 this._sceneTimer = null;
@@ -114,29 +115,12 @@
             hideNode: function (sender, node) {
 
             },
-            /**
-             * Start drag node handler
-             * @param sender
-             * @param node
-             * @method dragNodeStart
-             */
             dragNodeStart: function (sender, node) {
                 this._nodeDragging = true;
                 this._recover();
                 this._blockEvent(true);
                 nx.dom.Document.html().addClass('n-dragCursor');
             },
-            /**
-             * Drag node handler
-             * @method dragNode
-             */
-            dragNode: function () {
-
-            },
-            /**
-             * Drag node end handler
-             * @method dragNodeEnd
-             */
             dragNodeEnd: function () {
                 this._nodeDragging = false;
                 this._blockEvent(false);
@@ -187,7 +171,7 @@
                 clearTimeout(this._sceneTimer);
                 if (!this._nodeDragging) {
                     this._sceneTimer = setTimeout(function () {
-                        this._topo.highlightRelatedNode(nodeSet);
+                        this._topo.activeRelatedNode(nodeSet);
                     }.bind(this), this._interval);
                 }
             },
@@ -200,29 +184,54 @@
             expandNodeSet: function (sender, nodeSet) {
                 clearTimeout(this._sceneTimer);
                 this._recover();
-                this._topo.zoomByNodes(nodeSet.getNodes());
+                this._topo.zoomByNodes(nodeSet.getNodes(), function () {
+                    var group = nodeSet.group = this._groupsLayer.addGroup({
+                        shapeType: 'nodeSetPolygon',
+                        nodeSet: nodeSet,
+                        nodes: nodeSet.nodes(),
+                        label: nodeSet.label()
+                    });
+                    group.hide(true);
+                }, this);
 
 
                 var topo = this._topo;
-                var rootID = nodeSet.model().get('root');
-                if (rootID) {
-                    var node = topo.getNode(rootID);
-                    if (!node.dot) {
-                        var dot = new nx.graphic.Icon({
-                            iconType: "collapse"
-                        });
-                        dot.attach(node);
-                        node.dot = dot;
-                        dot.on('click', function () {
-                            nodeSet.collapsed(true);
-                            topo.fit();
-                        });
-                    }
-                }
+//                var rootID = nodeSet.model().get('root');
+//                if (rootID) {
+//                    var node = topo.getNode(rootID);
+//                    if (!node.dot) {
+//                        var dot = new nx.graphic.Icon({
+//                            iconType: 'collapse'
+//                        });
+//                        dot.attach(node);
+//                        node.dot = dot;
+//                        dot.on('click', function () {
+//                            nodeSet.collapsed(true);
+//                            topo.fit();
+//                        });
+//                    }
+//                }
+
+
                 this._topo.adjustLayout();
             },
             collapseNodeSet: function (sender, nodeSet) {
                 nodeSet.visible(true);
+                this._groupsLayer.removeGroup(nodeSet.group);
+                delete  nodeSet.group;
+                nodeSet.visible(true);
+                this._topo.fit();
+            },
+            dragNodeSetStart: function (sender, nodeSet) {
+                this._nodeDragging = true;
+                this._recover();
+                this._blockEvent(true);
+                nx.dom.Document.html().addClass('n-dragCursor');
+            },
+            dragNodeSetEnd: function () {
+                this._nodeDragging = false;
+                this._blockEvent(false);
+                nx.dom.Document.html().removeClass('n-dragCursor');
             },
             selectNodeSet: function (sender, nodeSet) {
                 var selectedNodes = this._topo.selectedNodes();

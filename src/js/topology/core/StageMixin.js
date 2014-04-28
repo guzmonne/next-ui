@@ -5,7 +5,7 @@
      * @module nx.graphic.Topology
      */
     nx.define('nx.graphic.Topology.StageMixin', {
-        events: ['ready', 'resizeStage'],
+        events: ['fit', 'ready', 'resizeStage'],
         properties: {
             /**
              * Set/get topology's width.
@@ -186,6 +186,13 @@
                     this.adjustLayout();
                     /* jshint -W030 */
                     callback && callback.call(context || this);
+                    /**
+                     * Fired when  after topology fit to stage
+                     * @event fit
+                     * @param sender{Object} trigger instance
+                     * @param event {Object} original event object
+                     */
+                    this.fire('fit');
                 }, this, duration !== undefined ? duration : 0.6);
 
             },
@@ -337,9 +344,9 @@
                                 var worker = this.adjustWorker = new Worker(blobURL);
                                 worker.onmessage = function (e) {
                                     var overlapPercent = e.data;
-                                    this.revisionScale(overlapPercent);
                                     nodesLayer.updateNodeRevisionScale(overlapPercent);
                                     nodeSetLayer.updateNodeRevisionScale(overlapPercent);
+                                    this.revisionScale(overlapPercent);
                                 }.bind(this);
                             }
                             this.adjustWorker.postMessage(positionAry); // Start the worker.

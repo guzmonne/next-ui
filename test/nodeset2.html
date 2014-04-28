@@ -2,13 +2,13 @@
 <html>
 <head>
     <title>Example</title>
-    <link rel="stylesheet" href="../../next-ui/dest/css/next-blue.css"/>
+    <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/NeXt-UI/ws/lib/jquery/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/NeXt-Core/lastSuccessfulBuild/artifact/dest/next-core.js"></script>
+    <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/NeXt-UI/lastSuccessfulBuild/artifact/dest/js/next-ui.js"></script>
+    <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/Next-Graphic/lastSuccessfulBuild/artifact/dest/js/next-graphic.js"></script>
+    <!--<script type="text/javascript" src="../src/js/next-graphic.js"></script>-->
+    <link rel="stylesheet" href="http://10.75.161.96:8080/jenkins/job/NeXt-UI/lastSuccessfulBuild/artifact/dest/css/next-blue.css"/>
     <link rel="stylesheet" href="../src/less/next-graphic.css"/>
-    <script src="../../next-ui/lib/jquery/jquery-1.10.2.min.js"></script>
-    <script src="../../next-core/dest/next-core.js"></script>
-    <script src="../../next-ui/dest/js/next-ui.js"></script>
-    <script type="text/javascript" src="../lib/GraphGenerator.js"></script>
-    <script type="text/javascript" src="../src/js/next-graphic.js"></script>
 
 
 </head>
@@ -75,14 +75,13 @@
             expandNodeSet: function (sender, nodeSet) {
                 this.inherited(sender, nodeSet);
                 setTimeout(function () {
-                    nodeSet.group = groupsLayer.addGroup({
+                    var group = nodeSet.group = groupsLayer.addGroup({
                         shapeType: 'nodeSetPolygon',
                         nodeSet: nodeSet,
                         nodes: nodeSet.nodes(),
                         label: nodeSet.label()
                     });
-
-                    nodeSet.group.draw();
+                    group.hide(true);
                 }, 900)
 
             },
@@ -99,13 +98,13 @@
     });
 
     topo.registerScene('nodeset', 'NodeSetScene');
-    topo.activateScene('nodeset');
+    //topo.activateScene('nodeset');
     var app = new nx.ui.Application();
     app.container(document.getElementById('topo'));
     topo.attach(app);
 
 
-    $.getJSON('topo.json', function (d) {
+    $.getJSON('topoJSON2.json', function (d) {
         topo.data(d);
     });
 

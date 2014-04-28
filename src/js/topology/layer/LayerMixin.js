@@ -134,7 +134,7 @@
             },
             fadeOut: function (force, callback, context) {
                 nx.each(this.layers(), function (layer) {
-                    layer.fadeIn(force);
+                    layer.fadeOut(force);
                 }, this);
             },
             recoverActive: function () {

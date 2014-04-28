@@ -197,53 +197,6 @@
                                 }
                             }, this);
 
-
-//                            nx.each(this.outerEdgeSetMap(), function (edgeSetAry, vertexID) {
-//                                var vertex = graph.getVertex(vertexID);
-//                                var rootVertex = vertex.getVisibleParentVertexSet();
-//
-//                                if (vertex.visible()) {
-//                                    nx.each(edgeSetAry, function (edgeSet) {
-//                                        edgeSet.visible(true);
-//                                        edgeSet.generated(true);
-//                                        graph.fire('addEdgeSet', edgeSet);
-//                                    }, this);
-//                                } else if (rootVertex) {
-//                                    var _vertex = rootVertex;
-//
-//                                    nx.each(edgeSetAry, function (edgeSet) {
-//                                        var _source, _target;
-//                                        if (edgeSet.sourceID() == vertexID) {
-//                                            _source = _vertex;
-//                                            _target = edgeSet.target();
-//                                        } else {
-//                                            _source = edgeSet.source();
-//                                            _target = _vertex;
-//                                        }
-//
-//
-//                                        var esc = graph._getEdgeSetCollectionByVertex(_source.id(), _target.id());
-//                                        if (!esc) {
-//                                            esc = graph._addEdgeSetCollection({
-//                                                sourceID: _source.id(),
-//                                                targetID: _target.id(),
-//                                                source: _source,
-//                                                target: _target
-//                                            });
-//                                        }
-//                                        esc.addEdgeSet(edgeSet);
-//                                        graph.fire('updateEdgeSetCollection', esc);
-//
-//                                    }, this);
-//
-//
-//                                } else {
-//                                    //console.log();
-//                                }
-//
-//                            }, this);
-
-                            //add inner edgeset
                             nx.each(this.innerEdgeSetMap(), function (edgeSet, linkKey) {
                                 if (edgeSet.type() == 'edgeSet') {
                                     edgeSet.visible(true);
@@ -339,7 +292,6 @@
                 this.innerEdgeSetMap(innerEdgeSetMap);
                 this.outerEdgeSetMap(outerEdgeSetMap);
             },
-
             eachVertex: function (callback, context) {
                 nx.each(nx.extend({}, this.vertices(), this.vertexSet()), callback, context || this);
             },
@@ -369,8 +321,15 @@
              * @returns {Array}
              */
             removeVertex: function (vertex) {
-                delete this.vertices()[vertex.id()];
-                delete this.vertexSet()[vertex.id()];
+                this.removeVertexById(vertex.id());
+            },
+            removeVertexById: function (id) {
+                var nodes = this.nodes();
+                if (nodes.indexOf(id) != -1) {
+                    delete this.vertices()[id];
+                    delete this.vertexSet()[id];
+                    this.nodes().splice(this.nodes().indexOf(id), 1);
+                }
             }
         }
     });

@@ -8,7 +8,7 @@
      * @module nx.graphic.Topology
      */
     nx.define("nx.graphic.Topology.AbstractNode", nx.graphic.Group, {
-        events: ['updateNodeCoordinate', 'selectNode'],
+        events: ['updateNodeCoordinate', 'selectNode', 'remove'],
         properties: {
             /**
              * Get  node's absolute position
@@ -308,6 +308,12 @@
                         fn.call(context || this, linkSet, edgeSet);
                     }
                 }, this);
+                model.eachEdgeSetCollection(function (edgeSetCollection, linkKey) {
+                    var linkSet = topo.getLinkSetByLinkKey(linkKey);
+                    if (linkSet) {
+                        fn.call(context || this, linkSet, edgeSetCollection);
+                    }
+                }, this);
             },
             /**
              * Get all connected linkSet
@@ -372,9 +378,10 @@
             },
             dispose: function () {
                 var model = this.model();
-                if(model){
+                if (model) {
                     model.upon('updateCoordinate', null);
                 }
+                this.fire('remove');
                 this.inherited();
             }
         }

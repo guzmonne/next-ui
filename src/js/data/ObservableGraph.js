@@ -335,6 +335,13 @@
 
                 this._originalData.nodeSet.push(data);
 
+                this.eachVertexSet(function (vertexSet) {
+                    nx.each(data.nodes, function (nodeID) {
+                        vertexSet.removeVertexById(nodeID);
+                    });
+                }, this);
+
+
                 var vertexSet = this._addVertexSet(data, inOptions);
 
                 if (isGenerate !== false) {
@@ -351,9 +358,6 @@
                         vertexSet.activated(true);
                     }, 0);
 
-//                    nx.each(addedEdgeSet, function (edgeSet) {
-//                        this.fire('addEdgeSet', edgeSet);
-//                    }, this);
                 }
                 return vertexSet;
             },

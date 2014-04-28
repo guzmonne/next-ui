@@ -214,6 +214,9 @@
                 var edgeSetCollection = this.edgeSetCollection();
                 delete edgeSetCollection[linkKey];
             },
+            eachEdgeSetCollection: function (callback, context) {
+                nx.each(this.edgeSetCollection(), callback, context || this);
+            },
             /**
              * Iterate all connected edgeSet
              * @method eachEdgeSet
@@ -300,6 +303,13 @@
                     var vertex = edgeSet.sourceID() == id ? edgeSet.target() : edgeSet.source();
                     callback.call(context || this, vertex, this);
                 }, this);
+
+                this.eachEdgeSetCollection(function (edgeSetCollection) {
+                    var vertex = edgeSetCollection.sourceID() == id ? edgeSetCollection.target() : edgeSetCollection.source();
+                    callback.call(context || this, vertex, this);
+                }, this);
+
+
             },
             /**
              * Get all connected vertices
