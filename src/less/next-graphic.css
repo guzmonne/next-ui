@@ -156,7 +156,7 @@
 .n-topology.n-topology-blue .link line {
   stroke: #5bc1df;
   stroke-width: 1px;
-  fill: transparent;
+  fill: none;
   cursor: pointer;
 }
 .n-topology.n-topology-blue .link path:hover,
@@ -756,7 +756,7 @@
 .n-topology.n-topology-dark .link line {
   stroke: #09cadd;
   stroke-width: 1px;
-  fill: transparent;
+  fill: none;
   cursor: pointer;
 }
 .n-topology.n-topology-dark .link path:hover,
@@ -1356,7 +1356,7 @@
 .n-topology.n-topology-green .link line {
   stroke: #5edadd;
   stroke-width: 1px;
-  fill: transparent;
+  fill: none;
   cursor: pointer;
 }
 .n-topology.n-topology-green .link path:hover,
@@ -1956,7 +1956,7 @@
 .n-topology.n-topology-slate .link line {
   stroke: #49a9bf;
   stroke-width: 1px;
-  fill: transparent;
+  fill: none;
   cursor: pointer;
 }
 .n-topology.n-topology-slate .link path:hover,
@@ -2556,7 +2556,7 @@
 .n-topology.n-topology-yellow .link line {
   stroke: #997b19;
   stroke-width: 1px;
-  fill: transparent;
+  fill: none;
   cursor: pointer;
 }
 .n-topology.n-topology-yellow .link path:hover,
