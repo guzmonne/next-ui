@@ -58,7 +58,7 @@
     .demoContainer > div {
         top: 45px;
         bottom: 94px;
-        left: 13px;
+        left: 17px;
         right: 0;
         position: absolute;
         overflow: auto;
@@ -96,6 +96,10 @@
         display: inline-block;
     }
 
+    .demoContainer {
+        border: solid 1px #DDD;
+        border-top-width: 0px;
+    }
 
 </style>
 <br/>
@@ -271,15 +275,6 @@ var Demo = nx.define(nx.ui.Component, {
                 itemClass: 'Base.AutoLayout'
             });
 
-
-            this.addItem({
-                categoryName: 'Basic',
-                itemKey: 'customize',
-                itemLabel: 'Customize Link and Node',
-                files: ['basic/customize.js'],
-                itemClass: 'Base.Customize'
-            });
-
             this.addItem({
                 categoryName: 'Basic',
                 itemKey: 'highlight',
@@ -290,10 +285,10 @@ var Demo = nx.define(nx.ui.Component, {
 
             this.addItem({
                 categoryName: 'Basic',
-                itemKey: 'icon',
+                itemKey: 'icons',
                 itemLabel: 'Topology Icons',
-                files: ['basic/icon.js'],
-                itemClass: 'Base.Icon'
+                files: ['basic/icons.js'],
+                itemClass: 'Base.ICONS'
             });
 
             this.addItem({
@@ -304,6 +299,46 @@ var Demo = nx.define(nx.ui.Component, {
                 itemClass: 'Base.NodeConfig'
             });
 
+
+            this.addItem({
+                categoryName: 'Basic',
+                itemKey: 'disable',
+                itemLabel: 'Disable node or link',
+                files: ['basic/disable.js'],
+                itemClass: 'Base.Disable'
+            });
+
+            this.addItem({
+                categoryName: 'Basic',
+                itemKey: 'theme',
+                itemLabel: 'Topology theme',
+                files: ['basic/theme.js'],
+                itemClass: 'Base.Theme'
+            });
+
+            this.addItem({
+                categoryName: 'Basic',
+                itemKey: 'customize',
+                itemLabel: 'Customize Node and Link style',
+                files: ['basic/customize.js'],
+                itemClass: 'Base.Customize'
+            });
+
+            this.addItem({
+                categoryName: 'Basic',
+                itemKey: 'customize',
+                itemLabel: 'Add Node icon',
+                files: ['basic/icon.js'],
+                itemClass: 'Base.Icon'
+            });
+
+            this.addItem({
+                categoryName: 'Basic',
+                itemKey: 'cool',
+                itemLabel: 'Cool feature',
+                files: ['basic/cool.js'],
+                itemClass: 'Base.Cool'
+            });
 
             this.addItem({
                 categoryName: 'NodeSet',
@@ -411,7 +446,6 @@ var Demo = nx.define(nx.ui.Component, {
                 files: ['tooltip/link.js'],
                 itemClass: 'Tooltip.Link'
             });
-
 
             this.addItem({
                 categoryName: 'Layout',

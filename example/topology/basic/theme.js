@@ -18,42 +18,33 @@
             {"source": 3, "target": 0},
             {"source": 3, "target": 0},
             {"source": 3, "target": 0},
-            {"source": 3, "target": 0},
-            {"source": 3, "target": 0},
-            {"source": 3, "target": 0},
             {"source": 0, "target": 4},
             {"source": 0, "target": 4},
             {"source": 0, "target": 3}
         ]
     };
-    var colorTable = ['#C3A5E4', '#75C6EF', '#CBDA5C', '#ACAEB1 ', '#2CC86F'];
 
-    nx.define('Base.Disabled', nx.ui.Component, {
+    nx.define('Base.Theme', nx.ui.Component, {
         view: {
             content: {
+                name: 'topo',
                 type: 'nx.graphic.Topology',
                 props: {
-                    width: 800,
-                    height: 600,
+                    adaptive: true,
                     nodeConfig: {
                         label: 'model.id'
                     },
+                    linkConfig: {
+                        linkType: 'curve'
+                    },
+                    theme: 'yellow',
                     showIcon: true,
                     data: topologyData
-                },
-                events: {
-                    'afterSetData': '{#_setDisable}'
                 }
-            }
-        },
-        methods: {
-            _setDisable: function () {
-                var links = topo.getLayer('links').links();
-                var link = links[1];
-                link.enable(false);
-                link.update();
             }
         }
     });
 
 })(nx, nx.global);
+
+

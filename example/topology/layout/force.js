@@ -11,11 +11,9 @@
                         label: 'model.id'
                     },
                     dataProcessor: 'quick',
-                    identityKey: 'id',
                     showIcon: false,
                     enableSmartLabel: false,
                     enableGradualScaling: false,
-                    supportMultipleLink: false,
                     layoutType: 'force'
                 },
                 events: {

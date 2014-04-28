@@ -10,15 +10,6 @@
         ],
         links: [
             {"source": 0, "target": 1},
-            {"source": 0, "target": 1},
-            {"source": 0, "target": 1},
-            {"source": 0, "target": 1},
-            {"source": 0, "target": 1},
-            {"source": 0, "target": 1},
-            {"source": 0, "target": 1},
-            {"source": 0, "target": 1},
-            {"source": 0, "target": 1},
-            {"source": 0, "target": 1},
             {"source": 1, "target": 2},
             {"source": 1, "target": 3},
             {"source": 4, "target": 1},
@@ -35,45 +26,35 @@
             {"source": 0, "target": 3}
         ]
     };
+    var colorTable = ['#C3A5E4', '#75C6EF', '#CBDA5C', '#ACAEB1 ', '#2CC86F'];
 
-    // register icon globally
-    nx.graphic.Icons.registerIcon("icon1", "http://10.75.161.96/trunk/next/css/futurama/img/gif/progress.gif", 32, 32);
-
-
-    nx.define('Extend.Icon', nx.ui.Component, {
-        properties: {
-            currentNode: {
-
-            },
-            iconType: {
-                get: function () {
-                    return Math.round(Math.random()) ? 'icon1' : 'icon2';
-                }
-            }
-        },
+    nx.define('Base.Disable', nx.ui.Component, {
         view: {
             content: {
-                name: 'topo',
                 type: 'nx.graphic.Topology',
                 props: {
-                    adaptive: true,
+                    width: 800,
+                    height: 600,
                     nodeConfig: {
-                        label: 'model.id',
-                        iconType: '{#iconType}'
+                        label: 'model.id'
                     },
                     showIcon: true,
                     data: topologyData
                 },
                 events: {
-                    'ready': '{#_ready}'
+                    'topologyGenerated': '{#_setDisable}'
                 }
             }
         },
         methods: {
-            _ready: function (sender, event) {
-                var topo = this.view('topo');
-                //register icon to instance
-                topo.registerIcon("icon2", "https://www.google.com/images/srpr/logo11w.png", 80, 32);
+            _setDisable: function (sender, event) {
+                var links = sender.getLayer('links').links();
+                var link = links[1];
+                link.enable(false);
+                link.update();
+
+
+                sender.getNode(0).enable(false);
             }
         }
     });

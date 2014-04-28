@@ -34,8 +34,7 @@
                 name: 'topo',
                 type: 'nx.graphic.Topology',
                 props: {
-                    width: 800,
-                    height: 600,
+                    adaptive: true,
                     identityKey: 'id',
                     showIcon: false,
                     nodeConfig: {

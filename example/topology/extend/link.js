@@ -13,24 +13,11 @@
         "links": [
             {"source": 0, "target": 1},
             {"source": 0, "target": 1},
-            {"source": 0, "target": 1},
-            {"source": 0, "target": 1},
-            {"source": 0, "target": 1},
-            {"source": 0, "target": 1},
-            {"source": 0, "target": 1},
-            {"source": 0, "target": 1},
-            {"source": 0, "target": 1},
-            {"source": 0, "target": 1},
             {"source": 1, "target": 2},
             {"source": 1, "target": 3},
             {"source": 4, "target": 1},
             {"source": 2, "target": 3},
             {"source": 2, "target": 0},
-            {"source": 3, "target": 0},
-            {"source": 3, "target": 0},
-            {"source": 3, "target": 0},
-            {"source": 3, "target": 0},
-            {"source": 3, "target": 0},
             {"source": 3, "target": 0},
             {"source": 0, "target": 4},
             {"source": 0, "target": 4},
@@ -43,25 +30,25 @@
             drawLink: {
                 value: function () {
                     return function () {
-//                        var line = link.line();
-//                        var n, point;
-//                        var path = [];
+                        var line = this.line();
+                        var n, point;
+                        var path = [];
 //                        if (link.reverse()) {
 //                            line = line.negate();
 //                        }
-//                        n = line.normal().multiply(3);
-//                        point = line.center().add(n);
-//                        path.push('M', line.start.x, line.start.y);
-//                        path.push('C', line.start.x - 100, line.start.y + 10, line.end.x + 150, line.end.y + 30, line.end.x, line.end.y);
-//                        path.push('T', line.end.x, line.end.y, line.end.x + 150, line.end.y + 30, line.start.x, line.start.y);
-//                        path.push('Z');
-
-
-                        var line = this.line();
-                        var path = [];
+                        n = line.normal().multiply(3);
+                        point = line.center().add(n);
                         path.push('M', line.start.x, line.start.y);
-                        path.push('L', line.end.x, line.start.y);
-                        path.push('L', line.end.x, line.end.y);
+                        path.push('C', line.start.x - 100, line.start.y + 10, line.end.x + 150, line.end.y + 30, line.end.x, line.end.y);
+                        path.push('T', line.end.x, line.end.y, line.end.x + 150, line.end.y + 30, line.start.x, line.start.y);
+                        path.push('Z');
+
+
+//                        var line = this.line();
+//                        var path = [];
+//                        path.push('M', line.start.x, line.start.y);
+//                        path.push('L', line.end.x, line.start.y);
+//                        path.push('L', line.end.x, line.end.y);
 
                         return path.join(' ');
 

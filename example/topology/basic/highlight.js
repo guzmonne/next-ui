@@ -1,7 +1,7 @@
 (function (nx, global) {
 
     var g = new GraphGenerator();
-    g.generate(100);
+    g.generate(50);
 
     var topologyData = {nodes: g.nodes, links: g.links};
 
@@ -27,19 +27,28 @@
         methods: {
             _main: function (sender, event) {
                 var topo = sender;
-                var node1 = topo.getNode(3);
-                var nodeLayer = topo.getLayer('nodes');
-                var linksLayer = topo.getLayer('links');
-                var linkSetLayer = topo.getLayer('linkSet');
-                // highlight related nodes
-                nodeLayer.highlightRelatedNode(topo.getNode(0));
-                // highlight node
-                nodeLayer.highlightNode(topo.getNode(30));
-                // highlight linkset
-                linkSetLayer.highlightLinkSet(topo.getNode(40).getConnectedLinkSet())
 
-                nodeLayer.fadeOut(true);
-                linksLayer.fadeOut(true);
+
+                //fade out all layer
+                nx.each(topo.layers(), function (layer) {
+                    layer.fadeOut(true);
+                }, this);
+
+
+                //highlight related node
+                topo.highlightRelatedNode(topo.getNode(1));
+
+                //highlight single node or nodes
+                var nodeLayer = topo.getLayer('nodes');
+                var nodeLayerHighlightElements = nodeLayer.highlightedElements();
+                nodeLayerHighlightElements.add(topo.getNode(30));
+                nodeLayerHighlightElements.add(topo.getNode(20));
+
+                //highlight links
+                var linksLayer = topo.getLayer('links');
+                var linksLayerHighlightElements = linksLayer.highlightedElements();
+                linksLayerHighlightElements.addRange(topo.getNode(40).getLinks());
+
 
 
             }
