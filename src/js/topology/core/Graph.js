@@ -60,7 +60,6 @@
                     };
 
 
-
                     if (this.status() === 'appended') {
                         fn.call(this, value);
                     } else {
@@ -87,30 +86,22 @@
                     }
                 }
             },
-            /**
-             * Node x position mutator function, it is a array with two function item, first is setter and another is getter
-             * @property xMutatorMethod {Array}
-             */
-            xMutatorMethod: {
+            vertexPositionGetter: {
                 get: function () {
-                    return this._xMutatorMethod || false;
+                    return this._vertexPositionGetter !== undefined ? this._vertexPositionGetter : 0;
                 },
                 set: function (value) {
-                    this._xMutatorMethod = value;
-                    this.graph().set('xMutatorMethod', value);
+                    this._vertexPositionGetter = value;
+                    this.graph().set('vertexPositionGetter', value);
                 }
             },
-            /**
-             * Node y position mutator function, it is a array with two function item, first is setter and another is getter
-             * @property yMutatorMethod {Array}
-             */
-            yMutatorMethod: {
+            vertexPositionSetter: {
                 get: function () {
-                    return this._yMutatorMethod || false;
+                    return this._vertexPositionSetter !== undefined ? this._vertexPositionSetter : 0;
                 },
                 set: function (value) {
-                    this._yMutatorMethod = value;
-                    this.graph().set('yMutatorMethod', value);
+                    this._vertexPositionSetter = value;
+                    this.graph().set('vertexPositionSetter', value);
                 }
             },
             /**
@@ -141,8 +132,8 @@
             initGraph: function () {
                 var graph = this.graph();
                 graph.sets({
-                    xMutatorMethod: this.xMutatorMethod(),
-                    yMutatorMethod: this.yMutatorMethod(),
+                    vertexPositionGetter: this.vertexPositionGetter(),
+                    vertexPositionSetter: this.vertexPositionSetter(),
                     identityKey: this.identityKey(),
                     dataProcessor: this.dataProcessor()
                 });

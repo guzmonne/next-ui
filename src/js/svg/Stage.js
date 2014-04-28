@@ -58,20 +58,6 @@
         },
         properties: {
             /**
-             * Topology max scaling
-             * @property maxScale {Number}
-             */
-            maxScale: {
-                value: 12
-            },
-            /**
-             * Topology min scaling
-             * @property minScale {Number}
-             */
-            minScale: {
-                value: 0.2
-            },
-            /**
              * Set/get topology's scalability
              * @property scalable {Boolean}
              */
@@ -99,6 +85,26 @@
              */
             padding: { value: 0},
             /**
+             * Topology max scaling
+             * @property maxScale {Number}
+             */
+            maxZoomLevel: {
+                value: 12
+            },
+            /**
+             * Topology min scaling
+             * @property minScale {Number}
+             */
+            minZoomLevel: {
+                value: 0.25
+            },
+            zoomLevel: {
+                value: 1
+            },
+            zoomRate: {
+                value: 1
+            },
+            /**
              * Disable notify stageScale
              * @property disableUpdateStageScale {Boolean} false
              */
@@ -112,7 +118,10 @@
                     return this._matrix || nx.geometry.Matrix.I;
                 },
                 set: function (matrix) {
-                    this.scalingLayer().dom().setStyle('transform', "matrix(" + nx.geometry.Matrix.toString(matrix) + ")");
+                    var dom = this.scalingLayer().dom().$dom;
+                    var matrixString = "matrix(" + nx.geometry.Matrix.toString(matrix) + ")";
+                    dom.style.transform = matrixString;
+                    dom.style.webkitTransform = matrixString;
                     this._matrix = matrix;
                 }
             },
@@ -197,14 +206,16 @@
                     width: this.width() - padding * 2
                 };
                 this.scalingLayer().setTransition(callback, context, duration);
-                this.applyStageMatrix(this.calcRectZoomMatrix(stageBound, contentBound));
+                var matrix = this.applyStageMatrix(this.calcRectZoomMatrix(stageBound, contentBound));
+                this.zoomLevel(1);
+                this.zoomRate(1 / matrix.scale());
             },
             precisionFit: function (duration) {
                 var padding = this.padding();
                 this.fit(function () {
                     setTimeout(function () {
                         var contentBound = this.getContentBound();
-                        if (contentBound.left > padding * 1.2) {
+                        if (!( padding * 0.8 < contentBound.left && contentBound.left < padding * 1.2) || !( padding * 0.8 < contentBound.top && contentBound.top < padding * 1.2)) {
                             this.precisionFit(duration);
                         }
                     }.bind(this), 30);
@@ -247,27 +258,27 @@
                 }
                 this.matrix(matrix.matrix());
                 this.matrixObject(matrix);
+                return matrix;
             },
             applyStageMatrix: function (matrix, according) {
-                this._setStageMatrix(nx.geometry.Matrix.multiply(this.matrix(), matrix), according);
+                return this._setStageMatrix(nx.geometry.Matrix.multiply(this.matrix(), matrix), according);
             },
             applyStageScale: function (scale, according) {
-                /* jshint -W030 */
-                scale = scale || 1, according = according || [this.width() / 2, this.height() / 2];
+                var _scale = scale || 1, _according = according || [this.width() / 2, this.height() / 2];
                 var matrix = nx.geometry.Matrix.multiply([
                     [1, 0, 0],
                     [0, 1, 0],
-                    [-according[0], -according[1], 1]
+                    [-_according[0], -_according[1], 1]
                 ], [
-                    [scale, 0, 0],
-                    [0, scale, 0],
+                    [_scale, 0, 0],
+                    [0, _scale, 0],
                     [0, 0, 1]
                 ], [
                     [1, 0, 0],
                     [0, 1, 0],
-                    [according[0], according[1], 1]
+                    [_according[0], _according[1], 1]
                 ]);
-                this.applyStageMatrix(matrix, according);
+                return this.applyStageMatrix(matrix, _according);
             },
             resetStageMatrix: function () {
                 var m = new nx.geometry.Matrix(this.matrix());
@@ -277,20 +288,25 @@
                 this.stageScale(1 / m.scale());
             },
             _setStageMatrix: function (matrix, according) {
-
                 according = according || [this.width() / 2, this.height() / 2];
                 var m = new nx.geometry.Matrix(matrix);
-//                if (m.scale() > this.maxScale()) {
-//                    m.applyScale(this.maxScale() / m.scale(), according);
-//                }
-//                if (m.scale() < this.minScale()) {
-//                    m.applyScale(this.minScale() / m.scale(), according);
-//                }
+                var zoomRate = this.zoomRate();
+                var _zoom = zoomRate * m.scale();
+                if (_zoom > this.maxZoomLevel()) {
+                    m.applyScale(this.maxZoomLevel() / zoomRate / m.scale(), according);
+                }
+                if (_zoom < this.minZoomLevel()) {
+                    m.applyScale(this.minZoomLevel() / zoomRate / m.scale(), according);
+                }
                 if (!nx.geometry.Matrix.approximate(this.matrix(), m.matrix())) {
                     this.matrixObject(m);
                     this.matrix(m.matrix());
-                    /* jshint -W030 */
-                    !this.disableUpdateStageScale() && this.stageScale(1 / m.scale());
+                    if (!this.disableUpdateStageScale()) {
+                        this.stageScale(1 / m.scale());
+                    }
+                    return m;
+                } else {
+                    return this.matrixObject();
                 }
             },
             _scaleEnd: function (sender, event) {

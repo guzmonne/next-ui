@@ -29,40 +29,11 @@
                 value: 100
             },
             /**
-             * Topology max scaling
-             * @property maxScale {Number}
-             */
-            maxScale: {
-                value: 12
-            },
-            /**
-             * Topology min scaling
-             * @property minScale {Number}
-             */
-            minScale: {
-                value: 0.2
-            },
-            /**
              * Set/get topology's scalability
              * @property scalable {Boolean}
              */
             scalable: {
                 value: true
-            },
-            /**
-             * Set/get topology's current scale
-             * @property scale {Number}
-             */
-            scale: {
-                get: function () {
-                    return this._scale || 1;
-                },
-                set: function (value) {
-                    var scale = Math.max(Math.min(this._maxScale, value), this._minScale);
-                    if (scale !== this._scale) {
-                        this._scale = scale;
-                    }
-                }
             },
             stageScale: {
                 value: 1
@@ -211,7 +182,6 @@
              * @method fit
              */
             fit: function (callback, context, duration) {
-                this.scale(1);
                 this.stage().fit(function () {
                     this.adjustLayout();
                     /* jshint -W030 */

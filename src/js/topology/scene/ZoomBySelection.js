@@ -10,9 +10,18 @@
         properties: {
         },
         methods: {
+            activate: function (args) {
+                this.inherited(args);
+                nx.dom.Document.html().addClass('n-zoomInCursor');
+            },
+            deactivate: function () {
+                this.inherited();
+                nx.dom.Document.html().removeClass('n-zoomInCursor');
+            },
             dragStageEnd: function (sender, event) {
                 var bound = this.rect.getBound();
                 this.inherited(sender, event);
+
                 this.fire('finish', bound);
             },
             esc: function () {

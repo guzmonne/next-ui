@@ -67,15 +67,25 @@
                     latitude = config.latitude || 'model.latitude';
 
 
-                topo.eachNode(function (n) {
+                var _longitude = longitude.split(".").pop(),
+                    _latitude = latitude.split(".").pop();
 
-                    var model = n.model();
-                    var p = projection([nx.path(n, longitude), nx.path(n, latitude)]);
-                    model.autoSave(false);
-                    model.position({
-                        x: p[0],
-                        y: p[1]
+
+                topo.graph().eachVertex(function (vertex) {
+                    vertex.positionGetter(function () {
+                        var p = projection([nx.path(vertex, _longitude), nx.path(vertex, _latitude)]);
+                        return {
+                            x: p[0],
+                            y: p[1]
+                        };
                     });
+                    vertex.positionSetter(function (position) {
+                        var p = projection.invert([position.x, position.y]);
+                        vertex.set(_longitude, p[0]);
+                        vertex.set(_latitude, p[1]);
+                    });
+
+                    vertex.initPosition();
                 });
 
                 topo.fit();

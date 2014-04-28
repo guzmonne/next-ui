@@ -53,18 +53,8 @@
             autoSave: {
                 value: true
             },
-            /**
-             * Set to re-write vertex's get/set x position method, it should include two function set & get
-             * @property xMutatorMethod {Array}
-             * @default undefined
-             */
-            xMutatorMethod: {},
-            /**
-             * Set to re-write vertex's get/set y position method, it should include two function set & get
-             * @property yMutatorMethod {Array}
-             * @default undefined
-             */
-            yMutatorMethod: {},
+            vertexPositionGetter: {},
+            vertexPositionSetter: {},
             width: {
                 value: 100
             },
@@ -407,17 +397,14 @@
                 var vertex = new nx.data.Vertex(data);
 
 
-                var xMutatorMethod = this.xMutatorMethod();
-                if (xMutatorMethod) {
-                    vertex.getXPath(xMutatorMethod[0]);
-                    vertex.setXPath(xMutatorMethod[1]);
+                var vertexPositionGetter = this.vertexPositionGetter();
+                if (vertexPositionGetter) {
+                    vertex.positionGetter(vertexPositionGetter);
                 }
 
-
-                var yMutatorMethod = this.yMutatorMethod();
-                if (yMutatorMethod) {
-                    vertex.getYPath(yMutatorMethod[0]);
-                    vertex.setYPath(yMutatorMethod[1]);
+                var vertexPositionSetter = this.vertexPositionSetter();
+                if (vertexPositionSetter) {
+                    vertex.positionSetter(vertexPositionSetter);
                 }
 
                 vertex.sets({
@@ -622,6 +609,17 @@
                 }
                 var vertexSetID = data[identityKey] !== undefined ? data[identityKey] : verticesLength;
                 var vertexSet = new nx.data.VertexSet(data);
+
+
+                var vertexPositionGetter = this.vertexPositionGetter();
+                if (vertexPositionGetter) {
+                    vertexSet.positionGetter(vertexPositionGetter);
+                }
+
+                var vertexPositionSetter = this.vertexPositionSetter();
+                if (vertexPositionSetter) {
+                    vertexSet.positionSetter(vertexPositionSetter);
+                }
 
                 //
                 vertexSet.sets({

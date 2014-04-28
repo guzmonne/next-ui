@@ -16,6 +16,7 @@
             activate: function (args) {
                 this.appendRect();
                 this.inherited(args);
+                nx.dom.Document.html().addClass('n-crosshairCursor');
             },
             /**
              * Deactivate scene
@@ -24,6 +25,7 @@
                 this.inherited();
                 this.rect.dispose();
                 delete this.rect;
+                nx.dom.Document.html().removeClass('n-crosshairCursor');
             },
             _dispatch: function (eventName, sender, data) {
                 if (this[eventName]) {
@@ -58,6 +60,8 @@
                 this.rect.set('visible', true);
                 this._blockEvent(true);
 
+
+
             },
             dragStage: function (sender, event) {
                 var rect = this.rect;
@@ -82,6 +86,7 @@
                 this._stageTranslate = null;
                 this.rect.set('visible', false);
                 this._blockEvent(false);
+
             },
             _getRectBound: function () {
                 var rectbound = this.rect.getBoundingClientRect();

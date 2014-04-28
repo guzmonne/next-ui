@@ -17,78 +17,30 @@
              */
             id: {},
             /**
-             * Get x coordination mutator function
-             * @property getXPath {Function}
-             */
-            getXPath: {
-                value: function () {
-                    return function () {
-                        return this._data && this._data.x;
-                    };
-                }
-            },
-            /**
-             * Set x coordination mutator function
-             * @property setXPath {Function}
-             */
-            setXPath: {
-                value: function () {
-                    return function (value) {
-                        this._data.x = value;
-                    };
-                }
-            },
-            /**
-             * Get y coordination mutator function
-             * @property getYPath {Function}
-             */
-            getYPath: {
-                value: function () {
-                    return function () {
-                        return this._data && this._data.y;
-                    };
-                }
-            },
-            /**
-             * Set y coordination mutator function
-             * @property setYPath {Function}
-             */
-            setYPath: {
-                value: function () {
-                    return function (value) {
-                        this._data.y = value;
-                    };
-                }
-            },
-            /**
              * Set to auto save x/y data to original data
              * @property ausoSave
              */
             autoSave: {
                 value: true
             },
-            /**
-             * Get/set x coordination, suggest use position property
-             * @property x
-             */
-            x: {
-                get: function () {
-                    return this._x || 0;
-                },
-                set: function (value) {
-                    this.position({x: parseFloat(value)});
+            positionGetter: {
+                value: function () {
+                    return function () {
+                        return {
+                            x: this._data.x,
+                            y: this._data.y
+                        };
+                    };
                 }
             },
-            /**
-             * Get/set y coordination, suggest use position property
-             * @property y
-             */
-            y: {
-                get: function () {
-                    return this._y || 0;
-                },
-                set: function (value) {
-                    this.position({y: parseFloat(value)});
+            positionSetter: {
+                value: function () {
+                    return function (position) {
+                        if (this._data) {
+                            this._data.x = position.x;
+                            this._data.y = position.y;
+                        }
+                    };
                 }
             },
             /**
@@ -121,6 +73,30 @@
                         this.fire("updateCoordinate", this.position());
                         this.notify("vector");
                     }
+                }
+            },
+            /**
+             * Get/set x coordination, suggest use position property
+             * @property x
+             */
+            x: {
+                get: function () {
+                    return this._x || 0;
+                },
+                set: function (value) {
+                    this.position({x: parseFloat(value)});
+                }
+            },
+            /**
+             * Get/set y coordination, suggest use position property
+             * @property y
+             */
+            y: {
+                get: function () {
+                    return this._y || 0;
+                },
+                set: function (value) {
+                    this.position({y: parseFloat(value)});
                 }
             },
             /**
@@ -198,10 +174,7 @@
         },
         methods: {
             initPosition: function () {
-                this.position({
-                    x: this._getXPath.call(this),
-                    y: this._getYPath.call(this)
-                });
+                this.position(this.positionGetter().call(this));
             },
             /**
              * Get original data
@@ -368,8 +341,7 @@
              * @method save
              */
             save: function () {
-                this._setXPath.call(this, this._x);
-                this._setYPath.call(this, this._y);
+                this.positionSetter().call(this, {x: this._x, y: this._y});
             },
             /**
              * Reset x&y

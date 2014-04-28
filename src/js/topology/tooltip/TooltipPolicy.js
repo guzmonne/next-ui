@@ -19,7 +19,7 @@
             pressStage: function () {
                 this._tm.closeAll();
             },
-            zooming: function () {
+            zoomstart: function () {
                 this._tm.closeAll();
             },
             clickNode: function (node) {

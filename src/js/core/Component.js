@@ -18,6 +18,11 @@
     };
 
 
+    var cssHook = {
+        transform: 'webkitTransform'
+    };
+
+
     /**
      * Base class of graphic component
      * @class nx.graphic.Component
@@ -167,7 +172,14 @@
              */
             setStyle: function (key, value, duration, callback, context) {
                 this.setTransition(callback, context, duration);
-                this.dom().setStyle(key, value);
+
+                //todo optimize
+                var dom = this.dom().$dom;
+                dom.style[key] = value;
+                if (cssHook[key]) {
+                    dom.style[cssHook[key]] = value;
+                }
+//                this.dom().setStyle(key, value);
             },
             setTransition: function (callback, context, duration) {
                 var el = this.dom();

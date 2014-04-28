@@ -39,38 +39,40 @@
             },
 
             dragStageStart: function (sender, event) {
-                var nodes = this._topo.getLayer('nodes').nodes().length;
+                var nodes = this._nodesLayer.nodes().length;
                 if (nodes > 300) {
-                    this._topo.getLayer('links').setStyle('display', 'none');
+                    this._linksLayer.setStyle('display', 'none');
                 }
                 this._recover();
                 this._blockEvent(true);
-                nx.dom.Document.body().addClass('n-moveCursor');
+                nx.dom.Document.html().addClass('n-moveCursor');
             },
             dragStage: function (sender, event) {
                 var stage = this._topo.stage();
                 stage.applyTranslate(event.drag.delta[0], event.drag.delta[1]);
             },
             dragStageEnd: function (sender, event) {
-                this._topo.getLayer('links').setStyle('display', 'block');
+                this._linksLayer.setStyle('display', 'block');
                 this._blockEvent(false);
-                nx.dom.Document.body().removeClass('n-moveCursor');
+                nx.dom.Document.html().removeClass('n-moveCursor');
             },
             projectionChange: function () {
 
             },
 
-
-            zooming: function () {
-                var nodes = this._topo.getLayer('nodes').nodes().length;
+            zoomstart: function () {
+                var nodes = this._nodesLayer.nodes().length;
                 if (nodes > 300) {
-                    this._topo.getLayer('links').setStyle('display', 'none');
+                    this._linksLayer.setStyle('display', 'none');
                 }
                 this._recover();
-                this._topo.adjustLayout();
+                //this._topo.adjustLayout();
+            },
+            zooming: function () {
+
             },
             zoomend: function () {
-                this._topo.getLayer('links').setStyle('display', 'block');
+                this._linksLayer.setStyle('display', 'block');
                 this._topo.adjustLayout();
             },
 
@@ -122,7 +124,7 @@
                 this._nodeDragging = true;
                 this._recover();
                 this._blockEvent(true);
-                nx.dom.Document.body().addClass('n-dragCursor');
+                nx.dom.Document.html().addClass('n-dragCursor');
             },
             /**
              * Drag node handler
@@ -138,7 +140,7 @@
             dragNodeEnd: function () {
                 this._nodeDragging = false;
                 this._blockEvent(false);
-                nx.dom.Document.body().removeClass('n-dragCursor');
+                nx.dom.Document.html().removeClass('n-dragCursor');
             },
 
             pressNode: function (sender, node) {

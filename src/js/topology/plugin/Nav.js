@@ -378,7 +378,6 @@
                 }, this);
                 this.view('agr').dom().setStyle('display', 'none');
 
-                topo.notify('scale');
             },
             _switchSelectionMode: function (sender, event) {
                 this.view("selectionMode").dom().addClass("n-topology-nav-mode-selected");
@@ -390,8 +389,6 @@
                     topo.activateScene('selection');
                     this._prevSceneName = currentSceneName;
                 }
-
-
             },
             _switchMoveMode: function (sender, event) {
                 this.view("selectionMode").dom().removeClass("n-topology-nav-mode-selected");
