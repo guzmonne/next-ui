@@ -75,9 +75,90 @@
         cssFloat: 'cssFloat' in tempStyle,
         opacity: (/^0.55$/).test(tempStyle.opacity),
         filter: 'filter' in tempStyle,
-        classList:!!tempElement.classList,
+        classList: !!tempElement.classList,
         removeProperty: 'removeProperty' in tempStyle
     };
+
+    var engineMap = {
+        firefox: function () {
+            return {
+                name: 'gecko',
+                version: getVersion('rv:')
+            };
+        },
+        opera: function () {
+            var version = getVersion('presto\\/');
+            var engineName = 'presto';
+            if (!version) {
+                engineName = 'webkit';
+                version = getVersion('webkit\\/');
+            }
+            return {
+                name: engineName,
+                version: version
+            };
+        },
+        ie: function () {
+            return {
+                name: 'trident',
+                version: getVersion('trident\\/') || 4
+            };
+        },
+        'default': function () {
+            return {
+                name: 'webkit',
+                version: getVersion('webkit\\/')
+            };
+        }
+    };
+
+    function getVersion(pattern) {
+        var regexp = new RegExp(pattern + '(\\d+\\.\\d+)');
+        var regexResult;
+        return (regexResult = regexp.exec(userAgent)) ? parseFloat(regexResult[1]) : 0;
+    }
+
+    var os = (function () {
+        var osName;
+        for (osName in osPatternMap) {
+            if (osPatternMap[osName].test(userAgent)) {
+                break;
+            }
+        }
+        return {
+            name: osName
+        };
+    })();
+
+    var browser = (function () {
+        var browserName,
+            item,
+            checkIs,
+            checkExclude,
+            browserVersion = 0;
+
+        for (browserName in browserPatternMap) {
+            item = browserPatternMap[browserName];
+            checkIs = (new RegExp(item.is)).test(userAgent);
+            checkExclude = (new RegExp(item.exclude)).test(userAgent);
+            if (checkIs && !checkExclude) {
+                if (userAgent.indexOf('opr/') > -1) {
+                    browserName = 'opera';
+                    item.version = '\\bopr\/';
+                }
+                browserVersion = getVersion(item.version);
+                break;
+            }
+        }
+
+        return {
+            name: browserName,
+            version: browserVersion
+        };
+    })();
+
+    var engine = (engineMap[browser] || engineMap['default'])();
+
     /**
      * Environment and check behavior support
      * @class nx.Env
@@ -120,9 +201,7 @@
              * @default true
              */
             strict: {
-                get: function () {
-                    return compatMode === 'CSS1Compat';
-                }
+                value: compatMode === 'CSS1Compat'
             },
             /**
              * If it is secure
@@ -131,9 +210,7 @@
              * @default false
              */
             secure: {
-                get: function () {
-                    return protocol.indexOf('https') === 0;
-                }
+                value: protocol.indexOf('https') === 0
             },
             /**
              * Get operating system information
@@ -142,17 +219,7 @@
              * @default {}
              */
             os: {
-                get: function () {
-                    var osName;
-                    for (osName in osPatternMap) {
-                        if (osPatternMap[osName].test(userAgent)) {
-                            break;
-                        }
-                    }
-                    return {
-                        name: osName
-                    };
-                }
+                value: os
             },
             /**
              * Get specific prefix
@@ -161,9 +228,7 @@
              * @default ['webkit','-webkit-']
              */
             prefix: {
-                get: function () {
-                    return vendorPrefixMap[this.engine().name];
-                }
+                value: vendorPrefixMap[engine.name]
             },
             /**
              * Get browser's render engine information
@@ -172,9 +237,7 @@
              * @default {}
              */
             engine: {
-                get: function () {
-                    return (this[this.browser().name + 'Engine'] || this.defaultEngine).call(this);
-                }
+                value: engine
             },
             /**
              * Get basic browser information
@@ -183,86 +246,10 @@
              * @default {}
              */
             browser: {
-                get: function () {
-                    var browserName,
-                        item,
-                        checkIs,
-                        checkExclude,
-                        browserVersion = 0,
-                        check = this._check;
-
-                    for (browserName in browserPatternMap) {
-                        item = browserPatternMap[browserName];
-                        checkIs = check(new RegExp(item.is));
-                        checkExclude = check(new RegExp(item.exclude));
-                        if (checkIs && !checkExclude) {
-                            if (userAgent.indexOf('opr/') > -1) {
-                                browserName = 'opera';
-                                item.version = '\\bopr\/';
-                            }
-                            browserVersion = this._versionByKeyRegexp(item.version);
-                            break;
-                        }
-                    }
-
-                    return {
-                        name: browserName,
-                        version: browserVersion
-                    };
-                }
+                value: browser
             }
         },
         methods: {
-            /**
-             * Get firefox engine information
-             * @method firefoxEngine
-             * @returns {{name: string, version: *}}
-             */
-            firefoxEngine: function () {
-                return {
-                    name: 'gecko',
-                    version: this._versionByKeyRegexp('rv:')
-                };
-            },
-            /**
-             * Get old opera engine information
-             * @method operaEngine
-             * @returns {{name: string, version: *}}
-             */
-            operaEngine: function () {
-                var version = this._versionByKeyRegexp('presto\\/');
-                var engineName = 'presto';
-                if (!version) {
-                    engineName = 'webkit';
-                    version = this._versionByKeyRegexp('webkit\\/');
-                }
-                return {
-                    name: engineName,
-                    version: version
-                };
-            },
-            /**
-             * Get IE engine information
-             * @method ieEngine
-             * @returns {{name: string, version: (*|number)}}
-             */
-            ieEngine: function () {
-                return {
-                    name: 'trident',
-                    version: this._versionByKeyRegexp('trident\\/') || 4
-                };
-            },
-            /**
-             * Get Webkit engine information
-             * @method defaultEngine
-             * @returns {{name: string, version: *}}
-             */
-            defaultEngine: function () {
-                return {
-                    name: 'webkit',
-                    version: this._versionByKeyRegexp('webkit\\/')
-                };
-            },
             /**
              * Whether the property is support
              * @method support
@@ -290,17 +277,6 @@
                 if (!(inName in supportMap)) {
                     supportMap[inName] = inValue;
                 }
-            },
-            _versionByKeyRegexp: function (inKeyRegexp) {
-                var regexp = new RegExp(inKeyRegexp + '(\\d+\\.\\d+)');
-                return this._version(true, regexp);
-            },
-            _version: function (is, inRegex) {
-                var regexResult;
-                return (is && (regexResult = inRegex.exec(userAgent))) ? parseFloat(regexResult[1]) : 0;
-            },
-            _check: function (inRegex) {
-                return inRegex.test(userAgent);
             }
         }
     });
