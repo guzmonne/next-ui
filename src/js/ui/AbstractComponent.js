@@ -304,7 +304,7 @@
              */
             resolve: function (name) {
                 var resources = this._resources;
-                if (name in resources) {
+                if (resources && name in resources) {
                     return resources[name];
                 }
             },
@@ -330,13 +330,18 @@
              */
             dispose: function () {
                 this.inherited();
-                this.content().each(function (content) {
-                    content.dispose();
-                });
+                if (this._content) {
+                    this._content.each(function (content) {
+                        content.dispose();
+                    });
+                }
+
                 this._resources = null;
                 this._content = null;
                 this._model = null;
                 this._inheritedModel = null;
+                this.dispose = function () {
+                };
             },
             /**
              * Destroy the component.
