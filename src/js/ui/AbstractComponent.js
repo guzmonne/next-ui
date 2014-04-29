@@ -330,9 +330,12 @@
              */
             dispose: function () {
                 this.inherited();
-                this.content().each(function (content) {
-                    content.dispose();
-                });
+                if (this._content) {
+                    this._content.each(function (content) {
+                        content.dispose();
+                    });
+                }
+
                 this._resources = null;
                 this._content = null;
                 this._model = null;
