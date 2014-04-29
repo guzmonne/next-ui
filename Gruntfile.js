@@ -29,7 +29,12 @@ module.exports = function (grunt) {
                     "dest/css/next-green.css": "src/less/themes/green/next.less",
                     "dest/css/next-dark.css": "src/less/themes/dark/next.less",
                     "dest/css/next-slate.css": "src/less/themes/slate/next.less",
-                    "dest/css/next-yellow.css": "src/less/themes/yellow/next.less"
+                    "dest/css/next-yellow.css": "src/less/themes/yellow/next.less",
+                    "dest/css/next-blue-componentlized.css": "src/less/themes/blue/next-componentlized.less",
+                    "dest/css/next-green-componentlized.css": "src/less/themes/green/next-componentlized.less",
+                    "dest/css/next-dark-componentlized.css": "src/less/themes/dark/next-componentlized.less",
+                    "dest/css/next-slate-componentlized.css": "src/less/themes/slate/next-componentlized.less",
+                    "dest/css/next-yellow-componentlized.css": "src/less/themes/yellow/next-componentlized.less"
                 }
             }
         },
