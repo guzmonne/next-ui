@@ -340,6 +340,8 @@
                 this._content = null;
                 this._model = null;
                 this._inheritedModel = null;
+                this.dispose = function () {
+                };
             },
             /**
              * Destroy the component.
