@@ -168,19 +168,14 @@
                 this._adaptiveTimer();
             },
             dispose: function () {
-                try {
-                    nx.each(this.layers(), function (layer) {
-                        layer.dispose();
-                    });
+                nx.each(this.layers(), function (layer) {
+                    layer.dispose();
+                });
 
-                    this.tooltipManager().dispose();
-                    this.graph().dispose();
+                this.tooltipManager().dispose();
+                this.graph().dispose();
 
-                    this.inherited();
-                } catch (e) {
-
-                }
-
+                this.inherited();
             }
         }
     });
