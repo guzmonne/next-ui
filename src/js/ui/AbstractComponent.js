@@ -304,7 +304,7 @@
              */
             resolve: function (name) {
                 var resources = this._resources;
-                if (name in resources) {
+                if (resources && name in resources) {
                     return resources[name];
                 }
             },
