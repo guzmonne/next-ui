@@ -65,7 +65,7 @@
                     // http://javascript.nwbox.com/IEContentLoaded/
                     topFrame.doScroll("left");
                 } catch (e) {
-                    return setTimeout(readyController.doScrollCheck,50);
+                    return setTimeout(readyController.doScrollCheck, 50);
                 }
 
                 // and execute any waiting functions
@@ -80,20 +80,20 @@
         },
         detach: function () {
             if (document.addEventListener) {
-                document.removeEventListener("DOMContentLoaded",readyController.completed,false);
-                global.removeEventListener("load",readyController.completed,false);
+                document.removeEventListener("DOMContentLoaded", readyController.completed, false);
+                global.removeEventListener("load", readyController.completed, false);
             } else {
-                document.detachEvent("onreadystatechange",readyController.completed);
-                global.detachEvent("onload",readyController.completed);
+                document.detachEvent("onreadystatechange", readyController.completed);
+                global.detachEvent("onload", readyController.completed);
             }
         },
         w3cReady: function () {
-            document.addEventListener('DOMContentLoaded',readyController.completed,false);
-            global.addEventListener('load',readyController.completed,false);
+            document.addEventListener('DOMContentLoaded', readyController.completed, false);
+            global.addEventListener('load', readyController.completed, false);
         },
         ieReady: function () {
-            document.attachEvent("onreadystatechange",readyController.completed);
-            global.attachEvent("onload",readyController.completed);
+            document.attachEvent("onreadystatechange", readyController.completed);
+            global.attachEvent("onload", readyController.completed);
             readyController.setTopFrame();
             readyController.doScrollCheck();
         },
@@ -129,7 +129,7 @@
      * @class nx.dom.Document
      * @constructor
      */
-    var Document = nx.define('nx.dom.Document',{
+    var Document = nx.define('nx.dom.Document', {
         static: true,
         properties: {
             /**
@@ -169,6 +169,11 @@
                 get: function () {
                     return new Element(document.body);
                 }
+            },
+            html: {
+                get: function () {
+                    return new Element(document.getElementsByTagName('html')[0]);
+                }
             }
         },
         methods: {
@@ -179,9 +184,9 @@
              * @param handler
              * @param context
              */
-            on: function (name,handler,context) {
+            on: function (name, handler, context) {
                 this._attachDocumentListeners(name);
-                this.inherited(name,handler,context);
+                this.inherited(name, handler, context);
             },
             /**
              * Add an event listener when you need not remove it.
@@ -190,9 +195,9 @@
              * @param handler
              * @param context
              */
-            upon: function (name,handler,context) {
+            upon: function (name, handler, context) {
                 this._attachDocumentListeners(name);
-                this.inherited(name,handler,context);
+                this.inherited(name, handler, context);
             },
             /**
              * Register html tag namespace
@@ -200,7 +205,7 @@
              * @param key
              * @param value
              */
-            registerNS: function (key,value) {
+            registerNS: function (key, value) {
                 nsMap[key] = value;
             },
             /**
@@ -245,10 +250,10 @@
              * @param tag
              * @returns {nx.dom.Element}
              */
-            createElementNS: function (ns,tag) {
+            createElementNS: function (ns, tag) {
                 var uri = Document.resolveNS(ns);
                 if (uri) {
-                    return new Element(document.createElementNS(uri,tag));
+                    return new Element(document.createElementNS(uri, tag));
                 }
                 else {
                     throw new Error('The namespace ' + ns + ' is not registered.');
@@ -261,7 +266,7 @@
              * @returns {*}
              */
             wrap: function (dom) {
-                if (nx.is(dom,Node)) {
+                if (nx.is(dom, Node)) {
                     return dom;
                 }
                 else {
@@ -280,11 +285,11 @@
                     scrollW = root.scrollWidth,
                     scrollH = root.scrollHeight,
                     scrollXY = {
-                        left: Math.max((global.pageXOffset || 0),root.scrollLeft),
-                        top: Math.max((global.pageYOffset || 0),root.scrollTop)
+                        left: Math.max((global.pageXOffset || 0), root.scrollLeft),
+                        top: Math.max((global.pageYOffset || 0), root.scrollTop)
                     };
-                scrollW = Math.max(scrollW,width);
-                scrollH = Math.max(scrollH,height);
+                scrollW = Math.max(scrollW, width);
+                scrollH = Math.max(scrollH, height);
                 return {
                     width: width,
                     height: height,
@@ -302,7 +307,7 @@
             ready: function (inHandler) {
                 //add handler to queue:
                 if (readyController.initReady(inHandler)) {
-                    setTimeout(readyController.fireReady,1);
+                    setTimeout(readyController.fireReady, 1);
                 } else {
                     readyController.readyMain();
                 }
@@ -315,8 +320,8 @@
              * @param inIndex
              * @returns {*}
              */
-            addRule: function (inSelector,inCssText,inIndex) {
-                return this._ruleAction('add',[inSelector,inCssText,inIndex]);
+            addRule: function (inSelector, inCssText, inIndex) {
+                return this._ruleAction('add', [inSelector, inCssText, inIndex]);
             },
             /**
              * insert a rule to next style sheet
@@ -325,8 +330,8 @@
              * @param inIndex
              * @returns {*}
              */
-            insertRule: function (inFullCssText,inIndex) {
-                return this._ruleAction('insert',[inFullCssText,inIndex]);
+            insertRule: function (inFullCssText, inIndex) {
+                return this._ruleAction('insert', [inFullCssText, inIndex]);
             },
             /**
              * Delete a rule from next style sheet at last line
@@ -335,7 +340,7 @@
              * @returns {*}
              */
             deleteRule: function (inIndex) {
-                return this._ruleAction('delete',[inIndex]);
+                return this._ruleAction('delete', [inIndex]);
             },
             /**
              * Remove a rule from next style sheet
@@ -344,8 +349,8 @@
              * @param inIndex
              * @returns {*}
              */
-            removeRule: function (inSelector,inIndex) {
-                return this._ruleAction('remove',[inSelector,inIndex]);
+            removeRule: function (inSelector, inIndex) {
+                return this._ruleAction('remove', [inSelector, inIndex]);
             },
             /**
              * Add multi rules
@@ -353,9 +358,9 @@
              * @param inRules
              */
             addRules: function (inRules) {
-                nx.each(inRules,function (rule,selector) {
-                    this.addRule(selector,util.getCssText(rule),null);
-                },this);
+                nx.each(inRules, function (rule, selector) {
+                    this.addRule(selector, util.getCssText(rule), null);
+                }, this);
             },
             /**
              * Delete all rules
@@ -367,15 +372,15 @@
                     this.deleteRule(0);
                 }
             },
-            _ruleAction: function (inAction,inArgs) {
+            _ruleAction: function (inAction, inArgs) {
                 var styleSheet = this.cssStyleSheet();
                 var lastIndex = inArgs.length - 1;
                 //set default index
-                inArgs[lastIndex] = this._defRuleIndex(styleSheet,inArgs[lastIndex]);
-                styleSheet[inAction + 'Rule'].apply(styleSheet,inArgs);
-                return this._defRuleIndex(styleSheet,null);
+                inArgs[lastIndex] = this._defRuleIndex(styleSheet, inArgs[lastIndex]);
+                styleSheet[inAction + 'Rule'].apply(styleSheet, inArgs);
+                return this._defRuleIndex(styleSheet, null);
             },
-            _defRuleIndex: function (inStyleSheet,inIndex) {
+            _defRuleIndex: function (inStyleSheet, inIndex) {
                 return inIndex === null ? inStyleSheet.rules.length : inIndex;
             },
             _createStyleNode: function () {
@@ -402,10 +407,10 @@
                 if (!(name in documentListeners)) {
                     var self = this;
                     var listener = documentListeners[name] = function (event) {
-                        self.fire(name,event);
+                        self.fire(name, event);
                     };
 
-                    document.addEventListener(name,listener);
+                    document.addEventListener(name, listener);
                 }
             }
         }
