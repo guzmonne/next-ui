@@ -156,9 +156,6 @@
   opacity: 0.3;
   stroke: #ccc;
 }
-.n-topology.n-topology-blue .node use {
-  pointer-events: none;
-}
 .n-topology.n-topology-blue .link path,
 .n-topology.n-topology-blue .link line {
   stroke: #5bc1df;
@@ -759,9 +756,6 @@
 .n-topology.n-topology-dark .node.disable {
   opacity: 0.3;
   stroke: #ccc;
-}
-.n-topology.n-topology-dark .node use {
-  pointer-events: none;
 }
 .n-topology.n-topology-dark .link path,
 .n-topology.n-topology-dark .link line {
@@ -1364,9 +1358,6 @@
   opacity: 0.3;
   stroke: #ccc;
 }
-.n-topology.n-topology-green .node use {
-  pointer-events: none;
-}
 .n-topology.n-topology-green .link path,
 .n-topology.n-topology-green .link line {
   stroke: #5edadd;
@@ -1583,8 +1574,6 @@
 .n-topology.n-topology-green .n-topology-nav-mode li:hover span {
   color: #0386d2;
 }
-
-
 .n-topology.n-topology-green .n-topology-nav-mode span {
   color: #999999;
   display: inline-block;
@@ -1969,9 +1958,6 @@
 .n-topology.n-topology-slate .node.disable {
   opacity: 0.3;
   stroke: #ccc;
-}
-.n-topology.n-topology-slate .node use {
-  pointer-events: none;
 }
 .n-topology.n-topology-slate .link path,
 .n-topology.n-topology-slate .link line {
@@ -2573,9 +2559,6 @@
 .n-topology.n-topology-yellow .node.disable {
   opacity: 0.3;
   stroke: #ccc;
-}
-.n-topology.n-topology-yellow .node use {
-  pointer-events: none;
 }
 .n-topology.n-topology-yellow .link path,
 .n-topology.n-topology-yellow .link line {
