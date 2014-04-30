@@ -123,6 +123,7 @@
                     var width = (this._width || 1) * value;
                     this.$('line').setStyle('stroke-width', width);
                     this.$('path').setStyle('stroke-width', width);
+                    this.view('disableLabel').scale(value);
                     this._stageScale = value;
                 }
             },
@@ -256,24 +257,24 @@
                         }
                     }
                 },
-                {
-                    name: 'sourceLabel',
-                    type: 'nx.graphic.Text',
-                    props: {
-                        'alignment-baseline': 'text-before-edge',
-                        'text-anchor': 'start',
-                        'class': 'source-label'
-                    }
-                },
-                {
-                    name: 'targetLabel',
-                    type: 'nx.graphic.Text',
-                    props: {
-                        'alignment-baseline': 'text-before-edge',
-                        'text-anchor': 'end',
-                        'class': 'target-label'
-                    }
-                },
+//                {
+//                    name: 'sourceLabel',
+//                    type: 'nx.graphic.Text',
+//                    props: {
+//                        'alignment-baseline': 'text-before-edge',
+//                        'text-anchor': 'start',
+//                        'class': 'source-label'
+//                    }
+//                },
+//                {
+//                    name: 'targetLabel',
+//                    type: 'nx.graphic.Text',
+//                    props: {
+//                        'alignment-baseline': 'text-before-edge',
+//                        'text-anchor': 'end',
+//                        'class': 'target-label'
+//                    }
+//                },
                 {
                     name: 'disableLabel',
                     type: 'nx.graphic.Group',

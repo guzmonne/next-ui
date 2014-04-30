@@ -13,8 +13,8 @@
             defaultConfig: {
                 linkType: 'parallel',
                 label: null,
-                sourceLabel: null,
-                targetLabel: null,
+//                sourceLabel: null,
+//                targetLabel: null,
                 color: null,
                 width: null,
                 dotted: false,
