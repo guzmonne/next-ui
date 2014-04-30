@@ -18,9 +18,6 @@
                 this.inherited(args);
                 nx.dom.Document.html().addClass('n-crosshairCursor');
             },
-            /**
-             * Deactivate scene
-             */
             deactivate: function () {
                 this.inherited();
                 this.rect.dispose();

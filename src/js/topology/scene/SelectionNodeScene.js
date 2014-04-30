@@ -25,7 +25,11 @@
                 var tooltipManager = this._tooltipManager;
                 tooltipManager.activated(false);
             },
-
+            deactivate: function () {
+                this.inherited();
+                var tooltipManager = this._tooltipManager;
+                tooltipManager.activated(true);
+            },
 
             pressStage: function (sender,event) {
                 var selectedNodes = this.selectedNodes();
