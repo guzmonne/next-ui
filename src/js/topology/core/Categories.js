@@ -14,6 +14,7 @@
              * @method showLoading
              */
             showLoading: function () {
+                nx.dom.Document.html().addClass('n-waitCursor');
                 this.view().dom().addClass('n-topology-loading');
                 this.view('loading').dom().setStyle('display', 'block');
             },
@@ -22,6 +23,7 @@
              * @method hideLoading
              */
             hideLoading: function () {
+                nx.dom.Document.html().removeClass('n-waitCursor');
                 this.view().dom().removeClass('n-topology-loading');
                 this.view('loading').dom().setStyle('display', 'none');
             },

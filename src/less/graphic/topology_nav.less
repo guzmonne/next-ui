@@ -1,4 +1,4 @@
-.n-topology-nav(@toolBarModeBg,@toolbarBorder,@toolbarColor,@zoomBarHover,@zoomBarHoverBG:#ccc,@iconHoverBG:#ccc) {
+.n-topology-nav(@toolBarModeBg,@toolbarBorder,@toolbarColor,@zoomBarHover,@zoomBarHoverBG:#ccc,@iconHoverBG:#ccc,@brand-primary,@body-bg) {
   .n-topology-nav {
     position: absolute;
     top: 0px;
@@ -29,8 +29,8 @@
     & > ul > li {
       display: inline-block;
       list-style: none;
+      width: 25px;
       margin-top: 5px;
-      width: 32px;
       -webkit-transition: all 0.6s; /* For Safari 3.1 to 6.0 */
       transition: all 0.6s;
     }
@@ -38,18 +38,17 @@
     &-mode {
       padding: 0px;
       position: relative;
-      width: 32px;
+      width: 25px;
       li {
-        width: 32px;
-        height: 32px;
-        line-height: 35px;
+        width: 25px;
+        height: 25px;
+        line-height: 30px;
         display: inline-block;
         text-align: center;
         cursor: pointer;
         -webkit-transition: all 0.6s; /* For Safari 3.1 to 6.0 */
         transition: all 0.6s;
         background: @toolBarModeBg;
-        border: solid 1px @toolbarBorder;
         margin-top: -2px;
         &:hover {
           span {
@@ -78,63 +77,42 @@
 
     &-zoom {
       position: relative;
-      height: 49px;
-      margin-top: 18px !important;
+      height: 51px;
+      margin-top: 10px !important;
       & > span {
         display: inline-block;
         position: absolute;
         text-align: center;
-        font-size: 20px;
-        color: @toolBarModeBg;
-        background: @toolbarColor;
+        font-size: 25px;
+        color: @toolbarColor;
+        background:@toolBarModeBg ;
       }
 
       &-in {
         top: 0px;
-        left: 7px;
+        left: 0px;
         cursor: pointer;
         &:hover {
-          background: @zoomBarHoverBG;
-          color: @zoomBarHover;
+          color: @zoomBarHoverBG;
+          background: @zoomBarHover;
         }
       }
 
       &-out {
-        top: 27px;
-        left: 7px;
+        top: 25px;
+        left: 0px;
         cursor: pointer;
         &:hover {
-          background: @zoomBarHoverBG;
-          color: @zoomBarHover;
+          color: @zoomBarHoverBG;
+          background: @zoomBarHover;
         }
-      }
-
-      &-ball {
-        top: 21px;
-        left: 9px;
-        width: 14px;
-        height: 2px;
-        background: @toolbarColor;
-        display: none !important;
-      }
-
-      &-bar {
-        top: 20px;
-        left: 14px;
-        background: @toolBarModeBg !important;
-        width: 4px;
-        height: 77px;
-        display: none !important;
-
       }
     }
 
     &-zoom-selection {
       cursor: pointer;
-      line-height: 32px;
       text-align: center;
-      font-size: 20px;
-      height: 32px;
+      font-size: 22px;
       color: @toolbarColor;
       &:hover {
         color: @iconHoverBG;
@@ -148,10 +126,8 @@
 
     &-fit {
       cursor: pointer;
-      line-height: 32px;
       text-align: center;
-      font-size: 20px;
-      height: 32px;
+      font-size: 22px;
       color: @toolbarColor;
       &:hover {
         color: @iconHoverBG;
@@ -205,42 +181,28 @@
 
     &-full {
       cursor: pointer;
-      line-height: 24px;
       text-align: center;
-      font-size: 16px;
-      height: 24px;
+      font-size: 18px;
       color: @toolbarColor;
       &:hover {
         color: @iconHoverBG;
       }
     }
 
-    &-topo3d {
-      margin-left: 5px;
-      //    cursor: pointer;
-      opacity: 0.3;
-    }
-
-    &-topo3d-show-true {
-      opacity: 1;
-      cursor: pointer;
-    }
-
     &-setting {
-      margin-top: 0px !important;
       cursor: pointer;
-      line-height: 32px;
       text-align: center;
-      font-size: 18px;
-      height: 32px;
       color: @toolbarColor;
+      line-height: 1;
       -webkit-transition: none 0 !important; /* For Safari 3.1 to 6.0 */
       transition: none 0 !important;
       &:hover {
         opacity: 1;
         color: lighten(@brand-primary, 5%);
       }
-
+      &-icon {
+        font-size: 20px;
+      }
       &-icon-selected {
         color: lighten(@brand-primary, 5%);
       }

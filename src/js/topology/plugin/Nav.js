@@ -46,7 +46,7 @@
                                         tag: 'li',
                                         content: {
                                             props: {
-                                                'class': 'icon-toolbar_selectnode',
+                                                'class': 'n-icon-selectnode',
                                                 style: '-webkit-transform: rotate(90deg)',
                                                 title: "Select node mode"
                                             },
@@ -66,7 +66,7 @@
                                         },
                                         content: {
                                             props: {
-                                                'class': 'icon-toolbar_movemode',
+                                                'class': 'n-icon-movemode',
                                                 title: "Move mode"
 
                                             },
@@ -88,16 +88,10 @@
                             },
                             content: [
                                 {
-                                    tag: 'span',
-                                    props: {
-                                        'class': 'n-topology-nav-zoom-bar'
-                                    }
-                                },
-                                {
                                     name: 'zoomin',
                                     tag: 'span',
                                     props: {
-                                        'class': 'n-topology-nav-zoom-in icon-toolbar_zoomin',
+                                        'class': 'n-topology-nav-zoom-in n-icon-zoomin2-plus',
                                         title: "Zoom out"
                                     },
                                     events: {
@@ -105,20 +99,10 @@
                                     }
                                 },
                                 {
-                                    name: 'zoomball',
-                                    tag: 'span',
-                                    props: {
-                                        'class': 'n-topology-nav-zoom-ball',
-                                        style: {
-                                            top: 90
-                                        }
-                                    }
-                                },
-                                {
                                     name: 'zoomout',
                                     tag: 'span',
                                     props: {
-                                        'class': 'n-topology-nav-zoom-out icon-toolbar_zoomout',
+                                        'class': 'n-topology-nav-zoom-out n-icon-zoomout2-minus',
                                         title: "Zoom in"
                                     },
                                     events: {
@@ -132,7 +116,7 @@
                             tag: 'li',
                             name: 'zoomselection',
                             props: {
-                                'class': 'n-topology-nav-zoom-selection icon-toolbar_zoombyselection',
+                                'class': 'n-topology-nav-zoom-selection n-icon-zoombyselection',
                                 title: "Zoom by selection"
                             },
                             events: {
@@ -143,7 +127,7 @@
                             tag: 'li',
                             name: 'fit',
                             props: {
-                                'class': 'n-topology-nav-fit icon-toolbar_fitstage',
+                                'class': 'n-topology-nav-fit n-icon-fitstage',
                                 title: "Fit stage"
                             },
                             events: {
@@ -166,9 +150,8 @@
                                 },
                                 {
                                     tag: 'span',
-                                    content: 'A',
                                     props: {
-                                        'class': 'agr-text'
+                                        'class': 'agr-text icon-aggregation'
                                     }
                                 }
                             ],
@@ -180,7 +163,7 @@
                             tag: 'li',
                             name: 'fullscreen',
                             props: {
-                                'class': 'n-topology-nav-full icon-toolbar_fullview',
+                                'class': 'n-topology-nav-full n-icon-fullview',
                                 title: 'Enter full screen mode'
                             },
                             events: {
@@ -195,7 +178,7 @@
                                     name: 'icon',
                                     tag: 'span',
                                     props: {
-                                        'class': 'n-topology-nav-setting-icon icon-gear'
+                                        'class': 'n-topology-nav-setting-icon n-icon-viewsetting'
                                     },
                                     events: {
                                         mouseenter: "{#_openPopover}",
@@ -374,7 +357,7 @@
                 }, this);
 
                 topo.selectedNodes().watch('count', function (prop, value) {
-                    this.view('agr').dom().setStyle('display', value > 1 ? 'block' : 'none');
+                    nx.DEBUG && this.view('agr').dom().setStyle('display', value > 1 ? 'block' : 'none');
                 }, this);
 
                 topo.watch('currentSceneName', function (prop, currentSceneName) {
