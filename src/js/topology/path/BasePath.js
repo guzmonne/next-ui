@@ -48,7 +48,7 @@
                     this.view('path').set('d', d);
 
                     //
-                    var strokeWidth = parseInt(pathStyle['stroke-width']) || 1;
+                    var strokeWidth = parseInt(pathStyle['stroke-width'], 10) || 1;
                     this.view("path").dom().setStyle('stroke-width', strokeWidth * topo.stageScale());
 
                 }
