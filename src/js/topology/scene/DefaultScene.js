@@ -185,13 +185,13 @@
                 clearTimeout(this._sceneTimer);
                 this._recover();
                 this._topo.zoomByNodes(nodeSet.getNodes(), function () {
-                    var group = nodeSet.group = this._groupsLayer.addGroup({
-                        shapeType: 'nodeSetPolygon',
-                        nodeSet: nodeSet,
-                        nodes: nodeSet.nodes(),
-                        label: nodeSet.label()
-                    });
-                    group.hide(true);
+                   // var group = nodeSet.group = this._groupsLayer.addGroup({
+                     //   shapeType: 'nodeSetPolygon',
+                       // nodeSet: nodeSet,
+                    //    nodes: nodeSet.nodes(),
+                     //   label: nodeSet.label()
+                    //});
+                    //group.hide(true);
                 }, this);
 
 
