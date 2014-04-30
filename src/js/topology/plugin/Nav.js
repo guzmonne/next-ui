@@ -150,8 +150,9 @@
                                 },
                                 {
                                     tag: 'span',
+                                    content: 'A',
                                     props: {
-                                        'class': 'agr-text icon-aggregation'
+                                        'class': 'agr-text'
                                     }
                                 }
                             ],
@@ -357,7 +358,7 @@
                 }, this);
 
                 topo.selectedNodes().watch('count', function (prop, value) {
-                    nx.DEBUG && this.view('agr').dom().setStyle('display', value > 1 ? 'block' : 'none');
+                    this.view('agr').dom().setStyle('display', value > 1 ? 'block' : 'none');
                 }, this);
 
                 topo.watch('currentSceneName', function (prop, currentSceneName) {
