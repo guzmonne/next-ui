@@ -145,12 +145,12 @@
 .n-topology.n-topology-blue .node text.node-label {
   font-family: "Cisco Sans Reg";
   fill: #0386d2;
+  pointer-events: none;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   -o-user-select: none;
   user-select: none;
-  pointer-events: none;
 }
 .n-topology.n-topology-blue .node.disable {
   opacity: 0.3;
@@ -749,12 +749,12 @@
 .n-topology.n-topology-dark .node text.node-label {
   font-family: "Cisco Sans Reg";
   fill: #00a9ff;
+  pointer-events: none;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   -o-user-select: none;
   user-select: none;
-  pointer-events: none;
 }
 .n-topology.n-topology-dark .node.disable {
   opacity: 0.3;
@@ -1353,12 +1353,12 @@
 .n-topology.n-topology-green .node text.node-label {
   font-family: "Cisco Sans Reg";
   fill: #26999e;
+  pointer-events: none;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   -o-user-select: none;
   user-select: none;
-  pointer-events: none;
 }
 .n-topology.n-topology-green .node.disable {
   opacity: 0.3;
@@ -1957,12 +1957,12 @@
 .n-topology.n-topology-slate .node text.node-label {
   font-family: "Cisco Sans Reg";
   fill: #ffffff;
+  pointer-events: none;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   -o-user-select: none;
   user-select: none;
-  pointer-events: none;
 }
 .n-topology.n-topology-slate .node.disable {
   opacity: 0.3;
@@ -2561,12 +2561,12 @@
 .n-topology.n-topology-yellow .node text.node-label {
   font-family: "Cisco Sans Reg";
   fill: #ffc200;
+  pointer-events: none;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   -o-user-select: none;
   user-select: none;
-  pointer-events: none;
 }
 .n-topology.n-topology-yellow .node.disable {
   opacity: 0.3;

@@ -43,9 +43,6 @@
     stroke: @primaryColor;
   }
 
-  defs svg {
-//    pointer-events: none;
-  }
 
   defs [fill*='#FFFFFF'] {
     fill: @topologyBackgroundColor;
@@ -73,7 +70,6 @@
       fill: @primaryColor;
       pointer-events: none;
       .user-select(none);
-      pointer-events: none;
     }
 
     &.disable {
@@ -165,7 +161,6 @@
     text.node-label {
       font-family: "Cisco Sans Reg";
       fill: @primaryColor;
-      pointer-events: none;
       .user-select(none);
       pointer-events: none;
     }
@@ -174,7 +169,6 @@
       opacity: 0.3;
       stroke: #ccc;
     }
-
   }
 
   .group {
