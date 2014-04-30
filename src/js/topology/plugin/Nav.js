@@ -376,13 +376,22 @@
                 topo.selectedNodes().watch('count', function (prop, value) {
                     this.view('agr').dom().setStyle('display', value > 1 ? 'block' : 'none');
                 }, this);
+
+                topo.watch('currentSceneName', function (prop, currentSceneName) {
+                    if (currentSceneName == 'selection') {
+                        this.view("selectionMode").dom().addClass("n-topology-nav-mode-selected");
+                        this.view("moveMode").dom().removeClass("n-topology-nav-mode-selected");
+                    } else {
+                        this.view("selectionMode").dom().removeClass("n-topology-nav-mode-selected");
+                        this.view("moveMode").dom().addClass("n-topology-nav-mode-selected");
+                    }
+                }, this);
+
+
                 this.view('agr').dom().setStyle('display', 'none');
 
             },
             _switchSelectionMode: function (sender, event) {
-                this.view("selectionMode").dom().addClass("n-topology-nav-mode-selected");
-                this.view("moveMode").dom().removeClass("n-topology-nav-mode-selected");
-
                 var topo = this.topology();
                 var currentSceneName = topo.currentSceneName();
                 if (currentSceneName != 'selection') {
@@ -391,9 +400,6 @@
                 }
             },
             _switchMoveMode: function (sender, event) {
-                this.view("selectionMode").dom().removeClass("n-topology-nav-mode-selected");
-                this.view("moveMode").dom().addClass("n-topology-nav-mode-selected");
-
                 var topo = this.topology();
                 var currentSceneName = topo.currentSceneName();
                 if (currentSceneName == 'selection') {
@@ -406,20 +412,25 @@
                 this.topology().fit();
             },
             _zoombyselection: function (sender, event) {
+                var icon = sender;
                 var topo = this.topology();
                 var currentSceneName = topo.currentSceneName();
-                var scene = topo.activateScene('zoomBySelection');
-                var icon = sender;
-                scene.upon('finish', function fn(sender, bound) {
-                    if (bound) {
-                        topo.zoomByBound(topo.getInsideBound(bound));
-                    }
-                    topo.activateScene(currentSceneName);
-                    icon.dom().removeClass('n-topology-nav-zoom-selection-selected');
-                    scene.off('finish', fn, this);
 
-                }, this);
-                icon.dom().addClass('n-topology-nav-zoom-selection-selected');
+                if (currentSceneName == 'zoomBySelection') {
+                    icon.dom().removeClass('n-topology-nav-zoom-selection-selected');
+                    topo.activateScene('default');
+                } else {
+                    var scene = topo.activateScene('zoomBySelection');
+                    scene.upon('finish', function fn(sender, bound) {
+                        if (bound) {
+                            topo.zoomByBound(topo.getInsideBound(bound));
+                        }
+                        topo.activateScene(currentSceneName);
+                        icon.dom().removeClass('n-topology-nav-zoom-selection-selected');
+                        scene.off('finish', fn, this);
+                    }, this);
+                    icon.dom().addClass('n-topology-nav-zoom-selection-selected');
+                }
             },
             _in: function (sender, event) {
                 var topo = this.topology();

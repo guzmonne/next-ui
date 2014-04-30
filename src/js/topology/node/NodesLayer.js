@@ -87,7 +87,7 @@
 
 
             _generateNode: function (vertex) {
-
+                var id = vertex.id();
                 var topo = this.topology();
 
 
@@ -115,21 +115,41 @@
 
                 node.sets({
                     'class': 'node',
-                    'data-node-id': node.id(),
                     stageScale: topo.stageScale()
                 });
 
 
+                //node.view().set('data-id', id);
+
+
                 var nodeConfig = nx.extend({}, CLZ.defaultConfig, topo.nodeConfig());
-                delete nodeConfig.__owner__; //fix bug
+                var label = nodeConfig.label;
+                delete nodeConfig.label;
+                delete nodeConfig.__owner__;
+
                 nx.each(nodeConfig, function (value, key) {
-                    util.setProperty(node, key, value, topo);
+                    setTimeout(function () {
+                        util.setProperty(node, key, value, topo);
+                    }, 10);
                 }, this);
-                util.setProperty(node, 'showIcon', topo.showIcon());
-                util.setProperty(node, 'label', nodeConfig.label, topo); // set label at last
 
 
-                //delegate events
+                if (label != null) {
+                    setTimeout(function () {
+                        util.setProperty(node, 'label', label, topo);
+                    }, 10);
+                }
+
+
+                var showIcon = topo.showIcon();
+                if (showIcon) {
+                    setTimeout(function () {
+                        util.setProperty(node, 'showIcon', showIcon);
+                    }, 10);
+                }
+
+
+//                delegate events
                 var superEvents = nx.graphic.Component.__events__;
                 nx.each(node.__events__, function (e) {
                     if (superEvents.indexOf(e) == -1) {

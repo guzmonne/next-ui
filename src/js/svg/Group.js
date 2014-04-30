@@ -7,6 +7,17 @@
      * @module nx.graphic
      */
     nx.define("nx.graphic.Group", nx.graphic.Component, {
+        properties: {
+            'data-id': {
+                set: function (value) {
+                    nx.each(this.content(), function (item) {
+                        item.set('data-id', value);
+                    });
+                    this.view().set('data-id', value);
+                    this['_data-id'] = value;
+                }
+            }
+        },
         view: {
             tag: 'svg:g'
         },

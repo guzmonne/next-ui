@@ -34,21 +34,14 @@
                 return array.indexOf(item);
             },
             setProperty: function (source, key, value, owner) {
-                var propValue;
-                var rpatt = /(?={)\{([^{}]+?)\}(?!})/;
                 if (value !== undefined) {
-                    var model = source.model();
-                    if (nx.is(value, 'String') && rpatt.test(value)) {
-                        var expr = RegExp.$1;
-                        if (expr[0] === '#') {
-                            source.setBinding(key, 'owner.' + expr.slice(1), owner);
-                        } else {
-                            source.setBinding(key, 'owner.model.' + expr, owner);
-                        }
-                    } else if (nx.is(value, 'String')) {
-                        var path = value.split('.');
-                        if (path.length == 2 && path[0] == 'model') {
+                    if (nx.is(value, 'String')) {
+                        if (value.substr(0, 5) == 'model') { // directly target'bind model
                             source.setBinding(key, value, source);
+                        } else if (value.substr(0, 2) == '{#') { // bind owner's property
+                            source.setBinding(key, 'owner.' + value.substring(2, value.length - 1), owner);
+                        } else if (value.substr(0, 1) == '{') { // bind owner's model
+                            source.setBinding(key, 'owner.model.' + value.substring(1, value.length - 1), owner);
                         } else {
                             source.set(key, value);
                         }

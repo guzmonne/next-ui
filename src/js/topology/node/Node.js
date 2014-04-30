@@ -40,25 +40,6 @@
                 }
             },
             /**
-             * Node icon's type
-             * @method iconType {String}
-             */
-            iconType: {
-                get: function () {
-                    return this._iconType !== undefined ? this._iconType : 'unknown';
-                },
-                set: function (inValue) {
-                    var value = this._processPropertyValue(inValue);
-                    if (this._iconType !== value) {
-                        this._iconType = value;
-                        this.view("icon").set('iconType', value);
-                        return true;
-                    } else {
-                        return false;
-                    }
-                }
-            },
-            /**
              * Node's label font size
              * @property fontSize {Number}
              */
@@ -86,7 +67,7 @@
                 set: function (inValue) {
                     var label = this._processPropertyValue(inValue);
                     var el = this.resolve('label');
-                    if (label !== undefined) {
+                    if (label != null) {
                         el.set('text', label);
                         el.set('visible', true);
                         this.calcLabelPosition();
@@ -110,26 +91,62 @@
                 }
             },
             /**
+             * Node icon's type
+             * @method iconType {String}
+             */
+            iconType: {
+                get: function () {
+                    return this._iconType;
+                },
+                set: function (inValue) {
+                    var value = this._processPropertyValue(inValue);
+                    if (this._iconType !== value) {
+                        this._iconType = value;
+
+                        if (!this._iconImg) {
+                            var img = this._iconImg = new nx.graphic.Icon({
+                                'class': 'icon',
+                                'iconType': value
+                            });
+                            img.attach(this.view('iconContainer'));
+                        } else {
+                            this._iconImg.set('iconType', value);
+                        }
+
+
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+            },
+            /**
              * Show/hide node's icon
              * @property showIcon
              */
             showIcon: {
                 set: function (inValue) {
                     var value = this._processPropertyValue(inValue);
-                    var icon = this.resolve('iconContainer');
-                    var dot = this.resolve('dot');
+                    var icon = this.view('iconContainer');
+                    var dot = this.view('dot');
                     if (value) {
-                        icon.set('iconType', this.iconType());
                         icon.set('visible', true);
                         dot.set('visible', false);
+                        if (!this._iconImg) {
+                            this.iconType('unknown');
+                        }
                     } else {
                         icon.set('visible', false);
                         dot.set('visible', true);
                     }
 
                     this._showIcon = value;
-                    this.calcLabelPosition(true);
-                    this._setSelectedRadius();
+                    if (this._label != null) {
+                        this.calcLabelPosition(true);
+                    }
+                    if (this._selected) {
+                        this._setSelectedRadius();
+                    }
                 }
             },
 
@@ -212,16 +229,6 @@
                     }
                 },
                 {
-                    name: 'disableLabel',
-                    type: 'nx.graphic.Text',
-                    props: {
-                        'class': 'node-disable-label',
-                        'alignment-baseline': 'central',
-                        x: 12,
-                        y: 12
-                    }
-                },
-                {
                     name: 'selectedBG',
                     type: 'nx.graphic.Circle',
                     props: {
@@ -234,7 +241,6 @@
                     type: 'nx.graphic.Group',
                     name: 'graphic',
                     content: [
-
                         {
                             name: 'dot',
                             type: 'nx.graphic.Circle',
@@ -247,24 +253,14 @@
                         },
                         {
                             name: 'iconContainer',
-                            type: 'nx.graphic.Group',
-                            content: [
-                                {
-                                    name: 'icon',
-                                    type: 'nx.graphic.Icon',
-                                    props: {
-                                        'class': 'icon',
-                                        'iconType': 'unknown'
-                                    }
-                                }
-                            ]
+                            type: 'nx.graphic.Group'
                         }
                     ],
                     events: {
                         'mousedown': '{#_mousedown}',
                         'mouseup': '{#_mouseup}',
-                        'touchstart': '{#_mousedown}',
-                        'touchend': '{#_mouseup}',
+//                        'touchstart': '{#_mousedown}',
+//                        'touchend': '{#_mouseup}',
 
                         'mouseenter': '{#_mouseenter}',
                         'mouseleave': '{#_mouseleave}',
@@ -279,9 +275,6 @@
             ]
         },
         methods: {
-            setModel: function (model) {
-                this.inherited(model);
-            },
             translateTo: function (x, y, callback) {
                 var el = this.view();
                 el.upon('transitionend', function () {
@@ -311,7 +304,7 @@
                 if (this._selected) {
                     var bound = this.getBound(true);
                     var radius = Math.max(bound.height, bound.width) / 2;
-                    el.set('r', radius +10);
+                    el.set('r', radius + 10);
                 }
                 el.set('visible', this._selected);
             },
@@ -440,15 +433,24 @@
                 var vertexID = vertex.id();
                 var vectors = [];
 
-                // get all lines
 
-                vertex.eachEdge(function (edge) {
-                    if (edge.sourceID() !== vertexID) {
-                        vectors.push(edge.line().dir.negate());
+                vertex.eachEdgeSet(function (edgeSet) {
+                    if (edgeSet.sourceID() !== vertexID) {
+                        vectors.push(edgeSet.line().dir.negate());
                     } else {
-                        vectors.push(edge.line().dir);
+                        vectors.push(edgeSet.line().dir);
                     }
                 }, this);
+
+                vertex.eachEdgeSetCollection(function (edgeSet) {
+                    if (edgeSet.sourceID() !== vertexID) {
+                        vectors.push(edgeSet.line().dir.negate());
+                    } else {
+                        vectors.push(edgeSet.line().dir);
+                    }
+                }, this);
+
+
                 //sort line by angle;
                 vectors = vectors.sort(function (a, b) {
                     return a.circumferentialAngle() - b.circumferentialAngle();

@@ -102,7 +102,7 @@
                 value: 1
             },
             zoomRate: {
-                value: 1
+                value: null
             },
             /**
              * Disable notify stageScale
@@ -291,12 +291,14 @@
                 according = according || [this.width() / 2, this.height() / 2];
                 var m = new nx.geometry.Matrix(matrix);
                 var zoomRate = this.zoomRate();
-                var _zoom = zoomRate * m.scale();
-                if (_zoom > this.maxZoomLevel()) {
-                    m.applyScale(this.maxZoomLevel() / zoomRate / m.scale(), according);
-                }
-                if (_zoom < this.minZoomLevel()) {
-                    m.applyScale(this.minZoomLevel() / zoomRate / m.scale(), according);
+                if (zoomRate != null) {
+                    var _zoom = zoomRate * m.scale();
+                    if (_zoom > this.maxZoomLevel()) {
+                        m.applyScale(this.maxZoomLevel() / zoomRate / m.scale(), according);
+                    }
+                    if (_zoom < this.minZoomLevel()) {
+                        m.applyScale(this.minZoomLevel() / zoomRate / m.scale(), according);
+                    }
                 }
                 if (!nx.geometry.Matrix.approximate(this.matrix(), m.matrix())) {
                     this.matrixObject(m);
@@ -304,6 +306,7 @@
                     if (!this.disableUpdateStageScale()) {
                         this.stageScale(1 / m.scale());
                     }
+                    this.zoomLevel(m.scale() * zoomRate);
                     return m;
                 } else {
                     return this.matrixObject();

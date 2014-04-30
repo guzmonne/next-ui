@@ -43,7 +43,6 @@
     stroke: @primaryColor;
   }
 
-
   defs [fill*='#FFFFFF'] {
     fill: @topologyBackgroundColor;
   }
@@ -232,18 +231,21 @@
     stroke: lighten(@primaryColor, 48%);
     stroke-width: 1;
     opacity: 0.5;
+    pointer-events: none;
   }
 
   .mapBoundary {
     fill: transparent;
     stroke: lighten(@primaryColor, 48%);
     stroke-width: 1;
+    pointer-events: none;
   }
 
   .selectionRect {
     stroke: @primaryColor;
     fill: @primaryColor;
-    fill-opacity: 0.1,
+    fill-opacity: 0.1;
+    pointer-events: none;
   }
 
   &-setting {

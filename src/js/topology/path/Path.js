@@ -90,12 +90,11 @@
             init: function (props) {
                 this.inherited(props);
                 var pathStyle = this.pathStyle();
-                this.resolve("path").sets(pathStyle);
+                this.view("path").sets(pathStyle);
 
                 if (!pathStyle.fill) {
-                    this.resolve("path").setStyle("fill", colorTable[colorIndex++ % 5]);
+                    this.view("path").setStyle("fill", colorTable[colorIndex++ % 5]);
                 }
-
 
                 var nodes = this.nodes = {};
                 nx.each(this.links(), function (link) {
@@ -115,6 +114,7 @@
              */
             draw: function () {
                 var link, line1, line2, pt, d1 = [], d2 = [];
+                var stageScale = this.topology().stageScale();
                 var pathWidth = this.pathWidth();
                 var pathPadding = this.pathPadding();
                 var paddingStart, paddingEnd;
@@ -138,6 +138,7 @@
 
                 line1 = linksSequentialArray[0].translate(offset);
 
+
                 if (pathPadding === "auto") {
                     paddingStart = Math.min(firstLink.sourceNode().showIcon() ? 24 : 4, line1.length() / 4);
                     paddingEnd = Math.min(firstLink.targetNode().showIcon() ? 24 : 4, line1.length() / 4);
@@ -154,10 +155,12 @@
                 }
 
                 if (pathWidth === "auto") {
-                    pathWidth = Math.min(10, Math.max(3, Math.round(firstLink.topology().scale() * 3)));
+                    pathWidth = 3 * stageScale;// Math.min(10, Math.max(3, Math.round(stageScale * 3)));
                 }
                 v1 = new Vector(0, pathWidth / 2);
                 v2 = new Vector(0, -pathWidth / 2);
+
+                paddingStart *= stageScale;
 
                 pt = line1.translate(v1).pad(paddingStart, 0).start;
                 d1.push('M', pt.x, pt.y);
@@ -186,6 +189,8 @@
                 if (typeof paddingEnd == 'string' && paddingEnd.indexOf('%') > 0) {
                     paddingEnd = line2.length() * parseInt(paddingEnd, 10) / 100;
                 }
+
+                paddingEnd *= stageScale;
 
                 if (arrow == 'cap') {
                     pt = line2.translate(v1).pad(0, 2.5 * pathWidth + paddingEnd).end;
@@ -222,7 +227,7 @@
                     d2.unshift('L', pt.x, pt.y);
                 }
 
-                this.resolve("path").set('d', d1.concat(d2).join(' '));
+                this.view("path").set('d', d1.concat(d2).join(' '));
                 //this.resolve("path").setTransform(null, null, this.topology().stageScale());
 
                 //todo
@@ -236,108 +241,49 @@
             },
 
             _serializeLinks: function () {
-                var value = this.links();
+                var links = this.links();
                 var linksSequentialArray = [];
+                var len = links.length;
 
-                var isEqual = this.isEqual;
+                linksSequentialArray.push(new Line(links[0].sourceVector(), links[0].targetVector()));
 
+                for (var i = 1; i < len; i++) {
+                    var firstLink = links[i - 1];
+                    var secondLink = links[i];
+                    var firstLinkSourceVector = firstLink.sourceVector();
+                    var firstLinkTargetVector = firstLink.targetVector();
+                    var secondLinkSourceVector = secondLink.sourceVector();
+                    var secondLinkTargetVector = secondLink.targetVector();
 
-                var firstItem = value[0];
-                var secondItem = value[1];
-
-                var firstItemSourceVector, firstItemTargetVector;
-
-                firstItemSourceVector = firstItem.sourceVector();
-                firstItemTargetVector = firstItem.targetVector();
-
-//                if (firstItem.reverse()) {
-//                    firstItemTargetVector = firstItem.sourceVector();
-//                    firstItemSourceVector = firstItem.targetVector();
-//                } else {
-//
-//                }
-
-
-                if (secondItem) {
-                    // todo reverse
-
-                    var secondItemSourceVector, secondItemTargetVector;
-
-                    if (secondItem.reverse()) {
-                        secondItemTargetVector = secondItem.sourceVector();
-                        secondItemSourceVector = secondItem.targetVector();
+                    if (firstLink.targetNodeID() == secondLink.sourceNodeID()) {
+                        linksSequentialArray.push(new Line(secondLinkSourceVector, secondLinkTargetVector));
+                    } else if (firstLink.targetNodeID() == secondLink.targetNodeID()) {
+                        linksSequentialArray.push(new Line(secondLinkTargetVector, secondLinkSourceVector));
+                    } else if (firstLink.sourceNodeID() == secondLink.sourceNodeID()) {
+                        linksSequentialArray.pop();
+                        linksSequentialArray.push(new Line(firstLinkTargetVector, firstLinkSourceVector));
+                        linksSequentialArray.push(new Line(secondLinkSourceVector, secondLinkTargetVector));
                     } else {
-                        secondItemSourceVector = secondItem.sourceVector();
-                        secondItemTargetVector = secondItem.targetVector();
+                        linksSequentialArray.pop();
+                        linksSequentialArray.push(new Line(firstLinkTargetVector, firstLinkSourceVector));
+                        linksSequentialArray.push(new Line(secondLinkTargetVector, secondLinkSourceVector));
                     }
+                }
 
-
-                    if (isEqual(firstItemTargetVector, secondItemSourceVector) || isEqual(firstItemTargetVector, secondItemTargetVector)) {
-                        linksSequentialArray.push(new Line(firstItemSourceVector, firstItemTargetVector));
-                    } else {
-                        linksSequentialArray.push(new Line(firstItemTargetVector, firstItemSourceVector));
-                    }
-
-
-                    if (isEqual(linksSequentialArray[0].end, secondItemSourceVector)) {
-                        linksSequentialArray.push(new Line(secondItemSourceVector, secondItemTargetVector));
-                    } else {
-                        linksSequentialArray.push(new Line(secondItemTargetVector, secondItemSourceVector));
-                    }
-
-                    var lastTargetVector = linksSequentialArray[1].end;
-
-
-                    for (var i = 2; i < value.length; i++) {
-
-                        var link = value[i];
-
-
-                        var sourceVector, targetVector;
-
-                        if (link.reverse()) {
-                            targetVector = link.sourceVector();
-                            sourceVector = link.targetVector();
-                        } else {
-                            sourceVector = link.sourceVector();
-                            targetVector = link.targetVector();
-                        }
-
-                        if (isEqual(sourceVector, lastTargetVector)) {
-                            linksSequentialArray.push(new Line(sourceVector, targetVector));
-                            lastTargetVector = targetVector;
-                        } else {
-                            linksSequentialArray.push(new Line(targetVector, sourceVector));
-                            lastTargetVector = sourceVector;
-                        }
-
-
-                    }
-
-
-                } else {
-                    if (!this.reverse()) {
-                        linksSequentialArray.push(new Line(firstItemSourceVector, firstItemTargetVector));
-                    } else {
-                        linksSequentialArray.push(new Line(firstItemTargetVector, firstItemSourceVector));
-                    }
-
+                if (this.reverse()) {
+                    linksSequentialArray.reverse();
                 }
 
                 return linksSequentialArray;
-
             },
             isEqual: function (pos1, pos2) {
-
                 return pos1.x == pos2.x && pos1.y == pos2.y;
-
-
             },
             dispose: function () {
                 nx.each(this.nodes, function (node) {
                     node.off('updateNodeCoordinate', this.draw, this);
                 }, this);
-                this.dispose.__super__.apply(this, arguments);
+                this.inherited();
             }
 
 

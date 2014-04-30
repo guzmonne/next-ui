@@ -101,6 +101,7 @@
                 nx.each(this.nodes().toArray(), function (node) {
                     node.off('updateNodeCoordinate', this.draw, this);
                 }, this);
+                this.nodes().dispose();
                 this.inherited();
             }
         }

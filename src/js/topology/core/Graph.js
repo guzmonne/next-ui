@@ -223,12 +223,12 @@
                 }, this);
 
                 graph.on("setData", function (sender, data) {
-
+//                    this.showLoading();
                 }, this);
 
 
                 graph.on("insertData", function (sender, data) {
-
+//                    this.showLoading();
                 }, this);
 
 
@@ -238,37 +238,11 @@
 
 
                 graph.on("startGenerate", function (sender, event) {
-                    //this._setProjection();
+
                 }, this);
                 graph.on("endGenerate", function (sender, event) {
-
-                    if (this.autoFit()) {
-                        this.stage().fit();
-                    }
-
-
-                    /**
-                     * Fired when all topology elements generated
-                     * @event topologyGenerated
-                     * @param sender{Object} trigger instance
-                     * @param event {Object} original event object
-                     */
-                    var layoutType = this.layoutType();
-                    if (layoutType) {
-                        this.activateLayout(layoutType, null, function () {
-                            this.fire('topologyGenerated');
-                        });
-                    } else if (this.enableSmartLabel()) {
-                        setTimeout(function () {
-                            this.fire('topologyGenerated');
-                        }.bind(this), 100);
-                    } else {
-
-                        this.fire('topologyGenerated');
-                    }
-
-                    //this.hideLoading();
-
+                    //setTimeout(this._endGenerate.bind(this), 0);
+                    this._endGenerate();
                 }, this);
 
 
@@ -323,6 +297,32 @@
                 }
             },
             start: function () {
+            },
+            _endGenerate: function () {
+                if (this.autoFit()) {
+                    this.stage().fit();
+                }
+
+                this.hideLoading();
+
+                /**
+                 * Fired when all topology elements generated
+                 * @event topologyGenerated
+                 * @param sender{Object} trigger instance
+                 * @param event {Object} original event object
+                 */
+                var layoutType = this.layoutType();
+                if (layoutType) {
+                    this.activateLayout(layoutType, null, function () {
+                        this.fire('topologyGenerated');
+                    });
+                } else if (this.enableSmartLabel()) {
+                    setTimeout(function () {
+                        this.fire('topologyGenerated');
+                    }.bind(this), 100);
+                } else {
+                    this.fire('topologyGenerated');
+                }
             }
         }
     });

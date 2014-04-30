@@ -27,7 +27,7 @@
             attach: function (args) {
                 this.attach.__super__.apply(this, arguments);
                 var topo = this.topology();
-//                topo.on('zoomend', this._draw, this);
+                topo.on('zoomend', this._draw, this);
 
             },
             _draw: function () {
@@ -45,8 +45,6 @@
                 path.topology(this.topology());
                 path.attach(this);
                 path.draw();
-
-                //
             },
             /**
              * Remove a path
@@ -54,17 +52,21 @@
              * @param path
              */
             removePath: function (path) {
-                var index = util.indexOf(this._paths, path);
-                this._paths.splice(index, 1);
-                path.detach(this);
+                this.paths().splice(this.path().indexOf(path), 1);
+                path.dispose();
             },
             clear: function () {
+                nx.each(this.paths(), function (path) {
+                    path.dispose();
+                });
                 this.paths([]);
-
+                this.inherited();
+            },
+            dispose: function () {
+                this.clear();
                 var topo = this.topology();
-//                topo.on('zoomend', this._draw, this);
-
-                this.clear.__super__.apply(this, arguments);
+                topo.off('zoomend', this._draw, this);
+                this.inherited();
             }
         }
     });
