@@ -110,6 +110,7 @@
         "src/js/topology/group/PolygonGroup.js",
 
         "src/js/topology/path/Path.js",
+        "src/js/topology/path/BasePath.js",
         "src/js/topology/path/PathLayer.js",
 
         "src/js/topology/plugin/Nav.js"
