@@ -44,7 +44,7 @@
   }
 
   defs svg {
-    pointer-events: none;
+//    pointer-events: none;
   }
 
   defs [fill*='#FFFFFF'] {
@@ -79,6 +79,10 @@
     &.disable {
       opacity: 0.3;
       stroke: #ccc;
+    }
+
+    use {
+      pointer-events: none;
     }
 
   }
@@ -273,4 +277,18 @@
     }
 
   }
+}
+
+.n-test {
+  font-family: icomoon;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  //  content: "\e601";
+  font-size: 14px;
+  color: #f00;
 }

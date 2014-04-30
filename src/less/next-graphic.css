@@ -67,6 +67,18 @@
 .icon-toolbar_fitstage:before {
   content: "\e60e";
 }
+.n-test {
+  font-family: icomoon;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  font-size: 14px;
+  color: #f00;
+}
 .n-topology.n-topology-blue {
   position: relative;
   overflow: hidden;
@@ -109,9 +121,6 @@
 .n-topology.n-topology-blue defs .stroke {
   stroke: #0386d2;
 }
-.n-topology.n-topology-blue defs svg {
-  pointer-events: none;
-}
 .n-topology.n-topology-blue defs [fill*='#FFFFFF'] {
   fill: #ffffff;
 }
@@ -146,6 +155,9 @@
 .n-topology.n-topology-blue .node.disable {
   opacity: 0.3;
   stroke: #ccc;
+}
+.n-topology.n-topology-blue .node use {
+  pointer-events: none;
 }
 .n-topology.n-topology-blue .link path,
 .n-topology.n-topology-blue .link line {
@@ -713,9 +725,6 @@
 .n-topology.n-topology-dark defs .stroke {
   stroke: #00a9ff;
 }
-.n-topology.n-topology-dark defs svg {
-  pointer-events: none;
-}
 .n-topology.n-topology-dark defs [fill*='#FFFFFF'] {
   fill: #000000;
 }
@@ -750,6 +759,9 @@
 .n-topology.n-topology-dark .node.disable {
   opacity: 0.3;
   stroke: #ccc;
+}
+.n-topology.n-topology-dark .node use {
+  pointer-events: none;
 }
 .n-topology.n-topology-dark .link path,
 .n-topology.n-topology-dark .link line {
@@ -1317,9 +1329,6 @@
 .n-topology.n-topology-green defs .stroke {
   stroke: #26999e;
 }
-.n-topology.n-topology-green defs svg {
-  pointer-events: none;
-}
 .n-topology.n-topology-green defs [fill*='#FFFFFF'] {
   fill: #ffffff;
 }
@@ -1354,6 +1363,9 @@
 .n-topology.n-topology-green .node.disable {
   opacity: 0.3;
   stroke: #ccc;
+}
+.n-topology.n-topology-green .node use {
+  pointer-events: none;
 }
 .n-topology.n-topology-green .link path,
 .n-topology.n-topology-green .link line {
@@ -1921,9 +1933,6 @@
 .n-topology.n-topology-slate defs .stroke {
   stroke: #ffffff;
 }
-.n-topology.n-topology-slate defs svg {
-  pointer-events: none;
-}
 .n-topology.n-topology-slate defs [fill*='#FFFFFF'] {
   fill: #223343;
 }
@@ -1958,6 +1967,9 @@
 .n-topology.n-topology-slate .node.disable {
   opacity: 0.3;
   stroke: #ccc;
+}
+.n-topology.n-topology-slate .node use {
+  pointer-events: none;
 }
 .n-topology.n-topology-slate .link path,
 .n-topology.n-topology-slate .link line {
@@ -2525,9 +2537,6 @@
 .n-topology.n-topology-yellow defs .stroke {
   stroke: #ffc200;
 }
-.n-topology.n-topology-yellow defs svg {
-  pointer-events: none;
-}
 .n-topology.n-topology-yellow defs [fill*='#FFFFFF'] {
   fill: #000000;
 }
@@ -2562,6 +2571,9 @@
 .n-topology.n-topology-yellow .node.disable {
   opacity: 0.3;
   stroke: #ccc;
+}
+.n-topology.n-topology-yellow .node use {
+  pointer-events: none;
 }
 .n-topology.n-topology-yellow .link path,
 .n-topology.n-topology-yellow .link line {
