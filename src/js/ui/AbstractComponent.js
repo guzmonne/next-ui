@@ -25,7 +25,7 @@
         }
         else {
             var expr = extractBindingExpression(value);
-            if (expr != null) {
+            if (expr !== null) {
                 if (expr[0] === '#') {
                     target.setBinding(name, expr.slice(1) + ',bindingType=property', owner || target);
                 }
@@ -45,7 +45,7 @@
         }
         else {
             var expr = extractBindingExpression(value);
-            if (expr != null) {
+            if (expr !== null) {
                 if (expr[0] === '#') {
                     target.setBinding(name, expr.slice(1) + ',bindingType=event', owner || target);
                 }
