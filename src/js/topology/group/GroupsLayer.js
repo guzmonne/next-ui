@@ -74,6 +74,7 @@
                 topo.on('zoomend', this._redraw.bind(this), this);
                 topo.on('fitStage', this._redraw.bind(this), this);
                 topo.watch('revisionScale', this._redraw.bind(this), this);
+                topo.watch('showIcon', this._redraw.bind(this), this);
             },
             /**
              * Add a group to group layer
@@ -136,6 +137,7 @@
                 topo.off('zoomend', this._redraw.bind(this), this);
                 topo.off('fitStage', this._redraw.bind(this), this);
                 topo.unwatch('revisionScale', this._redraw.bind(this), this);
+                topo.unwatch('showIcon', this._redraw.bind(this), this);
                 this.inherited();
             }
 
