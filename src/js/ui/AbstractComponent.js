@@ -3,7 +3,19 @@
     var Binding = nx.Binding;
     var Collection = nx.data.Collection;
     var Document = nx.dom.Document;
-    var rpatt = /(?={)\{([^{}]*?)\}(?!})/;
+
+    function extractBindingExpression(value) {
+        if (nx.is(value, 'String')) {
+            var start = value.indexOf('{');
+            var end = value.indexOf('}');
+
+            if (start >= 0 && end > start) {
+                return value.slice(start + 1, end);
+            }
+        }
+
+        return null;
+    }
 
     function setProperty(target, name, value, source, owner) {
         if (nx.is(value, Binding)) {
@@ -11,17 +23,19 @@
                 bindingType: 'property'
             }));
         }
-        else if (nx.is(value, 'String') && rpatt.test(value)) {
-            var expr = RegExp.$1;
-            if (expr[0] === '#') {
-                target.setBinding(name, expr.slice(1) + ',bindingType=property', owner || target);
+        else {
+            var expr = extractBindingExpression(value);
+            if (expr) {
+                if (expr[0] === '#') {
+                    target.setBinding(name, expr.slice(1) + ',bindingType=property', owner || target);
+                }
+                else {
+                    target.setBinding(name, (expr ? 'model.' + expr : 'model') + ',bindingType=property', source || target);
+                }
             }
             else {
-                target.setBinding(name, (expr ? 'model.' + expr : 'model') + ',bindingType=property', source || target);
+                target.set(name, value);
             }
-        }
-        else {
-            target.set(name, value);
         }
     }
 
@@ -29,17 +43,19 @@
         if (nx.is(value, Binding)) {
             target.setBinding(name, value.gets());
         }
-        else if (nx.is(value, 'String') && rpatt.test(value)) {
-            var expr = RegExp.$1;
-            if (expr[0] === '#') {
-                target.setBinding(name, expr.slice(1) + ',bindingType=event', owner || target);
+        else {
+            var expr = extractBindingExpression(value);
+            if (expr) {
+                if (expr[0] === '#') {
+                    target.setBinding(name, expr.slice(1) + ',bindingType=event', owner || target);
+                }
+                else {
+                    target.setBinding(name, (expr ? 'model.' + expr : 'model') + ',bindingType=event', source || target);
+                }
             }
             else {
-                target.setBinding(name, (expr ? 'model.' + expr : 'model') + ',bindingType=event', source || target);
+                target.on(name, value, owner || target);
             }
-        }
-        else {
-            target.on(name, value, owner || target);
         }
     }
 
