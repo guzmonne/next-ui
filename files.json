@@ -108,6 +108,7 @@
         "src/js/topology/group/RectGroup.js",
         "src/js/topology/group/CircleGroup.js",
         "src/js/topology/group/PolygonGroup.js",
+        "src/js/topology/group/NodeSetPolygonGroup.js",
 
         "src/js/topology/path/Path.js",
         "src/js/topology/path/BasePath.js",
