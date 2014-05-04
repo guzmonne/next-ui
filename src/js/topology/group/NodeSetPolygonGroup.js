@@ -129,7 +129,7 @@
                     y: topo.matrix().y()
                 };
 
-                if (this.nodes().count() == 0) {
+                if (this.nodes().count() === 0) {
                     return;
                 }
 
