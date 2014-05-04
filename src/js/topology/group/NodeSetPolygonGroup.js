@@ -191,7 +191,7 @@
                     shape.dom().setStyle('stroke-width', 30 * stageScale);
 
                     this.view('minus').setTransform(bound.left + bound.width / 2, bound.top, 1.5 * stageScale);
-
+                    this.view('icon').visible(false);
 
                     this.view('label').sets({
                         x: bound.left + bound.width / 2 + 12 * stageScale,
