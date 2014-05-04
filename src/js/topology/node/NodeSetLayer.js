@@ -3,9 +3,10 @@
     var CLZ = nx.define('nx.graphic.Topology.NodeSetLayer', nx.graphic.Topology.DoubleLayer, {
         statics: {
             defaultConfig: {
+                iconType: 'groupS'
             }
         },
-        events: ['clickNodeSet', 'enterNodeSet', 'leaveNodeSet', 'dragNodeSetStart', 'dragNodeSet', 'dragNodeSetEnd', 'hideNodeSet', 'pressNodeSet', 'selectNodeSet', 'updateNodeSetCoordinate', 'expandNodeSet', 'collapseNodeSet'],
+        events: ['clickNodeSet', 'enterNodeSet', 'leaveNodeSet', 'dragNodeSetStart', 'dragNodeSet', 'dragNodeSetEnd', 'hideNodeSet', 'pressNodeSet', 'selectNodeSet', 'updateNodeSetCoordinate', 'expandNodeSet', 'collapseNodeSet', 'beforeExpandNodeSet', 'beforeCollapseNodeSet', 'removeNodeSet', 'updateNodeSet'],
         properties: {
             nodeSetArray: {
                 value: function () {
@@ -51,11 +52,18 @@
                 var id = vertexSet.id();
                 var nodeSet = nodeSetMap[id];
 
+                this.fire('removeNodeSet', nodeSet);
                 nodeSet.dispose();
                 nodeSetArray.splice(nodeSetArray.indexOf(nodeSet), 1);
                 delete nodeSetMap[id];
+
+
             },
-            updateNodeSet: function (nodeSetMap) {
+            updateNodeSet: function (vertexSet) {
+                var nodeSetMap = this.nodeSetMap();
+                var id = vertexSet.id();
+                var nodeSet = nodeSetMap[id];
+                this.fire('updateNodeSet', nodeSet);
             },
             _generateNodeSet: function (vertexSet) {
 
@@ -92,12 +100,29 @@
 
 
                 var nodeSetConfig = nx.extend({}, CLZ.defaultConfig, topo.nodeSetConfig());
-                delete nodeSetConfig.__owner__; //fix bug
+                var label = nodeSetConfig.label;
+                delete nodeSetConfig.label;
+                delete nodeSetConfig.__owner__;
+
                 nx.each(nodeSetConfig, function (value, key) {
-                    util.setProperty(nodeSet, key, value, topo);
+                    setTimeout(function () {
+                        util.setProperty(nodeSet, key, value, topo);
+                    }, 10);
                 }, this);
-                util.setProperty(nodeSet, 'showIcon', topo.showIcon());
-                util.setProperty(nodeSet, 'label', nodeSetConfig.label, topo);
+
+
+                if (label != null) {
+                    setTimeout(function () {
+                        util.setProperty(nodeSet, 'label', label, topo);
+                    }, 10);
+                }
+
+
+                if (topo.showIcon() && topo.revisionScale() == 1) {
+                    setTimeout(function () {
+                        util.setProperty(nodeSet, 'showIcon', true);
+                    }, 10);
+                }
 
                 //register events
                 var superEvents = nx.graphic.Component.__events__;
@@ -135,10 +160,14 @@
              * @param context
              */
             eachNodeSet: function (fn, context) {
-                nx.each(this.nodeSetArray(), fn, context || this);
+                nx.each(this.nodeSetMap(), fn, context || this);
             },
             eachVisibleNodeSet: function (fn, context) {
-                nx.each(this.nodeSetArray(), fn, context || this);
+                nx.each(this.nodeSetMap(), function (nodeSet, id) {
+                    if (nodeSet.visible()) {
+                        fn.call(context || this, nodeSet, id);
+                    }
+                }, this);
             },
             getNodeSet: function () {
                 return this.nodeSetArray();

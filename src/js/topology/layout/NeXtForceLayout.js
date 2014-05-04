@@ -48,6 +48,11 @@
                         }
                     });
                 }
+
+                topo.hideLoading();
+                topo.stage().fit();
+                topo.stage().show();
+
                 setTimeout(function () {
                     // force
 
@@ -108,7 +113,7 @@
                     }, 500);
 
 
-                }.bind(this), 300);
+                }.bind(this), 3000);
 
 
             },

@@ -72,6 +72,7 @@
                 this.inherited(args);
                 var topo = this.topology();
                 topo.on('zoomend', this._redraw.bind(this), this);
+                topo.on('fitStage', this._redraw.bind(this), this);
                 topo.watch('revisionScale', this._redraw.bind(this), this);
             },
             /**
@@ -97,10 +98,11 @@
                 delete  config.shapeType;
 
                 group.sets(config);
+                group.attach(this);
+
+
                 group.nodes().addRange(nodes);
 
-
-                group.attach(this);
                 this.groups().push(group);
 
                 return group;
@@ -132,7 +134,7 @@
                 this.clear();
                 var topo = this.topology();
                 topo.off('zoomend', this._redraw.bind(this), this);
-                topo.off('fit', this._redraw.bind(this), this);
+                topo.off('fitStage', this._redraw.bind(this), this);
                 topo.unwatch('revisionScale', this._redraw.bind(this), this);
                 this.inherited();
             }

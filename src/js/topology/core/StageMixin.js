@@ -5,7 +5,7 @@
      * @module nx.graphic.Topology
      */
     nx.define('nx.graphic.Topology.StageMixin', {
-        events: ['fit', 'ready', 'resizeStage'],
+        events: ['fitStage', 'ready', 'resizeStage'],
         properties: {
             /**
              * Set/get topology's width.
@@ -192,8 +192,8 @@
                      * @param sender{Object} trigger instance
                      * @param event {Object} original event object
                      */
-                    this.fire('fit');
-                }, this, duration !== undefined ? duration : 0.6);
+                    this.fire('fitStage');
+                }, this, duration !== undefined ? duration : 0.9);
 
             },
             precisionFit: function (duration) {
@@ -219,7 +219,7 @@
                     this.adjustLayout();
                     /* jshint -W030 */
                     callback && callback.call(context || this);
-                }, this, duration !== undefined ? duration : 0.6);
+                }, this, duration !== undefined ? duration : 0.9);
             },
             /**
              * Zoom topology to let the passing nodes just visible at the screen
@@ -228,8 +228,17 @@
              * @param [context] {Object} callback context
              * @param nodes {Array} nodes collection
              */
-            zoomByNodes: function (nodes, callback, context) {
+            zoomByNodes: function (nodes, callback, context, boundScale) {
                 var bound = this.getBoundByNodes(nodes);
+
+                if (boundScale != null) {
+                    bound.left -= bound.width * (boundScale - 1) / 2;
+                    bound.top -= bound.height * (boundScale - 1) / 2;
+                    bound.width *= boundScale;
+                    bound.height *= boundScale;
+                }
+
+
                 this.zoomByBound(bound, function () {
                     this.adjustLayout();
                     /* jshint -W030 */

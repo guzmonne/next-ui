@@ -78,15 +78,15 @@
                 this.edges = [];
                 this.edgesMap = {};
 
-                this._edgeSet = [];
-                this._edgeSetMap = {};
+                this.edgeSet = [];
+                this.edgeSetMap = {};
 
-                this._vertexSet = [];
-                this._vertexSetMap = {};
+                this.vertexSet = [];
+                this.vertexSetMap = {};
 
 
-                this._edgeSetCollectionMap = {};
-                this._edgeSetCollection = [];
+                this.edgeSetCollectionMap = {};
+                this.edgeSetCollection = [];
 
                 this.fire('clear');
             },
@@ -166,6 +166,7 @@
                 }
             },
 
+
             _processData: function (data) {
                 nx.each(data.nodes, this._addVertex, this);
 
@@ -174,221 +175,11 @@
                 nx.each(data.nodeSet, this._addVertexSet, this);
 
                 //after initializing
-                nx.each(this._vertexSet, this._processVertexSet, this);
+                nx.each(this.vertexSet, this._processVertexSet, this);
 
                 this._generate();
             },
-            /**
-             * Get original data
-             * @returns {Object}
-             */
 
-            getData: function () {
-                var data = nx.clone(this._originalData);
-                if (data.nodeSet.length === 0) {
-                    delete data.nodeSet;
-                }
-                return data;
-            },
-
-            /**
-             * Add vertex to Graph
-             * @method addVertex
-             * @param {JSON} data Vertex original data
-             * @param {Object} [inOptions] Config object
-             * @param {Boolean} [isGenerate=true] If 'true',not trigger generate process.
-             * @returns {nx.data.Vertex}
-             */
-            addVertex: function (data, inOptions, isGenerate) {
-
-                this._originalData.nodes.push(data);
-
-                var vertex = this._addVertex(data, inOptions);
-
-                if (isGenerate !== false) {
-                    vertex.generated(true);
-                    /**
-                     * @event addVertex
-                     * @param sender {Object}  Trigger instance
-                     * @param {nx.data.Vertex} vertex Vertex object
-                     */
-                    this.fire('addVertex', vertex);
-                }
-                return vertex;
-            },
-            /**
-             * Remove a vertex from Graph
-             * @method removeVertex
-             * @param {nx.data.Vertex} vertex Vertex object
-             * @returns {Boolean}
-             */
-            removeVertex: function (vertex, isNotifyParentVertexSet) {
-                this._removeVertex(vertex, isNotifyParentVertexSet);
-                if (isNotifyParentVertexSet !== false) {
-                    var vertexSet = vertex.parentVertexSet();
-                    if (vertexSet) {
-                        vertexSet.removeVertex(vertex);
-                    }
-                }
-                this.vertices = util.without(this.vertices, vertex);
-                delete this.verticesMap[vertex.id()];
-            },
-            _removeVertex: function (vertex) {
-                vertex.eachEdgeSet(function (edgeSet) {
-                    edgeSet.visible(false);
-                    edgeSet.generated(false);
-                    edgeSet._activated = null;
-                    edgeSet.disposeEdges();
-                    this.fire('removeEdgeSet', edgeSet);
-                }, this);
-
-                nx.each(vertex.edgeSetCollection(), function (esc, vertexID) {
-                    this._removeEdgeSetCollection(esc);
-                }, this);
-                /**
-                 * @event removeVertex
-                 * @param sender {Object}  Trigger instance
-                 * @param {nx.data.Vertex} vertex Vertex object
-                 */
-
-                this.fire('removeVertex', vertex);
-            },
-
-
-            /**
-             * Add edge to Graph
-             * @method addEdge
-             * @param {JSON} data Vertex original data
-             * @param {Object} [inOptions] Config object
-             * @param {Boolean} [isGenerate=true] If 'true',not trigger generate process.
-             * @returns {nx.data.Edge}
-             */
-
-            addEdge: function (data, inOptions, isGenerate) {
-
-                this._originalData.links.push(data);
-
-                var edge = this._addEdge(data, inOptions);
-
-                if (edge && isGenerate !== false) {
-                    var edgeSet = edge.parentEdgeSet();
-                    if (edgeSet.generated()) {
-                        if (!edgeSet.activated()) {
-                            /**
-                             * @event addEdge
-                             * @param sender {Object}  Trigger instance
-                             * @param {nx.data.Edge} edge Edge object
-                             */
-                            this.fire('addEdge', edge);
-                        }
-                        this.fire('updateEdgeSet', edgeSet);
-                    } else {
-                        edgeSet.generated(true);
-                        /**
-                         * @event addEdgeSet
-                         * @param sender {Object}  Trigger instance
-                         * @param {nx.data.EdgeSet} edgeSet EdgeSet object
-                         */
-                        this.fire('addEdgeSet', edgeSet);
-
-                    }
-
-                }
-                return edge;
-            },
-            /**
-             * Remove edge from Graph
-             * @method removeEdge
-             * @param edge {nx.data.Edge} edge Edge object
-             * @param isNotifyParentEdgeSet {Boolean}
-             */
-            removeEdge: function (edge, isNotifyParentEdgeSet) {
-                this._removeEdge(edge, isNotifyParentEdgeSet);
-                this.edges.splice(this.edges.indexOf(edge), 1);
-                delete this.edgesMap[edge.id()];
-            },
-            _removeEdge: function (edge, isNotifyParentEdgeSet) {
-                var edgeSet = edge.parentEdgeSet();
-                edgeSet.removeEdge(edge);
-
-                /**
-                 * @event removeEdge
-                 * @param sender {Object}  Trigger instance
-                 * @param {nx.data.Edge} edge Edge object
-                 */
-                this.fire('removeEdge', edge);
-                if (isNotifyParentEdgeSet !== false) {
-                    this.fire('updateEdgeSet', edgeSet);
-                }
-            },
-
-
-            /**
-             * Add vertex set to Graph
-             * @method addVertexSet
-             * @param {JSON} data Vertex set original data, which include nodes(Array) attribute. That is node's ID collection.  e.g. {nodes:[id1,id2,id3]}
-             * @param {Object} [inOptions] Config object
-             * @param {Boolean} [isGenerate=true] If 'true',not trigger generate process.
-             * @returns {nx.data.VertexSet}
-             */
-            addVertexSet: function (data, inOptions, isGenerate) {
-
-                this._originalData.nodeSet.push(data);
-
-                this.eachVertexSet(function (vertexSet) {
-                    nx.each(data.nodes, function (nodeID) {
-                        vertexSet.removeVertexById(nodeID);
-                    });
-                }, this);
-
-
-                var vertexSet = this._addVertexSet(data, inOptions);
-
-                if (isGenerate !== false) {
-                    this._processVertexSet(vertexSet);
-                    vertexSet.generated(true);
-                    vertexSet.visible(true);
-                    /**
-                     * @event addVertexSet
-                     * @param sender {Object}  Trigger instance
-                     * @param {nx.data.VertexSet} vertexSet VertexSet object
-                     */
-                    this.fire('addVertexSet', vertexSet);
-                    setTimeout(function () {
-                        vertexSet.activated(true);
-                    }, 0);
-
-                }
-                return vertexSet;
-            },
-            /**
-             * Remove a vertex set from Graph
-             * @method removeVertexSet
-             * @param {nx.data.VertexSet} vertexSet VertexSet object
-             * @returns {Boolean}
-             */
-            removeVertexSet: function (vertexSet) {
-                //[todo]
-
-            },
-            _removeVertexSet: function (vertexSet) {
-
-                vertexSet.eachEdgeSet(function (edgeSet) {
-                    edgeSet.visible(false);
-                    edgeSet.generated(false);
-                    edgeSet._activated = null;
-                    this.fire('removeEdgeSet', edgeSet);
-                }, this);
-
-                nx.each(vertexSet.edgeSetCollection(), function (esc, vertexID) {
-                    this._removeEdgeSetCollection(esc);
-                }, this);
-
-
-                vertexSet._activated = null;
-
-                this.fire('removeVertexSet', vertexSet);
-            },
             _addVertex: function (data, config) {
                 var vertices = this.vertices;
                 var verticesLength = vertices.length;
@@ -437,17 +228,16 @@
 
                 return vertex;
             },
-
             _addEdge: function (data, inOption) {
                 var identityKey = this.identityKey();
                 var source, target, sourceID, targetID;
 
                 sourceID = nx.is(data.source, 'Object') ? data.source[identityKey] : data.source;
-                source = this.verticesMap[sourceID] || this._vertexSetMap[sourceID];
+                source = this.verticesMap[sourceID] || this.vertexSetMap[sourceID];
 
 
                 targetID = nx.is(data.target, 'Object') ? data.target[identityKey] : data.target;
-                target = this.verticesMap[targetID] || this._vertexSetMap[targetID];
+                target = this.verticesMap[targetID] || this.vertexSetMap[targetID];
 
 
                 if (source && target) {
@@ -476,7 +266,7 @@
                     this.edges.push(edge);
 
 
-                    var edgeSetMap = this._edgeSetMap;
+                    var edgeSetMap = this.edgeSetMap;
 
 
                     var edgeSet = edgeSetMap[linkKey] || edgeSetMap[reverseLinkKey];
@@ -531,81 +321,12 @@
                 edgeSet.source().addEdgeSet(edgeSet, linkKey);
                 edgeSet.target().addEdgeSet(edgeSet, linkKey);
 
-                this._edgeSetMap[linkKey] = edgeSet;
-                this._edgeSet.push(edgeSet);
+                this.edgeSetMap[linkKey] = edgeSet;
+                this.edgeSet.push(edgeSet);
                 return edgeSet;
             },
-
-
-            _removeEdgeSet: function (edgeSet) {
-                edgeSet.eachEdge(function (edge) {
-                    this._removeEdge(edge, false);
-                }, this);
-
-                edgeSet.visible(false);
-                edgeSet.generated(false);
-                edgeSet._activated = null;
-
-                edgeSet.source().removeEdgeSet(edgeSet);
-                edgeSet.target().removeEdgeSet(edgeSet);
-
-
-                this._edgeSet.splice(this._edgeSet.indexOf(edgeSet), 1);
-                delete this._edgeSetMap[edgeSet.linkKey()];
-
-                /**
-                 * @event removeEdgeSet
-                 * @param sender {Object}  Trigger instance
-                 * @param {nx.data.EdgeSet} edgeSet EdgeSet object
-                 */
-                this.fire('removeEdgeSet', edgeSet);
-            },
-
-
-            _getEdgeSetCollectionByVertex: function (sourceID, targetID) {
-                var linkKey = sourceID + '_' + targetID;
-                var reverseLinkKey = targetID + '_' + sourceID;
-                return this._edgeSetCollectionMap[linkKey] || this._edgeSetCollectionMap[reverseLinkKey];
-            },
-            _addEdgeSetCollection: function (data) {
-                var esc = new nx.data.EdgeSetCollection();
-                var id = esc.__id__;
-                var linkKey = data.sourceID + '_' + data.targetID;
-                var reverseLinkKey = data.targetID + '_' + data.sourceID;
-
-
-                esc.sets(data);
-                esc.sets({
-                    graph: this,
-                    linkKey: linkKey,
-                    reverseLinkKey: reverseLinkKey,
-                    id: id
-                });
-
-                esc.source().addEdgeSetCollection(esc, linkKey);
-                esc.target().addEdgeSetCollection(esc, linkKey);
-
-                this._edgeSetCollectionMap[linkKey] = esc;
-                this._edgeSetCollection.push(esc);
-
-
-                this.fire('addEdgeSetCollection', esc);
-                return esc;
-            },
-            _removeEdgeSetCollection: function (esc) {
-                this._edgeSetCollection.splice(this._edgeSetCollection.indexOf(esc), 1);
-                delete this._edgeSetCollectionMap[esc.linkKey()];
-
-                /**
-                 * @event removeEdgeSet
-                 * @param sender {Object}  Trigger instance
-                 * @param {nx.data.EdgeSet} edgeSet EdgeSet object
-                 */
-                this.fire('removeEdgeSetCollection', esc);
-            },
-
             _addVertexSet: function (data, config) {
-                var verticesLength = this._vertexSet.length + this.vertices.length;
+                var verticesLength = this.vertexSet.length + this.vertices.length;
                 var identityKey = this.identityKey();
                 //
                 if (!nx.is(data, 'Object')) {
@@ -649,15 +370,398 @@
                 }, this);
 
 
-                this._vertexSet.push(vertexSet);
-                this._vertexSetMap[vertexSetID] = vertexSet;
+                this.vertexSet.push(vertexSet);
+                this.vertexSetMap[vertexSetID] = vertexSet;
+
+                return vertexSet;
+            },
+            _processVertexSet: function (vertexSet) {
+                vertexSet.addVertices(vertexSet._data.nodes);
+            },
+
+
+            _generate: function () {
+                /**
+                 * @event startGenerate
+                 * @param sender {Object}  Trigger instance
+                 */
+                this.fire('startGenerate');
+
+                nx.each(this.vertices, this._generateVertex, this);
+
+                //nx.each(this.edges, this._generateEdge, this);
+
+                nx.each(this.vertexSet, this._generateVertexSet, this);
+
+                nx.each(this.edgeSet, this._generateEdgeSetMap, this);
+
+                /**
+                 * @event endGenerate
+                 * @param sender {Object}  Trigger instance
+                 */
+                this.fire('endGenerate');
+
+            },
+
+            _generateVertex: function (vertex) {
+                if (vertex.visible() && !vertex.generated()) {
+                    vertex.generated(true);
+                    this.fire('addVertex', vertex);
+                } else if (vertex.generated() && vertex.updated()) {
+                    vertex.updated(false);
+                    /**
+                     * @event updateVertex
+                     * @param sender {Object}  Trigger instance
+                     * @param {nx.data.Vertex} vertex Vertex object
+                     */
+                    this.fire('updateVertex', vertex);
+                }
+            },
+            _generateEdge: function (edge) {
+                if (!edge.generated() && edge.source().generated() && edge.target().generated()) { //edgeSet.visible() &&
+                    edge.generated(true);
+                    this.fire('addEdge', edge);
+                } else if (edge.generated() && edge.updated()) {
+                    edge.updated(false);
+                    /**
+                     * @event updateEdgeSet
+                     * @param sender {Object}  Trigger instance
+                     * @param {nx.data.EdgeSet} edgeSet EdgeSet object
+                     */
+                    this.fire('updateEdge', edge);
+                }
+            },
+            _generateEdgeSetMap: function (edgeSet) {
+                if (!edgeSet.generated() && edgeSet.source().generated() && edgeSet.target().generated()) { //edgeSet.visible() &&
+                    edgeSet.generated(true);
+                    this.fire('addEdgeSet', edgeSet);
+                } else if (edgeSet.generated() && edgeSet.updated()) {
+                    edgeSet.updated(false);
+                    /**
+                     * @event updateEdgeSet
+                     * @param sender {Object}  Trigger instance
+                     * @param {nx.data.EdgeSet} edgeSet EdgeSet object
+                     */
+                    this.fire('updateEdgeSet', edgeSet);
+                }
+            },
+            _generateVertexSet: function (vertexSet) {
+                if (vertexSet.visible() && !vertexSet.generated()) {
+                    vertexSet.generated(true);
+                    this.fire('addVertexSet', vertexSet);
+                    setTimeout(function () {
+                        vertexSet.activated(true);
+                    }, 0);
+                } else if (vertexSet.generated() && vertexSet.updated()) {
+                    vertexSet.updated(false);
+                    /**
+                     * @event updateVertexSet
+                     * @param sender {Object}  Trigger instance
+                     * @param {nx.data.VertexSet} vertexSet VertexSet object
+                     */
+                    this.fire('updateVertexSet', vertexSet);
+                }
+            },
+            /**
+             * Get original data
+             * @returns {Object}
+             */
+
+            getData: function () {
+                var data = nx.clone(this._originalData);
+                if (data.nodeSet.length === 0) {
+                    delete data.nodeSet;
+                }
+                return data;
+            },
+
+            /**
+             * Add vertex to Graph
+             * @method addVertex
+             * @param {JSON} data Vertex original data
+             * @param {Object} [inOptions] Config object
+             * @param {Boolean} [isGenerate=true] If 'true',not trigger generate process.
+             * @returns {nx.data.Vertex}
+             */
+            addVertex: function (data, inOptions, isGenerate) {
+
+                this._originalData.nodes.push(data);
+
+                var vertex = this._addVertex(data, inOptions);
+
+                if (isGenerate !== false) {
+                    vertex.generated(true);
+                    /**
+                     * @event addVertex
+                     * @param sender {Object}  Trigger instance
+                     * @param {nx.data.Vertex} vertex Vertex object
+                     */
+                    this.fire('addVertex', vertex);
+                }
+                return vertex;
+            },
+            /**
+             * Add edge to Graph
+             * @method addEdge
+             * @param {JSON} data Vertex original data
+             * @param {Object} [inOptions] Config object
+             * @param {Boolean} [isGenerate=true] If 'true',not trigger generate process.
+             * @returns {nx.data.Edge}
+             */
+            addEdge: function (data, inOptions, isGenerate) {
+
+                this._originalData.links.push(data);
+
+                var edge = this._addEdge(data, inOptions);
+
+                if (edge && isGenerate !== false) {
+                    var edgeSet = edge.parentEdgeSet();
+                    if (edgeSet.generated()) {
+                        if (!edgeSet.activated()) {
+                            /**
+                             * @event addEdge
+                             * @param sender {Object}  Trigger instance
+                             * @param {nx.data.Edge} edge Edge object
+                             */
+                            this.fire('addEdge', edge);
+                        }
+                        this.fire('updateEdgeSet', edgeSet);
+                    } else {
+                        edgeSet.generated(true);
+                        /**
+                         * @event addEdgeSet
+                         * @param sender {Object}  Trigger instance
+                         * @param {nx.data.EdgeSet} edgeSet EdgeSet object
+                         */
+                        this.fire('addEdgeSet', edgeSet);
+
+                    }
+
+                }
+                return edge;
+            },
+            /**
+             * Add vertex set to Graph
+             * @method addVertexSet
+             * @param {JSON} data Vertex set original data, which include nodes(Array) attribute. That is node's ID collection.  e.g. {nodes:[id1,id2,id3]}
+             * @param {Object} [inOptions] Config object
+             * @param {Boolean} [isGenerate=true] If 'true',not trigger generate process.
+             * @returns {nx.data.VertexSet}
+             */
+            addVertexSet: function (data, inOptions, isGenerate) {
+
+                this._originalData.nodeSet.push(data);
+
+
+                var vertexSet = this._addVertexSet(data, inOptions);
+
+                if (isGenerate !== false) {
+                    this._processVertexSet(vertexSet);
+                    vertexSet.generated(true);
+                    vertexSet.visible(true);
+                    /**
+                     * @event addVertexSet
+                     * @param sender {Object}  Trigger instance
+                     * @param {nx.data.VertexSet} vertexSet VertexSet object
+                     */
+                    this.fire('addVertexSet', vertexSet);
+                    setTimeout(function () {
+                        vertexSet.activated(true);
+                    }, 0);
+                }
+
+
+                if (inOptions.parentVertexSetID != null) {
+                    var parentVertexSet = this.getVertexSet(inOptions.parentVertexSetID);
+                    if (parentVertexSet) {
+                        var parentID = vertexSet.id();
+                        parentVertexSet.removeVertices(data.nodes);
+                        parentVertexSet.nodes().push(parentID);
+                        parentVertexSet.vertexSet()[parentID] = vertexSet;
+                        parentVertexSet.updated(false);
+                        /**
+                         * @event updateVertexSet
+                         * @param sender {Object}  Trigger instance
+                         * @param {nx.data.VertexSet} vertexSet VertexSet object
+                         */
+                        setTimeout(function () {
+                            this.fire('updateVertexSet', parentVertexSet);
+                        }.bind(this), 0);
+
+
+                        vertexSet.parentVertexSet(parentVertexSet);
+                    }
+                }
+
 
                 return vertexSet;
             },
 
-            _processVertexSet: function (vertexSet) {
-                vertexSet.addVertices(vertexSet._data.nodes);
+            /**
+             * Remove a vertex from Graph
+             * @method removeVertex
+             * @param {nx.data.Vertex} vertex Vertex object
+             * @returns {Boolean}
+             */
+            removeVertex: function (vertex, isNotifyParentVertexSet) {
+                this._removeVertex(vertex, isNotifyParentVertexSet);
+                if (isNotifyParentVertexSet !== false) {
+                    var vertexSet = vertex.parentVertexSet();
+                    if (vertexSet) {
+                        vertexSet.removeVertex(vertex);
+                    }
+                }
+                this.vertices = util.without(this.vertices, vertex);
+                delete this.verticesMap[vertex.id()];
             },
+            _removeVertex: function (vertex) {
+                vertex.eachEdgeSet(function (edgeSet) {
+                    edgeSet.visible(false);
+                    edgeSet.generated(false);
+                    edgeSet._activated = null;
+                    edgeSet.disposeEdges();
+                    this.fire('removeEdgeSet', edgeSet);
+                }, this);
+
+                nx.each(vertex.edgeSetCollection(), function (esc, vertexID) {
+                    this._removeEdgeSetCollection(esc);
+                }, this);
+
+
+                vertex.visible(false);
+                vertex.generated(false);
+
+
+                /**
+                 * @event removeVertex
+                 * @param sender {Object}  Trigger instance
+                 * @param {nx.data.Vertex} vertex Vertex object
+                 */
+
+                this.fire('removeVertex', vertex);
+            },
+
+
+            /**
+             * Remove edge from Graph
+             * @method removeEdge
+             * @param edge {nx.data.Edge} edge Edge object
+             * @param isNotifyParentEdgeSet {Boolean}
+             */
+            removeEdge: function (edge, isNotifyParentEdgeSet) {
+                this._removeEdge(edge, isNotifyParentEdgeSet);
+                this.edges.splice(this.edges.indexOf(edge), 1);
+                delete this.edgesMap[edge.id()];
+            },
+            _removeEdge: function (edge, isNotifyParentEdgeSet) {
+                var edgeSet = edge.parentEdgeSet();
+                edgeSet.removeEdge(edge);
+
+                /**
+                 * @event removeEdge
+                 * @param sender {Object}  Trigger instance
+                 * @param {nx.data.Edge} edge Edge object
+                 */
+                this.fire('removeEdge', edge);
+                if (isNotifyParentEdgeSet !== false) {
+                    this.fire('updateEdgeSet', edgeSet);
+                }
+            },
+            _removeEdgeSet: function (edgeSet) {
+                edgeSet.eachEdge(function (edge) {
+                    this._removeEdge(edge, false);
+                }, this);
+
+                edgeSet.visible(false);
+                edgeSet.generated(false);
+                edgeSet._activated = null;
+
+                edgeSet.source().removeEdgeSet(edgeSet);
+                edgeSet.target().removeEdgeSet(edgeSet);
+
+
+                this.edgeSet.splice(this.edgeSet.indexOf(edgeSet), 1);
+                delete this.edgeSetMap[edgeSet.linkKey()];
+
+                /**
+                 * @event removeEdgeSet
+                 * @param sender {Object}  Trigger instance
+                 * @param {nx.data.EdgeSet} edgeSet EdgeSet object
+                 */
+                this.fire('removeEdgeSet', edgeSet);
+            },
+            /**
+             * Remove a vertex set from Graph
+             * @method removeVertexSet
+             * @param {nx.data.VertexSet} vertexSet VertexSet object
+             * @returns {Boolean}
+             */
+            removeVertexSet: function (vertexSet) {
+                //[todo]
+
+            },
+            _removeVertexSet: function (vertexSet) {
+
+                vertexSet.eachEdgeSet(function (edgeSet) {
+                    edgeSet.visible(false);
+                    edgeSet.generated(false);
+                    edgeSet._activated = null;
+                    this.fire('removeEdgeSet', edgeSet);
+                }, this);
+
+                nx.each(vertexSet.edgeSetCollection(), function (esc, vertexID) {
+                    this._removeEdgeSetCollection(esc);
+                }, this);
+
+
+                vertexSet._activated = null;
+
+                this.fire('removeVertexSet', vertexSet);
+            },
+
+            _getEdgeSetCollectionByVertex: function (sourceID, targetID) {
+                var linkKey = sourceID + '_' + targetID;
+                var reverseLinkKey = targetID + '_' + sourceID;
+                return this.edgeSetCollectionMap[linkKey] || this.edgeSetCollectionMap[reverseLinkKey];
+            },
+            _addEdgeSetCollection: function (data) {
+                var esc = new nx.data.EdgeSetCollection();
+                var id = esc.__id__;
+                var linkKey = data.sourceID + '_' + data.targetID;
+                var reverseLinkKey = data.targetID + '_' + data.sourceID;
+
+
+                esc.sets(data);
+                esc.sets({
+                    graph: this,
+                    linkKey: linkKey,
+                    reverseLinkKey: reverseLinkKey,
+                    id: id
+                });
+
+                esc.source().addEdgeSetCollection(esc, linkKey);
+                esc.target().addEdgeSetCollection(esc, linkKey);
+
+                this.edgeSetCollectionMap[linkKey] = esc;
+                this.edgeSetCollection.push(esc);
+
+
+                this.fire('addEdgeSetCollection', esc);
+                return esc;
+            },
+            _removeEdgeSetCollection: function (esc) {
+                this.edgeSetCollection.splice(this.edgeSetCollection.indexOf(esc), 1);
+                delete this.edgeSetCollectionMap[esc.linkKey()];
+
+                /**
+                 * @event removeEdgeSet
+                 * @param sender {Object}  Trigger instance
+                 * @param {nx.data.EdgeSet} edgeSet EdgeSet object
+                 */
+                this.fire('removeEdgeSetCollection', esc);
+            },
+
+
             /**
              * Get vertex object by id
              * @method getVertex
@@ -677,22 +781,22 @@
                 return this.edgesMap[id];
             },
             /**
-             * Get vertex set object by id
-             * @method getVertexSet
-             * @param id
-             * @returns {nx.data.VertexSet}
-             */
-            getVertexSet: function (id) {
-                return this._vertexSetMap[id];
-            },
-            /**
              * Get edge set object by id
              * @method getEdgeSet
              * @param id
              * @returns {nx.data.EdgeSet}
              */
             getEdgeSet: function (id) {
-                return this._edgeSetMap[id];
+                return this.edgeSetMap[id];
+            },
+            /**
+             * Get vertex set object by id
+             * @method getVertexSet
+             * @param id
+             * @returns {nx.data.VertexSet}
+             */
+            getVertexSet: function (id) {
+                return this.vertexSetMap[id];
             },
             /**
              * Iterate each vertex item
@@ -704,6 +808,19 @@
                 nx.each(this.vertices, fn, context || this);
             },
             /**
+             * Iterate each visible vertex item
+             * @method eachVisibleVertex
+             * @param fn {Function} callback function, param is a vertex object
+             * @param context {Object} Context of callback function
+             */
+            eachVisibleVertex: function (fn, context) {
+                nx.each(this.vertices.concat(this.vertexSet), function (vertex) {
+                    if (vertex.visible()) {
+                        fn.call(context || this, vertex);
+                    }
+                }, context || this);
+            },
+            /**
              * Iterate each edge item
              * @method eachEdge
              * @param fn {Function} callback function, param is a edge object
@@ -711,19 +828,6 @@
              */
             eachEdge: function (fn, context) {
                 nx.each(this._edges, fn, context || this);
-            },
-            /**
-             * Iterate each visible vertex item
-             * @method eachVisibleVertex
-             * @param fn {Function} callback function, param is a vertex object
-             * @param context {Object} Context of callback function
-             */
-            eachVisibleVertex: function (fn, context) {
-                nx.each(this.vertices.concat(this._vertexSet), function (vertex) {
-                    if (vertex.visible()) {
-                        fn.call(context || this, vertex);
-                    }
-                }, context || this);
             },
             /**
              * Iterate each visible edge item
@@ -745,7 +849,7 @@
              * @param context {Object} Context of callback function
              */
             eachVertexSet: function (fn, context) {
-                nx.each(this._vertexSet, fn, context || this);
+                nx.each(this.vertexSet, fn, context || this);
             },
             /**
              * Get all visible vertex object
@@ -780,7 +884,7 @@
              * @returns {nx.data.EdgeSet}
              */
             getEdgeSetBySourceAndTarget: function (source, target) {
-                var edgeSetMap = this._edgeSetMap;
+                var edgeSetMap = this.edgeSetMap;
 
                 var sourceID = nx.is(source, 'Object') ? source.id() : source;
                 var targetID = nx.is(target, 'Object') ? target.id() : target;
@@ -870,90 +974,6 @@
 
                 return externalEdges;
 
-            },
-
-
-            _generate: function () {
-                /**
-                 * @event startGenerate
-                 * @param sender {Object}  Trigger instance
-                 */
-                this.fire('startGenerate');
-
-                nx.each(this.vertices, this._generateVertex, this);
-
-                //nx.each(this.edges, this._generateEdge, this);
-
-                nx.each(this._vertexSet, this._generateVertexSet, this);
-
-                nx.each(this._edgeSet, this._generateEdgeSetMap, this);
-
-                /**
-                 * @event endGenerate
-                 * @param sender {Object}  Trigger instance
-                 */
-                this.fire('endGenerate');
-
-            },
-
-            _generateVertex: function (vertex) {
-                if (vertex.visible() && !vertex.generated()) {
-                    vertex.generated(true);
-                    this.fire('addVertex', vertex);
-                } else if (vertex.generated() && vertex.updated()) {
-                    vertex.updated(false);
-                    /**
-                     * @event updateVertex
-                     * @param sender {Object}  Trigger instance
-                     * @param {nx.data.Vertex} vertex Vertex object
-                     */
-                    this.fire('updateVertex', vertex);
-                }
-            },
-            _generateEdge: function (edge) {
-                if (!edge.generated() && edge.source().generated() && edge.target().generated()) { //edgeSet.visible() &&
-                    edge.generated(true);
-                    this.fire('addEdge', edge);
-                } else if (edge.generated() && edge.updated()) {
-                    edge.updated(false);
-                    /**
-                     * @event updateEdgeSet
-                     * @param sender {Object}  Trigger instance
-                     * @param {nx.data.EdgeSet} edgeSet EdgeSet object
-                     */
-                    this.fire('updateEdge', edge);
-                }
-            },
-            _generateEdgeSetMap: function (edgeSet) {
-                if (!edgeSet.generated() && edgeSet.source().generated() && edgeSet.target().generated()) { //edgeSet.visible() &&
-                    edgeSet.generated(true);
-                    this.fire('addEdgeSet', edgeSet);
-                } else if (edgeSet.generated() && edgeSet.updated()) {
-                    edgeSet.updated(false);
-                    /**
-                     * @event updateEdgeSet
-                     * @param sender {Object}  Trigger instance
-                     * @param {nx.data.EdgeSet} edgeSet EdgeSet object
-                     */
-                    this.fire('updateEdgeSet', edgeSet);
-                }
-            },
-            _generateVertexSet: function (vertexSet) {
-                if (vertexSet.visible() && !vertexSet.generated()) {
-                    vertexSet.generated(true);
-                    this.fire('addVertexSet', vertexSet);
-                    setTimeout(function () {
-                        vertexSet.activated(true);
-                    }, 0);
-                } else if (vertexSet.generated() && vertexSet.updated()) {
-                    vertexSet.updated(false);
-                    /**
-                     * @event updateVertexSet
-                     * @param sender {Object}  Trigger instance
-                     * @param {nx.data.VertexSet} vertexSet VertexSet object
-                     */
-                    this.fire('updateVertexSet', vertexSet);
-                }
             },
 
             /**

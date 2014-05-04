@@ -26,14 +26,6 @@
                     tag: 'svg:defs'
                 },
                 {
-                    name: 'bg',
-                    type: 'nx.graphic.Rect',
-                    props: {
-                        visible: true,
-                        fill: '#f00'
-                    }
-                },
-                {
                     name: 'scalingLayer',
                     type: 'nx.graphic.Group',
                     props: {
@@ -311,6 +303,14 @@
                 } else {
                     return this.matrixObject();
                 }
+            },
+            hide: function () {
+                this.view('scalingLayer').visible(false);
+                this.view('staticLayer').visible(false);
+            },
+            show: function () {
+                this.view('scalingLayer').visible(true);
+                this.view('staticLayer').visible(true);
             },
             _scaleEnd: function (sender, event) {
 

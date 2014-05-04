@@ -8,26 +8,50 @@
      */
 
     nx.define("nx.graphic.Topology.NodeSet", nx.graphic.Topology.Node, {
-        events: ['expandNode', 'collapseNode'],
+        events: ['expandNode', 'collapseNode', 'beforeExpandNode', 'beforeCollapseNode'],
         properties: {
             /**
              * Get all sub nodes
              */
             nodes: {
                 get: function () {
-                    return this.getNodes();
+                    var nodes = {};
+                    this.eachNode(function (node, id) {
+                        nodes[id] = node;
+                    }, this);
+                    return nodes;
+                }
+            },
+            subNodes: {
+                get: function () {
+                    var nodes = {};
+                    this.eachSubNode(function (node, id) {
+                        nodes[id] = node;
+                    }, this);
+                    return nodes;
+                }
+            },
+            visibleSubNodes: {
+                get: function () {
+                    var nodes = {};
+                    this.eachVisibleSubNode(function (node, id) {
+                        nodes[id] = node;
+                    }, this);
+                    return nodes;
                 }
             },
             showIcon: {
                 set: function (inValue) {
                     var value = this._processPropertyValue(inValue);
-                    var icon = this.resolve('iconContainer');
-                    var dot = this.resolve('dot');
+                    var icon = this.view('iconContainer');
+                    var dot = this.view('dot');
                     if (value) {
                         icon.set('iconType', this.iconType());
                         icon.append();
+                        icon.visible(true);
                     } else {
                         icon.remove();
+                        icon.visible(false);
                     }
 
                     this._showIcon = value;
@@ -55,8 +79,6 @@
                     var value = this._processPropertyValue(inValue);
                     if (this._collapsed !== value) {
                         this._collapsed = value;
-                        this.model().visible(value);
-                        this.activated(value);
                         if (value) {
                             this._collapse();
                         } else {
@@ -85,6 +107,16 @@
                     }
                     //this.radius(radius);
                     this.view('label').set('visible', value > 0.4);
+                }
+            },
+            rootParentNodeSet: {
+                get: function () {
+                    var parentEdgeSet = this.model().getRootParentVertexSet();
+                    if (parentEdgeSet) {
+                        return this.owner().getNode(parentEdgeSet.id());
+                    } else {
+                        return null;
+                    }
                 }
             }
         },
@@ -136,16 +168,9 @@
                         {
                             name: 'iconContainer',
                             type: 'nx.graphic.Group',
-                            content: [
-                                {
-                                    name: 'icon',
-                                    type: 'nx.graphic.Icon',
-                                    props: {
-                                        'class': 'icon',
-                                        iconType: '{#iconType}'
-                                    }
-                                }
-                            ]
+                            props: {
+                                visible: false
+                            }
                         },
                         {
                             type: "nx.graphic.Group",
@@ -213,27 +238,47 @@
                 this.setBinding('activated', 'model.activated,direction=<>', this);
             },
             _expand: function () {
-                var nodesPositionMap = {};
                 var position = this.position();
-                this.set('visible', false);
+
+                this.visible(false);
+                this.activated(false);
+
+                this.fire('beforeExpandNode', this);
 
 
                 this.eachNode(function (node) {
-                    nodesPositionMap[node.id()] = node.position();
+                    var _position = node.position();
                     node.position(position);
-                }, this);
-                this.eachNode(function (node) {
-                    var position = nodesPositionMap[node.id()];
-                    node.moveTo(position.x, position.y, null, true, 900);
+                    node.parentNodeSet(this);
+                    node.moveTo(_position.x, _position.y, null, true, 600);
                 }, this);
                 setTimeout(function () {
                     this.fire('expandNode', this);
-                }.bind(this), 1200);
+                }.bind(this), 600);
             },
 
-            _collapse: function () {
-                this.set('visible', true);
-                this.fire('collapseNode');
+            _collapse: function (fn) {
+                var positionMap = {};
+                var position = this.position();
+                var graph = topo.graph();
+
+
+                this.eachVisibleSubNode(function (node) {
+                    positionMap[node.model().id()] = node.model().position();
+                    node.moveTo(position.x, position.y, null, true, 600);
+                }, this);
+                setTimeout(function () {
+                    this.visible(true);
+                    this.activated(true);
+                    this.fire('beforeCollapseNode');
+                    nx.each(positionMap, function (position, id) {
+                        var vertex = graph.getVertex(id) || graph.getVertexSet(id);
+                        if (vertex) {
+                            vertex.position(position);
+                        }
+                    });
+                    this.fire('collapseNode');
+                }.bind(this), 600);
             },
 
             /**
@@ -244,31 +289,12 @@
              */
             eachNode: function (callback, context) {
                 var topo = this.topology();
-                var vertices = this.model().vertices();
-                var vertexSet = this.model().vertexSet();
-
-                if (!callback) {
-                    return;
-                }
-                nx.each(nx.extend({}, vertices, vertexSet), function (vertex) {
-                    var node = topo.getNode(vertex.id());
+                this.model().eachVertex(function (vertex, id) {
+                    var node = topo.getNode(id);
                     if (node) {
-                        callback.call(context || this, node);
+                        callback.call(context || this, node, id);
                     }
-                });
-
-            },
-            /**
-             * Get all sub nodes
-             * @method getNodes
-             * @returns {Array}
-             */
-            getNodes: function () {
-                var nodes = [];
-                this.eachNode(function (node) {
-                    nodes[nodes.length] = node;
                 }, this);
-                return nodes;
             },
             /**
              * Iterate all sub nodes in this node set
@@ -276,60 +302,29 @@
              * @param callback
              * @param context
              */
-            eachSunNode: function (callback, context) {
-                if (!callback) {
-                    return;
-                }
-                this.eachNode(function (node) {
-                    if (nx.is(node, 'nx.graphic.Topology.NodeSet')) {
-                        node.eachSunNode(callback, context);
-                    } else {
-                        callback.call(context || this, node);
+            eachSubNode: function (callback, context) {
+                var topo = this.topology();
+                this.model().eachSubVertex(function (vertex, id) {
+                    var node = topo.getNode(id);
+                    if (node) {
+                        callback.call(context || this, node, id);
                     }
                 }, this);
             },
-            /**
-             * Get all sub nodes
-             * @method getSubNodes
-             * @returns {Array}
-             */
-            getSubNodes: function () {
-                var nodes = [];
-                this.eachSunNode(function (node) {
-                    nodes[nodes.length] = node;
-                }, this);
-                return nodes;
-            },
-            /**
-             * Get root parent node set
-             * @returns {*}
-             */
-            getRootParentNodeSet: function () {
-                var parentEdgeSet = this.model().getTopParentVertexSet();
-                if (parentEdgeSet) {
-                    return this.owner().getNode(parentEdgeSet.id());
-                } else {
-                    return null;
-                }
-            },
-            getVisibleNodes: function () {
-                var vertices = this.model().vertices();
-                var layer = this.owner();
-                var nodes = [];
-                nx.each(vertices, function (vertex) {
-                    var node = layer.getNode(vertex.id());
-                    if (node instanceof  nx.graphic.Topology.NodeSet && !node.collapsed()) {
-                        nodes = nodes.concat(node.getVisibleNodes());
-                    } else {
-                        nodes.push(node);
+            eachVisibleSubNode: function (callback, context) {
+                var topo = this.topology();
+                var vertices = this.model().visibleSubVertices();
+                nx.each(vertices, function (vertex, id) {
+                    var node = topo.getNode(vertex.id());
+                    if (node) {
+                        callback.call(context || this, node, id);
                     }
                 });
-                return nodes;
             },
             updateByMaxObtuseAngle: function (angle) {
                 this.inherited(angle);
                 var el = this.view("iconContainer");
-                var size = this.view("icon").size();
+                var size = this._iconImg ? this._iconImg.size() : {widtg: 0, height: 0};
                 var radius = this.showIcon() ? Math.max(size.width / 2, size.height / 2) + (this.showIcon() ? 12 : 8) : 12;
                 var labelVector = new nx.geometry.Vector(radius, 0).rotate(angle);
                 el.setTransform(labelVector.x, labelVector.y);

@@ -115,6 +115,7 @@
 
                 node.sets({
                     'class': 'node',
+                    'data-id': id,
                     stageScale: topo.stageScale()
                 });
 
@@ -141,10 +142,9 @@
                 }
 
 
-                var showIcon = topo.showIcon();
-                if (showIcon) {
+                if (topo.showIcon() && topo.revisionScale() == 1) {
                     setTimeout(function () {
-                        util.setProperty(node, 'showIcon', showIcon);
+                        util.setProperty(node, 'showIcon', true);
                     }, 10);
                 }
 

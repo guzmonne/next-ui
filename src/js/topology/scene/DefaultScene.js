@@ -163,7 +163,6 @@
             clickNodeSet: function (sender, nodeSet) {
                 clearTimeout(this._sceneTimer);
                 this._recover();
-                nodeSet.visible(false);
                 nodeSet.collapsed(!nodeSet.collapsed());
             },
 
@@ -181,46 +180,74 @@
                     this._recover();
                 }
             },
+            beforeExpandNodeSet: function (sender, nodeSet) {
+                //update parent group
+                var depth = 1;
+                var parentNodeSet = nodeSet.parentNodeSet();
+                while (parentNodeSet && parentNodeSet.group) {
+                    var group = parentNodeSet.group;
+                    group.nodes().clear();
+                    group.nodes().addRange(nx.util.values(parentNodeSet.visibleSubNodes()));
+                    parentNodeSet = parentNodeSet.parentNodeSet();
+
+                    group.opacity(0.6 - depth * 0.2);
+                    depth++;
+                }
+            },
             expandNodeSet: function (sender, nodeSet) {
                 clearTimeout(this._sceneTimer);
                 this._recover();
-                this._topo.zoomByNodes(nodeSet.getNodes(), function () {
-                   // var group = nodeSet.group = this._groupsLayer.addGroup({
-                     //   shapeType: 'nodeSetPolygon',
-                       // nodeSet: nodeSet,
-                    //    nodes: nodeSet.nodes(),
-                     //   label: nodeSet.label()
-                    //});
-                    //group.hide(true);
-                }, this);
-
-
-                var topo = this._topo;
-//                var rootID = nodeSet.model().get('root');
-//                if (rootID) {
-//                    var node = topo.getNode(rootID);
-//                    if (!node.dot) {
-//                        var dot = new nx.graphic.Icon({
-//                            iconType: 'collapse'
-//                        });
-//                        dot.attach(node);
-//                        node.dot = dot;
-//                        dot.on('click', function () {
-//                            nodeSet.collapsed(true);
-//                            topo.fit();
-//                        });
-//                    }
-//                }
-
+                this._topo.zoomByNodes(nodeSet.nodes(), function () {
+                    var parentNodeSet = nodeSet.parentNodeSet();
+                    while (parentNodeSet && parentNodeSet.group) {
+                        parentNodeSet.group.draw();
+                        parentNodeSet = parentNodeSet.parentNodeSet();
+                    }
+                    nodeSet.group = this._groupsLayer.addGroup({
+                        shapeType: 'nodeSetPolygon',
+                        nodeSet: nodeSet,
+                        nodes: nx.util.values(nodeSet.visibleSubNodes()),
+                        label: nodeSet.label()
+                    });
+                }, this, 1.5);
 
                 this._topo.adjustLayout();
             },
+            beforeCollapseNodeSet: function (sender, nodeSet) {
+                nodeSet.visible(true);
+                var depth = 1;
+                var parentNodeSet = nodeSet.parentNodeSet();
+                while (parentNodeSet && parentNodeSet.group) {
+                    var group = parentNodeSet.group;
+                    group.nodes().clear();
+                    group.nodes().addRange(nx.util.values(parentNodeSet.visibleSubNodes()));
+
+                    parentNodeSet = parentNodeSet.parentNodeSet();
+
+                    group.opacity(0.8 - depth * 0.2);
+                    depth++;
+                }
+            },
             collapseNodeSet: function (sender, nodeSet) {
-                nodeSet.visible(true);
-                this._groupsLayer.removeGroup(nodeSet.group);
-                delete  nodeSet.group;
-                nodeSet.visible(true);
+                if (nodeSet.group) {
+                    this._groupsLayer.removeGroup(nodeSet.group);
+                    delete  nodeSet.group;
+                }
                 this._topo.fit();
+
+            },
+            removeNodeSet: function (sender, nodeSet) {
+                if (nodeSet.group) {
+                    this._groupsLayer.removeGroup(nodeSet.group);
+                    delete  nodeSet.group;
+                }
+            },
+            updateNodeSet: function (sender, nodeSet) {
+                if (nodeSet.group) {
+                    nodeSet.group.nodes().clear();
+                    nodeSet.group.nodes().addRange(nx.util.values(nodeSet.visibleSubNodes()));
+                }
+
             },
             dragNodeSetStart: function (sender, nodeSet) {
                 this._nodeDragging = true;

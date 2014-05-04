@@ -123,34 +123,63 @@
              * Add a nodeSet
              * @method addNodeSet
              * @param obj
-             * @param inOption
+             * @param [inOption]
+             * @param [parentNodeSet]
              * @returns {*}
              */
-            addNodeSet: function (obj, inOption) {
+            addNodeSet: function (obj, inOption, parentNodeSet) {
                 var vertex = this.graph().addVertexSet(obj, inOption);
                 var nodeSet = this.getNode(vertex.id());
+                if (parentNodeSet) {
+                    nodeSet.parentNodeSet(parentNodeSet);
+                }
                 this.fire("addNodeSet", nodeSet);
                 return nodeSet;
             },
-            aggregationNodes: function (inNodes, inName, rootNodeID) {
+            aggregationNodes: function (inNodes, inConfig) {
 
-                var vertexSet = {nodes: []};
+                var config = inConfig || {};
+                var vertexSetData = nx.extend({nodes: []}, config);
+                var parentNodeSet;
+                var isSameParentNodeSet = true;
 
                 nx.each(inNodes, function (node) {
-                    vertexSet.nodes.push(node.id());
+
+                    var _parentNodeSet = node.parentNodeSet();
+
+                    if (_parentNodeSet) {
+                        if (!parentNodeSet) {
+                            parentNodeSet = _parentNodeSet; // initialize parentNodeSet
+                        }
+                        // check if all nodes in the same parent nodeSet
+                        isSameParentNodeSet = parentNodeSet == _parentNodeSet;
+                    }
+                    vertexSetData.nodes.push(node.id());
                 });
 
-                vertexSet.label = inName;
-                if (!inName) {
-                    vertexSet.label = [inNodes[0].label(), inNodes[inNodes.length - 1].label()].sort().join("-");
+
+                if (!isSameParentNodeSet) {
+                    alert('Can\'t aggregate nodes in different nodeSet');
+                    return;
                 }
 
-                vertexSet.x = inNodes[0].model().x();
-                vertexSet.y = inNodes[0].model().y();
-                vertexSet.root = rootNodeID || inNodes[0].id();
+
+                vertexSetData.label = config.name;
+                if (config.name == null) {
+                    vertexSetData.label = [inNodes[0].label(), inNodes[inNodes.length - 1].label()].sort().join("-");
+                }
+
+                vertexSetData.x = config.x == null ? inNodes[0].model().x() : config.x;
+                vertexSetData.y = config.y == null ? inNodes[0].model().y() : config.y;
+                //vertexSetData.root = rootNodeID || inNodes[0].id();
+
+                var vertexSetConfig = {};
+                if (parentNodeSet) {
+                    vertexSetConfig.parentVertexSetID = parentNodeSet.id();
+                }
 
 
-                this.addNodeSet(vertexSet);
+                this.addNodeSet(vertexSetData, vertexSetConfig, parentNodeSet);
             },
             /**
              * Remove a node
@@ -264,7 +293,6 @@
                 }, this);
 
 
-
                 this.getLayer('linkSet').highlightLinkSetArray(node.getLinkSet());
                 this.getLayer('linkSet').fadeOut();
                 this.getLayer('links').fadeOut();
@@ -293,7 +321,7 @@
                 this.getLayer('linkSet').activeLinkSetArray(node.getLinkSet());
                 this.getLayer('links').activeLinks(node.getLinks());
 
-                topo.fadeOut();
+                this.fadeOut();
             },
             /**
              * Get the bound of passing node's
@@ -380,6 +408,28 @@
                         });
                     }
                 }
+            },
+            expandAll: function () {
+                var nodeSetLayer = this.getLayer('nodeSet');
+                var isFinished = true;
+                nodeSetLayer.eachVisibleNodeSet(function (nodeSet) {
+                    nodeSet.collapsed(false);
+                    isFinished = false;
+                });
+                if (!isFinished) {
+                    this.disableCurrentScene(true);
+                    this.on('expandNodeSet', this.expandAll, this);
+                } else {
+                    this.off('expandNodeSet', this.expandAll, this);
+                    this.fit(function () {
+                        setTimeout(function () {
+                            this.disableCurrentScene(false);
+                        }.bind(this), 800);
+
+                    }, this);
+
+                }
+
             }
         }
     });

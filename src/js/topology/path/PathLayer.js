@@ -28,6 +28,7 @@
                 this.attach.__super__.apply(this, arguments);
                 var topo = this.topology();
                 topo.on('zoomend', this._draw, this);
+                topo.watch('revisionScale', this._draw, this);
 
             },
             _draw: function () {
@@ -66,6 +67,7 @@
                 this.clear();
                 var topo = this.topology();
                 topo.off('zoomend', this._draw, this);
+                topo.unwatch('revisionScale', this._draw, this);
                 this.inherited();
             }
         }

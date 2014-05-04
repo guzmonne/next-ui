@@ -227,6 +227,9 @@
   stroke: #0386d2;
   stroke-width: 1;
 }
+.n-topology.n-topology-blue .nodeset .icon {
+  cursor: pointer;
+}
 .n-topology.n-topology-blue .nodeset .bg {
   fill: #0386d2;
   pointer-events: none;
@@ -246,7 +249,7 @@
   stroke: #ccc;
 }
 .n-topology.n-topology-blue .group .bg {
-  opacity: 0.5;
+  opacity: 0.6;
   stroke-width: 10px;
   stroke-linejoin: round;
 }
@@ -800,6 +803,9 @@
   stroke: #00a9ff;
   stroke-width: 1;
 }
+.n-topology.n-topology-dark .nodeset .icon {
+  cursor: pointer;
+}
 .n-topology.n-topology-dark .nodeset .bg {
   fill: #00a9ff;
   pointer-events: none;
@@ -819,7 +825,7 @@
   stroke: #ccc;
 }
 .n-topology.n-topology-dark .group .bg {
-  opacity: 0.5;
+  opacity: 0.6;
   stroke-width: 10px;
   stroke-linejoin: round;
 }
@@ -1373,6 +1379,9 @@
   stroke: #26999e;
   stroke-width: 1;
 }
+.n-topology.n-topology-green .nodeset .icon {
+  cursor: pointer;
+}
 .n-topology.n-topology-green .nodeset .bg {
   fill: #26999e;
   pointer-events: none;
@@ -1392,7 +1401,7 @@
   stroke: #ccc;
 }
 .n-topology.n-topology-green .group .bg {
-  opacity: 0.5;
+  opacity: 0.6;
   stroke-width: 10px;
   stroke-linejoin: round;
 }
@@ -1946,6 +1955,9 @@
   stroke: #ffffff;
   stroke-width: 1;
 }
+.n-topology.n-topology-slate .nodeset .icon {
+  cursor: pointer;
+}
 .n-topology.n-topology-slate .nodeset .bg {
   fill: #ffffff;
   pointer-events: none;
@@ -1965,7 +1977,7 @@
   stroke: #ccc;
 }
 .n-topology.n-topology-slate .group .bg {
-  opacity: 0.5;
+  opacity: 0.6;
   stroke-width: 10px;
   stroke-linejoin: round;
 }
@@ -2519,6 +2531,9 @@
   stroke: #ffc200;
   stroke-width: 1;
 }
+.n-topology.n-topology-yellow .nodeset .icon {
+  cursor: pointer;
+}
 .n-topology.n-topology-yellow .nodeset .bg {
   fill: #ffc200;
   pointer-events: none;
@@ -2538,7 +2553,7 @@
   stroke: #ccc;
 }
 .n-topology.n-topology-yellow .group .bg {
-  opacity: 0.5;
+  opacity: 0.6;
   stroke-width: 10px;
   stroke-linejoin: round;
 }

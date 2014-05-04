@@ -81,8 +81,6 @@
                         nx.each(items, function (node) {
                             node.off('updateNodeCoordinate', this._draw, this);
                         }, this);
-
-                        this.dispose();
                     }
                 }, this);
 
@@ -98,9 +96,7 @@
                 this.nodes().remove(node);
             },
             dispose: function () {
-                nx.each(this.nodes().toArray(), function (node) {
-                    node.off('updateNodeCoordinate', this.draw, this);
-                }, this);
+                this.nodes().clear();
                 this.nodes().dispose();
                 this.inherited();
             }

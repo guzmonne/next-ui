@@ -204,19 +204,6 @@
                 var _edgeSet = this.edgeSet();
                 delete  _edgeSet[linkKey];
             },
-
-
-            addEdgeSetCollection: function (esc, linkKey) {
-                var edgeSetCollection = this.edgeSetCollection();
-                edgeSetCollection[linkKey] = esc;
-            },
-            removeEdgeSetCollection: function (esc, linkKey) {
-                var edgeSetCollection = this.edgeSetCollection();
-                delete edgeSetCollection[linkKey];
-            },
-            eachEdgeSetCollection: function (callback, context) {
-                nx.each(this.edgeSetCollection(), callback, context || this);
-            },
             /**
              * Iterate all connected edgeSet
              * @method eachEdgeSet
@@ -225,6 +212,20 @@
              */
             eachEdgeSet: function (callback, context) {
                 nx.each(this.edgeSet(), callback, context || this);
+            },
+            /**
+             * Iterate all connected visible edgeSet
+             * @method eachVisibleEdgeSet
+             * @param callback {Function}
+             * @param context {Object}
+             */
+
+            eachVisibleEdgeSet: function (callback, context) {
+                nx.each(this.edgeSet(), function (edgeSet, linkKey) {
+                    if (edgeSet.visible() && edgeSet.source().visible() && edgeSet.target().visible()) {
+                        callback.call(context || this, edgeSet, linkKey);
+                    }
+                }, this);
             },
             /**
              * Get all edgeSet
@@ -240,27 +241,17 @@
             },
 
 
-            /**
-             * Iterate all connected visible edgeSet
-             * @method eachVisibleEdgeSet
-             * @param callback {Function}
-             * @param context {Object}
-             */
-
-            eachVisibleEdgeSet: function (callback, context) {
-                nx.each(this.edgeSet(), function (edgeSet, linkKey) {
-                    if (edgeSet.visible() && edgeSet.source().visible() && edgeSet.target().visible()) {
-                        callback.call(context || this, edgeSet, linkKey);
-                    }
-                }, this);
+            addEdgeSetCollection: function (esc, linkKey) {
+                var edgeSetCollection = this.edgeSetCollection();
+                edgeSetCollection[linkKey] = esc;
             },
-
-
-            /**
-             * Get all connected edgeSet
-             * @method getEdgeSetCollection
-             * @returns {Array}
-             */
+            removeEdgeSetCollection: function (esc, linkKey) {
+                var edgeSetCollection = this.edgeSetCollection();
+                delete edgeSetCollection[linkKey];
+            },
+            eachEdgeSetCollection: function (callback, context) {
+                nx.each(this.edgeSetCollection(), callback, context || this);
+            },
             getEdgeSetCollection: function () {
                 var ary = [];
                 this.eachEdgeSet(function (edgeSet) {

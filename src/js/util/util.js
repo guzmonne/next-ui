@@ -98,6 +98,18 @@
                     relative: (a.href.match(/tps?:\/\/[^\/]+(.+)/) || [, ''])[1],
                     segments: a.pathname.replace(/^\//, '').split('/')
                 };
+            },
+            keys: function (obj) {
+                return Object.keys(obj);
+            },
+            values: function (obj) {
+                var values = [];
+                for (var key in obj) {
+                    if (obj.hasOwnProperty(key)) {
+                        values.push(obj[key]);
+                    }
+                }
+                return values;
             }
         }
     });

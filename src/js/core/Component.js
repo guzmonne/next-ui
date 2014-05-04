@@ -11,12 +11,18 @@
 
 
     //http://www.timotheegroleau.com/Flash/experiments/easing_function_generator.htm
+//    var ease = function (t, b, c, d) {
+//        var ts = (t /= d) * t;
+//        var tc = ts * t;
+//        return b + c * (5.7475 * tc * ts + -14.3425 * ts * ts + 8.395 * tc + 1.2 * ts);
+//    };
+
+
     var ease = function (t, b, c, d) {
         var ts = (t /= d) * t;
         var tc = ts * t;
-        return b + c * (5.7475 * tc * ts + -14.3425 * ts * ts + 8.395 * tc + 1.2 * ts);
+        return b + c * (-0.6475 * tc * ts + 0.7975 * ts * ts + -2.3 * tc + 3.2 * ts + -0.05 * t);
     };
-
 
     var cssHook = {
         transform: 'webkitTransform'

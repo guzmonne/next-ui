@@ -88,8 +88,6 @@
                     vertex.initPosition();
                 });
 
-                topo.fit();
-
                 this.projection(projection);
 
                 if (callback) {

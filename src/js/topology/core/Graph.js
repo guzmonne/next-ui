@@ -223,12 +223,12 @@
                 }, this);
 
                 graph.on("setData", function (sender, data) {
-//                    this.showLoading();
+
                 }, this);
 
 
                 graph.on("insertData", function (sender, data) {
-//                    this.showLoading();
+                    //this.showLoading();
                 }, this);
 
 
@@ -238,10 +238,10 @@
 
 
                 graph.on("startGenerate", function (sender, event) {
-
+                    this.showLoading();
+                    this.stage().hide();
                 }, this);
                 graph.on("endGenerate", function (sender, event) {
-                    //setTimeout(this._endGenerate.bind(this), 0);
                     this._endGenerate();
                 }, this);
 
@@ -299,11 +299,14 @@
             start: function () {
             },
             _endGenerate: function () {
-                if (this.autoFit()) {
-                    this.stage().fit();
-                }
+                var fit = function () {
+                    this.stage().show();
+                    if (this.autoFit()) {
+                        this.stage().fit();
+                    }
+                    this.hideLoading();
+                }.bind(this);
 
-                this.hideLoading();
 
                 /**
                  * Fired when all topology elements generated
@@ -314,15 +317,21 @@
                 var layoutType = this.layoutType();
                 if (layoutType) {
                     this.activateLayout(layoutType, null, function () {
+                        fit();
                         this.fire('topologyGenerated');
                     });
                 } else if (this.enableSmartLabel()) {
                     setTimeout(function () {
+                        fit();
                         this.fire('topologyGenerated');
-                    }.bind(this), 100);
+                    }.bind(this), 300);
                 } else {
+                    fit();
                     this.fire('topologyGenerated');
                 }
+            },
+            _fit: function () {
+
             }
         }
     });

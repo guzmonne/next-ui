@@ -210,7 +210,8 @@
                     this.radius(radius);
                     this.view('label').set('visible', value > 0.4);
                 }
-            }
+            },
+            parentNodeSet: {}
         },
         view: {
             type: 'nx.graphic.Group',

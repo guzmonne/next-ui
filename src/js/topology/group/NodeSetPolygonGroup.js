@@ -11,7 +11,6 @@
 
     nx.define('nx.graphic.Topology.NodeSetPolygonGroup', nx.graphic.Topology.GroupItem, {
         events: ["dragGroupStart", "dragGroup", "dragGroupEnd", "clickGroupLabel"],
-
         view: {
             type: 'nx.graphic.Group',
             props: {
@@ -30,26 +29,15 @@
                         'dragmove': '{#_drag}',
                         'dragend': '{#_dragend}'
                     }
-
-
-//                    name: 'shape',
-//                    type: 'nx.graphic.Rect',
-//                    props: {
-//                        'class': 'bg'
-//                    },
-//                    events: {
-//                        'mousedown': '{#_mousedown}',
-//                        'dragstart': '{#_dragstart}',
-//                        'dragmove': '{#_drag}',
-//                        'dragend': '{#_dragend}'
-//                    }
                 },
                 {
                     name: 'minus',
-
-                    type: 'nx.graphic.Icon',
-                    props: {
-                        iconType: 'collapse'
+                    type: 'nx.graphic.Group',
+                    content: {
+                        type: 'nx.graphic.Icon',
+                        props: {
+                            iconType: 'collapse'
+                        }
                     },
                     events: {
                         'click': '{#_collapse}'
@@ -66,6 +54,14 @@
                         }
                     }
                 },
+//                {
+//                    name: 'bg',
+//                    type: 'nx.graphic.Rect',
+//                    props: {
+//                        fill: '#f00',
+//                        'opacity': '0.1'
+//                    }
+//                },
                 {
                     name: 'text',
                     type: 'nx.graphic.Group',
@@ -74,7 +70,12 @@
                         type: 'nx.graphic.Text',
                         props: {
                             'class': 'nodeSetGroupLabel',
-                            text: '{#label}'
+                            text: '{#label}',
+                            style: {
+                                'alignment-baseline': 'central',
+                                'text-anchor': 'start',
+                                'font-size': 12
+                            }
                         },
                         events: {
                             'click': '{#_clickLabel}'
@@ -83,53 +84,37 @@
                 }
             ],
             events: {
-                'mouseenter': '{#_mouseenter}',
-                'mouseleave': '{#_mouseleave}'
+                //  'mouseenter': '{#_mouseenter}',
+                //'mouseleave': '{#_mouseleave}'
             }
         },
         properties: {
             nodeSet: {},
-            topology: {}
+            topology: {},
+            opacity: {
+                set: function (value) {
+                    var groupDOM = this.view('shape').dom();
+                    var _opacity = groupDOM.getStyle('opacity');
+                    groupDOM.setStyle('opacity', value);
+                }
+            }
+//            color: {
+//                set: function (value) {
+//                    var text = this.view('text');
+//                    text.view().dom().setStyle('fill', value);
+//                    var shape = this.view('shape');
+//                    shape.sets({
+//                        fill: value
+//                    });
+//                    shape.dom().setStyle('stroke', value);
+//                    this._color = value;
+//                }
+//            }
         },
         methods: {
 
             init: function (args) {
                 this.inherited(args);
-
-                var nodes = this.nodes();
-
-                nodes.on('change', function (sender, args) {
-                    var action = args.action;
-                    var items = args.items;
-
-                    if (action == 'add') {
-
-                        nx.each(items, function (node) {
-                            if (nx.is(node, 'nx.graphic.Topology.NodeSet')) {
-                                node.on('expandNode', this.redraw, this);
-                                node.on('collapseNode', this.redraw, this);
-                            }
-                        }, this);
-
-                        this.draw();
-
-                    } else if (action == 'remove') {
-                        nx.each(items, function (node) {
-                            node.off('expandNode', this.redraw, this);
-                            node.off('collapseNode', this.redraw, this);
-
-                        }, this);
-
-                        this.draw();
-                    } else if (action == 'clear') {
-                        nx.each(items, function (node) {
-                            node.off('expandNode', this.redraw, this);
-                            node.off('collapseNode', this.redraw, this);
-                        }, this);
-
-                        this.dispose();
-                    }
-                }, this);
             },
 
             redraw: function () {
@@ -152,11 +137,10 @@
                 var vectorArray = [];
                 this.nodes().each(function (node) {
                     if (node.visible()) {
-                        vectorArray.push({x: node.x(), y: node.y()});
+                        vectorArray.push({x: node.model().x(), y: node.model().y()});
                     }
                 });
                 var shape = this.view('shape');
-                var text = this.view('text');
                 shape.sets({
                     fill: this.color()
                 });
@@ -164,57 +148,57 @@
                 //
                 shape.nodes(vectorArray);
 
-
                 var bound = topo.getBoundByNodes(this.nodes().toArray());
                 bound.left -= translate.x;
                 bound.top -= translate.y;
 
-//                var bound = topo.getBoundByNodes(this.nodes().toArray());
-//                bound.left -= translate.x;
-//                bound.top -= translate.y;
-//                var shape = this.view('shape');
-//                var text = this.view('text');
-//                shape.sets({
+                bound.left *= stageScale;
+                bound.top *= stageScale;
+                bound.width *= stageScale;
+                bound.height *= stageScale;
+
+//                this.view('bg').sets({
 //                    x: bound.left,
 //                    y: bound.top,
 //                    width: bound.width,
-//                    height: bound.height,
-//                    fill: this.color(),
-//                    stroke: this.color(),
-//                    scale: topo.stageScale()
+//                    height: bound.height
 //                });
-
-
+                var text = this.view('text');
                 if (topo.showIcon() && topo.revisionScale() == 1) {
 
-
                     shape.dom().setStyle('stroke-width', 60 * stageScale);
-
 
                     var iconImg = this.view('iconImg');
                     iconImg.set('iconType', this.nodeSet().iconType());
 
                     var iconSize = iconImg.size();
 
-                    this.view('minus').setTransform((bound.left) * stageScale, (bound.top - 12 - iconSize.height / 2) * stageScale, stageScale);
+                    this.view('minus').setTransform(bound.left + bound.width / 2, bound.top - iconSize.height * stageScale / 2, 1.5 * stageScale);
 
                     this.view('icon').visible(true);
-                    this.view('icon').setTransform((bound.left + 38) * stageScale, (bound.top - 26) * stageScale, stageScale);
-                    this.view('iconImg').set('iconType', this.nodeSet().iconType());
+                    this.view('icon').setTransform(bound.left + bound.width / 2 + 10 * stageScale + iconSize.width * stageScale / 2, bound.top - iconSize.height * stageScale / 2, 0.7 * stageScale);
 
-                    text.setTransform((bound.left + 12 + iconSize.width + 10) * stageScale, (bound.top - 12 - 5) * stageScale, stageScale);
+
+                    this.view('label').sets({
+                        x: bound.left + bound.width / 2 + 12 * stageScale + iconSize.width * stageScale,
+                        y: bound.top - iconSize.height * stageScale / 2
+                    });
+                    this.view('label').view().dom().setStyle('font-size', 18 * stageScale);
                     text.view().dom().setStyle('fill', this.color());
 
                 } else {
-                    shape.dom().setStyle('stroke-width', 25 * stageScale);
+
+                    shape.dom().setStyle('stroke-width', 30 * stageScale);
+
+                    this.view('minus').setTransform(bound.left + bound.width / 2, bound.top, 1.5 * stageScale);
 
 
-                    this.view('minus').setTransform((bound.left) * stageScale, (bound.top - 22) * stageScale, stageScale);
-                    this.view('icon').visible(false);
-
-                    text.setTransform((bound.left + 18) * stageScale, (bound.top - 9) * stageScale, stageScale);
+                    this.view('label').sets({
+                        x: bound.left + bound.width / 2 + 12 * stageScale,
+                        y: bound.top
+                    });
+                    this.view('label').view().dom().setStyle('font-size', 18 * stageScale);
                     text.view().dom().setStyle('fill', this.color());
-
                 }
 
 
