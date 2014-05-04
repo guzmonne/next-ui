@@ -187,7 +187,7 @@
 
                         property.__setter__ = function (value, params) {
                             var oldValue = this.get(name);
-                            if (oldValue !== value) {
+                            if (oldValue !== value || (params && params.force)) {
                                 if (setter.call(this, value, params) !== false) {
                                     return this.notify(refs, oldValue);
                                 }
