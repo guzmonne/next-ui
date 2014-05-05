@@ -37,8 +37,13 @@
                         name: 'label',
                         type: 'nx.graphic.Text',
                         props: {
-                            'class': 'groupLabel',
-                            text: '{#label}'
+                            'class': 'nodeSetGroupLabel',
+                            text: '{#label}',
+                            style: {
+                                'alignment-baseline': 'central',
+                                'text-anchor': 'start',
+                                'font-size': 12
+                            }
                         },
                         events: {
                             'click': '{#_clickLabel}'
@@ -80,8 +85,18 @@
                 var bound = topo.getBoundByNodes(this.nodes().toArray());
                 bound.left -= translate.x;
                 bound.top -= translate.y;
+                bound.left *= stageScale;
+                bound.top *= stageScale;
+                bound.width *= stageScale;
+                bound.height *= stageScale;
 
-                text.setTransform((bound.left + bound.width / 2) * stageScale, (bound.top - 5) * stageScale, stageScale);
+                this.view('label').sets({
+                    x: bound.left + bound.width / 2,
+                    y: bound.top
+                });
+                this.view('label').view().dom().setStyle('font-size', 18 * stageScale);
+
+//                text.setTransform((bound.left + bound.width / 2) * stageScale, (bound.top - 5) * stageScale, stageScale);
                 text.view().dom().setStyle('fill', this.color());
             },
             _clickLabel: function (sender, event) {
