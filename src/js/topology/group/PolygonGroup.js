@@ -64,14 +64,20 @@
                     y: topo.matrix().y()
                 };
 
+                if (this.nodes().count() === 0) {
+                    return;
+                }
+
+                this.setTransform(0, 0);
+
                 var vectorArray = [];
                 this.nodes().each(function (node) {
                     if (node.visible()) {
-                        vectorArray.push({x: node.x(), y: node.y()});
+                        vectorArray.push({x: node.model().x(), y: node.model().y()});
                     }
                 });
                 var shape = this.view('shape');
-                var text = this.view('text');
+
                 shape.sets({
                     fill: this.color()
                 });
@@ -80,9 +86,7 @@
                 shape.nodes(vectorArray);
 
 
-
-
-                var bound = topo.getBoundByNodes(this.nodes().toArray());
+                var bound = topo.getInsideBound(shape.getBound());
                 bound.left -= translate.x;
                 bound.top -= translate.y;
                 bound.left *= stageScale;
@@ -90,13 +94,13 @@
                 bound.width *= stageScale;
                 bound.height *= stageScale;
 
-                this.view('label').sets({
-                    x: bound.left + bound.width / 2,
-                    y: bound.top
-                });
-                this.view('label').view().dom().setStyle('font-size', 18 * stageScale);
 
-//                text.setTransform((bound.left + bound.width / 2) * stageScale, (bound.top - 5) * stageScale, stageScale);
+                var text = this.view('text');
+                text.setTransform(bound.left + bound.width / 2, bound.top - 60 * stageScale, stageScale);
+
+                this.view('label').view().dom().setStyle('font-size', 18);
+
+//
                 text.view().dom().setStyle('fill', this.color());
             },
             _clickLabel: function (sender, event) {
@@ -136,8 +140,6 @@
             },
             _dragend: function (sender, event) {
                 this.blockDrawing(false);
-                this.draw();
-                this.setTransform(0, 0);
                 /**
                  * Fired finish dragging
                  * @event dragGroupEnd
