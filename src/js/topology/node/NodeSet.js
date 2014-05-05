@@ -254,7 +254,7 @@
                 }, this);
                 setTimeout(function () {
                     this.fire('expandNode', this);
-                }.bind(this), 600);
+                }.bind(this), 700);
             },
 
             _collapse: function (fn) {
@@ -278,7 +278,7 @@
                         }
                     });
                     this.fire('collapseNode');
-                }.bind(this), 600);
+                }.bind(this), 800);
             },
 
             /**

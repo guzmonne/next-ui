@@ -279,6 +279,11 @@
                 this.matrixObject(m);
                 this.stageScale(1 / m.scale());
             },
+            resetZoomRate: function () {
+                var zoomLevel = this.zoomLevel();
+                var scale = this.matrixObject().scale();
+                this.zoomRate(zoomLevel / scale);
+            },
             _setStageMatrix: function (matrix, according) {
                 according = according || [this.width() / 2, this.height() / 2];
                 var m = new nx.geometry.Matrix(matrix);

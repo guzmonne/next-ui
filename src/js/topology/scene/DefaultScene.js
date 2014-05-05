@@ -209,6 +209,9 @@
                         nodes: nx.util.values(nodeSet.visibleSubNodes()),
                         label: nodeSet.label()
                     });
+
+                    this._topo.stage().resetZoomRate();
+
                 }, this, 1.5);
 
                 this._topo.adjustLayout();
