@@ -22,7 +22,7 @@
 
                     var view = this.view();
                     if (view) {
-                        view().model(value, true);
+                        view.model(value, true);
                     }
 
                     this._content.each(function (c) {
