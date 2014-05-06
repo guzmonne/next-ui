@@ -21,6 +21,7 @@
                 var nodeMap = {}, linkMap = {};
 
                 topo.eachVisibleNode(function (node) {
+                    nodeMap[node.id()] = data.nodes.length;
                     data.nodes.push({
                         id: node.id()
                     });
@@ -30,8 +31,8 @@
                     linkSetLayer.eachLinkSet(function (linkSet) {
                         if (!linkMap[linkSet.linkKey()]) {
                             data.links.push({
-                                source: linkSet.sourceNodeID(),
-                                target: linkSet.targetNodeID()
+                                source: nodeMap[linkSet.sourceNodeID()],
+                                target: nodeMap[linkSet.targetNodeID()]
                             });
                             linkMap[linkSet.linkKey()] = linkSet;
                         }
@@ -41,8 +42,8 @@
                     linksLayer.eachLink(function (link) {
                         if (!linkMap[link.id()]) {
                             data.links.push({
-                                source: link.sourceNodeID(),
-                                target: link.targetNodeID()
+                                source: nodeMap[link.sourceNodeID()],
+                                target: nodeMap[link.targetNodeID()]
                             });
                             linkMap[link.id()] = link;
                         }
