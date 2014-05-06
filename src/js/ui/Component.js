@@ -20,7 +20,10 @@
                         this._model = value;
                     }
 
-                    this.view().model(value, true);
+                    var view = this.view();
+                    if (view) {
+                        view().model(value, true);
+                    }
 
                     this._content.each(function (c) {
                         if (!nx.is(c, 'String')) {
