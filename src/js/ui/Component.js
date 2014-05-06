@@ -25,11 +25,14 @@
                         view.model(value, true);
                     }
 
-                    this._content.each(function (c) {
-                        if (!nx.is(c, 'String')) {
-                            c.model(value, true);
-                        }
-                    });
+                    var content = this._content;
+                    if (content) {
+                        content.each(function (c) {
+                            if (!nx.is(c, 'String')) {
+                                c.model(value, true);
+                            }
+                        });
+                    }
                 }
             },
             'class': {
