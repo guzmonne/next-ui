@@ -276,7 +276,7 @@ var nx = {
             var tokens = path.split('.'), token,
                 i = 0, length = tokens.length;
 
-            if (value === undefined) {
+            if (value === undefined && arguments.length < 3) {
                 for (; result && i < length; i++) {
                     token = tokens[i];
                     if (result.__get__) {
