@@ -10,6 +10,7 @@
 
 
     var colorTable = ['#C3A5E4', '#75C6EF', '#CBDA5C', '#ACAEB1 ', '#2CC86F'];
+//    var colorTable = ['#75C6EF', '#75C6EF', '#75C6EF', '#75C6EF ', '#75C6EF'];
 
 
     /**
@@ -71,7 +72,11 @@
             attach: function (args) {
                 this.inherited(args);
                 var topo = this.topology();
-                topo.on('zoomend', this._redraw.bind(this), this);
+                if (topo.enableGradualScaling()) {
+                    topo.watch('stageScale', this._redraw.bind(this), this);
+                } else {
+                    topo.on('zoomend', this._redraw.bind(this), this);
+                }
                 topo.on('fitStage', this._redraw.bind(this), this);
                 topo.watch('revisionScale', this._redraw.bind(this), this);
                 topo.watch('showIcon', this._redraw.bind(this), this);
@@ -111,7 +116,7 @@
             },
             _redraw: function () {
                 nx.each(this.groups(), function (group) {
-                    group.draw();
+                    group._draw();
                 }, this);
             },
             /**

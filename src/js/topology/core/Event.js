@@ -6,7 +6,7 @@
      * @module nx.graphic.Topology
      */
     nx.define('nx.graphic.Topology.Event', {
-        events: ['clickStage', 'pressStage', 'dragStageStart', 'dragStage', 'dragStageEnd', 'projectionChange', 'zoomstart', 'zooming', 'zoomend', 'resetzooming', 'fitStage', 'up', 'down', 'left', 'right', 'esc', 'space', 'enter'],
+        events: ['clickStage', 'pressStage', 'dragStageStart', 'dragStage', 'dragStageEnd', 'projectionChange', 'zoomstart', 'zooming', 'zoomend', 'resetzooming', 'fitStage', 'up', 'down', 'left', 'right', 'esc', 'space', 'enter', 'pressA', 'pressS', 'pressF', 'pressM', 'pressR'],
         properties: {
             /**
              * Enabling gradual scaling feature when zooming, set to false will improve the performance
@@ -187,6 +187,52 @@
                         this.fire('esc', event);
                         event.preventDefault();
                         break;
+                    case 65:
+                        /**
+                         * Fired when press a key
+                         * @event pressA
+                         * @param sender {Object}  Trigger instance
+                         * @param event {Object} original event object
+                         */
+                        this.fire('pressA', event);
+                        break;
+                    case 70:
+                        /**
+                         * Fired when press f key
+                         * @event pressF
+                         * @param sender {Object}  Trigger instance
+                         * @param event {Object} original event object
+                         */
+                        this.fire('pressF', event);
+                        break;
+                    case 77:
+                        /**
+                         * Fired when press m key
+                         * @event pressM
+                         * @param sender {Object}  Trigger instance
+                         * @param event {Object} original event object
+                         */
+                        this.fire('pressM', event);
+                        break;
+                    case 82:
+                        /**
+                         * Fired when press r key
+                         * @event pressR
+                         * @param sender {Object}  Trigger instance
+                         * @param event {Object} original event object
+                         */
+                        this.fire('pressR', event);
+                        break;
+                    case 83:
+                        /**
+                         * Fired when press s key
+                         * @event pressS
+                         * @param sender {Object}  Trigger instance
+                         * @param event {Object} original event object
+                         */
+                        this.fire('pressS', event);
+                        break;
+
                     case 32:
                         /**
                          * Fired when press space key

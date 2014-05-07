@@ -297,6 +297,33 @@
             down: function () {
                 this._topo.move(null, 30, 0.5);
             },
+            pressR: function () {
+                if (nx.DEBUG) {
+                    this._topo.activateLayout('force');
+                }
+            },
+            pressA: function () {
+                if (nx.DEBUG) {
+                    var nodes = this._topo.selectedNodes().toArray();
+                    this._topo.selectedNodes().clear();
+                    this._topo.aggregationNodes(nodes);
+                }
+            },
+            pressS: function () {
+                if (nx.DEBUG) {
+                    this._topo.activateScene('selection');
+                }
+            },
+            pressM: function () {
+                if (nx.DEBUG) {
+                    this._topo.activateScene('default');
+                }
+            },
+            pressF: function () {
+                if (nx.DEBUG) {
+                    this._topo.fit();
+                }
+            },
             topologyGenerated: function () {
                 this._topo.adjustLayout();
             },

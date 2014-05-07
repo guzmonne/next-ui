@@ -138,6 +138,12 @@
             },
             aggregationNodes: function (inNodes, inConfig) {
 
+
+                if (inNodes.length < 2) {
+                    return;
+                }
+
+
                 var config = inConfig || {};
                 var vertexSetData = nx.extend({nodes: []}, config);
                 var parentNodeSet;
@@ -161,6 +167,28 @@
                 if (!isSameParentNodeSet) {
                     alert('Can\'t aggregate nodes in different nodeSet');
                     return;
+                }
+
+                //increment aggregate
+
+                if (parentNodeSet && parentNodeSet.activated() === false) {
+                    var _nodes = inNodes.slice(0);
+                    var isIncrementAggregate = true;
+
+                    parentNodeSet.eachVisibleSubNode(function (node) {
+                        if (_nodes.indexOf(node) == -1) {
+                            isIncrementAggregate = false;
+                        } else {
+                            _nodes.splice(_nodes.indexOf(node), 1);
+                        }
+                    });
+
+                    if (isIncrementAggregate) {
+                        parentNodeSet.activated(true);
+                        _nodes.push(parentNodeSet);
+                        this.aggregationNodes(_nodes, config);
+                        return;
+                    }
                 }
 
 

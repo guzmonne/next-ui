@@ -159,6 +159,7 @@
                 nx.each(this.layers(), function (layer) {
                     layer.clear();
                 });
+                this.graph().clear();
             }
         }
     });

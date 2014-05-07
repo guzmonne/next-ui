@@ -180,12 +180,25 @@
                         width: this.width() - padding * 2
                     };
                 } else {
-                    return {
+                    var bound = {
                         left: stageBound.left - topoBound.left,
                         top: stageBound.top - topoBound.top,
                         width: stageBound.width,
                         height: stageBound.height
                     };
+
+//                    if (bound.width < 300) {
+//                        bound.left -= (300 - bound.width) / 2;
+//                        bound.width = 300;
+//                    }
+//
+//                    if (bound.height < 300) {
+//                        bound.top -= (300 - bound.height) / 2;
+//                        bound.height = 300;
+//                    }
+
+                    return bound;
+
                 }
             },
             fit: function (callback, context, duration) {
@@ -281,8 +294,21 @@
             },
             resetZoomRate: function () {
                 var zoomLevel = this.zoomLevel();
-                var scale = this.matrixObject().scale();
-                this.zoomRate(zoomLevel / scale);
+                var contentBound = this.getContentBound();
+                var padding = this.padding();
+                var stageBound = {
+                    left: padding,
+                    top: padding,
+                    height: this.height() - padding * 2,
+                    width: this.width() - padding * 2
+                };
+                var matrix = new nx.geometry.Matrix(this.calcRectZoomMatrix(stageBound, contentBound));
+                var transformScale = matrix.scale();
+                var fitScale = 1 / this.zoomRate();
+                var stageScale = this.stageScale();
+                this.zoomRate(this.zoomRate() * fitScale / transformScale * stageScale);
+//                var scale = matrix.scale()/this.stageScale();
+//                this.zoomRate(this.zoomRate() * scale);
             },
             _setStageMatrix: function (matrix, according) {
                 according = according || [this.width() / 2, this.height() / 2];

@@ -3,7 +3,7 @@
     var CLZ = nx.define('nx.graphic.Topology.NodeSetLayer', nx.graphic.Topology.DoubleLayer, {
         statics: {
             defaultConfig: {
-                iconType: 'groupS'
+                iconType: 'nodeSet'
             }
         },
         events: ['clickNodeSet', 'enterNodeSet', 'leaveNodeSet', 'dragNodeSetStart', 'dragNodeSet', 'dragNodeSetEnd', 'hideNodeSet', 'pressNodeSet', 'selectNodeSet', 'updateNodeSetCoordinate', 'expandNodeSet', 'collapseNodeSet', 'beforeExpandNodeSet', 'beforeCollapseNodeSet', 'removeNodeSet', 'updateNodeSet'],
@@ -117,13 +117,9 @@
                     }, 10);
                 }
 
-
-                if (topo.showIcon() && topo.revisionScale() == 1) {
-                    setTimeout(function () {
-                        util.setProperty(nodeSet, 'showIcon', true);
-                    }, 10);
-                }
-
+                setTimeout(function () {
+                    util.setProperty(nodeSet, 'showIcon', topo.showIcon());
+                }, 10);
                 //register events
                 var superEvents = nx.graphic.Component.__events__;
                 nx.each(nodeSet.__events__, function (e) {

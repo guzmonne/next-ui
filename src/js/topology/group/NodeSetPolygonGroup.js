@@ -34,6 +34,7 @@
                     name: 'minus',
                     type: 'nx.graphic.Group',
                     content: {
+                        name: 'minusIcon',
                         type: 'nx.graphic.Icon',
                         props: {
                             iconType: 'collapse'
@@ -84,8 +85,8 @@
                 }
             ],
             events: {
-                //  'mouseenter': '{#_mouseenter}',
-                //'mouseleave': '{#_mouseleave}'
+                'mouseenter': '{#_mouseenter}',
+                'mouseleave': '{#_mouseleave}'
             }
         },
         properties: {
@@ -93,9 +94,11 @@
             topology: {},
             opacity: {
                 set: function (value) {
-                    var groupDOM = this.view('shape').dom();
-                    var _opacity = groupDOM.getStyle('opacity');
-                    groupDOM.setStyle('opacity', value);
+                    var opacity = Math.max(value, 0.1);
+                    this.view('shape').dom().setStyle('opacity', opacity);
+                    this.view('minus').dom().setStyle('opacity', opacity);
+                    this.view('text').dom().setStyle('opacity', opacity);
+                    this._opacity = value;
                 }
             }
 //            color: {
@@ -112,15 +115,6 @@
 //            }
         },
         methods: {
-
-            init: function (args) {
-                this.inherited(args);
-            },
-
-            redraw: function () {
-                setTimeout(this.draw.bind(this), 900);
-            },
-
             draw: function () {
                 var topo = this.topology();
                 var stageScale = topo.stageScale();
@@ -133,6 +127,7 @@
                     return;
                 }
 
+                this.setTransform(0, 0);
 
                 var vectorArray = [];
                 this.nodes().each(function (node) {
@@ -175,10 +170,15 @@
 
                     this.view('minus').setTransform(bound.left + bound.width / 2, bound.top - iconSize.height * stageScale / 2, 1.5 * stageScale);
 
-                    this.view('icon').visible(true);
-                    this.view('icon').setTransform(bound.left + bound.width / 2 + 10 * stageScale + iconSize.width * stageScale / 2, bound.top - iconSize.height * stageScale / 2, 0.7 * stageScale);
+//                    this.view('icon').visible(true);
+//                    this.view('icon').setTransform(bound.left + bound.width / 2 + 10 * stageScale + iconSize.width * stageScale / 2, bound.top - iconSize.height * stageScale / 2, 0.7 * stageScale);
 
+                    iconSize = {
+                        width: 0,
+                        height: 32
+                    };
 
+                    this.view('icon').setStyle('display', 'none');
                     this.view('label').sets({
                         x: bound.left + bound.width / 2 + 12 * stageScale + iconSize.width * stageScale,
                         y: bound.top - iconSize.height * stageScale / 2
@@ -201,6 +201,8 @@
                     text.view().dom().setStyle('fill', this.color());
                 }
 
+
+                this.view('minusIcon').color(this.color());
 
             },
             _clickLabel: function (sender, event) {
@@ -241,8 +243,7 @@
             },
             _dragend: function (sender, event) {
                 this.blockDrawing(false);
-                this.draw();
-                this.setTransform(0, 0);
+//                this.draw();
                 /**
                  * Fired finish dragging
                  * @event dragGroupEnd
@@ -285,18 +286,15 @@
                 this.view().dom().setStyle('opacity', 1);
             },
             _mouseenter: function (sender, event) {
-                this.show();
+                this.__opacity = this.opacity();
+                this.opacity(0.6);
             },
             _mouseleave: function (sender, event) {
-                this.hide();
+                if (this.__opacity) {
+                    this.opacity(this.__opacity);
+                }
             },
             dispose: function () {
-                nx.each(this.nodes(), function (node) {
-                    if (nx.is(node, 'nx.graphic.Topology.NodeSet')) {
-                        node.off('expandNode', this.redraw, this);
-                        node.off('collapseNode', this.redraw, this);
-                    }
-                }, this);
                 this.inherited();
             }
         }

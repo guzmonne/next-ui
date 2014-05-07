@@ -19,6 +19,18 @@
                 var linkSetLayer = topo.getLayer('linkSet');
                 var data = {nodes: [], links: []};
                 var nodeMap = {}, linkMap = {};
+                var selectedNodes = topo.selectedNodes().toArray();
+
+//                if (selectedNodes.length != 0) {
+//                    nx.each(selectedNodes, function (node) {
+//                        nodeMap[node.id()] = data.nodes.length;
+//                        data.nodes.push({
+//                            id: node.id()
+//                        });
+//                    })
+//                } else {
+//
+//                }
 
                 topo.eachVisibleNode(function (node) {
                     nodeMap[node.id()] = data.nodes.length;
@@ -27,9 +39,10 @@
                     });
                 });
 
+
                 if (topo.supportMultipleLink()) {
                     linkSetLayer.eachLinkSet(function (linkSet) {
-                        if (!linkMap[linkSet.linkKey()]) {
+                        if (!linkMap[linkSet.linkKey()] && nodeMap[linkSet.sourceNodeID()] && nodeMap[linkSet.targetNodeID()]) {
                             data.links.push({
                                 source: nodeMap[linkSet.sourceNodeID()],
                                 target: nodeMap[linkSet.targetNodeID()]
@@ -40,7 +53,7 @@
                     });
                 } else {
                     linksLayer.eachLink(function (link) {
-                        if (!linkMap[link.id()]) {
+                        if (!linkMap[link.id()] && nodeMap[link.sourceNodeID()] && nodeMap[link.targetNodeID()]) {
                             data.links.push({
                                 source: nodeMap[link.sourceNodeID()],
                                 target: nodeMap[link.targetNodeID()]

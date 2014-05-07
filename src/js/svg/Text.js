@@ -16,18 +16,13 @@
                     return this._text !== undefined ? this._text : 0;
                 },
                 set: function (value) {
-                    if (this._text !== value) {
+                    if (this._text !== value && value !== undefined) {
                         this._text = value;
-
-                        if (this.resolve('@root') && value !== undefined) {
-                            var el = this.resolve("@root").$dom;
-                            if ((el.nodeName == "text" || el.nodeName == "#text")) {
-                                if (el.firstChild) {
-                                    el.removeChild(el.firstChild);
-                                }
-                                el.appendChild(document.createTextNode(value));
-                            }
+                        var el = this.view("@root").$dom;
+                        if (el.firstChild) {
+                            el.removeChild(el.firstChild);
                         }
+                        el.appendChild(document.createTextNode(value));
                         return true;
                     } else {
                         return false;

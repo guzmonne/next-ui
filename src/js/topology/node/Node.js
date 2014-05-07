@@ -9,64 +9,13 @@
         events: ['pressNode', 'clickNode', 'enterNode', 'leaveNode', 'dragNodeStart', 'dragNode', 'dragNodeEnd', 'selectNode'],
         properties: {
             /**
-             * Set node's scale
-             * @property scale {Number}
-             */
-            scale: {
-                set: function (inValue) {
-                    var value = this._processPropertyValue(inValue);
-                    this.view('graphic').setTransform(null, null, value);
-                    this._nodeScale = value;
-                }
-            },
-            /**
-             * Set/get the radius of dot
-             * @property radius {Number}
-             */
-            radius: {
-                get: function () {
-                    return this._radius !== undefined ? this._radius : 4;
-                },
-                set: function (inValue) {
-                    var value = this._processPropertyValue(inValue);
-                    if (this._radius !== value) {
-                        this._radius = value;
-                        this.view('dot').set('r', value);
-                        this.calcLabelPosition(true);
-                        return true;
-                    } else {
-                        return false;
-                    }
-                }
-            },
-            /**
-             * Node's label font size
-             * @property fontSize {Number}
-             */
-            fontSize: {
-                get: function () {
-                    return this._fontSize !== undefined ? this._fontSize : 12;
-                },
-                set: function (inValue) {
-                    var value = this._processPropertyValue(inValue);
-                    if (this._fontSize !== value) {
-                        this._fontSize = value;
-                        this.view('label').set('font-size', value);
-                        return true;
-                    } else {
-                        return false;
-                    }
-                }
-            },
-
-            /**
              * Get node's label
              * @property label
              */
             label: {
                 set: function (inValue) {
                     var label = this._processPropertyValue(inValue);
-                    var el = this.resolve('label');
+                    var el = this.view('label');
                     if (label != null) {
                         el.set('text', label);
                         el.set('visible', true);
@@ -75,19 +24,6 @@
                         el.set('visible', false);
                     }
                     this._label = label;
-
-                }
-            },
-            /**
-             * Set node's label visible
-             * @property labelVisibility {Boolean} true
-             */
-            labelVisibility: {
-                set: function (inValue) {
-                    var value = this._processPropertyValue(inValue);
-                    var el = this.resolve('label');
-                    el.visible(value);
-                    this._labelVisible = value;
                 }
             },
             /**
@@ -96,30 +32,20 @@
              */
             iconType: {
                 get: function () {
-                    return this._iconType;
+                    return this.view('icon').get('iconType');
                 },
                 set: function (inValue) {
                     var value = this._processPropertyValue(inValue);
                     if (this._iconType !== value) {
                         this._iconType = value;
-
-                        if (!this._iconImg) {
-                            var img = this._iconImg = new nx.graphic.Icon({
-                                'class': 'icon',
-                                'iconType': value
-                            });
-                            img.attach(this.view('iconContainer'));
-                        } else {
-                            this._iconImg.set('iconType', value);
-                        }
-
-
+                        this.view('icon').set('iconType', value);
                         return true;
                     } else {
                         return false;
                     }
                 }
             },
+
             /**
              * Show/hide node's icon
              * @property showIcon
@@ -127,29 +53,78 @@
             showIcon: {
                 set: function (inValue) {
                     var value = this._processPropertyValue(inValue);
-                    var icon = this.view('iconContainer');
-                    var dot = this.view('dot');
-                    if (value) {
-                        icon.set('visible', true);
-                        dot.set('visible', false);
-                        if (!this._iconImg) {
-                            this.iconType('unknown');
-                        }
-                    } else {
-                        icon.set('visible', false);
-                        dot.set('visible', true);
-                    }
-
                     this._showIcon = value;
+
+                    this.view('icon').set('showIcon', value);
+
                     if (this._label != null) {
-                        this.calcLabelPosition(true);
+                        this.calcLabelPosition();
                     }
                     if (this._selected) {
-                        this._setSelectedRadius();
+                        this.view('selectedBG').set('r', this.selectedRingRadius());
                     }
                 }
             },
+            revisionScale: {
+                set: function (value) {
+                    var topo = this.topology();
+                    var icon = this.view('icon');
+                    icon.set('scale', value);
+                    if (topo.showIcon()) {
+                        icon.showIcon(value > 0.2);
+                    } else {
+                        icon.showIcon(false);
+                    }
+                    this.view('label').set('visible', value > 0.4);
+                }
+            },
+            /**
+             * Set the node's color
+             * @property color
+             */
+            color: {
+                set: function (inValue) {
+                    var value = this._processPropertyValue(inValue);
+//                    this.view('graphic').dom().setStyle('fill', value);
+                    this.view('label').dom().setStyle('fill', value);
+                    this.view('icon').set('color', value);
+                }
+            },
+            /**
+             * Set node's scale
+             * @property scale {Number}
+             */
+            scale: {
+                get: function () {
+                    return  this.view('graphic').scale();
+                },
+                set: function (inValue) {
+                    var value = this._processPropertyValue(inValue);
+                    this.view('graphic').setTransform(null, null, value);
+                    this.calcLabelPosition(true);
+                }
+            },
 
+            /**
+             * Set node's label visible
+             * @property labelVisibility {Boolean} true
+             */
+            labelVisibility: {
+                set: function (inValue) {
+                    var value = this._processPropertyValue(inValue);
+                    var el = this.view('label');
+                    el.visible(value);
+                    this._labelVisible = value;
+                }
+            },
+
+            selectedRingRadius: {
+                get: function () {
+                    var bound = this.getBound(true);
+                    var radius = Math.max(bound.height, bound.width) / 2;
+                    return radius + 10;
+                }
+            },
             /**
              * Get/set node's selected statues
              * @property selected
@@ -162,23 +137,16 @@
                     var value = this._processPropertyValue(inValue);
                     if (this._selected != value) {
                         this._selected = value;
-                        this._setSelectedRadius();
+
+                        var el = this.view('selectedBG');
+                        if (inValue) {
+                            el.set('r', this.selectedRingRadius());
+                        }
+                        el.set('visible', inValue);
                         return true;
                     } else {
                         return false;
                     }
-                }
-            },
-            /**
-             * Set the dot's color
-             * @property color
-             */
-            color: {
-                set: function (inValue) {
-                    var value = this._processPropertyValue(inValue);
-                    this.$('graphic').setStyle('fill', value);
-                    this.$('dot').setStyle('fill', value);
-                    this.$('label').setStyle('fill', value);
                 }
             },
             enable: {
@@ -193,22 +161,6 @@
                     } else {
                         this.dom().addClass('disable');
                     }
-                }
-            },
-            revisionScale: {
-                set: function (value) {
-                    var topo = this.topology();
-                    var radius = 6;
-                    if (value == 0.6) {
-                        radius = 4;
-                    } else if (value <= 0.4) {
-                        radius = 2;
-                    }
-                    if (topo.showIcon()) {
-                        this.showIcon(value == 1);
-                    }
-                    this.radius(radius);
-                    this.view('label').set('visible', value > 0.4);
                 }
             },
             parentNodeSet: {}
@@ -243,25 +195,19 @@
                     name: 'graphic',
                     content: [
                         {
-                            name: 'dot',
-                            type: 'nx.graphic.Circle',
+                            name: 'icon',
+                            type: 'nx.graphic.Icon',
                             props: {
-                                r: '4',
-                                cx: 0,
-                                cy: 0,
-                                'class': 'dot'
+                                'class': 'icon',
+                                'iconType': 'unknown',
+                                'showIcon': false,
+                                scale: 1
                             }
-                        },
-                        {
-                            name: 'iconContainer',
-                            type: 'nx.graphic.Group'
                         }
                     ],
                     events: {
                         'mousedown': '{#_mousedown}',
                         'mouseup': '{#_mouseup}',
-//                        'touchstart': '{#_mousedown}',
-//                        'touchend': '{#_mouseup}',
 
                         'mouseenter': '{#_mouseenter}',
                         'mouseleave': '{#_mouseleave}',
@@ -278,15 +224,15 @@
         methods: {
             translateTo: function (x, y, callback) {
                 var el = this.view();
-                el.upon('transitionend', function () {
+                el.setTransition(function () {
                     this.position({
                         x: x,
                         y: y
                     });
                     this.calcLabelPosition(true);
-                    el.upon('transitionend', null);
-                }, this);
-                this.view().setTransform(x, y, null, 0.5);
+                }, this, 0.5);
+                el.setTransform(x, y, null, 0.5);
+
             },
             /**
              * Get node bound
@@ -295,24 +241,15 @@
              */
             getBound: function (onlyGraphic) {
                 if (onlyGraphic) {
-                    return this.resolve('graphic').getBound();
+                    return this.view('graphic').getBound();
                 } else {
-                    return this.resolve('@root').getBound();
+                    return this.view().getBound();
                 }
-            },
-            _setSelectedRadius: function () {
-                var el = this.view('selectedBG');
-                if (this._selected) {
-                    var bound = this.getBound(true);
-                    var radius = Math.max(bound.height, bound.width) / 2;
-                    el.set('r', radius + 10);
-                }
-                el.set('visible', this._selected);
             },
             _mousedown: function (sender, event) {
                 if (this.enable()) {
                     this._prevPosition = this.position();
-                    event.captureDrag(this.resolve('graphic'));
+                    event.captureDrag(this.view('graphic'));
                     this.fire('pressNode', event);
                 }
             },
@@ -391,11 +328,11 @@
                      * @param event {Object} original event object
                      */
                     this.fire('dragNodeEnd', event);
-                    this._updateConnectedNodeLabelPosition();
+                    this.updateConnectedNodeLabelPosition();
                 }
             },
 
-            _updateConnectedNodeLabelPosition: function () {
+            updateConnectedNodeLabelPosition: function () {
                 this.calcLabelPosition();
                 this.eachConnectedNode(function (node) {
                     node.calcLabelPosition();
@@ -500,7 +437,7 @@
              */
             updateByMaxObtuseAngle: function (angle) {
 
-                var el = this.resolve('label');
+                var el = this.view('label');
 
                 // find out the quadrant
                 var quadrant = Math.floor(angle / 60);

@@ -127,8 +127,8 @@
                      * @param event {Object} original event object
                      */
                     this.fire('resizeStage');
-                    this.height(bound.height);
-                    this.width(bound.width);
+                    this.height(Math.max(bound.height, 300));
+                    this.width(Math.max(bound.width, 300));
                 }
             },
             /**
@@ -306,39 +306,41 @@
                             //fn += 'calc=function(a){return a.length};';
                             fn += '                        var calc = function (positionAry) {' +
                                 '                         var length = positionAry.length;' +
-                                '                           var showIconRadius = 32 * 32;' +
-                                '                           var radius = 16 * 16;' +
+                                '                           var iconRadius = 36 * 36;' +
+                                '                           var dotRadius = 32 * 32;' +
                                 '' +
                                 '                            var testOverlap = function (sourcePosition, targetPosition) {' +
                                 '                                var distance = Math.pow(Math.abs(sourcePosition.x - targetPosition.x), 2) + Math.pow(Math.abs(sourcePosition.y - targetPosition.y), 2);' +
                                 '                                return{' +
-                                '                                    showIcon: distance < showIconRadius,' +
-                                '                                    unshownIcon: distance < radius' +
+                                '                                    iconOverlap: distance < iconRadius,' +
+                                '                                    dotOverlap: distance < dotRadius' +
                                 '                                }' +
                                 '                            };' +
-                                '                            var showIconOverLapCounter = 0;' +
-                                '                            var overLapCounter = 0;' +
+                                '                            var iconOverlapCounter = 0;' +
+                                '                            var dotOverlapCounter = 0;' +
                                 '                            for (var i = 0; i < length; i++) {' +
                                 '                                var sourcePosition = positionAry[i];' +
-                                '                                var iconisoverlap = false;' +
-                                '                                var isoverlap = false;' +
+                                '                                var iconIsOverlap = false;' +
+                                '                                var dotIsOverlap = false;' +
                                 '                                for (var j = 0; j < length; j++) {' +
                                 '                                    var targetPosition = positionAry[j];' +
                                 '                                    if (i !== j) {' +
                                 '                                        var result = testOverlap(sourcePosition, targetPosition);' +
-                                '                                        result.showIcon && (iconisoverlap = true);' +
-                                '                                        result.unshownIcon && (isoverlap = true);' +
+                                '                                        result.iconOverlap && (iconIsOverlap = true);' +
+                                '                                        result.dotOverlap && (dotIsOverlap = true);' +
                                 '                                    }' +
                                 '                                }' +
-                                '                                iconisoverlap && showIconOverLapCounter++;' +
-                                '                                isoverlap && overLapCounter++;' +
+                                '                                iconIsOverlap && iconOverlapCounter++;' +
+                                '                                dotIsOverlap && dotOverlapCounter++;' +
                                 '                            }' +
                                 '                            var overlapPercent = 1;' +
-                                '                            if (showIconOverLapCounter / length > 0.2) {' +
+                                '                            if (iconOverlapCounter / length > 0.2) {' +
                                 '                                overlapPercent = 0.8;' +
-                                '                                if (overLapCounter / length > 0.4) {' +
+                                '                                if (dotOverlapCounter / length > 0.8) {' +
+                                '                                    overlapPercent = 0.2;' +
+                                '                                } else if (dotOverlapCounter / length > 0.5) {' +
                                 '                                    overlapPercent = 0.4;' +
-                                '                                } else if (overLapCounter / length > 0.2) {' +
+                                '                                } else if (dotOverlapCounter / length > 0.2) {' +
                                 '                                    overlapPercent = 0.6;' +
                                 '                                }' +
                                 '                            }' +
@@ -363,44 +365,46 @@
 
 //                        var calc = function (positionAry) {
 //                            var length = positionAry.length;
-//                            var showIconRadius = 32 * 32;
-//                            var radius = 16 * 16;
+//                            var iconRadius = 32 * 32;
+//                            var dotRadius = 16 * 16;
 //
 //                            var testOverlap = function (sourcePosition, targetPosition) {
 //                                var distance = Math.pow(Math.abs(sourcePosition.x - targetPosition.x), 2) + Math.pow(Math.abs(sourcePosition.y - targetPosition.y), 2);
 //                                return{
-//                                    showIcon: distance < showIconRadius,
-//                                    unshownIcon: distance < radius
+//                                    iconOverlap: distance < iconRadius,
+//                                    dotOverlap: distance < dotRadius
 //                                }
 //                            };
 //
 //
-//                            var showIconOverLapCounter = 0;
-//                            var overLapCounter = 0;
+//                            var iconOverlapCounter = 0;
+//                            var dotOverlapCounter = 0;
 //
 //                            for (var i = 0; i < length; i++) {
 //                                var sourcePosition = positionAry[i];
-//                                var iconisoverlap = false;
-//                                var isoverlap = false;
+//                                var iconIsOverlap = false;
+//                                var dotIsOverlap = false;
 //                                for (var j = 0; j < length; j++) {
 //                                    var targetPosition = positionAry[j];
 //                                    if (i !== j) {
 //                                        var result = testOverlap(sourcePosition, targetPosition);
-//                                        result.showIcon && (iconisoverlap = true);
-//                                        result.unshownIcon && (isoverlap = true);
+//                                        result.iconOverlap && (iconIsOverlap = true);
+//                                        result.dotOverlap && (dotIsOverlap = true);
 //                                    }
 //                                }
-//                                iconisoverlap && showIconOverLapCounter++;
-//                                isoverlap && overLapCounter++;
+//                                iconIsOverlap && iconOverlapCounter++;
+//                                dotIsOverlap && dotOverlapCounter++;
 //                            }
 //
 //                            //0.2,0.4,0.6.0.8,1
 //                            var overlapPercent = 1;
-//                            if (showIconOverLapCounter / length > 0.2) {
+//                            if (iconOverlapCounter / length > 0.2) {
 //                                overlapPercent = 0.8;
-//                                if (overLapCounter / length > 0.4) {
+//                                if (dotOverlapCounter / length > 0.6) {
+//                                    overlapPercent = 0.2;
+//                                } else if (dotOverlapCounter / length > 0.4) {
 //                                    overlapPercent = 0.4;
-//                                } else if (overLapCounter / length > 0.2) {
+//                                } else if (dotOverlapCounter / length > 0.2) {
 //                                    overlapPercent = 0.6;
 //                                }
 //                            }

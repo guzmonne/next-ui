@@ -91,7 +91,7 @@
                                     name: 'zoomin',
                                     tag: 'span',
                                     props: {
-                                        'class': 'n-topology-nav-zoom-in n-icon-zoomin2-plus',
+                                        'class': 'n-topology-nav-zoom-in n-icon-zoomin-plus',
                                         title: "Zoom out"
                                     },
                                     events: {
@@ -102,7 +102,7 @@
                                     name: 'zoomout',
                                     tag: 'span',
                                     props: {
-                                        'class': 'n-topology-nav-zoom-out n-icon-zoomout2-minus',
+                                        'class': 'n-topology-nav-zoom-out n-icon-zoomout-minus',
                                         title: "Zoom in"
                                     },
                                     events: {
@@ -392,8 +392,16 @@
                 }
             },
             _fit: function (sender, event) {
-                //this.topology().precisionFit(0.6);
-                this.topology().fit();
+                if (!this._fitTimer) {
+                    this.topology().fit();
+
+                    sender.dom().setStyle('opacity', '0.1');
+                    this._fitTimer = true;
+                    setTimeout(function () {
+                        sender.dom().setStyle('opacity', '1');
+                        this._fitTimer = false;
+                    }.bind(this), 1200);
+                }
             },
             _zoombyselection: function (sender, event) {
                 var icon = sender;
@@ -498,8 +506,9 @@
             },
             _agr: function () {
                 var topo = this.topology();
-                topo.aggregationNodes(topo.selectedNodes().toArray());
+                var nodes = topo.selectedNodes().toArray();
                 topo.selectedNodes().clear();
+                topo.aggregationNodes(nodes);
             }
         }
     });

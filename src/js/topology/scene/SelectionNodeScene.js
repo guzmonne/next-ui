@@ -52,7 +52,7 @@
                 }
                 this._prevSelectedNodes = this.selectedNodes().toArray().slice();
                 var bounds = this.bounds = [];
-                this.topology().eachNode(function (node) {
+                this.topology().eachVisibleNode(function (node) {
                     if (node.enable()) {
                         var bound = node.getBound(true);
                         bounds.push({
