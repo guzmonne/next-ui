@@ -187,15 +187,15 @@
                         height: stageBound.height
                     };
 
-//                    if (bound.width < 300) {
-//                        bound.left -= (300 - bound.width) / 2;
-//                        bound.width = 300;
-//                    }
-//
-//                    if (bound.height < 300) {
-//                        bound.top -= (300 - bound.height) / 2;
-//                        bound.height = 300;
-//                    }
+                    if (bound.width < 300) {
+                        bound.left -= (300 - bound.width) / 2;
+                        bound.width = 300;
+                    }
+
+                    if (bound.height < 300) {
+                        bound.top -= (300 - bound.height) / 2;
+                        bound.height = 300;
+                    }
 
                     return bound;
 

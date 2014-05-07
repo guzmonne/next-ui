@@ -67,17 +67,17 @@
                 topo.stage().fit();
                 topo.stage().show();
 
-                setTimeout(function () {
-                    // force
+                //setTimeout(function () {
+                // force
 
-                    var force = new nx.data.Force();
-                    force.nodes(data.nodes);
-                    force.links(data.links);
-                    force.start();
-                    while (force.alpha()) {
-                        force.tick();
-                    }
-                    force.stop();
+                var force = new nx.data.Force();
+                force.nodes(data.nodes);
+                force.links(data.links);
+                force.start();
+                while (force.alpha()) {
+                    force.tick();
+                }
+                force.stop();
 
 
 //                    console.log(JSON.stringify(data));
@@ -99,35 +99,38 @@
 //                    }
 
 
-                    var bound = this._getBound(data.nodes);
-                    var matrix = stage.calcRectZoomMatrix(topo.graph().getBound(), bound);
-                    var transform = nx.geometry.Vector.transform;
+                var bound = this._getBound(data.nodes);
+                var matrix = stage.calcRectZoomMatrix(topo.graph().getBound(), bound);
+                var transform = nx.geometry.Vector.transform;
 
-                    topo.getLayer('links').hide();
+                topo.getLayer('links').hide();
+                topo.getLayer('links').fadeIn();
+
+
+                nx.each(data.nodes, function (n, i) {
+                    var node = topo.getNode(n.id);
+                    if (node) {
+                        var p = transform([n.x, n.y], matrix);
+                        node.translateTo(p[0], p[1]);
+                    } else {
+                    }
+                }, this);
+
+                if (this._timer) {
+                    clearTimeout(this._timer);
+                }
+
+                this._timer = setTimeout(function () {
+                    topo.getLayer('links').show();
                     topo.getLayer('links').fadeIn();
+                    topo.adjustLayout();
+                    if (callback) {
+                        callback.call(topo);
+                    }
+                }, 1200);
 
 
-                    nx.each(data.nodes, function (n, i) {
-                        var node = topo.getNode(n.id);
-                        if (node) {
-                            var p = transform([n.x, n.y], matrix);
-                            node.translateTo(p[0], p[1]);
-                        } else {
-                        }
-                    }, this);
-
-
-                    setTimeout(function () {
-                        topo.getLayer('links').show();
-                        topo.getLayer('links').fadeIn();
-                        topo.adjustLayout();
-                        if (callback) {
-                            callback.call(topo);
-                        }
-                    }, 500);
-
-
-                }.bind(this), 3000);
+                // }.bind(this), 3000);
 
 
             },

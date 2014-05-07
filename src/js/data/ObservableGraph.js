@@ -641,6 +641,12 @@
                 this.fire('removeVertex', vertex);
             },
 
+            deleteVertex: function (data) {
+                var index = this._originalData.nodes.indexOf(data);
+                if (index != -1) {
+                    this._originalData.nodes.splice(index, 1);
+                }
+            },
 
             /**
              * Remove edge from Graph
@@ -652,6 +658,12 @@
                 this._removeEdge(edge, isNotifyParentEdgeSet);
                 this.edges.splice(this.edges.indexOf(edge), 1);
                 delete this.edgesMap[edge.id()];
+            },
+            deleteEdge: function (data) {
+                var index = this._originalData.links.indexOf(data);
+                if (index != -1) {
+                    this._originalData.links.splice(index, 1);
+                }
             },
             _removeEdge: function (edge, isNotifyParentEdgeSet) {
                 var edgeSet = edge.parentEdgeSet();
@@ -699,6 +711,13 @@
             removeVertexSet: function (vertexSet) {
                 //[todo]
 
+            },
+
+            deleteVertexSet: function (data) {
+                var index = this._originalData.nodeSet.indexOf(data);
+                if (index != -1) {
+                    this._originalData.nodeSet.splice(index, 1);
+                }
             },
             _removeVertexSet: function (vertexSet) {
 
