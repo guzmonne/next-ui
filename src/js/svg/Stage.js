@@ -304,7 +304,7 @@
                     width: this.width() - padding * 2
                 };
                 var matrix = new nx.geometry.Matrix(this.calcRectZoomMatrix(stageBound, contentBound));
-                matrix.matrix(nx.geometry.Matrix.multiply(this.matrix(), matrix.matrix()))
+                matrix.matrix(nx.geometry.Matrix.multiply(this.matrix(), matrix.matrix()));
                 this.fitMatrixObject(matrix);
             },
             _setStageMatrix: function(matrix, according) {
