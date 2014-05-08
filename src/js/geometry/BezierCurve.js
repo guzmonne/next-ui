@@ -119,7 +119,7 @@
                         left: left,
                         right: right
                     };
-                };
+                }
             };
         })()
     });
