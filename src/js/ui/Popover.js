@@ -16,10 +16,10 @@
                 },
                 set: function (value) {
                     if (value) {
-                        this.resolve("title").resolve('@root').setStyle("display", "block");
+                        this.view("title").dom().setStyle("display", "block");
 
                     } else {
-                        this.resolve("title").resolve('@root').setStyle("display", "none");
+                        this.view("title").dom().setStyle("display", "none");
                     }
                     if (this._title != value) {
                         this._title = value;
@@ -65,7 +65,7 @@
         },
         methods: {
             getContainer: function () {
-                return this.resolve('body').resolve('@root');
+                return this.view('body').dom();
             }
         }
     });

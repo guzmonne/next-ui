@@ -134,7 +134,7 @@
                 set: function (value) {
                     var topo = value;
                     this._topo = topo;
-                    this.topo().resolve('nav').resolve('settingPopover').appendChild(this);
+                    this.topo().view('nav').view('settingPopover').appendChild(this);
                     var self = this;
                     this.topo().watch('showIcon', function (watchName, showIcon, topo) {
                         var padding = self.padding();
@@ -200,8 +200,8 @@
                 },
                 set: function (value) {
                     if (value && !this.showNote()) {
-                        var note = this.resolve('note');
-                        this.topo().resolve().appendChild(this.resolve('note'));
+                        var note = this.view('note');
+                        this.topo().view().appendChild(this.view('note'));
                     }
 
                     this._showNote = value;

@@ -11,7 +11,7 @@
             node: {
                 set: function (value) {
                     var model = value.model();
-                    this.resolve('list').set('items', new nx.data.Dictionary(model.getData()));
+                    this.view('list').set('items', new nx.data.Dictionary(model.getData()));
                     this.title(value.label());
                 }
             },

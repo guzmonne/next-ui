@@ -40,9 +40,9 @@
 
     nx.dom.Document.ready(function () {
 //        if (document.body.firstChild) {
-//            document.body.insertBefore(nx.ui.PopupContainer.container().resolve('@root').$dom, document.body.firstChild);
+//            document.body.insertBefore(nx.ui.PopupContainer.container().view().$dom, document.body.firstChild);
 //        } else {
-//            document.body.appendChild(nx.ui.PopupContainer.container().resolve('@root').$dom);
+//            document.body.appendChild(nx.ui.PopupContainer.container().view().$dom);
 //        }
     }, this);
 
@@ -50,9 +50,9 @@
     setTimeout(function () {
         if (document.body) {
             if (document.body.firstChild) {
-                document.body.insertBefore(nx.ui.PopupContainer.container().resolve('@root').$dom, document.body.firstChild);
+                document.body.insertBefore(nx.ui.PopupContainer.container().view().dom().$dom, document.body.firstChild);
             } else {
-                document.body.appendChild(nx.ui.PopupContainer.container().resolve('@root').$dom);
+                document.body.appendChild(nx.ui.PopupContainer.container().view().dom().$dom);
             }
         } else {
             setTimeout(arguments.callee, 10);

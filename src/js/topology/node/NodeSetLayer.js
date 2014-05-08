@@ -90,7 +90,7 @@
                     topology: topo
                 });
                 nodeSet.setModel(vertexSet);
-                nodeSet.attach(this.resolve('static'));
+                nodeSet.attach(this.view('static'));
 
                 nodeSet.sets({
                     'data-node-id': nodeSet.id(),

@@ -27,10 +27,10 @@
             },
             searchKey: {
                 set: function (value) {
-                    this.resolve('searchIpt').key(value);
+                    this.view('searchIpt').key(value);
                 },
                 get: function () {
-                    return this.resolve('searchIpt').key();
+                    return this.view('searchIpt').key();
                 }
             },
             placeholder: {
@@ -45,7 +45,7 @@
         methods: {
             init: function () {
                 this.inherited();
-                var autoComplete = this.resolve('searchIpt');
+                var autoComplete = this.view('searchIpt');
                 var self = this;
                 autoComplete.on('filter', function (autocomp) {
                     if (self.__listeners__['search']) {
@@ -113,8 +113,8 @@
                 });
             },
             onInit: function () {
-                var icon = this.resolve('searchIpt').resolve('icon');
-                var input = this.resolve('searchIpt').resolve('input');
+                var icon = this.view('searchIpt').view('icon');
+                var input = this.view('searchIpt').view('input');
                 icon.addClass('glyphicon glyphicon-search');
                 icon.setStyles({
                     position: 'absolute',

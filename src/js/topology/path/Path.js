@@ -228,13 +228,13 @@
                 }
 
                 this.view("path").set('d', d1.concat(d2).join(' '));
-                //this.resolve("path").setTransform(null, null, this.topology().stageScale());
+                //this.view("path").setTransform(null, null, this.topology().stageScale());
 
                 //todo
 //                if (links.length == 1) {
-//                    firstLink.resolve().watch("opacity", function (prop, value) {
-//                        if (this.$ && this.resolve("path") && this.resolve("path").opacity) {
-//                            this.resolve("path").opacity(value);
+//                    firstLink.view().watch("opacity", function (prop, value) {
+//                        if (this.$ && this.view("path") && this.view("path").opacity) {
+//                            this.view("path").opacity(value);
 //                        }
 //                    }, this);
 //                }

@@ -108,8 +108,14 @@
                     return this._visible !== undefined ? this._visible : true;
                 },
                 set: function (value) {
-                    this.dom().setStyle("display", value ? "" : "none");
-                    //this.dom().setStyle("pointer-events", value ? "all" : "none");
+                    if (this.view()) {
+                        if (value) {
+                            this.view().dom().removeClass('n-hidden');
+                        } else {
+                            this.view().dom().addClass('n-hidden');
+                        }
+
+                    }
                     this._visible = value;
                 }
             },
@@ -137,14 +143,6 @@
             init: function (args) {
                 this.inherited(args);
                 this.sets(args);
-            },
-            /**
-             * Get component dom element by name
-             * @param name {String}
-             * @returns {nx.dom.Element}
-             */
-            $: function (name) {
-                return this.view(name).dom();
             },
             /**
              * Set component's transform
@@ -215,12 +213,12 @@
             append: function (parent) {
                 var parentElement;
                 if (parent) {
-                    parentElement = this._parentElement = parent.resolve("@root");
+                    parentElement = this._parentElement = parent.view().dom();
                 } else {
-                    parentElement = this._parentElement = this._parentElement || this.resolve("@root").parentNode();//|| this.parent().resolve("@root");
+                    parentElement = this._parentElement = this._parentElement || this.view().dom().parentNode();//|| this.parent().view();
                 }
-                if (parentElement && parentElement.$dom && this._resources && this.resolve("@root") && !parentElement.contains(this.resolve("@root"))) {
-                    parentElement.appendChild(this.resolve("@root"));
+                if (parentElement && parentElement.$dom && this._resources && this.view() && !parentElement.contains(this.view().dom())) {
+                    parentElement.appendChild(this.view().dom());
                 }
             },
             /**
@@ -228,26 +226,10 @@
              * @method remove
              */
             remove: function () {
-                var parentElement = this._parentElement = this._parentElement || this.resolve("@root").parentNode();
-                if (parentElement && this._resources && this.resolve("@root")) {
-                    parentElement.removeChild(this.resolve("@root"));
+                var parentElement = this._parentElement = this._parentElement || this.view().dom().parentNode();
+                if (parentElement && this._resources && this.view()) {
+                    parentElement.removeChild(this.view().dom());
                 }
-            },
-            /**
-             * Inherited nx.ui.component's upon function, fixed mouseleave & mouseenter event
-             * @method upon
-             * @param name {String} event name
-             * @param handler {Function} event handler
-             * @param [context] {Object} event handler's context
-             */
-            upon: function (name, handler, context) {
-//                if (name == 'mouseenter') {
-//                    this.inherited('mouseover', this._mouseenter.bind(this), context);
-//                }
-//                if (name == 'mouseleave') {
-//                    this.inherited('mouseout', this._mouseleave.bind(this), context);
-//                }
-                this.inherited(name, handler, context);
             },
             /**
              * Get component's bound, delegate element's getBoundingClientRect function
@@ -256,6 +238,17 @@
              */
             getBound: function () {
                 return this.dom().$dom.getBoundingClientRect();
+            },
+
+            hide: function () {
+                if (this.view()) {
+                    this.view().dom().addClass('n-hidden');
+                }
+            },
+            show: function () {
+                if (this.view()) {
+                    this.view().dom().removeClass('n-hidden');
+                }
             },
             /**
              * Set animation for element,pass a config to this function
@@ -274,7 +267,7 @@
             animate: function (config) {
                 var self = this;
                 var aniMap = [];
-                var el = this.resolve('@root');
+                var el = this.view();
                 nx.each(config.to, function (value, key) {
                     var oldValue = this.has(key) ? this.get(key) : el.getStyle(key);
                     aniMap.push({

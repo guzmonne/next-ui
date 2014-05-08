@@ -185,6 +185,7 @@
                     var group = parentNodeSet.group;
                     group.nodes().clear();
                     group.nodes().addRange(nx.util.values(parentNodeSet.visibleSubNodes()));
+                    group.draw();
                     parentNodeSet = parentNodeSet.parentNodeSet();
 
                     group.opacity(0.6 - depth * 0.2);
@@ -196,17 +197,17 @@
                 this._recover();
                 this._topo.stage().resetFitMatrix();
                 this._topo.zoomByNodes(nodeSet.nodes(), function() {
-                    var parentNodeSet = nodeSet.parentNodeSet();
-                    while (parentNodeSet && parentNodeSet.group) {
-                        parentNodeSet.group.draw();
-                        parentNodeSet = parentNodeSet.parentNodeSet();
-                    }
                     nodeSet.group = this._groupsLayer.addGroup({
                         shapeType: 'nodeSetPolygon',
                         nodeSet: nodeSet,
                         nodes: nx.util.values(nodeSet.visibleSubNodes()),
                         label: nodeSet.label()
                     });
+                    var parentNodeSet = nodeSet.parentNodeSet();
+                    while (parentNodeSet && parentNodeSet.group) {
+                        parentNodeSet.group.draw();
+                        parentNodeSet = parentNodeSet.parentNodeSet();
+                    }
 
                 }, this, 1.5);
 

@@ -102,7 +102,7 @@
                 });
                 //set model
                 link.setModel(edge, false);
-                link.attach(this.resolve('static'));
+                link.attach(this.view('static'));
 
                 //set element attribute
                 link.sets({

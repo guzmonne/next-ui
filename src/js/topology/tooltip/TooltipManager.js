@@ -190,7 +190,7 @@
                 nodeTooltip.on("close", function () {
                     this.fire("closeNodeToolTip");
                 }, this);
-                nodeTooltip.resolve('@root').addClass('n-topology-tooltip');
+                nodeTooltip.view().dom().addClass('n-topology-tooltip');
                 this.nodeTooltip(nodeTooltip);
 
 
@@ -198,7 +198,7 @@
                 linkTooltip.on("close", function () {
                     this.fire("closeLinkToolTip", linkTooltip);
                 }, this);
-                linkTooltip.resolve('@root').addClass('n-topology-tooltip');
+                linkTooltip.view().dom().addClass('n-topology-tooltip');
                 this.linkTooltip(linkTooltip);
 
 
@@ -206,7 +206,7 @@
                 linkSetTooltip.on("close", function () {
                     this.fire("closeLinkSetToolTip", linkSetTooltip);
                 }, this);
-                linkSetTooltip.resolve('@root').addClass('n-topology-tooltip');
+                linkSetTooltip.view().dom().addClass('n-topology-tooltip');
                 this.linkSetTooltip(linkSetTooltip);
 
 
@@ -214,7 +214,7 @@
                 nodeSetTooltip.on("close", function () {
                     this.fire("closeNodeSetToolTip");
                 }, this);
-                nodeSetTooltip.resolve('@root').addClass('n-topology-tooltip');
+                nodeSetTooltip.view().dom().addClass('n-topology-tooltip');
                 this.nodeSetTooltip(nodeSetTooltip);
 
 

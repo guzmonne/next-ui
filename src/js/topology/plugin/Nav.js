@@ -17,8 +17,8 @@
                     return this._visible !== undefined ? this._visible : true;
                 },
                 set: function (value) {
-                    this.resolve('@root').setStyle("display", value ? "" : "none");
-                    this.resolve('@root').setStyle("pointer-events", value ? "all" : "none");
+                    this.view().dom().setStyle("display", value ? "" : "none");
+                    this.view().dom().setStyle("pointer-events", value ? "all" : "none");
                     this._visible = value;
                 }
             }
@@ -134,28 +134,42 @@
                                 'click': '{#_fit}'
                             }
                         },
+//                        {
+//                            tag: 'li',
+//                            name: 'agr',
+//                            props: {
+//                                'class': 'n-topology-nav-agr',
+//                                title: "Aggregation"
+//                            },
+//                            content: [
+//                                {
+//                                    tag: 'span',
+//                                    props: {
+//                                        'class': 'glyphicon glyphicon-certificate   agr-icon'
+//                                    }
+//                                },
+//                                {
+//                                    tag: 'span',
+//                                    content: 'A',
+//                                    props: {
+//                                        'class': 'agr-text'
+//                                    }
+//                                }
+//                            ],
+//                            events: {
+//                                'click': '{#_agr}'
+//                            }
+//                        },
+
+
+
                         {
                             tag: 'li',
                             name: 'agr',
                             props: {
-                                'class': 'n-topology-nav-agr',
-                                title: "Aggregation"
+                                'class': 'n-topology-nav-full n-icon-aggregation',
+                                title: 'Aggregation'
                             },
-                            content: [
-                                {
-                                    tag: 'span',
-                                    props: {
-                                        'class': 'glyphicon glyphicon-certificate   agr-icon'
-                                    }
-                                },
-                                {
-                                    tag: 'span',
-                                    content: 'A',
-                                    props: {
-                                        'class': 'agr-text'
-                                    }
-                                }
-                            ],
                             events: {
                                 'click': '{#_agr}'
                             }
@@ -350,7 +364,7 @@
                 topo.watch('scale', function (prop, scale) {
                     var maxScale = topo.maxScale();
                     var minScale = topo.minScale();
-                    var navBall = this.resolve("zoomball").resolve('@root');
+                    var navBall = this.view("zoomball").view();
                     var step = 65 / (maxScale - minScale);
                     navBall.setStyles({
                         top: 72 - (scale - minScale) * step + 14
@@ -438,10 +452,10 @@
                 this.toggleFull();
             },
             _enterSetting: function (event) {
-                this.resolve("setting").addClass("n-topology-nav-setting-open");
+                this.view("setting").addClass("n-topology-nav-setting-open");
             },
             _leaveSetting: function (event) {
-                this.resolve("setting").removeClass("n-topology-nav-setting-open");
+                this.view("setting").removeClass("n-topology-nav-setting-open");
             },
             cancelFullScreen: function (el) {
                 var requestMethod = el.cancelFullScreen || el.webkitCancelFullScreen || el.mozCancelFullScreen || el.exitFullscreen;

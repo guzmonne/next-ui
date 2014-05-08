@@ -91,10 +91,10 @@
                 });
                 //set model
                 linkSet.setModel(edgeSet, false);
-                linkSet.attach(this.resolve('static'));
+                linkSet.attach(this.view('static'));
 
                 //set element attribute
-                linkSet.resolve('@root').sets({
+                linkSet.view().sets({
                     'data-nx-type': 'nx.graphic.Topology.LinkSet',
                     'data-linkKey': linkKey,
                     'data-source-node-id': edgeSet.source().id(),

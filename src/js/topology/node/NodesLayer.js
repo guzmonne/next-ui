@@ -111,7 +111,7 @@
                     topology: topo
                 });
                 node.setModel(vertex);
-                node.attach(this.resolve('static'));
+                node.attach(this.view('static'));
 
                 node.sets({
                     'class': 'node',

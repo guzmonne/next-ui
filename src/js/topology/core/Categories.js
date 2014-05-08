@@ -30,12 +30,12 @@
             __draw: function () {
                 var start = new Date();
                 var serializer = new XMLSerializer();
-                var svg = serializer.serializeToString(this.stage().resolve("@root").$dom.querySelector('.stage'));
-                var defs = serializer.serializeToString(this.stage().resolve("@root").$dom.querySelector('defs'));
+                var svg = serializer.serializeToString(this.stage().view().dom().$dom.querySelector('.stage'));
+                var defs = serializer.serializeToString(this.stage().view().dom().$dom.querySelector('defs'));
                 var svgString = '<svg width="' + this.width() + '" height="' + this.height() + '" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >' + defs + svg + "</svg>";
                 var b64 = window.btoa(svgString);
-                var img = this.resolve("img").resolve("@root").$dom;
-                //var canvas = this.resolve("canvas").resolve("@root").$dom;
+                var img = this.view("img").dom().$dom;
+                //var canvas = this.view("canvas").view().$dom;
                 img.setAttribute('width', this.width());
                 img.setAttribute('height', this.height());
                 img.setAttribute('src', 'data:image/svg+xml;base64,' + b64);

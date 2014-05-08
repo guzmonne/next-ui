@@ -11,7 +11,7 @@
                 var texttips = this.texttips = new tips();
                 topo.showNavigation(false);
                 topo.addClass("n-topology-3d");
-                topo.resolve("stageContainer").hide();
+                topo.view("stageContainer").hide();
                 topo.appendChild(texttips);
 
                 THREE.registerGlobalDomEvent();
@@ -48,7 +48,7 @@
                 renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
 
                 this.renderDOM = renderer.domElement;
-                topo.resolve()._element.appendChild(this.renderDOM);
+                topo.view()._element.appendChild(this.renderDOM);
 
                 var recover = false;
 
@@ -335,11 +335,11 @@
                         topo.removeClass("n-topology-3d-transparent");
                         topo.removeChild(texttips);
                         topo.removeClass("n-topology-3d");
-                        topo.resolve("stageContainer").show();
+                        topo.view("stageContainer").show();
                         topo.showNavigation(true);
                         topo.setData(d.data, d.name, true);
                         topo.adjustLayout();
-                        topo.resolve()._element.removeChild(dom);
+                        topo.view()._element.removeChild(dom);
                     }, 500);
                 }
 

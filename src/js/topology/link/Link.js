@@ -100,8 +100,8 @@
             color: {
                 set: function (inValue) {
                     var value = this._processPropertyValue(inValue);
-                    this.$('line').setStyle('stroke', value);
-                    this.$('path').setStyle('stroke', value);
+                    this.view('line').dom().setStyle('stroke', value);
+                    this.view('path').dom().setStyle('stroke', value);
                     this._color = value;
                 }
             },
@@ -113,16 +113,16 @@
                 set: function (inValue) {
                     var value = this._processPropertyValue(inValue);
                     var width = (this._stageScale || 1) * value;
-                    this.$('line').setStyle('stroke-width', width);
-                    this.$('path').setStyle('stroke-width', width);
+                    this.view('line').dom().setStyle('stroke-width', width);
+                    this.view('path').dom().setStyle('stroke-width', width);
                     this._width = value;
                 }
             },
             stageScale: {
                 set: function (value) {
                     var width = (this._width || 1) * value;
-                    this.$('line').setStyle('stroke-width', width);
-                    this.$('path').setStyle('stroke-width', width);
+                    this.view('line').dom().setStyle('stroke-width', width);
+                    this.view('path').dom().setStyle('stroke-width', width);
                     this.view('disableLabel').scale(value);
                     this._stageScale = value;
                 }
@@ -135,9 +135,9 @@
                 set: function (inValue) {
                     var value = this._processPropertyValue(inValue);
                     if (value) {
-                        this.$('path').setStyle('stroke-dasharray', '2, 5');
+                        this.view('path').dom().setStyle('stroke-dasharray', '2, 5');
                     } else {
-                        this.$('path').setStyle('stroke-dasharray', '');
+                        this.view('path').dom().setStyle('stroke-dasharray', '');
                     }
                     this._dotted = value;
                 }
@@ -149,8 +149,8 @@
             style: {
                 set: function (inValue) {
                     var value = this._processPropertyValue(inValue);
-                    this.$('line').setStyles(value);
-                    this.$('path').setStyles(value);
+                    this.view('line').dom().setStyles(value);
+                    this.view('path').dom().setStyles(value);
                 }
             },
             /**
@@ -323,7 +323,7 @@
                     this.view('path').append();
                     this.view('line').remove();
                     this.view('path').set('d', d);
-                    this.$('path').setStyle('stroke-width', width);
+                    this.view('path').dom().setStyle('stroke-width', width);
 
                 } else if (this.linkType() == 'curve') {
                     var path = [];
@@ -337,7 +337,7 @@
                     this.view('path').append();
                     this.view('line').remove();
                     this.view('path').set('d', d);
-                    this.$('path').setStyle('stroke-width', width);
+                    this.view('path').dom().setStyle('stroke-width', width);
                 } else {
                     var lineEl = this.view('line');
                     var newLine = line.translate(offset);
@@ -349,7 +349,7 @@
                     });
                     this.view('path').remove();
                     this.view('line').append();
-                    this.$('line').setStyle('stroke-width', width);
+                    this.view('line').dom().setStyle('stroke-width', width);
                 }
 
 
@@ -417,8 +417,8 @@
             },
 
             __drawOverPath: function () {
-                var path = this.$('path').$dom;
-                var overPath = this.$('overPath').$dom;
+                var path = this.view('path').dom().$dom;
+                var overPath = this.view('overPath').dom().$dom;
                 var length = path.getTotalLength();
                 var index = path.getPathSegAtLength(length * 0.5);
                 var endPoint = path.getPointAtLength(length * 0.5);

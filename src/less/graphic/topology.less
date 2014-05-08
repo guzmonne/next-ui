@@ -69,6 +69,16 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
+  text {
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  .n-topology-icon .fontIcon{
+    cursor: pointer;
+  }
+
   .iconBG {
     fill: @topologyBackgroundColor;
   }
@@ -76,7 +86,6 @@
   .iconBGActive {
     fill: @primaryColor;
   }
-
 
   .node {
     .selectedBG {
@@ -101,7 +110,6 @@
       opacity: 0.3;
       stroke: #ccc;
     }
-
 
   }
 
@@ -195,6 +203,18 @@
       opacity: 0.3;
       stroke: #ccc;
     }
+
+    .iconBG {
+      fill: @topologyBackgroundColor;
+    }
+    .iconBGActive {
+      fill: @topologyBackgroundColor;
+    }
+
+    .iconBGActive ~ .iconShape {
+      display: block !important;
+    }
+
   }
 
   .group {

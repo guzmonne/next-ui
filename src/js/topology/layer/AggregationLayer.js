@@ -101,7 +101,7 @@
         },
         methods: {
             onInit: function () {
-                var labels = this.resolve("labels");
+                var labels = this.view("labels");
 
                 labels.on("itemsGenerated", function () {
                     var x = 0;
@@ -109,12 +109,12 @@
                     nx.each(children, function (child) {
                         var bound = child.getBound();
                         child.set("translateX", x);
-                        child.resolve("arrow").set("translateX", bound.width + 1);
+                        child.view("arrow").set("translateX", bound.width + 1);
 
                         x += bound.width + 18;
                     });
 
-                    children[children.length - 1].resolve("arrow").visible(false);
+                    children[children.length - 1].view("arrow").visible(false);
                 }, this);
             },
             update: function (activeNodeSet) {
@@ -159,12 +159,12 @@
                 this.iteratorIndex(0);
 
 
-                this.resolve("labels").empty();
+                this.view("labels").empty();
 
-                this.resolve("labels").items(items.reverse());
+                this.view("labels").items(items.reverse());
 
 
-                this.resolve("arrows").empty();
+                this.view("arrows").empty();
 
 //                var arrows = [];
 //
@@ -172,7 +172,7 @@
 //                    arrows.push({x: i * 120});
 //                }
 //
-//                this.resolve("arrows").items(arrows);
+//                this.view("arrows").items(arrows);
 //
                 this.draw();
 
@@ -212,13 +212,13 @@
                     maxY = Math.max(maxY, bound.top + bound.height);
                 });
 
-                this.resolve().set("translateX", minX - translateX - gap);
-                this.resolve().set("translateY", minY - translateY - gap);
+                this.view().set("translateX", minX - translateX - gap);
+                this.view().set("translateY", minY - translateY - gap);
 
 
-                this.resolve("rect").set("width", maxX - minX + gap * 2);
+                this.view("rect").set("width", maxX - minX + gap * 2);
 
-                this.resolve("rect").set("height", maxY - minY + gap * 2);
+                this.view("rect").set("height", maxY - minY + gap * 2);
 
             },
 

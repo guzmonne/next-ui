@@ -32,7 +32,7 @@
             onAppend: function () {
                 var topo = this.topo = this.owner();
 
-                this.resolve().visible(topo.showThumbnail());
+                this.view().visible(topo.showThumbnail());
 
                 if (!topo.showThumbnail()) {
 
@@ -116,7 +116,7 @@
 
                 this.stage.appendChild(viewrect);
 
-                this.resolve("svg").appendChild(stage);
+                this.view("svg").appendChild(stage);
             },
 
             _drawDot: function () {
@@ -262,7 +262,7 @@
                 var topo = this.topo;
                 var width = topo.width();
                 var height = topo.height();
-                var el = this.resolve();
+                var el = this.view();
                 var svg = this.stage;
                 var rate;
                 if (width > height) {
@@ -298,7 +298,7 @@
             },
 
             _toggleThumbnail: function (sender) {
-                this.resolve("svg").toggle();
+                this.view("svg").toggle();
                 sender.toggleClass("n-icon-thumbnail-expand-x16");
 
             },

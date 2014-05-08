@@ -139,7 +139,7 @@
                 var left = 0;
                 var top = 0;
 
-                var root = this.resolve('@root');
+                var root = this.view().dom();
 
                 this.sets(args || {});
 
@@ -157,8 +157,8 @@
                 var target = this.target();
                 var targetSize = {width: 0, height: 0};
 
-                if (target.resolve && target.resolve('@root')) {
-                    target = target.resolve('@root');
+                if (target.resolve && target.view()) {
+                    target = target.view();
                 }
 
                 // if target is a point {x:Number,y:Number}
@@ -333,7 +333,7 @@
 
                 this._clearTimeout();
 
-                var root = this.resolve('@root');
+                var root = this.view().dom();
 
                 if (this.pin()) {
                     return;

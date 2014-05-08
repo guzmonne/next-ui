@@ -59,7 +59,7 @@
              */
             stage: {
                 get: function () {
-                    return this.resolve('stage');
+                    return this.view('stage');
                 }
             },
             /**
@@ -104,7 +104,7 @@
 
                 } else {
                     var timer = setInterval(function () {
-                        if (nx.dom.Document.body().contains(self.resolve("@root"))) {
+                        if (nx.dom.Document.body().contains(self.view().dom())) {
                             //
                             clearInterval(timer);
                             self._adaptToContainer();
@@ -115,7 +115,7 @@
                 }
             },
             _adaptToContainer: function () {
-                var bound = this.resolve("@root").parentNode().getBound();
+                var bound = this.view().dom().parentNode().getBound();
                 if (bound.width === 0 || bound.height === 0) {
                     //nx.logger.log("Please set height*width to topology's parent container");
                 }
@@ -340,7 +340,7 @@
                                 '                                    overlapPercent = 0.2;' +
                                 '                                } else if (dotOverlapCounter / length > 0.5) {' +
                                 '                                    overlapPercent = 0.4;' +
-                                '                                } else if (dotOverlapCounter / length > 0.2) {' +
+                                '                                } else if (dotOverlapCounter / length > 0.15) {' +
                                 '                                    overlapPercent = 0.6;' +
                                 '                                }' +
                                 '                            }' +

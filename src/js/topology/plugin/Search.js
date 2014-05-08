@@ -38,11 +38,11 @@
             open: function (args) {
                 var topo = this.topology();
 
-                var combo = this.resolve("searchCombo");
+                var combo = this.view("searchCombo");
 
                 combo.match(topo.searchMath());
 
-                var popup = this.resolve("searchPopup");
+                var popup = this.view("searchPopup");
 
 
                 var nodes = topo.getNodes();
@@ -81,8 +81,8 @@
 
             },
             close: function () {
-                this.resolve("searchPopup").close(true);
-                this.resolve("searchCombo").close(true);
+                this.view("searchPopup").close(true);
+                this.view("searchCombo").close(true);
 
 
                 this.fire("closeSearchPanel");

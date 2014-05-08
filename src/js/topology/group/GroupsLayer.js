@@ -73,10 +73,11 @@
                 this.inherited(args);
                 var topo = this.topology();
                 if (topo.enableGradualScaling()) {
-                    topo.watch('stageScale', this._redraw.bind(this), this);
+//                    topo.watch('stageScale', this._redraw.bind(this), this);
                 } else {
-                    topo.on('zoomend', this._redraw.bind(this), this);
+
                 }
+                topo.on('zoomend', this._redraw.bind(this), this);
                 topo.on('fitStage', this._redraw.bind(this), this);
                 topo.watch('revisionScale', this._redraw.bind(this), this);
                 topo.watch('showIcon', this._redraw.bind(this), this);

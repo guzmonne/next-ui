@@ -93,6 +93,7 @@
 
 
                     this.view().set('iconType', value);
+                    this.view().dom().addClass('n-topology-icon');
 
 
                     this.size(size);
@@ -128,16 +129,14 @@
                     var img = this.view('image').dom();
                     var size = this.size();
                     var fontSize = Math.max(size.width, size.height);
-                    if (this.showIcon()) {
-                        if (this.imageType() == 'font') {
-                            shapeEL.setStyle('font-size', fontSize * value);
-                        } else {
-                            img.setStyle('-webkit-transform', 'translate(' + size.width / -2 + 'px, ' + size.height / -2 + 'px) scale(' + value + ')');
-                        }
-                        bgEL.setStyle('font-size', fontSize * value);
-                    } else {
-                        bgEL.setStyle('font-size', 4 + value * 8);
+                    var _size = this.showIcon() ? fontSize * value : 4 + value * 8;
+                    shapeEL.setStyle('font-size', _size);
+                    bgEL.setStyle('font-size', _size);
+
+                    if (this.imageType() == 'image' && value) {
+                        img.setStyle('-webkit-transform', 'translate(' + size.width / -2 + 'px, ' + size.height / -2 + 'px) scale(' + value + ')');
                     }
+
                     this._scale = value;
                 }
             },

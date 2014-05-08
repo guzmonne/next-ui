@@ -21,8 +21,8 @@
                 set: function (value) {
                     if (this._src !== value) {
                         this._src = value;
-                        if (this.resolve('@root') && value !== undefined) {
-                            var el = this.resolve("@root").$dom;
+                        if (this.view() && value !== undefined) {
+                            var el = this.view().dom().$dom;
                             el.setAttributeNS(xlink, 'href', value);
                         }
                         return true;

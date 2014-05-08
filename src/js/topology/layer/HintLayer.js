@@ -12,8 +12,8 @@
             position: {
                 set: function (value) {
                     this._position = value;
-                    this.resolve().set('translateX', value.x);
-                    this.resolve().set('translateY', value.y);
+                    this.view().set('translateX', value.x);
+                    this.view().set('translateY', value.y);
                 }
             },
 
@@ -22,19 +22,19 @@
                     this._style = value;
 
                     if (value && value.textColor) {
-                        this.resolve("text").setStyle("fill", value.textColor);
+                        this.view("text").setStyle("fill", value.textColor);
                     }
                     if (value && value["font-size"]) {
-                        this.resolve("text").setStyle("font-size", value["font-size"]);
+                        this.view("text").setStyle("font-size", value["font-size"]);
                     }
 
                     if (value) {
-                        this.resolve("rect").sets(value);
+                        this.view("rect").sets(value);
                     }
 
 
                     if (value && value.fill) {
-                        this.resolve("arrow").set("fill", value.fill);
+                        this.view("arrow").set("fill", value.fill);
                     }
                 }
             },
@@ -90,9 +90,9 @@
         methods: {
             update: function () {
                 var direction = this.direction();
-                var text = this.resolve("text");
-                var rect = this.resolve("rect");
-                var arrow = this.resolve("arrow");
+                var text = this.view("text");
+                var rect = this.view("rect");
+                var arrow = this.view("arrow");
 
                 if (this.text()) {
                     text.show();

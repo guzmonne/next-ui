@@ -18,7 +18,7 @@
                 set: function (value) {
                     if (this._text !== value && value !== undefined) {
                         this._text = value;
-                        var el = this.view("@root").$dom;
+                        var el = this.view().dom().$dom;
                         if (el.firstChild) {
                             el.removeChild(el.firstChild);
                         }

@@ -53,14 +53,14 @@
             color: {
                 set: function (inValue) {
                     var value = this._processPropertyValue(inValue);
-                    this.$('numBg').setStyle('fill', value);
-                    this.$('path').setStyle('stroke', value);
+                    this.view('numBg').dom().setStyle('fill', value);
+                    this.view('path').dom().setStyle('stroke', value);
                     this._color = value;
                 }
             },
             stageScale: {
                 set: function (value) {
-                    this.$('path').setStyle('stroke-width', value);
+                    this.view('path').dom().setStyle('stroke-width', value);
                     this.view('number').setTransform(null, null, value);
                     /* jshint -W030 */
                     this.model() && this._updateLinksOffset();

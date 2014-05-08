@@ -65,7 +65,10 @@
                 };
 
                 if (this.nodes().count() === 0) {
+                    this.hide();
                     return;
+                } else {
+                    this.show();
                 }
 
                 this.setTransform(0, 0);

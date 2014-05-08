@@ -75,49 +75,7 @@
                         return null;
                     }
                 }
-            },
-            /**
-             * Show/hide node's icon
-             * @property showIcon
-             */
-//            showIcon: {
-//                set: function (inValue) {
-//                    var value = this._processPropertyValue(inValue);
-//                    this._showIcon = value;
-//
-//                    var icon = this.view('icon');
-//                    icon.set('showIcon', true);
-//
-//                    if (value) {
-//                        icon.set('size', {width: 36, height: 36});
-//                    } else {
-//                        icon.set('size', {width: 12, height: 12});
-//                    }
-//
-//
-//                    if (this._label != null) {
-//                        this.calcLabelPosition();
-//                    }
-//                    if (this._selected) {
-//                        this.view('selectedBG').set('r', this.selectedRingRadius());
-//                    }
-//                }
-//            },
-//            revisionScale: {
-//                set: function (value) {
-//                    var topo = this.topology();
-//                    var icon = this.view('icon');
-//                    icon.set('scale', value);
-//
-////                    if (topo.showIcon()) {
-////                        icon.showIcon(value > 0.2);
-////                    } else {
-////                        icon.showIcon(false);
-////                    }
-//
-//                    this.view('label').set('visible', value > 0.4);
-//                }
-//            }
+            }
         },
         methods: {
             setModel: function (model) {
