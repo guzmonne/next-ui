@@ -104,6 +104,7 @@
                     var opacity = Math.max(value, 0.1);
                     this.view('shape').dom().setStyle('opacity', opacity);
                     this.view('minus').dom().setStyle('opacity', opacity);
+                    this.view('nodeIcon').dom().setStyle('opacity', opacity);
                     this.view('labelContainer').dom().setStyle('opacity', opacity);
                     this._opacity = value;
                 }
@@ -182,7 +183,7 @@
 
                     var iconSize = nodeIconImg.size();
 
-                    minus.setTransform(bound.left + bound.width / 2, bound.top - iconSize.height * stageScale / 2 - 25 * stageScale, 1.5 * stageScale);
+                    minus.setTransform(bound.left + bound.width / 2, bound.top - iconSize.height * stageScale / 2 - 22 * stageScale, 1 * stageScale);
 
                     nodeIcon.visible(true);
                     nodeIcon.setTransform(bound.left + bound.width / 2 + 10 * stageScale + iconSize.width * stageScale / 2, bound.top - iconSize.height * stageScale / 2 - 25 * stageScale, 0.7 * stageScale);

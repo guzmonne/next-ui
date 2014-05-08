@@ -19,6 +19,29 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+[class^="n-icon-"],
+[class*=" n-icon-"] {
+  font-family: 'next-font';
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  /* Better Font Rendering =========== */
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.n-icon-fullscreen:before {
+  content: "\e62c";
+}
+.n-icon-movemode:before {
+  content: "\e62b";
+}
+.n-icon-RCV:before {
+  content: "\e62a";
+}
 .n-icon-PGN:before {
   content: "\e60b";
 }

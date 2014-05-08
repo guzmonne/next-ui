@@ -178,7 +178,7 @@
                             tag: 'li',
                             name: 'fullscreen',
                             props: {
-                                'class': 'n-topology-nav-full n-icon-fullview',
+                                'class': 'n-topology-nav-full n-icon-fullscreen',
                                 title: 'Enter full screen mode'
                             },
                             events: {

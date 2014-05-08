@@ -75,7 +75,107 @@
                         return null;
                     }
                 }
-            }
+            },
+            /**
+             * Show/hide node's icon
+             * @property showIcon
+             */
+            showIcon: {
+                set: function (inValue) {
+                    var value = this._processPropertyValue(inValue);
+                    this._showIcon = value;
+
+                    this.view('icon').set('showIcon', value);
+
+                    if (this._label != null) {
+                        this.calcLabelPosition();
+                    }
+                    if (this._selected) {
+                        this.view('selectedBG').set('r', this.selectedRingRadius());
+                    }
+
+                    this._updateMinusIcon();
+                }
+            },
+            revisionScale: {
+                set: function (value) {
+                    var topo = this.topology();
+                    var icon = this.view('icon');
+                    icon.set('scale', value);
+                    if (topo.showIcon()) {
+                        icon.showIcon(value > 0.2);
+                    } else {
+                        icon.showIcon(false);
+                    }
+                    this._updateMinusIcon();
+                    this.view('label').set('visible', value > 0.4);
+                }
+            },
+        },
+        view: {
+            type: 'nx.graphic.Group',
+            props: {
+                'class': 'node'
+            },
+            content: [
+                {
+                    name: 'label',
+                    type: 'nx.graphic.Text',
+                    props: {
+                        'class': 'node-label',
+                        'alignment-baseline': 'central',
+                        x: 0,
+                        y: 12
+                    }
+                },
+                {
+                    name: 'selectedBG',
+                    type: 'nx.graphic.Circle',
+                    props: {
+                        x: 0,
+                        y: 0,
+                        'class': 'selectedBG'
+                    }
+                },
+                {
+                    type: 'nx.graphic.Group',
+                    name: 'graphic',
+                    content: [
+                        {
+                            name: 'icon',
+                            type: 'nx.graphic.Icon',
+                            props: {
+                                'class': 'icon',
+                                'iconType': 'unknown',
+                                'showIcon': false,
+                                scale: 1
+                            }
+                        },
+                        {
+                            name: 'minus',
+                            type: 'nx.graphic.Icon',
+                            props: {
+                                'class': 'icon',
+                                'iconType': 'expand',
+                                scale: 1
+                            }
+                        }
+                    ],
+                    events: {
+                        'mousedown': '{#_mousedown}',
+                        'mouseup': '{#_mouseup}',
+
+                        'mouseenter': '{#_mouseenter}',
+                        'mouseleave': '{#_mouseleave}',
+
+                        'dragstart': '{#_dragstart}',
+                        'dragmove': '{#_drag}',
+                        'dragend': '{#_dragend}'
+                    }
+                }
+
+
+            ]
         },
         methods: {
             setModel: function (model) {
@@ -191,22 +291,16 @@
                     }
                 });
             },
-            updateByMaxObtuseAngle: function (angle) {
-                this.inherited(angle);
-//                var el = this.view("iconContainer");
-//                var size = this._iconImg ? this._iconImg.size() : {widtg: 0, height: 0};
-//                var radius = this.showIcon() ? Math.max(size.width / 2, size.height / 2) + (this.showIcon() ? 12 : 8) : 12;
-//                var labelVector = new nx.geometry.Vector(radius, 0).rotate(angle);
-//                el.setTransform(labelVector.x, labelVector.y);
-//                var labelEL = this.view("label");
-//
-//                radius = (radius - 10) * 2 + 12;
-//                labelVector = new nx.geometry.Vector(radius, 0).rotate(angle);
-//                labelEL.sets({
-//                    x: labelVector.x,
-//                    y: labelVector.y
-//                });
-
+            _updateMinusIcon: function () {
+                var icon = this.view('icon');
+                var minus = this.view('minus');
+                if (icon.showIcon()) {
+                    var iconSize = icon.size();
+                    var iconScale = icon.scale();
+                    minus.setTransform(iconSize.width * iconScale / 2, iconSize.height * iconScale / 2);
+                } else {
+                    minus.setTransform(0, 0);
+                }
             }
         }
 
