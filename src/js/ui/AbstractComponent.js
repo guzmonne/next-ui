@@ -812,7 +812,9 @@
                 var items = this._items;
                 nx.each(this._content.toArray(), function (c) {
                     c.detach();
-                    c.model(null);
+                    setTimeout(function () {
+                        c.dispose();
+                    }, 600);
                 });
 
                 if (template && items) {
