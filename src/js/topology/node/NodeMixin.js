@@ -208,6 +208,7 @@
 
 
                 this.addNodeSet(vertexSetData, vertexSetConfig, parentNodeSet);
+		this.stage().resetFitMatrix();
             },
             /**
              * Remove a node

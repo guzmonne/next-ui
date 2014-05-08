@@ -1,4 +1,4 @@
-(function (nx, global) {
+(function(nx, global) {
     /**
      * Default Scene for topology
      * @class nx.graphic.Topology.DefaultScene
@@ -13,7 +13,7 @@
              * @method activate
              */
 
-            activate: function () {
+            activate: function() {
                 this._topo = this.topology();
                 this._nodesLayer = this._topo.getLayer('nodes');
                 this._nodeSetLayer = this._topo.getLayer('nodeSet');
@@ -25,21 +25,20 @@
                 this._sceneTimer = null;
                 this._interval = 600;
             },
-            deactivate: function () {
+            deactivate: function() {
                 this._tooltipManager.closeAll();
             },
-            dispatch: function (eventName, sender, data) {
+            dispatch: function(eventName, sender, data) {
                 this._tooltipManager.executeAction(eventName, data);
             },
-            pressStage: function (sender, event) {
-            },
-            clickStage: function (sender, event) {
+            pressStage: function(sender, event) {},
+            clickStage: function(sender, event) {
                 if (event.target == this._topo.stage().view().dom().$dom) {
                     this._topo.selectedNodes().clear();
                 }
             },
 
-            dragStageStart: function (sender, event) {
+            dragStageStart: function(sender, event) {
                 var nodes = this._nodesLayer.nodes().length;
                 if (nodes > 300) {
                     this._linksLayer.setStyle('display', 'none');
@@ -48,20 +47,20 @@
                 this._blockEvent(true);
                 nx.dom.Document.html().addClass('n-moveCursor');
             },
-            dragStage: function (sender, event) {
+            dragStage: function(sender, event) {
                 var stage = this._topo.stage();
                 stage.applyTranslate(event.drag.delta[0], event.drag.delta[1]);
             },
-            dragStageEnd: function (sender, event) {
+            dragStageEnd: function(sender, event) {
                 this._linksLayer.setStyle('display', 'block');
                 this._blockEvent(false);
                 nx.dom.Document.html().removeClass('n-moveCursor');
             },
-            projectionChange: function () {
+            projectionChange: function() {
 
             },
 
-            zoomstart: function () {
+            zoomstart: function() {
                 var nodes = this._nodesLayer.nodes().length;
                 if (nodes > 300) {
                     this._linksLayer.setStyle('display', 'none');
@@ -69,42 +68,42 @@
                 this._recover();
                 //this._topo.adjustLayout();
             },
-            zooming: function () {
+            zooming: function() {
 
             },
-            zoomend: function () {
+            zoomend: function() {
                 this._linksLayer.setStyle('display', 'block');
                 this._topo.adjustLayout();
             },
 
-            beforeSetData: function () {
+            beforeSetData: function() {
 
             },
 
-            afterSetData: function () {
-
-            },
-
-
-            insertData: function () {
+            afterSetData: function() {
 
             },
 
 
-            ready: function () {
+            insertData: function() {
 
             },
-            enterNode: function (sender, node) {
+
+
+            ready: function() {
+
+            },
+            enterNode: function(sender, node) {
                 clearTimeout(this._sceneTimer);
                 if (!this._nodeDragging) {
-                    this._sceneTimer = setTimeout(function () {
+                    this._sceneTimer = setTimeout(function() {
                         this._topo.activeRelatedNode(node);
                     }.bind(this), this._interval);
                     this._recover();
                 }
                 nx.dom.Document.body().addClass('n-dragCursor');
             },
-            leaveNode: function (sender, node) {
+            leaveNode: function(sender, node) {
                 clearTimeout(this._sceneTimer);
                 if (!this._nodeDragging) {
                     this._recover();
@@ -112,32 +111,32 @@
                 nx.dom.Document.body().removeClass('n-dragCursor');
             },
 
-            hideNode: function (sender, node) {
+            hideNode: function(sender, node) {
 
             },
-            dragNodeStart: function (sender, node) {
+            dragNodeStart: function(sender, node) {
                 this._nodeDragging = true;
                 this._recover();
                 this._blockEvent(true);
                 nx.dom.Document.html().addClass('n-dragCursor');
             },
-            dragNodeEnd: function () {
+            dragNodeEnd: function() {
                 this._nodeDragging = false;
                 this._blockEvent(false);
                 nx.dom.Document.html().removeClass('n-dragCursor');
             },
 
-            pressNode: function (sender, node) {
+            pressNode: function(sender, node) {
 
             },
-            clickNode: function (sender, node) {
+            clickNode: function(sender, node) {
                 if (!this._nodeDragging) {
                     var selected = node.selected();
                     this._topo.selectedNodes().clear();
                     node.selected(!selected);
                 }
             },
-            selectNode: function (sender, node) {
+            selectNode: function(sender, node) {
                 var selectedNodes = this._topo.selectedNodes();
                 if (node.selected()) {
                     if (selectedNodes.indexOf(node) == -1) {
@@ -150,37 +149,35 @@
                 }
             },
 
-            updateNodeCoordinate: function () {
+            updateNodeCoordinate: function() {
 
             },
 
 
-            enterLink: function (sender, events) {
-            },
+            enterLink: function(sender, events) {},
 
-            pressNodeSet: function (sender, nodeSet) {
-            },
-            clickNodeSet: function (sender, nodeSet) {
+            pressNodeSet: function(sender, nodeSet) {},
+            clickNodeSet: function(sender, nodeSet) {
                 clearTimeout(this._sceneTimer);
                 this._recover();
                 nodeSet.collapsed(!nodeSet.collapsed());
             },
 
-            enterNodeSet: function (sender, nodeSet) {
+            enterNodeSet: function(sender, nodeSet) {
                 clearTimeout(this._sceneTimer);
                 if (!this._nodeDragging) {
-                    this._sceneTimer = setTimeout(function () {
+                    this._sceneTimer = setTimeout(function() {
                         this._topo.activeRelatedNode(nodeSet);
                     }.bind(this), this._interval);
                 }
             },
-            leaveNodeSet: function (sender, nodeSet) {
+            leaveNodeSet: function(sender, nodeSet) {
                 clearTimeout(this._sceneTimer);
                 if (!this._nodeDragging) {
                     this._recover();
                 }
             },
-            beforeExpandNodeSet: function (sender, nodeSet) {
+            beforeExpandNodeSet: function(sender, nodeSet) {
                 //update parent group
                 var depth = 1;
                 var parentNodeSet = nodeSet.parentNodeSet();
@@ -194,10 +191,11 @@
                     depth++;
                 }
             },
-            expandNodeSet: function (sender, nodeSet) {
+            expandNodeSet: function(sender, nodeSet) {
                 clearTimeout(this._sceneTimer);
                 this._recover();
-                this._topo.zoomByNodes(nodeSet.nodes(), function () {
+                this._topo.stage().resetFitMatrix();
+                this._topo.zoomByNodes(nodeSet.nodes(), function() {
                     var parentNodeSet = nodeSet.parentNodeSet();
                     while (parentNodeSet && parentNodeSet.group) {
                         parentNodeSet.group.draw();
@@ -210,13 +208,11 @@
                         label: nodeSet.label()
                     });
 
-                    this._topo.stage().resetZoomRate();
-
                 }, this, 1.5);
 
                 this._topo.adjustLayout();
             },
-            beforeCollapseNodeSet: function (sender, nodeSet) {
+            beforeCollapseNodeSet: function(sender, nodeSet) {
                 nodeSet.visible(true);
                 var depth = 1;
                 var parentNodeSet = nodeSet.parentNodeSet();
@@ -231,39 +227,39 @@
                     depth++;
                 }
             },
-            collapseNodeSet: function (sender, nodeSet) {
+            collapseNodeSet: function(sender, nodeSet) {
                 if (nodeSet.group) {
                     this._groupsLayer.removeGroup(nodeSet.group);
-                    delete  nodeSet.group;
+                    delete nodeSet.group;
                 }
                 this._topo.fit();
 
             },
-            removeNodeSet: function (sender, nodeSet) {
+            removeNodeSet: function(sender, nodeSet) {
                 if (nodeSet.group) {
                     this._groupsLayer.removeGroup(nodeSet.group);
-                    delete  nodeSet.group;
+                    delete nodeSet.group;
                 }
             },
-            updateNodeSet: function (sender, nodeSet) {
+            updateNodeSet: function(sender, nodeSet) {
                 if (nodeSet.group) {
                     nodeSet.group.nodes().clear();
                     nodeSet.group.nodes().addRange(nx.util.values(nodeSet.visibleSubNodes()));
                 }
 
             },
-            dragNodeSetStart: function (sender, nodeSet) {
+            dragNodeSetStart: function(sender, nodeSet) {
                 this._nodeDragging = true;
                 this._recover();
                 this._blockEvent(true);
                 nx.dom.Document.html().addClass('n-dragCursor');
             },
-            dragNodeSetEnd: function () {
+            dragNodeSetEnd: function() {
                 this._nodeDragging = false;
                 this._blockEvent(false);
                 nx.dom.Document.html().removeClass('n-dragCursor');
             },
-            selectNodeSet: function (sender, nodeSet) {
+            selectNodeSet: function(sender, nodeSet) {
                 var selectedNodes = this._topo.selectedNodes();
                 if (nodeSet.selected()) {
                     if (selectedNodes.indexOf(nodeSet) == -1) {
@@ -276,62 +272,62 @@
                 }
             },
 
-            addNode: function () {
+            addNode: function() {
                 this._topo.adjustLayout();
             },
-            addNodeSet: function () {
+            addNodeSet: function() {
                 this._topo.adjustLayout();
             },
-            removeNode: function () {
+            removeNode: function() {
                 this._topo.adjustLayout();
             },
-            right: function (sender, events) {
+            right: function(sender, events) {
                 this._topo.move(30, null, 0.5);
             },
-            left: function (sender, events) {
+            left: function(sender, events) {
                 this._topo.move(-30, null, 0.5);
             },
-            up: function () {
+            up: function() {
                 this._topo.move(null, -30, 0.5);
             },
-            down: function () {
+            down: function() {
                 this._topo.move(null, 30, 0.5);
             },
-            pressR: function () {
+            pressR: function() {
                 if (nx.DEBUG) {
                     this._topo.activateLayout('force');
                 }
             },
-            pressA: function () {
+            pressA: function() {
                 if (nx.DEBUG) {
                     var nodes = this._topo.selectedNodes().toArray();
                     this._topo.selectedNodes().clear();
                     this._topo.aggregationNodes(nodes);
                 }
             },
-            pressS: function () {
+            pressS: function() {
                 if (nx.DEBUG) {
                     this._topo.activateScene('selection');
                 }
             },
-            pressM: function () {
+            pressM: function() {
                 if (nx.DEBUG) {
                     this._topo.activateScene('default');
                 }
             },
-            pressF: function () {
+            pressF: function() {
                 if (nx.DEBUG) {
                     this._topo.fit();
                 }
             },
-            topologyGenerated: function () {
+            topologyGenerated: function() {
                 this._topo.adjustLayout();
             },
-            _recover: function () {
+            _recover: function() {
                 this._topo.fadeIn();
                 this._topo.recoverActive();
             },
-            _blockEvent: function (value) {
+            _blockEvent: function(value) {
                 if (value) {
                     nx.dom.Document.body().addClass('n-userselect n-blockEvent');
                 } else {
