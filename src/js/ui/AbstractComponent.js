@@ -297,7 +297,7 @@
              */
             register: function (name, value, force) {
                 var resources = this._resources;
-                if (!(name in resources) || force) {
+                if (resources && !(name in resources) || force) {
                     resources[name] = value;
                 }
             },
@@ -308,7 +308,7 @@
              */
             unregister: function (name) {
                 var resources = this._resources;
-                if (name in resources) {
+                if (resources && name in resources) {
                     delete resources[name];
                 }
             },
