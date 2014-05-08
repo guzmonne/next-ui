@@ -76,6 +76,14 @@
                     return false;
                 }
             },
+
+            deleteLink: function (inLink) {
+                var data = inLink.model().getData();
+                this.removeLink(inLink);
+                this.graph().deleteEdge(data);
+            },
+
+
             /**
              * Traverse each link
              * @method eachLink

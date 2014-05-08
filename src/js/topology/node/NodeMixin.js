@@ -236,6 +236,20 @@
             removeNodeSet: function (inNodeSet) {
                 //todo
             },
+
+            deleteNode: function (inNode) {
+                var model = inNode.model().getData();
+                this.removeNode(inNode);
+                this.graph().deleteVertex(model);
+
+            },
+            deleteNodeSet: function (inNodeSet) {
+                var model = inNodeSet.model().getData();
+                this.removeNodeSet(inNodeSet);
+                this.graph().deleteVertexSet(model);
+            },
+
+
             /**
              * Traverse each node
              * @method eachNode
