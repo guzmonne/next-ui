@@ -80,30 +80,21 @@
     });
 
 
-    var LINK = 'xmlns:xlink="http://www.w3.org/1999/xlink"';
     var XLINK = 'http://www.w3.org/1999/xlink';
-    var XMLNS = ' xmlns="http://www.w3.org/2000/svg"';
     var NS = "http://www.w3.org/2000/svg";
-
-
-    var bgColor = "#1F6EEE";
-
-
-    //
-    // class="bg"
-    //class="bg" class="stroke"
-    // class="stroke"
 
 
     var topology_icon = {
         switch: {
             width: 32,
             height: 32,
+            name: 'Switch',
             font: ['\ue618', '\ue619']
         },
         router: {
             width: 32,
             height: 32,
+            name: 'Router',
             font: ['\ue61c', '\ue61d']
         },
         wlc: {
@@ -151,17 +142,17 @@
             height: 32,
             font: ['\ue628', '\ue629']
         },
-        GroupS: {
+        groups: {
             width: 36,
             height: 32,
             font: ['\ue615', '\ue615']
         },
-        GroupM: {
+        groupm: {
             width: 36,
             height: 32,
             font: ['\ue616', '\ue616']
         },
-        GroupL: {
+        groupl: {
             width: 36,
             height: 32,
             font: ['\ue617', '\ue617']
@@ -176,7 +167,7 @@
             height: 12,
             font: ['\ue607', '\ue619']
         },
-        nodeSet: {
+        nodeset: {
             width: 32,
             height: 32,
             font: ['\ue617', '\ue617']

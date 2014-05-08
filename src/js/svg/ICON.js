@@ -41,7 +41,7 @@
                     return this._iconType;
                 },
                 set: function (value) {
-                    var icon = nx.graphic.Icons.get(value);
+                    var icon = nx.graphic.Icons.get(value.toLowerCase());
                     var size = icon.size;
                     var img = this.view('image').dom();
                     var shapeEL = this.view('text').dom();
