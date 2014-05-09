@@ -23,22 +23,23 @@
                 var height = topo.height() - padding * 2;
                 var groups = this.groups();
                 var order = this.order();
-                var perHeight = height / (order.length + 1);
-                var y = padding + perHeight / 2;
+                var perHeight = height / (order.length);
+                var y = padding;
                 var items = [];
-                var gap = perHeight / 5;
-                nx.each(order, function (key) {
+                var gap = 0;
+                nx.each(groups, function (nodes, key) {
                     var label = key !== '__other__' ? key : '';
+                    var firstNode = nodes[0];
                     items.push({
                         left: (padding - matrix.x()) / matrix.scale(),
-                        top: (y + gap - matrix.y()) / matrix.scale(),
+                        top: firstNode.y() - 30 / matrix.scale(),
                         width: width / matrix.scale(),
-                        height: (perHeight - gap * 2) / matrix.scale(),
+                        height: 65 / matrix.scale(),
                         label: label,
                         stroke: '#b2e47f'
                     });
                     y += perHeight;
-                });
+                }, this);
 
                 console.log(items);
 

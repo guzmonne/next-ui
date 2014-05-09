@@ -10,7 +10,7 @@
      */
 
     nx.define('nx.graphic.Topology.PolygonGroup', nx.graphic.Topology.GroupItem, {
-        events: ["dragGroupStart", "dragGroup", "dragGroupEnd", "clickGroupLabel"],
+        events: ['dragGroupStart', 'dragGroup', 'dragGroupEnd', 'clickGroupLabel', 'enterGroup', 'leaveGroup'],
         view: {
             type: 'nx.graphic.Group',
             props: {
@@ -50,29 +50,33 @@
                         }
                     }
                 }
-            ]
+            ],
+            events: {
+                'mouseenter': '{#_mouseenter}',
+                'mouseleave': '{#_mouseleave}'
+            }
         },
         properties: {
+            shape: {
+                get: function () {
+                    return this.view('shape');
+                }
+            }
         },
         methods: {
 
             draw: function () {
+
+                this.inherited();
+                this.setTransform(0, 0);
+
+
                 var topo = this.topology();
                 var stageScale = topo.stageScale();
                 var translate = {
                     x: topo.matrix().x(),
                     y: topo.matrix().y()
                 };
-
-                if (this.nodes().count() === 0) {
-                    this.hide();
-                    return;
-                } else {
-                    this.show();
-                }
-
-                this.setTransform(0, 0);
-
                 var vectorArray = [];
                 this.nodes().each(function (node) {
                     if (node.visible()) {
@@ -103,16 +107,9 @@
 
                 this.view('label').view().dom().setStyle('font-size', 18);
 
-//
                 text.view().dom().setStyle('fill', this.color());
             },
             _clickLabel: function (sender, event) {
-                /**
-                 * Fired when click group label
-                 * @event clickGroupLabel
-                 * @param sender{Object} trigger instance
-                 * @param event {Object} original event object
-                 */
                 this.fire('clickGroupLabel');
             },
             _mousedown: function (sender, event) {
@@ -120,42 +117,14 @@
             },
             _dragstart: function (sender, event) {
                 this.blockDrawing(true);
-                /**
-                 * Fired when start drag a group
-                 * @event dragGroupStart
-                 * @param sender{Object} trigger instance
-                 * @param event {Object} original event object
-                 */
                 this.fire('dragGroupStart', event);
             },
             _drag: function (sender, event) {
-                /**
-                 * Fired when dragging a group
-                 * @event dragGroup
-                 * @param sender{Object} trigger instance
-                 * @param event {Object} original event object
-                 */
                 this.fire('dragGroup', event);
-                this._updateNodesPosition(event.drag.delta[0], event.drag.delta[1]);
-
-                var stageScale = this.topology().stageScale();
-                this.move(event.drag.delta[0] * stageScale, event.drag.delta[1] * stageScale);
             },
             _dragend: function (sender, event) {
                 this.blockDrawing(false);
-                /**
-                 * Fired finish dragging
-                 * @event dragGroupEnd
-                 * @param sender{Object} trigger instance
-                 * @param event {Object} original event object
-                 */
                 this.fire('dragGroupEnd', event);
-            },
-            _updateNodesPosition: function (x, y) {
-                var stageScale = this.topology().stageScale();
-                this.nodes().each(function (node) {
-                    node.move(x * stageScale, y * stageScale);
-                });
             }
         }
     });

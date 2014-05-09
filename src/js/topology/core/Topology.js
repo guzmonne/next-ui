@@ -62,6 +62,12 @@
      *
      */
     nx.define("nx.graphic.Topology", nx.ui.Component, {
+        statics: {
+            i18n: {
+                'cantAggregateExtraNode': 'Can\'t aggregate extra node',
+                'cantAggregateNodesInDifferentNodeSet': 'Can\'t aggregate nodes in different nodeSet'
+            }
+        },
         mixins: [
             nx.graphic.Topology.Config,
             nx.graphic.Topology.Graph,

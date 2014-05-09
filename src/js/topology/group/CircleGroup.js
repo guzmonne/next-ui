@@ -7,7 +7,7 @@
      *
      */
     nx.define('nx.graphic.Topology.CircleGroup', nx.graphic.Topology.GroupItem, {
-        events: ["dragGroupStart", "dragGroup", "dragGroupEnd", "clickGroupLabel"],
+        events: ['dragGroupStart', 'dragGroup', 'dragGroupEnd', 'clickGroupLabel', 'enterGroup', 'leaveGroup'],
         view: {
             type: 'nx.graphic.Group',
             props: {
@@ -44,11 +44,14 @@
                 }
             ]
         },
-        properties: {
-        },
         methods: {
 
             draw: function () {
+
+
+                this.inherited();
+                this.setTransform(0, 0);
+
                 var topo = this.topology();
                 var translate = {
                     x: topo.matrix().x(),
@@ -75,14 +78,11 @@
 
                 text.setTransform((bound.left + bound.width / 2) * stageScale, (bound.top + bound.height / 2 - radius - 12) * stageScale, stageScale);
                 text.view().dom().setStyle('fill', this.color());
+
+
+                this.setTransform(0, 0);
             },
             _clickLabel: function (sender, event) {
-                /**
-                 * Fired when click group label
-                 * @event clickGroupLabel
-                 * @param sender{Object} trigger instance
-                 * @param event {Object} original event object
-                 */
                 this.fire('clickGroupLabel');
             },
             _mousedown: function (sender, event) {
@@ -90,45 +90,14 @@
             },
             _dragstart: function (sender, event) {
                 this.blockDrawing(true);
-
-                /**
-                 * Fired when start drag a group
-                 * @event dragGroupStart
-                 * @param sender{Object} trigger instance
-                 * @param event {Object} original event object
-                 */
                 this.fire('dragGroupStart', event);
             },
             _drag: function (sender, event) {
-                /**
-                 * Fired when dragging a group
-                 * @event dragGroup
-                 * @param sender{Object} trigger instance
-                 * @param event {Object} original event object
-                 */
                 this.fire('dragGroup', event);
-                this._updateNodesPosition(event.drag.delta[0], event.drag.delta[1]);
-
-                var stageScale = this.topology().stageScale();
-                this.move(event.drag.delta[0] * stageScale, event.drag.delta[1] * stageScale);
             },
             _dragend: function (sender, event) {
                 this.blockDrawing(false);
-                this.draw();
-                this.setTransform(0, 0);
-                /**
-                 * Fired finish dragging
-                 * @event dragGroupEnd
-                 * @param sender{Object} trigger instance
-                 * @param event {Object} original event object
-                 */
                 this.fire('dragGroupEnd', event);
-            },
-            _updateNodesPosition: function (x, y) {
-                var stageScale = this.topology().stageScale();
-                this.nodes().each(function (node) {
-                    node.move(x * stageScale, y * stageScale);
-                });
             }
         }
     });

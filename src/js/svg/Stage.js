@@ -1,4 +1,4 @@
-(function(nx, global) {
+(function (nx, global) {
 
     /**
      * SVG root component
@@ -20,22 +20,26 @@
                     height: '{#height}'
                 }
             },
-            content: [{
-                name: 'defs',
-                tag: 'svg:defs'
-            }, {
-                name: 'scalingLayer',
-                type: 'nx.graphic.Group',
-                props: {
-                    'class': 'stage'
+            content: [
+                {
+                    name: 'defs',
+                    tag: 'svg:defs'
                 },
-                events: {
-                    'transitionend': '{#_scaleEnd}'
+                {
+                    name: 'scalingLayer',
+                    type: 'nx.graphic.Group',
+                    props: {
+                        'class': 'stage'
+                    },
+                    events: {
+                        'transitionend': '{#_scaleEnd}'
+                    }
+                },
+                {
+                    name: 'staticLayer',
+                    type: 'nx.graphic.Group'
                 }
-            }, {
-                name: 'staticLayer',
-                type: 'nx.graphic.Group'
-            }],
+            ],
             events: {
                 'mousedown': '{#_mousedown}',
                 'dragstart': '{#_dragstart}',
@@ -108,10 +112,10 @@
              * @property matrix {nx.geometry.Math} nx.geometry.Matrix.I
              */
             matrix: {
-                get: function() {
+                get: function () {
                     return this._matrix || nx.geometry.Matrix.I;
                 },
-                set: function(matrix) {
+                set: function (matrix) {
                     var dom = this.scalingLayer().dom().$dom;
                     var matrixString = "matrix(" + nx.geometry.Matrix.toString(matrix) + ")";
                     dom.style.transform = matrixString;
@@ -129,22 +133,22 @@
              * @property stage
              */
             stage: {
-                get: function() {
+                get: function () {
                     return this.view("scalingLayer");
                 }
             },
             staticLayer: {
-                get: function() {
+                get: function () {
                     return this.view("staticLayer");
                 }
             },
             scalingLayer: {
-                get: function() {
+                get: function () {
                     return this.view("scalingLayer");
                 }
             },
             fitMatrixObject: {
-                set: function(matrix) {
+                set: function (matrix) {
                     if (matrix) {
                         this.zoomLevel(this.stage().scale() / matrix.scale());
                     }
@@ -153,7 +157,7 @@
             }
         },
         methods: {
-            getContainer: function() {
+            getContainer: function () {
                 return this.view('scalingLayer').view().dom();
             },
             /**
@@ -161,7 +165,7 @@
              * @method addDef
              * @param el {SVGDOM}
              */
-            addDef: function(el) {
+            addDef: function (el) {
                 this.view("defs").dom().$dom.appendChild(el);
             },
             /**
@@ -169,7 +173,7 @@
              * @method addDefString
              * @param str {String}
              */
-            addDefString: function(str) {
+            addDefString: function (str) {
                 this.view("defs").dom().$dom.appendChild(new DOMParser().parseFromString(str, "text/xml").documentElement);
             },
             /**
@@ -177,7 +181,7 @@
              * @method getContentBound
              * @returns {{left: number, top: number, width: Number, height: Number}}
              */
-            getContentBound: function() {
+            getContentBound: function () {
                 var stageBound = this.scalingLayer().getBound();
                 var topoBound = this.view().dom().getBound();
 
@@ -211,16 +215,39 @@
 
                 }
             },
-            fit: function(callback, context, duration) {
-                this.resetFitMatrix();
-                this.scalingLayer().setTransition(callback, context, duration);
-                this._setStageMatrix(this.fitMatrixObject().matrix());
-                this.zoomLevel(1);
+            fit: function (callback, context, isAnimated) {
+
+                var _callback = callback || function () {
+                };
+
+
+                if (isAnimated) {
+                    this.scalingLayer().on('transitionend', function fn() {
+                        this.scalingLayer().dom().removeClass('n-topology-fit');
+                        this.scalingLayer().off('transitionend', fn, this);
+                        _callback.call(context || this);
+                    }, this);
+
+                    var originalMatrix = this.matrix();
+                    var newMatrix = this.fitMatrixObject().matrix();
+                    if(!nx.geometry.Matrix.approximate(originalMatrix, newMatrix)) {
+                        this.scalingLayer().dom().addClass('n-topology-fit');
+                        this._setStageMatrix(this.fitMatrixObject().matrix());
+                    }
+
+                    this.zoomLevel(1);
+                } else {
+                    this._setStageMatrix(this.fitMatrixObject().matrix());
+                    this.zoomLevel(1);
+                    _callback.call(context || this);
+                }
+
+
             },
-            precisionFit: function(duration) {
+            precisionFit: function (duration) {
                 var padding = this.padding();
-                this.fit(function() {
-                    setTimeout(function() {
+                this.fit(function () {
+                    setTimeout(function () {
                         var contentBound = this.getContentBound();
                         if (!(padding * 0.8 < contentBound.left && contentBound.left < padding * 1.2) || !(padding * 0.8 < contentBound.top && contentBound.top < padding * 1.2)) {
                             this.precisionFit(duration);
@@ -228,15 +255,15 @@
                     }.bind(this), 30);
                 }, this, duration);
             },
-            actualSize: function() {
+            actualSize: function () {
                 this.scalingLayer().setTransition(null, null, 0.6);
                 this._setStageMatrix(nx.geometry.Matrix.I);
             },
-            zoom: function(value, callback, context) {
+            zoom: function (value, callback, context) {
                 this.scalingLayer().setTransition(callback, context, 0.6);
                 this.applyStageScale(value);
             },
-            zoomByBound: function(inBound, callback, context, duration) {
+            zoomByBound: function (inBound, callback, context, duration) {
                 var padding = this.padding();
                 var stageBound = {
                     left: padding,
@@ -247,15 +274,17 @@
                 this.scalingLayer().setTransition(callback, context, duration);
                 this.applyStageMatrix(this.calcRectZoomMatrix(stageBound, inBound));
             },
-            calcRectZoomMatrix: function(graph, rect) {
+            calcRectZoomMatrix: function (graph, rect) {
                 var s = (!rect.width && !rect.height) ? 1 : Math.min(graph.height / Math.abs(rect.height), graph.width / Math.abs(rect.width));
                 var dx = (graph.left + graph.width / 2) - s * (rect.left + rect.width / 2);
                 var dy = (graph.top + graph.height / 2) - s * (rect.top + rect.height / 2);
                 return [
-                    [s, 0, 0], [0, s, 0], [dx, dy, 1]
+                    [s, 0, 0],
+                    [0, s, 0],
+                    [dx, dy, 1]
                 ];
             },
-            applyTranslate: function(x, y, duration) {
+            applyTranslate: function (x, y, duration) {
                 var matrix = this.matrixObject();
                 matrix.applyTranslate(x, y);
                 if (duration) {
@@ -265,10 +294,10 @@
                 this.matrixObject(matrix);
                 return matrix;
             },
-            applyStageMatrix: function(matrix, according) {
+            applyStageMatrix: function (matrix, according) {
                 return this._setStageMatrix(nx.geometry.Matrix.multiply(this.matrix(), matrix), according);
             },
-            applyStageScale: function(scale, according) {
+            applyStageScale: function (scale, according) {
                 var _scale = scale || 1,
                     _according = according || [this.width() / 2, this.height() / 2];
                 var matrix = nx.geometry.Matrix.multiply([
@@ -286,14 +315,14 @@
                 ]);
                 return this.applyStageMatrix(matrix, _according);
             },
-            resetStageMatrix: function() {
+            resetStageMatrix: function () {
                 var m = new nx.geometry.Matrix(this.matrix());
                 this.disableUpdateStageScale(false);
                 this.matrix(m.matrix());
                 this.matrixObject(m);
                 this.stageScale(1 / m.scale());
             },
-            resetFitMatrix: function() {
+            resetFitMatrix: function () {
                 // get transform matrix
                 var contentBound = this.getContentBound();
                 var padding = this.padding();
@@ -307,7 +336,7 @@
                 matrix.matrix(nx.geometry.Matrix.multiply(this.matrix(), matrix.matrix()));
                 this.fitMatrixObject(matrix);
             },
-            _setStageMatrix: function(matrix, according) {
+            _setStageMatrix: function (matrix, according) {
                 according = according || [this.width() / 2, this.height() / 2];
                 var m = new nx.geometry.Matrix(matrix);
                 var matrixFit = this.fitMatrixObject();
@@ -332,28 +361,28 @@
                     return this.matrixObject();
                 }
             },
-            hide: function() {
+            hide: function () {
                 this.view('scalingLayer').visible(false);
                 this.view('staticLayer').visible(false);
             },
-            show: function() {
+            show: function () {
                 this.view('scalingLayer').visible(true);
                 this.view('staticLayer').visible(true);
             },
-            _scaleEnd: function(sender, event) {
+            _scaleEnd: function (sender, event) {
 
             },
-            _mousedown: function(sender, event) {
+            _mousedown: function (sender, event) {
                 event.captureDrag(sender);
             },
-            _dragstart: function(sender, event) {
+            _dragstart: function (sender, event) {
                 this.view("scalingLayer").dom().setStyle('pointer-events', 'none');
                 this.fire('dragStageStart', event);
             },
-            _drag: function(sender, event) {
+            _drag: function (sender, event) {
                 this.fire('dragStage', event);
             },
-            _dragend: function(sender, event) {
+            _dragend: function (sender, event) {
                 this.fire('dragStageEnd', event);
                 this.view("scalingLayer").dom().setStyle('pointer-events', 'all');
             }

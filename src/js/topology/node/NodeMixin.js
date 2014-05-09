@@ -154,8 +154,9 @@
                     var _parentNodeSet = node.parentNodeSet();
 
                     if (_parentNodeSet) {
+                        // get the first parentNodeSet
                         if (!parentNodeSet) {
-                            parentNodeSet = _parentNodeSet; // initialize parentNodeSet
+                            parentNodeSet = _parentNodeSet;
                         }
                         // check if all nodes in the same parent nodeSet
                         isSameParentNodeSet = parentNodeSet == _parentNodeSet;
@@ -165,7 +166,7 @@
 
 
                 if (!isSameParentNodeSet) {
-                    alert('Can\'t aggregate nodes in different nodeSet');
+                    alert(nx.graphic.Topology.i18n.cantAggregateNodesInDifferentNodeSet);
                     return;
                 }
 
@@ -192,6 +193,23 @@
                 }
 
 
+                if (parentNodeSet) {
+                    var includeExtraNode = false;
+                    nx.each(inNodes, function (node) {
+                        var _parentNodeSet = node.parentNodeSet();
+                        if (!_parentNodeSet || parentNodeSet != _parentNodeSet) {
+                            includeExtraNode = true;
+                        }
+                    }, this);
+
+
+                    if (includeExtraNode) {
+                        alert(nx.graphic.Topology.i18n.cantAggregateExtraNode);
+                        return;
+                    }
+                }
+
+
                 vertexSetData.label = config.name;
                 if (config.name == null) {
                     vertexSetData.label = [inNodes[0].label(), inNodes[inNodes.length - 1].label()].sort().join("-");
@@ -208,7 +226,7 @@
 
 
                 this.addNodeSet(vertexSetData, vertexSetConfig, parentNodeSet);
-		this.stage().resetFitMatrix();
+                this.stage().resetFitMatrix();
             },
             /**
              * Remove a node

@@ -167,7 +167,7 @@
                             tag: 'li',
                             name: 'agr',
                             props: {
-                                'class': 'n-topology-nav-full n-icon-aggregation',
+                                'class': 'n-topology-nav-agr n-icon-aggregation',
                                 title: 'Aggregation'
                             },
                             events: {

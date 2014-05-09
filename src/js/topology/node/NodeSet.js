@@ -155,7 +155,7 @@
                             name: 'minus',
                             type: 'nx.graphic.Icon',
                             props: {
-                                'class': 'icon',
+                                'class': 'indicator',
                                 'iconType': 'expand',
                                 scale: 1
                             }

@@ -222,7 +222,7 @@
             ]
         },
         methods: {
-            translateTo: function (x, y, callback) {
+            translateTo: function (x, y, callback, context) {
                 var el = this.view();
                 el.setTransition(function () {
                     this.position({
@@ -230,6 +230,10 @@
                         y: y
                     });
                     this.calcLabelPosition(true);
+
+                    if (callback) {
+                        callback.call(context || this);
+                    }
                 }, this, 0.5);
                 el.setTransform(x, y, null, 0.5);
 

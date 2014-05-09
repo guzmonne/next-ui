@@ -181,7 +181,7 @@
              * Make topology graphic fit stage
              * @method fit
              */
-            fit: function (callback, context, duration) {
+            fit: function (callback, context, isAnimated) {
                 this.stage().fit(function () {
                     this.adjustLayout();
                     /* jshint -W030 */
@@ -193,7 +193,7 @@
                      * @param event {Object} original event object
                      */
                     this.fire('fitStage');
-                }, this, duration !== undefined ? duration : 0.9);
+                }, this, isAnimated == null ? true : isAnimated);
 
             },
             precisionFit: function (duration) {

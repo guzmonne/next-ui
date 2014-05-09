@@ -42,7 +42,7 @@
              */
             colorTable: colorTable
         },
-        events: [],
+        events: ['dragGroupStart', 'dragGroup', 'dragGroupEnd', 'clickGroupLabel', 'enterGroup', 'leaveGroup'],
         properties: {
             /**
              * Groups collection
@@ -111,6 +111,17 @@
                 group.nodes().addRange(nodes);
 
                 this.groups().push(group);
+
+
+                var events = ['dragGroupStart', 'dragGroup', 'dragGroupEnd', 'clickGroupLabel', 'enterGroup', 'leaveGroup'];
+
+
+                nx.each(events, function (e) {
+                    group.on(e, function () {
+                        this.fire(e, group);
+                    }, this);
+                }, this);
+
 
                 return group;
 

@@ -299,14 +299,8 @@
             start: function () {
             },
             _endGenerate: function () {
-                var fit = function () {
-                    this.stage().show();
-                    if (this.autoFit()) {
-                        this.stage().fit();
-                    }
-                    this.hideLoading();
-                }.bind(this);
 
+                this.stage().resetFitMatrix();
 
                 /**
                  * Fired when all topology elements generated
@@ -317,21 +311,25 @@
                 var layoutType = this.layoutType();
                 if (layoutType) {
                     this.activateLayout(layoutType, null, function () {
-                        fit();
+                        this.__fit();
                         this.fire('topologyGenerated');
                     });
                 } else if (this.enableSmartLabel()) {
                     setTimeout(function () {
-                        fit();
+                        this.__fit();
                         this.fire('topologyGenerated');
                     }.bind(this), 300);
                 } else {
-                    fit();
+                    this.__fit();
                     this.fire('topologyGenerated');
                 }
             },
-            _fit: function () {
-
+            __fit: function () {
+                this.stage().show();
+                if (this.autoFit()) {
+                    this.stage().fit(null, null, false);
+                }
+                this.hideLoading();
             }
         }
     });

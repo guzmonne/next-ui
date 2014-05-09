@@ -97,8 +97,8 @@
                 var id = edge.id();
                 var topo = this.topology();
                 var link = new nx.graphic.Topology.Link({
-                    topology: topo,
-                    stageScale: topo.stageScale()
+                    topology: topo
+
                 });
                 //set model
                 link.setModel(edge, false);
@@ -110,7 +110,8 @@
                     'data-link-id': id,
                     'data-linkKey': edge.linkKey(),
                     'data-source-node-id': edge.source().id(),
-                    'data-target-node-id': edge.target().id()
+                    'data-target-node-id': edge.target().id(),
+                    stageScale: topo.stageScale()
                 });
 
                 //set properties

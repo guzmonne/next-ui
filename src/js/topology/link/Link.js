@@ -125,6 +125,7 @@
                     this.view('path').dom().setStyle('stroke-width', width);
                     this.view('disableLabel').scale(value);
                     this._stageScale = value;
+                    this.update();
                 }
             },
             /**
@@ -376,7 +377,12 @@
              * @returns {number}
              */
             getOffset: function () {
-                return this.offsetPercentage() * this.offsetRadix() * this._stageScale;
+                if (this.linkType() == 'parallel') {
+                    return this.offsetPercentage() * this.offsetRadix() * this._stageScale;
+                } else {
+                    return this.offsetPercentage() * this.offsetRadix();//* this._stageScale;
+                }
+
             },
             _updateLabel: function () {
                 var el, point;

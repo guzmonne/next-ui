@@ -126,6 +126,10 @@
                 }
             },
 
+            eachLayer: function (callback, context) {
+                nx.each(this.layersMap(), callback, context);
+            },
+
 
             fadeIn: function (force, callback, context) {
                 nx.each(this.layers(), function (layer) {

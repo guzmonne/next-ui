@@ -33,8 +33,6 @@
                 var nodesPositionObject = this._calc(groups, config || {});
 
                 this._layout(nodesPositionObject, callback);
-
-
             },
             _group: function (graph, config) {
                 var groups = {'__other__': []};
@@ -79,13 +77,9 @@
 
                 //var y = 0;
 
-                var stage = topo.stage();
                 var padding = topo.padding();
                 var width = topo.width() - padding * 2;
                 var height = topo.height() - padding * 2;
-                var bound = {left: padding, top: padding, width: width, height: height};
-                var matrix = stage.calcRectZoomMatrix(topo.graph().getBound(), bound);
-                var transform = nx.geometry.Vector.transform;
 
                 var direction = this.direction();
 
@@ -93,7 +87,6 @@
                 var perY = height / (order.length + 1);
                 var perX = width / (order.length + 1);
                 var x = perX, y = perY;
-
 
                 //'vertical'
 
@@ -104,10 +97,9 @@
                             //build nodes position map
                             perX = width / (groups[key].length + 1);
                             nx.each(groups[key], function (node, i) {
-                                var p = transform([perX * (i + 1), y], matrix);
                                 nodesPositionObject[node.id()] = {
-                                    x: p[0],
-                                    y: p[1]
+                                    x: perX * (i + 1),
+                                    y: y
                                 };
                             });
                             y += perY;
@@ -115,10 +107,9 @@
                             //build nodes position map
                             perY = height / (groups[key].length + 1);
                             nx.each(groups[key], function (node, i) {
-                                var p = transform([x, perY * (i + 1)], matrix);
                                 nodesPositionObject[node.id()] = {
-                                    x: p[0],
-                                    y: p[1]
+                                    x: x,
+                                    y: perY * (i + 1)
                                 };
                             });
                             x += perX;
@@ -151,7 +142,7 @@
                     nx.each(firstGroup, function (fNode) {
                         var temp = [];
                         nx.each(secondGroup, function (sNode, i) {
-                            if (graph.getEdgesBySourceAndTarget(fNode, sNode) != null) {
+                            if (graph.getEdgesBySourceAndTarget(fNode, sNode) != null && temp.indexOf(sNode) != -1) {
                                 temp.push(sNode);
                                 indexs.push(i);
                             }
@@ -179,22 +170,39 @@
             _layout: function (nodesPositionObject, callback) {
                 var topo = this.topology();
 
+
+                var queueCounter = 0;
+                var nodeLength = 0;
+                var finish = function () {
+                    if (queueCounter == nodeLength) {
+                        setTimeout(function () {
+                            topo.getLayer('links').show();
+                            topo.getLayer('linkSet').show();
+                            topo.stage().resetFitMatrix();
+                            topo.fit(function () {
+
+                                if (callback) {
+                                    callback.call(topo);
+                                }
+                            });
+                        }, 0);
+
+                    }
+                }.bind(this);
+
                 //
                 topo.getLayer('links').hide();
+                topo.getLayer('linkSet').hide();
                 nx.each(nodesPositionObject, function (n, id) {
                     var node = topo.getNode(id);
                     if (node) {
-                        node.translateTo(n.x, n.y);
+                        node.translateTo(n.x, n.y, function () {
+                            queueCounter++;
+                            finish();
+                        });
+                        nodeLength++;
                     }
                 });
-                setTimeout(function () {
-                    topo.getLayer('links').show();
-                    topo.fit(function () {
-                        if (callback) {
-                            callback.call(topo);
-                        }
-                    });
-                }, 800);
             }
         }
     });

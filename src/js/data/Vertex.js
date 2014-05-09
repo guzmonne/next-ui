@@ -337,6 +337,22 @@
 
                 return parentVertexSet;
             },
+
+
+            translate: function (x, y) {
+                var _position = this.position();
+                if (x != null) {
+                    _position.x += x;
+                }
+
+                if (y != null) {
+                    _position.y += y;
+                }
+
+                this.position(_position);
+            },
+
+
             /**
              * Save x&y to original data
              * @method save

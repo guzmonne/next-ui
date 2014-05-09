@@ -91,9 +91,21 @@
                 }
             },
             draw: function () {
+                if (this.nodes().count() === 0) {
+                    this.hide();
+                    return;
+                } else {
+                    this.show();
+                }
             },
             removeNode: function (node) {
                 this.nodes().remove(node);
+            },
+            updateNodesPosition: function (x, y) {
+                var stageScale = this.topology().stageScale();
+                this.nodes().each(function (node) {
+                    node.move(x * stageScale, y * stageScale);
+                });
             },
             dispose: function () {
                 this.nodes().clear();
