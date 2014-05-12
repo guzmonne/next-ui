@@ -117,8 +117,11 @@
                     } else if (graph.vertexSetMap[nodeID]) {
                         vertex = vertexSet[nodeID] = graph.vertexSetMap[nodeID];
                     }
-                    vertex.visible(false);
-                    vertex.parentVertexSet(this);
+
+                    if (vertex) {
+                        vertex.visible(false);
+                        vertex.parentVertexSet(this);
+                    }
                 }, this);
                 this.nodes(nodes);
                 this.vertices(vertices);

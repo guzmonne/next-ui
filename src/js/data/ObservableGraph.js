@@ -709,10 +709,11 @@
              * @returns {Boolean}
              */
             removeVertexSet: function (vertexSet) {
-                //[todo]
+                this._removeVertexSet(vertexSet);
+                this.vertexSet = util.without(this.vertexSet, vertexSet);
+                delete this.vertexSet[vertexSet.id()];
 
             },
-
             deleteVertexSet: function (data) {
                 var index = this._originalData.nodeSet.indexOf(data);
                 if (index != -1) {

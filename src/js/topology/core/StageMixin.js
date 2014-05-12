@@ -5,7 +5,7 @@
      * @module nx.graphic.Topology
      */
     nx.define('nx.graphic.Topology.StageMixin', {
-        events: ['fitStage', 'ready', 'resizeStage'],
+        events: ['fitStage', 'ready', 'resizeStage', 'afterFitStage'],
         properties: {
             /**
              * Set/get topology's width.
@@ -186,6 +186,7 @@
                     this.adjustLayout();
                     /* jshint -W030 */
                     callback && callback.call(context || this);
+                    this.fire('afterFitStage');
                 }, this, isAnimated == null ? true : isAnimated);
                 /**
                  * Fired when  after topology fit to stage

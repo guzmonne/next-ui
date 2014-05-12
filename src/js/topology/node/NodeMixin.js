@@ -6,7 +6,7 @@
      * @module nx.graphic.Topology
      */
     nx.define("nx.graphic.Topology.NodeMixin", {
-        events: ['addNode', 'addNodeSet', 'removeNode'],
+        events: ['addNode', 'addNodeSet', 'removeNode', 'removeNodeSet'],
         properties: {
             /**
              * Node instance class name, support function
@@ -260,7 +260,12 @@
                 }
             },
             removeNodeSet: function (inNodeSet) {
-                //todo
+                if (inNodeSet.activated()) {
+                    inNodeSet.activated(false);
+                }
+                var vertexSet = inNodeSet.model();
+                this.fire('removeNodeSet', inNodeSet);
+                this.graph().removeVertexSet(vertexSet);
             },
 
             deleteNode: function (inNode) {
