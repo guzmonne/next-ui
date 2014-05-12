@@ -145,27 +145,27 @@
         groups: {
             width: 36,
             height: 32,
-            font: ['\ue615', '\ue615']
+            font: ['\ue615', '\ue62f']
         },
         groupm: {
             width: 36,
             height: 32,
-            font: ['\ue616', '\ue616']
+            font: ['\ue616', '\ue630']
         },
         groupl: {
             width: 36,
             height: 32,
-            font: ['\ue617', '\ue617']
+            font: ['\ue617', '\ue631']
         },
         collapse: {
-            width: 12,
-            height: 12,
-            font: ['\ue606', '\ue619']
+            width: 16,
+            height: 16,
+            font: ['\ue62e', '\ue611']
         },
         expand: {
-            width: 12,
-            height: 12,
-            font: ['\ue607', '\ue619']
+            width: 16,
+            height: 16,
+            font: ['\ue62d', '\ue611']
         },
         nodeset: {
             width: 32,

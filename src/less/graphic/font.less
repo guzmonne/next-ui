@@ -8,6 +8,7 @@
   font-weight: normal;
   font-style: normal;
 }
+
 [class^="n-icon-"], [class*=" n-icon-"] {
   font-family: 'next-font';
   speak: none;
@@ -21,20 +22,22 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-[class^="n-icon-"], [class*=" n-icon-"] {
-  font-family: 'next-font';
-  speak: none;
-  font-style: normal;
-  font-weight: normal;
-  font-variant: normal;
-  text-transform: none;
-  line-height: 1;
 
-  /* Better Font Rendering =========== */
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+.n-icon-plus:before {
+  content: "\e62d";
 }
-
+.n-icon-minus:before {
+  content: "\e62e";
+}
+.n-icon-GroupSbg:before {
+  content: "\e62f";
+}
+.n-icon-GroupMbg:before {
+  content: "\e630";
+}
+.n-icon-GroupLbg:before {
+  content: "\e631";
+}
 .n-icon-fullscreen:before {
   content: "\e62c";
 }

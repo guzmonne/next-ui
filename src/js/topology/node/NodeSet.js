@@ -86,6 +86,7 @@
                     this._showIcon = value;
 
                     this.view('icon').set('showIcon', value);
+                    this.view('icon').set('visible', value);
 
                     if (this._label != null) {
                         this.calcLabelPosition();
@@ -104,8 +105,10 @@
                     icon.set('scale', value);
                     if (topo.showIcon()) {
                         icon.showIcon(value > 0.2);
+                        icon.set('visible', value > 0.2);
                     } else {
                         icon.showIcon(false);
+                        icon.set('visible', false);
                     }
                     this._updateMinusIcon();
                     this.view('label').set('visible', value > 0.4);

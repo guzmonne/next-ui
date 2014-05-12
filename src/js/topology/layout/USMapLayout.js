@@ -90,11 +90,15 @@
 
 
                 topo.stage().resetFitMatrix();
+
                 this.projection(projection);
 
-                if (callback) {
-                    callback.call(topo);
-                }
+                topo.fit(function () {
+                    if (callback) {
+                        callback.call(topo);
+                    }
+                });
+
 
             }
         }
