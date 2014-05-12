@@ -238,16 +238,17 @@
                     group.opacity(0.8 - depth * 0.2);
                     depth++;
                 }
-
-
             },
             collapseNodeSet: function (sender, nodeSet) {
                 if (nodeSet.group) {
                     this._groupsLayer.removeGroup(nodeSet.group);
                     delete nodeSet.group;
                 }
-                this._topo.fit();
-                this._blockEvent(false);
+                this._topo.stage().resetFitMatrix();
+                this._topo.fit(function () {
+                    this._blockEvent(false);
+                }, this);
+
 
             },
             removeNodeSet: function (sender, nodeSet) {
@@ -375,8 +376,10 @@
             },
             _blockEvent: function (value) {
                 if (value) {
+                    this._topo.scalable(false);
                     nx.dom.Document.body().addClass('n-userselect n-blockEvent');
                 } else {
+                    this._topo.scalable(true);
                     nx.dom.Document.body().removeClass('n-userselect');
                     nx.dom.Document.body().removeClass('n-blockEvent');
                 }

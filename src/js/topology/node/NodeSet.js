@@ -228,7 +228,7 @@
                     if (queueCounter == nodeLength) {
                         this.visible(true);
                         this.activated(true);
-                        this.fire('beforeCollapseNode');
+
 
                         nx.each(positionMap, function (position, id) {
                             var vertex = graph.getVertex(id) || graph.getVertexSet(id);
@@ -250,6 +250,8 @@
                     }, true, 600);
 
                 }, this);
+
+                this.fire('beforeCollapseNode');
             },
 
             /**
