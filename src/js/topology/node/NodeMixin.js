@@ -185,7 +185,7 @@
                     });
 
                     // if select nodes in a same group
-                    if (_nodes.length == 0) {
+                    if (_nodes.length === 0) {
                         if (nx.util.values(parentNodeSet.visibleSubNodes()).length == inNodes.length) {
                             return;
                         }
