@@ -146,7 +146,7 @@
                 }
 
                 this._fitTimer = setTimeout(function () {
-                    //this.move(0.1);
+                    this.stage().resetFitMatrix();
                     this.fit();
                 }.bind(this), 500);
             },
@@ -186,18 +186,15 @@
                     this.adjustLayout();
                     /* jshint -W030 */
                     callback && callback.call(context || this);
-                    /**
-                     * Fired when  after topology fit to stage
-                     * @event fit
-                     * @param sender{Object} trigger instance
-                     * @param event {Object} original event object
-                     */
-                    this.fire('fitStage');
                 }, this, isAnimated == null ? true : isAnimated);
+                /**
+                 * Fired when  after topology fit to stage
+                 * @event fit
+                 * @param sender{Object} trigger instance
+                 * @param event {Object} original event object
+                 */
+                this.fire('fitStage');
 
-            },
-            precisionFit: function (duration) {
-                this.stage().precisionFit(duration);
             },
             /**
              * Zoom topology

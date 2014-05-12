@@ -421,31 +421,6 @@
                 }
 
             },
-
-            __drawOverPath: function () {
-                var path = this.view('path').dom().$dom;
-                var overPath = this.view('overPath').dom().$dom;
-                var length = path.getTotalLength();
-                var index = path.getPathSegAtLength(length * 0.5);
-                var endPoint = path.getPointAtLength(length * 0.5);
-                var segList = path.pathSegList;
-                var pathAry = [];
-                for (var i = 0; i <= index; i++) {
-                    var item = segList.getItem(i);
-                    pathAry.push(item.pathSegTypeAsLetter);
-                    if (item.x1) {
-                        pathAry.push(item.x1, item.y1);
-                    }
-                    pathAry.push(item.x, item.y);
-                }
-                pathAry.pop();
-                pathAry.pop();
-                pathAry.push(endPoint.x, endPoint.y);
-                //pathAry.push('Z');
-
-                overPath.setAttribute('d', pathAry.join(' '));
-
-            },
             _mousedown: function () {
                 if (this.enable()) {
                     /**

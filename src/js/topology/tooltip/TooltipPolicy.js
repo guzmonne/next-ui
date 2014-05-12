@@ -33,6 +33,12 @@
             },
             clickLink: function (link) {
                 this._tm.openLinkTooltip(link);
+            },
+            resizeStage: function () {
+                this._tm.closeAll();
+            },
+            fitStage: function () {
+                this._tm.closeAll();
             }
         }
     });

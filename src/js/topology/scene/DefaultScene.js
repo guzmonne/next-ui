@@ -181,6 +181,9 @@
                 }
             },
             beforeExpandNodeSet: function (sender, nodeSet) {
+
+                this._blockEvent(true);
+
                 //update parent group
                 var depth = 1;
                 var parentNodeSet = nodeSet.parentNodeSet();
@@ -194,6 +197,8 @@
                     group.opacity(0.6 - depth * 0.2);
                     depth++;
                 }
+
+
             },
             expandNodeSet: function (sender, nodeSet) {
                 clearTimeout(this._sceneTimer);
@@ -212,11 +217,14 @@
                         parentNodeSet = parentNodeSet.parentNodeSet();
                     }
 
+                    this._blockEvent(false);
+
                 }, this, 1.5);
 
                 this._topo.adjustLayout();
             },
             beforeCollapseNodeSet: function (sender, nodeSet) {
+                this._blockEvent(true);
                 nodeSet.visible(true);
                 var depth = 1;
                 var parentNodeSet = nodeSet.parentNodeSet();
@@ -230,6 +238,8 @@
                     group.opacity(0.8 - depth * 0.2);
                     depth++;
                 }
+
+
             },
             collapseNodeSet: function (sender, nodeSet) {
                 if (nodeSet.group) {
@@ -237,6 +247,7 @@
                     delete nodeSet.group;
                 }
                 this._topo.fit();
+                this._blockEvent(false);
 
             },
             removeNodeSet: function (sender, nodeSet) {

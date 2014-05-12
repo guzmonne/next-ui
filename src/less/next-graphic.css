@@ -3433,7 +3433,8 @@
   float: right;
   margin-right: 12px;
 }
-.n-userselect {
+.n-userselect,
+.n-userselect * {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -3462,7 +3463,8 @@
 .n-waitCursor {
   cursor: wait;
 }
-.n-blockEvent {
+.n-blockEvent,
+.n-blockEvent * {
   pointer-events: none;
 }
 .n-hidden {

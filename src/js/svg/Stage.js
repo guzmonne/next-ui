@@ -217,8 +217,6 @@
             },
             fit: function (callback, context, isAnimated) {
 
-                this.resetFitMatrix();
-
                 var _callback = callback || function () {
                 };
 
