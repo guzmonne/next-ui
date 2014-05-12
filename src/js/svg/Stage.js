@@ -217,6 +217,8 @@
             },
             fit: function (callback, context, isAnimated) {
 
+                this.resetFitMatrix();
+
                 var _callback = callback || function () {
                 };
 
@@ -230,7 +232,7 @@
 
                     var originalMatrix = this.matrix();
                     var newMatrix = this.fitMatrixObject().matrix();
-                    if(!nx.geometry.Matrix.approximate(originalMatrix, newMatrix)) {
+                    if (!nx.geometry.Matrix.approximate(originalMatrix, newMatrix)) {
                         this.scalingLayer().dom().addClass('n-topology-fit');
                         this._setStageMatrix(this.fitMatrixObject().matrix());
                     }

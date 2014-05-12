@@ -218,6 +218,7 @@
             _collapse: function (fn) {
                 var positionMap = {};
                 var position = this.position();
+                var topo = this.topology();
                 var graph = topo.graph();
 
 
