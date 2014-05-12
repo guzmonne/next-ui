@@ -12,14 +12,24 @@
              * @property width {Number}
              */
             width: {
-                value: 0
+                get: function () {
+                    return this._width || 300 + this.padding() * 2;
+                },
+                set: function (value) {
+                    this._width = Math.max(value, 300 + this.padding() * 2);
+                }
             },
             /**
              * height Set/get topology's height.
              * @property height {Number}
              */
             height: {
-                value: 0
+                get: function () {
+                    return this._height || 300 + this.padding() * 2;
+                },
+                set: function (value) {
+                    this._height = Math.max(value, 300 + this.padding() * 2);
+                }
             },
             /**
              * Set/get stage's padding.
@@ -76,17 +86,6 @@
 
         methods: {
             initStage: function () {
-                nx.each(nx.graphic.Icons.icons, function (iconObj, key) {
-                    if (iconObj.icon) {
-                        var icon = iconObj.icon.cloneNode(true);
-                        icon.setAttribute("height", iconObj.size.height);
-                        icon.setAttribute("width", iconObj.size.width);
-                        icon.setAttribute("data-device-type", key);
-                        icon.setAttribute("id", key);
-                        icon.setAttribute("class", 'deviceIcon');
-                        this.stage().addDef(icon);
-                    }
-                }, this);
             },
             _adaptiveTimer: function () {
                 var self = this;

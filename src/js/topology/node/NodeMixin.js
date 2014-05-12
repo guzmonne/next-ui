@@ -89,19 +89,25 @@
         },
         methods: {
             initNode: function () {
-                this.selectedNodes().on('change', function (sender, args) {
+                var selectedNodes = this.selectedNodes();
+                selectedNodes.on('change', function (sender, args) {
                     if (args.action == 'add') {
                         nx.each(args.items, function (node) {
                             node.selected(true);
-                        });
+                            node.on('remove', this._removeSelectedNode = function () {
+                                selectedNodes.remove(node);
+                            }, this);
+                        }, this);
                     } else if (args.action == 'remove') {
                         nx.each(args.items, function (node) {
                             node.selected(false);
-                        });
+                        }, this);
                     } else if (args.action == "clear") {
                         nx.each(args.items, function (node) {
                             node.selected(false);
+                            node.off('remove', this._removeSelectedNode, this);
                         });
+
                     }
                 });
             },

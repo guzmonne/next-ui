@@ -130,7 +130,6 @@
                 get: function () {
                     var bound = this.getBound(true);
                     var radius = Math.max(bound.height, bound.width) / 2;
-                    console.log(this.selected());
                     return radius + (this.selected() ? 10 : -4);
                 }
             },
