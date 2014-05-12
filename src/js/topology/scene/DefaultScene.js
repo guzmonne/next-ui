@@ -225,6 +225,10 @@
             },
             beforeCollapseNodeSet: function (sender, nodeSet) {
                 this._blockEvent(true);
+
+            },
+            collapseNodeSet: function (sender, nodeSet) {
+
                 nodeSet.visible(true);
                 var depth = 1;
                 var parentNodeSet = nodeSet.parentNodeSet();
@@ -238,8 +242,7 @@
                     group.opacity(0.8 - depth * 0.2);
                     depth++;
                 }
-            },
-            collapseNodeSet: function (sender, nodeSet) {
+
                 if (nodeSet.group) {
                     this._groupsLayer.removeGroup(nodeSet.group);
                     delete nodeSet.group;

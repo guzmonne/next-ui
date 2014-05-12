@@ -80,6 +80,7 @@
                     } else if (action == 'clear') {
                         nx.each(items, function (node) {
                             node.off('updateNodeCoordinate', this._draw, this);
+                            node.off('remove', this.removeNode, this);
                         }, this);
                     }
                 }, this);

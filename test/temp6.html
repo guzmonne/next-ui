@@ -2,13 +2,19 @@
 <html>
 <head>
     <title>Example</title>
-    <link rel="stylesheet" href="../../../../next-ui/dest/css/next-blue.css"/>
-    <link rel="stylesheet" href="../../../src/less/next-graphic.css"/>
-    <script src="../../../../next-ui/lib/jquery/jquery-1.10.2.min.js"></script>
-    <script src="../../../../next-core/dest/next-core.js"></script>
-    <script src="../../../../next-ui/dest/js/next-ui.js"></script>
-    <script type="text/javascript" src="../../../lib/GraphGenerator.js"></script>
-    <script type="text/javascript" src="../../../src/js/next-graphic.js"></script>
+    <script type="text/javascript" src="../../next-core/dest/next-core.js"></script>
+    <script type="text/javascript" src="../../next-ui/dest/js/next-ui.js"></script>
+    <script type="text/javascript" src="../src/js/next-graphic.js"></script>
+    <link rel="stylesheet" href="../../next-ui/dest/css/next-blue.css"/>
+
+
+    <!--<script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/NeXt-UI/ws/lib/jquery/jquery-1.10.2.min.js"></script>-->
+    <!--<script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/NeXt-Core/lastSuccessfulBuild/artifact/dest/next-core.js"></script>-->
+    <!--<script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/NeXt-UI/lastSuccessfulBuild/artifact/dest/js/next-ui.js"></script>-->
+    <!--<script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/Next-Graphic/lastSuccessfulBuild/artifact/dest/js/next-graphic.js"></script>-->
+    <!--<link rel="stylesheet" href="http://10.75.161.96:8080/jenkins/job/NeXt-UI/lastSuccessfulBuild/artifact/dest/css/next-blue.css"/>-->
+    <link rel="stylesheet" href="../src/less/next-graphic.css"/>
+    <script type="text/javascript" src="../lib/GraphGenerator.js"></script>
 
 
 </head>
@@ -31,21 +37,6 @@
     <div id="topo" class="col-md-10"></div>
     <div id="list" class="col-md-2" style="padding: 30px; background: #000 ">
 
-
-        <span style="color: #fff">Node Label</span>
-
-        <div class="btn-group" style="display: inline-block; width: 120px; margin-left: 12px;">
-            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                ID <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu" role="menu" id="labels">
-                <li><a href="#" value="role">Role</a></li>
-                <li><a href="#" value="id">ID</a></li>
-                <li><a href="#" value="label">Label</a></li>
-            </ul>
-        </div>
-
-
     </div>
 </div>
 
@@ -54,7 +45,7 @@
 
 
     var g = new GraphGenerator();
-    g.generate(50);
+    g.generate(10);
 
     var topologyData = {nodes: g.nodes, links: g.links};
 
@@ -68,9 +59,9 @@
         nodeSetConfig: {
             label: 'model.label'
         },
-        theme: 'yellow',
+//        theme: 'yellow',
         showIcon: true,
-        data: d
+        data: topologyData
     });
 
 

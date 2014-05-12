@@ -108,12 +108,12 @@
             font: ['\ue612', '\ue611']
         },
         server: {
-            width: 22,
+            width: 32,
             height: 32,
             font: ['\ue61b', '\ue61a']
         },
         phone: {
-            width: 24,
+            width: 32,
             height: 32,
             font: ['\ue61e', '\ue61f']
         },
@@ -128,32 +128,32 @@
             font: ['\ue622', '\ue623']
         },
         host: {
-            width: 42,
+            width: 32,
             height: 32,
             font: ['\ue624', '\ue625']
         },
         camera: {
-            width: 35,
+            width: 32,
             height: 32,
             font: ['\ue626', '\ue627']
         },
         accesspoint: {
-            width: 40,
+            width: 32,
             height: 32,
             font: ['\ue628', '\ue629']
         },
         groups: {
-            width: 36,
+            width: 32,
             height: 32,
             font: ['\ue615', '\ue62f']
         },
         groupm: {
-            width: 36,
+            width: 32,
             height: 32,
             font: ['\ue616', '\ue630']
         },
         groupl: {
-            width: 36,
+            width: 32,
             height: 32,
             font: ['\ue617', '\ue631']
         },
@@ -163,9 +163,9 @@
             font: ['\ue62e', '\ue611']
         },
         expand: {
-            width: 16,
-            height: 16,
-            font: ['\ue62d', '\ue611']
+            width: 14,
+            height: 14,
+            font: ['\ue614', '\ue611']
         },
         nodeset: {
             width: 32,

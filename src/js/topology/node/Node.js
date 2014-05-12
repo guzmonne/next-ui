@@ -76,6 +76,14 @@
                         icon.showIcon(false);
                     }
                     this.view('label').set('visible', value > 0.4);
+
+                    if (this._label != null) {
+                        this.calcLabelPosition();
+                    }
+                    if (this._selected) {
+                        this.view('selectedBG').set('r', this.selectedRingRadius());
+                    }
+
                 }
             },
             /**
@@ -122,7 +130,8 @@
                 get: function () {
                     var bound = this.getBound(true);
                     var radius = Math.max(bound.height, bound.width) / 2;
-                    return radius + 10;
+                    console.log(this.selected());
+                    return radius + (this.selected() ? 10 : -4);
                 }
             },
             /**

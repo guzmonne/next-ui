@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Test</title>
+    <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/NeXt-UI/ws/lib/jquery/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/NeXt-Core/lastSuccessfulBuild/artifact/dest/next-core.js"></script>
+    <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/NeXt-UI/lastSuccessfulBuild/artifact/dest/js/next-ui.js"></script>
+    <!--<script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/Next-Graphic/lastSuccessfulBuild/artifact/dest/js/next-graphic.js"></script>-->
+    <script type="text/javascript" src="../src/js/next-graphic.js"></script>
+    <link rel="stylesheet" href="http://10.75.161.96:8080/jenkins/job/NeXt-UI/lastSuccessfulBuild/artifact/dest/css/next-blue.css"/>
+    <link rel="stylesheet" href="../src/less/next-graphic.css"/>
+    <script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
+    <script type="text/javascript" src="http://d3js.org/topojson.v1.min.js"></script>
+    <script type="text/javascript" src="raphael-min.js"></script>
+    <script type="text/javascript" src="../lib/GraphGenerator.js"></script>
+
+
+</head>
+<body>
+<style>
+    html, body {
+        padding: 0px;
+        height: 100%;
+        width: 100%;
+    }
+</style>
+<script>
+
+
+    var topologyData =
+
+    {
+        "nodes": [
+            {"function": "core", "name": "sfc", "latitude": 63.391325999999886, "ipaddress": "29.29.29.29", "isisarea": "72", "site": "sfc", "longitude": -149.8286774, "y": 550.31264292335, "protected": "F", "active": "T", "x": -1021.91217850693, "type": "physical", "model.longitude": -120.92630477305684, "model.latitude": 22.158570826654472},
+            {"function": "core", "name": "sea", "latitude": 47.60620000000019, "ipaddress": "28.28.28.28", "isisarea": "72", "site": "sea", "longitude": -122.332, "y": -9.8292223022888, "protected": "F", "active": "T", "x": -552.893870303646, "type": "physical", "model.longitude": -122.10689866205163, "model.latitude": 41.977555297392705},
+            {"function": "core", "name": "hst", "latitude": 29.763300000000147, "ipaddress": "20.20.20.20", "isisarea": "72", "site": "hst", "longitude": -95.3633, "y": 1185.49743746152, "protected": "F", "active": "T", "x": 93.011342707737, "type": "physical", "model.longitude": -95.14863623995424, "model.latitude": 23.99448767701318},
+            {"function": "core", "name": "chi", "latitude": 41.85000000000014, "ipaddress": "19.19.19.19", "isisarea": "72", "site": "chi", "longitude": -87.65, "y": -1.78890844737532, "protected": "F", "active": "T", "x": 347.621281446664, "type": "physical", "model.longitude": -86.62469226349654, "model.latitude": 35.678280386188845},
+            {"function": "core", "name": "atl", "latitude": 33.78611784284272, "ipaddress": "17.17.17.17", "isisarea": "72", "site": "atl", "longitude": -84.1959236252621, "y": 1188.17754207982, "protected": "F", "active": "T", "x": 476.26630312528, "type": "physical", "model.longitude": -81.20044872896894, "model.latitude": 28.57852559803167},
+            {"function": "core", "name": "min", "latitude": 44.97999999999983, "ipaddress": "24.24.24.24", "isisarea": "72", "site": "min", "longitude": -93.2638, "y": -4.46901306567981, "protected": "F", "active": "T", "x": -67.7949343905326, "type": "physical", "model.longitude": -93.06118151710774, "model.latitude": 38.17387420144622},
+            {"function": "core", "name": "lax", "latitude": 34.052200000000056, "ipaddress": "22.22.22.22", "isisarea": "72", "site": "lax", "longitude": -118.24400000000001, "y": 941.607917195807, "protected": "F", "active": "T", "x": -702.979728928698, "type": "physical", "model.longitude": -123.07343748659291, "model.latitude": 29.546916258817408},
+            {"function": "core", "name": "kcy", "latitude": 39.099700000000055, "ipaddress": "21.21.21.21", "isisarea": "72", "site": "kcy", "longitude": -94.5786, "y": 539.592224450132, "protected": "F", "active": "T", "x": -65.1148297722282, "type": "physical", "model.longitude": -94.32981051081346, "model.latitude": 32.76708201319536},
+            {"function": "core", "name": "nyc", "latitude": 40.7878999999999, "ipaddress": "25.25.25.25", "isisarea": "72", "site": "nyc", "longitude": -74.0143, "y": 378.785947351863, "protected": "F", "active": "T", "x": 679.954254116421, "type": "physical", "model.longitude": -71.57787579353864, "model.latitude": 36.475515647280446},
+            {"function": "core", "name": "wdc", "latitude": 38.89510000000017, "ipaddress": "31.31.31.31", "isisarea": "72", "site": "wdc", "longitude": -77.0364, "y": 767.401117006014, "protected": "F", "active": "T", "x": 599.551115567286, "type": "physical", "model.longitude": -74.18637610311663, "model.latitude": 34.26400707233941},
+            {"function": "core", "name": "por", "latitude": 45.52340000000001, "ipaddress": "26.26.26.26", "isisarea": "72", "site": "por", "longitude": -122.67600000000002, "y": -15.1894315388978, "protected": "F", "active": "T", "x": -1016.55196927032, "type": "physical", "model.longitude": -123.27332273439343, "model.latitude": 40.26973231692799},
+            {"function": "core", "name": "alb", "latitude": 42.652600000000085, "ipaddress": "16.16.16.16", "isisarea": "72", "site": "alb", "longitude": -73.75619999999999, "y": 0.891196170929173, "protected": "F", "active": "T", "x": 1041.76837758753, "type": "physical", "model.longitude": -71.96803582353773, "model.latitude": 38.17822337506606},
+            {"function": "core", "name": "mia", "latitude": 25.774300000000206, "ipaddress": "23.23.23.23", "isisarea": "72", "site": "mia", "longitude": -80.1937, "y": 1177.4571236066, "protected": "F", "active": "T", "x": 1023.0076452594, "type": "physical", "model.longitude": -74.25846333880723, "model.latitude": 21.618828334763545},
+            {"function": "core", "name": "san", "latitude": 32.7153, "ipaddress": "27.27.27.27", "isisarea": "72", "site": "san", "longitude": -117.15700000000001, "y": 1180.13722822491, "protected": "F", "active": "T", "x": -400.12790706029, "type": "physical", "model.longitude": -122.28929409010716, "model.latitude": 28.172120600348197},
+            {"function": "core", "name": "bos", "latitude": 42.35840000000008, "ipaddress": "18.18.18.18", "isisarea": "72", "site": "bos", "longitude": -71.0598, "y": 378.785947351863, "protected": "F", "active": "T", "x": 1341.94009483763, "type": "physical", "model.longitude": -69.14463610848628, "model.latitude": 38.41575129540968},
+            {"function": "core", "name": "sjc1", "latitude": 36.14724251316323, "ipaddress": "30.30.30.30", "isisarea": "72", "site": "sjc", "longitude": -120.754451723841, "protected": "F", "active": "T", "type": "physical", "model.longitude": -125.0716630870184, "model.latitude": 31.82263701110324},
+            {"function": "core", "name": "sjc2", "latitude": 36.36659823565181, "ipaddress": "30.30.30.30", "isisarea": "72", "site": "sjc", "longitude": -120.00576223166296, "protected": "F", "active": "T", "type": "physical", "model.longitude": -124.0685667516206, "model.latitude": 31.326883221936352},
+            {"function": "core", "name": "sjc3", "latitude": 35.64800170467064, "ipaddress": "30.30.30.30", "isisarea": "72", "site": "sjc", "longitude": -120.79246388084708, "protected": "F", "active": "T", "type": "physical", "model.longitude": -125.02116517384832, "model.latitude": 31.11001186203151},
+            {"function": "core", "name": "sjc4", "latitude": 36.78601481376208, "ipaddress": "30.30.30.30", "isisarea": "72", "site": "sjc", "longitude": -121.33407013182129, "protected": "F", "active": "T", "type": "physical", "model.longitude": -125.34326053217927, "model.latitude": 32.782862664904485}
+        ],
+        "links": [
+            {"source": "atl", "targetInterface": "GigabitEthernet0/0/0/1", "target": "wdc", "sourceInterface": "GigabitEthernet0/0/0/3"},
+            {"source": "atl", "targetInterface": "GigabitEthernet0/0/0/1", "target": "hst", "sourceInterface": "GigabitEthernet0/0/0/1"},
+            {"source": "wdc", "targetInterface": "GigabitEthernet0/0/0/2", "target": "mia", "sourceInterface": "GigabitEthernet0/0/0/3"},
+            {"source": "kcy", "targetInterface": "GigabitEthernet0/0/0/2", "target": "san", "sourceInterface": "GigabitEthernet0/0/0/4"},
+            {"source": "kcy", "targetInterface": "GigabitEthernet0/0/0/1", "target": "sjc1", "sourceInterface": "GigabitEthernet0/0/0/5"},
+            {"source": "kcy", "targetInterface": "GigabitEthernet0/0/0/2", "target": "min", "sourceInterface": "GigabitEthernet0/0/0/3"},
+            {"source": "nyc", "targetInterface": "GigabitEthernet0/0/0/4", "target": "chi", "sourceInterface": "GigabitEthernet0/0/0/3"},
+            {"source": "sea", "targetInterface": "GigabitEthernet0/0/0/3", "target": "min", "sourceInterface": "GigabitEthernet0/0/0/1", curvePoint1Position: [219.10407676568298, 97.08570472456336], curvePoint2Position: [364.7506151013797, 31.43697840104812] },
+            {"source": "sfc", "targetInterface": "GigabitEthernet0/0/0/4", "target": "sjc2", "sourceInterface": "GigabitEthernet0/0/0/2"},
+            {"source": "nyc", "targetInterface": "GigabitEthernet0/0/0/4", "target": "wdc", "sourceInterface": "GigabitEthernet0/0/0/4"},
+            {"source": "por", "targetInterface": "GigabitEthernet0/0/0/2", "target": "sea", "sourceInterface": "GigabitEthernet0/0/0/1"},
+            {"source": "san", "targetInterface": "GigabitEthernet0/0/0/3", "target": "hst", "sourceInterface": "GigabitEthernet0/0/0/1"},
+            {"source": "sjc3", "targetInterface": "GigabitEthernet0/0/0/2", "target": "lax", "sourceInterface": "GigabitEthernet0/0/0/2"},
+            {"source": "mia", "targetInterface": "GigabitEthernet0/0/0/2", "target": "atl", "sourceInterface": "GigabitEthernet0/0/0/1"},
+            {"source": "sfc", "targetInterface": "GigabitEthernet0/0/0/2", "target": "por", "sourceInterface": "GigabitEthernet0/0/0/1"},
+            {"source": "san", "targetInterface": "GigabitEthernet0/0/0/1", "target": "lax", "sourceInterface": "GigabitEthernet0/0/0/3"},
+            {"source": "min", "targetInterface": "GigabitEthernet0/0/0/3", "target": "chi", "sourceInterface": "GigabitEthernet0/0/0/1"},
+            {"source": "nyc", "targetInterface": "GigabitEthernet0/0/0/3", "target": "alb", "sourceInterface": "GigabitEthernet0/0/0/1"},
+            {"source": "alb", "targetInterface": "GigabitEthernet0/0/0/1", "target": "chi", "sourceInterface": "GigabitEthernet0/0/0/2"},
+            {"source": "kcy", "targetInterface": "GigabitEthernet0/0/0/2", "target": "wdc", "sourceInterface": "GigabitEthernet0/0/0/6"},
+            {"source": "kcy", "targetInterface": "GigabitEthernet0/0/0/2", "target": "hst", "sourceInterface": "GigabitEthernet0/0/0/2"},
+            {"source": "sjc4", "targetInterface": "GigabitEthernet0/0/0/3", "target": "sea", "sourceInterface": "GigabitEthernet0/0/0/3"},
+            {"source": "bos", "targetInterface": "GigabitEthernet0/0/0/1", "target": "alb", "sourceInterface": "GigabitEthernet0/0/0/1"},
+            {"source": "nyc", "targetInterface": "GigabitEthernet0/0/0/2", "target": "bos", "sourceInterface": "GigabitEthernet0/0/0/2"},
+            {"source": "chi", "targetInterface": "GigabitEthernet0/0/0/1", "target": "kcy", "sourceInterface": "GigabitEthernet0/0/0/2"},
+            {"source": "sjc4", "targetInterface": "GigabitEthernet0/0/0/1", "target": "sjc1", "sourceInterface": "GigabitEthernet0/0/0/5"},
+            {"source": "sjc3", "targetInterface": "GigabitEthernet0/0/0/1", "target": "sjc1", "sourceInterface": "GigabitEthernet0/0/0/5"},
+            {"source": "sjc3", "targetInterface": "GigabitEthernet0/0/0/1", "target": "sjc4", "sourceInterface": "GigabitEthernet0/0/0/5"},
+            {"source": "sjc2", "targetInterface": "GigabitEthernet0/0/0/1", "target": "sjc3", "sourceInterface": "GigabitEthernet0/0/0/5"},
+            {"source": "kcy", "targetInterface": "GigabitEthernet0/0/0/1", "target": "sjc4", "sourceInterface": "GigabitEthernet0/0/0/5"},
+
+
+        ],
+        "nodeSet": [
+            {"nodes": ["sjc1", "sjc2", "sjc3", "sjc4"], "name": "sjc", "longitude": "-120.754451723841", "latitude": "36.137242513163", "root": "sjc1", "x": 132.4468625654525, "y": 256.86664255118063}
+        ]
+    };
+    var colorTable = ['#C3A5E4', '#75C6EF', '#CBDA5C', '#ACAEB1 ', '#2CC86F'];
+    var topo = new nx.graphic.Topology({
+        adaptive: true,
+        nodeConfig: {
+            label: 'model.name',
+            color: function () {
+                return colorTable[Math.round(Math.random() * 4)];
+            }
+        },
+        linkConfig: {
+            color: function () {
+                return colorTable[Math.round(Math.random() * 4)];
+            },
+            drawMethod: function (model, link) {
+                var line = model.line();
+                var path = [];
+                if (model.get("curvePoint1Position")) {
+                    var curvePoint1Position = model.get("curvePoint1Position");
+                    var curvePoint2Position = model.get("curvePoint2Position");
+                    path.push("M", line.start.x, ",", line.start.y);
+                    path.push("C", curvePoint1Position[0], curvePoint1Position[1], ",", curvePoint2Position[0], curvePoint2Position[1]);
+                    path.push(line.end.x, ",", line.end.y);
+                } else {
+                    path.push("M", line.start.x, line.start.y);
+                    path.push("L", line.end.x, line.end.y);
+                }
+
+                return path.join(" ");
+            }
+        },
+        nodeSetConfig: {
+            label: 'model.name'
+        },
+        showIcon: false,
+        identityKey: 'name',
+        layoutType: 'USMap',
+        layoutConfig: {
+            longitude: 'model.longitude',
+            latitude: 'model.latitude'
+        },
+        data: topologyData
+    });
+
+
+    topo.on('topologyGenerated', function () {
+        var generator = function () {
+            var link = topo.getLinkSet('sea', 'min').links()[0];
+            var totalLength = link.view('path').dom().$dom.getTotalLength;
+
+            var model = link.model();
+            var line = model.line();
+            var curvePoint1Position = model.get("curvePoint1Position");
+            var curvePoint2Position = model.get("curvePoint2Position");
+            var bezier = [
+                [
+                    [line.start.x, line.start.y],
+                    [curvePoint1Position[0], curvePoint1Position[1]]
+                ],
+                [
+                    [curvePoint1Position[0], curvePoint1Position[1]],
+                    [curvePoint2Position[0], curvePoint2Position[1]]
+                ],
+                [
+                    [curvePoint2Position[0], curvePoint2Position[1]],
+                    [line.end.x, line.end.y]
+                ]
+            ];
+
+
+            var group = nx.geometry.BezierCurve.separate(bezier, 0.9);
+
+
+            var path = [];
+            var leftPath = group.left;
+            path.push("M", leftPath[0][0][0], ",", leftPath[0][0][1]);
+            path.push("C", leftPath[0][1][0], leftPath[0][1][1], ",", leftPath[2][0][0], leftPath[2][0][1]);
+            path.push(leftPath[2][1][0], ",", leftPath[2][1][1]);
+            return path.join(" ");
+        };
+
+        var nodes = [topo.getNode('sea'), topo.getNode('min')];
+        var path = new nx.graphic.Topology.BasePath({
+            nodes: nodes,
+            pathGenerator: generator,
+            pathStyle: {
+                'stroke': '#75C6EF',
+                'stroke-width': '5px',
+                fill: 'none'
+            }
+        });
+        var pathLayer = topo.getLayer("paths");
+        pathLayer.addPath(path);
+    });
+
+
+    var app = new nx.ui.Application();
+    topo.attach(app);
+
+</script>
+
+</body>
+</html>

@@ -75,8 +75,15 @@
     };
 
 
+    var g = new GraphGenerator();
+    g.generate(200);
+
+    var topologyData2 = {nodes: g.nodes, links: g.links};
+
+
     var topo = new nx.graphic.Topology({
         adaptive: true,
+        dataProcessor: 'force',
         identityKey: 'id',
         nodeConfig: {
             label: 'model.name'

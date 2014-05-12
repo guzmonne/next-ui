@@ -19,6 +19,9 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+.n-icon-de-aggregation:before {
+  content: "\e632";
+}
 .n-icon-plus:before {
   content: "\e62d";
 }
@@ -168,18 +171,6 @@
 }
 .n-icon-acl:before {
   content: "\e605";
-}
-.n-test {
-  font-family: icomoon;
-  speak: none;
-  font-style: normal;
-  font-weight: normal;
-  font-variant: normal;
-  text-transform: none;
-  line-height: 1;
-  -webkit-font-smoothing: antialiased;
-  font-size: 14px;
-  color: #f00;
 }
 .n-topology.n-topology-blue {
   position: relative;
@@ -390,8 +381,14 @@
 .n-topology.n-topology-blue .nodeset .iconBGActive ~ .iconShape {
   display: block !important;
 }
+.n-topology.n-topology-blue .nodeset .indicator .iconBG {
+  fill: #0266a0;
+}
+.n-topology.n-topology-blue .nodeset .indicator .iconBG:hover {
+  fill: #0386d2;
+}
 .n-topology.n-topology-blue .nodeset .indicator .iconShape {
-  fill: #f2ad4e;
+  fill: #ffffff;
 }
 .n-topology.n-topology-blue .group .bg {
   opacity: 0.6;
@@ -1024,8 +1021,14 @@
 .n-topology.n-topology-dark .nodeset .iconBGActive ~ .iconShape {
   display: block !important;
 }
+.n-topology.n-topology-dark .nodeset .indicator .iconBG {
+  fill: #0087cc;
+}
+.n-topology.n-topology-dark .nodeset .indicator .iconBG:hover {
+  fill: #00a9ff;
+}
 .n-topology.n-topology-dark .nodeset .indicator .iconShape {
-  fill: #f7931e;
+  fill: #000000;
 }
 .n-topology.n-topology-dark .group .bg {
   opacity: 0.6;
@@ -1658,8 +1661,14 @@
 .n-topology.n-topology-green .nodeset .iconBGActive ~ .iconShape {
   display: block !important;
 }
+.n-topology.n-topology-green .nodeset .indicator .iconBG {
+  fill: #1c7175;
+}
+.n-topology.n-topology-green .nodeset .indicator .iconBG:hover {
+  fill: #26999e;
+}
 .n-topology.n-topology-green .nodeset .indicator .iconShape {
-  fill: #f2ad4e;
+  fill: #ffffff;
 }
 .n-topology.n-topology-green .group .bg {
   opacity: 0.6;
@@ -2292,8 +2301,14 @@
 .n-topology.n-topology-slate .nodeset .iconBGActive ~ .iconShape {
   display: block !important;
 }
+.n-topology.n-topology-slate .nodeset .indicator .iconBG {
+  fill: #e6e6e6;
+}
+.n-topology.n-topology-slate .nodeset .indicator .iconBG:hover {
+  fill: #ffffff;
+}
 .n-topology.n-topology-slate .nodeset .indicator .iconShape {
-  fill: #f7931e;
+  fill: #223343;
 }
 .n-topology.n-topology-slate .group .bg {
   opacity: 0.6;
@@ -2926,8 +2941,14 @@
 .n-topology.n-topology-yellow .nodeset .iconBGActive ~ .iconShape {
   display: block !important;
 }
+.n-topology.n-topology-yellow .nodeset .indicator .iconBG {
+  fill: #cc9b00;
+}
+.n-topology.n-topology-yellow .nodeset .indicator .iconBG:hover {
+  fill: #ffc200;
+}
 .n-topology.n-topology-yellow .nodeset .indicator .iconShape {
-  fill: #ff7900;
+  fill: #000000;
 }
 .n-topology.n-topology-yellow .group .bg {
   opacity: 0.6;
