@@ -247,7 +247,7 @@
                 if (position.x == x && position.y == y && callback) {
                     callback.call(context || this);
                 } else {
-                    el.setTransform(x, y, null, 10.5);
+                    el.setTransform(x, y, null, 0.9);
                 }
 
             },
