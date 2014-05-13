@@ -267,6 +267,9 @@
                 }
 
 
+                this._topo.fadeIn();
+                this._topo.recoverHighlight();
+
             },
             removeNodeSet: function (sender, nodeSet) {
                 if (nodeSet.group) {

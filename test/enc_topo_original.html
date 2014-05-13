@@ -3,10 +3,18 @@
 <head>
     <title>Example</title>
     <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/NeXt-UI/ws/lib/jquery/jquery-1.10.2.min.js"></script>
+
+
+    <!--<script type="text/javascript" src="../../next-core/dest/next-core.js"></script>-->
+    <!--<script type="text/javascript" src="../../next-ui/dest/js/next-ui.js"></script>-->
+    <!--<script type="text/javascript" src="../src/js/next-graphic.js"></script>-->
+    <!--<link rel="stylesheet" href="../../next-ui/dest/css/next-blue.css"/>-->
+    <!--<link rel="stylesheet" href="../src/less/next-graphic.css"/>-->
+
+
     <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/NeXt-Core/lastSuccessfulBuild/artifact/dest/next-core.js"></script>
     <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/NeXt-UI/lastSuccessfulBuild/artifact/dest/js/next-ui.js"></script>
-    <!--<script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/Next-Graphic/lastSuccessfulBuild/artifact/dest/js/next-graphic.js"></script>-->
-    <script type="text/javascript" src="../src/js/next-graphic.js"></script>
+    <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/Next-Graphic/lastSuccessfulBuild/artifact/dest/js/next-graphic.js"></script>
     <link rel="stylesheet" href="http://10.75.161.96:8080/jenkins/job/NeXt-UI/lastSuccessfulBuild/artifact/dest/css/next-blue.css"/>
     <link rel="stylesheet" href="../src/less/next-graphic.css"/>
 </head>
@@ -24,14 +32,27 @@
     var topo = new nx.graphic.Topology({
         adaptive: true,
         identityKey: 'id',
-        dataProcessor: 'force',
         nodeConfig: {
             label: 'model.label'
         },
         enableSmartLabel: false,
         enableGradualScaling: false,
         supportMultipleLink: false,
-        showIcon: true
+        showIcon: false
+    });
+
+
+    nx.define('MyScene', nx.graphic.Topology.DefaultScene, {
+
+        methods: {
+            enterNode: function (sender, node) {
+
+            },
+            leaveNode: function (sender, node) {
+
+            }
+        }
+
     });
 
 
@@ -40,11 +61,13 @@
             start: function () {
                 topo.attach(app);
                 topo.showLoading();
+                topo.registerScene("myscene", "MyScene");
+                topo.activateScene('myscene');
                 $.getJSON('lab-topo.json', function (data) {
                     var start = new Date();
                     console.log('Start rendering...');
+//                    delete data.response.links;
                     topo.data(data.response);
-                    topo.fit();
                     topo.hideLoading();
                     console.log('End render,cost :' + (new Date() - start) + 'ms');
                 });

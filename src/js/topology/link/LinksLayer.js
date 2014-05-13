@@ -106,14 +106,16 @@
                 this._stageScale = topo.stageScale();
 
 
+
+
                 setTimeout(function () {
-                    this.updateDefaultProperty(link);
-                }.bind(this), 10);
+                    this.updateDefaultSetting(link);
+                }.bind(this), 0);
 
                 return link;
 
             },
-            updateDefaultProperty: function (link) {
+            updateDefaultSetting: function (link) {
                 var topo = this.topology();
                 //delegate link's events
                 var superEvents = nx.graphic.Component.__events__;

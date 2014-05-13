@@ -418,7 +418,7 @@
   fill: #0386d2 !important;
 }
 .n-topology.n-topology-blue .group.active .nodeSetGroupLabel {
-  color: #0386d2 !important;
+  fill: #0386d2 !important;
 }
 .n-topology.n-topology-blue .link-set-bg {
   stroke: #5bc1df;
@@ -1064,7 +1064,7 @@
   fill: #00a9ff !important;
 }
 .n-topology.n-topology-dark .group.active .nodeSetGroupLabel {
-  color: #00a9ff !important;
+  fill: #00a9ff !important;
 }
 .n-topology.n-topology-dark .link-set-bg {
   stroke: #09cadd;
@@ -1710,7 +1710,7 @@
   fill: #26999e !important;
 }
 .n-topology.n-topology-green .group.active .nodeSetGroupLabel {
-  color: #26999e !important;
+  fill: #26999e !important;
 }
 .n-topology.n-topology-green .link-set-bg {
   stroke: #5edadd;
@@ -2356,7 +2356,7 @@
   fill: #ffffff !important;
 }
 .n-topology.n-topology-slate .group.active .nodeSetGroupLabel {
-  color: #ffffff !important;
+  fill: #ffffff !important;
 }
 .n-topology.n-topology-slate .link-set-bg {
   stroke: #49a9bf;
@@ -3002,7 +3002,7 @@
   fill: #ffc200 !important;
 }
 .n-topology.n-topology-yellow .group.active .nodeSetGroupLabel {
-  color: #ffc200 !important;
+  fill: #ffc200 !important;
 }
 .n-topology.n-topology-yellow .link-set-bg {
   stroke: #997b19;

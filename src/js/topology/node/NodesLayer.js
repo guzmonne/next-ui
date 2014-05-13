@@ -122,7 +122,11 @@
                     'stageScale': stageScale
                 });
 
+
                 this.updateDefaultSetting(node);
+//                setTimeout(function () {
+//                    this.updateDefaultSetting(node);
+//                }.bind(this), 0);
                 return node;
             },
 

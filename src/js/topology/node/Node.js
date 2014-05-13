@@ -232,6 +232,7 @@
         methods: {
             translateTo: function (x, y, callback, context) {
                 var el = this.view();
+                var position = this.position();
                 el.setTransition(function () {
                     this.position({
                         x: x,
@@ -243,7 +244,11 @@
                         callback.call(context || this);
                     }
                 }, this, 0.5);
-                el.setTransform(x, y, null, 0.5);
+                if (position.x == x && position.y == y && callback) {
+                    callback.call(context || this);
+                } else {
+                    el.setTransform(x, y, null, 10.5);
+                }
 
             },
             /**

@@ -190,32 +190,34 @@
             },
             _expand: function () {
                 var position = this.position();
-
                 this.visible(false);
                 this.activated(false);
-
-                this.fire('beforeExpandNode', this);
-
-
-                var queueCounter = 0;
-                var nodeLength = 0;
-                var finish = function () {
-                    if (queueCounter == nodeLength) {
-                        this.fire('expandNode', this);
-                    }
-                }.bind(this);
+                var visibleSubNodes = this.visibleSubNodes();
+                var nodeLength = nx.util.keys(visibleSubNodes).length;
 
 
-                this.eachNode(function (node) {
-                    var _position = node.position();
-                    node.position(position);
-                    node.parentNodeSet(this);
-                    node.moveTo(_position.x, _position.y, function () {
-                        queueCounter++;
-                        finish();
-                    }, true, 600);
-                    nodeLength++;
-                }, this);
+                if (nodeLength > 50) {
+                    this.fire('beforeExpandNode', this);
+                    this.fire('expandNode', this);
+                } else {
+                    var queueCounter = 0;
+                    var finish = function () {
+                        if (queueCounter == nodeLength) {
+                            this.fire('expandNode', this);
+                        }
+                    }.bind(this);
+
+                    this.eachNode(function (node) {
+                        var _position = node.position();
+                        node.position(position);
+                        node.parentNodeSet(this);
+                        node.moveTo(_position.x, _position.y, function () {
+                            queueCounter++;
+                            finish();
+                        }, true, 600);
+                    }, this);
+                    this.fire('beforeExpandNode', this);
+                }
             },
 
             _collapse: function (fn) {
@@ -223,38 +225,44 @@
                 var position = this.position();
                 var topo = this.topology();
                 var graph = topo.graph();
+                var visibleSubNodes = this.visibleSubNodes();
+                var nodeLength = nx.util.keys(visibleSubNodes).length;
 
 
-                var queueCounter = 0;
-                var nodeLength = 0;
-                var finish = function () {
-                    if (queueCounter == nodeLength) {
-                        this.visible(true);
-                        this.activated(true);
+                if (nodeLength > 50) {
+                    this.visible(true);
+                    this.activated(true);
+                    this.fire('beforeCollapseNode');
+                    this.fire('collapseNode');
+                } else {
+                    var queueCounter = 0;
+                    var finish = function () {
+                        if (queueCounter == nodeLength) {
+                            this.visible(true);
+                            this.activated(true);
+                            nx.each(positionMap, function (position, id) {
+                                var vertex = graph.getVertex(id) || graph.getVertexSet(id);
+                                if (vertex) {
+                                    vertex.position(position);
+                                }
+                            });
+                            this.fire('collapseNode');
+                        }
+                    }.bind(this);
+
+                    this.eachVisibleSubNode(function (node) {
+                        positionMap[node.model().id()] = node.model().position();
+                        node.moveTo(position.x, position.y, function () {
+                            queueCounter++;
+                            finish();
+                        }, true, 600);
+
+                    }, this);
+
+                    this.fire('beforeCollapseNode');
+                }
 
 
-                        nx.each(positionMap, function (position, id) {
-                            var vertex = graph.getVertex(id) || graph.getVertexSet(id);
-                            if (vertex) {
-                                vertex.position(position);
-                            }
-                        });
-                        this.fire('collapseNode');
-                    }
-                }.bind(this);
-
-
-                this.eachVisibleSubNode(function (node) {
-                    nodeLength++;
-                    positionMap[node.model().id()] = node.model().position();
-                    node.moveTo(position.x, position.y, function () {
-                        queueCounter++;
-                        finish();
-                    }, true, 600);
-
-                }, this);
-
-                this.fire('beforeCollapseNode');
             },
 
             /**
