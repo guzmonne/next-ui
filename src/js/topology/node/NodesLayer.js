@@ -42,10 +42,7 @@
                         node.stageScale(value);
                     });
                 }, this);
-                topo.watch('nodeConfig', this.__watchNodeConfigFN = function (prop, value) {
-                    this.nodeConfig = nx.extend({}, CLZ.defaultConfig, value);
-                    delete  this.nodeConfig.__owner__;
-                }, this);
+
 
             },
             /**
@@ -149,7 +146,8 @@
                 }, this);
 
                 //properties
-                var nodeConfig = this.nodeConfig;
+                var nodeConfig = this.nodeConfig = nx.extend({}, CLZ.defaultConfig, topo.nodeConfig());
+                delete  nodeConfig.__owner__;
                 nx.each(nodeConfig, function (value, key) {
                     util.setProperty(node, key, value, topo);
                 }, this);

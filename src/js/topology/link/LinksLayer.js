@@ -49,10 +49,6 @@
                         link.stageScale(value);
                     });
                 }, this);
-                topo.watch('linkConfig', this.__watchNodeConfigFN = function (prop, value) {
-                    this.linkConfig = nx.extend({}, CLZ.defaultConfig, value);
-                    delete  this.linkConfig.__owner__;
-                }, this);
             },
             /**
              * Add a link
@@ -130,7 +126,9 @@
                     }
                 }, this);
                 //set properties
-                var linkConfig = this.linkConfig;
+                var linkConfig = nx.extend({}, CLZ.defaultConfig, topo.linkConfig());
+                delete  linkConfig.__owner__;
+
                 nx.each(linkConfig, function (value, key) {
                     util.setProperty(link, key, value, topo);
                 }, this);
