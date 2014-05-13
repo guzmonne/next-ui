@@ -92,6 +92,7 @@
             //get node instance class
             _getNodeInstanceClass: function (vertex) {
                 var Clz;
+                var topo = this.topology();
                 var nodeInstanceClass = topo.nodeInstanceClass();
                 if (nx.is(nodeInstanceClass, 'Function')) {
                     Clz = nodeInstanceClass.call(this, vertex);
