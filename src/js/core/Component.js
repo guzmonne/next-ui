@@ -279,6 +279,8 @@
 
                 if (this._ani) {
                     this._ani.stop();
+                    this._ani.dispose();
+                    delete this._ani;
                 }
 
                 var ani = this._ani = new nx.graphic.Animation({
@@ -305,6 +307,8 @@
                      * @param event {Object} original event object
                      */
                     this.fire("animationCompleted");
+                    ani.dispose();
+                    delete this._ani;
                 }, this);
                 ani.start();
             },
