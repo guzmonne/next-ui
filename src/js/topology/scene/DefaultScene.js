@@ -343,7 +343,7 @@
                     var nodeSetLayerHighlightElements = this._nodeSetLayer.highlightedElements();
                     ns.eachVisibleSubNode(function (node) {
                         if (node.model().type() == 'vertex') {
-                            nodeLayerHighlightElements.add(node)
+                            nodeLayerHighlightElements.add(node);
                         } else {
                             nodeSetLayerHighlightElements.add(node);
                         }
@@ -358,7 +358,7 @@
             leaveGroup: function (sender, group) {
                 group.view().dom().removeClass('active');
                 this._topo.fadeIn();
-                this._topo.recoverHighlight()
+                this._topo.recoverHighlight();
             },
 
 
