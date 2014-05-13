@@ -169,7 +169,7 @@
                         var link = linksLayer.addLink(edge);
                         // add parent linkset
                         if (edge.parentEdgeSet()) {
-                            var linkSet = topo.getLinkSetByLinkKey(edge.linkKey());
+                            var linkSet = this.getLinkSetByLinkKey(edge.linkKey());
                             link.set('parentLinkSet', linkSet);
                         }
                     }
