@@ -102,10 +102,10 @@
             opacity: {
                 set: function (value) {
                     var opacity = Math.max(value, 0.1);
-                    this.view('shape').dom().setStyle('opacity', opacity);
-                    this.view('minus').dom().setStyle('opacity', opacity);
-                    this.view('nodeIcon').dom().setStyle('opacity', opacity);
-                    this.view('labelContainer').dom().setStyle('opacity', opacity);
+//                    this.view('shape').dom().setStyle('opacity', opacity);
+//                    this.view('minus').dom().setStyle('opacity', opacity);
+//                    this.view('nodeIcon').dom().setStyle('opacity', opacity);
+//                    this.view('labelContainer').dom().setStyle('opacity', opacity);
                     this._opacity = value;
                 }
             }
@@ -184,13 +184,13 @@
                     minus.setTransform(bound.left + bound.width / 2, bound.top - iconSize.height * stageScale / 2 - 22 * stageScale, 1 * stageScale);
 
                     nodeIcon.visible(true);
-                    nodeIcon.setTransform(bound.left + bound.width / 2 + 10 * stageScale + iconSize.width * stageScale / 2, bound.top - iconSize.height * stageScale / 2 - 25 * stageScale, 0.7 * stageScale);
+                    nodeIcon.setTransform(bound.left + bound.width / 2 + 3 * stageScale + iconSize.width * stageScale / 2, bound.top - iconSize.height * stageScale / 2 - 22 * stageScale, 0.5 * stageScale);
 
                     label.sets({
-                        x: bound.left + bound.width / 2 + 12 * stageScale + iconSize.width * stageScale,
-                        y: bound.top - iconSize.height * stageScale / 2 - 25 * stageScale
+                        x: bound.left + bound.width / 2 - 3 * stageScale + iconSize.width * stageScale,
+                        y: bound.top - iconSize.height * stageScale / 2 - 22 * stageScale
                     });
-                    label.view().dom().setStyle('font-size', 18 * stageScale);
+                    label.view().dom().setStyle('font-size', 16 * stageScale);
                     labelContainer.view().dom().setStyle('fill', this.color());
 
                 } else {
@@ -204,7 +204,7 @@
                         x: bound.left + bound.width / 2 + 12 * stageScale,
                         y: bound.top - 45 * stageScale / 2
                     });
-                    label.view().dom().setStyle('font-size', 18 * stageScale);
+                    label.view().dom().setStyle('font-size', 16 * stageScale);
                     labelContainer.view().dom().setStyle('fill', this.color());
                 }
 

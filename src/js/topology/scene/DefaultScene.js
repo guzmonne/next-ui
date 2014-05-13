@@ -127,6 +127,7 @@
             dragNodeEnd: function () {
                 this._nodeDragging = false;
                 this._blockEvent(false);
+                this._topo.stage().resetFitMatrix();
                 nx.dom.Document.html().removeClass('n-dragCursor');
             },
 
@@ -293,6 +294,7 @@
                 this._nodeDragging = false;
                 this._blockEvent(false);
                 nx.dom.Document.html().removeClass('n-dragCursor');
+                this._topo.stage().resetFitMatrix();
             },
             selectNodeSet: function (sender, nodeSet) {
                 var selectedNodes = this._topo.selectedNodes();
@@ -336,14 +338,27 @@
 
             enterGroup: function (sender, group) {
                 if (nx.is(group, 'nx.graphic.Topology.NodeSetPolygonGroup')) {
-                    group.__opacity = group.opacity();
-                    group.opacity(0.6);
+                    var ns = group.nodeSet();
+                    var nodeLayerHighlightElements = this._nodesLayer.highlightedElements();
+                    var nodeSetLayerHighlightElements = this._nodeSetLayer.highlightedElements();
+                    ns.eachVisibleSubNode(function (node) {
+                        if (node.model().type() == 'vertex') {
+                            nodeLayerHighlightElements.add(node)
+                        } else {
+                            nodeSetLayerHighlightElements.add(node);
+                        }
+                    });
+
+                    this._topo.fadeOut();
+                    this._groupsLayer.fadeIn();
+
+                    group.view().dom().addClass('active');
                 }
             },
             leaveGroup: function (sender, group) {
-                if (group.__opacity) {
-                    group.opacity(group.__opacity);
-                }
+                group.view().dom().removeClass('active');
+                this._topo.fadeIn();
+                this._topo.recoverHighlight()
             },
 
 

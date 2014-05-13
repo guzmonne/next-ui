@@ -244,9 +244,12 @@
   .group {
 
     .bg {
-      opacity: 0.6;
-      stroke-width: 10px;
-      stroke-linejoin: round;
+      //      opacity: 0.6;
+      //      stroke-width: 10px;
+      //      stroke-linejoin: round;
+      fill: rgba(0, 0, 0, 0) !important;
+      stroke: rgba(0, 0, 0, 0) !important;
+      pointer-events: none;
     }
 
     .groupLabel {
@@ -267,6 +270,17 @@
 
     .groupLabel:hover ~ .bg {
       opacity: 0.7;
+    }
+
+    &.active {
+      .iconShape{
+        fill: @primaryColor !important;
+      }
+      .nodeSetGroupLabel{
+        color: @primaryColor !important;
+      }
+
+
     }
 
   }

@@ -351,12 +351,12 @@
                 }
             },
             hide: function () {
-                this.view('scalingLayer').visible(false);
-                this.view('staticLayer').visible(false);
+                this.view('scalingLayer').dom().setStyle('opacity', 0);
+                this.view('staticLayer').dom().setStyle('opacity', 0);
             },
             show: function () {
-                this.view('scalingLayer').visible(true);
-                this.view('staticLayer').visible(true);
+                this.view('scalingLayer').dom().setStyle('opacity', 1);
+                this.view('staticLayer').dom().setStyle('opacity', 1);
             },
             _transitionend: function (sender, event) {
                 this.fire('stageTransitionEnd', event);
