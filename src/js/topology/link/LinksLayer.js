@@ -43,7 +43,6 @@
             attach: function (args) {
                 this.inherited(args);
                 var topo = this.topology();
-
                 topo.watch('stageScale', this.__watchStageScaleFN = function (prop, value) {
                     this.eachLink(function (link) {
                         link.stageScale(value);
@@ -195,11 +194,8 @@
                 this.inherited();
             },
             dispose: function () {
-                this.eachLink(function (link) {
-                    link.dispose();
-                });
-                this.topology().unwatch('stageScale', this.__watchStageScaleFN, this);
                 this.clear();
+                this.topology().unwatch('stageScale', this.__watchStageScaleFN, this);
                 this.inherited();
             }
         }

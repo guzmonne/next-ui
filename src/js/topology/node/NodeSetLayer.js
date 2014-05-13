@@ -6,7 +6,7 @@
                 iconType: 'nodeSet'
             }
         },
-        events: ['clickNodeSet', 'enterNodeSet', 'leaveNodeSet', 'dragNodeSetStart', 'dragNodeSet', 'dragNodeSetEnd', 'hideNodeSet', 'pressNodeSet', 'selectNodeSet', 'updateNodeSetCoordinate', 'expandNodeSet', 'collapseNodeSet', 'beforeExpandNodeSet', 'beforeCollapseNodeSet', 'updateNodeSet','removeNodeSet'],
+        events: ['clickNodeSet', 'enterNodeSet', 'leaveNodeSet', 'dragNodeSetStart', 'dragNodeSet', 'dragNodeSetEnd', 'hideNodeSet', 'pressNodeSet', 'selectNodeSet', 'updateNodeSetCoordinate', 'expandNodeSet', 'collapseNodeSet', 'beforeExpandNodeSet', 'beforeCollapseNodeSet', 'updateNodeSet', 'removeNodeSet'],
         properties: {
             nodeSetArray: {
                 value: function () {
@@ -128,11 +128,6 @@
                             this.fire(e.replace('Node', 'NodeSet'), nodeSet);
                         }, this);
                     }
-                }, this);
-
-                //register multiple move
-                nodeSet.on('dragNode', function (sender, event) {
-                    topo._moveSelectionNodes(event, nodeSet);
                 }, this);
 
                 nodeSet.set('data-node-id', vertexSet.id());

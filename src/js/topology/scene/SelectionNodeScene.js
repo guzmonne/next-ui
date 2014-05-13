@@ -31,7 +31,7 @@
                 tooltipManager.activated(true);
             },
 
-            pressStage: function (sender,event) {
+            pressStage: function (sender, event) {
                 var selectedNodes = this.selectedNodes();
                 var multi = this._multi = event.metaKey || event.ctrlKey;
                 if (!multi) {
@@ -85,11 +85,21 @@
             pressNode: function (sender, node) {
                 if (node.enable()) {
                     var selectedNodes = this.selectedNodes();
-                    var multi = this._multi = event.metaKey || event.ctrlKey;
+                    this._multi = event.metaKey || event.ctrlKey;
                     if (!this._multi) {
                         selectedNodes.clear();
                     }
                     node.selected(!node.selected());
+                }
+            },
+            pressNodeSet: function (sender, nodeSet) {
+                if (nodeSet.enable()) {
+                    var selectedNodes = this.selectedNodes();
+                    this._multi = event.metaKey || event.ctrlKey;
+                    if (!this._multi) {
+                        selectedNodes.clear();
+                    }
+                    nodeSet.selected(!nodeSet.selected());
                 }
             },
             selectNodeByRect: function (bound) {

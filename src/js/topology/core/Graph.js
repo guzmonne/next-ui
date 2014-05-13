@@ -244,7 +244,7 @@
 
                 graph.on("startGenerate", function (sender, event) {
                     this.showLoading();
-                    this.stage().hide();
+//                    this.stage().hide();
                 }, this);
                 graph.on("endGenerate", function (sender, event) {
                     setTimeout(this._endGenerate.bind(this), 0);
@@ -331,7 +331,6 @@
                 }
             },
             __fit: function () {
-                this.stage().show();
                 if (this.autoFit()) {
                     this.stage().fit(null, null, false);
                 }

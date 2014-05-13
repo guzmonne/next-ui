@@ -121,6 +121,9 @@
                 this._blockEvent(true);
                 nx.dom.Document.html().addClass('n-dragCursor');
             },
+            dragNode: function (sender, node) {
+                this._topo._moveSelectionNodes(event, node);
+            },
             dragNodeEnd: function () {
                 this._nodeDragging = false;
                 this._blockEvent(false);
@@ -225,6 +228,9 @@
             },
             beforeCollapseNodeSet: function (sender, nodeSet) {
                 this._blockEvent(true);
+            },
+            collapseNodeSet: function (sender, nodeSet) {
+
                 nodeSet.visible(true);
                 var depth = 1;
                 var parentNodeSet = nodeSet.parentNodeSet();
@@ -239,16 +245,13 @@
                     depth++;
                 }
 
-            },
-            collapseNodeSet: function (sender, nodeSet) {
-
                 if (nodeSet.group) {
                     this._groupsLayer.removeGroup(nodeSet.group);
                     delete nodeSet.group;
                 }
                 this._topo.stage().resetFitMatrix();
 
-                var parentNodeSet = nodeSet.parentNodeSet();
+                parentNodeSet = nodeSet.parentNodeSet();
 
 
                 if (parentNodeSet) {
@@ -282,6 +285,9 @@
                 this._recover();
                 this._blockEvent(true);
                 nx.dom.Document.html().addClass('n-dragCursor');
+            },
+            dragNodeSet: function (sender, nodeSet) {
+                this._topo._moveSelectionNodes(event, nodeSet);
             },
             dragNodeSetEnd: function () {
                 this._nodeDragging = false;

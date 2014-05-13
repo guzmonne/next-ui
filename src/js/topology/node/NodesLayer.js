@@ -121,12 +121,6 @@
                     'data-id': id,
                     'stageScale': stageScale
                 });
-//                node._stageScale = stageScale;
-
-                // add multiple drag events
-                node.on('dragNode', function (sender, event) {
-                    topo._moveSelectionNodes(event, node);
-                }, this);
 
                 this.updateDefaultSetting(node);
                 return node;
@@ -192,7 +186,6 @@
             dispose: function () {
                 this.clear();
                 this.topology().unwatch('stageScale', this.__watchStageScaleFN, this);
-                this.topology().watch('nodeConfig', this.__watchNodeConfigFN, this);
                 this.inherited();
             }
         }

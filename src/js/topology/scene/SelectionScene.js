@@ -31,17 +31,18 @@
             },
             appendRect: function () {
                 var topo = this.topology();
-                if (this.rect) {
-                    this.rect.dispose();
+                if (!this.rect) {
+                    this.rect = new nx.graphic.Rect({
+                        'class': 'selectionRect'
+                    });
+                    this.rect.attach(topo.stage().staticLayer());
                 }
-                var rect = this.rect = new nx.graphic.Rect({
+                this.rect.sets({
                     x: 0,
                     y: 0,
                     width: 0,
-                    height: 0,
-                    'class': 'selectionRect'
+                    height: 0
                 });
-                rect.attach(topo.stage().staticLayer());
             },
             dragStageStart: function (sender, event) {
                 this._offset = {
@@ -56,7 +57,6 @@
                 rect.set('y', event.clientY - this._stageBound.top);
                 this.rect.set('visible', true);
                 this._blockEvent(true);
-
 
 
             },
@@ -100,10 +100,20 @@
             esc: {
 
             },
+            clickNodeSet: function (sender,nodeSet) {
+            },
+            dragNode: function () {
+
+            },
+            dragNodeSet: function () {
+
+            },
             _blockEvent: function (value) {
                 if (value) {
+                    this.topology().scalable(false);
                     nx.dom.Document.body().addClass('n-userselect n-blockEvent');
                 } else {
+                    this.topology().scalable(true);
                     nx.dom.Document.body().removeClass('n-userselect');
                     nx.dom.Document.body().removeClass('n-blockEvent');
                 }
