@@ -86,6 +86,17 @@
 
         methods: {
             initStage: function () {
+                nx.each(nx.graphic.Icons.icons, function (iconObj, key) {
+                    if (iconObj.icon) {
+                        var icon = iconObj.icon.cloneNode(true);
+                        icon.setAttribute("height", iconObj.size.height);
+                        icon.setAttribute("width", iconObj.size.width);
+                        icon.setAttribute("data-device-type", key);
+                        icon.setAttribute("id", key);
+                        icon.setAttribute("class", 'deviceIcon');
+                        this.stage().addDef(icon);
+                    }
+                }, this);
             },
             _adaptiveTimer: function () {
                 var self = this;

@@ -6,7 +6,7 @@
      * @module nx.graphic.Topology
      */
     nx.define("nx.graphic.Topology.NodeMixin", {
-        events: ['addNode', 'addNodeSet', 'removeNode', 'removeNodeSet'],
+        events: ['addNode', 'addNodeSet', 'removeNode'],
         properties: {
             /**
              * Node instance class name, support function
@@ -106,8 +106,7 @@
                         nx.each(args.items, function (node) {
                             node.selected(false);
                             node.off('remove', this._removeSelectedNode, this);
-                        });
-
+                        }, this);
                     }
                 });
             },
@@ -270,7 +269,6 @@
                     inNodeSet.activated(false);
                 }
                 var vertexSet = inNodeSet.model();
-                this.fire('removeNodeSet', inNodeSet);
                 this.graph().removeVertexSet(vertexSet);
             },
 

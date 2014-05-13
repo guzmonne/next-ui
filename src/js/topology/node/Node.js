@@ -36,7 +36,7 @@
                 },
                 set: function (inValue) {
                     var value = this._processPropertyValue(inValue);
-                    if (this._iconType !== value) {
+                    if (value && this._iconType !== value) {
                         this._iconType = value;
                         this.view('icon').set('iconType', value);
                         return true;

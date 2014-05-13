@@ -57,6 +57,7 @@
 
                 var topo = this.topology();
                 var stageScale = topo.stageScale();
+                var revisionScale = topo.revisionScale();
                 var translate = {
                     x: topo.matrix().x(),
                     y: topo.matrix().y()
@@ -81,6 +82,8 @@
 
                 text.setTransform((bound.left + bound.width / 2) * stageScale, (bound.top - 12) * stageScale, stageScale);
                 text.view().dom().setStyle('fill', this.color());
+
+                this.view('label').view().dom().setStyle('font-size', 18 * revisionScale);
             },
             _clickLabel: function (sender, event) {
                 this.fire('clickGroupLabel');

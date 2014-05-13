@@ -113,7 +113,7 @@
                     this._updateMinusIcon();
                     this.view('label').set('visible', value > 0.4);
                 }
-            },
+            }
         },
         view: {
             type: 'nx.graphic.Group',

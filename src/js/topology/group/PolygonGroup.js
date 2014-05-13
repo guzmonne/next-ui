@@ -41,7 +41,7 @@
                             text: '{#label}',
                             style: {
                                 'alignment-baseline': 'central',
-                                'text-anchor': 'start',
+                                'text-anchor': 'middle',
                                 'font-size': 12
                             }
                         },
@@ -73,6 +73,7 @@
 
                 var topo = this.topology();
                 var stageScale = topo.stageScale();
+                var revisionScale = topo.revisionScale();
                 var translate = {
                     x: topo.matrix().x(),
                     y: topo.matrix().y()
@@ -89,7 +90,7 @@
                     fill: this.color()
                 });
                 shape.dom().setStyle('stroke', this.color());
-                shape.dom().setStyle('stroke-width', 60 * stageScale);
+                shape.dom().setStyle('stroke-width', 60 * stageScale * revisionScale);
                 shape.nodes(vectorArray);
 
 
@@ -103,9 +104,9 @@
 
 
                 var text = this.view('text');
-                text.setTransform(bound.left + bound.width / 2, bound.top - 60 * stageScale, stageScale);
+                text.setTransform(bound.left + bound.width / 2, bound.top - 40 * stageScale * revisionScale, stageScale);
 
-                this.view('label').view().dom().setStyle('font-size', 18);
+                this.view('label').view().dom().setStyle('font-size', 18 * revisionScale);
 
                 text.view().dom().setStyle('fill', this.color());
             },

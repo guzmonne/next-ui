@@ -225,10 +225,6 @@
             },
             beforeCollapseNodeSet: function (sender, nodeSet) {
                 this._blockEvent(true);
-
-            },
-            collapseNodeSet: function (sender, nodeSet) {
-
                 nodeSet.visible(true);
                 var depth = 1;
                 var parentNodeSet = nodeSet.parentNodeSet();
@@ -243,14 +239,28 @@
                     depth++;
                 }
 
+            },
+            collapseNodeSet: function (sender, nodeSet) {
+
                 if (nodeSet.group) {
                     this._groupsLayer.removeGroup(nodeSet.group);
                     delete nodeSet.group;
                 }
                 this._topo.stage().resetFitMatrix();
-                this._topo.fit(function () {
-                    this._blockEvent(false);
-                }, this);
+
+                var parentNodeSet = nodeSet.parentNodeSet();
+
+
+                if (parentNodeSet) {
+                    this._topo.zoomByNodes(parentNodeSet.nodes(), function () {
+                        this._blockEvent(false);
+
+                    }, this, 1.5);
+                } else {
+                    this._topo.fit(function () {
+                        this._blockEvent(false);
+                    }, this);
+                }
 
 
             },

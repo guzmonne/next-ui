@@ -387,14 +387,17 @@
                  */
                 this.fire('startGenerate');
 
+//                console.time('vertex');
                 nx.each(this.vertices, this._generateVertex, this);
+//                console.timeEnd('vertex');
 
-                //nx.each(this.edges, this._generateEdge, this);
-
+//                console.time('vertexSet');
                 nx.each(this.vertexSet, this._generateVertexSet, this);
+//                console.timeEnd('vertexSet');
 
+//                console.time('edgeSet');
                 nx.each(this.edgeSet, this._generateEdgeSetMap, this);
-
+//                console.timeEnd('edgeSet');
                 /**
                  * @event endGenerate
                  * @param sender {Object}  Trigger instance

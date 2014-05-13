@@ -6,7 +6,7 @@
      * @module nx.graphic.Topology
      */
     nx.define('nx.graphic.Topology.Event', {
-        events: ['clickStage', 'pressStage', 'dragStageStart', 'dragStage', 'dragStageEnd', 'projectionChange', 'zoomstart', 'zooming', 'zoomend', 'resetzooming', 'fitStage', 'up', 'down', 'left', 'right', 'esc', 'space', 'enter', 'pressA', 'pressS', 'pressF', 'pressM', 'pressR'],
+        events: ['clickStage', 'pressStage', 'dragStageStart', 'dragStage', 'dragStageEnd', 'stageTransitionEnd', 'zoomstart', 'zooming', 'zoomend', 'resetzooming', 'fitStage', 'up', 'down', 'left', 'right', 'esc', 'space', 'enter', 'pressA', 'pressS', 'pressF', 'pressM', 'pressR'],
         properties: {
             /**
              * Enabling gradual scaling feature when zooming, set to false will improve the performance
@@ -123,6 +123,9 @@
                  * @param event {Object} original event object
                  */
                 this.fire('dragStageEnd', event);
+            },
+            _stageTransitionEnd: function () {
+                this.fire('stageTransitionEnd', event);
             },
             _key: function (sender, event) {
                 var code = event.keyCode;

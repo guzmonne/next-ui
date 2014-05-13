@@ -166,7 +166,12 @@
 
                 graph.on("addEdge", function (sender, edge) {
                     if (edge.source().generated() && edge.target().generated()) {
-                        linksLayer.addLink(edge);
+                        var link = linksLayer.addLink(edge);
+                        // add parent linkset
+                        if (edge.parentEdgeSet()) {
+                            var linkSet = topo.getLinkSetByLinkKey(edge.linkKey());
+                            link.set('parentLinkSet', linkSet);
+                        }
                     }
                 }, this);
 
@@ -242,7 +247,8 @@
                     this.stage().hide();
                 }, this);
                 graph.on("endGenerate", function (sender, event) {
-                    this._endGenerate();
+                    setTimeout(this._endGenerate.bind(this), 0);
+                    //this._endGenerate();
                 }, this);
 
 

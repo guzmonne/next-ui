@@ -334,6 +334,13 @@
                     this.fire("mouseleave", event);
                 }
             },
+            _processPropertyValue: function (propertyValue) {
+                var value = propertyValue;
+                if (nx.is(propertyValue, 'Function')) {
+                    value = propertyValue.call(this, this.model(), this);
+                }
+                return value;
+            },
             dispose: function () {
                 if (this._resources && this._resources['@root']) {
                     this.view().dom().$dom.remove();

@@ -13,12 +13,8 @@
             defaultConfig: {
                 linkType: 'parallel',
                 label: null,
-//                sourceLabel: null,
-//                targetLabel: null,
                 color: null,
                 width: null,
-                dotted: false,
-                style: null,
                 enable: true
             }
         },
@@ -52,6 +48,10 @@
                     this.eachLink(function (link) {
                         link.stageScale(value);
                     });
+                }, this);
+                topo.watch('linkConfig', this.__watchNodeConfigFN = function (prop, value) {
+                    this.linkConfig = nx.extend({}, CLZ.defaultConfig, value);
+                    delete  this.linkConfig.__owner__;
                 }, this);
             },
             /**
@@ -98,30 +98,28 @@
                 var topo = this.topology();
                 var link = new nx.graphic.Topology.Link({
                     topology: topo
-
                 });
                 //set model
                 link.setModel(edge, false);
                 link.attach(this.view('static'));
 
-                //set element attribute
-                link.sets({
+                link.view().sets({
                     'class': 'link',
-                    'data-link-id': id,
-                    'data-linkKey': edge.linkKey(),
-                    'data-source-node-id': edge.source().id(),
-                    'data-target-node-id': edge.target().id(),
-                    stageScale: topo.stageScale()
+                    'data-id': id
                 });
 
-                //set properties
-                var linkConfig = nx.extend({}, CLZ.defaultConfig, topo.linkConfig());
-                delete linkConfig.__owner__; //fix bug
-                nx.each(linkConfig, function (value, key) {
-                    util.setProperty(link, key, value, topo);
-                }, this);
-                link.update();
+                this._stageScale = topo.stageScale();
 
+
+                setTimeout(function () {
+                    this.updateDefaultProperty(link);
+                }.bind(this), 10);
+
+                return link;
+
+            },
+            updateDefaultProperty: function (link) {
+                var topo = this.topology();
                 //delegate link's events
                 var superEvents = nx.graphic.Component.__events__;
                 nx.each(link.__events__, function (e) {
@@ -131,16 +129,23 @@
                         }, this);
                     }
                 }, this);
+                //set properties
+                var linkConfig = this.linkConfig;
+                nx.each(linkConfig, function (value, key) {
+                    util.setProperty(link, key, value, topo);
+                }, this);
 
-
-                // add parent linkset
-                if (topo.supportMultipleLink()) {
-                    var linkSet = topo.getLinkSetByLinkKey(edge.linkKey());
-                    link.set('parentLinkSet', linkSet);
+                if (nx.DEBUG) {
+                    var edge = link.model();
+                    link.view().sets({
+                        'data-linkKey': edge.linkKey(),
+                        'data-source-node-id': edge.source().id(),
+                        'data-target-node-id': edge.target().id()
+                    });
                 }
 
-                return link;
 
+                link.update();
             },
 
 

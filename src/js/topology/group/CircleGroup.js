@@ -53,6 +53,7 @@
                 this.setTransform(0, 0);
 
                 var topo = this.topology();
+                var revisionScale = topo.revisionScale();
                 var translate = {
                     x: topo.matrix().x(),
                     y: topo.matrix().y()
@@ -78,6 +79,8 @@
 
                 text.setTransform((bound.left + bound.width / 2) * stageScale, (bound.top + bound.height / 2 - radius - 12) * stageScale, stageScale);
                 text.view().dom().setStyle('fill', this.color());
+
+                this.view('label').view().dom().setStyle('font-size', 18 * revisionScale);
 
 
                 this.setTransform(0, 0);

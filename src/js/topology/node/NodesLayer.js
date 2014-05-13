@@ -42,6 +42,11 @@
                         node.stageScale(value);
                     });
                 }, this);
+                topo.watch('nodeConfig', this.__watchNodeConfigFN = function (prop, value) {
+                    this.nodeConfig = nx.extend({}, CLZ.defaultConfig, value);
+                    delete  this.nodeConfig.__owner__;
+                }, this);
+
             },
             /**
              * Add node a nodes layer
@@ -84,29 +89,29 @@
                     node.revisionScale(value);
                 }, this);
             },
-
-
-            _generateNode: function (vertex) {
-                var id = vertex.id();
-                var topo = this.topology();
-
-
-                //get node instance class
+            //get node instance class
+            _getNodeInstanceClass: function (vertex) {
                 var Clz;
                 var nodeInstanceClass = topo.nodeInstanceClass();
                 if (nx.is(nodeInstanceClass, 'Function')) {
                     Clz = nodeInstanceClass.call(this, vertex);
-                    if (nx.is(clz, 'String')) {
+                    if (nx.is(Clz, 'String')) {
                         Clz = nx.path(global, Clz);
                     }
                 } else {
                     Clz = nx.path(global, nodeInstanceClass);
                 }
                 if (!Clz) {
-                    return;
+                    throw "Error on instance node class";
                 }
+                return Clz;
+            },
 
-
+            _generateNode: function (vertex) {
+                var id = vertex.id();
+                var topo = this.topology();
+                var stageScale = topo.stageScale();
+                var Clz = this._getNodeInstanceClass(vertex);
                 var node = new Clz({
                     topology: topo
                 });
@@ -116,40 +121,23 @@
                 node.sets({
                     'class': 'node',
                     'data-id': id,
-                    stageScale: topo.stageScale()
+                    'stageScale': stageScale
                 });
+//                node._stageScale = stageScale;
 
-
-                //node.view().set('data-id', id);
-
-
-                var nodeConfig = nx.extend({}, CLZ.defaultConfig, topo.nodeConfig());
-                var label = nodeConfig.label;
-                delete nodeConfig.label;
-                delete nodeConfig.__owner__;
-
-                nx.each(nodeConfig, function (value, key) {
-                    setTimeout(function () {
-                        util.setProperty(node, key, value, topo);
-                    }, 10);
+                // add multiple drag events
+                node.on('dragNode', function (sender, event) {
+                    topo._moveSelectionNodes(event, node);
                 }, this);
 
-
-                if (label != null) {
-                    setTimeout(function () {
-                        util.setProperty(node, 'label', label, topo);
-                    }, 10);
-                }
+                this.updateDefaultSetting(node);
+                return node;
+            },
 
 
-                if (topo.showIcon() && topo.revisionScale() == 1) {
-                    setTimeout(function () {
-                        util.setProperty(node, 'showIcon', true);
-                    }, 10);
-                }
-
-
-//                delegate events
+            updateDefaultSetting: function (node) {
+                var topo = this.topology();
+                // delegate events
                 var superEvents = nx.graphic.Component.__events__;
                 nx.each(node.__events__, function (e) {
                     if (superEvents.indexOf(e) == -1) {
@@ -159,12 +147,15 @@
                     }
                 }, this);
 
-                // add multiple drag events
-                node.on('dragNode', function (sender, event) {
-                    topo._moveSelectionNodes(event, node);
+                //properties
+                var nodeConfig = this.nodeConfig;
+                nx.each(nodeConfig, function (value, key) {
+                    util.setProperty(node, key, value, topo);
                 }, this);
 
-                return node;
+                if (topo.showIcon() && topo.revisionScale() == 1) {
+                    util.setProperty(node, 'showIcon', true);
+                }
             },
 
             /**
@@ -202,6 +193,7 @@
             dispose: function () {
                 this.clear();
                 this.topology().unwatch('stageScale', this.__watchStageScaleFN, this);
+                this.topology().watch('nodeConfig', this.__watchNodeConfigFN, this);
                 this.inherited();
             }
         }

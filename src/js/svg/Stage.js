@@ -7,7 +7,7 @@
      * @module nx.graphic
      */
     nx.define("nx.graphic.Stage", nx.ui.Component, {
-        events: ['dragStageStart', 'dragStage', 'dragStageEnd'],
+        events: ['dragStageStart', 'dragStage', 'dragStageEnd', 'stageTransitionEnd'],
         view: {
             tag: 'svg:svg',
             props: {
@@ -32,7 +32,7 @@
                         'class': 'stage'
                     },
                     events: {
-                        'transitionend': '{#_scaleEnd}'
+                        'transitionend': '{#_transitionend}'
                     }
                 },
                 {
@@ -244,17 +244,6 @@
 
 
             },
-            precisionFit: function (duration) {
-                var padding = this.padding();
-                this.fit(function () {
-                    setTimeout(function () {
-                        var contentBound = this.getContentBound();
-                        if (!(padding * 0.8 < contentBound.left && contentBound.left < padding * 1.2) || !(padding * 0.8 < contentBound.top && contentBound.top < padding * 1.2)) {
-                            this.precisionFit(duration);
-                        }
-                    }.bind(this), 30);
-                }, this, duration);
-            },
             actualSize: function () {
                 this.scalingLayer().setTransition(null, null, 0.6);
                 this._setStageMatrix(nx.geometry.Matrix.I);
@@ -369,8 +358,8 @@
                 this.view('scalingLayer').visible(true);
                 this.view('staticLayer').visible(true);
             },
-            _scaleEnd: function (sender, event) {
-
+            _transitionend: function (sender, event) {
+                this.fire('stageTransitionEnd', event);
             },
             _mousedown: function (sender, event) {
                 event.captureDrag(sender);

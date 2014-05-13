@@ -24,26 +24,26 @@
                 set: function (obj) {
                     var isModified = false;
                     var model = this.model();
-                    if (obj.x != null && !this._lockXAxle && this._x !== obj.x) {
+                    if (obj.x != null && obj.x !== this._x && !this._lockXAxle) {
                         this._x = obj.x;
                         model.set("x", obj.x);
                         this.notify("x");
                         isModified = true;
                     }
 
-                    if (obj.y != null && !this._lockYAxle && this._y !== obj.y) {
+                    if (obj.y != null && obj.y !== this._y && !this._lockYAxle) {
                         this._y = obj.y;
                         model.set("y", obj.y);
                         this.notify("y");
                         isModified = true;
                     }
 
+
                     if (isModified) {
                         this.view().setTransform(this._x, this._y);
                         this.update();
                     }
                     return isModified;
-
                 }
             },
             absolutePosition: {
@@ -68,20 +68,6 @@
                         [0, stageScale, 0],
                         [position.x, position.y, 1]
                     ];
-                }
-            },
-            /**
-             * Get topology's scale
-             * @property scale
-             */
-            scale: {
-                get: function () {
-                    //return this.topology().scale() || 1;
-                }
-            },
-            stageScale: {
-                set: function (value) {
-                    this.view().setTransform(null, null, value);
                 }
             },
             /**
@@ -135,6 +121,15 @@
                 value: false
             },
             /**
+             * Get topology stage scale
+             * @property scale
+             */
+            stageScale: {
+                set: function (value) {
+                    this.view().setTransform(null, null, value);
+                }
+            },
+            /**
              * Get topology instance
              * @property  topology
              */
@@ -172,14 +167,11 @@
                 }
             },
             showIcon: {
-
-            },
-            fade: {
-                value: false
-            },
-            revisionScale: {
-                value: 1
+                value: true
             }
+        },
+        view: {
+            type: 'nx.graphic.Group'
         },
         methods: {
             init: function (args) {
@@ -217,12 +209,11 @@
 
                 this.setBinding("visible", "model.visible");
 
+                //initialize position
                 this.position({
                     x: model.get("x"),
                     y: model.get("y")
                 });
-
-
             },
             update: function () {
 
@@ -243,11 +234,11 @@
              * @param x {Number}
              * @param y {Number}
              * @param callback {Function}
-             * @param isAnimation {Boolean}
+             * @param isAnimated {Boolean}
              * @param duration {Number}
              */
-            moveTo: function (x, y, callback, isAnimation, duration) {
-                if (isAnimation !== false) {
+            moveTo: function (x, y, callback, isAnimated, duration) {
+                if (isAnimated !== false) {
                     var obj = {to: {}, duration: duration || 400};
                     obj.to.x = x;
                     obj.to.y = y;
@@ -368,13 +359,6 @@
                     nodes.push(node);
                 }, this);
                 return nodes;
-            },
-            _processPropertyValue: function (propertyValue) {
-                var value = propertyValue;
-                if (nx.is(propertyValue, 'Function')) {
-                    value = propertyValue.call(this, this.model(), this);
-                }
-                return value;
             },
             dispose: function () {
                 var model = this.model();

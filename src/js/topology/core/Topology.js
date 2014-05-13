@@ -110,7 +110,8 @@
                         'touchmove': '{#_mousewheel}',
                         'dragStageStart': '{#_dragStageStart}',
                         'dragStage': '{#_dragStage}',
-                        'dragStageEnd': '{#_dragStageEnd}'
+                        'dragStageEnd': '{#_dragStageEnd}',
+                        'stageTransitionEnd': '{#_stageTransitionEnd}'
 
                     }
                 },
