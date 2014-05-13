@@ -19,6 +19,9 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+.n-icon-cloud:before {
+  content: "\e633";
+}
 .n-icon-de-aggregation:before {
   content: "\e632";
 }

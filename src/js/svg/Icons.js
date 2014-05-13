@@ -171,6 +171,11 @@
             width: 32,
             height: 32,
             font: ['\ue617', '\ue617']
+        },
+        cloud: {
+            width: 32,
+            height: 32,
+            font: ['\ue633', '\ue633']
         }
     };
 
