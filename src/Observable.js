@@ -10,22 +10,18 @@
                 if (property && property.__type__ == 'property') {
                     if (!property._watched) {
                         var setter = property.__setter__;
-                        var deps = property.getMeta('dependencies');
-                        var refs = property._refs = property._refs || [];
-                        refs.push(name);
-                        nx.each(deps, function (dep) {
-                            var depProp = this[dep];
-                            if (depProp) {
-                                var depRefs = depProp._refs = depProp._refs || [];
-                                depRefs.push(name);
-                            }
+                        var dependencies = property.getMeta('dependencies');
+                        nx.each(dependencies, function (dep) {
+                            this.watch(dep, function () {
+                                this.notify(name);
+                            }, this);
                         }, this);
 
                         property.__setter__ = function (value, params) {
                             var oldValue = this.get(name);
                             if (oldValue !== value) {
                                 if (setter.call(this, value, params) !== false) {
-                                    return this.notify(refs, oldValue);
+                                    return this.notify(name, oldValue);
                                 }
                             }
 
@@ -174,22 +170,18 @@
                 if (property && property.__type__ == 'property') {
                     if (!property._watched) {
                         var setter = property.__setter__;
-                        var deps = property.getMeta('dependencies');
-                        var refs = property._refs = property._refs || [];
-                        refs.push(name);
-                        nx.each(deps, function (dep) {
-                            var depProp = this[dep];
-                            if (depProp) {
-                                var depRefs = depProp._refs = depProp._refs || [];
-                                depRefs.push(name);
-                            }
+                        var dependencies = property.getMeta('dependencies');
+                        nx.each(dependencies, function (dep) {
+                            this.watch(dep, function () {
+                                this.notify(name);
+                            }, this);
                         }, this);
 
                         property.__setter__ = function (value, params) {
                             var oldValue = this.get(name);
                             if (oldValue !== value || (params && params.force)) {
                                 if (setter.call(this, value, params) !== false) {
-                                    return this.notify(refs, oldValue);
+                                    return this.notify(name, oldValue);
                                 }
                             }
 
