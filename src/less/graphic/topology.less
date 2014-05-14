@@ -244,12 +244,9 @@
   .group {
 
     .bg {
-      //      opacity: 0.6;
-      //      stroke-width: 10px;
-      //      stroke-linejoin: round;
-      fill: rgba(0, 0, 0, 0) !important;
-      stroke: rgba(0, 0, 0, 0) !important;
-      pointer-events: none;
+      opacity: 0.6;
+      stroke-width: 10px;
+      stroke-linejoin: round;
     }
 
     .groupLabel {
@@ -266,21 +263,39 @@
       font-size: 18px;
       font-family: "Cisco Sans Reg";
       alignment-baseline: inherit;
+      fill: @primaryColor;
     }
 
     .groupLabel:hover ~ .bg {
       opacity: 0.7;
     }
 
-    &.active {
-      .iconShape{
-        fill: @primaryColor !important;
-      }
-      .nodeSetGroupLabel{
-        fill: @primaryColor !important;
+    &.aggregationGroup {
+      opacity: 0.2;
+      .bg {
+        stroke-width: 10px;
+        stroke-linejoin: round;
+        fill:@secondaryColor;
+        stroke:@secondaryColor;
+        pointer-events: none;
+        opacity: 0;
+        -webkit-transition: all 0.5s linear; /* For Safari 3.1 to 6.0 */
+        transition: all 0.5s linear;
       }
 
+      &.active {
+        opacity: 1;
+        .bg {
+          opacity: 0.1;
+        }
+        .iconShape {
+          fill: @primaryColor !important;
+        }
+        .nodeSetGroupLabel {
+          fill: @primaryColor !important;
+        }
 
+      }
     }
 
   }

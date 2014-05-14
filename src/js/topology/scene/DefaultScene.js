@@ -198,8 +198,8 @@
                     group.draw();
                     parentNodeSet = parentNodeSet.parentNodeSet();
 
-                    group.opacity(0.6 - depth * 0.2);
-                    depth++;
+//                    group.opacity(0.6 - depth * 0.2);
+//                    depth++;
                 }
 
 
@@ -242,8 +242,8 @@
 
                     parentNodeSet = parentNodeSet.parentNodeSet();
 
-                    group.opacity(0.8 - depth * 0.2);
-                    depth++;
+//                    group.opacity(0.8 - depth * 0.2);
+//                    depth++;
                 }
 
                 if (nodeSet.group) {
@@ -351,6 +351,9 @@
                             nodeSetLayerHighlightElements.add(node);
                         }
                     });
+
+
+
 
                     this._topo.fadeOut();
                     this._groupsLayer.fadeIn();

@@ -238,8 +238,9 @@
                 }
 
 
-                this.addNodeSet(vertexSetData, vertexSetConfig, parentNodeSet);
+                var nodeSet = this.addNodeSet(vertexSetData, vertexSetConfig, parentNodeSet);
                 this.stage().resetFitMatrix();
+                return nodeSet;
             },
             /**
              * Remove a node

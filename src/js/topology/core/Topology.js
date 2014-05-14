@@ -140,11 +140,23 @@
                 },
                 {
                     name: 'img',
-                    tag: 'img'
+                    tag: 'img',
+                    props: {
+                        style: {
+                            'display': 'none'
+                        }
+                    }
                 },
                 {
                     name: 'canvas',
-                    tag: 'canvas'
+                    tag: 'canvas',
+                    props: {
+                        width: "{#width}",
+                        height: "{#height}",
+                        style: {
+                            'display': 'none'
+                        }
+                    }
                 }
 
             ],

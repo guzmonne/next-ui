@@ -14,7 +14,7 @@
         view: {
             type: 'nx.graphic.Group',
             props: {
-                'class': 'group'
+                'class': 'group aggregationGroup'
             },
             content: [
                 {
@@ -79,7 +79,11 @@
                                 }
                             }
                         }
-                    ]
+                    ],
+                    events: {
+                        'mouseenter': '{#_mouseenter}',
+                        'mouseleave': '{#_mouseleave}'
+                    }
                 },
 //                {
 //                    name: 'bg',
@@ -90,11 +94,7 @@
 //                    }
 //                }
 
-            ],
-            events: {
-                'mouseenter': '{#_mouseenter}',
-                'mouseleave': '{#_mouseleave}'
-            }
+            ]
         },
         properties: {
             nodeSet: {},
@@ -107,6 +107,11 @@
 //                    this.view('nodeIcon').dom().setStyle('opacity', opacity);
 //                    this.view('labelContainer').dom().setStyle('opacity', opacity);
                     this._opacity = value;
+                }
+            },
+            shape: {
+                get: function () {
+                    return this.view('shape');
                 }
             }
 //            color: {
@@ -142,10 +147,10 @@
                     }
                 });
                 var shape = this.view('shape');
-                shape.sets({
-                    fill: this.color()
-                });
-                shape.dom().setStyle('stroke', this.color());
+//                shape.sets({
+//                    fill: this.color()
+//                });
+//                shape.dom().setStyle('stroke', this.color());
                 //
                 shape.nodes(vectorArray);
 
@@ -177,7 +182,7 @@
 
 
                     nodeIconImg.set('iconType', this.nodeSet().iconType());
-                    nodeIconImg.set('color', this.color());
+//                    nodeIconImg.set('color', this.color());
 
                     var iconSize = nodeIconImg.size();
 
@@ -191,7 +196,7 @@
                         y: bound.top - iconSize.height * stageScale / 2 - 22 * stageScale
                     });
                     label.view().dom().setStyle('font-size', 16 * stageScale);
-                    labelContainer.view().dom().setStyle('fill', this.color());
+//                    labelContainer.view().dom().setStyle('fill', this.color());
 
                 } else {
 
@@ -205,11 +210,11 @@
                         y: bound.top - 45 * stageScale / 2
                     });
                     label.view().dom().setStyle('font-size', 16 * stageScale);
-                    labelContainer.view().dom().setStyle('fill', this.color());
+//                    labelContainer.view().dom().setStyle('fill', this.color());
                 }
 
 
-                this.view('minusIcon').color(this.color());
+//                this.view('minusIcon').color(this.color());
 
             },
             _clickLabel: function (sender, event) {

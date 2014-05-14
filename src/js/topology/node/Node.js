@@ -96,6 +96,7 @@
 //                    this.view('graphic').dom().setStyle('fill', value);
                     this.view('label').dom().setStyle('fill', value);
                     this.view('icon').set('color', value);
+                    this._color = value;
                 }
             },
             /**
