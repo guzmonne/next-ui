@@ -495,15 +495,17 @@
                     nodeSet.collapsed(false);
                     isFinished = false;
                 });
+
                 if (!isFinished) {
                     this.disableCurrentScene(true);
                     this.on('expandNodeSet', this.expandAll, this);
                 } else {
+                    this.stage().resetFitMatrix();
                     this.off('expandNodeSet', this.expandAll, this);
                     this.fit(function () {
                         setTimeout(function () {
                             this.disableCurrentScene(false);
-                        }.bind(this), 800);
+                        }.bind(this), 1200);
 
                     }, this);
 
