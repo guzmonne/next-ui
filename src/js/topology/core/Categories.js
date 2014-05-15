@@ -27,7 +27,7 @@
                 this.view().dom().removeClass('n-topology-loading');
                 this.view('loading').dom().setStyle('display', 'none');
             },
-            exprotPNG: function () {
+            exportPNG: function () {
 
                 this.fit();
 
@@ -66,6 +66,13 @@
                 var ctx = canvas.getContext("2d");
                 var revisionScale = this.revisionScale();
                 var fontSize = 32 * revisionScale;
+
+
+                ctx.fillStyle='#fff';
+                ctx.fillRect(0, 0, this.width(), this.height());
+
+
+
                 ctx.drawImage(img, 0, 0);
                 ctx.font = fontSize + "px next-font";
                 this.eachVisibleNode(function (node) {

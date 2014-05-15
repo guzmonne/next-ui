@@ -223,8 +223,8 @@
                 }
 
 
-                vertexSetData.label = config.name;
-                if (config.name == null) {
+                vertexSetData.label = config.label;
+                if (config.label == null) {
                     vertexSetData.label = [inNodes[0].label(), inNodes[inNodes.length - 1].label()].sort().join("-");
                 }
 
