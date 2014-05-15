@@ -57,7 +57,7 @@
 
                 this.fire('removeNodeSet', nodeSet);
                 nodeSet.dispose();
-                delete nodeSetCollection.removeItem(id);
+                nodeSetCollection.removeItem(id);
 
 
             },
