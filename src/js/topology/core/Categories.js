@@ -27,7 +27,7 @@
                 this.view().dom().removeClass('n-topology-loading');
                 this.view('loading').dom().setStyle('display', 'none');
             },
-            exprotPNG: function () {
+            exportPNG: function () {
 
                 this.fit();
 
