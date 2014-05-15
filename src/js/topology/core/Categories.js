@@ -53,6 +53,10 @@
                     item.style.fontSize = '12px';
                 });
 
+                nx.each(stage.querySelectorAll('.n-hidden'), function (hidden) {
+                    hidden.remove();
+                });
+
 
                 var svg = serializer.serializeToString(stage);
                 var svgString = '<svg width="' + this.width() + '" height="' + this.height() + '" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >' + svg + "</svg>";

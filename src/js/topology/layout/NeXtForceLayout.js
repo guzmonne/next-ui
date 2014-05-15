@@ -103,8 +103,7 @@
                 var matrix = stage.calcRectZoomMatrix(topo.graph().getBound(), bound);
                 var transform = nx.geometry.Vector.transform;
 
-                topo.getLayer('links').hide();
-                topo.getLayer('links').fadeIn();
+                topo.getLayer('links').view().dom().setStyle('display', 'none');
 
 
                 nx.each(data.nodes, function (n, i) {
@@ -121,13 +120,12 @@
                 }
 
                 this._timer = setTimeout(function () {
-                    topo.getLayer('links').show();
-                    topo.getLayer('links').fadeIn();
+                    topo.getLayer('links').view().dom().setStyle('display', 'block');
                     topo.adjustLayout();
                     if (callback) {
                         callback.call(topo);
                     }
-                }, 1200);
+                }, 2000);
 
 
                 // }.bind(this), 3000);
