@@ -3,19 +3,25 @@
     var CLZ = nx.define('nx.graphic.Topology.NodeSetLayer', nx.graphic.Topology.DoubleLayer, {
         statics: {
             defaultConfig: {
-                iconType: 'nodeSet'
+                iconType: 'nodeSet',
+                label: 'model.label'
             }
         },
         events: ['clickNodeSet', 'enterNodeSet', 'leaveNodeSet', 'dragNodeSetStart', 'dragNodeSet', 'dragNodeSetEnd', 'hideNodeSet', 'pressNodeSet', 'selectNodeSet', 'updateNodeSetCoordinate', 'expandNodeSet', 'collapseNodeSet', 'beforeExpandNodeSet', 'beforeCollapseNodeSet', 'updateNodeSet', 'removeNodeSet'],
         properties: {
             nodeSetArray: {
-                value: function () {
-                    return [];
+                get: function () {
+                    this.nodeSetCollection().toArray();
                 }
             },
             nodeSetMap: {
+                get: function () {
+                    this.nodeSetCollection().toObject();
+                }
+            },
+            nodeSetCollection: {
                 value: function () {
-                    return {};
+                    return new nx.data.ObservableDictionary();
                 }
             }
         },
@@ -30,13 +36,11 @@
                 }, this);
             },
             addNodeSet: function (vertexSet) {
-                var nodeSetMap = this.nodeSetMap();
-                var nodeSetArray = this.nodeSetArray();
+                var nodeSetCollection = this.nodeSetCollection();
                 var id = vertexSet.id();
                 var nodeSet = this._generateNodeSet(vertexSet);
 
-                nodeSetArray[nodeSetArray.length] = nodeSet;
-                nodeSetMap[id] = nodeSet;
+                nodeSetCollection.setItem(id, nodeSet);
                 return nodeSet;
             },
 
@@ -47,29 +51,25 @@
             },
 
             removeNodeSet: function (vertexSet) {
-                var nodeSetMap = this.nodeSetMap();
-                var nodeSetArray = this.nodeSetArray();
+                var nodeSetCollection = this.nodeSetCollection();
                 var id = vertexSet.id();
-                var nodeSet = nodeSetMap[id];
+                var nodeSet = nodeSetCollection.getItem(id);
 
                 this.fire('removeNodeSet', nodeSet);
                 nodeSet.dispose();
-                nodeSetArray.splice(nodeSetArray.indexOf(nodeSet), 1);
-                delete nodeSetMap[id];
+                delete nodeSetCollection.removeItem(id);
 
 
             },
             updateNodeSet: function (vertexSet) {
-                var nodeSetMap = this.nodeSetMap();
+                var nodeSetCollection = this.nodeSetCollection();
                 var id = vertexSet.id();
-                var nodeSet = nodeSetMap[id];
+                var nodeSet = nodeSetCollection.getItem(id);
                 this.fire('updateNodeSet', nodeSet);
             },
-            _generateNodeSet: function (vertexSet) {
+            _getNodeSetInstanceClass: function (vertexSet) {
 
-                var topo = this.topology();
 
-                //get node class
                 var Clz;
                 var nodeSetInstanceClass = topo.nodeSetInstanceClass();
                 if (nx.is(nodeSetInstanceClass, 'Function')) {
@@ -82,9 +82,16 @@
                 }
 
                 if (!Clz) {
-                    return;
+                    throw "Error on instance node set class";
                 }
+                return Clz;
 
+            },
+            _generateNodeSet: function (vertexSet) {
+                var id = vertexSet.id();
+                var topo = this.topology();
+                var stageScale = topo.stageScale();
+                var Clz = this._getNodeSetInstanceClass(vertexSet);
 
                 var nodeSet = new Clz({
                     topology: topo
@@ -93,33 +100,23 @@
                 nodeSet.attach(this.view('static'));
 
                 nodeSet.sets({
-                    'data-node-id': nodeSet.id(),
+                    'data-id': id,
                     'class': 'node nodeset',
-                    stageScale: topo.stageScale()
+                    stageScale: stageScale
                 }, topo);
 
-
-                var nodeSetConfig = nx.extend({}, CLZ.defaultConfig, topo.nodeSetConfig());
-                var label = nodeSetConfig.label;
-                delete nodeSetConfig.label;
-                delete nodeSetConfig.__owner__;
-
-                nx.each(nodeSetConfig, function (value, key) {
-                    setTimeout(function () {
-                        util.setProperty(nodeSet, key, value, topo);
-                    }, 10);
-                }, this);
+                this.updateDefaultSetting(nodeSet);
+//                setTimeout(function () {
+//                    this.updateDefaultSetting(node);
+//                }.bind(this), 0);
+                return nodeSet;
 
 
-                if (label != null) {
-                    setTimeout(function () {
-                        util.setProperty(nodeSet, 'label', label, topo);
-                    }, 10);
-                }
+            },
+            updateDefaultSetting: function (nodeSet) {
+                var topo = this.topology();
 
-                setTimeout(function () {
-                    util.setProperty(nodeSet, 'showIcon', topo.showIcon());
-                }, 10);
+
                 //register events
                 var superEvents = nx.graphic.Component.__events__;
                 nx.each(nodeSet.__events__, function (e) {
@@ -130,9 +127,17 @@
                     }
                 }, this);
 
-                nodeSet.set('data-node-id', vertexSet.id());
 
-                return nodeSet;
+                var nodeSetConfig = nx.extend({}, CLZ.defaultConfig, topo.nodeSetConfig());
+                delete nodeSetConfig.__owner__;
+
+                nx.each(nodeSetConfig, function (value, key) {
+                    util.setProperty(nodeSet, key, value, topo);
+                }, this);
+
+                util.setProperty(nodeSet, 'showIcon', topo.showIcon());
+
+
             },
             /**
              * Get node by id
@@ -141,35 +146,34 @@
              * @method getNode
              */
             getNodeSetByID: function (id) {
-                var nodeSetMap = this.nodeSetMap();
-                return nodeSetMap[id];
+                return this.nodeSetCollection().getItem(id);
             },
             /**
              * Iterate all nodeSet
              * @method eachNode
-             * @param fn
+             * @param callback
              * @param context
              */
-            eachNodeSet: function (fn, context) {
-                nx.each(this.nodeSetMap(), fn, context || this);
+            eachNodeSet: function (callback, context) {
+                this.nodeSetCollection().each(function (item, id) {
+                    var nodeSet = item.value();
+                    callback.call(context || this, nodeSet, id);
+                }, this);
             },
-            eachVisibleNodeSet: function (fn, context) {
-                nx.each(this.nodeSetMap(), function (nodeSet, id) {
+            eachVisibleNodeSet: function (callback, context) {
+                this.nodeSetCollection().each(function (item, id) {
+                    var nodeSet = item.value();
                     if (nodeSet.visible()) {
-                        fn.call(context || this, nodeSet, id);
+                        callback.call(context || this, nodeSet, id);
                     }
                 }, this);
             },
-            getNodeSet: function () {
-                return this.nodeSetArray();
-            },
             clear: function () {
-                nx.each(this.nodeSetArray(), function (nodeSet) {
+                this.eachNodeSet(function (nodeSet) {
                     nodeSet.dispose();
                 });
 
-                this.nodeSetArray([]);
-                this.nodeSetMap({});
+                this.nodeSetCollection().clear();
                 this.inherited();
             },
             dispose: function () {
