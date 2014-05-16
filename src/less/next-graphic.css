@@ -416,7 +416,7 @@
   opacity: 0.7;
 }
 .n-topology.n-topology-blue .group.aggregationGroup {
-  opacity: 0.2;
+  opacity: 0.6;
 }
 .n-topology.n-topology-blue .group.aggregationGroup .bg {
   stroke-width: 10px;
@@ -434,7 +434,7 @@
   opacity: 1;
 }
 .n-topology.n-topology-blue .group.aggregationGroup.active .bg {
-  opacity: 0.1;
+  opacity: 0.15;
 }
 .n-topology.n-topology-blue .group.aggregationGroup.active .iconShape {
   fill: #0386d2 !important;
@@ -1084,7 +1084,7 @@
   opacity: 0.7;
 }
 .n-topology.n-topology-dark .group.aggregationGroup {
-  opacity: 0.2;
+  opacity: 0.6;
 }
 .n-topology.n-topology-dark .group.aggregationGroup .bg {
   stroke-width: 10px;
@@ -1102,7 +1102,7 @@
   opacity: 1;
 }
 .n-topology.n-topology-dark .group.aggregationGroup.active .bg {
-  opacity: 0.1;
+  opacity: 0.15;
 }
 .n-topology.n-topology-dark .group.aggregationGroup.active .iconShape {
   fill: #00a9ff !important;
@@ -1752,7 +1752,7 @@
   opacity: 0.7;
 }
 .n-topology.n-topology-green .group.aggregationGroup {
-  opacity: 0.2;
+  opacity: 0.6;
 }
 .n-topology.n-topology-green .group.aggregationGroup .bg {
   stroke-width: 10px;
@@ -1770,7 +1770,7 @@
   opacity: 1;
 }
 .n-topology.n-topology-green .group.aggregationGroup.active .bg {
-  opacity: 0.1;
+  opacity: 0.15;
 }
 .n-topology.n-topology-green .group.aggregationGroup.active .iconShape {
   fill: #26999e !important;
@@ -2420,7 +2420,7 @@
   opacity: 0.7;
 }
 .n-topology.n-topology-slate .group.aggregationGroup {
-  opacity: 0.2;
+  opacity: 0.6;
 }
 .n-topology.n-topology-slate .group.aggregationGroup .bg {
   stroke-width: 10px;
@@ -2438,7 +2438,7 @@
   opacity: 1;
 }
 .n-topology.n-topology-slate .group.aggregationGroup.active .bg {
-  opacity: 0.1;
+  opacity: 0.15;
 }
 .n-topology.n-topology-slate .group.aggregationGroup.active .iconShape {
   fill: #ffffff !important;
@@ -3088,7 +3088,7 @@
   opacity: 0.7;
 }
 .n-topology.n-topology-yellow .group.aggregationGroup {
-  opacity: 0.2;
+  opacity: 0.6;
 }
 .n-topology.n-topology-yellow .group.aggregationGroup .bg {
   stroke-width: 10px;
@@ -3106,7 +3106,7 @@
   opacity: 1;
 }
 .n-topology.n-topology-yellow .group.aggregationGroup.active .bg {
-  opacity: 0.1;
+  opacity: 0.15;
 }
 .n-topology.n-topology-yellow .group.aggregationGroup.active .iconShape {
   fill: #ffc200 !important;
@@ -3633,7 +3633,7 @@
   pointer-events: none;
 }
 .n-hidden {
-  display: none;
+  display: none !important;
 }
 .clearfix:before,
 .clearfix:after {

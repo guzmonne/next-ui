@@ -11,12 +11,6 @@
 
 
     //http://www.timotheegroleau.com/Flash/experiments/easing_function_generator.htm
-//    var ease = function (t, b, c, d) {
-//        var ts = (t /= d) * t;
-//        var tc = ts * t;
-//        return b + c * (5.7475 * tc * ts + -14.3425 * ts * ts + 8.395 * tc + 1.2 * ts);
-//    };
-
 
     var ease = function (t, b, c, d) {
         var ts = (t /= d) * t;
@@ -175,11 +169,19 @@
              * @param [context]
              */
             setStyle: function (key, value, duration, callback, context) {
-                this.setTransition(callback, context, duration);
+                if (duration) {
+                    this.setTransition(callback, context, duration);
+                } else if (callback) {
+                    setTimeout(function () {
+                        callback.call(context || this);
+                    }, 0);
+                }
+
 
                 //todo optimize
                 var dom = this.dom().$dom;
                 dom.style[key] = value;
+
                 if (cssHook[key]) {
                     dom.style[cssHook[key]] = value;
                 }
@@ -239,16 +241,18 @@
             getBound: function () {
                 return this.dom().$dom.getBoundingClientRect();
             },
-
+            /**
+             * Hide component
+             * @method hide
+             */
             hide: function () {
-                if (this.view()) {
-                    this.view().dom().addClass('n-hidden');
-                }
+                this.visible(false);
             },
+            /**
+             *
+             */
             show: function () {
-                if (this.view()) {
-                    this.view().dom().removeClass('n-hidden');
-                }
+                this.visible(true);
             },
             /**
              * Set animation for element,pass a config to this function
@@ -299,7 +303,7 @@
                 if (config.complete) {
                     ani.complete(config.complete);
                 }
-                ani.on("complete", function () {
+                ani.on("complete", function fn() {
                     /**
                      * Fired when animation completed
                      * @event animationCompleted
@@ -311,32 +315,6 @@
                     delete this._ani;
                 }, this);
                 ani.start();
-            },
-            _mouseenter: function (sender, event) {
-                var element = this.dom().$dom;
-                var target = event.currentTarget, related = event.relatedTarget || event.fromElement;
-                if (target && !element.contains(related) && target !== related) {
-                    /**
-                     * Fire when mouse enter
-                     * @event mouseenter
-                     * @param sender {Object}  Trigger instance
-                     * @param event {Object} original event object
-                     */
-                    this.fire("mouseenter", event);
-                }
-            },
-            _mouseleave: function (sender, event) {
-                var element = this.dom().$dom;
-                var target = event.currentTarget, related = event.toElement || event.relatedTarget;
-                if (!element.contains(related) && target !== related) {
-                    /**
-                     * Fire when mouse leave
-                     * @event mouseenter
-                     * @param sender {Object}  Trigger instance
-                     * @param event {Object} original event object
-                     */
-                    this.fire("mouseleave", event);
-                }
             },
             _processPropertyValue: function (propertyValue) {
                 var value = propertyValue;

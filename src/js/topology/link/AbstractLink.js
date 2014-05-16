@@ -9,7 +9,7 @@
      * @module nx.graphic.Topology
      */
     nx.define('nx.graphic.Topology.AbstractLink', nx.graphic.Group, {
-        events: ['hide', 'show','remove'],
+        events: ['hide', 'show', 'remove'],
         properties: {
             /**
              * Get source node's instance
@@ -205,15 +205,28 @@
                 //
                 this.model(model);
                 //
-                model.source().watch('position', this._watchS = function (prop, value) {
+
+                //updateCoordinate
+
+                model.source().on('updateCoordinate', this._watchS = function () {
                     this.notify('sourcePosition');
                     this.update();
                 }, this);
 
-                model.target().watch('position', this._watchT = function () {
-                    this.notify('targetPosition');
+                model.target().on('updateCoordinate', this._watchS = function (prop, value) {
+                    this.notify('sourcePosition');
                     this.update();
                 }, this);
+
+//                model.source().watch('position', this._watchS = function (prop, value) {
+//                    this.notify('sourcePosition');
+//                    this.update();
+//                }, this);
+//
+//                model.target().watch('position', this._watchT = function () {
+//                    this.notify('targetPosition');
+//                    this.update();
+//                }, this);
 
                 //bind model's visible with element's visible
                 this.setBinding('visible', 'model.visible,direction=<>', this);
@@ -238,18 +251,11 @@
             dispose: function () {
                 var model = this.model();
                 if (model) {
-                    model.source().unwatch('position', this._watchS, this);
-                    model.target().unwatch('position', this._watchT, this);
+                    model.source().off('updateCoordinate', this._watchS, this);
+                    model.target().off('updateCoordinate', this._watchT, this);
                 }
                 this.fire('remove');
                 this.inherited();
-            },
-            _processPropertyValue: function (propertyValue) {
-                var value = propertyValue;
-                if (nx.is(propertyValue, 'Function')) {
-                    value = propertyValue.call(this, this.model(), this);
-                }
-                return value;
             }
         }
     });

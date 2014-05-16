@@ -335,12 +335,13 @@
                     path.push('Q', point.x, point.y, line.end.x, line.end.y);
                     d = path.join(' ');
 
-                    this.view('path').append();
-                    this.view('line').remove();
+                    this.view('path').setStyle('display', 'block');
+                    this.view('line').setStyle('display', 'none');
                     this.view('path').set('d', d);
                     this.view('path').dom().setStyle('stroke-width', width);
                 } else {
                     var lineEl = this.view('line');
+                    var pathEL = this.view('path');
                     var newLine = line.translate(offset);
                     lineEl.sets({
                         x1: newLine.start.x,
@@ -348,9 +349,20 @@
                         x2: newLine.end.x,
                         y2: newLine.end.y
                     });
-                    this.view('path').remove();
-                    this.view('line').append();
-                    this.view('line').dom().setStyle('stroke-width', width);
+                    pathEL.setStyle('display', 'none');
+                    lineEl.setStyle('display', 'block');
+                    lineEl.setStyle('stroke-width', width);
+
+//                    var path = [];
+//                    var n, point;
+//                    path.push('M', line.start.x, line.start.y);
+//                    path.push('L', line.end.x, line.end.y);
+//                    d = path.join(' ');
+//
+//                    pathEL.setStyle('display', 'block');
+//                    lineEl.setStyle('display', 'none');
+//                    pathEL.set('d', d);
+//                    lineEl.setStyle('stroke-width', width);
                 }
 
 

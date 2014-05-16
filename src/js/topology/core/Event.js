@@ -1,4 +1,15 @@
 (function (nx, global) {
+    function extractDelta(e) {
+        if (e.wheelDelta) {
+            return e.wheelDelta;
+        }
+
+        if (e.detail) {
+            return e.detail / -40;
+        }
+
+
+    }
 
     /**
      * Topology base events
@@ -20,7 +31,7 @@
             _mousewheel: function (sender, event) {
                 if (this.scalable()) {
                     var step = 8000;
-                    var data = event.wheelDelta;
+                    var data = extractDelta(event);
                     var stage = this.stage();
                     var scale = data / step;
 
@@ -124,7 +135,8 @@
                  */
                 this.fire('dragStageEnd', event);
             },
-            _stageTransitionEnd: function () {
+            _stageTransitionEnd: function (sender, event) {
+                window.event = event;
                 this.fire('stageTransitionEnd', event);
             },
             _key: function (sender, event) {

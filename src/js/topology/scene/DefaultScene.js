@@ -42,7 +42,7 @@
             dragStageStart: function (sender, event) {
                 var nodes = this._nodesLayer.nodes().length;
                 if (nodes > 300) {
-                    this._linksLayer.setStyle('display', 'none');
+                    this._linksLayer.hide();
                 }
                 this._recover();
                 this._blockEvent(true);
@@ -53,7 +53,7 @@
                 stage.applyTranslate(event.drag.delta[0], event.drag.delta[1]);
             },
             dragStageEnd: function (sender, event) {
-                this._linksLayer.setStyle('display', 'block');
+                this._linksLayer.show();
                 this._blockEvent(false);
                 nx.dom.Document.html().removeClass('n-moveCursor');
             },
@@ -117,9 +117,9 @@
             },
             dragNodeStart: function (sender, node) {
                 this._nodeDragging = true;
-                this._recover();
                 this._blockEvent(true);
                 nx.dom.Document.html().addClass('n-dragCursor');
+                setTimeout(this._recover.bind(this), 0);
             },
             dragNode: function (sender, node) {
                 this._topo._moveSelectionNodes(event, node);
@@ -352,8 +352,6 @@
                             nodeSetLayerHighlightElements.add(node);
                         }
                     });
-
-
 
 
                     this._topo.fadeOut();

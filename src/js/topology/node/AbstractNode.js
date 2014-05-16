@@ -23,23 +23,25 @@
                 },
                 set: function (obj) {
                     var isModified = false;
-                    var model = this.model();
                     if (obj.x != null && obj.x !== this._x && !this._lockXAxle) {
                         this._x = obj.x;
-                        model.set("x", obj.x);
                         this.notify("x");
                         isModified = true;
                     }
 
                     if (obj.y != null && obj.y !== this._y && !this._lockYAxle) {
                         this._y = obj.y;
-                        model.set("y", obj.y);
                         this.notify("y");
                         isModified = true;
                     }
 
-
                     if (isModified) {
+                        var model = this.model();
+                        model.position({
+                            x: this._x,
+                            y: this._y
+                        });
+
                         this.view().setTransform(this._x, this._y);
                         this.update();
                     }
