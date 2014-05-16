@@ -203,7 +203,7 @@ var MyComp = nx.define(nx.ui.Component, {
                             }
                         ]
                     },
-                    items: '{#items}'
+                    items: col
                 }
             },
             {
@@ -283,32 +283,32 @@ var MyComp = nx.define(nx.ui.Component, {
 var MyApp = nx.define(nx.ui.Application, {
     methods: {
         start: function () {
-            var comp = this._comp = new MyComp();
-            comp.attach(this);
-            comp.items(col);
-            comp.dict(dict);
+//            var comp = this._comp = new MyComp();
+//            comp.attach(this);
+//            comp.items(col);
+//            comp.dict(dict);
         }
     }
 });
 
 (new MyApp).start();
 
-//function load() {
-//    comp = new MyComp();
-//    comp.attach(app);
-//    comp.items(col);
-//
-//    setTimeout(unload, 100);
-//}
-//
-//function unload() {
-//    comp.detach();
-//    comp.destroy();
-//    comp.items(null);
-//    setTimeout(load, 100);
-//}
+function load() {
+    comp = new MyComp();
+    comp.attach(nx.app);
+    comp.items(col);
 
-//load();
+    setTimeout(unload, 100);
+}
+
+function unload() {
+    comp.detach();
+    comp.destroy();
+    comp.items(null);
+    setTimeout(load, 100);
+}
+
+load();
 
 </script>
 </body>

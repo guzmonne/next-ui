@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" href="../lib/bootstrap/css/bootstrap.css"/>
+    <script type="text/javascript"
+            src="http://10.75.161.96:8080/jenkins/job/NeXt-Core/lastSuccessfulBuild/artifact/dest/next-core.js"></script>
+    <script type="text/javascript"
+            src="http://10.75.161.96:8080/jenkins/job/NeXt-UI/lastSuccessfulBuild/artifact/dest/js/next-ui.js"></script>
+</head>
+<body>
+<svg id="viewport" style="width: 1000px;height:700px"></svg>
+<script type="text/javascript">
+    var viewport = document.getElementById('viewport');
+    var svgNS = "http://www.w3.org/2000/svg";
+
+    var Node = nx.define(nx.ui.Component, {
+        view: {
+            tag: 'svg:g',
+            props: {
+//                transform: '{#transform}'
+            },
+            content: [
+                {
+                    tag: 'svg:text'
+                },
+                {
+                    tag: 'svg:circle',
+                    props: {
+                        r: '5',
+                        fill: '#aaa',
+                        stroke: '#333'
+                    }
+                },
+                {
+                    tag: 'svg:g',
+                    content: {
+                        tag: 'svg:g',
+                        content: [
+                            {
+                                tag: 'svg:text'
+                            },
+                            {
+                                tag: 'svg:text'
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        properties: {
+            transform: null
+        },
+        methods: {
+            init: function () {
+                this.inherited();
+                this.transform('translate(' + Math.random() * 1000 + ', ' + Math.random() * 700 + ')');
+            }
+        }
+    });
+
+    var Link = nx.define({
+        methods: {
+            init: function () {
+                var line = document.createElementNS(svgNS, 'line');
+                line.setAttribute('x1', Math.random() * 1000);
+                line.setAttribute('x2', Math.random() * 1000);
+                line.setAttribute('y1', Math.random() * 700);
+                line.setAttribute('y2', Math.random() * 700);
+                line.setAttribute('stroke', '#666');
+                viewport.appendChild(line);
+            }
+        }
+    });
+
+    var App = nx.define(nx.ui.Application, {
+        methods: {
+            getContainer: function () {
+                return new nx.dom.Element(viewport);
+            },
+            start: function () {
+
+            }
+        }
+    });
+
+    var app = (new App()).start();
+
+
+    (function () {
+        var x = 10, y = 10;
+        var start, end;
+
+        start = new Date();
+        for (var i = 0; i < 10000; i++) {
+            (new Node()).attach(app);
+//            new Link();
+        }
+
+        end = new Date();
+
+        alert(end - start);
+
+//        var dragTarget = null;
+//        var positionX = 0;
+//        var positionY = 0;
+//
+//        viewport.addEventListener('mousedown', function (e) {
+//            dragTarget = e.target;
+//            positionX = e.pageX;
+//            positionY = e.pageY;
+//        });
+//
+//        viewport.addEventListener('mouseup', function (e) {
+//            dragTarget = null;
+//        });
+//
+//        viewport.addEventListener('mousemove', function (e) {
+//            if (dragTarget) {
+//                var tx = e.pageX - positionX;
+//                var ty = e.pageY - positionY;
+//                dragTarget.style.webkitTransform = 'translate(' + tx + 'px,' + ty + 'px)';
+//            }
+//        });
+    })();
+</script>
+</body>
+</html>
