@@ -139,6 +139,13 @@
                         }
                     }
                 },
+//                {
+//                    type: 'nx.graphic.Topology.Thumbnail',
+//                    props: {
+//                        width: "{#width}",
+//                        height: "{#height}"
+//                    }
+//                },
                 {
                     name: 'img',
                     tag: 'img',

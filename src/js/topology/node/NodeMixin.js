@@ -323,7 +323,11 @@
              * @returns {Array}
              */
             getNodes: function () {
-                return this.getLayer("nodes").nodes().concat(this.getLayer("nodeSet").nodeSetArray());
+                var nodeSet = this.getLayer("nodeSet").nodeSetArray();
+                var nodes = this.getLayer("nodes").nodes();
+                if (nodeSet.length != 0) {
+                    return nodes.concat(nodeSet);
+                }
             },
             /**
              * Register a customize icon

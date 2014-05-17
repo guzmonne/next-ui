@@ -185,7 +185,6 @@
                 if (cssHook[key]) {
                     dom.style[cssHook[key]] = value;
                 }
-//                this.dom().setStyle(key, value);
             },
             setTransition: function (callback, context, duration) {
                 var el = this.dom();
@@ -249,7 +248,8 @@
                 this.visible(false);
             },
             /**
-             *
+             * Show component
+             * @method show
              */
             show: function () {
                 this.visible(true);

@@ -1,6 +1,4 @@
 (function (nx, global) {
-    'use strict';
-
     /**
      * Edge set collection class
      * @class nx.data.EdgeSetCollection

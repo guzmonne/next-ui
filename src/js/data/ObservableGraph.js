@@ -61,8 +61,8 @@
             height: {
                 value: 100
             },
-            ObservableVertex: {},
-            ObservableEdge: {}
+            vertexFilter: {},
+            edgeFilter: {}
         },
         methods: {
             init: function (args) {
@@ -381,6 +381,19 @@
 
 
             _generate: function () {
+
+
+                var vertexFilter = this.vertexFilter();
+                if (vertexFilter) {
+                    nx.each(this.vertices, function (vertex, id) {
+                        if (vertex.visible()) {
+                            var result = vertexFilter(vertex, id);
+                            vertex.visible(result !== false);
+                        }
+                    }, this);
+                }
+
+
                 /**
                  * @event startGenerate
                  * @param sender {Object}  Trigger instance
