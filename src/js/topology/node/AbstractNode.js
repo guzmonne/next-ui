@@ -209,7 +209,7 @@
                 }, this);
 
 
-                this.setBinding("visible", "model.visible");
+                this.setBinding('visible', 'model.visible,direction=<>', this);
 
                 //initialize position
                 this.position({

@@ -123,6 +123,9 @@
                     this.eachEdgeSet(function (edgeSet) {
                         edgeSet.visible(value);
                     });
+                    this.eachEdgeSetCollection(function (edgeSet) {
+                        edgeSet.visible(value);
+                    });
                 }
             },
             /**

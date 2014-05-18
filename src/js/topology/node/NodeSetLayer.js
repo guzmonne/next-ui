@@ -68,9 +68,8 @@
                 this.fire('updateNodeSet', nodeSet);
             },
             _getNodeSetInstanceClass: function (vertexSet) {
-
-
                 var Clz;
+                var topo = this.topology();
                 var nodeSetInstanceClass = topo.nodeSetInstanceClass();
                 if (nx.is(nodeSetInstanceClass, 'Function')) {
                     Clz = nodeSetInstanceClass.call(this, vertexSet);
