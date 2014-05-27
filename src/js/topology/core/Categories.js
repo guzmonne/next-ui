@@ -41,8 +41,10 @@
                     icon.remove();
                 });
 
-                nx.each(stage.querySelectorAll('line.link'), function (item) {
+                nx.each(stage.querySelectorAll('.link'), function (item) {
                     item.style.stroke = '#26A1C5';
+                    item.style.fill = 'none';
+                    item.style.background = 'transparent';
                 });
 
                 nx.each(stage.querySelectorAll('line.link-set-bg'), function (item) {
@@ -51,6 +53,7 @@
 
                 nx.each(stage.querySelectorAll('text.node-label'), function (item) {
                     item.style.fontSize = '12px';
+                    item.style.fontFamily = 'Tahoma';
                 });
 
                 nx.each(stage.querySelectorAll('.n-hidden'), function (hidden) {
@@ -72,9 +75,8 @@
                 var fontSize = 32 * revisionScale;
 
 
-                ctx.fillStyle='#fff';
+                ctx.fillStyle = '#fff';
                 ctx.fillRect(0, 0, this.width(), this.height());
-
 
 
                 ctx.drawImage(img, 0, 0);

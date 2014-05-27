@@ -101,6 +101,7 @@
                     } else if (args.action == 'remove') {
                         nx.each(args.items, function (node) {
                             node.selected(false);
+                            node.off('remove', this._removeSelectedNode, this);
                         }, this);
                     } else if (args.action == "clear") {
                         nx.each(args.items, function (node) {
@@ -142,13 +143,9 @@
                 return nodeSet;
             },
             aggregationNodes: function (inNodes, inConfig) {
-
-
                 if (inNodes.length < 2) {
                     return;
                 }
-
-
                 var config = inConfig || {};
                 var vertexSetData = nx.extend({nodes: []}, config);
                 var parentNodeSet;
@@ -249,18 +246,10 @@
              * @returns {boolean}
              */
             removeNode: function (inNode) {
-                var vertex;
-                if (inNode instanceof  nx.graphic.Topology.Node) {
-                    vertex = inNode.model();
-                } else if (inNode instanceof  nx.data.Vertex) {
-                    vertex = inNode;
-                } else {
-                    vertex = this.graph().getVertex(inNode);
-                }
+                var vertex = inNode.model();
                 if (vertex) {
                     this.graph().removeVertex(vertex);
                     this.fire("removeNode");
-                    return true;
                 } else {
                     return false;
                 }
@@ -503,6 +492,7 @@
                 });
 
                 if (!isFinished) {
+                    
                     this.disableCurrentScene(true);
                     this.on('expandNodeSet', this.expandAll, this);
                 } else {

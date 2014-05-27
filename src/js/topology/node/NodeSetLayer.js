@@ -11,15 +11,15 @@
         properties: {
             nodeSetArray: {
                 get: function () {
-                    this.nodeSetCollection().toArray();
+                    this.nodeSetDictionary().toArray();
                 }
             },
             nodeSetMap: {
                 get: function () {
-                    this.nodeSetCollection().toObject();
+                    this.nodeSetDictionary().toObject();
                 }
             },
-            nodeSetCollection: {
+            nodeSetDictionary: {
                 value: function () {
                     return new nx.data.ObservableDictionary();
                 }
@@ -36,11 +36,10 @@
                 }, this);
             },
             addNodeSet: function (vertexSet) {
-                var nodeSetCollection = this.nodeSetCollection();
+                var nodeSetDictionary = this.nodeSetDictionary();
                 var id = vertexSet.id();
                 var nodeSet = this._generateNodeSet(vertexSet);
-
-                nodeSetCollection.setItem(id, nodeSet);
+                nodeSetDictionary.setItem(id, nodeSet);
                 return nodeSet;
             },
 
@@ -51,21 +50,23 @@
             },
 
             removeNodeSet: function (vertexSet) {
-                var nodeSetCollection = this.nodeSetCollection();
+                var nodeSetDictionary = this.nodeSetDictionary();
                 var id = vertexSet.id();
-                var nodeSet = nodeSetCollection.getItem(id);
-
-                this.fire('removeNodeSet', nodeSet);
-                nodeSet.dispose();
-                nodeSetCollection.removeItem(id);
-
-
+                var nodeSet = nodeSetDictionary.getItem(id);
+                if (nodeSet) {
+                    this.fire('removeNodeSet', nodeSet);
+                    nodeSet.dispose();
+                    nodeSetDictionary.removeItem(id);
+                }
             },
             updateNodeSet: function (vertexSet) {
-                var nodeSetCollection = this.nodeSetCollection();
+                var nodeSetDictionary = this.nodeSetDictionary();
                 var id = vertexSet.id();
-                var nodeSet = nodeSetCollection.getItem(id);
-                this.fire('updateNodeSet', nodeSet);
+                var nodeSet = nodeSetDictionary.getItem(id);
+                if (nodeSet) {
+                    nodeSet.update();
+                    this.fire('updateNodeSet', nodeSet);
+                }
             },
             _getNodeSetInstanceClass: function (vertexSet) {
                 var Clz;
@@ -145,7 +146,7 @@
              * @method getNode
              */
             getNodeSetByID: function (id) {
-                return this.nodeSetCollection().getItem(id);
+                return this.nodeSetDictionary().getItem(id);
             },
             /**
              * Iterate all nodeSet
@@ -154,13 +155,13 @@
              * @param context
              */
             eachNodeSet: function (callback, context) {
-                this.nodeSetCollection().each(function (item, id) {
+                this.nodeSetDictionary().each(function (item, id) {
                     var nodeSet = item.value();
                     callback.call(context || this, nodeSet, id);
                 }, this);
             },
             eachVisibleNodeSet: function (callback, context) {
-                this.nodeSetCollection().each(function (item, id) {
+                this.nodeSetDictionary().each(function (item, id) {
                     var nodeSet = item.value();
                     if (nodeSet.visible()) {
                         callback.call(context || this, nodeSet, id);
@@ -171,8 +172,7 @@
                 this.eachNodeSet(function (nodeSet) {
                     nodeSet.dispose();
                 });
-
-                this.nodeSetCollection().clear();
+                this.nodeSetDictionary().clear();
                 this.inherited();
             },
             dispose: function () {

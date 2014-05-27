@@ -110,6 +110,8 @@
                     });
                 });
 
+                topo.stage().resetFitMatrix();
+
                 this.projection(projection);
 
                 if (callback) {

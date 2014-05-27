@@ -15,21 +15,30 @@
         events: ['clickNode', 'enterNode', 'leaveNode', 'dragNodeStart', 'dragNode', 'dragNodeEnd', 'hideNode', 'pressNode', 'selectNode', 'updateNodeCoordinate'],
         properties: {
             /**
-             * Get all nodes
-             * @property nodes
+             * Get all nodes instance
+             * @property nodes {Array}
              */
             nodes: {
-                value: function () {
-                    return [];
+                get: function () {
+                    return this.nodesDictionary().toArray();
                 }
             },
             /**
-             * Get all node's map , id is key
-             * @property nodesMap
+             * Get all nodes instance map
+             * @property nodesMap {Object}
              */
             nodesMap: {
+                get: function () {
+                    return this.nodesDictionary().toObject();
+                }
+            },
+            /**
+             * Nodes observable dictionary
+             * @property nodesDictionary {nx.data.ObservableDictionary}
+             */
+            nodesDictionary: {
                 value: function () {
-                    return {};
+                    return new nx.data.ObservableDictionary();
                 }
             }
         },
@@ -38,8 +47,8 @@
                 this.inherited(args);
                 var topo = this.topology();
                 topo.watch('stageScale', this.__watchStageScaleFN = function (prop, value) {
-                    this.eachNode(function (node) {
-                        node.stageScale(value);
+                    this.nodesDictionary().each(function (item) {
+                        item.value().stageScale(value);
                     });
                 }, this);
 
@@ -51,13 +60,9 @@
              * @method addNode
              */
             addNode: function (vertex) {
-                var nodesMap = this.nodesMap();
-                var nodes = this.nodes();
                 var id = vertex.id();
                 var node = this._generateNode(vertex);
-
-                nodes[nodes.length] = node;
-                nodesMap[id] = node;
+                this.nodesDictionary().setItem(id, node);
                 return node;
             },
 
@@ -67,16 +72,21 @@
              * @param vertex
              */
             removeNode: function (vertex) {
-                var nodesMap = this.nodesMap();
-                var nodes = this.nodes();
                 var id = vertex.id();
-                var node = nodesMap[id];
-                node.dispose();
-                nodes.splice(nodes.indexOf(node), 1);
-                delete nodesMap[id];
+                var nodesDictionary = this.nodesDictionary();
+                var node = nodesDictionary.getItem(id);
+                if (node) {
+                    node.dispose();
+                    nodesDictionary.removeItem(id);
+                }
             },
             updateNode: function (vertex) {
-
+                var id = vertex.id();
+                var nodesDictionary = this.nodesDictionary();
+                var node = nodesDictionary.getItem(id);
+                if (node) {
+                    node.update();
+                }
             },
             highlightRelatedNode: function () {
             },
@@ -158,15 +168,22 @@
             /**
              * Iterate all nodes
              * @method eachNode
-             * @param fn
+             * @param callback
              * @param context
              */
-            eachNode: function (fn, context) {
-                nx.each(this.nodes(), fn, context || this);
+            eachNode: function (callback, context) {
+                this.nodesDictionary().each(function (item, id) {
+                    callback.call(context || this, item.value(), id);
+                });
             },
             //todo
-            eachVisibleNode: function (fn, context) {
-                nx.each(this.nodes(), fn, context || this);
+            eachVisibleNode: function (callback, context) {
+                this.nodesDictionary().each(function (item, id) {
+                    var node = item.value();
+                    if (node.visible()) {
+                        callback.call(context || this, node, id);
+                    }
+                }, this);
             },
             /**
              * Get node by id
@@ -175,15 +192,13 @@
              * @method getNode
              */
             getNode: function (id) {
-                var nodesMap = this.nodesMap();
-                return nodesMap[id];
+                return this.nodesDictionary().getItem(id);
             },
             clear: function () {
-                nx.each(this.nodes(), function (node) {
+                this.nodesDictionary().each(function (node) {
                     node.dispose();
                 });
-                this.nodes([]);
-                this.nodesMap({});
+                this.nodesDictionary().clear();
                 this.inherited();
 
             },
