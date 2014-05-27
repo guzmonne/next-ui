@@ -110,7 +110,7 @@
                     });
                 });
 
-                topo.stage().resetFitMatrix();
+
 
                 this.projection(projection);
 
@@ -160,6 +160,8 @@
                         .attr("class", "boundary mapBoundary")
                         .attr("d", path);
 
+
+                    topo.stage().resetFitMatrix();
                     topo.fit();
                     if (this.complete()) {
                         this.complete().call();
