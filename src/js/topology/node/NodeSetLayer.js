@@ -11,7 +11,7 @@
         properties: {
             nodeSetArray: {
                 get: function () {
-                    this.nodeSetDictionary().toArray();
+                    this.nodeSetDictionary().values();
                 }
             },
             nodeSetMap: {

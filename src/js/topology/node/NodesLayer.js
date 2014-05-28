@@ -20,7 +20,7 @@
              */
             nodes: {
                 get: function () {
-                    return this.nodesDictionary().toArray();
+                    return this.nodesDictionary().values();
                 }
             },
             /**

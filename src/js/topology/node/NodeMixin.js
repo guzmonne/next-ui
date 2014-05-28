@@ -313,9 +313,9 @@
              */
             getNodes: function () {
                 var nodeSet = this.getLayer("nodeSet").nodeSetArray();
-                var nodes = this.getLayer("nodes").nodes();
+                var nodes = this.getLayer("nodes").nodes().toArray();
                 if (nodeSet && nodeSet.length !== 0) {
-                    return nodes.concat(nodeSet);
+                    return nodes.concat(nodeSet.toArray());
                 } else {
                     return nodes;
                 }
