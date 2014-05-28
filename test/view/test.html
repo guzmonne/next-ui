@@ -1,0 +1,28 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script type="text/javascript" src="../lib/next/next-core.js"></script>
+    <script type="text/javascript" src="../src/js/Env.js"></script>
+    <script type="text/javascript" src="../src/js/dom/Node.js"></script>
+    <script type="text/javascript" src="../src/js/dom/Element.js"></script>
+    <script type="text/javascript" src="../src/js/dom/Document.js"></script>
+    <script type="text/javascript" src="../src/js/dom/Text.js"></script>
+</head>
+<body>
+<script type="text/javascript">
+    //getStyleName
+    //http://peter.sh/experiments/vendor-prefixed-css-property-overview/
+//    var rs1=nx.dom.Document.getStyleName();
+    var rs2=nx.dom.Document.getStyleName('user-select');
+    var rs3=nx.dom.Document.getStyleName('border-radius');
+    var rs4=nx.dom.Document.getStyleName('-webkit-border-radius');
+
+//    console.log(rs1);
+    console.log(rs2);
+    console.log(rs3);
+    console.log(rs4);
+</script>
+</body>
+</html>

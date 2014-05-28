@@ -1,138 +1,134 @@
 (function (nx) {
 
     /**
-     * TaskList: tasklist
-     * @class nx.task.TaskList
-     * @namespace nx.task
+     * JSON: JSON
+     * @class nx.JSON
+     * @namespace nx
      */
-    var TaskList = nx.define('nx.task.TaskList', {
-        events: ['init','running'],
+    var NXJSON = nx.define('nx.JSON', {
+        static: true,
         properties: {
-            count: {
-                value: null,
-                get: function () { return this._data.length; }
-            },
-            status: {
-                value: '',
-                get: function () { return this._status; }
-            },
-            activeTask: null,
-            lastTask: null,
-            scanDelay: 2000
+            charMaps: {
+                get: function (){
+                    return {
+                        "\b": "\\b",
+                        "\t": "\\t",
+                        "\n": "\\n",
+                        "\f": "\\f",
+                        "\r": "\\r",
+                        "\"": "\\\"",
+                        "\\": "\\\\"
+                    };
+                }
+            }
         },
         methods: {
-            init: function (config) {
-                this.sets(config);
-                this._data = [];
-                this.start();
-                this.fire('init', this);
-            },
-            reset: function (){
-                if(this._data){
-                    this._data.clear();
-                }else {
-                    this._data = [];
+            toString: function (s){
+                if (/["\\\x00-\x1f]/.test(s)) {
+                    return "\"" + s.replace(/([\x00-\x1f\\"])/g, function(a, b) {
+                        var c = this.charMaps()[b];
+                        if (c) {
+                            return c;
+                        }
+                        c = b.charCodeAt();
+                        return "\\u00" + Math.floor(c / 16).toString(16) + (c % 16).toString(16);
+                    }) + "\"";
                 }
+                return "\"" + s + "\"";
             },
-            start: function (){
-                this._status = 'started';
-                this.run();
-            },
-            run: function (){
-                this.fire('running', this);
-                this.next();
-            },
-            next: function (){
-                if (this._status!=='started'){ return; }
-                if (this.count()){
-                    this._activeTask = this._data.shift();
-                    if(this._activeTask){
-                        this._activeTask.start();
+            toArray: function (o){
+                var a = ["["], b, i, l = o.length, v;
+                for (i = 0; i < l; i += 1) {
+                    v = o[i];
+                    switch (typeof v) {
+                        case "undefined":
+                        case "function":
+                        case "unknown":
+                            break;
+                        default:
+                            if (b) {
+                                a.push(",");
+                            }
+                            a.push(v === null ? "null" : this.stringify(v));
+                            b = true;
                     }
-                }else {
-                    var _self = this;
-                    setTimeout(function (){ _self.run(); }, this.scanDelay());
+                }
+                a.push("]");
+                return a.join("");
+            },
+            toDate: function (date, split){
+                var m = date.getMonth() + 1, d = date.getDate(), m = (m <= 9 ? ("0" + m) : m);
+                var d = (d <= 9 ? ("0" + d) : d), s = split || '-';
+                return [this.getFullYear(), m, d].join(s);
+            },
+            stringify: function (o){
+                if (typeof o == "undefined" || o === null) {
+                    return "null";
+                } else {
+                    if (o instanceof Array) {
+                        return this.toArray(o);
+                    } else {
+                        if (o instanceof Date) {
+                            return this.toDate(o);
+                        } else {
+                            if (typeof o == "string") {
+                                return this.toString(o);
+                            } else {
+                                if (typeof o == "number") {
+                                    return isFinite(o) ? String(o) : "null";
+                                } else {
+                                    if (typeof o == "boolean") {
+                                        return String(o);
+                                    } else {
+                                        var a = ["{"], b, i, v;
+                                        for (i in o) {
+                                            if (!({}.hasOwnProperty ? true : false) || o.hasOwnProperty(i)) {
+                                                v = o[i];
+                                                switch (typeof v) {
+                                                    case "undefined":
+                                                    case "function":
+                                                    case "unknown":
+                                                        break;
+                                                    default:
+                                                        if (b) {
+                                                            a.push(",");
+                                                        }
+                                                        a.push(this.stringify(i), ":", v === null ? "null" : this.stringify(v));
+                                                        b = true;
+                                                }
+                                            }
+                                        }
+                                        a.push("}");
+                                        return a.join("");
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             },
-            add: function (value){
-                if(!(value instanceof nx.task.Task)&&typeof value === 'object') {
-                    value = new nx.task.Task(value);
-                }
-                if(value instanceof nx.task.Task){
-                    value.taskList(this);
-                    this._data.push(value);
-                }else {
-                    throw new Error('Error Parameter');
-                }
-            },
-            stop: function (){
-                this._status = 'stoped';
-                console.log("stoped");
-            },
-            restart: function (){
-                if (this._status!=='started'){
-                    this.start();
-                }
+            parse: function (str){
+                return eval("("+str+")");
             }
         }
     });
 
-    /**
-     * Task
-     * @class nx.task.Task
-     * @namespace nx.task
-     */
-    var Task = nx.define('nx.task.Task', {
-        events: [ 'init', 'start', 'stop', 'cancel', 'goNext', 'goPre' ],
-        properties: {
-            pre: null,
-            next: null,
-            delay: null,
-            action: null,
-            args: [],
-            context: this,
-            taskList: null,
-            status: {
-                value: '',
-                get: function () { return this._status; }
-            }
+    var _obj1 = {
+        name:'yangyxu',
+        age: 25,
+        jiguan: {
+            sheng:'HUBEI',
+            code:'456000',
+            codes: ['1001','1002']
         },
-        methods: {
-            init: function (config) {
-                this.sets(config);
-                this.fire('init', this);
-            },
-            start: function (){
-                if (this._status=='started'){ return; }
-                if (this.action()){
-                    this.action().apply(this.context(), this.args());
-                    this._status = 'started';
-                }else {
-                    this.goNext();
-                }
-                this.fire('start', this);
-            },
-            stop: function (){
-                this._status = 'stoped';
-                this.fire('stop', this);
-            },
-            cancel: function (){
-                this._status = 'cancel';
-                this.fire('cancel', this);
-            },
-            goNext: function (){
-                if (this.next()){
-                    this.next().start();
-                }
-                this.fire('goNext', this);
-            },
-            goPre: function (){
-                if (this.pre()){
-                    this.pre().start();
-                }
-                this.fire('goPre', this);
-            }
-        }
-    });
+        email: ['yangyxu@cisco.com','945758912@qq.com']
+    };
 
+
+    /*
+    console.log(NXJSON.stringify(_obj1));
+    console.log(JSON.stringify(_obj1));
+    console.log(NXJSON.parse("{name:'yangyxu',age:25,jiguan:{sheng:'HUBEI',code:'456000',codes:['1001','1002']},email:['yangyxu@cisco.com','945758912@qq.com']}"));
+    console.log(JSON.parse("{name:'yangyxu',age:25,jiguan:{sheng:'HUBEI',code:'456000',codes:['1001','1002']},email:['yangyxu@cisco.com','945758912@qq.com']}"));
+    */
 })(nx);
