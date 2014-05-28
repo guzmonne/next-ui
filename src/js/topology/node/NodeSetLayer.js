@@ -11,12 +11,12 @@
         properties: {
             nodeSetArray: {
                 get: function () {
-                    this.nodeSetDictionary().values();
+                    return this.nodeSetDictionary().values();
                 }
             },
             nodeSetMap: {
                 get: function () {
-                    this.nodeSetDictionary().toObject();
+                    return this.nodeSetDictionary().toObject();
                 }
             },
             nodeSetDictionary: {
