@@ -75,7 +75,10 @@
                     } else {
                         icon.showIcon(false);
                     }
-                    this.view('label').set('visible', value > 0.4);
+
+                    if(this._labelVisible){
+                        this.view('label').set('visible', value > 0.4);
+                    }
 
                     if (this._label != null) {
                         this.calcLabelPosition();
