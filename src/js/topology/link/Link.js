@@ -201,6 +201,7 @@
                         this.view('disableLabel').visible(true);
                         this.dom().addClass('disable');
                     }
+                    this.update();
                 }
             },
             /**
