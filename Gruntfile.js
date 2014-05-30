@@ -10,6 +10,7 @@ module.exports = function (grunt) {
         "src/js/dom/Element.js",
         "src/js/dom/Fragment.js",
         "src/js/dom/Document.js",
+        "src/js/ui/SimpleComponent.js",
         "src/js/ui/AbstractComponent.js",
         "src/js/ui/Component.js",
         "src/js/ui/Application.js"
