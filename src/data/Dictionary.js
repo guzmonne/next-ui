@@ -1,6 +1,30 @@
 (function (nx) {
     var Iterable = nx.Iterable;
 
+    var DictionaryItem = nx.define({
+        properties: {
+            key: {
+                get: function () {
+                    return this._key;
+                }
+            },
+            value: {
+                get: function () {
+                    return this._dict.getItem(this._key);
+                },
+                set: function (value) {
+                    this._dict.setItem(this._key, value);
+                }
+            }
+        },
+        methods: {
+            init: function (dict, key) {
+                this._dict = dict;
+                this._key = key;
+            }
+        }
+    });
+
     var KeyIterator = nx.define(Iterable, {
         methods: {
             init: function (dict) {
@@ -8,7 +32,7 @@
             },
             each: function (callback, context) {
                 this._dict.each(function (item) {
-                    callback.call(context, item.key);
+                    callback.call(context, item.key());
                 });
             }
         }
@@ -21,7 +45,7 @@
             },
             each: function (callback, context) {
                 this._dict.each(function (item) {
-                    callback.call(context, item.value);
+                    callback.call(context, item.value());
                 });
             }
         }
@@ -74,15 +98,13 @@
                 var map = this._map = {};
                 if (dict) {
                     nx.each(dict, function (value, key) {
-                        map[key] = {
-                            key: '' + key,
-                            value: value
-                        };
-                    });
+                        map[key] = new DictionaryItem(this, '' + key);
+                        map[key]._value = value;
+                    }, this);
                 }
 
-                this._keys = new KeyIterator(dict);
-                this._values = new ValueIterator(dict);
+                this._keys = new KeyIterator(this);
+                this._values = new ValueIterator(this);
             },
             /**
              * @method contains
@@ -99,7 +121,7 @@
              */
             getItem: function (key) {
                 var item = this._map[key];
-                return item && item.value;
+                return item && item._value;
             },
             /**
              * @method setItem
@@ -107,27 +129,27 @@
              * @param value {any}
              */
             setItem: function (key, value) {
-                var item = this._map[key];
-                if (!item) {
-                    item = this._map[key] = {
-                        key: key
-                    };
-                }
+                var item = this._map[key] = new DictionaryItem(this, '' + key);
+                item._value = value;
 
-                item.value = value;
+                return item;
             },
             /**
              * @method removeItem
              * @param key {String}
              */
             removeItem: function (key) {
+                var item = this._map[key];
                 delete this._map[key];
+                return item;
             },
             /**
              * @method clear
              */
             clear: function () {
+                var items = this.toArray();
                 this._map = {};
+                return items;
             },
             /**
              * @method each
@@ -156,7 +178,7 @@
             toObject: function () {
                 var result = {};
                 this.each(function (item) {
-                    result[item.key] = item.value;
+                    result[item.key()] = item.value();
                 });
 
                 return result;

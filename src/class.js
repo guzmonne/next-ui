@@ -303,6 +303,8 @@
         if (!exist) {
             target.__events__.push(name);
         }
+
+        return fn;
     }
 
     /**
@@ -350,7 +352,7 @@
         }
 
         var fn = target[name] = function (value, params) {
-            if (value === undefined) {
+            if (value === undefined && arguments.length === 0) {
                 return fn.__getter__.call(this, params);
             }
             else {
@@ -380,6 +382,8 @@
         if (!exist) {
             target.__properties__.push(name);
         }
+
+        return fn;
     }
 
     /**
@@ -393,7 +397,7 @@
     function extendMethod(target, name, method) {
         var exist = target[name] && target[name].__type__ == 'method';
 
-        if (target[name]) {
+        if (target[name] && target[name] !== method) {
             method.__super__ = target[name];
         }
 

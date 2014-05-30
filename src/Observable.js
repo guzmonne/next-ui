@@ -4,6 +4,37 @@
      * @namespace nx
      */
     var Observable = nx.define('nx.Observable', {
+        statics: {
+            extendProperty: function extendProperty(target, name, meta) {
+                var property = nx.Object.extendProperty(target, name, meta);
+                if (property && property.__type__ == 'property') {
+                    if (!property._watched) {
+                        var setter = property.__setter__;
+                        var dependencies = property.getMeta('dependencies');
+                        nx.each(dependencies, function (dep) {
+                            this.watch(dep, function () {
+                                this.notify(name);
+                            }, this);
+                        }, this);
+
+                        property.__setter__ = function (value, params) {
+                            var oldValue = this.get(name);
+                            if (oldValue !== value) {
+                                if (setter.call(this, value, params) !== false) {
+                                    return this.notify(name, oldValue);
+                                }
+                            }
+
+                            return false;
+                        };
+
+                        property._watched = true;
+                    }
+                }
+
+                return property;
+            }
+        },
         methods: {
             /**
              * @constructor
@@ -49,16 +80,17 @@
             /**
              * @method notify
              * @param names
+             * @param oldValue
              */
-            notify: function (names) {
+            notify: function (names, oldValue) {
                 if (names == '*') {
                     nx.each(this.__watchers__, function (value, name) {
-                        this._notify(name);
+                        this._notify(name, oldValue);
                     }, this);
                 }
                 else {
                     nx.each(nx.is(names, 'Array') ? names : [names], function (name) {
-                        this._notify(name);
+                        this._notify(name, oldValue);
                     }, this);
                 }
 
@@ -139,24 +171,22 @@
                 if (property && property.__type__ == 'property') {
                     if (!property._watched) {
                         var setter = property.__setter__;
-                        var deps = property.getMeta('dependencies');
-                        var refs = property._refs = property._refs || [];
-                        refs.push(name);
-                        nx.each(deps, function (dep) {
-                            var depProp = this[dep];
-                            if (depProp) {
-                                var depRefs = depProp._refs = depProp._refs || [];
-                                depRefs.push(name);
-                            }
+                        var dependencies = property.getMeta('dependencies');
+                        nx.each(dependencies, function (dep) {
+                            this.watch(dep, function () {
+                                this.notify(name);
+                            }, this);
                         }, this);
 
                         property.__setter__ = function (value, params) {
                             var oldValue = this.get(name);
-                            if (oldValue !== value) {
+                            if (oldValue !== value || (params && params.force)) {
                                 if (setter.call(this, value, params) !== false) {
-                                    this.notify(refs);
+                                    return this.notify(name, oldValue);
                                 }
                             }
+
+                            return false;
                         };
 
                         property._watched = true;
@@ -183,11 +213,11 @@
                     }
                 }
             },
-            _notify: function (name) {
+            _notify: function (name, oldValue) {
                 var map = this.__watchers__;
                 nx.each(map[name], function (watcher) {
                     if (watcher && watcher.handler) {
-                        watcher.handler.call(watcher.context, name, this.get(name), watcher.owner);
+                        watcher.handler.call(watcher.context, name, this.get(name), oldValue, watcher.owner);
                     }
                 }, this);
             }
@@ -407,7 +437,7 @@
                     }
 
                     if (direction[1] == '>') {
-                        if (target.watch) {
+                        if (target.watch && target.watch.__type__ === 'method') {
                             target.watch(targetPath, this._onTargetChanged = function (property, value) {
                                 var actualValue = value;
                                 if (converter) {
@@ -438,14 +468,14 @@
 
                     oldSource = watcher.source;
 
-                    if (oldSource && oldSource.unwatch) {
+                    if (oldSource && oldSource.unwatch && oldSource.unwatch.__type__ === 'method') {
                         oldSource.unwatch(key, handler, this);
                     }
 
                     watcher.source = newSource;
 
                     if (newSource) {
-                        if (newSource.watch) {
+                        if (newSource.watch && newSource.watch.__type__ === 'method') {
                             newSource.watch(key, handler, this);
                         }
 

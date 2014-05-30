@@ -23,10 +23,7 @@
                 var map = this._map;
                 if (key in map) {
                     var oldItem = map[key];
-                    var newItem = map[key] = {
-                        key: key,
-                        value: value
-                    };
+                    var newItem = this.inherited(key, value);
                     this.fire('change', {
                         action: 'replace',
                         oldItem: oldItem,
@@ -34,10 +31,7 @@
                     });
                 }
                 else {
-                    var item = map[key] = {
-                        key: key,
-                        value: value
-                    };
+                    var item = this.inherited(key, value);
                     this.notify('count');
                     this.fire('change', {
                         action: 'add',
@@ -65,12 +59,11 @@
              * @method clear
              */
             clear: function () {
-                var result = this._map;
-                this._map = {};
+                var items = this.inherited();
                 this.notify('count');
                 this.fire('change', {
                     action: 'clear',
-                    items: this.toArray()
+                    items: items
                 });
             }
         }
