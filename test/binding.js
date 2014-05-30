@@ -92,7 +92,7 @@ nx.define("test.DependBindingClass", nx.Observable, {
         prop3: {
             dependencies: ["simple.prop1", "simple.prop2"],
             update: function (prop1, prop2) {
-                this.set(prop1 + prop2);
+                this.prop3(prop1 + prop2);
             }
         }
     }
