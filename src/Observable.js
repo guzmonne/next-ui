@@ -9,8 +9,8 @@
              * @constructor
              */
             init: function () {
-                this.__bindings__ = {};
-                this.__watchers__ = {};
+                this.__bindings__ = this.__bindings__ || {};
+                this.__watchers__ = this.__watchers__ || {};
             },
             /**
              * Dispose current object.
@@ -86,7 +86,8 @@
                 if (nx.is(expr, 'String')) {
                     var tokens = expr.split(',');
                     var path = tokens[0];
-                    var i = 1, length = tokens.length;
+                    var i = 1,
+                        length = tokens.length;
 
                     for (; i < length; i++) {
                         var pair = tokens[i].split('=');
@@ -164,7 +165,8 @@
             },
             _unwatch: function (name, handler, context) {
                 var map = this.__watchers__;
-                var watchers = map[name], watcher;
+                var watchers = map[name],
+                    watcher;
 
                 if (watchers) {
                     if (handler) {
@@ -310,8 +312,10 @@
                     var converter = this.converter();
                     var targetMember = target[targetPath];
                     var watchers = this._watchers = [];
-                    var keys = this._keys = sourcePath.split('.'), key;
-                    var i = 0, length = keys.length;
+                    var keys = this._keys = sourcePath.split('.'),
+                        key;
+                    var i = 0,
+                        length = keys.length;
                     var self = this;
 
                     if (targetMember) {
@@ -424,7 +428,8 @@
             },
             _rebind: function (index, value) {
                 var watchers = this._watchers;
-                var newSource = value, oldSource;
+                var newSource = value,
+                    oldSource;
 
                 for (var i = index, length = watchers.length; i < length; i++) {
                     var watcher = watchers[i];

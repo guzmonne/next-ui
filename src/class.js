@@ -12,8 +12,7 @@
      * @class nx.Object
      * @constructor
      */
-    function NXObject() {
-    }
+    function NXObject() {}
 
     var NXPrototype = NXObject.prototype = {
         constructor: NXObject,
@@ -162,9 +161,11 @@
          */
         on: function (name, handler, context) {
             var map = this.__listeners__;
-            var listeners = map[name] = map[name] || [
-                {owner: null, handler: null, context: null}
-            ];
+            var listeners = map[name] = map[name] || [{
+                owner: null,
+                handler: null,
+                context: null
+            }];
 
             listeners.push({
                 owner: this,
@@ -180,7 +181,8 @@
          * @param [context] {Object}
          */
         off: function (name, handler, context) {
-            var listeners = this.__listeners__[name], listener;
+            var listeners = this.__listeners__[name],
+                listener;
             if (listeners) {
                 if (handler) {
                     context = context || this;
@@ -206,9 +208,11 @@
          */
         upon: function (name, handler, context) {
             var map = this.__listeners__;
-            var listeners = map[name] = map[name] || [
-                {owner: null, handler: null, context: null}
-            ];
+            var listeners = map[name] = map[name] || [{
+                owner: null,
+                handler: null,
+                context: null
+            }];
 
             listeners[0] = {
                 owner: this,
@@ -223,7 +227,8 @@
          * @param [data] {*}
          */
         fire: function (name, data) {
-            var listeners = this.__listeners__[name], listener, result;
+            var listeners = this.__listeners__[name],
+                listener, result;
             if (listeners) {
                 for (var i = 0, length = listeners.length; i < length; i++) {
                     listener = listeners[i];
@@ -279,9 +284,11 @@
         var exist = target[eventName] && target[eventName].__type__ == 'event';
         var fn = target[eventName] = function (handler, context) {
             var map = this.__listeners__;
-            var listeners = map[name] = map[name] || [
-                {owner: null, handler: null, context: null}
-            ];
+            var listeners = map[name] = map[name] || [{
+                owner: null,
+                handler: null,
+                context: null
+            }];
 
             listeners[0] = {
                 owner: this,
@@ -307,16 +314,35 @@
      * @param meta {Object}
      */
     function extendProperty(target, name, meta) {
+        if (nx.is(meta, nx.keyword.internal.Binding) || !nx.is(meta, "Object")) {
+            meta = {
+                value: meta
+            };
+        }
         var defaultValue;
         var exist = target[name] && target[name].__type__ == 'property';
-        if (nx.is(meta, 'Object')) {
-            defaultValue = meta.value;
+        if (meta.dependencies) {
+            if (nx.is(meta.dependencies, "String")) {
+                meta.dependencies = meta.dependencies.split(",");
+            }
+            defaultValue = nx.keyword.binding({
+                source: meta.dependencies,
+                async: true,
+                callback: function () {
+                    if (meta.update) {
+                        meta.update.apply(this, arguments);
+                    }
+                    if (nx.is(meta.value, "Function")) {
+                        target.set(name, meta.value.apply(this, arguments));
+                    }
+                    else if (!meta.update && !meta.value) {
+                        target.set(name, arguments[0]);
+                    }
+                }
+            });
         }
         else {
-            defaultValue = meta;
-            meta = {
-                value: defaultValue
-            };
+            defaultValue = meta.value;
         }
 
         if (target[name] && meta.inherits) {
@@ -470,8 +496,17 @@
             }
 
             nx.each(Class.__defaults__, function (value, name) {
-                Class['_' + name] = nx.is(value, 'Function') ? value.call(this) : value;
-            }, this);
+                if (nx.is(value, "Function")) {
+                    this["_" + name] = value.call(this);
+                }
+                else if (nx.is(value, nx.keyword.internal.Binding)) {
+                    // FIXME memory leak
+                    value.apply(this, name);
+                }
+                else {
+                    this["_" + name] = value;
+                }
+            }, Class);
 
             if (methods.init) {
                 methods.init.call(Class);
@@ -482,6 +517,8 @@
                 var mixins = this.__mixins__;
                 this.__id__ = instanceId++;
                 this.__listeners__ = {};
+                this.__bindings__ = this.__bindings__ || {};
+                this.__watchers__ = this.__watchers__ || {};
 
                 this.__initializing__ = true;
 
@@ -493,7 +530,16 @@
                 }
 
                 nx.each(Class.__defaults__, function (value, name) {
-                    this['_' + name] = nx.is(value, 'Function') ? value.call(this) : value;
+                    if (nx.is(value, "Function")) {
+                        this["_" + name] = value.call(this);
+                    }
+                    else if (nx.is(value, nx.keyword.internal.Binding)) {
+                        // FIXME memory leak
+                        value.apply(this, name);
+                    }
+                    else {
+                        this["_" + name] = value;
+                    }
                 }, this);
 
                 if (this.__ctor__) {
@@ -503,8 +549,7 @@
                 this.__initializing__ = false;
             };
 
-            SuperClass = function () {
-            };
+            SuperClass = function () {};
 
             SuperClass.prototype = sup.prototype;
             prototype = new SuperClass();
