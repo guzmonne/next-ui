@@ -49,7 +49,7 @@
                 }
             },
             absolutePosition: {
-                dependencies: ['position'],
+                //                dependencies: ['position'],
                 get: function () {
                     var position = this.position();
                     var topoMatrix = this.topology().matrix();
@@ -61,14 +61,12 @@
                 }
             },
             matrix: {
-                dependencies: ['position'],
+                //                dependencies: ['position'],
                 get: function () {
                     var position = this.position();
                     var stageScale = this.stageScale();
                     return [
-                        [stageScale, 0, 0],
-                        [0, stageScale, 0],
-                        [position.x, position.y, 1]
+                        [stageScale, 0, 0], [0, stageScale, 0], [position.x, position.y, 1]
                     ];
                 }
             },
@@ -77,7 +75,7 @@
              * @property  vector
              */
             vector: {
-                dependencies: ['position'],
+                //                dependencies: ['position'],
                 get: function () {
                     return new Vector(this.x(), this.y());
                 }
@@ -87,12 +85,14 @@
              * @property  x
              */
             x: {
-                dependencies: ['position'],
+                //                dependencies: ['position'],
                 get: function () {
                     return this._x || 0;
                 },
                 set: function (value) {
-                    return this.position({x: parseFloat(value)});
+                    return this.position({
+                        x: parseFloat(value)
+                    });
                 }
             },
             /**
@@ -100,12 +100,14 @@
              * @property  y
              */
             y: {
-                dependencies: ['position'],
+                //                dependencies: ['position'],
                 get: function () {
                     return this._y || 0;
                 },
                 set: function (value) {
-                    return this.position({y: parseFloat(value)});
+                    return this.position({
+                        y: parseFloat(value)
+                    });
                 }
             },
             /**
@@ -228,7 +230,10 @@
              */
             move: function (x, y) {
                 var position = this.position();
-                this.position({x: position.x + x || 0, y: position.y + y || 0});
+                this.position({
+                    x: position.x + x || 0,
+                    y: position.y + y || 0
+                });
             },
             /**
              * Move to a position
@@ -241,7 +246,10 @@
              */
             moveTo: function (x, y, callback, isAnimated, duration) {
                 if (isAnimated !== false) {
-                    var obj = {to: {}, duration: duration || 400};
+                    var obj = {
+                        to: {},
+                        duration: duration || 400
+                    };
                     obj.to.x = x;
                     obj.to.y = y;
 
@@ -249,8 +257,12 @@
                         obj.complete = callback;
                     }
                     this.animate(obj);
-                } else {
-                    this.position({x: x, y: y});
+                }
+                else {
+                    this.position({
+                        x: x,
+                        y: y
+                    });
                 }
             },
             /**
@@ -344,7 +356,8 @@
                     var node = topo.getNode(id);
                     if (node) {
                         fn.call(context || this, topo.getNode(id), id);
-                    } else {
+                    }
+                    else {
                         //console.log(id);
                     }
 
