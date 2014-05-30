@@ -10,6 +10,16 @@ var nx = {
     }).call(null)
 };
 
+if (!Function.prototype.bind) {
+    Function.prototype.bind = function (context) {
+        var f = this;
+        return function () {
+            return f.apply(context, arguments);
+        };
+    };
+}
+
+
 (function (nx) {
     /**
      * @class nx
