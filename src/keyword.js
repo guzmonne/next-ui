@@ -87,6 +87,7 @@
                         update.apply(target, values);
                     };
                     for (i = 0; i < deps.length; i++) {
+                        /* jslint -W083 */
                         (function (idx) {
                             vals[idx] = nx.path(target, deps[idx]);
                             var unwatcher = single(target, deps[idx], function (path, value) {
@@ -94,7 +95,6 @@
                                 notify(deps[idx]);
                             });
                             unwatchers.push(unwatcher);
-                            /* jslint -W083 */
                         })(i);
                     }
                     return {
