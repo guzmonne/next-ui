@@ -94,6 +94,7 @@
                                 notify(deps[idx]);
                             });
                             unwatchers.push(unwatcher);
+			    /* jslint -W083 */
                         })(i);
                     }
                     return {
@@ -136,7 +137,7 @@
                         watching.notify();
                         return watching;
                     }
-                }
+                };
                 return Binding;
             })()
         }
