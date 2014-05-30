@@ -4,6 +4,7 @@ module.exports = function (grunt) {
     var srcFiles = [
         "src/base.js",
         "src/class.js",
+	"src/keyword.js",
         "src/Comparable.js",
         "src/Deferrable.js",
         "src/Iterable.js",
