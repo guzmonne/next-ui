@@ -331,14 +331,15 @@
                 source: meta.dependencies,
                 async: true,
                 callback: function () {
+                    var owner = this.owner;
                     if (meta.update) {
-                        meta.update.apply(this, arguments);
+                        meta.update.apply(owner, arguments);
                     }
                     if (nx.is(meta.value, "Function")) {
-                        target.set(name, meta.value.apply(this, arguments));
+                        owner.set(name, meta.value.apply(owner, arguments));
                     }
                     else if (!meta.update && !meta.value) {
-                        target.set(name, arguments[0]);
+                        owner.set(name, arguments[0]);
                     }
                 }
             });
