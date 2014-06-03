@@ -547,6 +547,18 @@
                     }
                 }, this);
 
+                nx.each(Class.__properties__, function (name) {
+                    var meta = this[name].__meta__,
+                        watcher = meta.watcher;
+                    if (watcher) {
+                        if (nx.is(watcher, "String")) {
+                            watcher = this[watcher];
+                        }
+                        this.watch(name, watcher.bind(this));
+                        watcher.call(this, name, this[name].call(this));
+                    }
+                }, this);
+
                 if (this.__ctor__) {
                     this.__ctor__.apply(this, arguments);
                 }
