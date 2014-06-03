@@ -524,6 +524,7 @@
                 this.__listeners__ = {};
                 this.__bindings__ = this.__bindings__ || {};
                 this.__watchers__ = this.__watchers__ || {};
+                this.__keyword_bindings__ = this.__keyword_bindings__ || [];
 
                 this.__initializing__ = true;
 
@@ -540,7 +541,8 @@
                     }
                     else if (nx.is(value, nx.keyword.internal.Binding)) {
                         // FIXME memory leak
-                        value.apply(this, name);
+                        // FIXME bind order
+                        this.__keyword_bindings__.push(value.apply(this, name));
                     }
                     else {
                         this["_" + name] = value;
@@ -562,6 +564,10 @@
                 if (this.__ctor__) {
                     this.__ctor__.apply(this, arguments);
                 }
+
+                nx.each(this.__keyword_bindings__, function (binding) {
+                    binding.notify();
+                });
 
                 this.__initializing__ = false;
             };

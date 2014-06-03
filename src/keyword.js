@@ -134,7 +134,6 @@
                                 binding.set(rslt);
                             }
                         }.bind(this));
-                        watching.notify();
                         return watching;
                     }
                 };
