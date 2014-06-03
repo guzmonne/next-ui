@@ -13,8 +13,7 @@
              */
             matrixInversion: {
                 dependencies: ["matrix"],
-                get: function () {
-                    var matrix = this.matrix();
+                value: function (matrix) {
                     if (!matrix) {
                         return null;
                     }
@@ -23,10 +22,10 @@
             },
             transform_internal_: {
                 dependencies: ["matrix"],
-                get: function () {
-                    var matrix = this.matrix();
+                value: function (matrix) {
                     if (matrix) {
-                        var scale = NaN, rotate = NaN;
+                        var scale = NaN,
+                            rotate = NaN;
                         if (nx.geometry.Matrix.isometric(matrix)) {
                             scale = Math.sqrt(matrix[0][0] * matrix[0][0] + matrix[0][1] * matrix[0][1]);
                             rotate = matrix[0][1] > 0 ? Math.acos(matrix[0][0] / scale) : -Math.acos(matrix[0][0] / scale);
@@ -37,7 +36,8 @@
                             scale: scale,
                             rotate: rotate
                         };
-                    } else {
+                    }
+                    else {
                         return {
                             x: 0,
                             y: 0,
@@ -49,7 +49,7 @@
             },
             x: {
                 get: function () {
-                    return  this._x !== undefined ? this._x : this.transform_internal_().x;
+                    return this._x !== undefined ? this._x : this.transform_internal_().x;
                 },
                 set: function (value) {
                     this._applyTransform("x", value);
@@ -62,7 +62,7 @@
             },
             y: {
                 get: function () {
-                    return  this._y !== undefined ? this._y : this.transform_internal_().y;
+                    return this._y !== undefined ? this._y : this.transform_internal_().y;
                 },
                 set: function (value) {
                     this._applyTransform("y", value);
@@ -75,7 +75,7 @@
             },
             scale: {
                 get: function () {
-                    return  this._scale !== undefined ? this._scale : this.transform_internal_().scale;
+                    return this._scale !== undefined ? this._scale : this.transform_internal_().scale;
                 },
                 set: function (v) {
                     this._applyTransform("scale", v);
@@ -88,7 +88,7 @@
             },
             rotate: {
                 get: function () {
-                    return  this._rotate !== undefined ? this._rotate : this.transform_internal_().rotate;
+                    return this._rotate !== undefined ? this._rotate : this.transform_internal_().rotate;
                 },
                 set: function (v) {
                     this._applyTransform("rotate", v);
@@ -123,7 +123,8 @@
                         [0, 1, 0],
                         [accord[0], accord[1], 1]
                     ]));
-                } else {
+                }
+                else {
                     this.matrix(nx.geometry.Matrix.multiply(this.matrix(), [
                         [s, 0, 0],
                         [0, s, 0],
@@ -132,7 +133,10 @@
                 }
             },
             applyRotate: function (r, accord) {
-                var x = this.x(), y = this.y(), sinr = sin(r), cosr = cos(r);
+                var x = this.x(),
+                    y = this.y(),
+                    sinr = sin(r),
+                    cosr = cos(r);
                 if (accord) {
                     this.matrix(nx.geometry.Matrix.multiply(this.matrix(), [
                         [1, 0, 0],
@@ -147,7 +151,8 @@
                         [0, 1, 0],
                         [accord[0], accord[1], 1]
                     ]));
-                } else {
+                }
+                else {
                     this.matrix(nx.geometry.Matrix.multiply(this.matrix(), [
                         [cos, sin, 0],
                         [-sin, cos, 0],
@@ -173,20 +178,21 @@
                 if (value === this.transform_internal_()[key]) {
                     this["_" + key] = value;
                     this.notify(key);
-                } else {
+                }
+                else {
                     switch (key) {
-                        case "x":
-                            this.applyTranslate(value - this.transform_internal_().x, 0);
-                            break;
-                        case "y":
-                            this.applyTranslate(0, value - this.transform_internal_().y);
-                            break;
-                        case "scale":
-                            this.applyScale(value / this.transform_internal_().scale, [this.transform_internal_().x, this.transform_internal_().y]);
-                            break;
-                        case "rotate":
-                            this.applyRotate(value - this.transform_internal_().rotate, [this.transform_internal_().x, this.transform_internal_().y]);
-                            break;
+                    case "x":
+                        this.applyTranslate(value - this.transform_internal_().x, 0);
+                        break;
+                    case "y":
+                        this.applyTranslate(0, value - this.transform_internal_().y);
+                        break;
+                    case "scale":
+                        this.applyScale(value / this.transform_internal_().scale, [this.transform_internal_().x, this.transform_internal_().y]);
+                        break;
+                    case "rotate":
+                        this.applyRotate(value - this.transform_internal_().rotate, [this.transform_internal_().x, this.transform_internal_().y]);
+                        break;
                     }
                 }
             },
