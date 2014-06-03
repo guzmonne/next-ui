@@ -525,6 +525,7 @@
                 this.__bindings__ = this.__bindings__ || {};
                 this.__watchers__ = this.__watchers__ || {};
                 this.__keyword_bindings__ = this.__keyword_bindings__ || [];
+                this.__keyword_watchers__ = this.__keyword_watchers__ || {};
 
                 this.__initializing__ = true;
 
@@ -557,7 +558,7 @@
                             watcher = this[watcher];
                         }
                         this.watch(name, watcher.bind(this));
-                        watcher.call(this, name, this[name].call(this));
+                        this.__keyword_watchers__[name] = watcher;
                     }
                 }, this);
 
@@ -565,9 +566,13 @@
                     this.__ctor__.apply(this, arguments);
                 }
 
+                nx.each(this.__keyword_watchers__, function (watcher, name) {
+                    watcher.call(this, name, this[name].call(this));
+                }, this);
+
                 nx.each(this.__keyword_bindings__, function (binding) {
                     binding.notify();
-                });
+                }, this);
 
                 this.__initializing__ = false;
             };
