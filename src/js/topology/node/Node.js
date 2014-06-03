@@ -76,7 +76,7 @@
                         icon.showIcon(false);
                     }
 
-                    if(this._labelVisible){
+                    if (this._labelVisible) {
                         this.view('label').set('visible', value > 0.4);
                     }
 
@@ -175,7 +175,26 @@
                     }
                 }
             },
-            parentNodeSet: {}
+            parentNodeSet: {
+                get: function () {
+                    var vertexSet = this.model().parentVertexSet();
+                    if (vertexSet) {
+                        return this.topology().getNode(vertexSet.id());
+                    } else {
+                        return null;
+                    }
+                }
+            },
+            rootParentNodeSet: {
+                get: function () {
+                    var vertexSet = this.model().generatedRootVertexSet();
+                    if (vertexSet) {
+                        return this.topology().getNode(vertexSet.id());
+                    } else {
+                        return null;
+                    }
+                }
+            }
         },
         view: {
             type: 'nx.graphic.Group',
@@ -393,7 +412,7 @@
                 var vectors = [];
 
 
-                vertex.eachEdgeSet(function (edgeSet) {
+                nx.each(vertex.edgeSets(), function (edgeSet) {
                     if (edgeSet.sourceID() !== vertexID) {
                         vectors.push(edgeSet.line().dir.negate());
                     } else {
@@ -401,11 +420,11 @@
                     }
                 }, this);
 
-                vertex.eachEdgeSetCollection(function (edgeSet) {
-                    if (edgeSet.sourceID() !== vertexID) {
-                        vectors.push(edgeSet.line().dir.negate());
+                nx.each(vertex.edgeSetCollections(), function (esc) {
+                    if (esc.sourceID() !== vertexID) {
+                        vectors.push(esc.line().dir.negate());
                     } else {
-                        vectors.push(edgeSet.line().dir);
+                        vectors.push(esc.line().dir);
                     }
                 }, this);
 

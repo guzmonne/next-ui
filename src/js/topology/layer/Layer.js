@@ -64,16 +64,6 @@
                 this._fade = _force;
             },
             /**
-             * Fade in layer
-             * @method fadeIn
-             * @param force {Boolean} force recover all items
-             * @param [callback] {Function} callback after fade out
-             * @param [context] {Object} callback context
-             */
-            recover: function (force, callback, context) {
-                this.fadeIn(force, callback, context);
-            },
-            /**
              * Fade in layer's fade statues
              * @param force {Boolean} force recover all items
              * @param [callback] {Function} callback after fade out
@@ -87,6 +77,16 @@
 
                 el.setStyle('opacity', 1, 0, callback, context);
                 delete this._fade;
+            },
+            /**
+             * Fade in layer
+             * @method fadeIn
+             * @param force {Boolean} force recover all items
+             * @param [callback] {Function} callback after fade out
+             * @param [context] {Object} callback context
+             */
+            recover: function (force, callback, context) {
+                this.fadeIn(force, callback, context);
             },
             /**
              * clear layer's content

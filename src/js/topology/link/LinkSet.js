@@ -20,7 +20,7 @@
              */
             linkType: {
                 get: function () {
-                    return this._linkType !== undefined ? this._linkType : 'parallel';
+                    return this._linkType || 'parallel';
                 },
                 set: function (inValue) {
                     var value = this._processPropertyValue(inValue);
@@ -39,9 +39,9 @@
              */
             links: {
                 get: function () {
-                    var links = [];
-                    this.eachLink(function (link, edge) {
-                        links.push(link);
+                    var links = {};
+                    this.eachLink(function (link, id) {
+                        links[id] = link;
                     }, this);
                     return links;
                 }
@@ -91,17 +91,7 @@
                 value: false
             },
             activated: {
-                get: function () {
-                    return this._activated !== undefined ? this._activated : true;
-                },
-                set: function (value) {
-                    if (this._activated !== value) {
-                        this._activated = value;
-                        return true;
-                    } else {
-                        return false;
-                    }
-                }
+                value: true
             }
         },
         view: {
@@ -151,7 +141,6 @@
         methods: {
             setModel: function (model, isUpdate) {
                 this.inherited(model, isUpdate);
-                this._activated = model.activated();
                 this.setBinding('activated', 'model.activated,direction=<>', this);
             },
             update: function () {
@@ -174,7 +163,6 @@
              */
             updateLinkSet: function () {
                 var value = this._processPropertyValue(this.collapsedRule());
-                this._activated = !value;
                 this.activated(value);
                 if (value) {
                     this.append();
@@ -202,27 +190,23 @@
             /**
              * Iterate all sub links
              * @method eachLink
-             * @param fn {Function}
+             * @param callback {Function}
              * @param context {Object}
              */
-            eachLink: function (fn, context) {
+            eachLink: function (callback, context) {
                 var topo = this.topology();
-                this.model().eachEdge(function (edge) {
-                    var linkKey = edge.linkKey();
-                    var link;
-                    if (edge.type() == 'edge') {
-                        link = topo.getLink(edge.id());
-                    } else {
-                        link = topo.getLinkSetByLinkKey(linkKey);
-                    }
+                var model = this.model();
+
+                nx.each(model.edges(), function (edge, id) {
+                    var link = topo.getLink(id);
                     if (link) {
-                        fn.call(context || this, link, edge);
+                        callback.call(context || this, link, id);
                     }
                 });
             },
 
             _updateLinkNumber: function () {
-                var edges = this.model().getEdges();
+                var edges = Object.keys(this.model().edges());
                 var numEl = this.view('num');
                 var numBg = this.view('numBg');
                 if (edges.length == 1) {
@@ -249,14 +233,11 @@
             _updateLinksOffset: function () {
                 if (!this._activated) {
                     var obj = {};
-                    this.eachLink(function (link, edge) {
+                    this.eachLink(function (link, id) {
+                        var edge = link.model();
                         var linkKey = edge.linkKey();
-                        if (edge.type() == 'edge') {
-                            var ary = obj[linkKey] = obj[linkKey] || [];
-                            ary.push(link);
-                        } else {
-                            link.updateLinkSet();
-                        }
+                        var ary = obj[linkKey] = obj[linkKey] || [];
+                        ary.push(link);
                     }, this);
 
                     nx.each(obj, function (links, linkKey) {

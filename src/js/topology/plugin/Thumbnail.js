@@ -116,16 +116,13 @@
 
                 var width = topo.width() * 0.2;
                 var height = topo.height() * 0.2;
-                var translateX = 0 //topo.matrix().x() * 0.2;
-                var translateY = 0//topo.matrix().y() * 0.2;
+                var translateX = 0;
+                var translateY = 0;
                 var canvas = this.view('canvas').dom().$dom;
                 var ctx = canvas.getContext("2d");
                 ctx.clearRect(0, 0, width * 2, height * 2);
 
-                debugger;
-
-
-                topo.eachVisibleNode(function (node) {
+                topo.eachNode(function (node) {
                     ctx.fillStyle = '#26A1C5';
                     ctx.fillRect(node.x() * 0.2 + translateX, node.y() * 0.2 + translateY, 3, 3);
                 });

@@ -1,6 +1,6 @@
 (function (nx, global) {
     var util = nx.util;
-    var CLZ = nx.define('nx.graphic.Topology.NodeSetLayer', nx.graphic.Topology.DoubleLayer, {
+    var CLZ = nx.define('nx.graphic.Topology.NodeSetLayer', nx.graphic.Topology.TripleLayer, {
         statics: {
             defaultConfig: {
                 iconType: 'nodeSet',
@@ -9,9 +9,9 @@
         },
         events: ['clickNodeSet', 'enterNodeSet', 'leaveNodeSet', 'dragNodeSetStart', 'dragNodeSet', 'dragNodeSetEnd', 'hideNodeSet', 'pressNodeSet', 'selectNodeSet', 'updateNodeSetCoordinate', 'expandNodeSet', 'collapseNodeSet', 'beforeExpandNodeSet', 'beforeCollapseNodeSet', 'updateNodeSet', 'removeNodeSet'],
         properties: {
-            nodeSetArray: {
+            nodeSets: {
                 get: function () {
-                    return this.nodeSetDictionary().values();
+                    return this.nodeSetDictionary().values().toArray();
                 }
             },
             nodeSetMap: {
@@ -34,24 +34,23 @@
                         nodeSet.stageScale(value);
                     });
                 }, this);
+
+                topo.watch('revisionScale', this.__watchRevisionScale = function (prop, value) {
+                    this.eachNodeSet(function (nodeSet) {
+                        nodeSet.revisionScale(value);
+                    }, this);
+                }, this);
+
             },
             addNodeSet: function (vertexSet) {
-                var nodeSetDictionary = this.nodeSetDictionary();
                 var id = vertexSet.id();
                 var nodeSet = this._generateNodeSet(vertexSet);
-                nodeSetDictionary.setItem(id, nodeSet);
+                this.nodeSetDictionary().setItem(id, nodeSet);
                 return nodeSet;
             },
 
-            updateNodeRevisionScale: function (value) {
-                this.eachVisibleNodeSet(function (nodeSet) {
-                    nodeSet.revisionScale(value);
-                }, this);
-            },
-
-            removeNodeSet: function (vertexSet) {
+            removeNodeSet: function (id) {
                 var nodeSetDictionary = this.nodeSetDictionary();
-                var id = vertexSet.id();
                 var nodeSet = nodeSetDictionary.getItem(id);
                 if (nodeSet) {
                     this.fire('removeNodeSet', nodeSet);
@@ -59,9 +58,8 @@
                     nodeSetDictionary.removeItem(id);
                 }
             },
-            updateNodeSet: function (vertexSet) {
+            updateNodeSet: function (id) {
                 var nodeSetDictionary = this.nodeSetDictionary();
-                var id = vertexSet.id();
                 var nodeSet = nodeSetDictionary.getItem(id);
                 if (nodeSet) {
                     nodeSet.update();
@@ -105,9 +103,8 @@
                     stageScale: stageScale
                 }, topo);
 
-                this.updateDefaultSetting(nodeSet);
 //                setTimeout(function () {
-//                    this.updateDefaultSetting(node);
+                this.updateDefaultSetting(nodeSet);
 //                }.bind(this), 0);
                 return nodeSet;
 
@@ -145,7 +142,7 @@
              * @returns {*}
              * @method getNode
              */
-            getNodeSetByID: function (id) {
+            getNodeSet: function (id) {
                 return this.nodeSetDictionary().getItem(id);
             },
             /**
@@ -160,14 +157,6 @@
                     callback.call(context || this, nodeSet, id);
                 }, this);
             },
-            eachVisibleNodeSet: function (callback, context) {
-                this.nodeSetDictionary().each(function (item, id) {
-                    var nodeSet = item.value();
-                    if (nodeSet.visible()) {
-                        callback.call(context || this, nodeSet, id);
-                    }
-                }, this);
-            },
             clear: function () {
                 this.eachNodeSet(function (nodeSet) {
                     nodeSet.dispose();
@@ -178,6 +167,7 @@
             dispose: function () {
                 this.clear();
                 this.topology().unwatch('stageScale', this.__watchStageScaleFN, this);
+                this.topology().unwatch('revisionScale', this.__watchRevisionScale, this);
                 this.inherited();
             }
         }

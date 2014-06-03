@@ -218,15 +218,16 @@
 //                    this.update();
 //                }, this);
 
-                model.source().watch('position', this._watchS = function (prop, value) {
-                    this.notify('sourcePosition');
-                    this.update();
-                }, this);
+//                model.source().watch('position', this._watchS = function (prop, value) {
+//                    this.notify('sourcePosition');
+//                    this.update();
+//                }, this);
+//
+//                model.target().watch('position', this._watchT = function () {
+//                    this.notify('targetPosition');
+//                    this.update();
+//                }, this);
 
-                model.target().watch('position', this._watchT = function () {
-                    this.notify('targetPosition');
-                    this.update();
-                }, this);
 
                 //bind model's visible with element's visible
                 this.setBinding('visible', 'model.visible,direction=<>', this);
@@ -242,18 +243,18 @@
              * @method update
              */
             update: function () {
-                this.notify('centerPoint');
-                this.notify('line');
-                this.notify('position');
-                this.notify('targetVector');
-                this.notify('sourceVector');
+//                this.notify('centerPoint');
+//                this.notify('line');
+//                this.notify('position');
+//                this.notify('targetVector');
+//                this.notify('sourceVector');
             },
             dispose: function () {
-                var model = this.model();
-                if (model) {
-                    model.source().unwatch('position', this._watchS, this);
-                    model.target().unwatch('position', this._watchT, this);
-                }
+//                var model = this.model();
+//                if (model) {
+//                    model.source().unwatch('position', this._watchS, this);
+//                    model.target().unwatch('position', this._watchT, this);
+//                }
                 this.fire('remove');
                 this.inherited();
             }

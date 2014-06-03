@@ -10,6 +10,7 @@
 
     var Line = nx.geometry.Line;
     nx.define('nx.data.Edge', nx.data.ObservableObject, {
+        events: ['updateCoordinate'],
         properties: {
             /**
              * Source vertex
@@ -38,22 +39,6 @@
              */
             targetID: {
                 value: null
-            },
-            /**
-             * Set/get edge's visibility
-             * @property visible {Boolean}
-             * @default true
-             */
-            visible: {
-                get: function () {
-                    return this._visible !== undefined ? this._visible : true;
-                },
-                set: function (value) {
-                    if (this._visible !== undefined && this._visible !== value) {
-                        this.updated(true);
-                    }
-                    this._visible = value;
-                }
             },
             /**
              * Edge's linkkey, linkkey = sourceID-targetID
@@ -154,6 +139,17 @@
              */
             getData: function () {
                 return this._data;
+            },
+            initialize: function () {
+                this.source().on('updateCoordinate', this._updateCoordinate, this);
+                this.target().on('updateCoordinate', this._updateCoordinate, this);
+            },
+            _updateCoordinate: function () {
+                this.fire('updateCoordinate');
+            },
+            dispose: function () {
+                this.source().off('updateCoordinate', this._updateCoordinate, this);
+                this.target().off('updateCoordinate', this._updateCoordinate, this);
             }
         }
     });

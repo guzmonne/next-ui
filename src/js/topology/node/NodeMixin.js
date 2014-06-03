@@ -1,12 +1,15 @@
 (function (nx, global) {
 
+    var util = nx.util;
+
+
     /**
      * Node mixin class
      * @class nx.graphic.Topology.NodeMixin
      * @module nx.graphic.Topology
      */
     nx.define("nx.graphic.Topology.NodeMixin", {
-        events: ['addNode', 'addNodeSet', 'removeNode'],
+        events: ['addNode', 'removeNode', 'addNodeSet'],
         properties: {
             /**
              * Node instance class name, support function
@@ -84,6 +87,9 @@
                 value: function () {
                     return new nx.data.ObservableCollection();
                 }
+            },
+            aggregationRule: {
+
             }
 
         },
@@ -126,6 +132,23 @@
             },
 
             /**
+             * Remove a node
+             * @method removeNode
+             * @param arg
+             * @returns {boolean}
+             */
+            removeNode: function (arg) {
+                var id = arg;
+                if (nx.is(arg, nx.graphic.Topology.AbstractNode)) {
+                    id = arg.id();
+                }
+                var node = this.getNode(id);
+                if (node) {
+                    this.fire("removeNode", node);
+                    this.graph().removeVertex(id);
+                }
+            },
+            /**
              * Add a nodeSet
              * @method addNodeSet
              * @param obj
@@ -142,6 +165,21 @@
                 this.fire("addNodeSet", nodeSet);
                 return nodeSet;
             },
+            removeNodeSet: function (arg) {
+                var id = arg;
+                if (nx.is(arg, nx.graphic.Topology.AbstractNode)) {
+                    id = arg.id();
+                }
+                var inNodeSet = this.getNode(id);
+                if (inNodeSet) {
+                    if (inNodeSet.activated()) {
+                        inNodeSet.activated(false);
+                    }
+                    //this.fire("removeNode", node);
+                    this.graph().removeVertexSet(id);
+                }
+
+            },
             aggregationNodes: function (inNodes, inConfig) {
                 if (inNodes.length < 2) {
                     return;
@@ -151,10 +189,9 @@
                 var parentNodeSet;
                 var isSameParentNodeSet = true;
 
+                //check different parent nodeSet aggregate
                 nx.each(inNodes, function (node) {
-
                     var _parentNodeSet = node.parentNodeSet();
-
                     if (_parentNodeSet) {
                         // get the first parentNodeSet
                         if (!parentNodeSet) {
@@ -172,13 +209,13 @@
                     return;
                 }
 
-                //increment aggregate
+                //check incremental aggregate
 
                 if (parentNodeSet && parentNodeSet.activated() === false) {
                     var _nodes = inNodes.slice(0);
                     var isIncrementAggregate = true;
 
-                    parentNodeSet.eachVisibleSubNode(function (node) {
+                    nx.each(parentNodeSet.nodes(), function (node) {
                         if (_nodes.indexOf(node) == -1) {
                             isIncrementAggregate = false;
                         } else {
@@ -188,7 +225,7 @@
 
                     // if select nodes in a same group
                     if (_nodes.length === 0) {
-                        if (nx.util.values(parentNodeSet.visibleSubNodes()).length == inNodes.length) {
+                        if (nx.util.values(parentNodeSet.nodes()).length == inNodes.length) {
                             return;
                         }
                     }
@@ -202,7 +239,7 @@
                     }
                 }
 
-
+                //check extra node aggregate into a nodeSet
                 if (parentNodeSet) {
                     var includeExtraNode = false;
                     nx.each(inNodes, function (node) {
@@ -219,6 +256,14 @@
                     }
                 }
 
+
+                var aggregationRule = this.aggregationRule();
+                if (aggregationRule && nx.is(aggregationRule, 'Function')) {
+                    var result = aggregationRule.call(this, inNodes, inConfig);
+                    if (result === false) {
+                        return;
+                    }
+                }
 
                 vertexSetData.label = config.label;
                 if (config.label == null) {
@@ -239,28 +284,6 @@
                 this.stage().resetFitMatrix();
                 return nodeSet;
             },
-            /**
-             * Remove a node
-             * @method removeNode
-             * @param inNode
-             * @returns {boolean}
-             */
-            removeNode: function (inNode) {
-                var vertex = inNode.model();
-                if (vertex) {
-                    this.graph().removeVertex(vertex);
-                    this.fire("removeNode");
-                } else {
-                    return false;
-                }
-            },
-            removeNodeSet: function (inNodeSet) {
-                if (inNodeSet.activated()) {
-                    inNodeSet.activated(false);
-                }
-                var vertexSet = inNodeSet.model();
-                this.graph().removeVertexSet(vertexSet);
-            },
 
             deleteNode: function (inNode) {
                 var model = inNode.model().getData();
@@ -278,25 +301,12 @@
             /**
              * Traverse each node
              * @method eachNode
-             * @param fn
+             * @param callback
              * @param context
              */
-            eachNode: function (fn, context) {
-                this.getLayer("nodes").eachNode(fn, context || this);
-                this.getLayer("nodeSet").eachNodeSet(fn, context || this);
-            },
-            /**
-             * Iterate all visible nodes
-             * @method eachNode
-             * @param fn
-             * @param context
-             */
-            eachVisibleNode: function (fn, context) {
-                this.eachNode(function (node) {
-                    if (node.visible()) {
-                        fn.call(context || this, node);
-                    }
-                }, this);
+            eachNode: function (callback, context) {
+                this.getLayer("nodes").eachNode(callback, context || this);
+                this.getLayer("nodeSet").eachNodeSet(callback, context || this);
             },
             /**
              * Get node by node id
@@ -305,17 +315,17 @@
              * @returns {*}
              */
             getNode: function (id) {
-                return this.getLayer("nodes").getNode(id) || this.getLayer("nodeSet").getNodeSetByID(id);
+                return this.getLayer("nodes").getNode(id) || this.getLayer("nodeSet").getNodeSet(id);
             },
             /**
              * Get all visible nodes
              * @returns {Array}
              */
             getNodes: function () {
-                var nodeSet = this.getLayer("nodeSet").nodeSetArray();
-                var nodes = this.getLayer("nodes").nodes().toArray();
-                if (nodeSet && nodeSet.length !== 0) {
-                    return nodes.concat(nodeSet.toArray());
+                var nodes = this.getLayer("nodes").nodes();
+                var nodeSets = this.getLayer("nodeSet").nodeSets();
+                if (nodeSets && nodeSets.length !== 0) {
+                    return nodes.concat(nodeSets);
                 } else {
                     return nodes;
                 }
@@ -354,48 +364,75 @@
              * @param node
              */
             highlightRelatedNode: function (node) {
-                var layer = this.getLayer('nodes');
+                var nodeSetLayer = this.getLayer('nodeSet');
+                var nodeLayer = this.getLayer('nodes');
 
+                //highlight node
                 if (nx.is(node, 'nx.graphic.Topology.NodeSet')) {
-                    layer = this.getLayer('nodeSet');
+                    nodeSetLayer.highlightedElements().add(node);
+                } else {
+                    nodeLayer.highlightedElements().add(node);
                 }
-                layer.highlightedElements().add(node);
 
 
+                // highlight connected nodes and nodeSets
                 node.eachConnectedNode(function (n) {
-                    layer.highlightedElements().add(n);
+                    if (nx.is(n, 'nx.graphic.Topology.NodeSet')) {
+                        nodeSetLayer.highlightedElements().add(n);
+                    } else {
+                        nodeLayer.highlightedElements().add(n);
+                    }
                 }, this);
 
 
-                this.getLayer('linkSet').highlightLinkSetArray(node.getLinkSet());
+                // highlight connected links and linkSets
+                this.getLayer('linkSet').highlightLinkSets(util.values(node.linkSets()));
+                this.getLayer('links').highlightLinks(util.values(node.links()));
                 this.getLayer('linkSet').fadeOut();
                 this.getLayer('links').fadeOut();
 
-//                this.getLayer('links').highlightLinks(node.getLinks());
-//                this.getLayer('links').fadeOut();
-
-
-                layer.fadeOut();
+                // fade Out layer
+                nodeSetLayer.fadeOut();
+                nodeLayer.fadeOut();
             },
             /**
              * Batch action, highlight node and related nodes and connected links.
              * @param node
              */
             activeRelatedNode: function (node) {
-                var layer = this.getLayer('nodes');
-                if (nx.is(node, 'nx.graphic.Topology.NodeSet')) {
-                    layer = this.getLayer('nodeSet');
-                }
-                layer.activeElements().add(node);
 
+
+                var nodeSetLayer = this.getLayer('nodeSet');
+                var nodeLayer = this.getLayer('nodes');
+
+                // active node
+                if (nx.is(node, 'nx.graphic.Topology.NodeSet')) {
+                    nodeSetLayer.activeElements().add(node);
+                } else {
+                    nodeLayer.activeElements().add(node);
+                }
+
+
+                // highlight connected nodes and nodeSets
                 node.eachConnectedNode(function (n) {
-                    layer.activeElements().add(n);
+                    if (nx.is(n, 'nx.graphic.Topology.NodeSet')) {
+                        nodeSetLayer.activeElements().add(n);
+                    } else {
+                        nodeLayer.activeElements().add(n);
+                    }
                 }, this);
 
-                this.getLayer('linkSet').activeLinkSetArray(node.getLinkSet());
-                this.getLayer('links').activeLinks(node.getLinks());
 
-                this.fadeOut();
+                // highlight connected links and linkSets
+                this.getLayer('linkSet').activeLinkSets(util.values(node.linkSets()));
+                this.getLayer('links').activeLinks(util.values(node.links()));
+                this.getLayer('linkSet').fadeOut();
+                this.getLayer('links').fadeOut();
+
+                // fade Out layer
+                nodeSetLayer.fadeOut();
+                nodeLayer.fadeOut();
+
             },
             /**
              * Get the bound of passing node's
@@ -486,13 +523,13 @@
             expandAll: function () {
                 var nodeSetLayer = this.getLayer('nodeSet');
                 var isFinished = true;
-                nodeSetLayer.eachVisibleNodeSet(function (nodeSet) {
+                nodeSetLayer.eachNodeSet(function (nodeSet) {
                     nodeSet.collapsed(false);
                     isFinished = false;
                 });
 
                 if (!isFinished) {
-                    
+
                     this.disableCurrentScene(true);
                     this.on('expandNodeSet', this.expandAll, this);
                 } else {

@@ -7,7 +7,7 @@
      * @extend nx.graphic.Topology.Layer
      *
      */
-    var CLZ = nx.define('nx.graphic.Topology.NodesLayer', nx.graphic.Topology.DoubleLayer, {
+    var CLZ = nx.define('nx.graphic.Topology.NodesLayer', nx.graphic.Topology.TripleLayer, {
         statics: {
             defaultConfig: {
             }
@@ -20,7 +20,7 @@
              */
             nodes: {
                 get: function () {
-                    return this.nodesDictionary().values();
+                    return this.nodeDictionary().values().toArray();
                 }
             },
             /**
@@ -29,14 +29,14 @@
              */
             nodesMap: {
                 get: function () {
-                    return this.nodesDictionary().toObject();
+                    return this.nodeDictionary().toObject();
                 }
             },
             /**
              * Nodes observable dictionary
-             * @property nodesDictionary {nx.data.ObservableDictionary}
+             * @property nodeDictionary {nx.data.ObservableDictionary}
              */
-            nodesDictionary: {
+            nodeDictionary: {
                 value: function () {
                     return new nx.data.ObservableDictionary();
                 }
@@ -45,11 +45,18 @@
         methods: {
             attach: function (args) {
                 this.inherited(args);
+
                 var topo = this.topology();
                 topo.watch('stageScale', this.__watchStageScaleFN = function (prop, value) {
-                    this.nodesDictionary().each(function (item) {
+                    this.nodeDictionary().each(function (item) {
                         item.value().stageScale(value);
                     });
+                }, this);
+
+                topo.watch('revisionScale', this.__watchRevisionScale = function (prop, value) {
+                    this.nodeDictionary().each(function (item) {
+                        item.value().revisionScale(value);
+                    }, this);
                 }, this);
 
 
@@ -62,39 +69,31 @@
             addNode: function (vertex) {
                 var id = vertex.id();
                 var node = this._generateNode(vertex);
-                this.nodesDictionary().setItem(id, node);
+                this.nodeDictionary().setItem(id, node);
                 return node;
             },
 
             /**
              * Remove node
              * @method removeNode
-             * @param vertex
+             * @param id
              */
-            removeNode: function (vertex) {
-                var id = vertex.id();
-                var nodesDictionary = this.nodesDictionary();
-                var node = nodesDictionary.getItem(id);
+            removeNode: function (id) {
+                var nodeDictionary = this.nodeDictionary();
+                var node = nodeDictionary.getItem(id);
                 if (node) {
                     node.dispose();
-                    nodesDictionary.removeItem(id);
+                    nodeDictionary.removeItem(id);
                 }
             },
-            updateNode: function (vertex) {
-                var id = vertex.id();
-                var nodesDictionary = this.nodesDictionary();
-                var node = nodesDictionary.getItem(id);
+            updateNode: function (id) {
+                var nodeDictionary = this.nodeDictionary();
+                var node = nodeDictionary.getItem(id);
                 if (node) {
                     node.update();
                 }
             },
             highlightRelatedNode: function () {
-            },
-
-            updateNodeRevisionScale: function (value) {
-                this.eachVisibleNode(function (node) {
-                    node.revisionScale(value);
-                }, this);
             },
             //get node instance class
             _getNodeInstanceClass: function (vertex) {
@@ -172,18 +171,9 @@
              * @param context
              */
             eachNode: function (callback, context) {
-                this.nodesDictionary().each(function (item, id) {
+                this.nodeDictionary().each(function (item, id) {
                     callback.call(context || this, item.value(), id);
                 });
-            },
-            //todo
-            eachVisibleNode: function (callback, context) {
-                this.nodesDictionary().each(function (item, id) {
-                    var node = item.value();
-                    if (node.visible()) {
-                        callback.call(context || this, node, id);
-                    }
-                }, this);
             },
             /**
              * Get node by id
@@ -192,19 +182,20 @@
              * @method getNode
              */
             getNode: function (id) {
-                return this.nodesDictionary().getItem(id);
+                return this.nodeDictionary().getItem(id);
             },
             clear: function () {
-                this.nodesDictionary().each(function (node) {
+                this.eachNode(function (node) {
                     node.dispose();
                 });
-                this.nodesDictionary().clear();
+                this.nodeDictionary().clear();
                 this.inherited();
 
             },
             dispose: function () {
                 this.clear();
                 this.topology().unwatch('stageScale', this.__watchStageScaleFN, this);
+                this.topology().unwatch('revisionScale', this.__watchRevisionScale, this);
                 this.inherited();
             }
         }

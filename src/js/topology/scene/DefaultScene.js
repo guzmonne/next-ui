@@ -194,7 +194,7 @@
                 while (parentNodeSet && parentNodeSet.group) {
                     var group = parentNodeSet.group;
                     group.nodes().clear();
-                    group.nodes().addRange(nx.util.values(parentNodeSet.visibleSubNodes()));
+                    group.nodes().addRange(nx.util.values(parentNodeSet.nodes()));
                     group.draw();
                     parentNodeSet = parentNodeSet.parentNodeSet();
 
@@ -208,12 +208,13 @@
                 clearTimeout(this._sceneTimer);
                 this._recover();
                 this._topo.stage().resetFitMatrix();
-                this._topo.zoomByNodes(nodeSet.nodes(), function () {
+                this._topo.zoomByNodes(nx.util.values(nodeSet.nodes()), function () {
                     nodeSet.group = this._groupsLayer.addGroup({
                         shapeType: 'nodeSetPolygon',
                         nodeSet: nodeSet,
-                        nodes: nx.util.values(nodeSet.visibleSubNodes()),
-                        label: nodeSet.label()
+                        nodes: nx.util.values(nodeSet.nodes()),
+                        label: nodeSet.label(),
+                        color: '#9BB150'
                     });
                     var parentNodeSet = nodeSet.parentNodeSet();
                     while (parentNodeSet && parentNodeSet.group) {
@@ -222,10 +223,11 @@
                     }
 
                     this._blockEvent(false);
+                    this._topo.adjustLayout();
 
                 }, this, 1.5);
 
-                this._topo.adjustLayout();
+                //
             },
             beforeCollapseNodeSet: function (sender, nodeSet) {
                 this._blockEvent(true);
@@ -238,7 +240,7 @@
                 while (parentNodeSet && parentNodeSet.group) {
                     var group = parentNodeSet.group;
                     group.nodes().clear();
-                    group.nodes().addRange(nx.util.values(parentNodeSet.visibleSubNodes()));
+                    group.nodes().addRange(nx.util.values(parentNodeSet.nodes()));
 
                     parentNodeSet = parentNodeSet.parentNodeSet();
 
@@ -256,7 +258,7 @@
 
 
                 if (parentNodeSet) {
-                    this._topo.zoomByNodes(parentNodeSet.nodes(), function () {
+                    this._topo.zoomByNodes(nx.util.values(parentNodeSet.nodes()), function () {
                         this._blockEvent(false);
 
                     }, this, 1.5);
@@ -281,7 +283,7 @@
             updateNodeSet: function (sender, nodeSet) {
                 if (nodeSet.group) {
                     nodeSet.group.nodes().clear();
-                    nodeSet.group.nodes().addRange(nx.util.values(nodeSet.visibleSubNodes()));
+                    nodeSet.group.nodes().addRange(nx.util.values(nodeSet.nodes()));
                 }
 
             },
@@ -345,7 +347,7 @@
                     var ns = group.nodeSet();
                     var nodeLayerHighlightElements = this._nodesLayer.highlightedElements();
                     var nodeSetLayerHighlightElements = this._nodeSetLayer.highlightedElements();
-                    ns.eachVisibleSubNode(function (node) {
+                    nx.each(ns.nodes(), function (node) {
                         if (node.model().type() == 'vertex') {
                             nodeLayerHighlightElements.add(node);
                         } else {

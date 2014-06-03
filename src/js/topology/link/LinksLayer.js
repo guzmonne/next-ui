@@ -8,7 +8,7 @@
      * @extend nx.graphic.Topology.Layer
      */
 
-    var CLZ = nx.define('nx.graphic.Topology.LinksLayer', nx.graphic.Topology.DoubleLayer, {
+    var CLZ = nx.define('nx.graphic.Topology.LinksLayer', nx.graphic.Topology.TripleLayer, {
         statics: {
             defaultConfig: {
                 linkType: 'parallel',
@@ -20,22 +20,19 @@
         },
         events: ['pressLink', 'clickLink', 'enterLink', 'leaveLink'],
         properties: {
-            /**
-             * Links collection
-             * @property links
-             */
             links: {
-                value: function () {
-                    return [];
+                get: function () {
+                    return this.linkDictionary().values().toArray();
                 }
             },
-            /**
-             * Links id : value map
-             * @property linksMap
-             */
-            linksMap: {
+            linkMap: {
+                get: function () {
+                    return this.linkDictionary().toObject();
+                }
+            },
+            linkDictionary: {
                 value: function () {
-                    return {};
+                    return new nx.data.ObservableDictionary();
                 }
             }
         },
@@ -56,36 +53,30 @@
              */
 
             addLink: function (edge) {
-                var links = this.links();
-                var linksMap = this.linksMap();
                 var id = edge.id();
                 var link = this._generateLink(edge);
-                links[links.length] = link;
-                linksMap[id] = link;
+                this.linkDictionary().setItem(id, link);
                 return link;
+            },
+            /**
+             * Remove a link
+             * @param id {String}
+             */
+            removeLink: function (id) {
+                var linkDictionary = this.linkDictionary();
+                var link = linkDictionary.getItem(id);
+                if (link) {
+                    link.dispose();
+                    linkDictionary.removeItem(id);
+                }
             },
             /**
              * Update link
              * @method updateLink
-             * @param edge {nx.data.edge}
+             * @param id {String}
              */
-            updateLink: function (edge) {
-                this.getLink(edge.id()).update();
-            },
-            /**
-             * Remove a link
-             * @param edge {nx.data.Edge}
-             */
-            removeLink: function (edge) {
-                var linksMap = this.linksMap();
-                var links = this.links();
-                var id = edge.id();
-                var link = linksMap[id];
-                if (link) {
-                    link.dispose();
-                    links.splice(links.indexOf(link), 1);
-                    delete linksMap[id];
-                }
+            updateLink: function (id) {
+                this.linkDictionary().getItem(id).update();
             },
 
             _generateLink: function (edge) {
@@ -103,14 +94,12 @@
                     'data-id': id
                 });
 
-                this._stageScale = topo.stageScale();
+                link._stageScale = topo.stageScale();
 
 
-
-
-                setTimeout(function () {
-                    this.updateDefaultSetting(link);
-                }.bind(this), 0);
+//                setTimeout(function () {
+                this.updateDefaultSetting(link);
+//                }.bind(this), 0);
 
                 return link;
 
@@ -150,12 +139,14 @@
 
             /**
              * Traverse all links
-             * @param fn
+             * @param callback
              * @param context
              * @method eachLink
              */
-            eachLink: function (fn, context) {
-                nx.each(this.linksMap(), fn, context || this);
+            eachLink: function (callback, context) {
+                this.linkDictionary().each(function (item, id) {
+                    callback.call(context || this, item.value(), id);
+                });
             },
             /**
              * Get link by id
@@ -163,7 +154,7 @@
              * @returns {*}
              */
             getLink: function (id) {
-                return this.linksMap()[id];
+                return this.linkDictionary().getItem(id);
             },
             /**
              * Highlight links
@@ -171,28 +162,21 @@
              * @param links {Array} links array
              */
             highlightLinks: function (links) {
-                var highlightedElements = this.highlightedElements();
-                nx.each(links, function (link) {
-                    highlightedElements.add(link);
-                }, this);
+                this.highlightedElements().addRange(links);
             },
             activeLinks: function (links) {
-                var activeElements = this.activeElements();
-                nx.each(links, function (link) {
-                    activeElements.add(link);
-                }, this);
+                this.activeElements().addRange(links);
             },
             /**
              * Clear links layer
              * @method clear
              */
             clear: function () {
-                nx.each(this.links(), function (link) {
+                this.eachLink(function (link) {
                     link.dispose();
                 });
 
-                this.links([]);
-                this.linksMap({});
+                this.linkDictionary().clear();
                 this.inherited();
             },
             dispose: function () {

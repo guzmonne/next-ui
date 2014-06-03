@@ -33,7 +33,7 @@
                 var data = {nodes: [], links: []};
                 var nodeMap = {}, linkMap = {};
 
-                topo.eachVisibleNode(function (node) {
+                topo.eachNode(function (node) {
                     nodeMap[node.id()] = data.nodes.length;
                     data.nodes.push({
                         id: node.id()

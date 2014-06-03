@@ -43,13 +43,11 @@
                         });
 
                         this.view().setTransform(this._x, this._y);
-                        this.update();
                     }
-                    return isModified;
                 }
             },
             absolutePosition: {
-                dependencies: ['position'],
+                //dependencies: ['position'],
                 get: function () {
                     var position = this.position();
                     var topoMatrix = this.topology().matrix();
@@ -61,7 +59,7 @@
                 }
             },
             matrix: {
-                dependencies: ['position'],
+                //dependencies: ['position'],
                 get: function () {
                     var position = this.position();
                     var stageScale = this.stageScale();
@@ -77,7 +75,7 @@
              * @property  vector
              */
             vector: {
-                dependencies: ['position'],
+                //dependencies: ['position'],
                 get: function () {
                     return new Vector(this.x(), this.y());
                 }
@@ -87,7 +85,7 @@
              * @property  x
              */
             x: {
-                dependencies: ['position'],
+                ////dependencies: ['position'],
                 get: function () {
                     return this._x || 0;
                 },
@@ -100,7 +98,7 @@
              * @property  y
              */
             y: {
-                dependencies: ['position'],
+                ////dependencies: ['position'],
                 get: function () {
                     return this._y || 0;
                 },
@@ -170,6 +168,33 @@
             },
             showIcon: {
                 value: true
+            },
+            links: {
+                get: function () {
+                    var links = {};
+                    this.eachLink(function (link, id) {
+                        links[id] = link;
+                    });
+                    return links;
+                }
+            },
+            linkSets: {
+                get: function () {
+                    var linkSets = {};
+                    this.eachLinkSet(function (linkSet, linkKey) {
+                        linkSets[linkKey] = linkSet;
+                    });
+                    return linkSets;
+                }
+            },
+            connectedNodes: {
+                get: function () {
+                    var nodes = {};
+                    this.eachConnectedNode(function (node, id) {
+                        nodes[id] = node;
+                    });
+                    return nodes;
+                }
             }
         },
         view: {
@@ -212,10 +237,7 @@
                 this.setBinding('visible', 'model.visible,direction=<>', this);
 
                 //initialize position
-                this.position({
-                    x: model.get("x"),
-                    y: model.get("y")
-                });
+                this.position(model.position());
             },
             update: function () {
 
@@ -266,101 +288,49 @@
             /**
              * Iterate  all connected links to this node
              * @method eachLink
-             * @param fn
+             * @param callback
              * @param context
              */
-            eachLink: function (fn, context) {
+            eachLink: function (callback, context) {
                 var model = this.model();
                 var topo = this.topology();
-                model.eachEdge(function (edge) {
-                    var id = edge.get('id');
-                    var link = topo.getLink(id);
-                    if (link) {
-                        fn.call(context || topo, link);
-                    }
-                }, this);
+                //todo
+
+                this.eachLinkSet(function (linkSet) {
+                    linkSet.eachLink(callback, context || this);
+                });
+
             },
-            /**
-             * Get all links connect to this node
-             * @returns {Array}
-             * @method getLinks
-             */
-            getLinks: function () {
-                var ary = [];
-                this.eachLink(function (link) {
-                    ary[ary.length] = link;
-                }, this);
-                return ary;
-            },
-            eachLinkSet: function (fn, context) {
+            eachLinkSet: function (callback, context) {
                 var model = this.model();
                 var topo = this.topology();
-                model.eachEdgeSet(function (edgeSet, linkKey) {
+                nx.each(model.edgeSets(), function (edgeSet, linkKey) {
                     var linkSet = topo.getLinkSetByLinkKey(linkKey);
                     if (linkSet) {
-                        fn.call(context || this, linkSet, edgeSet);
+                        callback.call(context || this, linkSet, linkKey);
                     }
                 }, this);
-                model.eachEdgeSetCollection(function (edgeSetCollection, linkKey) {
+                nx.each(model.edgeSetCollections(), function (edgeSetCollection, linkKey) {
                     var linkSet = topo.getLinkSetByLinkKey(linkKey);
                     if (linkSet) {
-                        fn.call(context || this, linkSet, edgeSetCollection);
-                    }
-                }, this);
-            },
-            /**
-             * Get all connected linkSet
-             * @method getLinkSet
-             * @returns {Array}
-             */
-            getLinkSet: function () {
-                var linkSetAry = [];
-                this.eachLinkSet(function (linkSet, edgeSet) {
-                    linkSetAry[linkSetAry.length] = linkSet;
-                }, this);
-                return linkSetAry;
-            },
-            eachVisibleLinkSet: function (fn, context) {
-                var model = this.model();
-                var topo = this.topology();
-                model.eachVisibleEdgeSet(function (edgeSet, linkKey) {
-                    var linkSet = topo.getLinkSetByLinkKey(linkKey);
-                    if (linkSet) {
-                        fn.call(context || this, linkSet, edgeSet);
+                        callback.call(context || this, linkSet, linkKey);
                     }
                 }, this);
             },
             /**
              * Iterate all connected node
              * @method eachConnectedNode
-             * @param fn {Function}
+             * @param callback {Function}
              * @param context {Object}
              */
-            eachConnectedNode: function (fn, context) {
-                var model = this.model();
+            eachConnectedNode: function (callback, context) {
                 var topo = this.topology();
-                model.eachConnectedVertices(function (vertex) {
-                    var id = vertex.id();
+                this.model().eachConnectedVertex(function (vertex, id) {
                     var node = topo.getNode(id);
                     if (node) {
-                        fn.call(context || this, topo.getNode(id), id);
-                    } else {
-                        //console.log(id);
+                        callback.call(context || this, node, id);
                     }
-
-                }, this);
-            },
-            /**
-             * Get all connected nodes
-             * @method getConnectedNodes
-             * @returns {Array}
-             */
-            getConnectedNodes: function () {
-                var nodes = [];
-                this.eachConnectedNode(function (node) {
-                    nodes.push(node);
-                }, this);
-                return nodes;
+                });
             },
             dispose: function () {
                 var model = this.model();
