@@ -1,7 +1,9 @@
 (function (nx) {
     var keyword = nx.keyword = nx.keyword || {
         binding: function (source, callback, async) {
+            var context = false;
             if (typeof source !== "string") {
+                context = !! source.context;
                 callback = source.callback;
                 async = source.async;
                 source = source.source;
