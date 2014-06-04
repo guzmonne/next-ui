@@ -494,8 +494,8 @@ test('template-ObservableCollection-clear', function () {
             },
             data2:{
                 dependencies: ['data1'],
-                get: function () {
-                    return this._data1+1;
+                value: function (data1) {
+                    return data1+1;
                 }
             }
         },

@@ -206,6 +206,21 @@
                 }
             },
             /**
+             * Set css class existence for element
+             * @method setClass
+	     * @param className the class name
+	     * @param has existence
+             * @returns {*}
+             */
+	    setClass: function (inClassName, inHas) {
+	        if (!inHas) {
+	            this.removeClass(inClassName);
+	        }
+	        else {
+	            this.addClass(inClassName);
+	        }
+	    },
+            /**
              * Add class for element
              * @method addClass
              * @returns {*}
