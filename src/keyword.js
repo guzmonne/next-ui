@@ -9,6 +9,7 @@
                 source = source.source;
             }
             return new nx.keyword.internal.Binding({
+                context: context,
                 source: source,
                 async: async,
                 callback: callback
