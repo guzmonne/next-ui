@@ -678,20 +678,6 @@
                 this._attachDomListener(name);
                 this.inherited(name, handler, context);
             },
-            fire: function (name, data) {
-                var listeners = this.__listeners__[name], listener, result;
-                if (listeners) {
-                    for (var i = 0, length = listeners.length; i < length; i++) {
-                        listener = listeners[i];
-                        if (listener && listener.handler) {
-                            result = listener.handler.call(listener.context, listener.owner, data);
-                            if (result === false) {
-                                return false;
-                            }
-                        }
-                    }
-                }
-            },
             dispose: function () {
                 var root = this.resolve('@root');
                 if (root) {
