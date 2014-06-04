@@ -24,24 +24,24 @@
             set: function (inElement, inValue) {
                 var type = inElement.type;
                 switch (type) {
-                    case 'checkbox':
-                    case 'radio':
-                        inElement.checked = !!inValue;
-                        break;
-                    default:
-                        inElement.value = inValue;
+                case 'checkbox':
+                case 'radio':
+                    inElement.checked = !! inValue;
+                    break;
+                default:
+                    inElement.value = inValue;
                 }
             },
             get: function (inElement) {
                 var type = inElement.type;
                 var value = inElement.value;
                 switch (type) {
-                    case 'checkbox':
-                    case 'radio':
-                        value = !!inElement.checked;
-                        break;
-                    default:
-                        value = inElement.value;
+                case 'checkbox':
+                case 'radio':
+                    value = !! inElement.checked;
+                    break;
+                default:
+                    value = inElement.value;
                 }
                 return value;
             }
@@ -77,10 +77,11 @@
                 set: function (inElement, inValue) {
                     if (!inValue) {
                         inElement.removeAttribute(hookKey);
-                    } else {
+                    }
+                    else {
                         inElement.setAttribute(hookKey, hookKey);
                     }
-                    inElement[hookValue] = !!inValue;
+                    inElement[hookValue] = !! inValue;
                 },
                 get: function (inElement) {
                     return !!inElement[hookValue];
@@ -201,25 +202,26 @@
                 var element = this.$dom;
                 if (nx.Env.support('classList')) {
                     return this.$dom.classList.contains(inClassName);
-                } else {
+                }
+                else {
                     return getClsPos(element, inClassName) > -1;
                 }
             },
             /**
              * Set css class existence for element
              * @method setClass
-	     * @param className the class name
-	     * @param has existence
+             * @param className the class name
+             * @param has existence
              * @returns {*}
              */
-	    setClass: function (inClassName, inHas) {
-	        if (!inHas) {
-	            this.removeClass(inClassName);
-	        }
-	        else {
-	            this.addClass(inClassName);
-	        }
-	    },
+            setClass: function (inClassName, inHas) {
+                if (!inHas) {
+                    this.removeClass(inClassName);
+                }
+                else {
+                    this.addClass(inClassName);
+                }
+            },
             /**
              * Add class for element
              * @method addClass
@@ -234,7 +236,8 @@
                         args = args[0].split(rBlank);
                     }
                     return classList.add.apply(classList, args);
-                } else {
+                }
+                else {
                     if (!this.hasClass(args[0])) {
                         var curCls = element.className;
                         /* jslint -W093 */
@@ -252,7 +255,8 @@
                 if (nx.Env.support('classList')) {
                     var classList = this.$dom.classList;
                     return classList.remove.apply(classList, arguments);
-                } else {
+                }
+                else {
                     var curCls = element.className,
                         index = getClsPos(element, arguments[0]),
                         className = arguments[0];
@@ -261,7 +265,8 @@
                             if (curCls !== className) {
                                 className = className + ' ';
                             }
-                        } else {
+                        }
+                        else {
                             className = ' ' + className;
                         }
                         element.className = curCls.replace(className, '');
@@ -277,11 +282,13 @@
             toggleClass: function (inClassName) {
                 var element = this.$dom;
                 if (nx.Env.support('classList')) {
-                    return  this.$dom.classList.toggle(inClassName);
-                } else {
+                    return this.$dom.classList.toggle(inClassName);
+                }
+                else {
                     if (this.hasClass(inClassName)) {
                         this.removeClass(inClassName);
-                    } else {
+                    }
+                    else {
                         this.addClass(inClassName);
                     }
                 }
@@ -296,8 +303,8 @@
                 var doc = document;
                 if (element) {
                     doc = (element.nodeType === 9) ? element : // element === document
-                        element.ownerDocument || // element === DOM node
-                            element.document;// element === window
+                    element.ownerDocument || // element === DOM node
+                    element.document; // element === window
                 }
                 return doc;
             },
@@ -375,8 +382,8 @@
                     clientTop = root.clientTop || 0,
                     clientLeft = root.clientLeft || 0;
                 return {
-                    'top': box.top + (global.pageYOffset || root.scrollTop ) - clientTop,
-                    'left': box.left + (global.pageXOffset || root.scrollLeft ) - clientLeft
+                    'top': box.top + (global.pageYOffset || root.scrollTop) - clientTop,
+                    'left': box.left + (global.pageXOffset || root.scrollLeft) - clientLeft
                 };
             },
             /**
@@ -385,7 +392,8 @@
              * @param inStyleObj
              */
             setOffset: function (inStyleObj) {
-                var elPosition = this.getStyle(POSITION), styleObj = inStyleObj;
+                var elPosition = this.getStyle(POSITION),
+                    styleObj = inStyleObj;
                 var scrollXY = {
                     left: Math.max((global.pageXOffset || 0), root.scrollLeft),
                     top: Math.max((global.pageYOffset || 0), root.scrollTop)
@@ -419,7 +427,8 @@
                 var property = util.getStyleProperty(inName);
                 if (isInline) {
                     return this.$dom.style[property];
-                } else {
+                }
+                else {
                     var styles = getComputedStyle(this.$dom, null);
                     return styles[property] || '';
                 }
@@ -462,7 +471,8 @@
                 if (hook) {
                     if (hook.get) {
                         return hook.get(this.$dom);
-                    } else {
+                    }
+                    else {
                         return this.$dom.getAttribute(hook);
                     }
                 }
@@ -481,7 +491,8 @@
                     if (hook) {
                         if (hook.set) {
                             return hook.set(this.$dom, inValue);
-                        } else {
+                        }
+                        else {
                             return this.$dom.setAttribute(hook, inValue);
                         }
                     }
@@ -574,19 +585,19 @@
                 var boxWidth, styleResult;
                 var element = this.$dom;
                 switch (inBox) {
-                    case PADDING:
-                    case MARGIN:
-                        styleResult = this.getStyle(inBox + "-" + inDirection);
-                        boxWidth = parseFloat(styleResult);
-                        break;
-                    default:
-                        styleResult = this.getStyle('border-' + inDirection + '-width');
-                        if (isGecko) {
-                            if (rTableElement.test(element.tagName)) {
-                                styleResult = 0;
-                            }
+                case PADDING:
+                case MARGIN:
+                    styleResult = this.getStyle(inBox + "-" + inDirection);
+                    boxWidth = parseFloat(styleResult);
+                    break;
+                default:
+                    styleResult = this.getStyle('border-' + inDirection + '-width');
+                    if (isGecko) {
+                        if (rTableElement.test(element.tagName)) {
+                            styleResult = 0;
                         }
-                        boxWidth = parseFloat(styleResult) || borderMap[styleResult];
+                    }
+                    boxWidth = parseFloat(styleResult) || borderMap[styleResult];
                 }
                 return boxWidth || 0;
             }

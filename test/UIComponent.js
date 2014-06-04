@@ -608,8 +608,8 @@ var numsObj = nx.define(nx.Observable, {
         },
         data2: {
             dependencies: ['data1'],
-            value: function (data1) {
-                return (data1 || this._data1) + 1;
+            get: function () {
+                return (this._data1 || 0) + 1;
             }
         }
     },
