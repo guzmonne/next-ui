@@ -111,6 +111,7 @@
             })(),
             Binding: (function () {
                 var Binding = function (options) {
+                    this.context = options.context;
                     this.source = options.source;
                     this.async = options.async;
                     this.callback = options.callback;
