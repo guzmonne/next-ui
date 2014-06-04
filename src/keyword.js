@@ -125,7 +125,7 @@
                         var watching = nx.keyword.internal.watch(o, this.source, function () {
                             var rslt;
                             if (this.callback) {
-                                rslt = this.callback.apply(binding, arguments);
+                                rslt = this.callback.apply(this.context ? binding.owner : binding, arguments);
                             }
                             else {
                                 rslt = arguments[0];
