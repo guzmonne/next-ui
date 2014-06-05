@@ -195,9 +195,9 @@
                         }
                     });
 
-		    if (inherited && this._model) {
-			return false;
-		    }
+                    if (inherited && this._model) {
+                        return false;
+                    }
                 }
             },
             /**
@@ -360,8 +360,7 @@
                 this._content = null;
                 this._model = null;
                 this._inheritedModel = null;
-                this.dispose = function () {
-                };
+                this.dispose = function () {};
             },
             /**
              * Destroy the component.
@@ -375,26 +374,22 @@
              * Template method for component attach.
              * @method onAttach
              */
-            onAttach: function (parent, index) {
-            },
+            onAttach: function (parent, index) {},
             /**
              * Template method for component detach.
              * @method onDetach
              */
-            onDetach: function (parent) {
-            },
+            onDetach: function (parent) {},
             /**
              * Template method for child component attach.
              * @method onChildAttach
              */
-            onChildAttach: function (child, index) {
-            },
+            onChildAttach: function (child, index) {},
             /**
              * Template method for child component detach.
              * @method onChildDetach
              */
-            onChildDetach: function (child) {
-            }
+            onChildDetach: function (child) {}
         }
     });
 
@@ -632,29 +627,29 @@
 
                 //Temp
                 switch (tag) {
-                    case 'input':
-                    case 'textarea':
-                        this.on('change', function (sender, event) {
-                            switch (event.target.type) {
-                                case 'checkbox':
-                                case 'radio':
-                                    this.notify('checked');
-                                    break;
-                                default:
-                                    this.notify('value');
-                                    break;
-                            }
-                        }, this);
-                        this.on('input', function (sender, event) {
+                case 'input':
+                case 'textarea':
+                    this.on('change', function (sender, event) {
+                        switch (event.target.type) {
+                        case 'checkbox':
+                        case 'radio':
+                            this.notify('checked');
+                            break;
+                        default:
                             this.notify('value');
-                        }, this);
-                        break;
-                    case 'select':
-                        this.on('change', function (sender, event) {
-                            this.notify('selectedIndex');
-                            this.notify('value');
-                        }, this);
-                        break;
+                            break;
+                        }
+                    }, this);
+                    this.on('input', function (sender, event) {
+                        this.notify('value');
+                    }, this);
+                    break;
+                case 'select':
+                    this.on('change', function (sender, event) {
+                        this.notify('selectedIndex');
+                        this.notify('value');
+                    }, this);
+                    break;
                 }
             },
             get: function (name) {
