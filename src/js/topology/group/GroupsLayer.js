@@ -44,13 +44,86 @@
         },
         events: ['dragGroupStart', 'dragGroup', 'dragGroupEnd', 'clickGroupLabel', 'enterGroup', 'leaveGroup'],
         properties: {
+            shapeType: 'polygon',
             /**
              * Groups collection
-             * @property groups {Array}
+             * @property groupItems {Array}
              */
+            groupItems: {
+                value: function () {
+                    var dict = new nx.data.ObservableDictionary();
+                    dict.on('change', function (sender, args) {
+                        var action = args.action;
+                        var items = args.items;
+                        if (action == 'clear') {
+                            nx.each(items, function (item) {
+                                item.dispose();
+                            });
+                        }
+                    }, this);
+                    return dict;
+                }
+            },
+
+
             groups: {
                 value: function () {
-                    return [];
+
+                    var dict = new nx.data.ObservableDictionary();
+
+                    dict.on('change', function (sender, args) {
+                        var action = args.action;
+                        var items = args.items;
+                        var key, value, config, nodes;
+                        var topo = this.topology();
+
+                        if (action == 'add') {
+                            key = items[0].key();
+                            value = items[0].value();
+                            nodes = [];
+                            nx.each(value.nodes, function (id) {
+                                var node = topo.getNode(id);
+                                if (node) {
+                                    nodes.push(node);
+                                }
+                            });
+
+                            config = nx.extend({}, value);
+                            config.nodes = nodes;
+                            config.label = key;
+                            config.id = key;
+
+                            this.addGroup(config);
+
+                        } else if (action == 'remove') {
+                            this.removeGroup(items[0].key());
+                        } else if (action == 'replace') {
+                            key = args.newItem.key();
+                            value = args.newItem.value();
+                            var group = this.getGroup(key);
+                            var _nodes = value.nodes;
+                            if (group) {
+                                nodes = [];
+                                nx.each(_nodes, function (id) {
+                                    var node = topo.getNode(id);
+                                    if (node) {
+                                        nodes.push(node);
+                                    }
+                                });
+
+                                group.nodes().clear();
+                                group.nodes().addRange(nodes);
+
+                                config = nx.extend({}, value);
+                                delete config.nodes;
+                                group.sets(config);
+
+                            }
+                        }
+
+                    }, this);
+
+
                 }
             }
         },
@@ -74,18 +147,16 @@
                 var topo = this.topology();
                 topo.on('stageTransitionEnd', this._redraw.bind(this), this);
                 topo.on('zoomend', this._redraw.bind(this), this);
-//                topo.on('afterFitStage', this._redraw.bind(this), this);
                 topo.watch('revisionScale', this._redraw.bind(this), this);
                 topo.watch('showIcon', this._redraw.bind(this), this);
             },
             /**
              * Add a group to group layer
              * @param obj {Object} config of a group
-             * @returns {GroupClass}
              */
             addGroup: function (obj) {
-                var groups = this.groups();
-                var shape = obj.shapeType || 'rect';
+                var groupItems = this.groupItems();
+                var shape = obj.shapeType || this.shapeType();
                 var nodes = obj.nodes;
 
                 var GroupClass = nx.path(global, shapeMap[shape]);
@@ -94,8 +165,9 @@
                 });
 
                 var config = nx.clone(obj);
+
                 if (!config.color) {
-                    config.color = colorTable[groups.length % 5];
+                    config.color = colorTable[groupItems.count() % 5];
                 }
                 delete  config.nodes;
                 delete  config.shapeType;
@@ -106,11 +178,11 @@
 
                 group.nodes().addRange(nodes);
 
-                this.groups().push(group);
+                var id = config.id || group.__id__;
 
+                groupItems.setItem(id, group);
 
                 var events = ['dragGroupStart', 'dragGroup', 'dragGroupEnd', 'clickGroupLabel', 'enterGroup', 'leaveGroup'];
-
 
                 nx.each(events, function (e) {
                     group.on(e, function () {
@@ -123,25 +195,33 @@
 
             },
             _redraw: function () {
-                nx.each(this.groups(), function (group) {
-                    group._draw();
+                this.groupItems().each(function (item) {
+                    item.value()._draw();
                 }, this);
             },
             /**
              * Remove a group
              * @method removeGroup
-             * @param group
+             * @param id
              */
-            removeGroup: function (group) {
-                var groups = this.groups();
-                groups.splice(groups.indexOf(group), 1);
-                group.dispose();
+            removeGroup: function (id) {
+                var groupItems = this.groupItems();
+                var group = groupItems.getItem(id);
+                if (group) {
+                    group.dispose();
+                    groupItems.removeItem(id);
+                }
+            },
+            getGroup: function (key) {
+                return this.groupItems().getItem(key);
+            },
+            eachGroupItem: function (callBack, context) {
+                this.groupItems().each(function (item) {
+                    callBack.call(context || this, item.value(), item.key());
+                }, this);
             },
             clear: function () {
-                nx.each(this.groups(), function (group) {
-                    group.dispose();
-                }, this);
-                this.groups([]);
+                this.groupItems().clear();
                 this.inherited();
             },
             dispose: function () {

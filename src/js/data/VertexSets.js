@@ -105,7 +105,8 @@
                 }
 
                 vertexSet.initPosition();
-                vertexSet.initNodes();
+                setTimeout(vertexSet.initNodes.bind(vertexSet), 0);
+//                vertexSet.initNodes();
 
                 this.vertexSets().setItem(vertexSetID, vertexSet);
 

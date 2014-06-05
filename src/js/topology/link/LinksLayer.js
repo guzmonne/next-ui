@@ -94,7 +94,6 @@
                     'data-id': id
                 });
 
-                link._stageScale = topo.stageScale();
 
 
 //                setTimeout(function () {
@@ -132,6 +131,7 @@
                     });
                 }
 
+                link.stageScale(topo.stageScale());
 
                 link.update();
             },

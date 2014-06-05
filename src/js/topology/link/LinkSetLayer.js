@@ -69,6 +69,7 @@
             },
             updateLinkSet: function (linkKey) {
                 this.linkSetDictionary().getItem(linkKey).updateLinkSet();
+
             },
             removeLinkSet: function (linkKey) {
                 var linkSetDictionary = this.linkSetDictionary();
@@ -89,8 +90,6 @@
                 //set model
                 linkSet.setModel(edgeSet, false);
                 linkSet.attach(this.view('static'));
-
-                linkSet._stageScale = topo.stageScale();
 
 
 //                setTimeout(function () {
@@ -127,6 +126,9 @@
                 nx.each(linkSetConfig, function (value, key) {
                     util.setProperty(linkSet, key, value, topo);
                 }, this);
+
+                linkSet.stageScale(topo.stageScale());
+
 
                 if (nx.DEBUG) {
                     var edgeSet = linkSet.model();

@@ -57,13 +57,14 @@
                     }, this);
 
 
-                    nx.Object.extendProperty(this, name + 'LayerConfig', {
-                        set: function (value) {
-                            nx.each(value, function (value, key) {
-                                nx.util.setProperty(layerObj, key, value, this);
-                            }, this);
-                        }
-                    });
+//                    debugger;
+//                    nx.Object.extendProperty(this, name + 'LayerConfig', {
+//                        set: function (value) {
+//                            nx.each(value, function (value, key) {
+//                                nx.util.setProperty(layerObj, key, value, this);
+//                            }, this);
+//                        }
+//                    });
 
 
                 }

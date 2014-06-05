@@ -60,7 +60,7 @@
                     };
 
 
-                    if (this.status() === 'appended') {
+                    if (this.status() === 'appended' || this.status() == 'generated') {
                         fn.call(this, value);
                     } else {
                         this.on('ready', function () {
