@@ -120,7 +120,9 @@
              */
             targetVector: {
                 get: function () {
-                    return this.targetNode().vector();
+                    if (this.targetNode()) {
+                        return this.targetNode().vector();
+                    }
                 }
             },
             position: {
