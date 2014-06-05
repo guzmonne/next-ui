@@ -194,6 +194,10 @@
                             c.model(value, true);
                         }
                     });
+
+		    if (inherited && this._model) {
+			return false;
+		    }
                 }
             },
             /**
