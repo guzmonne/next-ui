@@ -353,15 +353,18 @@
                 if (layoutType) {
                     this.activateLayout(layoutType, null, function () {
                         this.__fit();
+                        this.status('generated');
                         this.fire('topologyGenerated');
                     });
                 } else if (this.enableSmartLabel()) {
                     setTimeout(function () {
                         this.__fit();
+                        this.status('generated');
                         this.fire('topologyGenerated');
                     }.bind(this), 300);
                 } else {
                     this.__fit();
+                    this.status('generated');
                     this.fire('topologyGenerated');
                 }
             },

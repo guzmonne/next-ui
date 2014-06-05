@@ -111,6 +111,11 @@
                 });
             },
             _generateConnection: function (edgeSet) {
+
+                if (!edgeSet.source().visible() || !edgeSet.target().visible()) {
+                    return;
+                }
+
                 var obj = this._getGeneratedRootVertexSetOfEdgeSet(edgeSet);
 
                 if (!obj.source || !obj.target) {

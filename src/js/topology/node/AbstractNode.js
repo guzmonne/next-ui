@@ -218,12 +218,11 @@
              */
             setModel: function (model) {
                 this.model(model);
-                model.upon('updateCoordinate', function (sender, position) {
+                model.upon('updateCoordinate', function (sender, args) {
                     this.position({
-                        x: position.x,
-                        y: position.y
+                        x: args.newPosition.x,
+                        y: args.newPosition.y
                     });
-                    this.notify('position');
                     /**
                      * Fired when node update coordinate
                      * @event updateNodeCoordinate

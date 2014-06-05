@@ -286,15 +286,21 @@
             },
 
             deleteNode: function (inNode) {
-                var model = inNode.model().getData();
-                this.removeNode(inNode);
-                this.graph().deleteVertex(model);
-
+                this.graph().deleteVertex(inNode.id());
             },
-            deleteNodeSet: function (inNodeSet) {
-                var model = inNodeSet.model().getData();
-                this.removeNodeSet(inNodeSet);
-                this.graph().deleteVertexSet(model);
+            deleteNodeSet: function (arg) {
+                var id = arg;
+                if (nx.is(arg, nx.graphic.Topology.AbstractNode)) {
+                    id = arg.id();
+                }
+                var inNodeSet = this.getNode(id);
+                if (inNodeSet) {
+                    if (inNodeSet.activated()) {
+                        inNodeSet.activated(false);
+                    }
+                    //this.fire("removeNode", node);
+                    this.graph().deleteVertexSet(id);
+                }
             },
 
 

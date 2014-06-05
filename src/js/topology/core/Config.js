@@ -13,7 +13,10 @@
              * @property status {String}
              */
             status: {
-                value: 'initializing'
+                value: 'initializing',
+                binding: {
+                    direction: "<>"
+                }
             },
             /**
              * topology's theme, it could be blue/green/dark/slate/yellow

@@ -55,6 +55,17 @@
                     nx.each(layerObj.__events__, function (eventName) {
                         nx.Object.delegateEvent(layerObj, eventName, this, eventName);
                     }, this);
+
+
+                    nx.Object.extendProperty(this, name + 'LayerConfig', {
+                        set: function (value) {
+                            nx.each(value, function (value, key) {
+                                nx.util.setProperty(layerObj, key, value, this);
+                            }, this);
+                        }
+                    });
+
+
                 }
                 return layerObj;
             },

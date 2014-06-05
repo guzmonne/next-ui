@@ -135,6 +135,7 @@
                     this._visible = value;
 
                     var graph = this.graph();
+
                     if (value === false) {
                         if (this.generated()) {
                             nx.each(this.edgeSetCollections(), function (esc, linkKey) {

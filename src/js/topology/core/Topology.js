@@ -189,9 +189,6 @@
             },
             attach: function (args) {
                 this.inherited(args);
-                if (window.topologyDebugger) {
-                    window.topologyDebugger.inject(this);
-                }
                 this._adaptiveTimer();
             },
             dispose: function () {
