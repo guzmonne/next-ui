@@ -352,7 +352,7 @@
             meta = nx.extend({}, target[name].__meta__, meta);
         }
 
-        var fn = target[name] = function (value, params) {
+        var fn = function (value, params) {
             if (value === undefined && arguments.length === 0) {
                 return fn.__getter__.call(this, params);
             }
@@ -376,11 +376,21 @@
             return key ? fn.__meta__[key] : fn.__meta__;
         };
 
+        if (nx.is(target, "Function") && target.__properties__ && !target.__static__) {
+            target.prototype[name] = fn;
+        }
+        else {
+            target[name] = fn;
+        }
+
         if (defaultValue !== undefined) {
             target.__defaults__[name] = defaultValue;
         }
 
         if (!exist) {
+            if (!nx.is(target, "Function") && target.__properties__ === target.constructor.__properties) {
+                target.__properties__ = target.__properties__.slice();
+            }
             target.__properties__.push(name);
         }
 

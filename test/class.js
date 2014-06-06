@@ -110,7 +110,15 @@ test('class events', function () {
     var base = new test.MyBaseClass();
     var child = new test.MyBaseClass();
     var h1, h2, h3, h4, h5, h6, h7, h8, h9;
-    var n1 = 0, n2 = 0, n3 = 0, n4 = 0, n5 = 0, n6 = 0, n7 = 0, n8 = 0, n9 = 0;
+    var n1 = 0,
+        n2 = 0,
+        n3 = 0,
+        n4 = 0,
+        n5 = 0,
+        n6 = 0,
+        n7 = 0,
+        n8 = 0,
+        n9 = 0;
 
     base.on('event1', h1 = function (sender, event) {
         n1 = event;
@@ -217,4 +225,20 @@ test('static class', function () {
     throws(function () {
         var MyClass = nx.define(test.MyStaticClass);
     }, 'prevent inheritance');
+});
+
+nx.define('test.SomeObject', {});
+
+test('Object.extendProperty', function () {
+    var o1 = new test.SomeObject();
+    nx.Object.extendProperty(test.SomeObject, "pclass", {});
+    var o2 = new test.SomeObject();
+    nx.Object.extendProperty(o1, "pinstance", {});
+    nx.Object.extendProperty(test.SomeObject, "pclassafter", {});
+
+    ok(o1.has("pclass"), "extend class after instantiate");
+    ok(o2.has("pclass"), "extend calss before instantiate");
+    ok(o1.has("pinstance"), "extend instance");
+    ok(!o2.has("pinstance"), "extend instance not affects other instances");
+    ok(o1.has("pclassafter"), "extend class after extend instance");
 });
