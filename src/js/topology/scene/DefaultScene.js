@@ -276,7 +276,7 @@
             },
             removeNodeSet: function (sender, nodeSet) {
                 if (nodeSet.group) {
-                    this._groupsLayer.removeGroup(nodeSet.group);
+                    this._groupsLayer.removeGroup(nodeSet.id());
                     delete nodeSet.group;
                 }
                 this._topo.stage().resetFitMatrix();
