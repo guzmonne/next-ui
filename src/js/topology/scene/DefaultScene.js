@@ -214,7 +214,8 @@
                         nodeSet: nodeSet,
                         nodes: nx.util.values(nodeSet.nodes()),
                         label: nodeSet.label(),
-                        color: '#9BB150'
+                        color: '#9BB150',
+                        id: nodeSet.id()
                     });
                     var parentNodeSet = nodeSet.parentNodeSet();
                     while (parentNodeSet && parentNodeSet.group) {
@@ -249,7 +250,7 @@
                 }
 
                 if (nodeSet.group) {
-                    this._groupsLayer.removeGroup(nodeSet.group);
+                    this._groupsLayer.removeGroup(nodeSet.id());
                     delete nodeSet.group;
                 }
                 this._topo.stage().resetFitMatrix();
