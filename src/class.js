@@ -572,13 +572,13 @@
                     }
                 }, this);
 
-                nx.each(this.__keyword_watchers__, function (watcher, name) {
-                    watcher.call(this, name, this[name].call(this));
-                }, this);
-
                 if (this.__ctor__) {
                     this.__ctor__.apply(this, arguments);
                 }
+
+                nx.each(this.__keyword_watchers__, function (watcher, name) {
+                    watcher.call(this, name, this[name].call(this));
+                }, this);
 
                 nx.each(this.__keyword_bindings__, function (binding) {
                     binding.notify();
