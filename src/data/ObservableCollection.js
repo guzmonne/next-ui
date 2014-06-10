@@ -18,6 +18,7 @@
             add: function (item) {
                 this.inherited(item);
                 this.notify('count');
+                this.notify('length');
                 this.fire('change', {
                     action: 'add',
                     items: [item]
@@ -32,6 +33,7 @@
             addRange: function (iter) {
                 var items = this.inherited(iter);
                 this.notify('count');
+                this.notify('length');
                 this.fire('change', {
                     action: 'add',
                     items: items
@@ -47,6 +49,7 @@
             insert: function (item, index) {
                 this.inherited(item, index);
                 this.notify('count');
+                this.notify('length');
                 this.fire('change', {
                     action: 'add',
                     items: [item],
@@ -61,6 +64,7 @@
             insertRange: function (iter, index) {
                 var result = this.inherited(iter, index);
                 this.notify('count');
+                this.notify('length');
                 this.fire('change', {
                     action: 'add',
                     items: result,
@@ -75,6 +79,7 @@
                 var result = this.inherited(item);
                 if (result >= 0) {
                     this.notify('count');
+                    this.notify('length');
                     this.fire('change', {
                         action: 'remove',
                         items: [item],
@@ -92,6 +97,7 @@
                 var result = this.inherited(index);
                 if (result !== undefined) {
                     this.notify('count');
+                    this.notify('length');
                     this.fire('change', {
                         action: 'remove',
                         items: [result],
@@ -107,6 +113,7 @@
             clear: function () {
                 var result = this.inherited();
                 this.notify('count');
+                this.notify('length');
                 this.fire('change', {
                     action: 'clear',
                     items: result
@@ -119,6 +126,7 @@
             sort: function (comp) {
                 var result = this.inherited(comp);
                 this.notify('count');
+                this.notify('length');
                 this.fire('change', {
                     action: 'sort',
                     comparator: comp || function (a, b) {
