@@ -546,6 +546,18 @@
                     }
                 }
 
+                nx.each(Class.__properties__, function (name) {
+                    var meta = this[name].__meta__,
+                        watcher = meta.watcher;
+                    if (watcher) {
+                        if (nx.is(watcher, "String")) {
+                            watcher = this[watcher];
+                        }
+                        this.watch(name, watcher.bind(this));
+                        this.__keyword_watchers__[name] = watcher;
+                    }
+                }, this);
+
                 nx.each(Class.__defaults__, function (value, name) {
                     if (nx.is(value, "Function")) {
                         this["_" + name] = value.call(this);
@@ -557,18 +569,6 @@
                     }
                     else {
                         this["_" + name] = value;
-                    }
-                }, this);
-
-                nx.each(Class.__properties__, function (name) {
-                    var meta = this[name].__meta__,
-                        watcher = meta.watcher;
-                    if (watcher) {
-                        if (nx.is(watcher, "String")) {
-                            watcher = this[watcher];
-                        }
-                        this.watch(name, watcher.bind(this));
-                        this.__keyword_watchers__[name] = watcher;
                     }
                 }, this);
 
