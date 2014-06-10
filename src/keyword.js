@@ -65,6 +65,45 @@
                         }
                     };
                 };
+
+                var singleWithCollection = function (o, path, listener, context) {
+                    var collman = {
+                        collection: null,
+                        unlistener: null,
+                        listener: function (collection, evt) {
+                            listener.call(context || o, path, collection, evt);
+                        },
+                        update: function (value) {
+                            if (collman.collection === value) {
+                                return;
+                            }
+                            collman.unlistener && collman.unlistener();
+                            if (value && value.is && value.is(nx.data.ObservableCollection)) {
+                                value.on("change", collman.listener, o);
+                                collman.unlistener = function () {
+                                    value.off("change", collman.listener, o);
+                                };
+                            }
+                            else {
+                                collman.unlistener = null;
+                            }
+                            collman.collection = value;
+                        }
+                    };
+                    collman.update(nx.path(o, path));
+                    var unwatcher = single(o, path, function (path, value) {
+                        collman.update(value);
+                        listener.call(context || o, path, value);
+                    }, context);
+                    return {
+                        unwatch: function () {
+                            unwatcher.unwatch();
+                            collman.unlistener && collman.unlistener();
+                        },
+                        notify: unwatcher.notify
+                    };
+                };
+
                 return function (target, paths, update) {
                     if (!target || !paths || !update) {
                         return;
@@ -84,18 +123,19 @@
                     });
                     var unwatchers = [],
                         vals = [];
-                    var notify = function (key) {
+                    var notify = function (key, diff) {
                         var values = vals.slice();
                         values.push(key);
+                        diff && values.push(diff);
                         update.apply(target, values);
                     };
                     for (i = 0; i < deps.length; i++) {
                         /* jslint -W083 */
                         (function (idx) {
                             vals[idx] = nx.path(target, deps[idx]);
-                            var unwatcher = single(target, deps[idx], function (path, value) {
+                            var unwatcher = singleWithCollection(target, deps[idx], function (path, value, diff) {
                                 vals[idx] = value;
-                                notify(deps[idx]);
+                                notify(deps[idx], diff);
                             });
                             unwatchers.push(unwatcher);
                         })(i);
