@@ -77,6 +77,7 @@
                             if (collman.collection === value) {
                                 return;
                             }
+                            /* jslint -W030 */
                             collman.unlistener && collman.unlistener();
                             if (value && value.is && value.is(nx.data.ObservableCollection)) {
                                 value.on("change", collman.listener, o);
@@ -98,6 +99,7 @@
                     return {
                         unwatch: function () {
                             unwatcher.unwatch();
+                            /* jslint -W030 */
                             collman.unlistener && collman.unlistener();
                         },
                         notify: unwatcher.notify
@@ -126,6 +128,7 @@
                     var notify = function (key, diff) {
                         var values = vals.slice();
                         values.push(key);
+                        /* jslint -W030 */
                         diff && values.push(diff);
                         update.apply(target, values);
                     };
