@@ -53,7 +53,7 @@
              * @param path
              */
             removePath: function (path) {
-                this.paths().splice(this.path().indexOf(path), 1);
+                this.paths().splice(this.paths().indexOf(path), 1);
                 path.dispose();
             },
             clear: function () {
