@@ -546,6 +546,23 @@
                     }
                 }
 
+                nx.each(Class.__defaults__, function (value, name) {
+                    if (nx.is(value, "Function")) {
+                        this["_" + name] = value.call(this);
+                    }
+                    else if (nx.is(value, nx.keyword.internal.Binding)) {
+                        // FIXME memory leak
+                        // FIXME bind order
+                        this.__keyword_bindings__.push({
+                            name: name,
+                            definition: value
+                        });
+                    }
+                    else {
+                        this["_" + name] = value;
+                    }
+                }, this);
+
                 nx.each(Class.__properties__, function (name) {
                     var meta = this[name].__meta__,
                         watcher = meta.watcher;
@@ -558,18 +575,8 @@
                     }
                 }, this);
 
-                nx.each(Class.__defaults__, function (value, name) {
-                    if (nx.is(value, "Function")) {
-                        this["_" + name] = value.call(this);
-                    }
-                    else if (nx.is(value, nx.keyword.internal.Binding)) {
-                        // FIXME memory leak
-                        // FIXME bind order
-                        this.__keyword_bindings__.push(value.apply(this, name));
-                    }
-                    else {
-                        this["_" + name] = value;
-                    }
+                nx.each(this.__keyword_bindings__, function (binding) {
+                    binding.instance = binding.definition.apply(this, binding.name);
                 }, this);
 
                 if (this.__ctor__) {
@@ -581,7 +588,7 @@
                 }, this);
 
                 nx.each(this.__keyword_bindings__, function (binding) {
-                    binding.notify();
+                    binding.instance.notify();
                 }, this);
 
                 this.__initializing__ = false;
