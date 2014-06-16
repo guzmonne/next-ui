@@ -564,7 +564,11 @@
                 }, this);
 
                 nx.each(Class.__properties__, function (name) {
-                    var meta = this[name].__meta__,
+                    var prop = this[name];
+                    if (!prop || prop.__type__ !== "property") {
+                        return;
+                    }
+                    var meta = prop.__meta__,
                         watcher = meta.watcher;
                     if (watcher) {
                         if (nx.is(watcher, "String")) {
