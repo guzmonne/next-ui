@@ -152,8 +152,8 @@
                 var ty = translateY != null ? translateY : this._translateY || 0;
                 var scl = scale != null ? scale : this._scale || 1;
 
-//                this.setStyle('transform', ' matrix(' + scl + ',' + 0 + ',' + 0 + ',' + scl + ',' + tx + ', ' + ty + ')', duration);
-                this.setStyle('transform', ' translate(' + tx + 'px, ' + ty + 'px) scale(' + scl + ')', duration);
+                this.setStyle('transform', ' matrix(' + scl + ',' + 0 + ',' + 0 + ',' + scl + ',' + tx + ', ' + ty + ')', duration);
+//                this.setStyle('transform', ' translate(' + tx + 'px, ' + ty + 'px) scale(' + scl + ')', duration);
 
                 this._translateX = tx;
                 this._translateY = ty;
