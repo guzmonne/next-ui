@@ -179,6 +179,8 @@
                 }
 
 
+                this.eachVertexSet(this.initVertexSet, this);
+
                 /**
                  * @event startGenerate
                  * @param sender {Object}  Trigger instance

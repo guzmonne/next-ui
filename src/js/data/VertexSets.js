@@ -105,12 +105,13 @@
                 }
 
                 vertexSet.initPosition();
-                setTimeout(vertexSet.initNodes.bind(vertexSet), 0);
-//                vertexSet.initNodes();
 
                 this.vertexSets().setItem(vertexSetID, vertexSet);
 
                 return vertexSet;
+            },
+            initVertexSet: function (vertexSet) {
+                vertexSet.initNodes();
             },
             generateVertexSet: function (vertexSet) {
                 if (vertexSet.visible() && !vertexSet.generated()) {
@@ -137,12 +138,13 @@
                     }, this);
 
 
-                    this.fire('addVertexSet', vertexSet);
                     //todo
                     setTimeout(function () {
                         vertexSet.activated(true, {force: true});
                         this.updateVertexSet(vertexSet);
                     }.bind(this), 0);
+
+                    this.fire('addVertexSet', vertexSet);
                 }
             },
             updateVertexSet: function (vertexSet) {
