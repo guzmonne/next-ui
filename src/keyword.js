@@ -8,7 +8,8 @@
                 async = source.async;
                 source = source.source;
             }
-            return new nx.keyword.internal.Binding({
+            return new nx.keyword.internal.Keyword({
+		type: "binding",
                 context: context,
                 source: source,
                 async: async,
@@ -153,14 +154,11 @@
                     };
                 };
             })(),
-            Binding: (function () {
-                var Binding = function (options) {
-                    this.context = options.context;
-                    this.source = options.source;
-                    this.async = options.async;
-                    this.callback = options.callback;
+            Keyword: (function () {
+                var Keyword = function (options) {
+		    nx.sets(this, options);
                 };
-                Binding.prototype = {
+                Keyword.prototype = {
                     apply: function (o, pname) {
                         var binding = {
                             owner: o,
@@ -184,7 +182,7 @@
                         return watching;
                     }
                 };
-                return Binding;
+                return Keyword;
             })()
         }
     };

@@ -50,7 +50,7 @@ nx.define("test.PathBindingClass", nx.Observable, {
         },
         prop3: {
             value: nx.keyword.binding({
-                source: "simple.prop1, simple.prop2",
+                source: "simple.prop1, prop2",
                 callback: function (prop1, prop2) {
                     return prop1 + prop2;
                 }
