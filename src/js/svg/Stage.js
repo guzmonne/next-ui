@@ -20,26 +20,22 @@
                     height: '{#height}'
                 }
             },
-            content: [
-                {
-                    name: 'defs',
-                    tag: 'svg:defs'
+            content: [{
+                name: 'defs',
+                tag: 'svg:defs'
+            }, {
+                name: 'scalingLayer',
+                type: 'nx.graphic.Group',
+                props: {
+                    'class': 'stage'
                 },
-                {
-                    name: 'scalingLayer',
-                    type: 'nx.graphic.Group',
-                    props: {
-                        'class': 'stage'
-                    },
-                    events: {
-                        'transitionend': '{#_transitionend}'
-                    }
-                },
-                {
-                    name: 'staticLayer',
-                    type: 'nx.graphic.Group'
+                events: {
+                    'transitionend': '{#_transitionend}'
                 }
-            ],
+            }, {
+                name: 'staticLayer',
+                type: 'nx.graphic.Group'
+            }],
             events: {
                 'mousedown': '{#_mousedown}',
                 'dragstart': '{#_dragstart}',
@@ -54,6 +50,18 @@
              */
             scalable: {
                 value: true
+            },
+            /**
+             * Get the viewbox of current stage position.
+             * @property scalable {Boolean}
+             * @readOnly
+             */
+            viewbox: {
+                dependencies: "width, height, matrix",
+                value: function (width, height, matrix) {
+                    var inversion = nx.geometry.Matrix.inverse(matrix);
+                    return [nx.geometry.Vector.transform([0, 0], inversion), nx.geometry.Vector.transform([width, height], inversion)];
+                }
             },
             /**
              * set/get stage's width
@@ -193,7 +201,8 @@
                         height: this.height() - padding * 2,
                         width: this.width() - padding * 2
                     };
-                } else {
+                }
+                else {
                     var bound = {
                         left: stageBound.left - topoBound.left,
                         top: stageBound.top - topoBound.top,
@@ -217,8 +226,7 @@
             },
             fit: function (callback, context, isAnimated) {
 
-                var _callback = callback || function () {
-                };
+                var _callback = callback || function () {};
 
 
                 if (isAnimated) {
@@ -236,7 +244,8 @@
                     }
 
                     this.zoomLevel(1);
-                } else {
+                }
+                else {
                     this._setStageMatrix(this.fitMatrixObject().matrix());
                     this.zoomLevel(1);
                     _callback.call(context || this);
@@ -268,9 +277,7 @@
                 var dx = (graph.left + graph.width / 2) - s * (rect.left + rect.width / 2);
                 var dy = (graph.top + graph.height / 2) - s * (rect.top + rect.height / 2);
                 return [
-                    [s, 0, 0],
-                    [0, s, 0],
-                    [dx, dy, 1]
+                    [s, 0, 0], [0, s, 0], [dx, dy, 1]
                 ];
             },
             applyTranslate: function (x, y, duration) {
@@ -346,7 +353,8 @@
                     }
                     this.zoomLevel(m.scale() / scaleFit);
                     return m;
-                } else {
+                }
+                else {
                     return this.matrixObject();
                 }
             },
