@@ -9,7 +9,7 @@
                 source = source.source;
             }
             return new nx.keyword.internal.Keyword({
-		type: "binding",
+                type: "binding",
                 context: context,
                 source: source,
                 async: async,
@@ -156,7 +156,7 @@
             })(),
             Keyword: (function () {
                 var Keyword = function (options) {
-		    nx.sets(this, options);
+                    nx.sets(this, options);
                 };
                 Keyword.prototype = {
                     apply: function (o, pname) {
