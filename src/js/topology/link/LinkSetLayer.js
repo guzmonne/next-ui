@@ -8,10 +8,9 @@
      * @extend nx.graphic.Topology.Layer
      */
 
-    var CLZ = nx.define('nx.graphic.Topology.LinkSetLayer', nx.graphic.Topology.DoubleLayer, {
+    var CLZ = nx.define('nx.graphic.Topology.LinkSetLayer', nx.graphic.Topology.TripleLayer, {
         statics: {
             defaultConfig: {
-                linkType: 'parallel',
                 label: null,
                 sourceLabel: null,
                 targetLabel: null,
@@ -25,7 +24,7 @@
                         return true;
                     }
                     var linkType = this.linkType();
-                    var edges = model.getEdges();
+                    var edges = Object.keys(model.edges());
                     var maxLinkNumber = linkType === 'curve' ? 9 : 5;
                     return edges.length > maxLinkNumber;
                 }
@@ -33,22 +32,28 @@
         },
         events: ['pressLinkSetNumber', 'clickLinkSetNumber', 'enterLinkSetNumber', 'leaveLinkSetNumber', 'collapseLinkSet', 'expandLinkSet'],
         properties: {
-            linkSetArray: {
-                value: function () {
-                    return [];
+            linkSets: {
+                get: function () {
+                    return this.linkSetDictionary().values().toArray();
                 }
             },
             linkSetMap: {
+                get: function () {
+                    return this.linkSetDictionary().toObject();
+                }
+            },
+            linkSetDictionary: {
                 value: function () {
-                    return {};
+                    return new nx.data.ObservableDictionary();
                 }
             }
         },
         methods: {
             attach: function (args) {
                 this.inherited(args);
-                var topo = this.topology();
 
+                var topo = this.topology();
+                //watch stageScale
                 topo.watch('stageScale', this.__watchStageScaleFN = function (prop, value) {
                     this.eachLinkSet(function (linkSet) {
                         linkSet.stageScale(value);
@@ -57,56 +62,47 @@
 
             },
             addLinkSet: function (edgeSet) {
-                var linkSetArray = this.linkSetArray();
-                var linkSetMap = this.linkSetMap();
+                var linkSetDictionary = this.linkSetDictionary();
                 var linkSet = this._generateLinkSet(edgeSet);
-                linkSetMap[edgeSet.linkKey()] = linkSet;
-                linkSetArray[linkSetArray.length] = linkSet;
+                linkSetDictionary.setItem(edgeSet.linkKey(), linkSet);
                 return linkSet;
             },
-            updateLinkSet: function (edgeSet) {
-                var linkSet = this.getLinkSetByLinkKey([edgeSet.linkKey()]);
-                linkSet.updateLinkSet();
+            updateLinkSet: function (linkKey) {
+                this.linkSetDictionary().getItem(linkKey).updateLinkSet();
+
             },
-            removeLinkSet: function (edgeSet) {
-                var linkSetArray = this.linkSetArray();
-                var linkSetMap = this.linkSetMap();
-                var linkKey = edgeSet.linkKey();
-                var linkSet = linkSetMap[linkKey];
+            removeLinkSet: function (linkKey) {
+                var linkSetDictionary = this.linkSetDictionary();
+                var linkSet = linkSetDictionary.getItem(linkKey);
                 if (linkSet) {
                     linkSet.dispose();
-                    linkSetArray.splice(linkSetArray.indexOf(linkSet), 1);
-                    delete linkSetMap[linkKey];
+                    linkSetDictionary.removeItem(linkKey);
                     return true;
                 } else {
                     return false;
                 }
             },
             _generateLinkSet: function (edgeSet) {
-                var linkKey = edgeSet.linkKey();
                 var topo = this.topology();
                 var linkSet = new nx.graphic.Topology.LinkSet({
-                    topology: topo,
-                    stageScale: topo.stageScale()
+                    topology: topo
                 });
                 //set model
                 linkSet.setModel(edgeSet, false);
                 linkSet.attach(this.view('static'));
 
-                //set element attribute
-                linkSet.view().sets({
-                    'data-nx-type': 'nx.graphic.Topology.LinkSet',
-                    'data-linkKey': linkKey,
-                    'data-source-node-id': edgeSet.source().id(),
-                    'data-target-node-id': edgeSet.target().id()
 
-                });
-                //set properties
-                var linkSetConfig = nx.extend({}, CLZ.defaultConfig, topo.linkSetConfig());
-                delete linkSetConfig.__owner__; //fix bug
-                nx.each(linkSetConfig, function (value, key) {
-                    util.setProperty(linkSet, key, value, topo);
-                }, this);
+//                setTimeout(function () {
+                this.updateDefaultSetting(linkSet);
+//                }.bind(this), 0);
+
+                return linkSet;
+
+
+            },
+            updateDefaultSetting: function (linkSet) {
+                var topo = this.topology();
+
 
                 //delegate elements events
                 var superEvents = nx.graphic.Component.__events__;
@@ -119,20 +115,52 @@
                     }
                 }, this);
 
+                //set properties
+                var linkSetConfig = nx.extend({}, CLZ.defaultConfig, topo.linkSetConfig());
+                delete linkSetConfig.__owner__; //fix bug
+
+
+                linkSetConfig.linkType = (topo.linkConfig() && topo.linkConfig().linkType) || nx.graphic.Topology.LinksLayer.defaultConfig.linkType;
+
+
+                nx.each(linkSetConfig, function (value, key) {
+                    util.setProperty(linkSet, key, value, topo);
+                }, this);
+
+                linkSet.stageScale(topo.stageScale());
+
+
+                if (nx.DEBUG) {
+                    var edgeSet = linkSet.model();
+                    //set element attribute
+                    linkSet.view().sets({
+                        'data-nx-type': 'nx.graphic.Topology.LinkSet',
+                        'data-linkKey': edgeSet.linkKey(),
+                        'data-source-node-id': edgeSet.source().id(),
+                        'data-target-node-id': edgeSet.target().id()
+
+                    });
+
+                }
+
                 linkSet.updateLinkSet();
                 return linkSet;
+
             },
             /**
              * Iterate all linkSet
              * @method eachLinkSet
-             * @param fn {Function}
+             * @param callback {Function}
              * @param context {Object}
              */
-            eachLinkSet: function (fn, context) {
-                nx.each(this.linkSetMap(), fn, context || this);
+            eachLinkSet: function (callback, context) {
+                this.linkSetDictionary().each(function (item, linkKey) {
+                    callback.call(context || this, item.value(), linkKey);
+                });
             },
             /**
              * Get linkSet by source node id and target node id
+             * @method getLinkSet
              * @param sourceVertexID {String}
              * @param targetVertexID {String}
              * @returns {nx.graphic.LinkSet}
@@ -148,57 +176,38 @@
             },
             /**
              * Get linkSet by linkKey
+             * @method getLinkSetByLinkKey
              * @param linkKey {String} linkKey
              * @returns {nx.graphic.Topology.LinkSet}
              */
             getLinkSetByLinkKey: function (linkKey) {
-                var linkSetMap = this.linkSetMap();
-                return linkSetMap[linkKey];
+                return this.linkSetDictionary().getItem(linkKey);
             },
             /**
              * Highlight linkSet
-             * @method highlightLinkSetArray
-             * @param linkSetAry {Array} linkSet array
+             * @method highlightlinkSets
+             * @param linkSets {Array} linkSet array
              */
-            highlightLinkSetArray: function (linkSetAry) {
-                var topo = this.topology();
-                var linksLayer = topo.getLayer('links');
-                var highlightedElements = this.highlightedElements();
-                nx.each(linkSetAry, function (linkSet) {
-                    if (linkSet.activated()) {
-                        highlightedElements.add(linkSet);
-                    } else {
-                        linksLayer.highlightLinks(linkSet.links());
-                    }
-                }, this);
+            highlightLinkSets: function (linkSets) {
+                this.highlightedElements().addRange(linkSets);
             },
             /**
              * Active linkSet
-             * @method highlightLinkSetArray
-             * @param linkSetAry {Array} linkSet array
+             * @method highlightlinkSets
+             * @param linkSets {Array} linkSet array
              */
-            activeLinkSetArray: function (linkSetAry) {
-                var topo = this.topology();
-                var linksLayer = topo.getLayer('links');
-                var activeElements = this.activeElements();
-                nx.each(linkSetAry, function (linkSet) {
-                    if (linkSet.activated()) {
-                        activeElements.add(linkSet);
-                    } else {
-                        linksLayer.activeLinks(linkSet.links());
-                    }
-                }, this);
+            activeLinkSets: function (linkSets) {
+                this.activeElements().addRange(linkSets);
             },
             /**
              * Clear links layer
              * @method clear
              */
             clear: function () {
-                nx.each(this.linkSetArray(), function (linkSet) {
+                this.eachLinkSet(function (linkSet) {
                     linkSet.dispose();
                 });
-                this.linkSetArray([]);
-                this.linkSetMap({});
+                this.linkSetDictionary().clear();
                 this.inherited();
             },
             dispose: function () {

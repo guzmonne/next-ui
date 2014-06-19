@@ -56,42 +56,42 @@
             /**
              * Remove a link
              * @method removeLink
-             * @param inLink  {nx.graphic.Topology.Link}
+             * @param arg  {String}
              * @returns {boolean}
              */
-            removeLink: function (inLink) {
-                var edge;
-                if (inLink instanceof  nx.graphic.Topology.Link) {
-                    edge = inLink.model();
-                } else if (inLink instanceof nx.data.Edge) {
-                    edge = inLink;
-                } else {
-                    edge = this.graph().getEdge(inLink);
+            removeLink: function (arg) {
+                var id = arg;
+                if (nx.is(arg, nx.graphic.Topology.AbstractLink)) {
+                    id = arg.id();
                 }
-                if (edge) {
-                    this.graph().removeEdge(edge);
-                    this.fire("removeLink");
-                    return true;
-                } else {
-                    return false;
+                var link = this.getLink(id);
+                if (link) {
+                    this.fire("removeLink", link);
+                    this.graph().removeEdge(id);
                 }
             },
 
-            deleteLink: function (inLink) {
-                var data = inLink.model().getData();
-                this.removeLink(inLink);
-                this.graph().deleteEdge(data);
+            deleteLink: function (arg) {
+                var id = arg;
+                if (nx.is(arg, nx.graphic.Topology.AbstractLink)) {
+                    id = arg.id();
+                }
+                var link = this.getLink(id);
+                if (link) {
+                    this.fire("deleteLink", link);
+                    this.graph().deleteEdge(id);
+                }
             },
 
 
             /**
              * Traverse each link
              * @method eachLink
-             * @param fn <Function>
+             * @param callback <Function>
              * @param context {Object}
              */
-            eachLink: function (fn, context) {
-                this.getLayer("links").eachLink(fn, context || this);
+            eachLink: function (callback, context) {
+                this.getLayer("links").eachLink(callback, context || this);
             },
 
             /**
@@ -129,7 +129,7 @@
             getLinksByNode: function (sourceVertexID, targetVertexID) {
                 var linkSet = this.getLinkSet(sourceVertexID, targetVertexID);
                 if (linkSet) {
-                    return linkSet.getLinks();
+                    return linkSet.links();
                 }
             }
         }

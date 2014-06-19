@@ -405,24 +405,24 @@
   text-anchor: middle;
   alignment-baseline: inherit;
 }
+.n-topology.n-topology-blue .group .fontIcon.iconShape {
+  fill: #9BB150;
+}
 .n-topology.n-topology-blue .group .nodeSetGroupLabel {
   cursor: pointer;
   font-size: 18px;
   font-family: "Cisco Sans Reg";
   alignment-baseline: inherit;
-  fill: #0386d2;
+  fill: #9BB150;
 }
 .n-topology.n-topology-blue .group .groupLabel:hover ~ .bg {
   opacity: 0.7;
 }
-.n-topology.n-topology-blue .group.aggregationGroup {
-  opacity: 0.6;
-}
 .n-topology.n-topology-blue .group.aggregationGroup .bg {
   stroke-width: 10px;
   stroke-linejoin: round;
-  fill: #5bc1df;
-  stroke: #5bc1df;
+  fill: #9BB150;
+  stroke: #9BB150;
   pointer-events: none;
   opacity: 0;
   -webkit-transition: all 0.5s linear;
@@ -434,13 +434,7 @@
   opacity: 1;
 }
 .n-topology.n-topology-blue .group.aggregationGroup.active .bg {
-  opacity: 0.15;
-}
-.n-topology.n-topology-blue .group.aggregationGroup.active .iconShape {
-  fill: #0386d2 !important;
-}
-.n-topology.n-topology-blue .group.aggregationGroup.active .nodeSetGroupLabel {
-  fill: #0386d2 !important;
+  opacity: 0.5;
 }
 .n-topology.n-topology-blue .link-set-bg {
   stroke: #5bc1df;
@@ -1073,24 +1067,24 @@
   text-anchor: middle;
   alignment-baseline: inherit;
 }
+.n-topology.n-topology-dark .group .fontIcon.iconShape {
+  fill: #9BB150;
+}
 .n-topology.n-topology-dark .group .nodeSetGroupLabel {
   cursor: pointer;
   font-size: 18px;
   font-family: "Cisco Sans Reg";
   alignment-baseline: inherit;
-  fill: #00a9ff;
+  fill: #9BB150;
 }
 .n-topology.n-topology-dark .group .groupLabel:hover ~ .bg {
   opacity: 0.7;
 }
-.n-topology.n-topology-dark .group.aggregationGroup {
-  opacity: 0.6;
-}
 .n-topology.n-topology-dark .group.aggregationGroup .bg {
   stroke-width: 10px;
   stroke-linejoin: round;
-  fill: #09cadd;
-  stroke: #09cadd;
+  fill: #9BB150;
+  stroke: #9BB150;
   pointer-events: none;
   opacity: 0;
   -webkit-transition: all 0.5s linear;
@@ -1102,13 +1096,7 @@
   opacity: 1;
 }
 .n-topology.n-topology-dark .group.aggregationGroup.active .bg {
-  opacity: 0.15;
-}
-.n-topology.n-topology-dark .group.aggregationGroup.active .iconShape {
-  fill: #00a9ff !important;
-}
-.n-topology.n-topology-dark .group.aggregationGroup.active .nodeSetGroupLabel {
-  fill: #00a9ff !important;
+  opacity: 0.5;
 }
 .n-topology.n-topology-dark .link-set-bg {
   stroke: #09cadd;
@@ -1741,24 +1729,24 @@
   text-anchor: middle;
   alignment-baseline: inherit;
 }
+.n-topology.n-topology-green .group .fontIcon.iconShape {
+  fill: #9BB150;
+}
 .n-topology.n-topology-green .group .nodeSetGroupLabel {
   cursor: pointer;
   font-size: 18px;
   font-family: "Cisco Sans Reg";
   alignment-baseline: inherit;
-  fill: #26999e;
+  fill: #9BB150;
 }
 .n-topology.n-topology-green .group .groupLabel:hover ~ .bg {
   opacity: 0.7;
 }
-.n-topology.n-topology-green .group.aggregationGroup {
-  opacity: 0.6;
-}
 .n-topology.n-topology-green .group.aggregationGroup .bg {
   stroke-width: 10px;
   stroke-linejoin: round;
-  fill: #5edadd;
-  stroke: #5edadd;
+  fill: #9BB150;
+  stroke: #9BB150;
   pointer-events: none;
   opacity: 0;
   -webkit-transition: all 0.5s linear;
@@ -1770,13 +1758,7 @@
   opacity: 1;
 }
 .n-topology.n-topology-green .group.aggregationGroup.active .bg {
-  opacity: 0.15;
-}
-.n-topology.n-topology-green .group.aggregationGroup.active .iconShape {
-  fill: #26999e !important;
-}
-.n-topology.n-topology-green .group.aggregationGroup.active .nodeSetGroupLabel {
-  fill: #26999e !important;
+  opacity: 0.5;
 }
 .n-topology.n-topology-green .link-set-bg {
   stroke: #5edadd;
@@ -2409,24 +2391,24 @@
   text-anchor: middle;
   alignment-baseline: inherit;
 }
+.n-topology.n-topology-slate .group .fontIcon.iconShape {
+  fill: #9BB150;
+}
 .n-topology.n-topology-slate .group .nodeSetGroupLabel {
   cursor: pointer;
   font-size: 18px;
   font-family: "Cisco Sans Reg";
   alignment-baseline: inherit;
-  fill: #ffffff;
+  fill: #9BB150;
 }
 .n-topology.n-topology-slate .group .groupLabel:hover ~ .bg {
   opacity: 0.7;
 }
-.n-topology.n-topology-slate .group.aggregationGroup {
-  opacity: 0.6;
-}
 .n-topology.n-topology-slate .group.aggregationGroup .bg {
   stroke-width: 10px;
   stroke-linejoin: round;
-  fill: #49a9bf;
-  stroke: #49a9bf;
+  fill: #9BB150;
+  stroke: #9BB150;
   pointer-events: none;
   opacity: 0;
   -webkit-transition: all 0.5s linear;
@@ -2438,13 +2420,7 @@
   opacity: 1;
 }
 .n-topology.n-topology-slate .group.aggregationGroup.active .bg {
-  opacity: 0.15;
-}
-.n-topology.n-topology-slate .group.aggregationGroup.active .iconShape {
-  fill: #ffffff !important;
-}
-.n-topology.n-topology-slate .group.aggregationGroup.active .nodeSetGroupLabel {
-  fill: #ffffff !important;
+  opacity: 0.5;
 }
 .n-topology.n-topology-slate .link-set-bg {
   stroke: #49a9bf;
@@ -3077,24 +3053,24 @@
   text-anchor: middle;
   alignment-baseline: inherit;
 }
+.n-topology.n-topology-yellow .group .fontIcon.iconShape {
+  fill: #9BB150;
+}
 .n-topology.n-topology-yellow .group .nodeSetGroupLabel {
   cursor: pointer;
   font-size: 18px;
   font-family: "Cisco Sans Reg";
   alignment-baseline: inherit;
-  fill: #ffc200;
+  fill: #9BB150;
 }
 .n-topology.n-topology-yellow .group .groupLabel:hover ~ .bg {
   opacity: 0.7;
 }
-.n-topology.n-topology-yellow .group.aggregationGroup {
-  opacity: 0.6;
-}
 .n-topology.n-topology-yellow .group.aggregationGroup .bg {
   stroke-width: 10px;
   stroke-linejoin: round;
-  fill: #997b19;
-  stroke: #997b19;
+  fill: #9BB150;
+  stroke: #9BB150;
   pointer-events: none;
   opacity: 0;
   -webkit-transition: all 0.5s linear;
@@ -3106,13 +3082,7 @@
   opacity: 1;
 }
 .n-topology.n-topology-yellow .group.aggregationGroup.active .bg {
-  opacity: 0.15;
-}
-.n-topology.n-topology-yellow .group.aggregationGroup.active .iconShape {
-  fill: #ffc200 !important;
-}
-.n-topology.n-topology-yellow .group.aggregationGroup.active .nodeSetGroupLabel {
-  fill: #ffc200 !important;
+  opacity: 0.5;
 }
 .n-topology.n-topology-yellow .link-set-bg {
   stroke: #997b19;

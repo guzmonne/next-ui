@@ -10,11 +10,20 @@
         properties: {
             /**
              * All child edgeset
-             * @property edgeSetMap {Object}
+             * @property edgeSets {Object}
              */
-            edgeSetMap: {
+            edgeSets: {
                 value: function () {
                     return {};
+                }
+            },
+            edges: {
+                get: function () {
+                    var edges = {};
+                    nx.each(this.edgeSets(), function (edgeSet) {
+                        nx.extend(edges, edgeSet.edges());
+                    });
+                    return edges;
                 }
             },
             /**
@@ -24,40 +33,6 @@
              */
             type: {
                 value: 'edgeSetCollection'
-            },
-            /**
-             * Set/get edge set's visibility
-             * @property visible {Boolean}
-             * @default true
-             */
-            visible: {
-                get: function () {
-                    return this._visible !== undefined ? this._visible : true;
-                },
-                set: function (value) {
-                    if (this._visible !== value) {
-
-                        var visible = this.source().visible() && this.target().visible();
-
-                        if (visible) {
-                            this.eachEdgeSet(function (edgeSet) {
-                                edgeSet.visible(value);
-                            }, this);
-                        } else {
-                            this.eachEdgeSet(function (edgeSet) {
-                                edgeSet.visible(false);
-                            }, this);
-                        }
-
-                        this.updated(true);
-
-                        this._visible = visible && value;
-
-                        return true;
-                    } else {
-                        return false;
-                    }
-                }
             },
             activated: {
                 get: function () {
@@ -91,42 +66,17 @@
              * @param edgeSet {nx.data.EdgeSet}
              */
             addEdgeSet: function (edgeSet) {
-                var edgeSetMap = this.edgeSetMap();
-                edgeSetMap[edgeSet.linkKey()] = edgeSet;
+                var edgeSets = this.edgeSets();
+                edgeSets[edgeSet.linkKey()] = edgeSet;
             },
             /**
              * Remove child edgeSet
              * @method removeEdgeSet
-             * @param edge {nx.data.EdgeSet}
+             * @param linkKey {String}
              */
-            removeEdgeSet: function (edgeSet) {
-                var edgeSetMap = this.edgeSetMap();
-                var linkKey = edgeSet.linkKey();
-                delete  edgeSetMap[linkKey];
-            },
-            /**
-             * Iterate each edgeSet
-             * @method eachEdgeSet
-             * @param callback {Function}
-             * @param context {Object}
-             */
-            eachEdgeSet: function (callback, context) {
-                nx.each(this.edgeSetMap(), callback, context || this);
-            },
-            eachEdge: function (callback, context) {
-                this.eachEdgeSet(function (edgeSet) {
-                    edgeSet.eachEdge(callback, context);
-                }, this);
-            },
-            getEdges: function () {
-                var ary = [];
-                this.eachEdge(function (edge) {
-                    ary[ary.length] = edge;
-                }, this);
-                return ary;
-            },
-            disposeEdges: function () {
-
+            removeEdgeSet: function (linkKey) {
+                var edgeSets = this.edgeSets();
+                delete  edgeSets[linkKey];
             }
         }
 

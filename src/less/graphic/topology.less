@@ -258,12 +258,16 @@
       alignment-baseline: inherit;
     }
 
+    .fontIcon.iconShape {
+      fill: #9BB150;
+    }
+
     .nodeSetGroupLabel {
       cursor: pointer;
       font-size: 18px;
       font-family: "Cisco Sans Reg";
       alignment-baseline: inherit;
-      fill: @primaryColor;
+      fill: #9BB150;
     }
 
     .groupLabel:hover ~ .bg {
@@ -271,12 +275,12 @@
     }
 
     &.aggregationGroup {
-      opacity: 0.6;
+//      opacity: 0.6;
       .bg {
         stroke-width: 10px;
         stroke-linejoin: round;
-        fill:@secondaryColor;
-        stroke:@secondaryColor;
+        fill: #9BB150;
+        stroke: #9BB150;
         pointer-events: none;
         opacity: 0;
         -webkit-transition: all 0.5s linear; /* For Safari 3.1 to 6.0 */
@@ -286,13 +290,13 @@
       &.active {
         opacity: 1;
         .bg {
-          opacity: 0.15;
+          opacity: 0.5;
         }
         .iconShape {
-          fill: @primaryColor !important;
+          //          fill: @primaryColor !important;
         }
         .nodeSetGroupLabel {
-          fill: @primaryColor !important;
+          //          fill: @primaryColor !important;
         }
 
       }

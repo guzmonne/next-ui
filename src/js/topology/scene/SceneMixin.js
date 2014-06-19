@@ -30,7 +30,7 @@
              * @property currentSceneName
              */
             currentSceneName: {},
-            sceneEnabling: {
+            sceneEnabled: {
                 value: true
             }
         },
@@ -104,22 +104,25 @@
                 this.currentScene(null);
             },
             disableCurrentScene: function (value) {
-                this.sceneEnabling(!value);
+                this.sceneEnabled(!value);
             },
             _registerEvents: function () {
                 nx.each(this.__events__, this._aop = function (eventName) {
                     this.upon(eventName, function (sender, data) {
-                        if (this.sceneEnabling()) {
-                            var currentScene = this.currentScene();
-                            if (currentScene.dispatch) {
-                                currentScene.dispatch(eventName, sender, data);
-                            }
-                            if (currentScene[eventName]) {
-                                currentScene[eventName].call(currentScene, sender, data);
-                            }
-                        }
+                        this.dispatchEvent(eventName, sender, data);
                     }, this);
                 }, this);
+            },
+            dispatchEvent: function (eventName, sender, data) {
+                if (this.sceneEnabled()) {
+                    var currentScene = this.currentScene();
+                    if (currentScene.dispatch) {
+                        currentScene.dispatch(eventName, sender, data);
+                    }
+                    if (currentScene[eventName]) {
+                        currentScene[eventName].call(currentScene, sender, data);
+                    }
+                }
             }
         }
     });

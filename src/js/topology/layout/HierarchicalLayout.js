@@ -38,7 +38,7 @@
                 var groups = {'__other__': []};
                 var topo = this.topology();
                 var levelBy = config.levelBy || this.levelBy();
-                topo.eachVisibleNode(function (node) {
+                topo.eachNode(function (node) {
                     var key;
                     if (nx.is(levelBy, 'String') && levelBy.substr(5) == 'model') {
                         key = node.model().get(levelBy.substring(6));
@@ -131,7 +131,7 @@
                 var graph = topo.graph();
 
                 groups[order[0]].sort(function (a, b) {
-                    return b.model().getEdgeSet().length - a.model().getEdgeSet().length;
+                    return Object.keys(b.model().edgeSet()).length - Object.keys(a.model().edgeSet()).length;
                 });
 
                 for (var i = 0; i < order.length - 1; i++) {
@@ -148,7 +148,7 @@
                             }
                         });
                         temp.sort(function (a, b) {
-                            return b.model().getEdgeSet().length - a.model().getEdgeSet().length;
+                            return Object.keys(b.model().edgeSet()).length - Object.keys(a.model().edgeSet()).length;
                         });
 
                         ary = ary.concat(temp);

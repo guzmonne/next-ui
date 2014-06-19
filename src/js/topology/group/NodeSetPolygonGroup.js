@@ -22,12 +22,6 @@
                     type: 'nx.graphic.Polygon',
                     props: {
                         'class': 'bg'
-                    },
-                    events: {
-                        'mousedown': '{#_mousedown}',
-                        'dragstart': '{#_dragstart}',
-                        'dragmove': '{#_drag}',
-                        'dragend': '{#_dragend}'
                     }
                 },
                 {
@@ -77,6 +71,12 @@
                                 events: {
                                     'click': '{#_clickLabel}'
                                 }
+                            },
+                            events: {
+                                'mousedown': '{#_mousedown}',
+                                'dragstart': '{#_dragstart}',
+                                'dragmove': '{#_drag}',
+                                'dragend': '{#_dragend}'
                             }
                         }
                     ],
@@ -221,7 +221,7 @@
                 this.fire('clickGroupLabel');
             },
             _mousedown: function (sender, event) {
-                event.captureDrag(this.view('shape'));
+                event.captureDrag(this.view('labelContainer'));
             },
             _dragstart: function (sender, event) {
                 this.blockDrawing(true);

@@ -62,6 +62,12 @@
         "src/js/data/EdgeSet.js",
         "src/js/data/EdgeSetCollection.js",
 
+        "src/js/data/Vertices.js",
+        "src/js/data/VertexSets.js",
+        "src/js/data/Edges.js",
+        "src/js/data/EdgeSets.js",
+        "src/js/data/EdgeSetCollections.js",
+
         "src/js/data/processor/NeXtForce.js",
         "src/js/data/processor/Force.js",
         "src/js/data/processor/Quick.js",
@@ -83,7 +89,8 @@
         "src/js/topology/core/Topology.js",
 
         "src/js/topology/layer/Layer.js",
-        "src/js/topology/layer/DoubleLayer.js",
+        "src/js/topology/layer/TripleLayer.js",
+
         "src/js/topology/node/AbstractNode.js",
         "src/js/topology/node/Node.js",
         "src/js/topology/node/NodesLayer.js",
@@ -137,6 +144,5 @@
     for (var h = 0; h < files.length; h++) {
         document.write("<script type='text/javascript' src='" + xPath + files[h] + "'></script>");
     }
-
 
 }(window, document, undefined));

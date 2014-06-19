@@ -239,6 +239,12 @@
             zoomByNodes: function (nodes, callback, context, boundScale) {
                 var bound = this.getBoundByNodes(nodes);
 
+                if (!bound) {
+                    /* jshint -W030 */
+                    callback && callback.call(context || this);
+                    return;
+                }
+
                 if (boundScale != null) {
                     bound.left -= bound.width * (boundScale - 1) / 2;
                     bound.top -= bound.height * (boundScale - 1) / 2;
@@ -293,68 +299,73 @@
                     var graph = this.graph();
                     if (graph) {
                         var startTime = new Date();
-                        var nodesLayer = this.getLayer('nodes');
-                        var nodeSetLayer = this.getLayer('nodeSet');
-                        var length = nodesLayer.nodes().length;
                         var topoMatrix = this.matrix();
                         var stageScale = topoMatrix.scale();
                         var positionAry = [];
-                        this.eachVisibleNode(function (node) {
+                        this.eachNode(function (node) {
+                            if (node.activated && !node.activated()) {
+                                return;
+                            }
                             var position = node.position();
                             positionAry[positionAry.length] = {
                                 x: position.x * stageScale + topoMatrix.x(),
                                 y: position.y * stageScale + topoMatrix.y()
                             };
                         });
+                        var calc = function (positionAry) {
+                            var length = positionAry.length;
+                            var iconRadius = 36 * 36;
+                            var dotRadius = 32 * 32;
+
+                            var testOverlap = function (sourcePosition, targetPosition) {
+                                var distance = Math.pow(Math.abs(sourcePosition.x - targetPosition.x), 2) + Math.pow(Math.abs(sourcePosition.y - targetPosition.y), 2);
+                                return{
+                                    iconOverlap: distance < iconRadius,
+                                    dotOverlap: distance < dotRadius
+                                };
+                            };
+
+                            var iconOverlapCounter = 0;
+                            var dotOverlapCounter = 0;
+
+                            for (var i = 0; i < length; i++) {
+                                var sourcePosition = positionAry[i];
+                                var iconIsOverlap = false;
+                                var dotIsOverlap = false;
+                                for (var j = 0; j < length; j++) {
+                                    var targetPosition = positionAry[j];
+                                    if (i !== j) {
+                                        var result = testOverlap(sourcePosition, targetPosition);
+                                        /* jshint -W030 */
+                                        result.iconOverlap && (iconIsOverlap = true);
+                                        /* jshint -W030 */
+                                        result.dotOverlap && (dotIsOverlap = true);
+                                    }
+                                }
+                                /* jshint -W030 */
+                                iconIsOverlap && iconOverlapCounter++;
+                                /* jshint -W030 */
+                                dotIsOverlap && dotOverlapCounter++;
+                            }
+
+                            //0.2,0.4,0.6.0.8,1
+                            var overlapPercent = 1;
+                            if (iconOverlapCounter / length > 0.2) {
+                                overlapPercent = 0.8;
+                                if (dotOverlapCounter / length > 0.8) {
+                                    overlapPercent = 0.2;
+                                } else if (dotOverlapCounter / length > 0.5) {
+                                    overlapPercent = 0.4;
+                                } else if (dotOverlapCounter / length > 0.15) {
+                                    overlapPercent = 0.6;
+                                }
+                            }
+                            return overlapPercent;
+                        };
+
                         if (window.Blob && window.Worker) {
-
-
                             var fn = "onmessage = function(e) { self.postMessage(calc(e.data)); };";
-
-                            //fn += 'calc=function(a){return a.length};';
-                            fn += '                        var calc = function (positionAry) {' +
-                                '                         var length = positionAry.length;' +
-                                '                           var iconRadius = 36 * 36;' +
-                                '                           var dotRadius = 32 * 32;' +
-                                '' +
-                                '                            var testOverlap = function (sourcePosition, targetPosition) {' +
-                                '                                var distance = Math.pow(Math.abs(sourcePosition.x - targetPosition.x), 2) + Math.pow(Math.abs(sourcePosition.y - targetPosition.y), 2);' +
-                                '                                return{' +
-                                '                                    iconOverlap: distance < iconRadius,' +
-                                '                                    dotOverlap: distance < dotRadius' +
-                                '                                }' +
-                                '                            };' +
-                                '                            var iconOverlapCounter = 0;' +
-                                '                            var dotOverlapCounter = 0;' +
-                                '                            for (var i = 0; i < length; i++) {' +
-                                '                                var sourcePosition = positionAry[i];' +
-                                '                                var iconIsOverlap = false;' +
-                                '                                var dotIsOverlap = false;' +
-                                '                                for (var j = 0; j < length; j++) {' +
-                                '                                    var targetPosition = positionAry[j];' +
-                                '                                    if (i !== j) {' +
-                                '                                        var result = testOverlap(sourcePosition, targetPosition);' +
-                                '                                        result.iconOverlap && (iconIsOverlap = true);' +
-                                '                                        result.dotOverlap && (dotIsOverlap = true);' +
-                                '                                    }' +
-                                '                                }' +
-                                '                                iconIsOverlap && iconOverlapCounter++;' +
-                                '                                dotIsOverlap && dotOverlapCounter++;' +
-                                '                            }' +
-                                '                            var overlapPercent = 1;' +
-                                '                            if (iconOverlapCounter / length > 0.2) {' +
-                                '                                overlapPercent = 0.8;' +
-                                '                                if (dotOverlapCounter / length > 0.8) {' +
-                                '                                    overlapPercent = 0.2;' +
-                                '                                } else if (dotOverlapCounter / length > 0.5) {' +
-                                '                                    overlapPercent = 0.4;' +
-                                '                                } else if (dotOverlapCounter / length > 0.15) {' +
-                                '                                    overlapPercent = 0.6;' +
-                                '                                }' +
-                                '                            }' +
-                                '                            return overlapPercent;' +
-                                '                        };';
-
+                            fn += "var calc = " + calc.toString();
 
                             if (!this.adjustWorker) {
                                 var blob = new Blob([fn]);
@@ -363,63 +374,12 @@
                                 var worker = this.adjustWorker = new Worker(blobURL);
                                 worker.onmessage = function (e) {
                                     var overlapPercent = e.data;
-                                    nodesLayer.updateNodeRevisionScale(overlapPercent);
-                                    nodeSetLayer.updateNodeRevisionScale(overlapPercent);
                                     this.revisionScale(overlapPercent);
                                 }.bind(this);
                             }
                             this.adjustWorker.postMessage(positionAry); // Start the worker.
                         }
 
-//                        var calc = function (positionAry) {
-//                            var length = positionAry.length;
-//                            var iconRadius = 32 * 32;
-//                            var dotRadius = 16 * 16;
-//
-//                            var testOverlap = function (sourcePosition, targetPosition) {
-//                                var distance = Math.pow(Math.abs(sourcePosition.x - targetPosition.x), 2) + Math.pow(Math.abs(sourcePosition.y - targetPosition.y), 2);
-//                                return{
-//                                    iconOverlap: distance < iconRadius,
-//                                    dotOverlap: distance < dotRadius
-//                                }
-//                            };
-//
-//
-//                            var iconOverlapCounter = 0;
-//                            var dotOverlapCounter = 0;
-//
-//                            for (var i = 0; i < length; i++) {
-//                                var sourcePosition = positionAry[i];
-//                                var iconIsOverlap = false;
-//                                var dotIsOverlap = false;
-//                                for (var j = 0; j < length; j++) {
-//                                    var targetPosition = positionAry[j];
-//                                    if (i !== j) {
-//                                        var result = testOverlap(sourcePosition, targetPosition);
-//                                        result.iconOverlap && (iconIsOverlap = true);
-//                                        result.dotOverlap && (dotIsOverlap = true);
-//                                    }
-//                                }
-//                                iconIsOverlap && iconOverlapCounter++;
-//                                dotIsOverlap && dotOverlapCounter++;
-//                            }
-//
-//                            //0.2,0.4,0.6.0.8,1
-//                            var overlapPercent = 1;
-//                            if (iconOverlapCounter / length > 0.2) {
-//                                overlapPercent = 0.8;
-//                                if (dotOverlapCounter / length > 0.6) {
-//                                    overlapPercent = 0.2;
-//                                } else if (dotOverlapCounter / length > 0.4) {
-//                                    overlapPercent = 0.4;
-//                                } else if (dotOverlapCounter / length > 0.2) {
-//                                    overlapPercent = 0.6;
-//                                }
-//                            }
-//
-//
-//                            return overlapPercent;
-//                        };
 
 //                        var overlapPercent = calc(positionAry);
 //                        this.revisionScale(overlapPercent);

@@ -322,8 +322,8 @@
 
                 if (this.drawMethod()) {
                     d = this.drawMethod().call(this, this.model(), this);
-                    this.view('path').append();
-                    this.view('line').remove();
+                    this.view('path').setStyle('display', 'block');
+                    this.view('line').setStyle('display', 'none');
                     this.view('path').set('d', d);
                     this.view('path').dom().setStyle('stroke-width', width);
 

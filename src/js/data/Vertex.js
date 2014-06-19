@@ -56,6 +56,10 @@
                 },
                 set: function (obj) {
                     var isModified = false;
+                    var _position = {
+                        x: this._x,
+                        y: this._y
+                    };
                     if (obj.x !== undefined && this._x !== obj.x) {
                         this._x = obj.x;
                         isModified = true;
@@ -70,7 +74,13 @@
                     }
 
                     if (isModified) {
-                        this.fire("updateCoordinate", this.position());
+                        this.fire("updateCoordinate", {
+                            oldPosition: _position,
+                            newPosition: {
+                                x: this._x,
+                                y: this._y
+                            }
+                        });
                         this.notify("vector");
                     }
                 }
@@ -109,6 +119,9 @@
                     return new Vector(position.x, position.y);
                 }
             },
+            restricted: {
+                value: false
+            },
             /**
              * Set/get vertex's visibility, and this property related to all connect edge set
              * @property visible {Boolean}
@@ -120,12 +133,29 @@
                 },
                 set: function (value) {
                     this._visible = value;
-                    this.eachEdgeSet(function (edgeSet) {
-                        edgeSet.visible(value);
-                    });
-                    this.eachEdgeSetCollection(function (edgeSet) {
-                        edgeSet.visible(value);
-                    });
+
+                    var graph = this.graph();
+
+                    if (value === false) {
+                        if (this.generated()) {
+                            nx.each(this.edgeSetCollections(), function (esc, linkKey) {
+                                graph.deleteEdgeSetCollection(linkKey);
+                            }, this);
+                            graph.removeVertex(this.id());
+                        }
+                    } else {
+                        if (!this.restricted() && !this.generated()) {
+                            graph.generateVertex(this);
+
+                            nx.each(this.edgeSets(), function (edgeSet) {
+                                graph._generateConnection(edgeSet);
+                            });
+                        }
+                    }
+                    var parentVertexSet = this.parentVertexSet();
+                    if (parentVertexSet) {
+                        graph.updateVertexSet(parentVertexSet);
+                    }
                 }
             },
             /**
@@ -152,27 +182,71 @@
             type: {
                 value: 'vertex'
             },
-            edgeSet: {
+            edgeSets: {
                 value: function () {
                     return {};
                 }
             },
-            edgeSetCollection: {
+            edgeSetCollections: {
                 value: function () {
                     return {};
                 }
             },
-            /**
-             * Vertex parent vertex set, if exist
-             * @property parentVertexSet {nx.data.VertexSet}
-             */
-            parentVertexSet: {},
+            edges: {
+                get: function () {
+                    var edges = {};
+                    nx.each(this.edgeSets(), function (edgeSet) {
+                        nx.extend(edges, edgeSet.edges());
+                    });
+                    return edges;
+                }
+            },
+            connectedVertices: {
+                get: function () {
+                    var vertices = {};
+                    this.eachConnectedVertex(function (vertex, id) {
+                        vertices[id] = vertex;
+                    }, this);
+                    return vertices;
+                }
+            },
             /**
              * Graph instance
              * @property graph {nx.data.ObservableGraph}
              */
             graph: {
 
+            },
+            /**
+             * Vertex parent vertex set, if exist
+             * @property parentVertexSet {nx.data.VertexSet}
+             */
+            parentVertexSet: {},
+            rootVertexSet: {
+                get: function () {
+                    var parentVertexSet = this.parentVertexSet();
+                    while (parentVertexSet && parentVertexSet.parentVertexSet()) {
+                        parentVertexSet = parentVertexSet.parentVertexSet();
+                    }
+                    return parentVertexSet;
+                }
+            },
+            generatedRootVertexSet: {
+                get: function () {
+                    var parentVertexSet = this.parentVertexSet();
+
+                    while (parentVertexSet && parentVertexSet.parentVertexSet()) {
+
+                        var _parentVertexSet = parentVertexSet.parentVertexSet();
+
+                        if (!_parentVertexSet.generated() || (_parentVertexSet.generated() && _parentVertexSet.activated())) {
+                            parentVertexSet = _parentVertexSet;
+                        } else {
+                            break;
+                        }
+                    }
+                    return parentVertexSet;
+                }
             }
         },
         methods: {
@@ -194,154 +268,48 @@
              * @param linkKey {String}
              */
             addEdgeSet: function (edgeSet, linkKey) {
-                var _edgeSet = this.edgeSet();
-                _edgeSet[linkKey] = edgeSet;
+                var _edgeSets = this.edgeSets();
+                _edgeSets[linkKey] = edgeSet;
             },
             /**
              * Remove edgeSet from connected edges array
              * @method removeEdgeSet
-             * @param edgeSet {nx.data.EdgeSet}
+             * @param linkKey {String}
              */
-            removeEdgeSet: function (edgeSet) {
-                var linkKey = edgeSet.linkKey();
-                var _edgeSet = this.edgeSet();
-                delete  _edgeSet[linkKey];
+            removeEdgeSet: function (linkKey) {
+                var _edgeSets = this.edgeSets();
+                delete  _edgeSets[linkKey];
             },
-            /**
-             * Iterate all connected edgeSet
-             * @method eachEdgeSet
-             * @param callback {Function}
-             * @param context {Object}
-             */
-            eachEdgeSet: function (callback, context) {
-                nx.each(this.edgeSet(), callback, context || this);
-            },
-            /**
-             * Iterate all connected visible edgeSet
-             * @method eachVisibleEdgeSet
-             * @param callback {Function}
-             * @param context {Object}
-             */
-
-            eachVisibleEdgeSet: function (callback, context) {
-                nx.each(this.edgeSet(), function (edgeSet, linkKey) {
-                    if (edgeSet.visible() && edgeSet.source().visible() && edgeSet.target().visible()) {
-                        callback.call(context || this, edgeSet, linkKey);
-                    }
-                }, this);
-            },
-            /**
-             * Get all edgeSet
-             * @method getEdgeSet
-             * @returns {Array}
-             */
-            getEdgeSet: function () {
-                var ary = [];
-                this.eachEdgeSet(function (edgeSet) {
-                    ary[ary.length] = edgeSet;
-                }, this);
-                return ary;
-            },
-
-
             addEdgeSetCollection: function (esc, linkKey) {
-                var edgeSetCollection = this.edgeSetCollection();
-                edgeSetCollection[linkKey] = esc;
+                var edgeSetCollections = this.edgeSetCollections();
+                edgeSetCollections[linkKey] = esc;
             },
-            removeEdgeSetCollection: function (esc, linkKey) {
-                var edgeSetCollection = this.edgeSetCollection();
-                delete edgeSetCollection[linkKey];
-            },
-            eachEdgeSetCollection: function (callback, context) {
-                nx.each(this.edgeSetCollection(), callback, context || this);
-            },
-            getEdgeSetCollection: function () {
-                var ary = [];
-                this.eachEdgeSet(function (edgeSet) {
-                    ary[ary.length] = edgeSet;
-                }, this);
-                return ary;
-            },
-            /**
-             * Iterate all connected edges
-             * @method eachEdge
-             * @param callback {Function}
-             * @param context {Object}
-             */
-            eachEdge: function (callback, context) {
-                this.eachEdgeSet(function (edgeSet) {
-                    edgeSet.eachEdge(callback, context || this);
-                }, this);
-            },
-            /**
-             * Return all connected edges
-             * @method getEdges
-             * @return {Object}
-             */
-            getEdges: function () {
-                var ary = [];
-                this.eachEdge(function (edge) {
-                    ary[ary.length] = edge;
-                }, this);
-                return ary;
+            removeEdgeSetCollection: function (linkKey) {
+                var edgeSetCollections = this.edgeSetCollections();
+                delete edgeSetCollections[linkKey];
             },
             /**
              * Iterate all connected vertices
-             * @method eachConnectedVertices
+             * @method eachConnectedVertex
              * @param callback {Function}
              * @param context {Object}
              */
-            eachConnectedVertices: function (callback, context) {
+            eachConnectedVertex: function (callback, context) {
                 var id = this.id();
-                this.eachEdgeSet(function (edgeSet) {
+                nx.each(this.edgeSets(), function (edgeSet) {
                     var vertex = edgeSet.sourceID() == id ? edgeSet.target() : edgeSet.source();
-                    callback.call(context || this, vertex, this);
+                    if (vertex.visible() && !vertex.restricted()) {
+                        callback.call(context || this, vertex, vertex.id());
+                    }
                 }, this);
 
-                this.eachEdgeSetCollection(function (edgeSetCollection) {
-                    var vertex = edgeSetCollection.sourceID() == id ? edgeSetCollection.target() : edgeSetCollection.source();
-                    callback.call(context || this, vertex, this);
+                nx.each(this.edgeSetCollections(), function (esc) {
+                    var vertex = esc.sourceID() == id ? esc.target() : esc.source();
+                    if (vertex.visible() && !vertex.restricted()) {
+                        callback.call(context || this, vertex, vertex.id());
+                    }
                 }, this);
-
-
             },
-            /**
-             * Get all connected vertices
-             * @method getConnectedVertices
-             * @returns {Object} key is vertex id, value is vertex
-             */
-            getConnectedVertices: function () {
-                var vertices = {};
-                this.eachConnectedVertices(function (vertex) {
-                    vertices[vertex.id()] = vertex;
-                }, this);
-                return vertices;
-            },
-            /**
-             *Get root vertex set
-             * @method getRootVertexSet
-             * @returns {*}
-             */
-            getRootVertexSet: function () {
-                var parentVertexSet = this.parentVertexSet();
-
-                while (parentVertexSet && parentVertexSet.parentVertexSet()) {
-                    parentVertexSet = parentVertexSet.parentVertexSet();
-                }
-
-                return parentVertexSet;
-            },
-            getVisibleParentVertexSet: function () {
-                var parentVertexSet = this.parentVertexSet();
-
-                while (parentVertexSet && parentVertexSet.parentVertexSet() && !parentVertexSet.visible()) {
-                    parentVertexSet = parentVertexSet.parentVertexSet();
-                }
-
-                return parentVertexSet;
-            },
-
-
             translate: function (x, y) {
                 var _position = this.position();
                 if (x != null) {
@@ -374,6 +342,4 @@
             }
         }
     });
-
-
 })(nx, nx.global);

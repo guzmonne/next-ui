@@ -81,7 +81,7 @@
 
                 ctx.drawImage(img, 0, 0);
                 ctx.font = fontSize + "px next-font";
-                this.eachVisibleNode(function (node) {
+                this.eachNode(function (node) {
                     var iconType = node.iconType();
                     var iconObject = nx.graphic.Icons.get(iconType);
                     ctx.fillStyle = '#fff';

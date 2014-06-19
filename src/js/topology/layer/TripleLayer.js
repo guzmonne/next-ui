@@ -6,7 +6,7 @@
      * @extend nx.graphic.Group
      * @module nx.graphic.Topology
      */
-    nx.define("nx.graphic.Topology.DoubleLayer", nx.graphic.Topology.Layer, {
+    nx.define("nx.graphic.Topology.TripleLayer", nx.graphic.Topology.Layer, {
         view: {
             type: 'nx.graphic.Group',
             content: [
@@ -68,10 +68,7 @@
                 activeElements.on('change', function (sender, args) {
                     if (args.action == 'add') {
                         nx.each(args.items, function (el) {
-                            if (highlightedElements.indexOf(el) !== -1) {
-                                activeElements.remove(el);
-                                highlightedElements.add(el);
-                            } else {
+                            if (highlightedElements.indexOf(el) == -1) {
                                 el.append(activeEl);
                             }
                         });
@@ -121,27 +118,27 @@
                 this._fade = _force;
             },
             /**
-             * @param force {Boolean} force recover all items
-             * @param [callback] {Function} callback after fade out
-             * @param [context] {Object} callback context
-             */
-            recover: function (force, callback, context) {
-                this.fadeIn(force, callback, context);
-            },
-            /**
              * FadeIn layer's fade statues
              * @param force {Boolean} force recover all items
              * @param [callback] {Function} callback after fade out
              * @param [context] {Object} callback context
              */
             fadeIn: function (force, callback, context) {
-                var el = this.view('static') || this.view();
+                var el = this.view('static');
                 if (this._fade && !force) {
                     return;
                 }
 
                 el.setStyle('opacity', 1, 0, callback, context);
                 delete this._fade;
+            },
+            /**
+             * @param force {Boolean} force recover all items
+             * @param [callback] {Function} callback after fade out
+             * @param [context] {Object} callback context
+             */
+            recover: function (force, callback, context) {
+                this.fadeIn(force, callback, context);
             },
             /**
              * clear layer's content

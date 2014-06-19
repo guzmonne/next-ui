@@ -16,28 +16,50 @@
             nodes: {
                 get: function () {
                     var nodes = {};
-                    this.eachNode(function (node, id) {
-                        nodes[id] = node;
-                    }, this);
+                    var topo = this.topology();
+                    var model = this.model();
+                    if (this.activated()) {
+                        return;
+                    }
+                    nx.each(model.vertices(), function (vertex, id) {
+                        var node = topo.getNode(id);
+                        if (node) {
+                            nodes[id] = node;
+                        }
+                    });
+
+                    nx.each(model.vertexSet(), function (vertexSet, id) {
+                        var nodeSet = topo.getNode(id);
+                        if (nodeSet) {
+                            if (nodeSet.activated()) {
+                                nodes[id] = nodeSet;
+                            } else {
+                                nx.extend(nodes, nodeSet.nodes());
+                            }
+                        }
+                    });
                     return nodes;
                 }
             },
-            subNodes: {
+            nodeSets: {
                 get: function () {
-                    var nodes = {};
-                    this.eachSubNode(function (node, id) {
-                        nodes[id] = node;
-                    }, this);
-                    return nodes;
-                }
-            },
-            visibleSubNodes: {
-                get: function () {
-                    var nodes = {};
-                    this.eachVisibleSubNode(function (node, id) {
-                        nodes[id] = node;
-                    }, this);
-                    return nodes;
+                    var nodeSets = {};
+                    var topo = this.topology();
+                    var model = this.model();
+                    if (this.activated()) {
+                        return;
+                    }
+                    nx.each(model.vertexSet(), function (vertexSet, id) {
+                        var nodeSet = topo.getNode(id);
+                        if (nodeSet) {
+                            if (nodeSet.activated()) {
+                                nodeSets[id] = nodeSet;
+                            } else {
+                                nx.extend(nodeSets, nodeSet.nodeSets());
+                            }
+                        }
+                    });
+                    return nodeSets;
                 }
             },
             /**
@@ -65,16 +87,6 @@
             },
             activated: {
                 value: true
-            },
-            rootParentNodeSet: {
-                get: function () {
-                    var parentEdgeSet = this.model().getRootParentVertexSet();
-                    if (parentEdgeSet) {
-                        return this.topology().getNode(parentEdgeSet.id());
-                    } else {
-                        return null;
-                    }
-                }
             },
             /**
              * Show/hide node's icon
@@ -112,7 +124,7 @@
                     }
                     this._updateMinusIcon();
 
-                    if(this._labelVisible){
+                    if (this._labelVisible) {
                         this.view('label').set('visible', value > 0.4);
                     }
                 }
@@ -186,20 +198,26 @@
         methods: {
             setModel: function (model) {
                 this.inherited(model);
-                //init
-                this._activated = model.activated();
-                //set binding
                 this.setBinding('activated', 'model.activated,direction=<>', this);
+            },
+            update: function () {
+                this.view().visible(this.activated() && this.model().inheritedVisible());
+            },
+            expand: function (isAnimation) {
+
+            },
+            collapse: function (isAnimation) {
+
             },
             _expand: function () {
                 var position = this.position();
-                this.visible(false);
+                this.view().visible(false);
                 this.activated(false);
-                var visibleSubNodes = this.visibleSubNodes();
-                var nodeLength = nx.util.keys(visibleSubNodes).length;
+                var nodes = this.nodes();
+                var nodeLength = nx.util.keys(nodes).length;
 
 
-                if (nodeLength > 50) {
+                if (nodeLength > 50 || nodeLength === 0) {
                     this.fire('beforeExpandNode', this);
                     this.fire('expandNode', this);
                 } else {
@@ -210,10 +228,9 @@
                         }
                     }.bind(this);
 
-                    this.eachNode(function (node) {
+                    nx.each(this.nodes(), function (node) {
                         var _position = node.position();
                         node.position(position);
-                        node.parentNodeSet(this);
                         node.moveTo(_position.x, _position.y, function () {
                             queueCounter++;
                             finish();
@@ -228,12 +245,12 @@
                 var position = this.position();
                 var topo = this.topology();
                 var graph = topo.graph();
-                var visibleSubNodes = this.visibleSubNodes();
-                var nodeLength = nx.util.keys(visibleSubNodes).length;
+                var nodes = this.nodes();
+                var nodeLength = nx.util.keys(nodes).length;
 
 
                 if (nodeLength > 50) {
-                    this.visible(true);
+                    this.view().visible(true);
                     this.activated(true);
                     this.fire('beforeCollapseNode');
                     this.fire('collapseNode');
@@ -241,7 +258,7 @@
                     var queueCounter = 0;
                     var finish = function () {
                         if (queueCounter == nodeLength) {
-                            this.visible(true);
+                            this.view().visible(true);
                             this.activated(true);
                             nx.each(positionMap, function (position, id) {
                                 var vertex = graph.getVertex(id) || graph.getVertexSet(id);
@@ -253,7 +270,7 @@
                         }
                     }.bind(this);
 
-                    this.eachVisibleSubNode(function (node) {
+                    nx.each(this.nodes(), function (node) {
                         positionMap[node.model().id()] = node.model().position();
                         node.moveTo(position.x, position.y, function () {
                             queueCounter++;
@@ -264,49 +281,6 @@
 
                     this.fire('beforeCollapseNode');
                 }
-
-
-            },
-
-            /**
-             * Iterate child nodes/nodeSet in this nodeSet
-             * @method eachNode
-             * @param callback
-             * @param context
-             */
-            eachNode: function (callback, context) {
-                var topo = this.topology();
-                this.model().eachVertex(function (vertex, id) {
-                    var node = topo.getNode(id);
-                    if (node) {
-                        callback.call(context || this, node, id);
-                    }
-                }, this);
-            },
-            /**
-             * Iterate all sub nodes in this node set
-             * @method eachSunNode
-             * @param callback
-             * @param context
-             */
-            eachSubNode: function (callback, context) {
-                var topo = this.topology();
-                this.model().eachSubVertex(function (vertex, id) {
-                    var node = topo.getNode(id);
-                    if (node) {
-                        callback.call(context || this, node, id);
-                    }
-                }, this);
-            },
-            eachVisibleSubNode: function (callback, context) {
-                var topo = this.topology();
-                var vertices = this.model().visibleSubVertices();
-                nx.each(vertices, function (vertex, id) {
-                    var node = topo.getNode(vertex.id());
-                    if (node) {
-                        callback.call(context || this, node, id);
-                    }
-                });
             },
             _updateMinusIcon: function () {
                 var icon = this.view('icon');

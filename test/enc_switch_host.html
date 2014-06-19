@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Example</title>
+    <!--<script type="text/javascript" src="../../next-core/dest/next-core.js"></script>-->
+    <!--<script type="text/javascript" src="../../next-ui/dest/js/next-ui.js"></script>-->
+    <!--<script type="text/javascript" src="../src/js/next-graphic.js"></script>-->
+    <!--<link rel="stylesheet" href="../../next-ui/dest/css/next-blue.css"/>-->
+    <!--<link rel="stylesheet" href="../src/less/next-graphic.css"/>-->
+    <script type="text/javascript" src="../lib/GraphGenerator.js"></script>
+
+
+
+
+    <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/NeXt-Core/lastSuccessfulBuild/artifact/dest/next-core.js"></script>
+    <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/NeXt-UI/lastSuccessfulBuild/artifact/dest/js/next-ui.js"></script>
+    <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/Next-Graphic/lastSuccessfulBuild/artifact/dest/js/next-graphic.js"></script>
+    <link rel="stylesheet" href="http://10.75.161.96:8080/jenkins/job/NeXt-UI/lastSuccessfulBuild/artifact/dest/css/next-blue.css"/>
+    <link rel="stylesheet" href="../src/less/next-graphic.css"/>
+
+</head>
+<style>
+    html, body {
+        padding: 0px;
+        height: 100%;
+        width: 100%;
+    }
+
+    .node-label {
+        font-size: 9px;
+    }
+
+    .row {
+        height: 100%
+    }
+
+    #topo {
+        height: 100%;
+    }
+</style>
+<body>
+<div id="topo" class="col-md-8"></div>
+<div id="list" class="col-md-4">
+
+    <label for="">
+        <input type="checkbox" id="showHost" onclick="change()"/>
+        show Host
+    </label>
+
+</div>
+<script type="text/javascript">
+
+
+    var data = {"response": {"nodes": [
+        {"deviceType": "SWITCH", "label": "SDN-BRANCH-2960S", "id": "bae41d33-78c4-43fb-83ec-3f0af65a866d", "x": 697, "y": 418, "ip": "40.0.5.4", "softwareVersion": "15.2(1)E2", "osType": "c2960s-universalk9-mz.152-1.E2.bin", "fixed": true, "role": "Core", "nodeType": "device", "deviceRoleOrigin": "auto", "aclApplied": true},
+        {"deviceType": "SWITCH", "label": "SDN-BRANCH-2960S-STACK", "id": "78ea057b-f259-497c-9569-8002bbeac7d9", "x": 511, "y": 1109, "ip": "40.0.7.5", "softwareVersion": "15.2(1)E2", "osType": "c2960s-universalk9-mz.152-1.E2.bin", "fixed": true, "role": "Core", "nodeType": "device", "deviceRoleOrigin": "auto", "aclApplied": true},
+        {"deviceType": "SWITCH", "label": "SDN-BRANCH-3560CG", "id": "747ddf10-7dfe-4e8a-873a-4cea1ff30709", "x": 1144, "y": 708, "ip": "40.0.5.7", "softwareVersion": "12.2(55)EX", "osType": "c3560c405ex-universalk9-mz.122-55.EX.bin", "fixed": true, "role": "Core", "nodeType": "device", "deviceRoleOrigin": "auto", "aclApplied": true},
+        {"deviceType": "SWITCH", "label": "SDN-BRANCH-3560X", "id": "60778851-8159-4445-9ea7-e66e94e29340", "x": 1160, "y": 518, "ip": "40.0.5.9", "softwareVersion": "15.2(1)E2", "osType": "c3560e-universalk9-mz.152-1.E2.bin", "fixed": true, "role": "Core", "nodeType": "device", "deviceRoleOrigin": "auto", "aclApplied": true},
+        {"deviceType": "SWITCH", "label": "SDN-BRANCH-3650", "id": "59f6edae-e914-4096-8a59-e53744188be9", "x": 740, "y": 1059, "ip": "40.0.7.3", "softwareVersion": "03.03.00SE", "osType": "packages.conf", "fixed": true, "role": "Core", "nodeType": "device", "deviceRoleOrigin": "auto", "aclApplied": true},
+        {"deviceType": "SWITCH", "label": "SDN-BRANCH-3750-STACK", "id": "2d96492b-d08e-4c60-a84a-caae65847694", "x": 296, "y": 577, "ip": "40.0.5.5", "softwareVersion": "15.2(1)E2", "osType": "c3750e-universalk9-mz.152-1.E2.bin", "fixed": true, "role": "Core", "nodeType": "device", "deviceRoleOrigin": "auto", "aclApplied": true},
+        {"deviceType": "SWITCH", "label": "SDN-BRANCH-3750X", "id": "3c7d28f7-356f-46b9-bf34-3dc7c5c6b273", "x": 241, "y": 1060, "ip": "40.0.7.4", "softwareVersion": "15.2(1)E1", "osType": "c3750e-universalk9-mz.152-1.E1.bin", "fixed": true, "role": "Core", "nodeType": "device", "deviceRoleOrigin": "auto", "aclApplied": true},
+        {"deviceType": "accesspoint", "label": "SDN-BRANCH-AP1252-1", "id": "fbf6573e-e261-4dd2-a58a-7d31b1f015b3", "x": 446, "y": 397, "ip": "40.0.5.39", "softwareVersion": "15.2(20130113:221158)$", "fixed": true, "role": "Core", "nodeType": "device", "deviceRoleOrigin": "auto", "aclApplied": true},
+        {"deviceType": "asr", "label": "SDN-BRANCH-ASR1002", "id": "3671334f-8cc4-4b33-8878-955483ae3931", "x": 569, "y": 214, "ip": "40.0.3.6", "softwareVersion": "15.2(4)S3", "osType": "asr1000rp1-adventerprisek9.03.07.03.S.152-4.S3.bin", "fixed": true, "role": "Border Router", "nodeType": "device", "deviceRoleOrigin": "auto", "aclApplied": true},
+        {"deviceType": "SWITCH", "label": "SDN-BRANCH-C2960S-L", "id": "11c93d80-fe68-4e13-9595-c47bb1fefa3f", "x": 908, "y": 365, "ip": "40.0.5.6", "softwareVersion": "15.2(1)E2", "osType": "c2960s-universalk9-mz.152-1.E2.bin", "fixed": true, "role": "Core", "nodeType": "device", "deviceRoleOrigin": "auto", "aclApplied": true},
+        {"deviceType": "SWITCH", "label": "SDN-BRANCH-C4K", "id": "da27d538-c109-45da-a883-a7c65ed3ebcf", "x": 630, "y": 259, "ip": "40.0.5.2", "softwareVersion": "03.03.00.XO", "fixed": true, "role": "Core", "nodeType": "device", "deviceRoleOrigin": "auto", "aclApplied": true},
+        {"deviceType": "SWITCH", "label": "SDN-BRANCH-C6880X", "id": "bb09ba8f-12f0-4aa7-ac9a-2589e9b719d1", "x": -1431, "y": 1306, "ip": "40.0.4.6", "softwareVersion": "15.1(2)SY1", "osType": "c6880x-ipservicesk9-mz.SPA.151-2.SY1.bin", "fixed": true, "role": "Core", "nodeType": "device", "deviceRoleOrigin": "auto", "aclApplied": true},
+        {"deviceType": "SWITCH", "label": "SDN-BRANCH-C6K", "id": "a9e34246-dea9-4467-804c-f56119fc25ec", "x": 781, "y": 613, "ip": "40.0.7.2", "softwareVersion": "15.0(1)SY4", "osType": "s2t54-ipbasek9-mz.SPA.150-1.SY4.bin", "fixed": true, "role": "Core", "nodeType": "device", "deviceRoleOrigin": "auto", "aclApplied": true},
+        {"deviceType": "ROUTER", "label": "SDN-BRANCH-ISR3945", "id": "a3aa7132-da18-4f46-b740-bf0cf1f92595", "x": -650, "y": 469, "ip": "40.0.2.2", "softwareVersion": "15.3(3)M", "osType": "c3900-universalk9-mz.SPA.153-3.M.bin", "fixed": true, "role": "Core", "nodeType": "device", "deviceRoleOrigin": "auto", "aclApplied": true},
+        {"deviceType": "ROUTER", "label": "SDN-BRANCH-ISR4451", "id": "47b6ec65-de20-4392-9f2a-18ec5cc457d2", "x": -1453, "y": 291, "ip": "40.0.3.2", "softwareVersion": "03.11.00.S", "osType": "isr4400-universalk9.03.11.00.S.154-1.S-std.SPA.bin", "fixed": true, "role": "Core", "nodeType": "device", "deviceRoleOrigin": "auto", "aclApplied": true},
+        {"deviceType": "SWITCH", "label": "SDN-BRANCH-N3K", "id": "2b347ea5-e8ad-4d7d-9825-80d4b26d3a1d", "x": -2555, "y": 912, "ip": "40.0.4.4", "softwareVersion": "6.0(2)A1(1c)", "osType": "bootflash:///n3500-uk9.6.0.2.A1.1c.bin", "fixed": true, "role": "Core", "nodeType": "device", "deviceRoleOrigin": "auto", "aclApplied": true},
+        {"deviceType": "SWITCH", "label": "SDN-BRANCH-N5K", "id": "d0b16854-4da9-4301-9c35-f6733660c162", "x": -2801, "y": -111, "ip": "40.0.4.3", "softwareVersion": "6.0(2)N2(3)", "osType": "bootflash:///n5000-uk9.6.0.2.N2.3.bin", "fixed": true, "role": "Core", "nodeType": "device", "deviceRoleOrigin": "auto", "aclApplied": true},
+        {"deviceType": "WLC", "label": "SDN-BRANCH-WLC5760", "id": "2854277c-d1a4-4aa9-b117-867e36cb91c4", "x": -2795, "y": 597, "ip": "40.0.4.5", "softwareVersion": "03.03.00SE", "osType": "packages.conf", "fixed": true, "role": "Core", "nodeType": "device", "deviceRoleOrigin": "auto", "aclApplied": true},
+        {"deviceType": "WLC", "label": "SDN-BRANCH-WLC5K", "id": "24d90835-e770-439e-b0d6-925c1cb8b1c5", "x": 333, "y": 729, "ip": "40.0.5.3", "softwareVersion": "8.0.49.11", "fixed": true, "role": "Core", "nodeType": "device", "deviceRoleOrigin": "auto", "aclApplied": true},
+        {"deviceType": "asr", "label": "SDN-CAMPUS-ASR1002", "id": "6a933b86-31ae-4b54-92ad-2d0c02627a40", "x": -197, "y": -755, "ip": "40.0.1.1", "softwareVersion": "15.2(4)S3", "osType": "asr1000rp1-adventerprisek9.03.07.03.S.152-4.S3.bin", "fixed": true, "role": "Border Router", "nodeType": "device", "deviceRoleOrigin": "auto", "aclApplied": true},
+        {"deviceType": "ROUTER", "label": "SDN-CAMPUS-ISR3945", "id": "a45b3fe5-8f79-44ad-8980-530bf1bff0cd", "x": -301, "y": -25, "ip": "40.0.2.1", "softwareVersion": "15.3(3)M", "osType": "c3900-universalk9-mz.SPA.153-3.M.bin", "fixed": true, "role": "Core", "nodeType": "device", "deviceRoleOrigin": "auto", "aclApplied": true},
+        {"deviceType": "ROUTER", "label": "SDN-CAMPUS-ISR4451", "id": "c6133cc9-b68c-48a2-89f6-6090503acc7c", "x": -289, "y": 870, "ip": "40.0.1.2", "softwareVersion": "03.10.01.S", "osType": "isr4400-universalk9.03.10.01.S.153-3.S1-ext.SPA.bin", "fixed": true, "role": "Core", "nodeType": "device", "deviceRoleOrigin": "auto", "aclApplied": true},
+        {"deviceType": "WIRED", "label": "40.0.7.7", "id": "dfd3a048-51ff-4c7e-8537-a1c9ef265a5e", "x": 1728, "y": 1319, "ip": "40.0.7.7", "fixed": true, "role": "", "nodeType": "host", "userId": "admin"}
+    ], "links": [
+        {"id": "8daee63e-7e1d-46ad-a90c-6a8db56a1b48", "source": "3671334f-8cc4-4b33-8878-955483ae3931", "startPortID": "fd3a3f14-47c0-4cdd-9250-98c8d7da80c6", "target": "da27d538-c109-45da-a883-a7c65ed3ebcf", "endPortID": "fa03197b-caae-42ee-b5f0-eceeb73d1d9e", "linkStatus": "UP"},
+        {"id": "f33b2cb9-c502-4ff7-bed9-b266509800b6", "source": "747ddf10-7dfe-4e8a-873a-4cea1ff30709", "startPortID": "7c189a0f-c536-47a4-ad17-c40bceccc56a", "target": "da27d538-c109-45da-a883-a7c65ed3ebcf", "endPortID": "69d793e8-640c-4cc9-b578-e3762cd39d0f", "linkStatus": "UP"},
+        {"id": "66b81b29-0207-4fb7-ab6a-cff8c880fc87", "source": "a45b3fe5-8f79-44ad-8980-530bf1bff0cd", "startPortID": "8c2a38cf-b224-4327-8225-db35f022a7ee", "target": "6a933b86-31ae-4b54-92ad-2d0c02627a40", "endPortID": "2511fe43-64cf-4fbd-a893-55c29789f41e", "linkStatus": "UP"},
+        {"id": "7014f71a-5176-4876-9c93-7aa9fcbe188f", "source": "a45b3fe5-8f79-44ad-8980-530bf1bff0cd", "startPortID": "0e59edad-9642-47c2-ab95-4c6106d3bd18", "target": "c6133cc9-b68c-48a2-89f6-6090503acc7c", "endPortID": "ed529c31-8ca5-48cd-af9d-6254bd2fba87", "linkStatus": "UP"},
+        {"id": "68727ebe-87b0-4e2f-83b3-7b212dbf8f7e", "source": "a45b3fe5-8f79-44ad-8980-530bf1bff0cd", "startPortID": "ff9cbdea-f100-4b0e-bdc0-1c05b093a72a", "target": "a3aa7132-da18-4f46-b740-bf0cf1f92595", "endPortID": "1de39205-6eaa-4e64-b309-1b1ec6679e32", "linkStatus": "UP"},
+        {"id": "971d4aaa-5188-4ab5-b694-03e015b5856e", "source": "47b6ec65-de20-4392-9f2a-18ec5cc457d2", "startPortID": "463b8c62-246d-46be-be4d-ee10e1a0de74", "target": "a3aa7132-da18-4f46-b740-bf0cf1f92595", "endPortID": "26098e00-8673-447d-9e93-9c97a6fc0eb9", "linkStatus": "UP"},
+        {"id": "59275cfb-564f-41aa-85af-69e934c8508b", "source": "3671334f-8cc4-4b33-8878-955483ae3931", "startPortID": "5678844c-fd10-4286-b7b8-9755584e564c", "target": "a3aa7132-da18-4f46-b740-bf0cf1f92595", "endPortID": "24730270-70af-44a9-8581-bc3c506ed058", "linkStatus": "UP"},
+        {"id": "6dbe34c2-2ad5-49ec-b45e-768b4b6bb306", "source": "d0b16854-4da9-4301-9c35-f6733660c162", "startPortID": "3af96ff1-8f15-4dcb-a0cc-ac4fe22583cb", "target": "2b347ea5-e8ad-4d7d-9825-80d4b26d3a1d", "endPortID": "51880571-3b5b-41ba-a792-670fce0f5d3b", "linkStatus": "UP"},
+        {"id": "ba063b1e-0b2b-4240-acec-de1b71bc800f", "source": "d0b16854-4da9-4301-9c35-f6733660c162", "startPortID": "df2862bb-7314-4015-9695-12eac7b44cc6", "target": "2854277c-d1a4-4aa9-b117-867e36cb91c4", "endPortID": "277e2cf2-963c-429c-a146-718e03209472", "linkStatus": "UP"},
+        {"id": "5e8f54ce-af63-48b1-8576-8879689e882f", "source": "d0b16854-4da9-4301-9c35-f6733660c162", "startPortID": "d49dc1ad-f189-4290-b8af-07ef8b08db0d", "target": "bb09ba8f-12f0-4aa7-ac9a-2589e9b719d1", "endPortID": "806c044d-883a-420f-b38b-2931342f5603", "linkStatus": "UP"},
+        {"id": "06c5e3ff-3f27-40a7-9b01-caab2fa6b98f", "source": "d0b16854-4da9-4301-9c35-f6733660c162", "startPortID": "322f93a2-1023-4ad7-a784-3f5e76cb54ae", "target": "47b6ec65-de20-4392-9f2a-18ec5cc457d2", "endPortID": "1cd44729-b786-4d25-9efa-7fcb06114dc6", "linkStatus": "UP"},
+        {"id": "ca28ba47-ab7a-4194-a70f-8a9af26def69", "source": "d0b16854-4da9-4301-9c35-f6733660c162", "startPortID": "00936d84-dd9b-4688-8daa-1205aa195b01", "target": "47b6ec65-de20-4392-9f2a-18ec5cc457d2", "endPortID": "16eae64e-7602-4f86-bdd4-bb6e88e983e1", "linkStatus": "UP"},
+        {"id": "045e2f72-91c9-4d09-b718-52a08e91c8f2", "source": "2d96492b-d08e-4c60-a84a-caae65847694", "startPortID": "46db5d68-2e98-4490-9836-82f9fc39724f", "target": "da27d538-c109-45da-a883-a7c65ed3ebcf", "endPortID": "62b42995-25c4-4cf2-b4ae-bf05ab221a84", "linkStatus": "UP"},
+        {"id": "ef8781db-661a-4dd5-8851-f1e377f896ed", "source": "bae41d33-78c4-43fb-83ec-3f0af65a866d", "startPortID": "fea4f233-ec72-4bbd-98a8-a06f75c9871b", "target": "da27d538-c109-45da-a883-a7c65ed3ebcf", "endPortID": "66477f40-9aba-41fd-b314-ef0f796065ed", "linkStatus": "UP"},
+        {"id": "7e7acf74-4edd-43ac-b5fd-416a81ca6c4e", "source": "da27d538-c109-45da-a883-a7c65ed3ebcf", "startPortID": "92642ce8-ba4b-4422-90fd-2b577356ae68", "target": "60778851-8159-4445-9ea7-e66e94e29340", "endPortID": "37cca468-0e6d-4efb-b05a-d33af0acab20", "linkStatus": "UP"},
+        {"id": "c6df54d1-9d24-48a2-bf01-e7eca99d01d8", "source": "a9e34246-dea9-4467-804c-f56119fc25ec", "startPortID": "cb647ed7-e6f9-44f8-ad70-0c7f1fdbfafe", "target": "3671334f-8cc4-4b33-8878-955483ae3931", "endPortID": "d13c60b2-5008-4e3c-979f-0264553b2993", "linkStatus": "UP"},
+        {"id": "5b788cb7-ef69-4ee1-814f-b040706c171d", "source": "11c93d80-fe68-4e13-9595-c47bb1fefa3f", "startPortID": "e5f16f45-fd9c-41b5-a92a-3d68199ffcd8", "target": "da27d538-c109-45da-a883-a7c65ed3ebcf", "endPortID": "8447b266-d3dc-4754-9946-606623d21f28", "linkStatus": "UP"},
+        {"id": "9cafbbef-129b-4649-8cb0-63d0d1f45128", "source": "59f6edae-e914-4096-8a59-e53744188be9", "startPortID": "167434ec-8ad8-41cc-bf44-d9272a9bf84b", "target": "a9e34246-dea9-4467-804c-f56119fc25ec", "endPortID": "ed495555-1144-47f4-aafc-f0fe2e8ca917", "linkStatus": "UP"},
+        {"id": "67bfe343-cab4-472d-83c8-06b9480c3978", "source": "a9e34246-dea9-4467-804c-f56119fc25ec", "startPortID": "c01d2441-de50-4704-9043-a94399d85c8a", "target": "3c7d28f7-356f-46b9-bf34-3dc7c5c6b273", "endPortID": "0e342fc2-7c3c-4bb6-ba2b-475b14febe21", "linkStatus": "UP"},
+        {"id": "40019e51-1eb0-4e54-8eb9-5f0a7471d087", "source": "24d90835-e770-439e-b0d6-925c1cb8b1c5", "startPortID": "null", "target": "da27d538-c109-45da-a883-a7c65ed3ebcf", "endPortID": "df319c49-a261-4692-b3c7-331be8fda86c", "linkStatus": "UP"},
+        {"id": "6a1f29db-b3f8-4141-9a3d-8538ac6e7a87", "source": "78ea057b-f259-497c-9569-8002bbeac7d9", "startPortID": "f81178f8-ad1d-4fe4-86bd-80d3849724b8", "target": "a9e34246-dea9-4467-804c-f56119fc25ec", "endPortID": "d26dc5f7-30b7-4a4d-bddd-0394730fdd15", "linkStatus": "UP"},
+        {"id": "c95fef45-a5e8-4866-9f16-a76c13a68bae", "source": "da27d538-c109-45da-a883-a7c65ed3ebcf", "startPortID": "3e9a30a1-97f6-41a1-b48f-8c146ea710ce", "target": "fbf6573e-e261-4dd2-a58a-7d31b1f015b3", "endPortID": "null", "linkStatus": "UP"}
+    ], "nodeSet": [
+        {"id": "e9af36be-fed8-4417-81c3-c26678e3594d", "type": "core", "x": 781, "y": 613, "root": "a9e34246-dea9-4467-804c-f56119fc25ec", "nodes": ["59f6edae-e914-4096-8a59-e53744188be9", "3c7d28f7-356f-46b9-bf34-3dc7c5c6b273", "78ea057b-f259-497c-9569-8002bbeac7d9", "a9e34246-dea9-4467-804c-f56119fc25ec"], "name": "core-SDN-BRANCH-C6K"},
+        {"id": "5f271793-4514-4347-a555-ba549705841f", "type": "core", "x": -1367, "y": -267, "root": "d0b16854-4da9-4301-9c35-f6733660c162", "nodes": ["2b347ea5-e8ad-4d7d-9825-80d4b26d3a1d", "2854277c-d1a4-4aa9-b117-867e36cb91c4", "bb09ba8f-12f0-4aa7-ac9a-2589e9b719d1", "47b6ec65-de20-4392-9f2a-18ec5cc457d2", "d0b16854-4da9-4301-9c35-f6733660c162"], "name": "core-SDN-BRANCH-N5K"},
+        {"id": "35671ae4-02e2-4dec-a637-10cc9d2c48b4", "type": "core", "x": 630, "y": 259, "root": "da27d538-c109-45da-a883-a7c65ed3ebcf", "nodes": ["3671334f-8cc4-4b33-8878-955483ae3931", "747ddf10-7dfe-4e8a-873a-4cea1ff30709", "2d96492b-d08e-4c60-a84a-caae65847694", "bae41d33-78c4-43fb-83ec-3f0af65a866d", "60778851-8159-4445-9ea7-e66e94e29340", "11c93d80-fe68-4e13-9595-c47bb1fefa3f", "24d90835-e770-439e-b0d6-925c1cb8b1c5", "fbf6573e-e261-4dd2-a58a-7d31b1f015b3", "da27d538-c109-45da-a883-a7c65ed3ebcf"], "name": "core-SDN-BRANCH-C4K"},
+        {"id": "69f64291-3bfe-4e3e-8e67-43ebfe975dce", "type": "core", "x": -100, "y": 365, "root": "a45b3fe5-8f79-44ad-8980-530bf1bff0cd", "nodes": ["c6133cc9-b68c-48a2-89f6-6090503acc7c", "a3aa7132-da18-4f46-b740-bf0cf1f92595", "a45b3fe5-8f79-44ad-8980-530bf1bff0cd"], "name": "core-SDN-CAMPUS-ISR3945"},
+        {"id": "6f165baf-041a-4d74-a844-f4467ad7d622", "type": "border router", "x": -275, "y": 402, "root": "6a933b86-31ae-4b54-92ad-2d0c02627a40", "nodes": ["69f64291-3bfe-4e3e-8e67-43ebfe975dce", "6a933b86-31ae-4b54-92ad-2d0c02627a40"], "name": "border router-SDN-CAMPUS-ASR1002"},
+        {"id": "cbb640c9-3bdd-4393-a0e9-705775e29a67", "x": 1728, "y": 1319, "root": "dfd3a048-51ff-4c7e-8537-a1c9ef265a5e", "nodes": ["dfd3a048-51ff-4c7e-8537-a1c9ef265a5e"], "name": "Unlinked"}
+    ]}, "version": "0.0"}
+
+
+    var deviceTypeMapping = {
+        SWITCH: 'switch',
+        ROUTER: 'router',
+        AP: 'accesspoint',
+        UNKNOWN: 'unknown',
+        asr: 'nexus5000',
+        WIRED: 'host',
+        access: 'accesspoint',
+        core: 'groupm'
+    };
+
+
+    var topo = new nx.graphic.Topology({
+        adaptive: true,
+        identityKey: 'id',
+//        dataProcessor: 'force',
+        nodeConfig: {
+            label: 'model.label',
+            iconType: function (model) {
+                return deviceTypeMapping[model.get('deviceType')];
+            }
+        },
+        nodeSetConfig: {
+            label: 'model.name',
+            iconType: function (model) {
+                return deviceTypeMapping[model.get('deviceType')];
+            }
+        },
+        enableGradualScaling: false,
+        showIcon: true,
+        theme: 'green'
+    });
+
+
+    var App = nx.define(nx.ui.Application, {
+        methods: {
+            getContainer: function (child) {
+                return new nx.dom.Element(document.getElementById('topo'));
+            },
+            start: function () {
+                this.topo = topo;
+
+
+                topo.on('topologyGenerated', this._main, this);
+
+
+                var graph = topo.graph();
+
+
+                graph.filter(function (graph) {
+                    graph.eachVertex(function (vertex) {
+                        if (vertex.get('nodeType') == 'host') {
+                            vertex.visible(false);
+                        }
+                    });
+                });
+
+
+                topo.data(data.response);
+                topo.attach(app);
+            },
+            _main: function (topo) {
+
+
+            }
+        }
+    });
+
+
+    var change = function () {
+        var visible = event.target.checked;
+        topo.graph().eachVertex(function (vertex) {
+            if (vertex.get('nodeType') == 'host') {
+                vertex.visible(visible);
+            }
+        });
+    };
+
+    var app = new App();
+    app.start();
+
+
+</script>
+</body>
+</html>

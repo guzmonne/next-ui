@@ -60,7 +60,7 @@
                     };
 
 
-                    if (this.status() === 'appended') {
+                    if (this.status() === 'appended' || this.status() == 'generated') {
                         fn.call(this, value);
                     } else {
                         this.on('ready', function () {
@@ -88,7 +88,7 @@
             },
             vertexPositionGetter: {
                 get: function () {
-                    return this._vertexPositionGetter !== undefined ? this._vertexPositionGetter : 0;
+                    return this._vertexPositionGetter;
                 },
                 set: function (value) {
                     this._vertexPositionGetter = value;
@@ -97,7 +97,7 @@
             },
             vertexPositionSetter: {
                 get: function () {
-                    return this._vertexPositionSetter !== undefined ? this._vertexPositionSetter : 0;
+                    return this._vertexPositionSetter;
                 },
                 set: function (value) {
                     this._vertexPositionSetter = value;
@@ -110,7 +110,7 @@
              */
             dataProcessor: {
                 get: function () {
-                    return this._dataProcessor || false;
+                    return this._dataProcessor;
                 },
                 set: function (value) {
                     this._dataProcessor = value;
@@ -148,85 +148,120 @@
                 var nodeSetLayer = this.getLayer("nodeSet");
                 var linkSetLayer = this.getLayer("linkSet");
 
+                /**
+                 * Vertex
+                 */
                 graph.on("addVertex", function (sender, vertex) {
                     nodesLayer.addNode(vertex);
                 }, this);
 
                 graph.on("removeVertex", function (sender, vertex) {
-                    nodesLayer.removeNode(vertex);
+                    nodesLayer.removeNode(vertex.id());
                 }, this);
 
                 graph.on("updateVertex", function (sender, vertex) {
-                    nodesLayer.updateNode(vertex);
+                    nodesLayer.updateNode(vertex.id());
                 }, this);
 
                 graph.on("updateVertexCoordinate", function (sender, vertex) {
 
                 }, this);
 
+
+                /**
+                 * Edge
+                 */
                 graph.on("addEdge", function (sender, edge) {
-                    if (edge.source().generated() && edge.target().generated()) {
-                        var link = linksLayer.addLink(edge);
-                        // add parent linkset
-                        if (edge.parentEdgeSet()) {
-                            var linkSet =this.getLinkSetByLinkKey(edge.linkKey());
-                            link.set('parentLinkSet', linkSet);
-                        }
-                    }
+                    var link = linksLayer.addLink(edge);
+                    // add parent linkset
+//                    if (edge.parentEdgeSet()) {
+//                        var linkSet = this.getLinkSetByLinkKey(edge.linkKey());
+//                        link.set('parentLinkSet', linkSet);
+//                    }
                 }, this);
 
                 graph.on("removeEdge", function (sender, edge) {
-                    linksLayer.removeLink(edge);
+                    linksLayer.removeLink(edge.id());
+                }, this);
+                graph.on("deleteEdge", function (sender, edge) {
+                    linksLayer.removeLink(edge.id());
                 }, this);
                 graph.on("updateEdge", function (sender, edge) {
-                    linksLayer.updateLink(edge);
+                    linksLayer.updateLink(edge.id());
                 }, this);
+                graph.on("updateEdgeCoordinate", function (sender, edge) {
+                    linksLayer.updateLink(edge.id());
+                }, this);
+
+
+                /**
+                 * EdgeSet
+                 */
                 graph.on("addEdgeSet", function (sender, edgeSet) {
-                    if (edgeSet.source().generated() && edgeSet.target().generated()) {
-                        if (this.supportMultipleLink()) {
-                            linkSetLayer.addLinkSet(edgeSet);
-                        } else {
-                            edgeSet.activated(false);
-                        }
+                    if (this.supportMultipleLink()) {
+                        linkSetLayer.addLinkSet(edgeSet);
+                    } else {
+                        edgeSet.activated(false);
                     }
                 }, this);
 
                 graph.on("removeEdgeSet", function (sender, edgeSet) {
-                    linkSetLayer.removeLinkSet(edgeSet);
+                    linkSetLayer.removeLinkSet(edgeSet.linkKey());
                 }, this);
                 graph.on("updateEdgeSet", function (sender, edgeSet) {
-                    linkSetLayer.updateLinkSet(edgeSet);
+                    linkSetLayer.updateLinkSet(edgeSet.linkKey());
+                }, this);
+                graph.on("updateEdgeSetCoordinate", function (sender, edgeSet) {
+                    linkSetLayer.updateLinkSet(edgeSet.linkKey());
                 }, this);
 
 
+                /**
+                 * VertexSet
+                 */
                 graph.on("addVertexSet", function (sender, vertexSet) {
                     nodeSetLayer.addNodeSet(vertexSet);
                 }, this);
 
                 graph.on("removeVertexSet", function (sender, vertexSet) {
-                    nodeSetLayer.removeNodeSet(vertexSet);
+                    nodeSetLayer.removeNodeSet(vertexSet.id());
+                }, this);
+                graph.on("deleteVertexSet", function (sender, vertexSet) {
+                    nodeSetLayer.removeNodeSet(vertexSet.id());
                 }, this);
 
                 graph.on("updateVertexSet", function (sender, vertexSet) {
-                    nodeSetLayer.updateNodeSet(vertexSet);
+                    nodeSetLayer.updateNodeSet(vertexSet.id());
                 }, this);
 
                 graph.on("updateVertexSetCoordinate", function (sender, vertexSet) {
 
                 }, this);
 
-
+                /**
+                 * EdgeSetCollection
+                 */
                 graph.on("addEdgeSetCollection", function (sender, esc) {
                     linkSetLayer.addLinkSet(esc);
                 }, this);
 
                 graph.on("removeEdgeSetCollection", function (sender, esc) {
-                    linkSetLayer.removeLinkSet(esc);
+                    linkSetLayer.removeLinkSet(esc.linkKey());
+                }, this);
+                graph.on("deleteEdgeSetCollection", function (sender, esc) {
+                    linkSetLayer.removeLinkSet(esc.linkKey());
                 }, this);
                 graph.on("updateEdgeSetCollection", function (sender, esc) {
-                    linkSetLayer.updateLinkSet(esc);
+                    linkSetLayer.updateLinkSet(esc.linkKey());
+                }, this);
+                graph.on("updateEdgeSetCollectionCoordinate", function (sender, esc) {
+                    linkSetLayer.updateLinkSet(esc.linkKey());
                 }, this);
 
+
+                /**
+                 * Data
+                 */
                 graph.on("setData", function (sender, data) {
 
                 }, this);
@@ -247,8 +282,8 @@
                     this.stage().hide();
                 }, this);
                 graph.on("endGenerate", function (sender, event) {
-                    setTimeout(this._endGenerate.bind(this), 0);
-                    //this._endGenerate();
+//                    setTimeout(this._endGenerate.bind(this), 0);
+                    this._endGenerate();
                 }, this);
 
 
@@ -318,15 +353,18 @@
                 if (layoutType) {
                     this.activateLayout(layoutType, null, function () {
                         this.__fit();
+                        this.status('generated');
                         this.fire('topologyGenerated');
                     });
                 } else if (this.enableSmartLabel()) {
                     setTimeout(function () {
                         this.__fit();
+                        this.status('generated');
                         this.fire('topologyGenerated');
                     }.bind(this), 300);
                 } else {
                     this.__fit();
+                    this.status('generated');
                     this.fire('topologyGenerated');
                 }
             },
