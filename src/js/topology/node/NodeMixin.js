@@ -90,6 +90,9 @@
             },
             aggregationRule: {
 
+            },
+            enableNodeSetAnimation: {
+                value: true
             }
 
         },
@@ -526,7 +529,7 @@
                     }
                 }
             },
-            expandAll: function () {
+            _expandAll: function () {
                 var nodeSetLayer = this.getLayer('nodeSet');
                 var isFinished = true;
                 nodeSetLayer.eachNodeSet(function (nodeSet) {

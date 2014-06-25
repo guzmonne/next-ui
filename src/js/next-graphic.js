@@ -5,7 +5,7 @@
     var scripts = document.getElementsByTagName('script');
     for (i = 0, ln = scripts.length; i < ln; i++) {
         scriptSrc = scripts[i].src;
-        match = scriptSrc.match('NeXtGit.*');
+        match = scriptSrc.match('next-graphic.js');
         if (match) {
             path = scriptSrc.substring(0, scriptSrc.length - match[0].length);
             break;
@@ -56,6 +56,7 @@
         "src/js/data/Force.js",
         "src/js/data/Convex.js",
 
+
         "src/js/data/Vertex.js",
         "src/js/data/Edge.js",
         "src/js/data/VertexSet.js",
@@ -68,10 +69,12 @@
         "src/js/data/EdgeSets.js",
         "src/js/data/EdgeSetCollections.js",
 
+
         "src/js/data/processor/NeXtForce.js",
         "src/js/data/processor/Force.js",
         "src/js/data/processor/Quick.js",
         "src/js/data/processor/Circle.js",
+        "src/js/data/DataProcessor.js",
         "src/js/data/ObservableGraph.js",
 
 
@@ -90,7 +93,6 @@
 
         "src/js/topology/layer/Layer.js",
         "src/js/topology/layer/TripleLayer.js",
-
         "src/js/topology/node/AbstractNode.js",
         "src/js/topology/node/Node.js",
         "src/js/topology/node/NodesLayer.js",
@@ -136,13 +138,15 @@
         "src/js/topology/path/BasePath.js",
         "src/js/topology/path/PathLayer.js",
 
-        "src/js/topology/plugin/Nav.js"
+        "src/js/topology/plugin/Nav.js",
+        "src/js/topology/plugin/Thumbnail.js"
     ];
 
-    xPath = path + "../";
+    xPath = path + "../../";
 
     for (var h = 0; h < files.length; h++) {
         document.write("<script type='text/javascript' src='" + xPath + files[h] + "'></script>");
     }
+
 
 }(window, document, undefined));

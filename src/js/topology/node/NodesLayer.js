@@ -154,6 +154,7 @@
 
                 //properties
                 var nodeConfig = this.nodeConfig = nx.extend({}, CLZ.defaultConfig, topo.nodeConfig());
+                nodeConfig.enableSmartLabel = topo.enableSmartLabel();
                 delete  nodeConfig.__owner__;
                 nx.each(nodeConfig, function (value, key) {
                     util.setProperty(node, key, value, topo);

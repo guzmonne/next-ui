@@ -31,7 +31,7 @@
                     var _groupsLayer = this._topo.getLayer('groups');
 
 
-                    nodeSet.group = _groupsLayer.addGroup({
+                    var group = nodeSet.group = _groupsLayer.addGroup({
                         shapeType: 'nodeSetPolygon',
                         nodeSet: nodeSet,
                         nodes: nx.util.values(nodeSet.nodes()),
@@ -39,12 +39,16 @@
                         color: '#9BB150',
                         id: nodeSet.id()
                     });
+                    group.view().dom().addClass('active');
                     var parentNodeSet = nodeSet.parentNodeSet();
                     while (parentNodeSet && parentNodeSet.group) {
                         parentNodeSet.group.draw();
                         parentNodeSet = parentNodeSet.parentNodeSet();
                     }
 
+                    setTimeout(function () {
+                        group.view().dom().removeClass('active');
+                    }, 500);
                     this._topo.adjustLayout();
                 }, this);
 

@@ -240,7 +240,6 @@
             collapseNodeSet: function (sender, nodeSet) {
 
                 nodeSet.visible(true);
-                var depth = 1;
                 var parentNodeSet = nodeSet.parentNodeSet();
                 while (parentNodeSet && parentNodeSet.group) {
                     var group = parentNodeSet.group;
@@ -259,20 +258,10 @@
                 }
                 this._topo.stage().resetFitMatrix();
 
-                parentNodeSet = nodeSet.parentNodeSet();
 
-
-                if (parentNodeSet) {
-                    this._topo.zoomByNodes(nx.util.values(parentNodeSet.nodes()), function () {
-                        this._blockEvent(false);
-
-                    }, this, 1.5);
-                } else {
-                    this._topo.fit(function () {
-                        this._blockEvent(false);
-                    }, this);
-                }
-
+                this._topo.fit(function () {
+                    this._blockEvent(false);
+                }, this);
 
                 this._topo.fadeIn();
                 this._topo.recoverHighlight();

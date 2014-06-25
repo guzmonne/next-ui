@@ -142,7 +142,6 @@
                     props: {
                         'class': 'node-label',
                         'alignment-baseline': 'central',
-                        x: 0,
                         y: 12
                     }
                 },
@@ -150,8 +149,6 @@
                     name: 'selectedBG',
                     type: 'nx.graphic.Circle',
                     props: {
-                        x: 0,
-                        y: 0,
                         'class': 'selectedBG'
                     }
                 },
@@ -217,7 +214,7 @@
                 var nodeLength = nx.util.keys(nodes).length;
 
 
-                if (nodeLength > 50 || nodeLength === 0) {
+                if (nodeLength > 50 || nodeLength === 0 || !topo.enableNodeSetAnimation()) {
                     this.fire('beforeExpandNode', this);
                     this.fire('expandNode', this);
                 } else {

@@ -65,6 +65,12 @@
                     }
                 }
             },
+            enableSmartLabel: {
+                value: true
+            },
+            labelAngel: {
+                value: 90
+            },
             revisionScale: {
                 set: function (value) {
                     var topo = this.topology();
@@ -102,6 +108,7 @@
                     this._color = value;
                 }
             },
+
             /**
              * Set node's scale
              * @property scale {Number}
@@ -129,7 +136,6 @@
                     this._labelVisible = value;
                 }
             },
-
             selectedRingRadius: {
                 get: function () {
                     var bound = this.getBound(true);
@@ -208,7 +214,6 @@
                     props: {
                         'class': 'node-label',
                         'alignment-baseline': 'central',
-                        x: 0,
                         y: 12
                     }
                 },
@@ -216,8 +221,6 @@
                     name: 'selectedBG',
                     type: 'nx.graphic.Circle',
                     props: {
-                        x: 0,
-                        y: 0,
                         'class': 'selectedBG'
                     }
                 },
@@ -383,7 +386,7 @@
              * @method calcLabelPosition
              */
             calcLabelPosition: function (force) {
-                if (this.topology().enableSmartLabel()) {
+                if (this.enableSmartLabel()) {
 
                     if (force) {
                         this._centralizedText();
@@ -395,7 +398,7 @@
                     }
 
                 } else {
-                    this.updateByMaxObtuseAngle(90);
+                    this.updateByMaxObtuseAngle(this.labelAngel());
                 }
             },
             _centralizedText: function () {
