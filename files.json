@@ -54,7 +54,6 @@
         "src/js/data/EdgeSets.js",
         "src/js/data/EdgeSetCollections.js",
 
-
         "src/js/data/processor/NeXtForce.js",
         "src/js/data/processor/Force.js",
         "src/js/data/processor/Quick.js",
@@ -77,6 +76,7 @@
 
         "src/js/topology/layer/Layer.js",
         "src/js/topology/layer/TripleLayer.js",
+
         "src/js/topology/node/AbstractNode.js",
         "src/js/topology/node/Node.js",
         "src/js/topology/node/NodesLayer.js",
@@ -122,7 +122,6 @@
         "src/js/topology/path/BasePath.js",
         "src/js/topology/path/PathLayer.js",
 
-        "src/js/topology/plugin/Nav.js",
-        "src/js/topology/plugin/Thumbnail.js"
+        "src/js/topology/plugin/Nav.js"
     ]
 }
