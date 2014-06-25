@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <!-- NeXt   -->
+    <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/NeXt-Core/lastSuccessfulBuild/artifact/dest/next-core.js"></script>
+    <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/NeXt-UI/lastSuccessfulBuild/artifact/dest/js/next-ui.js"></script>
+    <link rel="stylesheet" href="http://10.75.161.96:8080/jenkins/job/NeXt-UI/lastSuccessfulBuild/artifact/dest/css/next-blue.css"/>
+    <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/Next-Graphic/lastSuccessfulBuild/artifact/dest/js/next-graphic.js"></script>
+    <!--<script type="text/javascript" src="../../src/js/next-graphic.js"></script>-->
+    <link rel="stylesheet" href="../../src/less/next-graphic.css"/>
+
+    <link rel="stylesheet" href="style/topology_viewer.css"/>
+
+    <!-- Lib   -->
+    <link rel="stylesheet" href="lib/bootstrap.vertical-tabs.css"/>
+    <link rel="stylesheet" href="lib/font-awesome-4.0.3/css/font-awesome.min.css"/>
+    <script type="text/javascript" src="lib/Util.js"></script>
+
+
+    <!-- Config   -->
+    <script type="text/javascript" src="config/Product.js"></script>
+    <script type="text/javascript" src="config/Develop.js"></script>
+    <script type="text/javascript" src="config/Mockup.js"></script>
+
+    <!-- model-->
+    <script type="text/javascript" src="model/topologyData.js"></script>
+    <script type="text/javascript" src="model/Tag.js"></script>
+
+    <!-- view -->
+    <script type="text/javascript" src="view/Main.js"></script>
+    <script type="text/javascript" src="view/TopologyView.js"></script>
+    <script type="text/javascript" src="view/ControlView.js"></script>
+
+    <!-- viewModel -->
+    <script type="text/javascript" src="viewmodel/Main.js"></script>
+    <script type="text/javascript" src="viewmodel/TopologyVM.js"></script>
+    <script type="text/javascript" src="viewmodel/TopologyVM.Data.js"></script>
+    <script type="text/javascript" src="viewmodel/TopologyVM.Event.js"></script>
+    <script type="text/javascript" src="viewmodel/TopologyVM.View.js"></script>
+    <script type="text/javascript" src="viewmodel/TagVM.js"></script>
+
+
+</head>
+<body>
+<script>
+    var App = nx.define(nx.ui.Application, {
+        methods: {
+            start: function () {
+                var viewer = new ENC.TW.View();
+                vm = new ENC.TW.ViewModel();
+                viewer.model(vm);
+                viewer.attach(this);
+
+                this.on('resize', vm.topologyVM().event().resize(), this);
+            }
+        }
+    });
+
+    var app = new App();
+    app.start();
+</script>
+</body>
+</html>

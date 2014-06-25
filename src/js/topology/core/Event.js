@@ -262,6 +262,14 @@
 
 
                 return false;
+            },
+            blockEvent: function (value) {
+                if (value) {
+                    nx.dom.Document.body().addClass('n-userselect n-blockEvent');
+                } else {
+                    nx.dom.Document.body().removeClass('n-userselect');
+                    nx.dom.Document.body().removeClass('n-blockEvent');
+                }
             }
 
         }

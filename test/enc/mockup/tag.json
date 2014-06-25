@@ -1,0 +1,44 @@
+{"response": [
+    {
+        "id": "7063005f-8c28-4f74-a605-950989bc25e2",
+        "tag": "RmaTag",
+        "networkDeviceId": "78ea057b-f259-497c-9569-8002bbeac7d9",
+        "attributeInfo": {}
+    },
+    {
+        "id": "7063005f-8c28-4f74-a605-950989bc25e2",
+        "tag": "RmaTag",
+        "networkDeviceId": "60778851-8159-4445-9ea7-e66e94e29340",
+        "attributeInfo": {}
+    },
+    {
+        "id": "7063005f-8c28-4f74-a605-950989bc25e2",
+        "tag": "RmaTag",
+        "networkDeviceId": "59f6edae-e914-4096-8a59-e53744188be9",
+        "attributeInfo": {}
+    },
+    {
+        "id": "7063005f-8c28-4f74-a605-950989bc25e2",
+        "tag": "RmaTag",
+        "networkDeviceId": "2d96492b-d08e-4c60-a84a-caae65847694",
+        "attributeInfo": {}
+    },
+    {
+        "id": "d62e8735-db8e-45a2-bb30-68f25629089a",
+        "tag": "tagtest",
+        "networkDeviceId": "78ea057b-f259-497c-9569-8002bbeac7d9",
+        "attributeInfo": {}
+    },
+    {
+        "id": "d62e8735-db8e-45a2-bb30-68f25629089a",
+        "tag": "tagtest",
+        "networkDeviceId": "59f6edae-e914-4096-8a59-e53744188be9",
+        "attributeInfo": {}
+    },
+    {
+        "id": "516203cc-d584-4569-bbac-318ef1deb2a1",
+        "tag": "cccc",
+        "networkDeviceId": "11c93d80-fe68-4e13-9595-c47bb1fefa3f",
+        "attributeInfo": {}
+    }
+], "version": "0.0"}

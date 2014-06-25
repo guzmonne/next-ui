@@ -293,6 +293,7 @@
   -ms-user-select: none;
   -o-user-select: none;
   user-select: none;
+  font-size: 11px;
 }
 .n-topology.n-topology-blue .node.disable {
   opacity: 0.3;
@@ -955,6 +956,7 @@
   -ms-user-select: none;
   -o-user-select: none;
   user-select: none;
+  font-size: 11px;
 }
 .n-topology.n-topology-dark .node.disable {
   opacity: 0.3;
@@ -1617,6 +1619,7 @@
   -ms-user-select: none;
   -o-user-select: none;
   user-select: none;
+  font-size: 11px;
 }
 .n-topology.n-topology-green .node.disable {
   opacity: 0.3;
@@ -2279,6 +2282,7 @@
   -ms-user-select: none;
   -o-user-select: none;
   user-select: none;
+  font-size: 11px;
 }
 .n-topology.n-topology-slate .node.disable {
   opacity: 0.3;
@@ -2941,6 +2945,7 @@
   -ms-user-select: none;
   -o-user-select: none;
   user-select: none;
+  font-size: 11px;
 }
 .n-topology.n-topology-yellow .node.disable {
   opacity: 0.3;

@@ -140,8 +140,7 @@
 
                     //todo
                     setTimeout(function () {
-                        vertexSet.activated(true, {force: true});
-                        this.updateVertexSet(vertexSet);
+
                     }.bind(this), 0);
 
                     this.fire('addVertexSet', vertexSet);

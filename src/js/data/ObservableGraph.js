@@ -1,33 +1,14 @@
-(function (nx, global, logger) {
+(function (nx, global) {
 
-
-    var util = nx.util;
     /**
      * ObservableGraph class
      * @extend nx.data.ObservableObject
      * @class nx.data.ObservableGraph
      * @module nx.data
      */
-    var GRAPH = nx.define('nx.data.ObservableGraph', nx.data.ObservableObject, {
-        statics: {
-            dataProcessor: {
-                'nextforce': new nx.data.ObservableGraph.NeXtForceProcessor(),
-                'force': new nx.data.ObservableGraph.ForceProcessor(),
-                'quick': new nx.data.ObservableGraph.QuickProcessor(),
-                'circle': new nx.data.ObservableGraph.CircleProcessor()
-            },
-            /**
-             * Register graph data processor,
-             * @static
-             * @method registerDataProcessor
-             * @param {String} name data processor name
-             * @param {Object} cls processor instance, instance should have a process method
-             */
-            registerDataProcessor: function (name, cls) {
-                GRAPH.dataProcessor[name] = cls;
-            }
-        },
+    nx.define('nx.data.ObservableGraph', nx.data.ObservableObject, {
         mixins: [
+            nx.data.ObservableGraph.DataProcessor,
             nx.data.ObservableGraph.Vertices,
             nx.data.ObservableGraph.VertexSets,
             nx.data.ObservableGraph.Edges,
@@ -46,12 +27,6 @@
                 value: 'index'
             },
             /**
-             * Set pre data processor,it could be 'force'/'quick'
-             * @property dataProcessor
-             * @default undefined
-             */
-            dataProcessor: {},
-            /**
              * If 'false', when vertex'position changed, will not write to original data
              * @property autoSave
              * @default true
@@ -59,14 +34,9 @@
             autoSave: {
                 value: true
             },
-            width: {
-                value: 100
-            },
-            height: {
-                value: 100
-            },
             filter: {},
-            edgeFilter: {}
+            groupBy: {},
+            levelBy: {}
         },
         methods: {
             init: function (args) {
@@ -102,7 +72,7 @@
                 this._data.links = inData.links || [];
                 this._data.nodeSet = inData.nodeSet || [];
 
-                var data = this._preProcessData(this._data);
+                var data = this.processData(this._data);
 
                 // process
                 this._generate(data);
@@ -130,7 +100,7 @@
                 this._data.nodeSet = this._data.nodeSet.concat(inData.nodeSet || []);
 
 
-                var data = this._preProcessData(inData);
+                var data = this.processData(inData);
 
                 // process
                 this._generate(data);
@@ -144,24 +114,6 @@
 
                 this.fire('insertData', data);
 
-            },
-
-            _preProcessData: function (data) {
-                var identityKey = this._identityKey;
-                var dataProcessor = this._dataProcessor;
-
-                //TODO data validation
-
-                if (dataProcessor) {
-                    var processor = GRAPH.dataProcessor[dataProcessor];
-                    if (processor) {
-                        return processor.process(data, identityKey, this);
-                    } else {
-                        return data;
-                    }
-                } else {
-                    return data;
-                }
             },
 
 
@@ -197,6 +149,12 @@
 
 
                 this.eachVertexSet(this.generateVertexSet, this);
+
+
+                this.eachVertexSet(function (vertexSet) {
+                    vertexSet.activated(true, {force: true});
+                    this.updateVertexSet(vertexSet);
+                }, this);
 
 
                 /**
@@ -270,9 +228,7 @@
              * @method reset
              */
             reset: function () {
-                this.eachVertex(function (vertex) {
-                    vertex.reset();
-                });
+
             },
             dispose: function () {
                 this.clear();
@@ -282,4 +238,4 @@
         }
     });
 
-})(nx, nx.global, nx.logger);
+})(nx, nx.global);

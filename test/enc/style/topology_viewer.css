@@ -1,0 +1,21 @@
+html,
+body {
+    height: 100%;
+    width: 100%;
+}
+
+.tw {
+    height: 100%;
+    width: 100%;
+}
+
+.tw_topologyContainer {
+    height: 100%;
+}
+
+.tw_topologyContainer text.node-label {
+    width: 100px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}

@@ -293,8 +293,8 @@
                 });
                 ani.callback(function (progress) {
                     nx.each(aniMap, function (item) {
-                        //var value = item.oldValue + (item.newValue - item.oldValue) * progress;
-                        var value = ease(progress, item.oldValue, item.newValue - item.oldValue, 1);
+                        var value = item.oldValue + (item.newValue - item.oldValue) * progress;
+//                        var value = ease(progress, item.oldValue, item.newValue - item.oldValue, 1);
                         self.set(item.key, value);
                     });
                     //console.log(progress);
