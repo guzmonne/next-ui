@@ -27,8 +27,8 @@
                 value: function () {
                     return function () {
                         return {
-                            x: this._data.x,
-                            y: this._data.y
+                            x: this._data.x || 0,
+                            y: this._data.y || 0
                         };
                     };
                 }
