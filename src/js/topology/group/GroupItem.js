@@ -94,7 +94,6 @@
             draw: function () {
                 if (this.nodes().count() === 0) {
                     this.hide();
-                    return;
                 } else {
                     this.show();
                 }

@@ -66,7 +66,8 @@
                                         'alignment-baseline': 'central',
                                         'text-anchor': 'start',
                                         'font-size': 12
-                                    }
+                                    },
+                                    visible: false
                                 },
                                 events: {
                                     'click': '{#_clickLabel}'

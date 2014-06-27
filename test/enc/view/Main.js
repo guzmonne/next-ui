@@ -5,21 +5,21 @@
         events: [],
         view: {
             props: {
-                'class': 'tw row'
+                'class': 'tw'
             },
             content: [
                 {
-                    type: 'ENC.TW.View.TopologyView',
+                    type: 'ENC.TW.View.ControlView',
                     props: {
-                        'class': 'col-md-12 tw_topologyContainer'
+                        'class': ''
                     }
                 },
-//                {
-//                    type: 'ENC.TW.View.ControlView',
-//                    props: {
-//                        'class': 'col-md-4 '
-//                    }
-//                }
+                {
+                    type: 'ENC.TW.View.TopologyView',
+                    props: {
+                        'class': ' tw_topologyContainer'
+                    }
+                }
             ]
         },
         properties: {

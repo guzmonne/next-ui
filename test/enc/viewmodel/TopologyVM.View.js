@@ -12,6 +12,34 @@
     };
 
 
+    var getLabel = function (label) {
+
+        var index = label.indexOf('_');
+        if (label.indexOf('-') != -1) {
+            index = Math.min(index, label.indexOf('-'));
+        }
+        if (label.indexOf(' ') != -1) {
+            index = Math.min(index, label.indexOf(' '));
+        }
+        index = index == -1 ? 5 : index;
+        index = Math.min(index, 3);
+
+
+        var lastIndex = label.lastIndexOf('_');
+        if (label.lastIndexOf('-') != -1) {
+            lastIndex = Math.max(lastIndex, label.lastIndexOf('-'));
+        }
+        if (label.lastIndexOf(' ') != -1) {
+            lastIndex = Math.max(lastIndex, label.lastIndexOf(' '));
+        }
+        lastIndex = lastIndex == -1 ? label.length - 3 : lastIndex;
+        lastIndex = Math.max(lastIndex, label.length - 3);
+
+
+        return label.length > 6 ? label.substr(0, index) + ".." + label.substr(lastIndex) : label; //･･･
+    };
+
+
     nx.define("ENC.TW.ViewModel.TopologyVM.View", nx.Observable, {
         properties: {
             MVM: {},
@@ -23,7 +51,7 @@
                 value: function (key) {
                     return function (model, node) {
                         var label = model.get(key);
-                        return label.length > 5 ? label.substr(0, 6) + "..." : label;
+                        return getLabel(label);
                     }
                 }
             },
@@ -32,7 +60,7 @@
                 value: function (key) {
                     return function (model, nodeSet) {
                         var label = model.get('name');
-                        return label.length > 5 ? label.substr(0, 6) + "..." : label;
+                        return getLabel(label);
                     }
                 }
             },

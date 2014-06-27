@@ -426,10 +426,10 @@
   stroke: #9BB150;
   pointer-events: none;
   opacity: 0;
-  -webkit-transition: all 0.5s linear;
+  -webkit-transition: opacity 0.3s linear;
   /* For Safari 3.1 to 6.0 */
 
-  transition: all 0.5s linear;
+  transition: opacity 0.3s linear;
 }
 .n-topology.n-topology-blue .group.aggregationGroup.active {
   opacity: 1;
@@ -1089,10 +1089,10 @@
   stroke: #9BB150;
   pointer-events: none;
   opacity: 0;
-  -webkit-transition: all 0.5s linear;
+  -webkit-transition: opacity 0.3s linear;
   /* For Safari 3.1 to 6.0 */
 
-  transition: all 0.5s linear;
+  transition: opacity 0.3s linear;
 }
 .n-topology.n-topology-dark .group.aggregationGroup.active {
   opacity: 1;
@@ -1752,10 +1752,10 @@
   stroke: #9BB150;
   pointer-events: none;
   opacity: 0;
-  -webkit-transition: all 0.5s linear;
+  -webkit-transition: opacity 0.3s linear;
   /* For Safari 3.1 to 6.0 */
 
-  transition: all 0.5s linear;
+  transition: opacity 0.3s linear;
 }
 .n-topology.n-topology-green .group.aggregationGroup.active {
   opacity: 1;
@@ -2415,10 +2415,10 @@
   stroke: #9BB150;
   pointer-events: none;
   opacity: 0;
-  -webkit-transition: all 0.5s linear;
+  -webkit-transition: opacity 0.3s linear;
   /* For Safari 3.1 to 6.0 */
 
-  transition: all 0.5s linear;
+  transition: opacity 0.3s linear;
 }
 .n-topology.n-topology-slate .group.aggregationGroup.active {
   opacity: 1;
@@ -3078,10 +3078,10 @@
   stroke: #9BB150;
   pointer-events: none;
   opacity: 0;
-  -webkit-transition: all 0.5s linear;
+  -webkit-transition: opacity 0.3s linear;
   /* For Safari 3.1 to 6.0 */
 
-  transition: all 0.5s linear;
+  transition: opacity 0.3s linear;
 }
 .n-topology.n-topology-yellow .group.aggregationGroup.active {
   opacity: 1;

@@ -22,12 +22,15 @@
                     showIcon: true,
                     status: '{topologyVM.view.status,direction=<>}',
                     //currentScene: '{event.scene,direction=>}',
-                    data: '{topologyVM.data.topologyData}',
-                    enableSmartLabel: false
+                    data: '{topologyVM.data.topologyData}'
                 },
                 events: {
                     'ready': '{topologyVM.event.ready}',
                     'topologyGenerated': '{topologyVM.event.topologyGenerated}',
+                    'enterNode': '{topologyVM.event.enterNode}',
+                    'leaveNode': '{topologyVM.event.leaveNode}',
+                    'enterNodeSet': '{topologyVM.event.enterNodeSet}',
+                    'leaveNodeSet': '{topologyVM.event.leaveNodeSet}',
                     'dragNodeEnd': '{topologyVM.event.dragNodeEnd}',
                     'expandNodeSet': '{topologyVM.event.expandNodeSet}'
                 }

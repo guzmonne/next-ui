@@ -160,9 +160,7 @@
                     util.setProperty(node, key, value, topo);
                 }, this);
 
-                if (topo.showIcon() && topo.revisionScale() == 1) {
-                    util.setProperty(node, 'showIcon', true);
-                }
+                util.setProperty(node, 'showIcon', topo.showIcon());
             },
 
             /**

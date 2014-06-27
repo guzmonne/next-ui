@@ -37,9 +37,9 @@
                 if (value !== undefined) {
                     if (nx.is(value, 'String')) {
                         if (value.substr(0, 5) == 'model') { // directly target'bind model
-                            source.setBinding(key, value, source);
+                            source.setBinding(key, value + ',direction=<>', source);
                         } else if (value.substr(0, 2) == '{#') { // bind owner's property
-                            source.setBinding(key, 'owner.' + value.substring(2, value.length - 1), owner);
+                            source.setBinding(key, 'owner.' + value.substring(2, value.length - 1) + ',direction=<>', owner);
                         } else if (value.substr(0, 1) == '{') { // bind owner's model
                             source.setBinding(key, 'owner.model.' + value.substring(1, value.length - 1), owner);
                         } else {
@@ -110,6 +110,16 @@
                     }
                 }
                 return values;
+            },
+            boundHitTest: function (sourceBound, targetBound) {
+                var t = targetBound.top >= sourceBound.top && targetBound.top <= ((sourceBound.top + sourceBound.height)),
+                    l = targetBound.left >= sourceBound.left && targetBound.left <= (sourceBound.left + sourceBound.width),
+                    b = (sourceBound.top + sourceBound.height) >= (targetBound.top + targetBound.height) && (targetBound.top + targetBound.height) >= sourceBound.top,
+                    r = (sourceBound.left + sourceBound.width) >= (targetBound.left + targetBound.width) && (targetBound.left + targetBound.width) >= sourceBound.left,
+                    hm = sourceBound.top >= targetBound.top && (sourceBound.top + sourceBound.height) <= (targetBound.top + targetBound.height),
+                    vm = sourceBound.left >= targetBound.left && (sourceBound.left + sourceBound.width) <= (targetBound.left + targetBound.width);
+
+                return (t && l) || (b && r) || (t && r) || (b && l) || (t && vm) || (b && vm) || (l && hm) || (r && hm);
             }
         }
     });

@@ -68,8 +68,20 @@
             enableSmartLabel: {
                 value: true
             },
-            labelAngel: {
+            labelAngle: {
                 value: 90
+            },
+            /**
+             * Set node's label visible
+             * @property labelVisibility {Boolean} true
+             */
+            labelVisibility: {
+                set: function (inValue) {
+                    var value = this._processPropertyValue(inValue);
+                    var el = this.view('label');
+                    el.visible(value);
+                    this._labelVisible = value;
+                }
             },
             revisionScale: {
                 set: function (value) {
@@ -124,18 +136,7 @@
                 }
             },
 
-            /**
-             * Set node's label visible
-             * @property labelVisibility {Boolean} true
-             */
-            labelVisibility: {
-                set: function (inValue) {
-                    var value = this._processPropertyValue(inValue);
-                    var el = this.view('label');
-                    el.visible(value);
-                    this._labelVisible = value;
-                }
-            },
+
             selectedRingRadius: {
                 get: function () {
                     var bound = this.getBound(true);
@@ -376,7 +377,7 @@
             },
 
             updateConnectedNodeLabelPosition: function () {
-                this.calcLabelPosition();
+                this.calcLabelPosition(true);
                 this.eachConnectedNode(function (node) {
                     node.calcLabelPosition();
                 }, this);
@@ -398,7 +399,7 @@
                     }
 
                 } else {
-                    this.updateByMaxObtuseAngle(this.labelAngel());
+                    this.updateByMaxObtuseAngle(this.labelAngle());
                 }
             },
             _centralizedText: function () {
@@ -470,7 +471,6 @@
                 }
 
 
-                this._labelAngle = labelAngle;
                 this.updateByMaxObtuseAngle(labelAngle);
             },
             /**
@@ -502,6 +502,8 @@
                 //
 
                 el.set('text-anchor', anchor);
+
+                this._labelAngle = angle;
 
             },
             dispose: function () {

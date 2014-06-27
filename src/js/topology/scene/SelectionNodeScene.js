@@ -126,13 +126,13 @@
                     }
                 }, this);
             },
-            _hittest: function (rect, nodeBound) {
-                var t = rect.top <= nodeBound.top && nodeBound.top <= rect.bottom,
-                    l = rect.left <= nodeBound.left && nodeBound.left <= rect.right,
-                    b = rect.bottom >= nodeBound.bottom && nodeBound.bottom >= rect.top,
-                    r = rect.right >= nodeBound.right && nodeBound.right >= rect.left,
-                    hm = rect.top >= nodeBound.top && rect.bottom <= nodeBound.bottom,
-                    vm = rect.left >= nodeBound.left && rect.right <= nodeBound.right;
+            _hittest: function (sourceBound, targetBound) {
+                var t = targetBound.top >= sourceBound.top && targetBound.top <= ((sourceBound.top + sourceBound.height)),
+                    l = targetBound.left >= sourceBound.left && targetBound.left <= (sourceBound.left + sourceBound.width),
+                    b = (sourceBound.top + sourceBound.height) >= (targetBound.top + targetBound.height) && (targetBound.top + targetBound.height) >= sourceBound.top,
+                    r = (sourceBound.left + sourceBound.width) >= (targetBound.left + targetBound.width) && (targetBound.left + targetBound.width) >= sourceBound.left,
+                    hm = sourceBound.top >= targetBound.top && (sourceBound.top + sourceBound.height) <= (targetBound.top + targetBound.height),
+                    vm = sourceBound.left >= targetBound.left && (sourceBound.left + sourceBound.width) <= (targetBound.left + targetBound.width);
 
                 return (t && l) || (b && r) || (t && r) || (b && l) || (t && vm) || (b && vm) || (l && hm) || (r && hm);
             }

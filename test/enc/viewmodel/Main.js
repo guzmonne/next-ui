@@ -3,9 +3,7 @@
     var VM = nx.define("ENC.TW.ViewModel", nx.Observable, {
         events: [],
         properties: {
-            topologyGenerated: {
-                value: false
-            },
+
             topoDataType: {
                 value: 'physical',
                 watcher: function (prop, value) {
@@ -40,7 +38,17 @@
                 }
             },
             controlVM: {
-
+                value: function () {
+                    var vm = new ENC.TW.ViewModel.ControlVM();
+                    vm.set('MVM', this);
+                    return vm;
+                }
+            },
+            topologyGenerated: {
+                value: false
+            },
+            topology: {
+                value: null
             }
         }
     });
