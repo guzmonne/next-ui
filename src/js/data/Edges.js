@@ -3,6 +3,31 @@
     nx.define('nx.data.ObservableGraph.Edges', nx.data.ObservableObject, {
         events: ['addEdge', 'removeEdge', 'deleteEdge', 'updateEdge', 'updateEdgeCoordinate'],
         properties: {
+            links: {
+                get: function () {
+                    return this._links || [];
+                },
+                set: function (value) {
+
+                    if (this._links && nx.is(this._links, nx.data.ObservableCollection)) {
+                        this._links.off('change', this._linksCollectionProcessor, this);
+                    }
+
+                    this.edges().clear();
+
+                    if (nx.is(value, nx.data.ObservableCollection)) {
+                        value.on('change', this._linksCollectionProcessor, this);
+                        value.each(function (value) {
+                            this._addEdge(value);
+                        }, this);
+                    } else {
+                        nx.each(value, this._addEdge, this);
+                    }
+
+                    this._links = value;
+                }
+            },
+            edgeFilter: {},
             edges: {
                 value: function () {
                     var edges = new nx.data.ObservableDictionary();
@@ -28,7 +53,20 @@
              * @returns {nx.data.Edge}
              */
             addEdge: function (data, config) {
-                var edge = this._addEdge(data, config);
+                var links = this.links();
+                var edges = this.edges();
+                var edge;
+                if (nx.is(links, nx.data.ObservableCollection)) {
+                    links.add(data);
+                    edge = edges.getItem(edges.count() - 1);
+                } else {
+                    links.push(data);
+                    edge = this._addEdge(data);
+                }
+
+                if (config) {
+                    edge.sets(config);
+                }
 
                 //update edgeSet
                 var edgeSet = edge.parentEdgeSet();
@@ -38,25 +76,24 @@
                     this.updateEdgeSet(edgeSet);
                 }
 
-                this._data.links.push(data);
                 return edge;
             },
-            _addEdge: function (data, config) {
+            _addEdge: function (data) {
                 var edges = this.edges();
                 var identityKey = this.identityKey();
                 var source, target, sourceID, targetID;
 
-                sourceID = nx.is(data.source, 'Object') ? data.source[identityKey] : data.source;
+                sourceID = nx.path(data, 'source') != null ? nx.path(data, 'source') : data.source;
                 source = this.vertices().getItem(sourceID) || this.vertexSets().getItem(sourceID);
 
 
-                targetID = nx.is(data.target, 'Object') ? data.target[identityKey] : data.target;
+                targetID = nx.path(data, 'target') != null ? nx.path(data, 'target') : data.source;
                 target = this.vertices().getItem(targetID) || this.vertexSets().getItem(targetID);
 
 
                 if (source && target) {
                     var edge = new nx.data.Edge(data);
-                    var id = data.id == null ? edge.__id__ : data.id;
+                    var id = nx.path(data, 'id') != null ? nx.path(data, 'id') : edge.__id__;
 
                     edge.sets({
                         id: id,
@@ -66,16 +103,12 @@
                         targetID: targetID,
                         graph: this
                     });
-                    if (config) {
-                        edge.sets(config);
-                    }
 
-                    edge.initialize();
+                    edge.attachEvent();
 
                     edges.setItem(id, edge);
 
                     var edgeSet = this.getEdgeSetBySourceAndTarget(sourceID, targetID);
-//                    var edgeSet = edgeSetMap[linkKey] || edgeSetMap[reverseLinkKey];
                     if (!edgeSet) {
                         edgeSet = this._addEdgeSet({
                             source: source,
@@ -96,6 +129,13 @@
                     edge.parentEdgeSet(edgeSet);
                     edge.reverse(sourceID !== edgeSet.sourceID());
 
+
+                    var edgeFilter = this.edgeFilter();
+                    if (edgeFilter && nx.is(edgeFilter, Function)) {
+                        var result = edgeFilter.call(this, data, edge);
+                        edge.visible(result === false);
+                    }
+
                     return edge;
 
                 } else {
@@ -108,8 +148,6 @@
             generateEdge: function (edge) {
                 if (!edge.generated() && edge.source().generated() && edge.target().generated()) {
                     edge.generated(true);
-
-
                     edge.on('updateCoordinate', this._updateEdgeCoordinate, this);
 
                     /**
@@ -146,7 +184,26 @@
                 }
             },
             deleteEdge: function (id, isUpdateEdgeSet) {
-                var edge = this.edges().getItem(id);
+
+                var edge = this.getEdge(id);
+                if (!edge) {
+                    return false;
+                }
+
+                var links = this.links();
+                if (nx.is(links, nx.data.ObservableCollection)) {
+                    links.removeAt(edge.getData());
+                } else {
+                    var index = links.indexOf(edge.getDate());
+                    if (index != -1) {
+                        links.splice(index, 1);
+                    }
+                    this._deleteEdge(id, isUpdateEdgeSet);
+                }
+
+            },
+            _deleteEdge: function (id, isUpdateEdgeSet) {
+                var edge = this.getEdge(id);
                 if (!edge) {
                     return false;
                 }
@@ -159,13 +216,6 @@
                     this.updateEdgeSet(edgeSet);
                 }
 
-                //
-
-
-                var index = this._data.links.indexOf(edge.getDate());
-                if (index != -1) {
-                    this._data.links.splice(index, 1);
-                }
                 /**
                  * @event deleteEdge
                  * @param sender {Object} Trigger instance
@@ -180,6 +230,9 @@
             },
             _updateEdgeCoordinate: function (sender, args) {
                 this.fire('updateEdgeCoordinate', sender);
+            },
+            getEdge: function (id) {
+                return this.edges().getItem(id);
             },
             /**
              * Get edges by source vertex id and target vertex id
@@ -261,6 +314,37 @@
 //
 //                return externalEdges;
 
+            },
+            _linksCollectionProcessor: function (sender, args) {
+                var items = args.items;
+                var action = args.action;
+                if (action == 'add') {
+                    nx.each(items, function (data) {
+                        var edge = this._addEdge(data);
+                        //update edgeSet
+                        var edgeSet = edge.parentEdgeSet();
+                        if (!edgeSet.generated()) {
+                            this.generateEdgeSet(edgeSet);
+                        } else {
+                            this.updateEdgeSet(edgeSet);
+                        }
+                    }, this);
+                } else if (action == 'remove') {
+                    var ids = [];
+                    // get all edges should be delete
+                    this.edges().each(function (item, id) {
+                        var edge = item.value();
+                        if (items.indexOf(edge.getData()) != -1) {
+                            ids.push(edge.id());
+                        }
+                    }, this);
+                    nx.each(ids, function (id) {
+                        this._deleteEdge(id);
+                    }, this);
+
+                } else if (action == 'clear') {
+                    this.edges().clear();
+                }
             }
         }
     });

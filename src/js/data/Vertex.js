@@ -27,8 +27,8 @@
                 value: function () {
                     return function () {
                         return {
-                            x: this._data.x || 0,
-                            y: this._data.y || 0
+                            x: nx.path(this._data, 'x') || 0,
+                            y: nx.path(this._data, 'y') || 0
                         };
                     };
                 }
@@ -37,8 +37,15 @@
                 value: function () {
                     return function (position) {
                         if (this._data) {
-                            this._data.x = position.x;
-                            this._data.y = position.y;
+                            var x = nx.path(this._data, 'x');
+                            var y = nx.path(this._data, 'y');
+                            if (position.x !== x || position.y !== y) {
+                                nx.path(this._data, 'x', position.x);
+                                nx.path(this._data, 'y', position.y);
+                                return true;
+                            } else {
+                                return false;
+                            }
                         }
                     };
                 }
@@ -250,6 +257,27 @@
             }
         },
         methods: {
+
+//
+            set: function (key, value) {
+                if (this.has(key)) {
+                    this[key].call(this, value);
+                } else {
+                    nx.path(this._data, key, value);
+                }
+            },
+            get: function (key) {
+                if (this.has(key)) {
+                    return this[key].call(this);
+                } else {
+                    return nx.path(this._data, key);
+                }
+            },
+            has: function (name) {
+                var member = this[name];
+                return (member && member.__type__ == 'property');
+            },
+
             initPosition: function () {
                 this.position(this.positionGetter().call(this));
             },
@@ -341,5 +369,7 @@
                 this.initPosition();
             }
         }
-    });
-})(nx, nx.global);
+    })
+    ;
+})
+(nx, nx.global);

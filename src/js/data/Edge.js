@@ -140,7 +140,7 @@
             getData: function () {
                 return this._data;
             },
-            initialize: function () {
+            attachEvent: function () {
                 this.source().on('updateCoordinate', this._updateCoordinate, this);
                 this.target().on('updateCoordinate', this._updateCoordinate, this);
             },

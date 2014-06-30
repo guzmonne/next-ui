@@ -118,9 +118,9 @@
 
 
             _generate: function (data) {
-                nx.each(data.nodes, this._addVertex, this);
+                this.nodes(data.nodes);
 
-                nx.each(data.links, this._addEdge, this);
+                this.links(data.links);
 
                 nx.each(data.nodeSet, this._addVertexSet, this);
 

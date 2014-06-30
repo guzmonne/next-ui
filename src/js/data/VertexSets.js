@@ -3,6 +3,30 @@
     nx.define('nx.data.ObservableGraph.VertexSets', nx.data.ObservableObject, {
         events: ['addVertexSet', 'removeVertexSet', 'updateVertexSet', 'updateVertexSetCoordinate'],
         properties: {
+            nodeSet: {
+                get: function () {
+                    return this._nodeSet || [];
+                },
+                set: function (value) {
+
+                    if (this._nodeSet && nx.is(this._nodeSet, nx.data.ObservableCollection)) {
+                        this._nodeSet.off('change', this._nodeSetCollectionProcessor, this);
+                    }
+
+                    this.vertices().clear();
+
+                    if (nx.is(value, nx.data.ObservableCollection)) {
+                        value.on('change', this._nodeSetCollectionProcessor, this);
+                        value.each(function (value) {
+                            this._addVertexSet(value);
+                        }, this);
+                    } else {
+                        nx.each(value, this._addVertexSet, this);
+                    }
+
+                    this._nodeSet = value;
+                }
+            },
             vertexSets: {
                 value: function () {
                     var vertexSets = new nx.data.ObservableDictionary();
@@ -74,15 +98,18 @@
 
                 return vertexSet;
             },
-            _addVertexSet: function (data, config) {
+            _addVertexSet: function (data) {
                 var verticesLength = this.vertexSets().count() + this.vertices().count();
                 var identityKey = this.identityKey();
+                var vertexSet, id;
                 //
                 if (!nx.is(data, 'Object')) {
                     data = {data: data};
                 }
-                var vertexSetID = data[identityKey] !== undefined ? data[identityKey] : verticesLength;
-                var vertexSet = new nx.data.VertexSet(data);
+                id = nx.path(data, identityKey);
+                id = id !== undefined ? id : verticesLength;
+
+                vertexSet = new nx.data.VertexSet(data);
 
 
                 var vertexPositionGetter = this.vertexPositionGetter();
@@ -97,16 +124,30 @@
                     graph: this,
                     type: 'vertexSet',
                     autoSave: this.autoSave(),
-                    id: vertexSetID
+                    id: id
                 });
 
-                if (config) {
-                    vertexSet.sets(config);
+
+                //delegate synchronize
+                if (nx.is(data, nx.data.ObservableObject)) {
+                    var fn = data.set;
+                    data.set = function (key, value) {
+                        fn.call(data, key, value);
+                        //
+                        if (vertexSet.__properties__.indexOf(key) == -1) {
+                            if (vertexSet.has(key)) {
+                                vertexSet[key].call(vertexSet, value);
+                            } else {
+                                vertexSet.notify(key);
+                            }
+                        }
+                    };
                 }
+
 
                 vertexSet.initPosition();
 
-                this.vertexSets().setItem(vertexSetID, vertexSet);
+                this.vertexSets().setItem(id, vertexSet);
 
                 return vertexSet;
             },
@@ -139,9 +180,9 @@
 
 
                     //todo
-                    setTimeout(function () {
-
-                    }.bind(this), 0);
+//                    setTimeout(function () {
+//
+//                    }.bind(this), 0);
 
                     this.fire('addVertexSet', vertexSet);
                 }
@@ -219,6 +260,9 @@
             },
             getVertexSet: function (id) {
                 return  this.vertexSets().getItem(id);
+            },
+            _nodeSetCollectionProcessor: function (sender, args) {
+
             }
         }
     });
