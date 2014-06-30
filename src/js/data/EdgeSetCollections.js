@@ -38,7 +38,7 @@
                 esc.source().addEdgeSetCollection(esc, linkKey);
                 esc.target().addEdgeSetCollection(esc, linkKey);
 
-                esc.initialize();
+                esc.attachEvent();
 
                 this.edgeSetCollections().setItem(linkKey, esc);
                 return esc;

@@ -36,7 +36,9 @@
                         var items = args.items;
                         if (action == 'clear') {
                             nx.each(items, function (edge) {
-                                this.deleteEdge(edge);
+                                if (edge.id) {
+                                    this.deleteEdge(edge.id());
+                                }
                             }, this);
                         }
                     }, this);

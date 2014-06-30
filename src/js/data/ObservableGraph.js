@@ -41,20 +41,16 @@
         methods: {
             init: function (args) {
                 this.inherited(args);
-                this._data = {nodes: [], links: [], nodeSet: []};
+
+                this.nodes([]);
+                this.links([]);
+                this.nodeSet([]);
             },
             clear: function () {
-                this._data = {nodes: [], links: [], nodeSet: []};
 
-                this.vertices().clear();
-
-                this.vertexSets().clear();
-
-                this.edgeSetCollections().clear();
-
-                this.edgeSets().clear();
-
-                this.edges().clear();
+                this.nodes([]);
+                this.links([]);
+                this.nodeSet([]);
 
                 this.fire('clear');
             },
@@ -68,14 +64,10 @@
 
                 this.clear();
 
-                this._data.nodes = inData.nodes || [];
-                this._data.links = inData.links || [];
-                this._data.nodeSet = inData.nodeSet || [];
-
-                var data = this.processData(this._data);
+                var data = this.processData(this.getJSON(inData));
 
                 // process
-                this._generate(data);
+                this._generate(inData);
 
                 /**
                  * Trigger when set data to ObservableGraph
@@ -94,25 +86,29 @@
              * @param {Object} inData
              */
             insertData: function (inData) {
-                //migrate orginal data
-                this._data.nodes = this._data.nodes.concat(inData.nodes || []);
-                this._data.links = this._data.links.concat(inData.links || []);
-                this._data.nodeSet = this._data.nodeSet.concat(inData.nodeSet || []);
+
+                //todo
 
 
-                var data = this.processData(inData);
-
-                // process
-                this._generate(data);
-
-                /**
-                 * Trigger when insert data to ObservableGraph
-                 * @event insertData
-                 * @param sender {Object}  event trigger
-                 * @param {Object} data data, which been processed by data processor
-                 */
-
-                this.fire('insertData', data);
+//                //migrate original data
+//                this._data.nodes = this._data.nodes.concat(inData.nodes || []);
+//                this._data.links = this._data.links.concat(inData.links || []);
+//                this._data.nodeSet = this._data.nodeSet.concat(inData.nodeSet || []);
+//
+//
+//                var data = this.processData(inData);
+//
+//                // process
+//                this._generate(data);
+//
+//                /**
+//                 * Trigger when insert data to ObservableGraph
+//                 * @event insertData
+//                 * @param sender {Object}  event trigger
+//                 * @param {Object} data data, which been processed by data processor
+//                 */
+//
+//                this.fire('insertData', data);
 
             },
 
@@ -122,8 +118,7 @@
 
                 this.links(data.links);
 
-                nx.each(data.nodeSet, this._addVertexSet, this);
-
+                this.nodeSet(data.nodeSet);
 
                 var filter = this.filter();
                 if (filter) {
@@ -171,11 +166,59 @@
              */
 
             getData: function () {
-                var data = nx.clone(this._data);
-                if (data.nodeSet.length === 0) {
-                    delete data.nodeSet;
+                return {
+                    nodes: this.nodes(),
+                    links: this.links(),
+                    nodeSet: this.nodeSet()
+                };
+            },
+            getJSON: function (inData) {
+                var data = inData || this.getData();
+                var obj = {nodes: [], links: []};
+
+
+                if (nx.is(data.nodes, nx.data.ObservableCollection)) {
+                    nx.each(data.nodes, function (n) {
+                        if (nx.is(n, nx.data.ObservableObject)) {
+                            obj.nodes.push(n.gets());
+                        } else {
+                            obj.nodes.push(n);
+                        }
+                    });
+                } else {
+                    obj.nodes = inData.nodes;
                 }
-                return data;
+
+
+                if (nx.is(data.links, nx.data.ObservableCollection)) {
+                    nx.each(data.links, function (n) {
+                        if (nx.is(n, nx.data.ObservableObject)) {
+                            obj.links.push(n.gets());
+                        } else {
+                            obj.links.push(n);
+                        }
+                    });
+                } else {
+                    obj.links = inData.links;
+                }
+
+                if (data.nodeSet) {
+                    if (nx.is(data.nodeSet, nx.data.ObservableCollection)) {
+                        obj.nodeSet = [];
+                        nx.each(data.nodeSet, function (n) {
+                            if (nx.is(n, nx.data.ObservableObject)) {
+                                obj.nodeSet.push(n.gets());
+                            } else {
+                                obj.nodeSet.push(n);
+                            }
+                        });
+                    } else {
+                        obj.nodeSet = data.nodeSet;
+                    }
+                }
+
+                return obj;
+
             },
 
             /**

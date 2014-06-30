@@ -13,7 +13,7 @@
                         this._nodeSet.off('change', this._nodeSetCollectionProcessor, this);
                     }
 
-                    this.vertices().clear();
+                    this.vertexSets().clear();
 
                     if (nx.is(value, nx.data.ObservableCollection)) {
                         value.on('change', this._nodeSetCollectionProcessor, this);
@@ -35,7 +35,9 @@
                         var items = args.items;
                         if (action == 'clear') {
                             nx.each(items, function (vertexSet) {
-                                this.deleteVertexSet(vertexSet);
+                                if (vertexSet.id) {
+                                    this.deleteVertexSet(vertexSet.id());
+                                }
                             }, this);
                         }
                     }, this);
@@ -65,8 +67,20 @@
             addVertexSet: function (data, config) {
 
 
-                var vertexSet = this._addVertexSet(data, config);
+                var vertexSet;
+                var nodeSet = this.nodeSet();
+                var vertexSets = this.vertexSets();
+                if (nx.is(nodes, nx.data.ObservableCollection)) {
+                    nodeSet.add(data);
+                    vertexSet = vertexSets.getItem(vertexSets.count() - 1);
+                } else {
+                    nodeSet.push(data);
+                    vertexSet = this._addVertexSet(data);
+                }
 
+                if (config) {
+                    vertexSet.sets(config);
+                }
                 this.generateVertexSet(vertexSet);
 
 
@@ -91,9 +105,6 @@
 //                        vertexSet.parentVertexSet(parentVertexSet);
 //                    }
 //                }
-
-
-                this._data.nodeSet.push(data);
 
 
                 return vertexSet;
@@ -232,6 +243,20 @@
             },
             deleteVertexSet: function (id) {
 
+                var nodeSet = this.nodeSet();
+                if (nx.is(nodeSet, nx.data.ObservableCollection)) {
+                    var data = this.getVertexSet(id).getData();
+                    nodeSet.remove(data);
+                } else {
+                    var index = this.nodeSet().indexOf(this.getVertexSet(id).getData());
+                    if (index != -1) {
+                        this.nodeSet().splice(index, 1);
+                    }
+                    this._deleteVertexSet(id);
+                }
+            },
+            _deleteVertexSet: function (id) {
+
                 var vertexSet = this.vertexSets().getItem(id);
                 if (!vertexSet) {
                     return false;
@@ -253,6 +278,7 @@
                 this.fire('deleteVertexSet', vertexSet);
                 vertexSet.dispose();
             },
+
             eachVertexSet: function (callback, context) {
                 this.vertexSets().each(function (item, id) {
                     callback.call(context || this, item.value(), id);
@@ -262,7 +288,23 @@
                 return  this.vertexSets().getItem(id);
             },
             _nodeSetCollectionProcessor: function (sender, args) {
+                var items = args.items;
+                var action = args.action;
+                var identityKey = this.identityKey();
+                if (action == 'add') {
+                    nx.each(items, function (data) {
+                        var vertexSet = this._addVertexSet(data);
+                        this.generateVertexSet(vertexSet);
 
+                    }, this);
+                } else if (action == 'remove') {
+                    nx.each(items, function (data) {
+                        var id = nx.path(data, identityKey);
+                        this._deleteVertexSet(id);
+                    }, this);
+                } else if (action == 'clear') {
+                    this.vertexSets().clear();
+                }
             }
         }
     });

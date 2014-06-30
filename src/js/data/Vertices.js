@@ -38,7 +38,9 @@
                         var items = args.items;
                         if (action == 'clear') {
                             nx.each(items, function (vertex) {
-                                this.deleteVertex(vertex);
+                                if (vertex.id) {
+                                    this.deleteVertex(vertex.id());
+                                }
                             }, this);
                         }
                     }, this);
@@ -211,9 +213,9 @@
                     var data = this.getVertex(id).getData();
                     nodes.remove(data);
                 } else {
-                    var index = this._data.nodes.indexOf(vertex.getData());
+                    var index = this.nodes().indexOf(this.getVertex(id).getData());
                     if (index != -1) {
-                        this._data.nodes.splice(index, 1);
+                        this.nodes().splice(index, 1);
                     }
                     this._deleteVertex(id);
                 }
