@@ -296,8 +296,19 @@
   font-size: 11px;
 }
 .n-topology.n-topology-blue .node.disable {
-  opacity: 0.3;
-  stroke: #ccc;
+  pointer-events: none;
+}
+.n-topology.n-topology-blue .node.disable .node-label {
+  fill: #ccc !important;
+}
+.n-topology.n-topology-blue .node.disable .fontIcon {
+  pointer-events: none;
+}
+.n-topology.n-topology-blue .node.disable .showIcon .iconShape {
+  fill: #ccc;
+}
+.n-topology.n-topology-blue .node.disable .iconBG.iconBGActive {
+  fill: #ccc;
 }
 .n-topology.n-topology-blue .link path,
 .n-topology.n-topology-blue .link line {
@@ -498,6 +509,12 @@
   stroke-width: 3;
   stroke-linejoin: round;
   pointer-events: none;
+}
+.n-topology.n-topology-blue .fade-layer > g {
+  transition: .6s;
+}
+.n-topology.n-topology-blue .fade-layer > g:not(.fade-highlight):not(.fade-active) {
+  opacity: .2;
 }
 .n-topology.n-topology-blue .n-topology-nav {
   position: absolute;
@@ -959,8 +976,19 @@
   font-size: 11px;
 }
 .n-topology.n-topology-dark .node.disable {
-  opacity: 0.3;
-  stroke: #ccc;
+  pointer-events: none;
+}
+.n-topology.n-topology-dark .node.disable .node-label {
+  fill: #ccc !important;
+}
+.n-topology.n-topology-dark .node.disable .fontIcon {
+  pointer-events: none;
+}
+.n-topology.n-topology-dark .node.disable .showIcon .iconShape {
+  fill: #ccc;
+}
+.n-topology.n-topology-dark .node.disable .iconBG.iconBGActive {
+  fill: #ccc;
 }
 .n-topology.n-topology-dark .link path,
 .n-topology.n-topology-dark .link line {
@@ -1161,6 +1189,12 @@
   stroke-width: 3;
   stroke-linejoin: round;
   pointer-events: none;
+}
+.n-topology.n-topology-dark .fade-layer > g {
+  transition: .6s;
+}
+.n-topology.n-topology-dark .fade-layer > g:not(.fade-highlight):not(.fade-active) {
+  opacity: .2;
 }
 .n-topology.n-topology-dark .n-topology-nav {
   position: absolute;
@@ -1622,8 +1656,19 @@
   font-size: 11px;
 }
 .n-topology.n-topology-green .node.disable {
-  opacity: 0.3;
-  stroke: #ccc;
+  pointer-events: none;
+}
+.n-topology.n-topology-green .node.disable .node-label {
+  fill: #ccc !important;
+}
+.n-topology.n-topology-green .node.disable .fontIcon {
+  pointer-events: none;
+}
+.n-topology.n-topology-green .node.disable .showIcon .iconShape {
+  fill: #ccc;
+}
+.n-topology.n-topology-green .node.disable .iconBG.iconBGActive {
+  fill: #ccc;
 }
 .n-topology.n-topology-green .link path,
 .n-topology.n-topology-green .link line {
@@ -1824,6 +1869,12 @@
   stroke-width: 3;
   stroke-linejoin: round;
   pointer-events: none;
+}
+.n-topology.n-topology-green .fade-layer > g {
+  transition: .6s;
+}
+.n-topology.n-topology-green .fade-layer > g:not(.fade-highlight):not(.fade-active) {
+  opacity: .2;
 }
 .n-topology.n-topology-green .n-topology-nav {
   position: absolute;
@@ -2285,8 +2336,19 @@
   font-size: 11px;
 }
 .n-topology.n-topology-slate .node.disable {
-  opacity: 0.3;
-  stroke: #ccc;
+  pointer-events: none;
+}
+.n-topology.n-topology-slate .node.disable .node-label {
+  fill: #ccc !important;
+}
+.n-topology.n-topology-slate .node.disable .fontIcon {
+  pointer-events: none;
+}
+.n-topology.n-topology-slate .node.disable .showIcon .iconShape {
+  fill: #ccc;
+}
+.n-topology.n-topology-slate .node.disable .iconBG.iconBGActive {
+  fill: #ccc;
 }
 .n-topology.n-topology-slate .link path,
 .n-topology.n-topology-slate .link line {
@@ -2487,6 +2549,12 @@
   stroke-width: 3;
   stroke-linejoin: round;
   pointer-events: none;
+}
+.n-topology.n-topology-slate .fade-layer > g {
+  transition: .6s;
+}
+.n-topology.n-topology-slate .fade-layer > g:not(.fade-highlight):not(.fade-active) {
+  opacity: .2;
 }
 .n-topology.n-topology-slate .n-topology-nav {
   position: absolute;
@@ -2948,8 +3016,19 @@
   font-size: 11px;
 }
 .n-topology.n-topology-yellow .node.disable {
-  opacity: 0.3;
-  stroke: #ccc;
+  pointer-events: none;
+}
+.n-topology.n-topology-yellow .node.disable .node-label {
+  fill: #ccc !important;
+}
+.n-topology.n-topology-yellow .node.disable .fontIcon {
+  pointer-events: none;
+}
+.n-topology.n-topology-yellow .node.disable .showIcon .iconShape {
+  fill: #ccc;
+}
+.n-topology.n-topology-yellow .node.disable .iconBG.iconBGActive {
+  fill: #ccc;
 }
 .n-topology.n-topology-yellow .link path,
 .n-topology.n-topology-yellow .link line {
@@ -3150,6 +3229,12 @@
   stroke-width: 3;
   stroke-linejoin: round;
   pointer-events: none;
+}
+.n-topology.n-topology-yellow .fade-layer > g {
+  transition: .6s;
+}
+.n-topology.n-topology-yellow .fade-layer > g:not(.fade-highlight):not(.fade-active) {
+  opacity: .2;
 }
 .n-topology.n-topology-yellow .n-topology-nav {
   position: absolute;
@@ -4377,10 +4462,4 @@ input[type="button"].btn-block {
   border-right-width: 0;
   border-left-color: #ffffff;
   bottom: -10px;
-}
-.fade-layer > g {
-  transition: .6s;
-}
-.fade-layer > g:not(.fade-highlight):not(.fade-active) {
-  opacity: .2;
 }
