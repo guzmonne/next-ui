@@ -101,35 +101,40 @@
                 'data-type': 'links-sum',
                 'class': 'link-set'
             },
-            content: [{
+            content: [
+                {
                     name: 'path',
                     type: 'nx.graphic.Line',
                     props: {
                         'class': 'link-set-bg'
                     }
-                }, {
+                },
+                {
                     name: 'number',
                     type: 'nx.graphic.Group',
-                    content: [{
-                        name: 'numBg',
-                        type: 'nx.graphic.Rect',
-                        props: {
-                            'class': 'link-set-circle',
-                            height: 1
+                    content: [
+                        {
+                            name: 'numBg',
+                            type: 'nx.graphic.Rect',
+                            props: {
+                                'class': 'link-set-circle',
+                                height: 1
+                            },
+                            events: {
+                                'mousedown': '{#_number_mouseup}',
+                                'mouseenter': '{#_number_mouseenter}',
+                                'mouseleave': '{#_number_mouseleave}'
+                            }
                         },
-                        events: {
-                            'mousedown': '{#_number_mouseup}',
-                            'mouseenter': '{#_number_mouseenter}',
-                            'mouseleave': '{#_number_mouseleave}'
+                        {
+                            name: 'num',
+                            type: 'nx.graphic.Text',
+                            props: {
+                                'class': 'link-set-text',
+                                y: 1
+                            }
                         }
-                    }, {
-                        name: 'num',
-                        type: 'nx.graphic.Text',
-                        props: {
-                            'class': 'link-set-text',
-                            y: 1
-                        }
-                    }]
+                    ]
                 }
 
             ]
@@ -173,7 +178,7 @@
                     this.fire('collapseLinkSet');
                 }
                 else {
-		    /* jshint -W030 */
+                    /* jshint -W030 */
                     this.parent() && this.remove();
                     this._updateLinksOffset();
                     /**
