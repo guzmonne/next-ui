@@ -10,6 +10,7 @@
                 },
                 set: function (value) {
 
+                    // off previous ObservableCollection event
                     if (this._nodes && nx.is(this._nodes, nx.data.ObservableCollection)) {
                         this._nodes.off('change', this._nodesCollectionProcessor, this);
                     }
@@ -91,17 +92,16 @@
             },
             _addVertex: function (data) {
                 var vertices = this.vertices();
-                var verticesLength = this.vertexSets().count() + this.vertices().count();
                 var identityKey = this.identityKey();
-                var vertex, id;
-
 
                 if (typeof(data) == 'string' || typeof(data) == 'number') {
                     data = {data: data};
                 }
-                id = nx.path(data, identityKey);
-                id = id !== undefined ? id : verticesLength;
-                vertex = new nx.data.Vertex(data);
+
+                var id = nx.path(data, identityKey);
+                id = id !== undefined ? id : (this.vertexSets().count() + this.vertices().count());
+
+                var vertex = new nx.data.Vertex(data);
 
                 var vertexPositionGetter = this.vertexPositionGetter();
                 var vertexPositionSetter = this.vertexPositionSetter();
@@ -113,7 +113,6 @@
 
                 vertex.sets({
                     graph: this,
-                    autoSave: this.autoSave(),
                     id: id
                 });
 
@@ -135,7 +134,8 @@
                 }
 
 
-                vertex.initPosition();
+                // init position
+                vertex.position(vertex.positionGetter().call(vertex));
 
                 vertices.setItem(id, vertex);
 
@@ -264,7 +264,6 @@
                     nx.each(items, function (data) {
                         var vertex = this._addVertex(data);
                         this.generateVertex(vertex);
-
                     }, this);
                 } else if (action == 'remove') {
                     nx.each(items, function (data) {
@@ -274,8 +273,6 @@
                 } else if (action == 'clear') {
                     this.vertices().clear();
                 }
-
-
             }
         }
     });

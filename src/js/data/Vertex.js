@@ -8,6 +8,7 @@
      */
 
     var Vector = nx.geometry.Vector;
+
     nx.define('nx.data.Vertex', nx.data.ObservableObject, {
         events: ['updateCoordinate'],
         properties: {
@@ -17,12 +18,8 @@
              */
             id: {},
             /**
-             * Set to auto save x/y data to original data
-             * @property ausoSave
+             * @property positionGetter
              */
-            autoSave: {
-                value: true
-            },
             positionGetter: {
                 value: function () {
                     return function () {
@@ -33,12 +30,15 @@
                     };
                 }
             },
+            /**
+             * @property positionSetter
+             */
             positionSetter: {
                 value: function () {
                     return function (position) {
                         if (this._data) {
-                            var x = nx.path(this._data, 'x');
-                            var y = nx.path(this._data, 'y');
+                            var x = this._x || nx.path(this._data, 'x');
+                            var y = this._y || nx.path(this._data, 'y');
                             if (position.x !== x || position.y !== y) {
                                 nx.path(this._data, 'x', position.x);
                                 nx.path(this._data, 'y', position.y);
@@ -76,11 +76,12 @@
                         this._y = obj.y;
                         isModified = true;
                     }
-                    if (this.autoSave()) {
-                        this.save();
-                    }
+
 
                     if (isModified) {
+
+                        this.positionSetter().call(this, {x: this._x, y: this._y});
+
                         this.fire("updateCoordinate", {
                             oldPosition: _position,
                             newPosition: {
@@ -189,16 +190,28 @@
             type: {
                 value: 'vertex'
             },
+            /**
+             * connected edgeSets
+             * @property edgeSets
+             */
             edgeSets: {
                 value: function () {
                     return {};
                 }
             },
+            /**
+             * connected edgeSetCollections
+             * @property edgeSetCollections
+             */
             edgeSetCollections: {
                 value: function () {
                     return {};
                 }
             },
+            /**
+             * Get connected edges
+             * @property edges
+             */
             edges: {
                 get: function () {
                     var edges = {};
@@ -208,6 +221,10 @@
                     return edges;
                 }
             },
+            /**
+             * Get connected vertices
+             * @property connectedVertices
+             */
             connectedVertices: {
                 get: function () {
                     var vertices = {};
@@ -229,6 +246,10 @@
              * @property parentVertexSet {nx.data.VertexSet}
              */
             parentVertexSet: {},
+            /**
+             * Vertex root vertexSet
+             * @property rootVertexSet
+             */
             rootVertexSet: {
                 get: function () {
                     var parentVertexSet = this.parentVertexSet();
@@ -238,6 +259,10 @@
                     return parentVertexSet;
                 }
             },
+            /**
+             * Generated Root VertexSet
+             * @property generatedRootVertexSet
+             */
             generatedRootVertexSet: {
                 get: function () {
                     var parentVertexSet = this.parentVertexSet();
@@ -258,7 +283,6 @@
         },
         methods: {
 
-//
             set: function (key, value) {
                 if (this.has(key)) {
                     this[key].call(this, value);
@@ -278,9 +302,6 @@
                 return (member && member.__type__ == 'property');
             },
 
-            initPosition: function () {
-                this.position(this.positionGetter().call(this));
-            },
             /**
              * Get original data
              * @method getData
@@ -338,6 +359,12 @@
                     }
                 }, this);
             },
+            /**
+             * Move vertex
+             * @method translate
+             * @param x
+             * @param y
+             */
             translate: function (x, y) {
                 var _position = this.position();
                 if (x != null) {
@@ -349,27 +376,8 @@
                 }
 
                 this.position(_position);
-            },
-
-
-            /**
-             * Save x&y to original data
-             * @method save
-             */
-            save: function () {
-                this.positionSetter().call(this, {x: this._x, y: this._y});
-            },
-            /**
-             * Reset x&y
-             * @method reset
-             */
-            reset: function () {
-                this._x = null;
-                this._y = null;
-                this.initPosition();
             }
         }
     })
-    ;
 })
 (nx, nx.global);

@@ -150,6 +150,7 @@
             dispose: function () {
                 this.source().off('updateCoordinate', this._updateCoordinate, this);
                 this.target().off('updateCoordinate', this._updateCoordinate, this);
+                this.inherited();
             }
         }
     });

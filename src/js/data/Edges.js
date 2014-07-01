@@ -13,7 +13,12 @@
                         this._links.off('change', this._linksCollectionProcessor, this);
                     }
 
+                    this.edgeSetCollections().clear();
+
+                    this.edgeSets().clear();
+
                     this.edges().clear();
+
 
                     if (nx.is(value, nx.data.ObservableCollection)) {
                         value.on('change', this._linksCollectionProcessor, this);
@@ -86,11 +91,11 @@
                 var source, target, sourceID, targetID;
 
                 sourceID = nx.path(data, 'source') != null ? nx.path(data, 'source') : data.source;
-                source = this.vertices().getItem(sourceID) || this.vertexSets().getItem(sourceID);
+                source = this.vertices().getItem(sourceID);// || this.vertexSets().getItem(sourceID);
 
 
                 targetID = nx.path(data, 'target') != null ? nx.path(data, 'target') : data.source;
-                target = this.vertices().getItem(targetID) || this.vertexSets().getItem(targetID);
+                target = this.vertices().getItem(targetID);// || this.vertexSets().getItem(targetID);
 
 
                 if (source && target) {

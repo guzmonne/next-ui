@@ -24,6 +24,8 @@
                         nx.each(value, this._addVertexSet, this);
                     }
 
+                    this.eachVertexSet(this.initVertexSet, this);
+
                     this._nodeSet = value;
                 }
             },
@@ -81,46 +83,36 @@
                 if (config) {
                     vertexSet.sets(config);
                 }
+
+
+
+                if (config.parentVertexSetID != null) {
+                    var parentVertexSet = this.getVertexSet(config.parentVertexSetID);
+                    if (parentVertexSet) {
+                        parentVertexSet.addVertex(vertexSet);
+                    }
+                }
+
+                this.initVertexSet(vertexSet);
+
+
                 this.generateVertexSet(vertexSet);
 
-
-//                if (config.parentVertexSetID != null) {
-//                    var parentVertexSet = this.getVertexSet(config.parentVertexSetID);
-//                    if (parentVertexSet) {
-//                        var parentID = vertexSet.id();
-//                        parentVertexSet.removeVertices(data.nodes);
-//                        parentVertexSet.nodes().push(parentID);
-//                        parentVertexSet.vertexSet()[parentID] = vertexSet;
-//                        parentVertexSet.updated(false);
-//                        /**
-//                         * @event updateVertexSet
-//                         * @param sender {Object}  Trigger instance
-//                         * @param {nx.data.VertexSet} vertexSet VertexSet object
-//                         */
-//                        setTimeout(function () {
-//                            this.fire('updateVertexSet', parentVertexSet);
-//                        }.bind(this), 0);
-//
-//
-//                        vertexSet.parentVertexSet(parentVertexSet);
-//                    }
-//                }
-
+                vertexSet.activated(true, {force: true});
+                this.updateVertexSet(vertexSet);
 
                 return vertexSet;
             },
             _addVertexSet: function (data) {
-                var verticesLength = this.vertexSets().count() + this.vertices().count();
                 var identityKey = this.identityKey();
-                var vertexSet, id;
                 //
-                if (!nx.is(data, 'Object')) {
+                if (typeof(data) == 'string' || typeof(data) == 'number') {
                     data = {data: data};
                 }
-                id = nx.path(data, identityKey);
-                id = id !== undefined ? id : verticesLength;
+                var id = nx.path(data, identityKey);
+                id = id !== undefined ? id : this.vertexSets().count() + this.vertices().count();
 
-                vertexSet = new nx.data.VertexSet(data);
+                var vertexSet = new nx.data.VertexSet(data);
 
 
                 var vertexPositionGetter = this.vertexPositionGetter();
@@ -134,7 +126,6 @@
                 vertexSet.sets({
                     graph: this,
                     type: 'vertexSet',
-                    autoSave: this.autoSave(),
                     id: id
                 });
 
@@ -156,7 +147,7 @@
                 }
 
 
-                vertexSet.initPosition();
+                vertexSet.position(vertexSet.positionGetter().call(vertexSet));
 
                 this.vertexSets().setItem(id, vertexSet);
 

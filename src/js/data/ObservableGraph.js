@@ -26,14 +26,6 @@
             identityKey: {
                 value: 'index'
             },
-            /**
-             * If 'false', when vertex'position changed, will not write to original data
-             * @property autoSave
-             * @default true
-             */
-            autoSave: {
-                value: true
-            },
             filter: {},
             groupBy: {},
             levelBy: {}
@@ -46,15 +38,6 @@
                 this.links([]);
                 this.nodeSet([]);
             },
-            clear: function () {
-
-                this.nodes([]);
-                this.links([]);
-                this.nodeSet([]);
-
-                this.fire('clear');
-            },
-
             /**
              * Set data, data should follow Common Topology Data Definition
              * @method setData
@@ -62,24 +45,18 @@
              */
             setData: function (inData) {
 
-                this.clear();
-
                 var data = this.processData(this.getJSON(inData));
-
-                // process
+                this.clear();
                 this._generate(inData);
-
                 /**
                  * Trigger when set data to ObservableGraph
                  * @event setData
                  * @param sender {Object}  event trigger
                  * @param {Object} data data, which been processed by data processor
                  */
-
                 this.fire('setData', data);
-
-
             },
+
             /**
              * Insert data, data should follow Common Topology Data Definition
              * @method insertData
@@ -111,28 +88,25 @@
 //                this.fire('insertData', data);
 
             },
-
-
             _generate: function (data) {
                 this.nodes(data.nodes);
-
                 this.links(data.links);
-
                 this.nodeSet(data.nodeSet);
+
 
                 var filter = this.filter();
                 if (filter) {
                     filter.call(this, this);
                 }
 
-
-                this.eachVertexSet(this.initVertexSet, this);
-
                 /**
+                 * Fired when start generate topology elements
                  * @event startGenerate
-                 * @param sender {Object}  Trigger instance
+                 * @param sender{Object} trigger instance
+                 * @param event {Object} original event object
                  */
                 this.fire('startGenerate');
+
 
 //                console.time('vertex');
                 this.eachVertex(this.generateVertex, this);
@@ -144,8 +118,7 @@
 
 
                 this.eachVertexSet(this.generateVertexSet, this);
-
-
+                //
                 this.eachVertexSet(function (vertexSet) {
                     vertexSet.activated(true, {force: true});
                     this.updateVertexSet(vertexSet);
@@ -153,15 +126,19 @@
 
 
                 /**
+                 * Fired when finish generate topology elements
                  * @event endGenerate
-                 * @param sender {Object}  Trigger instance
+                 * @param sender{Object} trigger instance
+                 * @param event {Object} original event object
                  */
                 this.fire('endGenerate');
 
             },
 
+
             /**
              * Get original data
+             * @method getData
              * @returns {Object}
              */
 
@@ -172,6 +149,13 @@
                     nodeSet: this.nodeSet()
                 };
             },
+
+            /**
+             * Get original json object
+             * @method getJSON
+             * @param [inData]
+             * @returns {{nodes: Array, links: Array,nodeSet:Array}}
+             */
             getJSON: function (inData) {
                 var data = inData || this.getData();
                 var obj = {nodes: [], links: []};
@@ -220,7 +204,6 @@
                 return obj;
 
             },
-
             /**
              * Get visible vertices data bound
              * @method getBound
@@ -266,12 +249,18 @@
                     maxY: max_y
                 };
             },
-            /**
-             * Revers all vertices' original data
-             * @method reset
-             */
-            reset: function () {
 
+            /**
+             * Clear graph data
+             * @method clear
+             */
+            clear: function () {
+
+                this.nodes([]);
+                this.links([]);
+                this.nodeSet([]);
+
+                this.fire('clear');
             },
             dispose: function () {
                 this.clear();

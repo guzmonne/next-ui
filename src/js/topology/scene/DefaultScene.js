@@ -310,9 +310,11 @@
             },
 
             addNode: function () {
+                this._topo.stage().resetFitMatrix();
                 this._topo.adjustLayout();
             },
             addNodeSet: function () {
+                this._topo.stage().resetFitMatrix();
                 this._topo.adjustLayout();
             },
             removeNode: function () {
