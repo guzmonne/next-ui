@@ -164,7 +164,9 @@
              */
             updateLinkSet: function () {
                 var value = this._processPropertyValue(this.collapsedRule());
-                this.model().activated(value, {force: true});
+                this.model().activated(value, {
+                    force: true
+                });
                 if (value) {
                     this.append();
                     this.update();
