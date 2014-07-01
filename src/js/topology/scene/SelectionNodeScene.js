@@ -37,6 +37,8 @@
                 if (!multi) {
                     selectedNodes.clear();
                 }
+
+                event.captureDrag(sender.stage().view());
             },
             enterNode: function () {
 

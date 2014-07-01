@@ -134,6 +134,9 @@
 
                 util.setProperty(nodeSet, 'showIcon', topo.showIcon());
 
+                if (topo.revisionScale() !== 1) {
+                    nodeSet.revisionScale(topo.revisionScale());
+                }
 
             },
             /**

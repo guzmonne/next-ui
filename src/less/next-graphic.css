@@ -3619,8 +3619,9 @@
 .n-dragCursor {
   cursor: pointer;
 }
-.n-crosshairCursor {
-  cursor: crosshair;
+.n-crosshairCursor,
+.n-crosshairCursor * {
+  cursor: crosshair !important;
 }
 .n-zoomInCursor {
   cursor: -webkit-zoom-in;

@@ -20,22 +20,26 @@
                     height: '{#height}'
                 }
             },
-            content: [{
-                name: 'defs',
-                tag: 'svg:defs'
-            }, {
-                name: 'scalingLayer',
-                type: 'nx.graphic.Group',
-                props: {
-                    'class': 'stage'
+            content: [
+                {
+                    name: 'defs',
+                    tag: 'svg:defs'
                 },
-                events: {
-                    'transitionend': '{#_transitionend}'
+                {
+                    name: 'scalingLayer',
+                    type: 'nx.graphic.Group',
+                    props: {
+                        'class': 'stage'
+                    },
+                    events: {
+                        'transitionend': '{#_transitionend}'
+                    }
+                },
+                {
+                    name: 'staticLayer',
+                    type: 'nx.graphic.Group'
                 }
-            }, {
-                name: 'staticLayer',
-                type: 'nx.graphic.Group'
-            }],
+            ],
             events: {
                 'mousedown': '{#_mousedown}',
                 'dragstart': '{#_dragstart}',
@@ -226,7 +230,8 @@
             },
             fit: function (callback, context, isAnimated) {
 
-                var _callback = callback || function () {};
+                var _callback = callback || function () {
+                };
 
 
                 if (isAnimated) {
@@ -277,7 +282,9 @@
                 var dx = (graph.left + graph.width / 2) - s * (rect.left + rect.width / 2);
                 var dy = (graph.top + graph.height / 2) - s * (rect.top + rect.height / 2);
                 return [
-                    [s, 0, 0], [0, s, 0], [dx, dy, 1]
+                    [s, 0, 0],
+                    [0, s, 0],
+                    [dx, dy, 1]
                 ];
             },
             applyTranslate: function (x, y, duration) {
