@@ -10,8 +10,8 @@
                         var action = args.action;
                         var items = args.items;
                         if (action == 'clear') {
-                            nx.each(items, function (esc) {
-                                this.deleteEdgeSetCollection(esc);
+                            nx.each(items, function (item) {
+                                this.deleteEdgeSetCollection(item.value().linkKey());
                             }, this);
                         }
                     }, this);

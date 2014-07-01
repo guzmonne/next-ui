@@ -51,7 +51,7 @@
                 value: 1000
             },
             interval: {
-                value: 100 / 60
+                value: 1000 / 60
             },
             autoStart: {
                 value: false
