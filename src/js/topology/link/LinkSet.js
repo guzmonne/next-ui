@@ -27,7 +27,8 @@
                     if (this._linkType !== value) {
                         this._linkType = value;
                         return true;
-                    } else {
+                    }
+                    else {
                         return false;
                     }
                 }
@@ -100,40 +101,35 @@
                 'data-type': 'links-sum',
                 'class': 'link-set'
             },
-            content: [
-                {
+            content: [{
                     name: 'path',
                     type: 'nx.graphic.Line',
                     props: {
                         'class': 'link-set-bg'
                     }
-                },
-                {
+                }, {
                     name: 'number',
                     type: 'nx.graphic.Group',
-                    content: [
-                        {
-                            name: 'numBg',
-                            type: 'nx.graphic.Rect',
-                            props: {
-                                'class': 'link-set-circle',
-                                height: 1
-                            },
-                            events: {
-                                'mousedown': '{#_number_mouseup}',
-                                'mouseenter': '{#_number_mouseenter}',
-                                'mouseleave': '{#_number_mouseleave}'
-                            }
+                    content: [{
+                        name: 'numBg',
+                        type: 'nx.graphic.Rect',
+                        props: {
+                            'class': 'link-set-circle',
+                            height: 1
                         },
-                        {
-                            name: 'num',
-                            type: 'nx.graphic.Text',
-                            props: {
-                                'class': 'link-set-text',
-                                y: 1
-                            }
+                        events: {
+                            'mousedown': '{#_number_mouseup}',
+                            'mouseenter': '{#_number_mouseenter}',
+                            'mouseleave': '{#_number_mouseleave}'
                         }
-                    ]
+                    }, {
+                        name: 'num',
+                        type: 'nx.graphic.Text',
+                        props: {
+                            'class': 'link-set-text',
+                            y: 1
+                        }
+                    }]
                 }
 
             ]
@@ -175,8 +171,9 @@
                      * @param event {Object} original event object
                      */
                     this.fire('collapseLinkSet');
-                } else {
-                    this.remove();
+                }
+                else {
+                    this.parent() && this.remove();
                     this._updateLinksOffset();
                     /**
                      * Fired when expend linkSet
@@ -213,7 +210,8 @@
                     numEl.visible(false);
                     numBg.visible(false);
 
-                } else {
+                }
+                else {
                     numEl.sets({
                         text: edges.length,
                         visible: true

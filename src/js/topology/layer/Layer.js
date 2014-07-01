@@ -8,7 +8,10 @@
      */
     nx.define("nx.graphic.Topology.Layer", nx.graphic.Group, {
         view: {
-            type: 'nx.graphic.Group'
+            type: 'nx.graphic.Group',
+            props: {
+                class: "layer"
+            }
         },
         properties: {
             /**
@@ -20,12 +23,63 @@
             },
             fade: {
                 value: false
+            },
+            /**
+             * Layer's highlight element's collection
+             * @property highlightedElements
+             */
+            highlightedElements: {
+                value: function () {
+                    return new nx.data.ObservableCollection();
+                }
+            },
+            activeElements: {
+                value: function () {
+                    return new nx.data.ObservableCollection();
+                }
             }
         },
         methods: {
             init: function (args) {
                 this.inherited(args);
                 this.view().set("data-nx-type", this.__className__);
+
+                var highlightedElements = this.highlightedElements();
+                var activeElements = this.activeElements();
+
+                highlightedElements.on('change', function (sender, args) {
+                    if (args.action == 'add') {
+                        nx.each(args.items, function (el) {
+                            el.dom().addClass("fade-exception");
+                        });
+                    }
+                    else if (args.action == 'remove' || args.action == "clear") {
+                        nx.each(args.items, function (el) {
+                            el.dom().removeClass("fade-exception");
+                        });
+                    }
+                    if (highlightedElements.count() == 0) {
+                        this.dom().removeClass("fade-layer");
+                    }
+                }, this);
+
+
+                activeElements.on('change', function (sender, args) {
+                    if (args.action == 'add') {
+                        nx.each(args.items, function (el) {
+                            el.dom().addClass("fade-active");
+                        });
+                    }
+                    else if (args.action == 'remove' || args.action == "clear") {
+                        nx.each(args.items, function (el) {
+                            el.dom().removeClass("fade-active");
+                        });
+                    }
+                    if (activeElements.count() == 0) {
+                        this.dom().removeClass("fade-layer");
+                    }
+                }, this);
+
             },
             /**
              * Factory function, draw group
@@ -55,27 +109,28 @@
              * @param [context] {Object} callback context
              */
             fadeOut: function (force, callback, context) {
-                var el = this.view();
                 var _force = force !== undefined;
                 if (this._fade && !_force) {
                     return;
                 }
-                el.setStyle('opacity', 0.2, 0.5, callback, context);
+                this.dom().addClass("fade-layer");
+                // TODO invoke callback when fade complete
+                // el.setStyle('opacity', 0.2, 0.5, callback, context);
                 this._fade = _force;
             },
             /**
-             * Fade in layer's fade statues
+             * FadeIn layer's fade statues
              * @param force {Boolean} force recover all items
              * @param [callback] {Function} callback after fade out
              * @param [context] {Object} callback context
              */
             fadeIn: function (force, callback, context) {
-                var el = this.view();
                 if (this._fade && !force) {
                     return;
                 }
-
-                el.setStyle('opacity', 1, 0, callback, context);
+                this.dom().removeClass("fade-layer");
+                // TODO invoke callback when un-fade complete
+                // el.setStyle('opacity', 1, 0, callback, context);
                 delete this._fade;
             },
             /**
@@ -93,10 +148,14 @@
              * @method clear
              */
             clear: function () {
+                this.highlightedElements().clear();
+                this.activeElements().clear();
                 this.view().dom().empty();
             },
             dispose: function () {
                 this.clear();
+                this.highlightedElements().clear();
+                this.activeElements().clear();
                 this.inherited();
             }
         }

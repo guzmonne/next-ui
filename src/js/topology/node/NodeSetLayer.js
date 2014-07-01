@@ -1,6 +1,6 @@
 (function (nx, global) {
     var util = nx.util;
-    var CLZ = nx.define('nx.graphic.Topology.NodeSetLayer', nx.graphic.Topology.TripleLayer, {
+    var CLZ = nx.define('nx.graphic.Topology.NodeSetLayer', nx.graphic.Topology.Layer, {
         statics: {
             defaultConfig: {
                 iconType: 'nodeSet',
@@ -95,7 +95,7 @@
                     topology: topo
                 });
                 nodeSet.setModel(vertexSet);
-                nodeSet.attach(this.view('static'));
+                nodeSet.attach(this.view());
 
                 nodeSet.sets({
                     'data-id': id,

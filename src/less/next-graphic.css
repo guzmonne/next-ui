@@ -4377,3 +4377,9 @@ input[type="button"].btn-block {
   border-left-color: #ffffff;
   bottom: -10px;
 }
+.fade-layer > g {
+  transition: .6s;
+}
+.fade-layer > g:not(.fade-highlight):not(.fade-active) {
+  opacity: .2;
+}
