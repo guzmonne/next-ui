@@ -173,6 +173,7 @@
                     this.fire('collapseLinkSet');
                 }
                 else {
+		    /* jshint -W030 */
                     this.parent() && this.remove();
                     this._updateLinksOffset();
                     /**
