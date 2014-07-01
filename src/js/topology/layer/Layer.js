@@ -76,6 +76,7 @@
                     }
                     else if (args.action == 'remove' || args.action == "clear") {
                         nx.each(args.items, function (el) {
+                            /* jslint -W030 */
                             el.dom() && el.dom().removeClass("fade-active");
                         });
                     }
