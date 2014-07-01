@@ -65,7 +65,6 @@
                     action: 'clear',
                     items: items
                 });
-
                 this._map = {};
             }
         }
