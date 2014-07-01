@@ -1,6 +1,6 @@
 (function (nx, global) {
 
-    "use strict";
+
     /**
      * Edge
      * @class nx.data.Edge
@@ -140,7 +140,7 @@
             getData: function () {
                 return this._data;
             },
-            initialize: function () {
+            attachEvent: function () {
                 this.source().on('updateCoordinate', this._updateCoordinate, this);
                 this.target().on('updateCoordinate', this._updateCoordinate, this);
             },
@@ -150,6 +150,7 @@
             dispose: function () {
                 this.source().off('updateCoordinate', this._updateCoordinate, this);
                 this.target().off('updateCoordinate', this._updateCoordinate, this);
+                this.inherited();
             }
         }
     });

@@ -101,11 +101,9 @@
             /***
              * Add child vertex
              * @method addVertex
-             * @param id {string}
+             * @param vertex
              */
-            addVertex: function (id) {
-                var graph = this.graph();
-                var vertex = graph.vertices().getItem(id) || graph.vertexSets().getItem(id);
+            addVertex: function (vertex) {
                 if (vertex && !vertex.restricted()) {
                     var _map = vertex.type() == 'vertex' ? this.vertices() : this.vertexSet();
                     _map[id] = vertex;
@@ -117,7 +115,7 @@
                     }
 
                     vertex.parentVertexSet(this);
-                    this.nodes().push(id);
+                    this.nodes().push(vertex.id());
                     this.updated(true);
                 }
             },

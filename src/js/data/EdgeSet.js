@@ -1,5 +1,4 @@
 (function (nx, global) {
-    'use strict';
 
     /**
      * Edge set clas
@@ -62,13 +61,6 @@
             removeEdge: function (id) {
                 var edges = this.edges();
                 delete  edges[id];
-            },
-            disposeEdges: function () {
-                var graph = this.graph();
-                nx.each(this.edges(), function (edge) {
-                    edge.generated(false);
-                    graph.fire('removeEdge', edge);
-                });
             }
         }
 

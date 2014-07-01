@@ -38,7 +38,7 @@
                 edgeSet.source().addEdgeSet(edgeSet, linkKey);
                 edgeSet.target().addEdgeSet(edgeSet, linkKey);
 
-                edgeSet.initialize();
+                edgeSet.attachEvent();
 
                 this.edgeSets().setItem(linkKey, edgeSet);
                 return edgeSet;

@@ -212,7 +212,9 @@
                     linkSetLayer.updateLinkSet(edgeSet.linkKey());
                 }, this);
                 graph.on("updateEdgeSetCoordinate", function (sender, edgeSet) {
-                    linkSetLayer.updateLinkSet(edgeSet.linkKey());
+                    if (this.supportMultipleLink()) {
+                        linkSetLayer.updateLinkSet(edgeSet.linkKey());
+                    }
                 }, this);
 
 

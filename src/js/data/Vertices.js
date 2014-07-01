@@ -3,6 +3,34 @@
     nx.define('nx.data.ObservableGraph.Vertices', nx.data.ObservableObject, {
         events: ['addVertex', 'removeVertex', 'deleteVertex', 'updateVertex', 'updateVertexCoordinate'],
         properties: {
+
+            nodes: {
+                get: function () {
+                    return this._nodes || [];
+                },
+                set: function (value) {
+
+                    // off previous ObservableCollection event
+                    if (this._nodes && nx.is(this._nodes, nx.data.ObservableCollection)) {
+                        this._nodes.off('change', this._nodesCollectionProcessor, this);
+                    }
+
+                    this.vertices().clear();
+
+                    if (nx.is(value, nx.data.ObservableCollection)) {
+                        value.on('change', this._nodesCollectionProcessor, this);
+                        value.each(function (value) {
+                            this._addVertex(value);
+                        }, this);
+                    } else {
+                        nx.each(value, this._addVertex, this);
+                    }
+
+                    this._nodes = value;
+                }
+            },
+
+            vertexFilter: {},
             vertices: {
                 value: function () {
                     var vertices = new nx.data.ObservableDictionary();
@@ -11,7 +39,9 @@
                         var items = args.items;
                         if (action == 'clear') {
                             nx.each(items, function (vertex) {
-                                this.deleteVertex(vertex);
+                                if (vertex.id) {
+                                    this.deleteVertex(vertex.id());
+                                }
                             }, this);
                         }
                     }, this);
@@ -41,25 +71,37 @@
              * @returns {nx.data.Vertex}
              */
             addVertex: function (data, config) {
-                var vertex = this._addVertex(data, config);
+                var vertex;
+                var nodes = this.nodes();
+                var vertices = this.vertices();
+                if (nx.is(nodes, nx.data.ObservableCollection)) {
+                    nodes.add(data);
+                    vertex = vertices.getItem(vertices.count() - 1);
+                } else {
+                    nodes.push(data);
+                    vertex = this._addVertex(data, config);
+                }
+
                 if (config) {
                     vertex.sets(config);
                 }
                 this.generateVertex(vertex);
-                this._data.nodes.push(data);
+
+
                 return vertex;
             },
             _addVertex: function (data) {
                 var vertices = this.vertices();
-                var verticesLength = vertices.count();
                 var identityKey = this.identityKey();
-                //
+
                 if (typeof(data) == 'string' || typeof(data) == 'number') {
                     data = {data: data};
                 }
-                var id = data[identityKey] !== undefined ? data[identityKey] : verticesLength;
-                var vertex = new nx.data.Vertex(data);
 
+                var id = nx.path(data, identityKey);
+                id = id !== undefined ? id : (this.vertexSets().count() + this.vertices().count());
+
+                var vertex = new nx.data.Vertex(data);
 
                 var vertexPositionGetter = this.vertexPositionGetter();
                 var vertexPositionSetter = this.vertexPositionSetter();
@@ -71,14 +113,39 @@
 
                 vertex.sets({
                     graph: this,
-                    autoSave: this.autoSave(),
                     id: id
                 });
 
 
-                vertex.initPosition();
+                //delegate synchronize
+                if (nx.is(data, nx.data.ObservableObject)) {
+                    var fn = data.set;
+                    data.set = function (key, value) {
+                        fn.call(data, key, value);
+                        //
+                        if (vertex.__properties__.indexOf(key) == -1) {
+                            if (vertex.has(key)) {
+                                vertex[key].call(vertex, value);
+                            } else {
+                                vertex.notify(key);
+                            }
+                        }
+                    };
+                }
+
+
+                // init position
+                vertex.position(vertex.positionGetter().call(vertex));
 
                 vertices.setItem(id, vertex);
+
+
+                var vertexFilter = this.vertexFilter();
+                if (vertexFilter && nx.is(vertexFilter, Function)) {
+                    var result = vertexFilter.call(this, data, vertex);
+                    vertex.visible(result === false);
+                }
+
                 return vertex;
             },
             generateVertex: function (vertex) {
@@ -141,7 +208,19 @@
              * @returns {Boolean}
              */
             deleteVertex: function (id) {
-
+                var nodes = this.nodes();
+                if (nx.is(nodes, nx.data.ObservableCollection)) {
+                    var data = this.getVertex(id).getData();
+                    nodes.remove(data);
+                } else {
+                    var index = this.nodes().indexOf(this.getVertex(id).getData());
+                    if (index != -1) {
+                        this.nodes().splice(index, 1);
+                    }
+                    this._deleteVertex(id);
+                }
+            },
+            _deleteVertex: function (id) {
                 var vertex = this.vertices().getItem(id);
                 if (!vertex) {
                     return false;
@@ -160,14 +239,9 @@
                     vertexSet.removeVertex(id);
                 }
 
-
                 vertex.off('updateCoordinate', this._updateVertexCoordinateFN, this);
 
 
-                var index = this._data.nodes.indexOf(vertex.getData());
-                if (index != -1) {
-                    this._data.nodes.splice(index, 1);
-                }
                 this.fire('deleteVertex', vertex);
 
                 this.vertices().removeItem(id);
@@ -181,6 +255,24 @@
             },
             getVertex: function (id) {
                 return  this.vertices().getItem(id);
+            },
+            _nodesCollectionProcessor: function (sender, args) {
+                var items = args.items;
+                var action = args.action;
+                var identityKey = this.identityKey();
+                if (action == 'add') {
+                    nx.each(items, function (data) {
+                        var vertex = this._addVertex(data);
+                        this.generateVertex(vertex);
+                    }, this);
+                } else if (action == 'remove') {
+                    nx.each(items, function (data) {
+                        var id = nx.path(data, identityKey);
+                        this._deleteVertex(id);
+                    }, this);
+                } else if (action == 'clear') {
+                    this.vertices().clear();
+                }
             }
         }
     });

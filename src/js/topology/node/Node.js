@@ -392,10 +392,10 @@
                     if (force) {
                         this._centralizedText();
                     } else {
-                        clearTimeout(this._centralizedTextTimer || 0);
-                        this._centralizedTextTimer = setTimeout(function () {
-                            this._centralizedText();
-                        }.bind(this), 100);
+//                        clearTimeout(this._centralizedTextTimer || 0);
+//                        this._centralizedTextTimer = setTimeout(function () {
+                        this._centralizedText();
+//                        }.bind(this), 100);
                     }
 
                 } else {

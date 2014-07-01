@@ -26,14 +26,6 @@
             identityKey: {
                 value: 'index'
             },
-            /**
-             * If 'false', when vertex'position changed, will not write to original data
-             * @property autoSave
-             * @default true
-             */
-            autoSave: {
-                value: true
-            },
             filter: {},
             groupBy: {},
             levelBy: {}
@@ -41,24 +33,11 @@
         methods: {
             init: function (args) {
                 this.inherited(args);
-                this._data = {nodes: [], links: [], nodeSet: []};
+
+                this.nodes([]);
+                this.links([]);
+                this.nodeSet([]);
             },
-            clear: function () {
-                this._data = {nodes: [], links: [], nodeSet: []};
-
-                this.vertices().clear();
-
-                this.vertexSets().clear();
-
-                this.edgeSetCollections().clear();
-
-                this.edgeSets().clear();
-
-                this.edges().clear();
-
-                this.fire('clear');
-            },
-
             /**
              * Set data, data should follow Common Topology Data Definition
              * @method setData
@@ -66,63 +45,53 @@
              */
             setData: function (inData) {
 
+                var data = this.processData(this.getJSON(inData));
                 this.clear();
-
-                this._data.nodes = inData.nodes || [];
-                this._data.links = inData.links || [];
-                this._data.nodeSet = inData.nodeSet || [];
-
-                var data = this.processData(this._data);
-
-                // process
-                this._generate(data);
-
+                this._generate(inData);
                 /**
                  * Trigger when set data to ObservableGraph
                  * @event setData
                  * @param sender {Object}  event trigger
                  * @param {Object} data data, which been processed by data processor
                  */
-
                 this.fire('setData', data);
-
-
             },
+
             /**
              * Insert data, data should follow Common Topology Data Definition
              * @method insertData
              * @param {Object} inData
              */
             insertData: function (inData) {
-                //migrate orginal data
-                this._data.nodes = this._data.nodes.concat(inData.nodes || []);
-                this._data.links = this._data.links.concat(inData.links || []);
-                this._data.nodeSet = this._data.nodeSet.concat(inData.nodeSet || []);
+
+                //todo
 
 
-                var data = this.processData(inData);
-
-                // process
-                this._generate(data);
-
-                /**
-                 * Trigger when insert data to ObservableGraph
-                 * @event insertData
-                 * @param sender {Object}  event trigger
-                 * @param {Object} data data, which been processed by data processor
-                 */
-
-                this.fire('insertData', data);
+//                //migrate original data
+//                this._data.nodes = this._data.nodes.concat(inData.nodes || []);
+//                this._data.links = this._data.links.concat(inData.links || []);
+//                this._data.nodeSet = this._data.nodeSet.concat(inData.nodeSet || []);
+//
+//
+//                var data = this.processData(inData);
+//
+//                // process
+//                this._generate(data);
+//
+//                /**
+//                 * Trigger when insert data to ObservableGraph
+//                 * @event insertData
+//                 * @param sender {Object}  event trigger
+//                 * @param {Object} data data, which been processed by data processor
+//                 */
+//
+//                this.fire('insertData', data);
 
             },
-
-
             _generate: function (data) {
-                nx.each(data.nodes, this._addVertex, this);
-
-                nx.each(data.links, this._addEdge, this);
-
-                nx.each(data.nodeSet, this._addVertexSet, this);
+                this.nodes(data.nodes);
+                this.links(data.links);
+                this.nodeSet(data.nodeSet);
 
 
                 var filter = this.filter();
@@ -130,14 +99,14 @@
                     filter.call(this, this);
                 }
 
-
-                this.eachVertexSet(this.initVertexSet, this);
-
                 /**
+                 * Fired when start generate topology elements
                  * @event startGenerate
-                 * @param sender {Object}  Trigger instance
+                 * @param sender{Object} trigger instance
+                 * @param event {Object} original event object
                  */
                 this.fire('startGenerate');
+
 
 //                console.time('vertex');
                 this.eachVertex(this.generateVertex, this);
@@ -149,8 +118,7 @@
 
 
                 this.eachVertexSet(this.generateVertexSet, this);
-
-
+                //
                 this.eachVertexSet(function (vertexSet) {
                     vertexSet.activated(true, {force: true});
                     this.updateVertexSet(vertexSet);
@@ -158,26 +126,84 @@
 
 
                 /**
+                 * Fired when finish generate topology elements
                  * @event endGenerate
-                 * @param sender {Object}  Trigger instance
+                 * @param sender{Object} trigger instance
+                 * @param event {Object} original event object
                  */
                 this.fire('endGenerate');
 
             },
 
+
             /**
              * Get original data
+             * @method getData
              * @returns {Object}
              */
 
             getData: function () {
-                var data = nx.clone(this._data);
-                if (data.nodeSet.length === 0) {
-                    delete data.nodeSet;
-                }
-                return data;
+                return {
+                    nodes: this.nodes(),
+                    links: this.links(),
+                    nodeSet: this.nodeSet()
+                };
             },
 
+            /**
+             * Get original json object
+             * @method getJSON
+             * @param [inData]
+             * @returns {{nodes: Array, links: Array,nodeSet:Array}}
+             */
+            getJSON: function (inData) {
+                var data = inData || this.getData();
+                var obj = {nodes: [], links: []};
+
+
+                if (nx.is(data.nodes, nx.data.ObservableCollection)) {
+                    nx.each(data.nodes, function (n) {
+                        if (nx.is(n, nx.data.ObservableObject)) {
+                            obj.nodes.push(n.gets());
+                        } else {
+                            obj.nodes.push(n);
+                        }
+                    });
+                } else {
+                    obj.nodes = inData.nodes;
+                }
+
+
+                if (nx.is(data.links, nx.data.ObservableCollection)) {
+                    nx.each(data.links, function (n) {
+                        if (nx.is(n, nx.data.ObservableObject)) {
+                            obj.links.push(n.gets());
+                        } else {
+                            obj.links.push(n);
+                        }
+                    });
+                } else {
+                    obj.links = inData.links;
+                }
+
+                if (data.nodeSet) {
+                    if (nx.is(data.nodeSet, nx.data.ObservableCollection)) {
+                        obj.nodeSet = [];
+                        nx.each(data.nodeSet, function (n) {
+                            if (nx.is(n, nx.data.ObservableObject)) {
+                                obj.nodeSet.push(n.gets());
+                            } else {
+                                obj.nodeSet.push(n);
+                            }
+                        });
+                    } else {
+                        obj.nodeSet = data.nodeSet;
+                    }
+                }
+
+                return obj;
+
+            },
             /**
              * Get visible vertices data bound
              * @method getBound
@@ -223,12 +249,18 @@
                     maxY: max_y
                 };
             },
-            /**
-             * Revers all vertices' original data
-             * @method reset
-             */
-            reset: function () {
 
+            /**
+             * Clear graph data
+             * @method clear
+             */
+            clear: function () {
+
+                this.nodes([]);
+                this.links([]);
+                this.nodeSet([]);
+
+                this.fire('clear');
             },
             dispose: function () {
                 this.clear();
