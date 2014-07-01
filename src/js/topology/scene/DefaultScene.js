@@ -208,7 +208,7 @@
                 clearTimeout(this._sceneTimer);
                 this._recover();
                 this._topo.stage().resetFitMatrix();
-                this._topo.zoomByNodes(nx.util.values(nodeSet.nodes()), function () {
+                this._topo.fit(function () {
                     nodeSet.group = this._groupsLayer.addGroup({
                         shapeType: 'nodeSetPolygon',
                         nodeSet: nodeSet,

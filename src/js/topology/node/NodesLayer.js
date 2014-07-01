@@ -160,6 +160,12 @@
                 }, this);
 
                 util.setProperty(node, 'showIcon', topo.showIcon());
+
+                if (topo.revisionScale() !== 1) {
+                    node.revisionScale(topo.revisionScale());
+                }
+
+
             },
 
             /**
