@@ -1,5 +1,4 @@
 (function (nx, global) {
-    'use strict';
 
     /**
      * Edge set clas

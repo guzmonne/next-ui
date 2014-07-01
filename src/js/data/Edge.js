@@ -1,6 +1,6 @@
 (function (nx, global) {
 
-    "use strict";
+
     /**
      * Edge
      * @class nx.data.Edge
