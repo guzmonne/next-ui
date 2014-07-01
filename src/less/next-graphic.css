@@ -510,6 +510,12 @@
   stroke-linejoin: round;
   pointer-events: none;
 }
+.n-topology.n-topology-blue .fade-layer > g {
+  transition: .6s;
+}
+.n-topology.n-topology-blue .fade-layer > g:not(.fade-highlight):not(.fade-active) {
+  opacity: .2;
+}
 .n-topology.n-topology-blue .n-topology-nav {
   position: absolute;
   top: 0px;
@@ -1183,6 +1189,12 @@
   stroke-width: 3;
   stroke-linejoin: round;
   pointer-events: none;
+}
+.n-topology.n-topology-dark .fade-layer > g {
+  transition: .6s;
+}
+.n-topology.n-topology-dark .fade-layer > g:not(.fade-highlight):not(.fade-active) {
+  opacity: .2;
 }
 .n-topology.n-topology-dark .n-topology-nav {
   position: absolute;
@@ -1858,6 +1870,12 @@
   stroke-linejoin: round;
   pointer-events: none;
 }
+.n-topology.n-topology-green .fade-layer > g {
+  transition: .6s;
+}
+.n-topology.n-topology-green .fade-layer > g:not(.fade-highlight):not(.fade-active) {
+  opacity: .2;
+}
 .n-topology.n-topology-green .n-topology-nav {
   position: absolute;
   top: 0px;
@@ -2532,6 +2550,12 @@
   stroke-linejoin: round;
   pointer-events: none;
 }
+.n-topology.n-topology-slate .fade-layer > g {
+  transition: .6s;
+}
+.n-topology.n-topology-slate .fade-layer > g:not(.fade-highlight):not(.fade-active) {
+  opacity: .2;
+}
 .n-topology.n-topology-slate .n-topology-nav {
   position: absolute;
   top: 0px;
@@ -3205,6 +3229,12 @@
   stroke-width: 3;
   stroke-linejoin: round;
   pointer-events: none;
+}
+.n-topology.n-topology-yellow .fade-layer > g {
+  transition: .6s;
+}
+.n-topology.n-topology-yellow .fade-layer > g:not(.fade-highlight):not(.fade-active) {
+  opacity: .2;
 }
 .n-topology.n-topology-yellow .n-topology-nav {
   position: absolute;
@@ -4432,10 +4462,4 @@ input[type="button"].btn-block {
   border-right-width: 0;
   border-left-color: #ffffff;
   bottom: -10px;
-}
-.fade-layer > g {
-  transition: .6s;
-}
-.fade-layer > g:not(.fade-highlight):not(.fade-active) {
-  opacity: .2;
 }
