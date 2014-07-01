@@ -50,16 +50,19 @@
                 highlightedElements.on('change', function (sender, args) {
                     if (args.action == 'add') {
                         nx.each(args.items, function (el) {
-                            el.dom().addClass("fade-exception");
+                            el.dom().addClass("fade-highlight");
                         });
                     }
                     else if (args.action == 'remove' || args.action == "clear") {
                         nx.each(args.items, function (el) {
-                            el.dom().removeClass("fade-exception");
+                            el.dom() && el.dom().removeClass("fade-highlight");
                         });
                     }
-                    if (highlightedElements.count() == 0) {
+                    if (highlightedElements.count() == 0 && activeElements.count() == 0) {
                         this.dom().removeClass("fade-layer");
+                    }
+                    else {
+                        this.dom().addClass("fade-layer");
                     }
                 }, this);
 
@@ -72,11 +75,14 @@
                     }
                     else if (args.action == 'remove' || args.action == "clear") {
                         nx.each(args.items, function (el) {
-                            el.dom().removeClass("fade-active");
+                            el.dom() && el.dom().removeClass("fade-active");
                         });
                     }
-                    if (activeElements.count() == 0) {
+                    if (highlightedElements.count() == 0 && activeElements.count() == 0) {
                         this.dom().removeClass("fade-layer");
+                    }
+                    else {
+                        this.dom().addClass("fade-layer");
                     }
                 }, this);
 
