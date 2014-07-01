@@ -22,7 +22,8 @@
                     showIcon: true,
                     status: '{topologyVM.view.status,direction=<>}',
                     //currentScene: '{event.scene,direction=>}',
-                    data: '{topologyVM.data.topologyData}'
+                    data: '{topologyVM.data.topologyData}',
+                    enableGradualScaling: false
                 },
                 events: {
                     'ready': '{topologyVM.event.ready}',

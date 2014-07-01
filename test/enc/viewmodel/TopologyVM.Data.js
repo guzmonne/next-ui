@@ -7,7 +7,7 @@
                 dependencies: ['MVM.topoData'],
                 value: function (data) {
                     if (data) {
-                        //delete  data.nodeSet;
+//                        delete  data.nodeSet;
                         return data;
                     }
                 }

@@ -11,7 +11,7 @@
                 {
                     type: 'ENC.TW.View.ControlView',
                     props: {
-                        'class': ''
+                        'class': 'btn-group'
                     }
                 },
                 {
