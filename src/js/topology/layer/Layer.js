@@ -55,10 +55,11 @@
                     }
                     else if (args.action == 'remove' || args.action == "clear") {
                         nx.each(args.items, function (el) {
+                            /* jslint -W030 */
                             el.dom() && el.dom().removeClass("fade-highlight");
                         });
                     }
-                    if (highlightedElements.count() == 0 && activeElements.count() == 0) {
+                    if (highlightedElements.count() === 0 && activeElements.count() === 0) {
                         this.dom().removeClass("fade-layer");
                     }
                     else {
@@ -78,7 +79,7 @@
                             el.dom() && el.dom().removeClass("fade-active");
                         });
                     }
-                    if (highlightedElements.count() == 0 && activeElements.count() == 0) {
+                    if (highlightedElements.count() === 0 && activeElements.count() === 0) {
                         this.dom().removeClass("fade-layer");
                     }
                     else {
