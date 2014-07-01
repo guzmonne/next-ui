@@ -159,6 +159,8 @@
 
                         bgEL.removeClass('iconBGActive');
 
+                        this.view().dom().addClass('showIcon');
+
                     } else {
                         if (this.imageType() == 'font') {
                             shapeEL.setStyle('display', 'none');
@@ -166,6 +168,8 @@
                             img.setStyle('display', 'none');
                         }
                         bgEL.addClass('iconBGActive');
+
+                        this.view().dom().removeClass('showIcon');
                     }
 
                     this._showIcon = value;

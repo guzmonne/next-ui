@@ -1,11 +1,11 @@
 (function (nx, global) {
-    var xlink = 'http://www.w3.org/1999/xlink';
+    var xlink = "http://www.w3.org/1999/xlink";
     /**
      * Topology device icons collection
      * @class nx.graphic.Icons
      * @static
      */
-    var ICONS = nx.define('nx.graphic.Icons', {
+    var ICONS = nx.define("nx.graphic.Icons", {
         static: true,
         statics: {
             /**
@@ -26,7 +26,7 @@
                 return ICONS.icons[type] || ICONS.icons.switch;
             },
             /**
-             * Get icon's svg string
+             * Get icon"s svg string
              * @param type {String}
              * @returns {element}
              * @method getSVGString
@@ -45,14 +45,14 @@
             /**
              * Register a new icon to this collection
              * @method registerIcon
-             * @param name {String} icon's name
-             * @param url {URL} icon's url
-             * @param width {Number} icon's width
-             * @param height {Number} icon's height
+             * @param name {String} icon"s name
+             * @param url {URL} icon"s url
+             * @param width {Number} icon"s width
+             * @param height {Number} icon"s height
              */
             registerIcon: function (name, url, width, height) {
                 var icon1 = document.createElementNS(NS, "image");
-                icon1.setAttributeNS(XLINK, 'href', url);
+                icon1.setAttributeNS(XLINK, "href", url);
                 ICONS.icons[name] = {
                     size: {
                         width: width,
@@ -80,7 +80,7 @@
     });
 
 
-    var XLINK = 'http://www.w3.org/1999/xlink';
+    var XLINK = "http://www.w3.org/1999/xlink";
     var NS = "http://www.w3.org/2000/svg";
 
 
@@ -88,94 +88,94 @@
         switch: {
             width: 32,
             height: 32,
-            name: 'Switch',
-            font: ['\ue618', '\ue619']
+            name: "Switch",
+            font: ["\ue618", "\ue619"]
         },
         router: {
             width: 32,
             height: 32,
-            name: 'Router',
-            font: ['\ue61c', '\ue61d']
+            name: "Router",
+            font: ["\ue61c", "\ue61d"]
         },
         wlc: {
             width: 32,
             height: 32,
-            font: ['\ue60f', '\ue610']
+            font: ["\ue60f", "\ue610"]
         },
         unknown: {
             width: 32,
             height: 32,
-            font: ['\ue612', '\ue611']
+            font: ["\ue612", "\ue611"]
         },
         server: {
             width: 32,
             height: 32,
-            font: ['\ue61b', '\ue61a']
+            font: ["\ue61b", "\ue61a"]
         },
         phone: {
             width: 32,
             height: 32,
-            font: ['\ue61e', '\ue61f']
+            font: ["\ue61e", "\ue61f"]
         },
         nexus5000: {
             width: 32,
             height: 32,
-            font: ['\ue620', '\ue621']
+            font: ["\ue620", "\ue621"]
         },
         ipphone: {
             width: 32,
             height: 32,
-            font: ['\ue622', '\ue623']
+            font: ["\ue622", "\ue623"]
         },
         host: {
             width: 32,
             height: 32,
-            font: ['\ue624', '\ue625']
+            font: ["\ue624", "\ue625"]
         },
         camera: {
             width: 32,
             height: 32,
-            font: ['\ue626', '\ue627']
+            font: ["\ue626", "\ue627"]
         },
         accesspoint: {
             width: 32,
             height: 32,
-            font: ['\ue628', '\ue629']
+            font: ["\ue628", "\ue629"]
         },
         groups: {
             width: 32,
             height: 32,
-            font: ['\ue615', '\ue62f']
+            font: ["\ue615", "\ue62f"]
         },
         groupm: {
             width: 32,
             height: 32,
-            font: ['\ue616', '\ue630']
+            font: ["\ue616", "\ue630"]
         },
         groupl: {
             width: 32,
             height: 32,
-            font: ['\ue617', '\ue631']
+            font: ["\ue617", "\ue631"]
         },
         collapse: {
             width: 16,
             height: 16,
-            font: ['\ue62e', '\ue611']
+            font: ["\ue62e", "\ue611"]
         },
         expand: {
             width: 14,
             height: 14,
-            font: ['\ue614', '\ue611']
+            font: ["\ue614", "\ue611"]
         },
         nodeset: {
             width: 32,
             height: 32,
-            font: ['\ue617', '\ue617']
+            font: ["\ue617", "\ue617"]
         },
         cloud: {
             width: 48,
             height: 48,
-            font: ['\ue633', '\ue633']
+            font: ["\ue633", "\ue633"]
         }
     };
 

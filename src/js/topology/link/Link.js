@@ -123,7 +123,7 @@
                     var width = (this._width || 1) * value;
                     this.view('line').dom().setStyle('stroke-width', width);
                     this.view('path').dom().setStyle('stroke-width', width);
-                    this.view('disableLabel').scale(value);
+//                    this.view('disableLabel').scale(value);
                     this._stageScale = value;
                     this.update();
                 }
@@ -193,12 +193,12 @@
                     var value = this._processPropertyValue(inValue);
                     this._enable = value;
                     if (value) {
-                        this.view('disableLabel').remove();
-                        this.view('disableLabel').visible(false);
+//                        this.view('disableLabel').remove();
+//                        this.view('disableLabel').visible(false);
 
                     } else {
-                        this.view('disableLabel').append();
-                        this.view('disableLabel').visible(true);
+//                        this.view('disableLabel').append();
+//                        this.view('disableLabel').visible(true);
                         this.dom().addClass('disable');
                     }
                     this.update();
@@ -277,31 +277,31 @@
 //                        'class': 'target-label'
 //                    }
 //                },
-                {
-                    name: 'disableLabel',
-                    type: 'nx.graphic.Group',
-                    props: {
-                        visible: false
-                    },
-                    content: [
-                        {
-                            type: 'nx.graphic.Circle',
-                            props: {
-                                r: 8,
-                                'class': 'disable-bg'
-                            }
-                        },
-                        {
-                            type: 'nx.graphic.Text',
-                            props: {
-                                'alignment-baseline': 'central',
-                                'text-anchor': 'middle',
-                                'class': 'disable-label',
-                                text: 'X'
-                            }
-                        }
-                    ]
-                }
+//                {
+//                    name: 'disableLabel',
+//                    type: 'nx.graphic.Group',
+//                    props: {
+//                        visible: false
+//                    },
+//                    content: [
+//                        {
+//                            type: 'nx.graphic.Circle',
+//                            props: {
+//                                r: 8,
+//                                'class': 'disable-bg'
+//                            }
+//                        },
+//                        {
+//                            type: 'nx.graphic.Text',
+//                            props: {
+//                                'alignment-baseline': 'central',
+//                                'text-anchor': 'middle',
+//                                'class': 'disable-label',
+//                                text: 'X'
+//                            }
+//                        }
+//                    ]
+//                }
             ]
         },
         methods: {
@@ -428,9 +428,9 @@
 
 
                 if (!this.enable()) {
-                    el = this.view('disableLabel');
-                    point = line.center().add(n);
-                    el.setTransform(point.x, point.y);
+//                    el = this.view('disableLabel');
+//                    point = line.center().add(n);
+//                    el.setTransform(point.x, point.y);
                 }
 
             },

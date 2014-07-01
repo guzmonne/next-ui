@@ -120,8 +120,25 @@
     }
 
     &.disable {
-      opacity: 0.3;
-      stroke: #ccc;
+      pointer-events: none;
+
+      .node-label {
+        fill: #ccc !important;
+      }
+
+      .fontIcon {
+        pointer-events: none;
+      }
+
+      .showIcon {
+        .iconShape {
+          fill: #ccc;
+        }
+      }
+      .iconBG.iconBGActive {
+        fill: #ccc;
+      }
+
     }
 
   }
@@ -276,7 +293,7 @@
     }
 
     &.aggregationGroup {
-//      opacity: 0.6;
+      //      opacity: 0.6;
       .bg {
         stroke-width: 10px;
         stroke-linejoin: round;
@@ -378,6 +395,5 @@
     }
 
   }
-
 
 }
