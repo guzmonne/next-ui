@@ -8,7 +8,7 @@
      * @extend nx.graphic.Topology.Layer
      */
 
-    var CLZ = nx.define('nx.graphic.Topology.LinkSetLayer', nx.graphic.Topology.TripleLayer, {
+    var CLZ = nx.define('nx.graphic.Topology.LinkSetLayer', nx.graphic.Topology.Layer, {
         statics: {
             defaultConfig: {
                 label: null,
@@ -89,7 +89,7 @@
                 });
                 //set model
                 linkSet.setModel(edgeSet, false);
-                linkSet.attach(this.view('static'));
+                linkSet.attach(this.view());
 
 
 //                setTimeout(function () {

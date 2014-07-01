@@ -113,7 +113,8 @@
              * @method draw
              */
             draw: function () {
-                var link, line1, line2, pt, d1 = [], d2 = [];
+                var link, line1, line2, pt, d1 = [],
+                    d2 = [];
                 var stageScale = this.topology().stageScale();
                 var pathWidth = this.pathWidth();
                 var pathPadding = this.pathPadding();
@@ -140,8 +141,8 @@
 
 
                 if (pathPadding === "auto") {
-                    paddingStart = Math.min(firstLink.sourceNode().showIcon() ? 24 : 4, line1.length() / 4);
-                    paddingEnd = Math.min(firstLink.targetNode().showIcon() ? 24 : 4, line1.length() / 4);
+                    paddingStart = Math.min(firstLink.sourceNode().showIcon() ? 24 : 4, line1.length() / 4 / stageScale);
+                    paddingEnd = Math.min(firstLink.targetNode().showIcon() ? 24 : 4, line1.length() / 4 / stageScale);
                 }
                 else if (nx.is(pathPadding, 'Array')) {
                     paddingStart = pathPadding[0];
@@ -151,14 +152,14 @@
                     paddingStart = paddingEnd = pathPadding;
                 }
                 if (typeof paddingStart == 'string' && paddingStart.indexOf('%') > 0) {
-                    paddingStart = line1.length() * parseInt(paddingStart, 10) / 100;
+                    paddingStart = line1.length() * stageScale * parseInt(paddingStart, 10) / 100 / stageScale;
                 }
 
                 if (pathWidth === "auto") {
-                    pathWidth = 3 * stageScale;// Math.min(10, Math.max(3, Math.round(stageScale * 3)));
+                    pathWidth = 3 * stageScale; // Math.min(10, Math.max(3, Math.round(stageScale * 3)));
                 }
-                v1 = new Vector(0, pathWidth / 2);
-                v2 = new Vector(0, -pathWidth / 2);
+                v1 = new Vector(0, pathWidth / 2 * stageScale);
+                v2 = new Vector(0, -pathWidth / 2 * stageScale);
 
                 paddingStart *= stageScale;
 
@@ -182,12 +183,13 @@
                         }
                         line1 = line2;
                     }
-                } else {
+                }
+                else {
                     line2 = line1;
                 }
 
                 if (typeof paddingEnd == 'string' && paddingEnd.indexOf('%') > 0) {
-                    paddingEnd = line2.length() * parseInt(paddingEnd, 10) / 100;
+                    paddingEnd = line2.length() * parseInt(paddingEnd, 10) / 100 / stageScale;
                 }
 
                 paddingEnd *= stageScale;
@@ -231,13 +233,13 @@
                 //this.view("path").setTransform(null, null, this.topology().stageScale());
 
                 //todo
-//                if (links.length == 1) {
-//                    firstLink.view().watch("opacity", function (prop, value) {
-//                        if (this.$ && this.view("path") && this.view("path").opacity) {
-//                            this.view("path").opacity(value);
-//                        }
-//                    }, this);
-//                }
+                //                if (links.length == 1) {
+                //                    firstLink.view().watch("opacity", function (prop, value) {
+                //                        if (this.$ && this.view("path") && this.view("path").opacity) {
+                //                            this.view("path").opacity(value);
+                //                        }
+                //                    }, this);
+                //                }
             },
 
             _serializeLinks: function () {
@@ -245,7 +247,12 @@
                 var linksSequentialArray = [];
                 var len = links.length;
 
-                linksSequentialArray.push(new Line(links[0].sourceVector(), links[0].targetVector()));
+                if (this.reverse()) {
+                    linksSequentialArray.push(new Line(links[0].targetVector(), links[0].sourceVector()));
+                }
+                else {
+                    linksSequentialArray.push(new Line(links[0].sourceVector(), links[0].targetVector()));
+                }
 
                 for (var i = 1; i < len; i++) {
                     var firstLink = links[i - 1];
@@ -257,13 +264,16 @@
 
                     if (firstLink.targetNodeID() == secondLink.sourceNodeID()) {
                         linksSequentialArray.push(new Line(secondLinkSourceVector, secondLinkTargetVector));
-                    } else if (firstLink.targetNodeID() == secondLink.targetNodeID()) {
+                    }
+                    else if (firstLink.targetNodeID() == secondLink.targetNodeID()) {
                         linksSequentialArray.push(new Line(secondLinkTargetVector, secondLinkSourceVector));
-                    } else if (firstLink.sourceNodeID() == secondLink.sourceNodeID()) {
+                    }
+                    else if (firstLink.sourceNodeID() == secondLink.sourceNodeID()) {
                         linksSequentialArray.pop();
                         linksSequentialArray.push(new Line(firstLinkTargetVector, firstLinkSourceVector));
                         linksSequentialArray.push(new Line(secondLinkSourceVector, secondLinkTargetVector));
-                    } else {
+                    }
+                    else {
                         linksSequentialArray.pop();
                         linksSequentialArray.push(new Line(firstLinkTargetVector, firstLinkSourceVector));
                         linksSequentialArray.push(new Line(secondLinkTargetVector, secondLinkSourceVector));

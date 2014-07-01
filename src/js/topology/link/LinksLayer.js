@@ -8,7 +8,7 @@
      * @extend nx.graphic.Topology.Layer
      */
 
-    var CLZ = nx.define('nx.graphic.Topology.LinksLayer', nx.graphic.Topology.TripleLayer, {
+    var CLZ = nx.define('nx.graphic.Topology.LinksLayer', nx.graphic.Topology.Layer, {
         statics: {
             defaultConfig: {
                 linkType: 'parallel',
@@ -87,7 +87,7 @@
                 });
                 //set model
                 link.setModel(edge, false);
-                link.attach(this.view('static'));
+                link.attach(this.view());
 
                 link.view().sets({
                     'class': 'link',

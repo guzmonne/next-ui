@@ -7,7 +7,7 @@
      * @extend nx.graphic.Topology.Layer
      *
      */
-    var CLZ = nx.define('nx.graphic.Topology.NodesLayer', nx.graphic.Topology.TripleLayer, {
+    var CLZ = nx.define('nx.graphic.Topology.NodesLayer', nx.graphic.Topology.Layer, {
         statics: {
             defaultConfig: {
             }
@@ -123,7 +123,7 @@
                     topology: topo
                 });
                 node.setModel(vertex);
-                node.attach(this.view('static'));
+                node.attach(this.view());
 
                 node.sets({
                     'class': 'node',

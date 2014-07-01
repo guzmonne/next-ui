@@ -92,7 +92,6 @@
         "src/js/topology/core/Topology.js",
 
         "src/js/topology/layer/Layer.js",
-        "src/js/topology/layer/TripleLayer.js",
         "src/js/topology/node/AbstractNode.js",
         "src/js/topology/node/Node.js",
         "src/js/topology/node/NodesLayer.js",

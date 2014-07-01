@@ -47,8 +47,7 @@
                 //highlight links
                 var linksLayer = topo.getLayer('links');
                 var linksLayerHighlightElements = linksLayer.highlightedElements();
-                linksLayerHighlightElements.addRange(topo.getNode(40).getLinks());
-
+                linksLayerHighlightElements.addRange(nx.util.values(topo.getNode(40).links()));
 
 
             }

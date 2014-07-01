@@ -51,7 +51,7 @@
                 var pathLayer = sender.getLayer("paths");
 
 
-                var links1 = [topo.getLink(12)];
+                var links1 = [topo.getLink(8)];
 
                 var path1 = new nx.graphic.Topology.Path({
                     pathPadding: [20, '50%'],
