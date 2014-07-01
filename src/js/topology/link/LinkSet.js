@@ -159,7 +159,9 @@
              */
             updateLinkSet: function () {
                 var value = this._processPropertyValue(this.collapsedRule());
-                this.model().activated(value, {force: true});
+                this.model().activated(value, {
+                    force: true
+                });
                 if (value) {
                     this.append();
                     this.update();
@@ -173,7 +175,7 @@
                     this.fire('collapseLinkSet');
                 }
                 else {
-		    /* jshint -W030 */
+                    /* jshint -W030 */
                     this.parent() && this.remove();
                     this._updateLinksOffset();
                     /**
