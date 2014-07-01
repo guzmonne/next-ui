@@ -50,7 +50,12 @@ module.exports = function (grunt) {
         uglify: {
             base: {
                 src: ['dest/js/next-graphic.js'],
-                dest: 'dest/js/next-graphic.min.js'
+                dest: 'dest/js/next-graphic.minx.js',
+                options: {
+                    beautify: {
+                        ascii_only: true
+                    }
+                }
             }
         },
         yuidoc: {
