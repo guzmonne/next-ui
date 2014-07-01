@@ -378,6 +378,6 @@
                 this.position(_position);
             }
         }
-    })
+    });
 })
 (nx, nx.global);
