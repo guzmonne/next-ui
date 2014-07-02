@@ -131,7 +131,7 @@
                 var graph = topo.graph();
 
                 groups[order[0]].sort(function (a, b) {
-                    return Object.keys(b.model().edgeSet()).length - Object.keys(a.model().edgeSet()).length;
+                    return Object.keys(b.model().edgeSets()).length - Object.keys(a.model().edgeSets()).length;
                 });
 
                 for (var i = 0; i < order.length - 1; i++) {
@@ -148,7 +148,7 @@
                             }
                         });
                         temp.sort(function (a, b) {
-                            return Object.keys(b.model().edgeSet()).length - Object.keys(a.model().edgeSet()).length;
+                            return Object.keys(b.model().edgeSets()).length - Object.keys(a.model().edgeSets()).length;
                         });
 
                         ary = ary.concat(temp);

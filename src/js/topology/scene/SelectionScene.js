@@ -16,12 +16,14 @@
             activate: function (args) {
                 this.appendRect();
                 this.inherited(args);
-                nx.dom.Document.html().addClass('n-crosshairCursor');
+                this.topology().dom().addClass('n-crosshairCursor');
+
             },
             deactivate: function () {
                 this.inherited();
                 this.rect.dispose();
                 delete this.rect;
+                this.topology().dom().removeClass('n-crosshairCursor');
                 nx.dom.Document.html().removeClass('n-crosshairCursor');
             },
             _dispatch: function (eventName, sender, data) {
@@ -58,7 +60,7 @@
                 this.rect.set('visible', true);
                 this._blockEvent(true);
 
-
+                nx.dom.Document.html().addClass('n-crosshairCursor');
             },
             dragStage: function (sender, event) {
                 var rect = this.rect;
@@ -83,7 +85,7 @@
                 this._stageTranslate = null;
                 this.rect.set('visible', false);
                 this._blockEvent(false);
-
+                nx.dom.Document.html().removeClass('n-crosshairCursor');
             },
             _getRectBound: function () {
                 var rectbound = this.rect.getBoundingClientRect();
@@ -100,7 +102,7 @@
             esc: {
 
             },
-            clickNodeSet: function (sender,nodeSet) {
+            clickNodeSet: function (sender, nodeSet) {
             },
             dragNode: function () {
 
