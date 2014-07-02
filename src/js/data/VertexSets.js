@@ -256,11 +256,6 @@
                 vertexSet.off('updateCoordinate', this._updateVertexCoordinateFN, this);
 
 
-                var index = this._data.nodeSet.indexOf(vertexSet.getData());
-                if (index != -1) {
-                    this._data.nodeSet.splice(index, 1);
-                }
-
                 this.vertexSets().removeItem(id);
 
                 this.fire('deleteVertexSet', vertexSet);
