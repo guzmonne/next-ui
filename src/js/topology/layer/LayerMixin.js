@@ -171,10 +171,11 @@
              * @method clear
              */
             clear: function () {
-                nx.each(this.layers(), function (layer) {
+                this.graph().clear();
+
+                nx.each(this.layers(), function (layer,name) {
                     layer.clear();
                 });
-                this.graph().clear();
             }
         }
     });

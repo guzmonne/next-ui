@@ -57,7 +57,7 @@
                         var items = args.items;
                         if (action == 'clear') {
                             nx.each(items, function (item) {
-                                item.dispose();
+                                item.value().dispose();
                             });
                         }
                     }, this);
@@ -145,7 +145,7 @@
             attach: function (args) {
                 this.inherited(args);
                 var topo = this.topology();
-                topo.on('stageTransitionEnd', this._redraw.bind(this), this);
+                topo.on('afterFitStage', this._redraw.bind(this), this);
                 topo.on('zoomend', this._redraw.bind(this), this);
                 topo.watch('revisionScale', this._redraw.bind(this), this);
                 topo.watch('showIcon', this._redraw.bind(this), this);

@@ -10,8 +10,8 @@
                         var action = args.action;
                         var items = args.items;
                         if (action == 'clear') {
-                            nx.each(items, function (edgeSet) {
-                                this.deleteEdgeSet(edgeSet);
+                            nx.each(items, function (item) {
+                                this.deleteEdgeSet(item.key());
                             }, this);
                         }
                     }, this);

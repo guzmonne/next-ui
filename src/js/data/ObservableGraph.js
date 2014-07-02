@@ -33,10 +33,10 @@
         methods: {
             init: function (args) {
                 this.inherited(args);
-
+                this.nodeSet([]);
                 this.nodes([]);
                 this.links([]);
-                this.nodeSet([]);
+
             },
             /**
              * Set data, data should follow Common Topology Data Definition
@@ -256,9 +256,9 @@
              */
             clear: function () {
 
-                this.nodes([]);
-                this.links([]);
                 this.nodeSet([]);
+                this.links([]);
+                this.nodes([]);
 
                 this.fire('clear');
             },

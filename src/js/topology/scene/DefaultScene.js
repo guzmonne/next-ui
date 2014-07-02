@@ -236,6 +236,17 @@
                     this._groupsLayer.removeGroup(nodeSet.id());
                     delete nodeSet.group;
                 }
+
+                nx.each(nodeSet.nodeSets(), function (ns, id) {
+                    if (ns) {
+                        this._groupsLayer.removeGroup(ns.id());
+                        delete ns.group;
+                    }
+                }, this);
+
+
+                this._topo.fadeIn();
+                this._topo.recoverHighlight();
             },
             collapseNodeSet: function (sender, nodeSet) {
 
@@ -252,10 +263,6 @@
 //                    depth++;
                 }
 
-                if (nodeSet.group) {
-                    this._groupsLayer.removeGroup(nodeSet.id());
-                    delete nodeSet.group;
-                }
                 this._topo.stage().resetFitMatrix();
 
 
@@ -263,8 +270,6 @@
                     this._blockEvent(false);
                 }, this);
 
-                this._topo.fadeIn();
-                this._topo.recoverHighlight();
 
             },
             removeNodeSet: function (sender, nodeSet) {

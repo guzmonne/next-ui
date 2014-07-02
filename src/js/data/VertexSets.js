@@ -36,10 +36,8 @@
                         var action = args.action;
                         var items = args.items;
                         if (action == 'clear') {
-                            nx.each(items, function (vertexSet) {
-                                if (vertexSet.id) {
-                                    this.deleteVertexSet(vertexSet.id());
-                                }
+                            nx.each(items, function (item) {
+                                this.removeVertexSet(item.key());
                             }, this);
                         }
                     }, this);
@@ -83,7 +81,6 @@
                 if (config) {
                     vertexSet.sets(config);
                 }
-
 
 
                 if (config.parentVertexSetID != null) {

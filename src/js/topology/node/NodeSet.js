@@ -46,19 +46,12 @@
                     var nodeSets = {};
                     var topo = this.topology();
                     var model = this.model();
-                    if (this.activated()) {
-                        return;
-                    }
-                    nx.each(model.vertexSet(), function (vertexSet, id) {
+                    model.eachSubVertexSet(function (vertexSet, id) {
                         var nodeSet = topo.getNode(id);
                         if (nodeSet) {
-                            if (nodeSet.activated()) {
-                                nodeSets[id] = nodeSet;
-                            } else {
-                                nx.extend(nodeSets, nodeSet.nodeSets());
-                            }
+                            nodeSets[id] = nodeSet;
                         }
-                    });
+                    }, this);
                     return nodeSets;
                 }
             },
@@ -246,7 +239,7 @@
                 var nodeLength = nx.util.keys(nodes).length;
 
 
-                if (nodeLength > 50) {
+                if (nodeLength > 100) {
                     this.view().visible(true);
                     this.activated(true);
                     this.fire('beforeCollapseNode');

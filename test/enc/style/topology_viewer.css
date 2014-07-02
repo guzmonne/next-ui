@@ -19,3 +19,7 @@ body {
     white-space: nowrap;
     text-overflow: ellipsis;
 }
+
+.n-topology.n-topology-blue .group .fontIcon.iconShape {
+    /*fill: #f00;*/
+}

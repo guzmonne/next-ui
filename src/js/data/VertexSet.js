@@ -32,6 +32,15 @@
                     return vertices;
                 }
             },
+            subVertexSet: {
+                get: function () {
+                    var vertexSets = {};
+                    this.eachSubVertexSet(function (vertexSet, id) {
+                        vertexSets[id] = vertexSet;
+                    });
+                    return vertexSets;
+                }
+            },
             visible: {
                 value: true
             },
@@ -104,6 +113,7 @@
              * @param vertex
              */
             addVertex: function (vertex) {
+                var nodes = this.get('nodes');
                 if (vertex && !vertex.restricted()) {
                     var _map = vertex.type() == 'vertex' ? this.vertices() : this.vertexSet();
                     _map[id] = vertex;
@@ -115,7 +125,7 @@
                     }
 
                     vertex.parentVertexSet(this);
-                    this.nodes().push(vertex.id());
+                    nodes.push(vertex.id());
                     this.updated(true);
                 }
             },
@@ -125,7 +135,7 @@
              * @returns {Array}
              */
             removeVertex: function (id) {
-                var nodes = this.nodes();
+                var nodes = this.get('nodes');
                 var vertex = this.vertices()[id] || this.vertexSet()[id];
                 if (vertex) {
                     vertex.parentVertexSet(null);
@@ -141,6 +151,12 @@
                     vertex.eachSubVertex(callback, context);
                 }, this);
             },
+            eachSubVertexSet: function (callback, context) {
+                nx.each(this.vertexSet(), callback, context || this);
+                nx.each(this.vertexSet(), function (vertex) {
+                    vertex.eachSubVertexSet(callback, context);
+                }, this);
+            },
             getSubEdgeSets: function () {
                 var subEdgeSetMap = {};
                 // get all sub vertex and edgeSet
@@ -153,6 +169,12 @@
             },
             _expand: function () {
                 var graph = this.graph();
+
+//                var parentVertexSet = this.parentVertexSet();
+//                if (parentVertexSet) {
+//                    parentVertexSet.activated(true);
+//                }
+
 
                 // remove created edgeSet collection
                 nx.each(this.edgeSetCollections(), function (esc, linkKey) {

@@ -6,7 +6,10 @@
         properties: {
             scene: {},
             topo: {},
-            MVM: {}
+            MVM: {},
+            expandALL: {
+                value: false
+            }
         },
         methods: {
             ready: function (topo, event) {
@@ -32,12 +35,8 @@
                 this.dispatchTopoOriginalEvent('dragNodeEnd');
             },
             expandNodeSet: function (sender, nodeSet) {
-                this._topo.blockEvent(false);
-                this._topo.stage().resetFitMatrix();
-                this._topo.fit(function () {
+                if (this.expandALL()) {
                     var _groupsLayer = this._topo.getLayer('groups');
-
-
                     var group = nodeSet.group = _groupsLayer.addGroup({
                         shapeType: 'TWNodeSetPolygonGroup',
                         nodeSet: nodeSet,
@@ -46,19 +45,34 @@
                         color: '#9BB150',
                         id: nodeSet.id()
                     });
+                } else {
+                    this._topo.blockEvent(false);
+                    this._topo.stage().resetFitMatrix();
+                    this._topo.fit(function () {
+                        var _groupsLayer = this._topo.getLayer('groups');
 
-                    var parentNodeSet = nodeSet.parentNodeSet();
-                    while (parentNodeSet && parentNodeSet.group) {
-                        parentNodeSet.group.draw();
-                        parentNodeSet = parentNodeSet.parentNodeSet();
-                    }
-                    group.view().dom().addClass('active');
-                    setTimeout(function () {
-                        group.view().dom().removeClass('active');
-                    }, 200);
-//                    this._topo.adjustLayout();
-                }, this);
 
+                        var group = nodeSet.group = _groupsLayer.addGroup({
+                            shapeType: 'TWNodeSetPolygonGroup',
+                            nodeSet: nodeSet,
+                            nodes: nx.util.values(nodeSet.nodes()),
+                            label: nodeSet.label(),
+                            color: '#9BB150',
+                            id: nodeSet.id()
+                        });
+
+                        var parentNodeSet = nodeSet.parentNodeSet();
+                        while (parentNodeSet && parentNodeSet.group) {
+                            parentNodeSet.group.draw();
+                            parentNodeSet = parentNodeSet.parentNodeSet();
+                        }
+                        group.view().dom().addClass('active');
+                        setTimeout(function () {
+                            group.view().dom().removeClass('active');
+                        }, 200);
+                        this._topo.adjustLayout();
+                    }, this);
+                }
             },
             enterNode: function (sender, node) {
                 this.dispatchTopoOriginalEvent('enterNode');

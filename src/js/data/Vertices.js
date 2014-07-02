@@ -38,10 +38,8 @@
                         var action = args.action;
                         var items = args.items;
                         if (action == 'clear') {
-                            nx.each(items, function (vertex) {
-                                if (vertex.id) {
-                                    this.deleteVertex(vertex.id());
-                                }
+                            nx.each(items, function (item) {
+                                this.deleteVertex(item.key());
                             }, this);
                         }
                     }, this);

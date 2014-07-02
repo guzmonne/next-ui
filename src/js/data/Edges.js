@@ -40,10 +40,8 @@
                         var action = args.action;
                         var items = args.items;
                         if (action == 'clear') {
-                            nx.each(items, function (edge) {
-                                if (edge.id) {
-                                    this.deleteEdge(edge.id());
-                                }
+                            nx.each(items, function (item) {
+                                this.deleteEdge(item.key());
                             }, this);
                         }
                     }, this);
@@ -201,7 +199,7 @@
                 if (nx.is(links, nx.data.ObservableCollection)) {
                     links.removeAt(edge.getData());
                 } else {
-                    var index = links.indexOf(edge.getDate());
+                    var index = links.indexOf(edge.getData());
                     if (index != -1) {
                         links.splice(index, 1);
                     }
