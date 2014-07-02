@@ -72,7 +72,6 @@
                 value: function () {
                     return [];
                 }
-
             },
             /**
              * Reverse path direction
