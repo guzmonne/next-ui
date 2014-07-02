@@ -59,6 +59,11 @@
                         linkSet.stageScale(value);
                     });
                 }, this);
+                topo.watch('revisionScale', this.__watchRevisionScale = function (prop, value) {
+                    this.eachLinkSet(function (linkSet) {
+                        linkSet.revisionScale(value);
+                    });
+                }, this);
 
             },
             addLinkSet: function (edgeSet) {

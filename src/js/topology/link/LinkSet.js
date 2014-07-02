@@ -93,7 +93,8 @@
             },
             activated: {
                 value: true
-            }
+            },
+            revisionScale: {}
         },
         view: {
             type: 'nx.graphic.Group',

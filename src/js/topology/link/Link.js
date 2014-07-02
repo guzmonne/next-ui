@@ -210,7 +210,8 @@
              */
             drawMethod: {
 
-            }
+            },
+            revisionScale: {}
 
         },
         view: {

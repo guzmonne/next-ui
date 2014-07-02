@@ -45,6 +45,12 @@
                         link.stageScale(value);
                     });
                 }, this);
+
+                topo.watch('revisionScale', this.__watchRevisionScale = function (prop, value) {
+                    this.eachLink(function (link) {
+                        link.revisionScale(value);
+                    });
+                }, this);
             },
             /**
              * Add a link
