@@ -1,16 +1,5 @@
 (function (nx, global) {
 
-    var deviceTypeMapping = {
-        SWITCH: 'switch',
-        ROUTER: 'router',
-        AP: 'accesspoint',
-        UNKNOWN: 'unknown',
-        asr: 'nexus5000',
-        WIRED: 'host',
-        access: 'accesspoint',
-        core: 'groupm'
-    };
-
 
     var getLabel = function (label) {
 
@@ -104,6 +93,14 @@
         methods: {
             init: function () {
                 this.inherited();
+            },
+            drawLink: function () {
+                var line = this.line();
+                var path = [];
+                path.push('M', line.start.x, line.start.y);
+                path.push('L', line.end.x, line.start.y);
+                path.push('L', line.end.x, line.end.y);
+                return path.join(' ');
             }
         }
     });

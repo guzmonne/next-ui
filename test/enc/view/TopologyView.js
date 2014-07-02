@@ -8,6 +8,7 @@
                 props: {
                     adaptive: true,
                     identityKey: 'id',
+//                    dataProcessor: 'force',
                     nodeConfig: {
                         label: '{topologyVM.view.nodeLabel}',
                         iconType: '{topologyVM.view.nodeIconPath}'
@@ -18,6 +19,9 @@
                     },
                     groupsLayerConfig: {
                         groupDictionary: '{tagVM.tagDictionary}'
+                    },
+                    linkConfig: {
+//                        drawMethod: '{topologyVM.view.drawLink}'
                     },
                     showIcon: true,
                     status: '{topologyVM.view.status,direction=<>}',

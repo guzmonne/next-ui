@@ -11,6 +11,9 @@
                         return data;
                     }
                 }
+            },
+            graph: {
+
             }
         },
         methods: {

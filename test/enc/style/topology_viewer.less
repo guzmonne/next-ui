@@ -1,0 +1,251 @@
+html,
+body {
+  height: 100%;
+  width: 100%;
+}
+
+.tw {
+  height: 100%;
+  width: 100%;
+}
+
+ul {
+  padding: 0px;
+  margin: 0px;
+}
+
+li {
+  list-style: none;
+}
+
+.tw_topologyContainer {
+  height: 100%;
+}
+
+.tw_topologyContainer text.node-label {
+  width: 100px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.n-topology.n-topology-blue .group .fontIcon.iconShape {
+  /*fill: #f00;*/
+}
+
+.tw-toolbar {
+  height: 32px;
+  border-bottom: solid 1px #ccc;
+  box-shadow: 0px 2px 3px #ccc;
+  margin-bottom: 5px;
+  padding-left: 20px;
+
+}
+
+.tw-toolbar > ul > li {
+  position: relative;
+  display: inline-block;
+  & > span {
+    height: 32px;
+    line-height: 32px;
+    padding: 0px 10px;
+    border-right: 1px solid #ddd;
+    display: inline-block;
+    cursor: pointer;
+  }
+  & > span:after {
+    //    width: 100%;
+    //    display: inline-block;
+    //    height: 3px;
+    //    background: #f00;
+    //    content: "";
+    //    margin-top: 28px;
+    //    float: left;
+  }
+
+  &:hover {
+    background: #fafafa;
+  }
+
+  &:first-child {
+    border-left: 1px solid #ddd;
+  }
+
+}
+
+.tw-toolbar-body {
+  position: absolute;
+  width: 320px;
+  z-index: 999;
+  box-shadow: 0px 2px 3px #ccc;
+  background: #fff;
+  top: 31px;
+  border: 1px solid #ddd;
+  border-top-width: 0px;
+}
+
+.tw-inventory-search {
+  margin: 10px;
+  width: 94%;
+}
+
+.tw-inventory-list {
+  margin-top: 10px;
+  max-height: 300px;
+  overflow: auto;
+  padding: 10px;
+  margin-bottom: 20px;
+  li {
+    opacity: 0.5;
+    margin: 2px;
+    border-bottom: dotted 1px #ccc;
+
+    user-select: none;
+    -webkit-user-select: none;
+    cursor: pointer;
+
+    &.tw-inventory-list-item-generated {
+      opacity: 1 !important;
+    }
+
+    &:hover {
+      opacity: 0.7;
+    }
+
+  }
+
+  &-item {
+    padding-left: 12px;
+    &-color {
+      border-radius: 3px;
+      height: 0px;
+      width: 0px;
+      border: solid 3px #59ff32;
+      box-shadow: 0px 0px 4px #59ff32;
+      display: inline-block;
+      margin: 2px 4px;
+    }
+
+    &-label {
+      font-size: 11px;
+      color: #666;
+    }
+
+    &-info {
+      float: right;
+      color: #3D8515;
+    }
+
+  }
+
+  span[class^="n-icon-"] {
+    color: #0386D2;
+    margin: 0px 3px 0px 2px;
+    font-size: 11px;
+  }
+
+}
+
+.tw-inventory-info {
+  position: fixed;
+  width: 320px;
+  z-index: 999;
+  box-shadow: 0px 2px 3px #ccc;
+  background: #fff;
+  top: 31px;
+  border: 1px solid #ddd;
+  padding: 10px;
+  display: none;
+
+  &:before {
+    display: inline-block;
+    content: " ";
+    height: 0px;
+    width: 0px;
+    overflow: hidden;
+    border: 6px solid #0386D2;
+    border-top-color: transparent;
+    border-left-color: transparent;
+    border-bottom-color: transparent;
+    margin-left: -22px;
+  }
+
+  span[class^="n-icon-"] {
+    color: #0386D2;
+    margin: 10px;
+    font-size: 24px;
+  }
+
+  h1 {
+    margin-top: -30px;
+    margin-left: 35px;
+  }
+}
+
+.tw-aggregation {
+  padding: 10px;
+  max-height: 300px;
+  overflow: auto;
+  margin-bottom: 20px;
+
+  .tw-aggregation-list {
+    margin-left: 16px;
+    -webkit-transion: all 0.6s ease;
+  }
+  & > .tw-aggregation-list {
+    margin-left: 6px;
+  }
+
+  .tw-aggregation-list[visible=false] {
+    display: none;
+  }
+
+}
+
+.tw-aggregation-list-item {
+  span[class^="n-icon-"] {
+    color: #0386D2;
+    margin: 0px 3px 0px 2px;
+    font-size: 11px;
+  }
+
+  &-activated {
+    cursor: pointer;
+    margin-right: 4px;
+  }
+
+  &-label {
+    font-size: 11px;
+    color: #666;
+  }
+
+  &-info {
+    float: right;
+    display: inline-block;
+    background: #96C27D;
+    border-radius: 10px;
+    font-size: 10px;
+    color: #fff;
+    padding: 3px;
+    height: 14px;
+    overflow: hidden;
+    line-height: 8px;
+    min-width: 14px;
+    text-align: center;
+    font-family: Tahoma;
+  }
+
+  &-devices {
+    margin-left: 5px;
+
+    &[visible=false] {
+      display: none;
+    }
+    &-label {
+      font-size: 11px;
+      color: #666;
+    }
+
+  }
+
+}
