@@ -70,7 +70,7 @@
                 var vertexSet;
                 var nodeSet = this.nodeSet();
                 var vertexSets = this.vertexSets();
-                if (nx.is(nodes, nx.data.ObservableCollection)) {
+                if (nx.is(nodeSet, nx.data.ObservableCollection)) {
                     nodeSet.add(data);
                     vertexSet = vertexSets.getItem(vertexSets.count() - 1);
                 } else {
