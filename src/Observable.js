@@ -215,11 +215,13 @@
             },
             _notify: function (name, oldValue) {
                 var map = this.__watchers__;
-                nx.each(map[name], function (watcher) {
-                    if (watcher && watcher.handler) {
-                        watcher.handler.call(watcher.context, name, this.get(name), oldValue, watcher.owner);
-                    }
-                }, this);
+                if (map[name]) {
+                    nx.each(map[name].slice(), function (watcher) {
+                        if (watcher && watcher.handler) {
+                            watcher.handler.call(watcher.context, name, this.get(name), oldValue, watcher.owner);
+                        }
+                    }, this);
+                }
             }
         }
     });
