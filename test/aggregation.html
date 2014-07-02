@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Example</title>
+    <!--<script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/NeXt-UI/ws/lib/jquery/jquery-1.10.2.min.js"></script>-->
+    <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/NeXt-Core/lastSuccessfulBuild/artifact/dest/next-core.js"></script>
+    <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/NeXt-UI/lastSuccessfulBuild/artifact/dest/js/next-ui.js"></script>
+    <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/Next-Graphic/lastSuccessfulBuild/artifact/dest/js/next-graphic.js"></script>
+    <!--<script type="text/javascript" src="../src/js/next-graphic.js"></script>-->
+    <link rel="stylesheet" href="http://10.75.161.96:8080/jenkins/job/NeXt-UI/lastSuccessfulBuild/artifact/dest/css/next-blue.css"/>
+    <!--<link rel="stylesheet" href="../src/less/next-graphic.css"/>-->
+
+
+    <!--<script type="text/javascript" src="enc/lib/NeXt/next-core/next-core.js"></script>-->
+    <!--<script type="text/javascript" src="enc/lib/NeXt/next-ui/js/next-ui.js"></script>-->
+    <!--<script type="text/javascript" src="../src/js/next-graphic.js"></script>-->
+    <!--<link rel="stylesheet" href="enc/lib/NeXt/next-ui/css/next-blue.css"/>-->
+    <link rel="stylesheet" href="../src/less/next-graphic.css"/>
+    <script type="text/javascript" src="../lib/GraphGenerator.js"></script>
+
+</head>
+<style>
+    html, body {
+        padding: 0px;
+        height: 100%;
+        width: 100%;
+    }
+
+    .node-label {
+        font-size: 9px;
+    }
+
+    .row {
+        height: 100%
+    }
+
+    #topo {
+        height: 100%;
+    }
+
+    [visible*=true] {
+        display: block;
+    }
+
+    [visible*=false] {
+        display: none;
+    }
+
+
+</style>
+<body>
+<div id="topo" class="col-md-8"></div>
+<div id="list" class="col-md-4">
+
+
+</div>
+<script type="text/javascript">
+
+var g = new GraphGenerator();
+g.generate(100);
+var topologyData = {nodes: g.nodes, links: g.links};
+
+
+var topo = new nx.graphic.Topology({
+    adaptive: true,
+    identityKey: 'id',
+    dataProcessor: 'force',
+    nodeConfig: {
+        label: 'model.id'
+    },
+    nodeSetConfig: {
+        label: 'model.id'
+    },
+    enableGradualScaling: false,
+    showIcon: true,
+    theme: 'green'
+});
+
+
+var App = nx.define(nx.ui.Application, {
+    methods: {
+        getContainer: function (child) {
+            if (nx.is(child.owner(), nx.graphic.Topology)) {
+                return new nx.dom.Element(document.getElementById('topo'));
+            } else {
+                return new nx.dom.Element(document.getElementById('list'))
+            }
+        },
+        start: function () {
+            this.topo = topo;
+            topo.on('topologyGenerated', this._main, this);
+            topo.data(topologyData);
+            topo.attach(app);
+        },
+        _main: function (topo) {
+            var nodeSetDictionary = topo.getLayer('nodeSet').nodeSetDictionary();
+            var list = new List();
+            list.items(nodeSetDictionary);
+            list.selectedNodes(topo.selectedNodes());
+            list.topology(topo);
+            list.attach(this);
+        }
+    }
+});
+
+
+nx.define('List', nx.ui.Component, {
+    properties: {
+        items: {},
+        selectedNodes: {},
+        topology: {}
+    },
+    view: [
+        {
+            tag: 'h1',
+            content: 'NodeSet'
+        },
+        {
+            props: {
+                visible: new nx.Binding({
+                    sourcePath: 'owner.selectedNodes.count',
+                    converter: function (value) {
+                        return value != 0;
+                    }
+                })
+            },
+            content: [
+                {
+                    content: [
+                        {
+                            tag: 'label',
+                            content: '{#selectedNodes.count}'
+                        },
+                        {
+                            tag: 'span',
+                            content: ' devices has been selected.'
+                        }
+                    ]
+                },
+                {
+                    tag: 'button',
+                    content: 'Aggregate',
+                    props: {
+                        'class': 'btn btn-warning',
+                        disabled: new nx.Binding({
+                            sourcePath: 'owner.selectedNodes.count',
+                            converter: function (value) {
+                                return value < 2;
+                            }
+                        })
+                    },
+                    events: {
+                        'click': '{#_aggregate}'
+                    }
+                }
+            ]
+
+        },
+        {
+            tag: 'h3',
+            content: 'NodeSet List'
+        },
+        {
+            tag: 'ul',
+            props: {
+                'class': 'list-group',
+                items: '{#items}',
+                template: {
+                    tag: 'li',
+                    props: {
+                        'class': 'list-group-item form-group'
+                    },
+                    content: [
+                        {
+                            tag: 'label',
+                            content: [
+                                {
+                                    tag: 'input',
+                                    props: {
+                                        type: 'checkbox',
+                                        'checked': '{value.collapsed,direction=<>}'
+                                    }
+                                },
+                                {
+                                    tag: 'span',
+                                    content: '{key}'
+                                },
+                                {
+                                    tag: 'a',
+                                    props: {
+                                        'class': 'glyphicon glyphicon-trash'
+                                    },
+                                    events: {
+                                        'click': '{#_del}'
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                }
+
+            }
+        },
+        {
+            tag: 'h3',
+            content: 'Selected NodeSets'
+        },
+        {
+            tag: 'ul',
+            props: {
+                'class': 'list-group',
+                items: '{#selectedNodes}',
+                template: {
+                    tag: 'li',
+                    props: {
+                        'class': 'list-group-item form-group',
+                        visible: new nx.Binding({
+                            sourcePath: 'model',
+                            converter: function (value) {
+                                if (value) {
+                                    return value.model().type() == 'vertexSet';
+                                } else {
+                                    return false;
+                                }
+                            }
+                        })
+                    },
+                    content: [
+                        {
+                            tag: 'label',
+                            content: [
+                                {
+                                    tag: 'span',
+                                    content: '{id}'
+                                },
+                                {
+                                    tag: 'a',
+                                    props: {
+                                        'class': 'glyphicon glyphicon-trash'
+                                    },
+                                    events: {
+                                        'click': '{#_del2}'
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                }
+
+            }
+        },
+    ],
+    methods: {
+        _del: function (sender, event) {
+            var nodeSet = sender.model().value();
+            topo.deleteNodeSet(nodeSet);
+            topo.fit();
+        },
+        _del2: function (sender, event) {
+            var nodeSet = sender.model();
+            topo.deleteNodeSet(nodeSet);
+            topo.fit();
+        },
+        _aggregate: function () {
+            var topo = this.topology();
+            var nodes = topo.selectedNodes().toArray();
+            topo.selectedNodes().clear();
+            topo.aggregationNodes(nodes);
+        }
+    }
+});
+
+
+var app = new App();
+app.start();
+
+</script>
+
+
+</body>
+</html>
