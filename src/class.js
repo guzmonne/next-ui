@@ -316,7 +316,7 @@
      * @param meta {Object}
      */
     function extendProperty(target, name, meta) {
-        if (nx.is(meta, nx.keyword.internal.Binding) || !nx.is(meta, "Object")) {
+        if (nx.is(meta, nx.keyword.internal.Keyword) || !nx.is(meta, "Object")) {
             meta = {
                 value: meta
             };
@@ -325,7 +325,7 @@
         var exist = target[name] && target[name].__type__ == 'property';
         if (meta.dependencies) {
             if (nx.is(meta.dependencies, "String")) {
-                meta.dependencies = meta.dependencies.split(",");
+                meta.dependencies = meta.dependencies.replace(/\s/g, "").split(",");
             }
             defaultValue = nx.keyword.binding({
                 source: meta.dependencies,
@@ -514,9 +514,13 @@
                 if (nx.is(value, "Function")) {
                     this["_" + name] = value.call(this);
                 }
-                else if (nx.is(value, nx.keyword.internal.Binding)) {
-                    // FIXME memory leak
-                    value.apply(this, name);
+                else if (nx.is(value, nx.keyword.internal.Keyword)) {
+                    switch (value.type) {
+                    case "binding":
+                        // FIXME memory leak
+                        value.apply(this, name);
+                        break;
+                    }
                 }
                 else {
                     this["_" + name] = value;
@@ -550,10 +554,13 @@
                     if (nx.is(value, "Function")) {
                         this["_" + name] = value.call(this);
                     }
-                    else if (nx.is(value, nx.keyword.internal.Binding)) {
+                    else if (nx.is(value, nx.keyword.internal.Keyword)) {
                         // FIXME memory leak
                         // FIXME bind order
-                        this.__keyword_bindings__.push(value.apply(this, name));
+                        this.__keyword_bindings__.push({
+                            name: name,
+                            definition: value
+                        });
                     }
                     else {
                         this["_" + name] = value;
@@ -561,7 +568,11 @@
                 }, this);
 
                 nx.each(Class.__properties__, function (name) {
-                    var meta = this[name].__meta__,
+                    var prop = this[name];
+                    if (!prop || prop.__type__ !== "property") {
+                        return;
+                    }
+                    var meta = prop.__meta__,
                         watcher = meta.watcher;
                     if (watcher) {
                         if (nx.is(watcher, "String")) {
@@ -570,6 +581,10 @@
                         this.watch(name, watcher.bind(this));
                         this.__keyword_watchers__[name] = watcher;
                     }
+                }, this);
+
+                nx.each(this.__keyword_bindings__, function (binding) {
+                    binding.instance = binding.definition.apply(this, binding.name);
                 }, this);
 
                 if (this.__ctor__) {
@@ -581,7 +596,7 @@
                 }, this);
 
                 nx.each(this.__keyword_bindings__, function (binding) {
-                    binding.notify();
+                    binding.instance.notify();
                 }, this);
 
                 this.__initializing__ = false;

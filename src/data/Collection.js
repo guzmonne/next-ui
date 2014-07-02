@@ -18,6 +18,15 @@
                 get: function () {
                     return this._data.length;
                 }
+            },
+            /**
+             * @property length
+             * @type {Number}
+             */
+            length: {
+                get: function () {
+                    return this._data.length;
+                }
             }
         },
         methods: {

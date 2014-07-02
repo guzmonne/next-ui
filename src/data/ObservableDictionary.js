@@ -59,12 +59,13 @@
              * @method clear
              */
             clear: function () {
-                var items = this.inherited();
+                var items = this.toArray();
                 this.notify('count');
                 this.fire('change', {
                     action: 'clear',
                     items: items
                 });
+                this._map = {};
             }
         }
     });

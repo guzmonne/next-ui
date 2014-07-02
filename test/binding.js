@@ -50,7 +50,7 @@ nx.define("test.PathBindingClass", nx.Observable, {
         },
         prop3: {
             value: nx.keyword.binding({
-                source: "simple.prop1, simple.prop2",
+                source: "simple.prop1, prop2",
                 callback: function (prop1, prop2) {
                     return prop1 + prop2;
                 }
@@ -107,4 +107,42 @@ test('keyword binding dependencies with path', function () {
     ok(a.prop1() === 20, "binding single");
     ok(a.prop2() === 40, "binding with argument");
     ok(a.prop3() === 60, "binding with configure");
+});
+
+test("keyword binding on collection", function () {
+
+    var lastPath, lastDiff;
+    nx.define("test.DependCollectionClass", nx.Observable, {
+        properties: {
+            coll: {
+                value: function () {
+                    return new nx.data.ObservableCollection([1]);
+                }
+            },
+            sum: {
+                value: nx.keyword.binding("coll", function (coll, path, diff) {
+                    var sum = 0;
+                    nx.each(coll, function (x) {
+                        sum += x || 0;
+                    });
+                    lastPath = path;
+                    lastDiff = diff;
+                    return sum;
+                })
+            }
+        }
+    });
+
+    var a = new test.DependCollectionClass();
+    ok(a.sum() == 1, "initial");
+    ok(!lastPath, "initial path");
+    ok(!lastDiff, "initial diff");
+    a.coll().add(2);
+    ok(a.sum() == 3, "add");
+    ok(lastPath == "coll", "add path");
+    ok(lastDiff.action == "add" && lastDiff.items[0] == 2, "add diff");
+    a.coll().removeAt(0);
+    ok(a.sum() == 2, "remove");
+    ok(lastPath == "coll", "remove path");
+    ok(lastDiff.action == "remove" && lastDiff.items[0] == 1, "remove diff");
 });
