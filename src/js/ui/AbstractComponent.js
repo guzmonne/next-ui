@@ -182,6 +182,10 @@
                     return this._model || this._inheritedModel;
                 },
                 set: function (value, inherited) {
+                    if (inherited && this._model !== undefined) {
+                        return false;
+                    }
+
                     if (inherited) {
                         this._inheritedModel = value;
                     }
@@ -250,6 +254,7 @@
 
                     this.parent(parent);
                     this.owner(owner);
+                    this.model(parent.model(), true);
                     parent.fire('contententer', {
                         content: this,
                         owner: owner
