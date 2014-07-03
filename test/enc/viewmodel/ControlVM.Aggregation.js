@@ -5,7 +5,7 @@
         properties: {
             MVM: {},
             graph: {
-                dependencies: ['MVM.topologyGenerated', 'MVM.topology'],
+                dependencies: ['MVM.topologyGenerated', 'MVM.topology', 'update'],
                 value: function (generated, topology) {
                     if (generated && topology) {
                         var graph = topology.graph();
@@ -18,28 +18,18 @@
                             }
                         });
                         this.vertexSets(_vertexSets);
+                        this.selectedNodes(topo.selectedNodes());
                     }
                 }
+            },
+            selectedNodes: {
+
             },
             vertexSets: {
 
             },
-            devices: {
-                dependencies: ['searchKey', 'vertices'],
-                value: function (searchKey, vertices) {
-                    if (vertices) {
-                        if (!searchKey) {
-                            return vertices;
-                        } else {
-                            var q = this.query();
-                            var col = q.where(function (item) {
-                                var label = item.value().get('label');
-                                return label.indexOf(searchKey) != -1;
-                            });
-                            return col.toArray();
-                        }
-                    }
-                }
+            update: {
+                value: true
             }
         },
         methods: {
@@ -50,6 +40,22 @@
                 if (nodeSet) {
                     nodeSet.collapsed(!nodeSet.collapsed());
                 }
+            },
+            delete: function (sender, args) {
+                var vertexSet = sender.model();
+                var topo = this.MVM().topology();
+                var nodeSet = topo.getNode(vertexSet.id());
+                if (nodeSet) {
+                    topo.deleteNodeSet(nodeSet);
+                    topo.fit();
+                    this.notify('update');
+                }
+            },
+            aggregate: function (sender, events) {
+                var topo = this.MVM().topology();
+                var nodes = topo.selectedNodes().toArray();
+                topo.selectedNodes().clear();
+                topo.aggregationNodes(nodes);
             }
         }
     })

@@ -60,7 +60,19 @@
                             content: [
                                 {
                                     tag: 'span',
-                                    content: 'Aggregation',
+                                    content: [
+                                        {
+                                            tag: 'span',
+                                            content: 'Aggregation'
+                                        },
+                                        {
+                                            tag: 'span',
+                                            props: {
+                                                'class': 'tw-toolbar-hint'
+                                            },
+                                            content: '{topology.selectedNodes.count}'
+                                        }
+                                    ],
                                     events: {
                                         'click': '{#_toggleAggregation}'
                                     }

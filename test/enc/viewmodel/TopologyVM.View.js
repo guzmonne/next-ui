@@ -48,7 +48,7 @@
                 dependencies: ['labelKey'],
                 value: function (key) {
                     return function (model, nodeSet) {
-                        var label = model.get('name');
+                        var label = model.get('name') || model.get('label');
                         return getLabel(label);
                     }
                 }
@@ -79,13 +79,18 @@
                         var rootNode = nodes.filter(function (n) {
                             return n.id == rootID
                         }).shift();
-                        var deviceType = rootNode.deviceType;
-                        var role = rootNode.role;
-                        if (role == "Border Router") {
-                            return 'groupl';
+                        if (rootNode) {
+                            var deviceType = rootNode.deviceType;
+                            var role = rootNode.role;
+                            if (role == "Border Router") {
+                                return 'groupl';
+                            } else {
+                                return deviceTypeMapping[deviceType];
+                            }
                         } else {
-                            return deviceTypeMapping[deviceType];
+                            return 'groupl';
                         }
+
                     }
                 }
             }

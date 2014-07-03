@@ -52,6 +52,23 @@ li {
 .tw-toolbar > ul > li:first-child {
   border-left: 1px solid #ddd;
 }
+.tw-toolbar > ul > li .tw-toolbar-hint {
+  display: inline-block;
+  border-radius: 10px;
+  padding: 0px 4px;
+  height: 14px;
+  overflow: hidden;
+  background: #13B353;
+  color: #fff;
+  font-size: 10px;
+  line-height: 14px;
+  text-align: center;
+  position: absolute;
+  font-family: sans-serif;
+}
+.tw-toolbar > ul > li .tw-toolbar-hint:empty {
+  display: none;
+}
 .tw-toolbar-body {
   position: absolute;
   width: 320px;
@@ -102,6 +119,8 @@ li {
 .tw-inventory-list-item-label {
   font-size: 11px;
   color: #666;
+  user-select: none;
+  -webkit-user-select: none;
 }
 .tw-inventory-list-item-info {
   float: right;
@@ -146,8 +165,6 @@ li {
 }
 .tw-aggregation {
   padding: 10px;
-  max-height: 300px;
-  overflow: auto;
   margin-bottom: 20px;
 }
 .tw-aggregation .tw-aggregation-list {
@@ -159,6 +176,15 @@ li {
 }
 .tw-aggregation .tw-aggregation-list[visible=false] {
   display: none;
+}
+.tw-aggregation-list-box {
+  max-height: 300px;
+  overflow: auto;
+}
+.tw-aggregation-list-item {
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: pointer;
 }
 .tw-aggregation-list-item span[class^="n-icon-"] {
   color: #0386D2;
@@ -173,7 +199,7 @@ li {
   font-size: 11px;
   color: #666;
 }
-.tw-aggregation-list-item-info {
+.tw-aggregation-list-item-num {
   float: right;
   display: inline-block;
   background: #96C27D;
@@ -188,8 +214,28 @@ li {
   text-align: center;
   font-family: Tahoma;
 }
+.tw-aggregation-list-item-trash {
+  margin-right: 4px;
+  color: #96C27D;
+  cursor: pointer;
+  display: none !important;
+  opacity: 0.6;
+  float: right;
+}
+.tw-aggregation-list-item-trash:hover {
+  opacity: 1;
+}
+.tw-aggregation-list-item-info {
+  border-bottom: dotted 1px #fff;
+}
+.tw-aggregation-list-item-info:hover {
+  border-bottom: dotted 1px #eee;
+}
+.tw-aggregation-list-item-info:hover > .tw-aggregation-list-item-trash {
+  display: inline-block !important;
+}
 .tw-aggregation-list-item-devices {
-  margin-left: 5px;
+  margin-left: 13px;
 }
 .tw-aggregation-list-item-devices[visible=false] {
   display: none;
@@ -197,4 +243,8 @@ li {
 .tw-aggregation-list-item-devices-label {
   font-size: 11px;
   color: #666;
+}
+.tw-aggregation-action {
+  font-size: 12px;
+  color: #333333;
 }

@@ -25,25 +25,78 @@
             convert: function (value) {
                 return value ? 'n-hidden' : '';
             }
+        },
+        num: {
+            convert: function (value) {
+                if (value < 2) {
+                    return  value + " node has"
+                } else {
+                    return  value + " nodes have"
+                }
+            }
         }
+
     };
 
 
     nx.define("ENC.TW.View.Aggregation", nx.ui.Component, {
         events: [],
         view: {
-
             content: {
                 props: {
                     'class': 'tw-aggregation'
                 },
                 content: [
                     {
-                        type: 'ENC.TW.View.Aggregation.List',
+                        tag: 'h5',
+                        content: 'Aggregation List'
+                    },
+                    {
                         props: {
-                            vertexSets: '{controlVM.aggregation.vertexSets}',
-                            root: '{#owner}'
+                            'class': 'tw-aggregation-list-box'
+                        },
+                        content: {
+                            type: 'ENC.TW.View.Aggregation.List',
+                            props: {
+                                vertexSets: '{controlVM.aggregation.vertexSets}',
+                                root: '{#owner}'
+                            }
                         }
+                    },
+                    {
+                        tag: 'h5',
+                        content: 'Aggregation Action'
+                    },
+                    {
+                        props: {
+                            'class': 'tw-aggregation-action'
+                        },
+                        content: [
+                            {
+                                tag: 'span',
+                                content: '{controlVM.aggregation.selectedNodes.count,converter=ENC.TW.aggregation.num}'
+                            },
+                            {
+                                tag: 'span',
+                                props: {
+
+                                },
+                                content: ' been selected.'
+                            },
+                            {
+                                content: {
+                                    tag: 'button',
+                                    props: {
+                                        'class': 'btn btn-warning btn-xs',
+                                        disabled: '{controlVM.aggregation.selectedNodes.count,converter=inverted}'
+                                    },
+                                    content: 'Aggregate',
+                                    events: {
+                                        'click': '{controlVM.aggregation.aggregate}'
+                                    }
+                                }
+                            }
+                        ]
                     }
                 ]
 
@@ -73,35 +126,53 @@
                     },
                     content: [
                         {
-                            tag: 'span',
-                            props: {
-                                'class': '{activated,converter=ENC.TW.aggregation.activated}'
-                            },
-                            events: {
-                                'click': '{#root.model.controlVM.aggregation.expand}'
-//                                'click': '{#_activated}'
-                            }
-                        },
-                        {
-                            tag: 'span',
-                            props: {
-                                'class': 'n-icon-GroupL tw-aggregation-list-item-icon',
-                                type: '{value.deviceType}'
-                            }
-                        },
-                        {
-                            tag: 'span',
-                            props: {
-                                'class': 'tw-aggregation-list-item-label'
-                            },
-                            content: '{name}' //converter
-                        },
-                        {
-                            tag: 'span',
                             props: {
                                 'class': 'tw-aggregation-list-item-info'
                             },
-                            content: '{subVertices,converter=ENC.TW.aggregation.subVertices}' //converter
+                            content: [
+                                {
+                                    tag: 'span',
+                                    props: {
+                                        'class': '{activated,converter=ENC.TW.aggregation.activated}'
+                                    },
+                                    events: {
+                                        'click': '{#root.model.controlVM.aggregation.expand}'
+                                    }
+                                },
+                                {
+                                    tag: 'span',
+                                    props: {
+                                        'class': 'n-icon-GroupL tw-aggregation-list-item-icon',
+                                        type: '{value.deviceType}'
+                                    }
+                                },
+                                {
+                                    tag: 'span',
+                                    props: {
+                                        'class': 'tw-aggregation-list-item-label'
+                                    },
+                                    content: '{name}',
+                                    events: {
+                                        'click': '{#root.model.controlVM.aggregation.expand}'
+                                    }
+                                },
+                                {
+                                    tag: 'span',
+                                    props: {
+                                        'class': 'tw-aggregation-list-item-num'
+                                    },
+                                    content: '{subVertices,converter=ENC.TW.aggregation.subVertices}' //converter
+                                },
+                                {
+                                    tag: 'span',
+                                    props: {
+                                        'class': 'fa fa-trash-o tw-aggregation-list-item-trash '
+                                    },
+                                    events: {
+                                        'click': '{#root.model.controlVM.aggregation.delete}'
+                                    }
+                                }
+                            ]
                         },
                         {
                             type: 'ENC.TW.View.Aggregation.List',
