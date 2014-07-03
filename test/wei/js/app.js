@@ -1,8 +1,8 @@
-
 (function (nx, global) {
     nx.define('topo.test.App', nx.ui.Application, {
         methods: {
             run: function () {
+                var abc
                 var view = new topo.test.View();
                 view.attach(this);
                 view.items(topoCase)
@@ -14,11 +14,17 @@
 
                 })
                 this.on('resize', function () {
-                    console.log('resize...');
-                    view.resolve('topo').adaptToContainer();
+                    if (abc){
+                        clearTimeout(abc);
+                    }
+                    abc = setTimeout(function () {
+                        console.log('resize...');
+                        view.resolve('topo').adaptToContainer();
+                    }, 500)
+
                 });
 
-                this.on('generateReport',function(){
+                this.on('generateReport', function () {
                     view.detach(this);
                     report.attach(this);
                     QUnit.load();
