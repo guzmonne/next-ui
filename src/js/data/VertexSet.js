@@ -114,6 +114,7 @@
              */
             addVertex: function (vertex) {
                 var nodes = this.get('nodes');
+                var id = vertex.id();
                 if (vertex && !vertex.restricted()) {
                     var _map = vertex.type() == 'vertex' ? this.vertices() : this.vertexSet();
                     _map[id] = vertex;
