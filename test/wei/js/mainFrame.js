@@ -19,7 +19,7 @@
                             tag: 'span',
                             props: {
                                 style: {
-                                    width: '90%',
+                                    width: '80%',
                                     height: 20,
                                     'float': 'left',
                                     color: 'white',
@@ -36,14 +36,14 @@
                                     },
                                     content: 'TEST NAME:    '
                                 },
-                                {content: '{#model.name}'}
+                                {content: '{#model.testname}'}
                             ]
                         },
                         {
                             tag: 'span',
                             props: {
                                 style: {
-                                    width: '90%',
+                                    width: '80%',
                                     height: 20,
                                     'float': 'left',
                                     color: 'white',
@@ -67,7 +67,7 @@
                             tag: 'span',
                             props: {
                                 style: {
-                                    width: '90%',
+                                    width: '80%',
                                     height: 80,
                                     'float': 'left',
                                     color: 'white',
@@ -92,59 +92,121 @@
                             props: {
                                 style: {
                                     float: 'right',
-                                    'margin-right': 16,
-                                    'margin-top': -75
+                                    'margin-right': 110
                                 }
                             },
                             content: [
                                 {
-                                    tag: "button",
-                                    props: {
-                                        class: 'btn btn-success'
+                                    tag: 'div',
+                                    content: [
+                                        {
+                                            tag: "button",
+                                            props: {
+                                                class: 'btn btn-success'
 
-                                    },
-                                    content: "pass",
-                                    events: {
-                                        click: '{casePass}'
-                                    }
-                                },
-                                {
-                                    props: {
-                                        class: 'btn btn-danger'
+                                            },
+                                            content: "pass",
+                                            events: {
+                                                click: '{casePass}'
+                                            }
+                                        },
+                                        {
+                                            props: {
+                                                class: 'btn btn-danger'
 
-                                    },
-                                    tag: "button",
-                                    content: "fail",
-                                    events: {
-                                        click: '{caseFail}'
-                                    }
+                                            },
+                                            tag: "button",
+                                            content: "fail",
+                                            events: {
+                                                click: '{caseFail}'
+                                            }
+                                        },
+                                        {
+                                            props: {
+                                                style: {
+                                                    color: 'white'
+                                                }
+                                            },
+                                            tag: "span",
+                                            content: '{#model.index}'
+                                        },
+                                        {
+                                            props: {
+                                                style: {
+                                                    color: 'white'
+                                                }
+                                            },
+                                            tag: "span",
+                                            content: '/'
+                                        },
+                                        {
+                                            props: {
+                                                style: {
+                                                    color: 'white'
+                                                }
+                                            },
+                                            tag: "span",
+                                            content: '{#model.tcase.length}'
+                                        }
+                                    ]
                                 },
                                 {
+                                    tag: 'div',
                                     props: {
-                                        style: {
-                                        color: 'white'
-                                        }
+                                        class: '{menustatus}'
                                     },
-                                    tag: "span",
-                                    content: '{#model.index}'
-                                },
-                                {
-                                    props: {
-                                        style: {
-                                            color: 'white'
+                                    content: [
+                                        {
+                                            tag: 'button',
+                                            props: {
+                                                type: 'button',
+                                                class: 'btn btn-default dropdown-toggle',
+                                                'data-toggle': 'dropdown'
+                                            },
+                                            events: {
+                                                click: '{menuaction}'
+                                            },
+                                            content: [
+                                                {
+                                                    tag: 'span',
+                                                    content: 'jump to'
+                                                },
+                                                {
+                                                    tag: 'span',
+                                                    props: {
+                                                        class: 'caret'
+                                                    }
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            tag: 'ul',
+                                            name: 'menu',
+                                            props: {
+                                                class: 'dropdown-menu',
+                                                style: {
+                                                    'max-height': 300,
+                                                    overflow: 'auto'
+                                                },
+                                                template: {
+                                                    tag: 'li',
+                                                    content: {
+                                                        tag: 'a',
+                                                        props: {
+                                                            href: '#'
+                                                        },
+                                                        events: {
+                                                            'click': function (sender, event) {
+                                                                sender.owner().model().jumpTo(sender.model());
+                                                            }
+                                                        },
+                                                        content: '{name}'
+                                                    }
+                                                },
+                                                items: '{#items}'
+                                            }
                                         }
-                                    },
-                                    tag: "span",
-                                    content: '/'
-                                },
-                                {
-                                    props: {
-                                        style: {
-                                            color: 'white'
-                                        }
-                                    },
-                                    tag: "span",
-                                    content:'{#model.tcase.length}'
+                                    ]
                                 }
 
                             ]
@@ -174,7 +236,7 @@
                                 iconType: 'router'
                             },
                             autoLayout: true,
-                            data:{
+                            data: {
                                 nodes: [
                                     {"id": 0, "x": 410, "y": 100, "name": "12K-1"},
                                     {"id": 1, "x": 410, "y": 280, "name": "12K-2"},
@@ -202,6 +264,9 @@
                     }
                 }
             ]
+        },
+        properties: {
+            items: null
         }
     });
 })(nx)
