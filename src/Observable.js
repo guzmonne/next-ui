@@ -130,7 +130,10 @@
                     params.targetPath = prop;
                     params.sourcePath = path;
                     params.source = source;
-                    params.converter = Binding.converters[params.converter];
+                    if (params.converter) {
+                        params.converter = Binding.converters[params.converter] || nx.path(window, params.converter);
+                    }
+
                 }
                 else {
                     params = nx.clone(expr);
