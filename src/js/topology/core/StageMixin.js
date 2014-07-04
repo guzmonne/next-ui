@@ -102,17 +102,18 @@
                 var self = this;
                 if (!this.adaptive() && (this.width() !== 0 && this.height() !== 0)) {
                     this.status('appended');
-//                    /**
-//                     * Fired when topology appended to container with with& height
-//                     * @event ready
-//                     * @param sender{Object} trigger instance
-//                     * @param event {Object} original event object
-//                     */
+                    //                    /**
+                    //                     * Fired when topology appended to container with with& height
+                    //                     * @event ready
+                    //                     * @param sender{Object} trigger instance
+                    //                     * @param event {Object} original event object
+                    //                     */
                     setTimeout(function () {
                         this.fire('ready');
                     }.bind(this), 0);
 
-                } else {
+                }
+                else {
                     var timer = setInterval(function () {
                         if (nx.dom.Document.body().contains(self.view().dom())) {
                             //
@@ -150,15 +151,8 @@
                     return;
                 }
                 this._adaptToContainer();
-
-                if (this._fitTimer) {
-                    clearTimeout(this._fitTimer);
-                }
-
-                this._fitTimer = setTimeout(function () {
-                    this.stage().resetFitMatrix();
-                    this.fit();
-                }.bind(this), 500);
+                this.stage().resetFitMatrix();
+                this.fit();
             },
 
 
@@ -212,8 +206,7 @@
              * @param value {Number}
              * @method zoom
              */
-            zoom: function (value) {
-            },
+            zoom: function (value) {},
             /**
              * Zoom topology by a bound
              * @method zoomByBound
@@ -279,7 +272,7 @@
             resize: function (width, height) {
                 this.width(width);
                 this.height(height);
-		this.stage().resetFitMatrix();
+                this.stage().resetFitMatrix();
                 this.fire('resizeStage');
             },
             /**
@@ -320,7 +313,7 @@
 
                             var testOverlap = function (sourcePosition, targetPosition) {
                                 var distance = Math.pow(Math.abs(sourcePosition.x - targetPosition.x), 2) + Math.pow(Math.abs(sourcePosition.y - targetPosition.y), 2);
-                                return{
+                                return {
                                     iconOverlap: distance < iconRadius,
                                     dotOverlap: distance < dotRadius
                                 };
@@ -355,9 +348,11 @@
                                 overlapPercent = 0.8;
                                 if (dotOverlapCounter / length > 0.8) {
                                     overlapPercent = 0.2;
-                                } else if (dotOverlapCounter / length > 0.5) {
+                                }
+                                else if (dotOverlapCounter / length > 0.5) {
                                     overlapPercent = 0.4;
-                                } else if (dotOverlapCounter / length > 0.15) {
+                                }
+                                else if (dotOverlapCounter / length > 0.15) {
                                     overlapPercent = 0.6;
                                 }
                             }
@@ -382,16 +377,15 @@
                         }
 
 
-//                        var overlapPercent = calc(positionAry);
-//                        this.revisionScale(overlapPercent);
-//                        nodesLayer.updateNodeRevisionScale(overlapPercent);
-//                        console.log('overlapTime', new Date() - startTime);
+                        //                        var overlapPercent = calc(positionAry);
+                        //                        this.revisionScale(overlapPercent);
+                        //                        nodesLayer.updateNodeRevisionScale(overlapPercent);
+                        //                        console.log('overlapTime', new Date() - startTime);
 
                     }
                 }.bind(this), 200);
             }
         }
-    })
-    ;
+    });
 })
 (nx, nx.global);

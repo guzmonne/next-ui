@@ -6,7 +6,7 @@ nx.define('topo.test.ViewModel', nx.Observable, {
         script: {
             value: null
         },
-        name: {
+        testname: {
             value: null
         },
         topo: {
@@ -26,6 +26,9 @@ nx.define('topo.test.ViewModel', nx.Observable, {
         },
         failed: {
             value: []
+        },
+        menustatus:{
+            value:'btn-group'
         }
 
 
@@ -38,31 +41,31 @@ nx.define('topo.test.ViewModel', nx.Observable, {
             this.tcase(tcase);
             this.description(tcase[0].description);
             this.script(tcase[0].script);
-            this.name(tcase[0].name);
+            this.testname(tcase[0].name);
             this.index(0);
         },
         casePass: function (sender, event) {
-            test(this.name(),function(){
+            test(this.testname(),function(){
                 ok(true);
             })
             this.topoRestore()
-            this.passed().push(this.name());
+            this.passed().push(this.testname());
             this.nextcase(this.index() + 1);
 //            app.fire('generateReport');
         },
         caseFail: function (sender, event) {
-            test(this.name(),function(){
+            test(this.testname(),function(){
                 ok(false);
             })
             this.topoRestore()
-            this.failed().push(this.name());
+            this.failed().push(this.testname());
             this.nextcase(this.index() + 1);
         },
         nextcase: function (index) {
             if (index < this.tcase().length) {
                 this.description(this.tcase()[index].description);
                 this.script(this.tcase()[index].script);
-                this.name(this.tcase()[index].name);
+                this.testname(this.tcase()[index].name);
                 this.index(index);
             }
             else {
@@ -71,8 +74,23 @@ nx.define('topo.test.ViewModel', nx.Observable, {
                 console.log('failed :  ' + this.failed())
             }
         },
+        jumpTo: function(data)
+        {
+            this.topoRestore();
+            this.description(data.description);
+            this.script(data.script);
+            this.testname(data.name);
+        },
+        menuaction:  function()
+        {
+            if (this.menustatus()=='btn-group')
+                this.menustatus('btn-group open');
+            else
+                this.menustatus('btn-group');
+        },
         topoRestore: function () {
             console.log('restore');
+//            this.topo().adaptToContainer();
             this.topo().setData({
                 nodes: [
                     {"id": 0, "x": 410, "y": 100, "name": "12K-1"},
@@ -96,7 +114,7 @@ nx.define('topo.test.ViewModel', nx.Observable, {
                     {"id": 11, "source": 0, "target": 3}
                 ]
             });
-//            this.topo().adaptToContainer();
+            this.topo().adaptToContainer();
         },
         executeScript: function () {
             //this.topo().on('topologyGenerated', function () {

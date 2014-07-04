@@ -25,7 +25,8 @@
                         value.each(function (value) {
                             this._addEdge(value);
                         }, this);
-                    } else {
+                    }
+                    else {
                         nx.each(value, this._addEdge, this);
                     }
 
@@ -64,7 +65,8 @@
                 if (nx.is(links, nx.data.ObservableCollection)) {
                     links.add(data);
                     edge = edges.getItem(edges.count() - 1);
-                } else {
+                }
+                else {
                     links.push(data);
                     edge = this._addEdge(data);
                 }
@@ -77,7 +79,8 @@
                 var edgeSet = edge.parentEdgeSet();
                 if (!edgeSet.generated()) {
                     this.generateEdgeSet(edgeSet);
-                } else {
+                }
+                else {
                     this.updateEdgeSet(edgeSet);
                 }
 
@@ -89,11 +92,11 @@
                 var source, target, sourceID, targetID;
 
                 sourceID = nx.path(data, 'source') != null ? nx.path(data, 'source') : data.source;
-                source = this.vertices().getItem(sourceID);// || this.vertexSets().getItem(sourceID);
+                source = this.vertices().getItem(sourceID); // || this.vertexSets().getItem(sourceID);
 
 
                 targetID = nx.path(data, 'target') != null ? nx.path(data, 'target') : data.source;
-                target = this.vertices().getItem(targetID);// || this.vertexSets().getItem(targetID);
+                target = this.vertices().getItem(targetID); // || this.vertexSets().getItem(targetID);
 
 
                 if (source && target) {
@@ -121,7 +124,8 @@
                             sourceID: sourceID,
                             targetID: targetID
                         });
-                    } else {
+                    }
+                    else {
                         edgeSet.updated(true);
                     }
 
@@ -143,7 +147,8 @@
 
                     return edge;
 
-                } else {
+                }
+                else {
                     if (console) {
                         console.log('source node or target node is not defined, or linkMappingKey value error', data, source, target);
                     }
@@ -152,7 +157,6 @@
             },
             generateEdge: function (edge) {
                 if (!edge.generated() && edge.source().generated() && edge.target().generated()) {
-                    edge.generated(true);
                     edge.on('updateCoordinate', this._updateEdgeCoordinate, this);
 
                     /**
@@ -161,6 +165,7 @@
                      * @param {nx.data.Edge} edge Edge object
                      */
                     this.fire('addEdge', edge);
+                    edge.generated(true);
                 }
             },
             /**
@@ -198,7 +203,8 @@
                 var links = this.links();
                 if (nx.is(links, nx.data.ObservableCollection)) {
                     links.removeAt(edge.getData());
-                } else {
+                }
+                else {
                     var index = links.indexOf(edge.getData());
                     if (index != -1) {
                         links.splice(index, 1);
@@ -257,14 +263,14 @@
              * @returns {Array}
              */
             getEdgesByVertices: function (inVertices) {
-//                var edges = [];
-//                nx.each(inVertices, function (vertex) {
-//                    edges = edges.concat(vertex.edges);
-//                    edges = edges.concat(vertex.reverseEdges);
-//                });
-//
-//
-//                return util.uniq(edges);
+                //                var edges = [];
+                //                nx.each(inVertices, function (vertex) {
+                //                    edges = edges.concat(vertex.edges);
+                //                    edges = edges.concat(vertex.reverseEdges);
+                //                });
+                //
+                //
+                //                return util.uniq(edges);
             },
 
             /**
@@ -275,23 +281,23 @@
              */
 
             getInternalEdgesByVertices: function (inVertices) {
-//                var edges = [];
-//                var verticesMap = {};
-//                var internalEdges = [];
-//                nx.each(inVertices, function (vertex) {
-//                    edges = edges.concat(vertex.edges);
-//                    edges = edges.concat(vertex.reverseEdges);
-//                    verticesMap[vertex.id()] = vertex;
-//                });
-//
-//                nx.each(edges, function (edge) {
-//                    if (verticesMap[edge.sourceID()] !== undefined && verticesMap[edge.targetID()] !== undefined) {
-//                        internalEdges.push(edge);
-//                    }
-//                });
-//
-//
-//                return internalEdges;
+                //                var edges = [];
+                //                var verticesMap = {};
+                //                var internalEdges = [];
+                //                nx.each(inVertices, function (vertex) {
+                //                    edges = edges.concat(vertex.edges);
+                //                    edges = edges.concat(vertex.reverseEdges);
+                //                    verticesMap[vertex.id()] = vertex;
+                //                });
+                //
+                //                nx.each(edges, function (edge) {
+                //                    if (verticesMap[edge.sourceID()] !== undefined && verticesMap[edge.targetID()] !== undefined) {
+                //                        internalEdges.push(edge);
+                //                    }
+                //                });
+                //
+                //
+                //                return internalEdges;
 
             },
             /**
@@ -301,23 +307,23 @@
              * @returns {Array}
              */
             getExternalEdgesByVertices: function (inVertices) {
-//                var edges = [];
-//                var verticesMap = {};
-//                var externalEdges = [];
-//                nx.each(inVertices, function (vertex) {
-//                    edges = edges.concat(vertex.edges);
-//                    edges = edges.concat(vertex.reverseEdges);
-//                    verticesMap[vertex.id()] = vertex;
-//                });
-//
-//                nx.each(edges, function (edge) {
-//                    if (verticesMap[edge.sourceID()] === undefined || verticesMap[edge.targetID()] === undefined) {
-//                        externalEdges.push(edge);
-//                    }
-//                });
-//
-//
-//                return externalEdges;
+                //                var edges = [];
+                //                var verticesMap = {};
+                //                var externalEdges = [];
+                //                nx.each(inVertices, function (vertex) {
+                //                    edges = edges.concat(vertex.edges);
+                //                    edges = edges.concat(vertex.reverseEdges);
+                //                    verticesMap[vertex.id()] = vertex;
+                //                });
+                //
+                //                nx.each(edges, function (edge) {
+                //                    if (verticesMap[edge.sourceID()] === undefined || verticesMap[edge.targetID()] === undefined) {
+                //                        externalEdges.push(edge);
+                //                    }
+                //                });
+                //
+                //
+                //                return externalEdges;
 
             },
             _linksCollectionProcessor: function (sender, args) {
@@ -330,11 +336,13 @@
                         var edgeSet = edge.parentEdgeSet();
                         if (!edgeSet.generated()) {
                             this.generateEdgeSet(edgeSet);
-                        } else {
+                        }
+                        else {
                             this.updateEdgeSet(edgeSet);
                         }
                     }, this);
-                } else if (action == 'remove') {
+                }
+                else if (action == 'remove') {
                     var ids = [];
                     // get all edges should be delete
                     this.edges().each(function (item, id) {
@@ -347,7 +355,8 @@
                         this._deleteEdge(id);
                     }, this);
 
-                } else if (action == 'clear') {
+                }
+                else if (action == 'clear') {
                     this.edges().clear();
                 }
             }

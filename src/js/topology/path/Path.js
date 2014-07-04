@@ -69,8 +69,100 @@
              * @property links
              */
             links: {
+                value: [],
+                set: function (value) {
+                    this._links = value;
+                    this.edgeIdCollection().clear();
+                    var edges = [];
+                    if (nx.is(value, "Array") || nx.is(value, nx.data.Collection)) {
+                        nx.each(value, function (item) {
+                            edges.push(item.model().id());
+                        }.bind(this));
+                        this.edgeIdCollection().addRange(edges);
+                    }
+                    this.draw();
+                }
+            },
+            edgeIdCollection: {
                 value: function () {
-                    return [];
+                    var allEdges, collection = new nx.data.ObservableCollection();
+                    var watcher = function (pname, pvalue) {
+                        this.draw();
+                    }.bind(this);
+                    collection.on("change", function (sender, evt) {
+                        var waitForTopology = function (pname, pvalue) {
+                            if (!pvalue) {
+                                return;
+                            }
+                            this.unwatch("topology", waitForTopology);
+                            allEdges = allEdges || nx.path(this, "topology.graph.edges");
+                            verticesIdCollection = this.verticesIdCollection();
+                            var diff = [];
+                            if (evt.action === "add") {
+                                nx.each(evt.items, function (item) {
+                                    var edge = allEdges.getItem(item);
+                                    edge.watch("generated", watcher);
+                                    diff.push(edge.sourceID());
+                                    diff.push(edge.targetID());
+                                }.bind(this));
+                                // update vertices
+                                nx.each(diff, function (id) {
+                                    if (!verticesIdCollection.contains(id)) {
+                                        verticesIdCollection.add(id);
+                                    }
+                                });
+                            }
+                            else {
+                                nx.each(evt.items, function (item) {
+                                    var edge = allEdges.getItem(item);
+                                    edge.unwatch("generated", watcher);
+                                }.bind(this));
+                                // update vertices
+                                // TODO improve this algorithm
+                                verticesIdCollection.clear();
+                                nx.each(collection, function (id) {
+                                    var edge = allEdges.getItem(id);
+                                    if (verticesIdCollection.contains(edge.sourceID())) {
+                                        verticesIdCollection.add(edge.sourceID());
+                                    }
+                                    if (verticesIdCollection.contains(edge.targetID())) {
+                                        verticesIdCollection.add(edge.targetID());
+                                    }
+                                }.bind(this));
+                            }
+                        }.bind(this);
+                        if (!this.topology()) {
+                            this.watch("topology", waitForTopology);
+                        }
+                        else {
+                            waitForTopology("topology", this.topology());
+                        }
+                    }.bind(this));
+                    return collection;
+                }
+            },
+            verticesIdCollection: {
+                value: function () {
+                    var allVertices, collection = new nx.data.ObservableCollection();
+                    var watcher = function (pname, pvalue) {
+                        this.draw();
+                    }.bind(this);
+                    collection.on("change", function (sender, evt) {
+                        allVertices = allVertices || nx.path(this, "topology.graph.vertices");
+                        if (evt.action === "add") {
+                            nx.each(evt.items, function (item) {
+                                var vertex = allVertices.getItem(item);
+                                vertex.watch("position", watcher);
+                            }.bind(this));
+                        }
+                        else {
+                            nx.each(evt.items, function (item) {
+                                var vertex = allVertices.getItem(item);
+                                vertex.unwatch("position", watcher);
+                            }.bind(this));
+                        }
+                    }.bind(this));
+                    return collection;
                 }
             },
             /**
@@ -95,23 +187,38 @@
                     this.view("path").setStyle("fill", colorTable[colorIndex++ % 5]);
                 }
 
-                var nodes = this.nodes = {};
-                nx.each(this.links(), function (link) {
-                    nodes[link.sourceNodeID()] = link.sourceNode();
-                    nodes[link.targetNodeID()] = link.targetNode();
-                });
-
-                nx.each(nodes, function (node) {
-                    node.on('updateNodeCoordinate', this.draw, this);
-                }, this);
-
-
             },
             /**
              * Draw a path,internal
              * @method draw
              */
             draw: function () {
+                if (!this.topology()) {
+                    return;
+                }
+                var generated = true,
+                    topo = this.topology(),
+                    allEdges = nx.path(this, "topology.graph.edges"),
+                    allVertices = nx.path(this, "topology.graph.vertices");
+                nx.each(this.verticesIdCollection(), function (id) {
+                    var item = allVertices.getItem(id);
+                    if (!item.generated()) {
+                        generated = false;
+                        return false;
+                    }
+                }.bind(this));
+                nx.each(this.edgeIdCollection(), function (id) {
+                    var item = allEdges.getItem(id);
+                    if (!item.generated()) {
+                        generated = false;
+                        return false;
+                    }
+                }.bind(this));
+                if (!generated) {
+                    this.view("path").set('d', "M0 0");
+                    return;
+                }
+
                 var link, line1, line2, pt, d1 = [],
                     d2 = [];
                 var stageScale = this.topology().stageScale();
@@ -122,8 +229,12 @@
                 var v1, v2;
 
 
-                var links = this.links();
-                var linksSequentialArray = this._serializeLinks();
+                var edgeIds = this.edgeIdCollection();
+                var links = [];
+                nx.each(edgeIds, function (id) {
+                    links.push(topo.getLink(id));
+                });
+                var linksSequentialArray = this._serializeLinks(links);
                 var count = links.length;
 
                 //first
@@ -241,8 +352,7 @@
                 //                }
             },
 
-            _serializeLinks: function () {
-                var links = this.links();
+            _serializeLinks: function (links) {
                 var linksSequentialArray = [];
                 var len = links.length;
 
@@ -294,12 +404,6 @@
                 }, this);
                 this.inherited();
             }
-
-
         }
-
-
     });
-
-
 })(nx, nx.global);
