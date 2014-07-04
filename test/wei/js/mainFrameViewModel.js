@@ -114,7 +114,7 @@ nx.define('topo.test.ViewModel', nx.Observable, {
                     {"id": 11, "source": 0, "target": 3}
                 ]
             });
-//            this.topo().adaptToContainer();
+            this.topo().adaptToContainer();
         },
         executeScript: function () {
             //this.topo().on('topologyGenerated', function () {
