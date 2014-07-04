@@ -230,6 +230,7 @@
             var listeners = this.__listeners__[name],
                 listener, result;
             if (listeners) {
+                listeners = listeners.slice();
                 for (var i = 0, length = listeners.length; i < length; i++) {
                     listener = listeners[i];
                     if (listener && listener.handler) {
