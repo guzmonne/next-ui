@@ -25,12 +25,13 @@
                         value.each(function (value) {
                             this._addEdge(value);
                         }, this);
-                    }
-                    else {
+                        this._links = value;
+                    } else if (value) {
                         nx.each(value, this._addEdge, this);
+                        this._links = value.slice();
                     }
 
-                    this._links = value;
+
                 }
             },
             edgeFilter: {},

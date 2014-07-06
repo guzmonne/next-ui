@@ -20,13 +20,15 @@
                         value.each(function (value) {
                             this._addVertexSet(value);
                         }, this);
-                    } else {
+                        this._nodeSet = value;
+                    } else if (value) {
                         nx.each(value, this._addVertexSet, this);
+                        this._nodeSet = value.slice();
                     }
 
                     this.eachVertexSet(this.initVertexSet, this);
 
-                    this._nodeSet = value;
+
                 }
             },
             vertexSets: {

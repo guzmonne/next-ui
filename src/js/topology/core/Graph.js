@@ -35,6 +35,7 @@
                     }
 
                     var fn = function (data) {
+
                         /**
                          * Fired before start process data
                          * @event beforeSetData
@@ -159,6 +160,11 @@
                     nodesLayer.removeNode(vertex.id());
                 }, this);
 
+
+                graph.on("deleteVertex", function (sender, vertex) {
+                    nodesLayer.removeNode(vertex.id());
+                }, this);
+
                 graph.on("updateVertex", function (sender, vertex) {
                     nodesLayer.updateNode(vertex.id());
                 }, this);
@@ -208,6 +214,11 @@
                 graph.on("removeEdgeSet", function (sender, edgeSet) {
                     linkSetLayer.removeLinkSet(edgeSet.linkKey());
                 }, this);
+
+                graph.on("deleteEdgeSet", function (sender, edgeSet) {
+                    linkSetLayer.removeLinkSet(edgeSet.linkKey());
+                }, this);
+
                 graph.on("updateEdgeSet", function (sender, edgeSet) {
                     linkSetLayer.updateLinkSet(edgeSet.linkKey());
                 }, this);
@@ -357,12 +368,6 @@
                         this.status('generated');
                         this.fire('topologyGenerated');
                     });
-//                } else if (this.enableSmartLabel()) {
-//                    setTimeout(function () {
-//                        this.__fit();
-//                        this.status('generated');
-//                        this.fire('topologyGenerated');
-//                    }.bind(this), 300);
                 } else {
                     this.__fit();
                     this.status('generated');
