@@ -94,8 +94,10 @@
                         icon.showIcon(false);
                     }
 
-                    if (this._labelVisible) {
-                        this.view('label').set('visible', value > 0.4);
+                    if (value > 0.4) {
+                        this.view('label').set('visible', this._labelVisible == null ? true : this._labelVisible);
+                    } else {
+                        this.view('label').set('visible', false);
                     }
 
                     if (this._label != null) {
