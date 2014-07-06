@@ -62,6 +62,12 @@
                 var links = this.links();
                 var edges = this.edges();
                 var edge;
+
+                if (data.source == null || data.target == null) {
+                    return undefined;
+                }
+
+
                 if (nx.is(links, nx.data.ObservableCollection)) {
                     links.add(data);
                     edge = edges.getItem(edges.count() - 1);
@@ -90,6 +96,12 @@
                 var edges = this.edges();
                 var identityKey = this.identityKey();
                 var source, target, sourceID, targetID;
+
+
+                if (data.source == null || data.target == null) {
+                    return undefined;
+                }
+
 
                 sourceID = nx.path(data, 'source') != null ? nx.path(data, 'source') : data.source;
                 source = this.vertices().getItem(sourceID); // || this.vertexSets().getItem(sourceID);

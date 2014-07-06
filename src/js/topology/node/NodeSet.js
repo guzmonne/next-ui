@@ -202,6 +202,7 @@
             _expand: function () {
                 var position = this.position();
                 this.view().visible(false);
+                this.selected(false);
                 this.activated(false);
                 var nodes = this.nodes();
                 var nodeLength = nx.util.keys(nodes).length;

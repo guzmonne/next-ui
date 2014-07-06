@@ -46,7 +46,10 @@
             setData: function (inData) {
 
                 var data = this.processData(this.getJSON(inData));
+                //
                 this.clear();
+
+                //generate
                 this._generate(inData);
                 /**
                  * Trigger when set data to ObservableGraph
@@ -64,35 +67,35 @@
              */
             insertData: function (inData) {
 
-                //todo
+                var data = this.processData(inData);
 
+                nx.each(inData.nodes, function (node) {
+                    this.addVertex(node);
+                }, this);
 
-//                //migrate original data
-//                this._data.nodes = this._data.nodes.concat(inData.nodes || []);
-//                this._data.links = this._data.links.concat(inData.links || []);
-//                this._data.nodeSet = this._data.nodeSet.concat(inData.nodeSet || []);
-//
-//
-//                var data = this.processData(inData);
-//
-//                // process
-//                this._generate(data);
-//
-//                /**
-//                 * Trigger when insert data to ObservableGraph
-//                 * @event insertData
-//                 * @param sender {Object}  event trigger
-//                 * @param {Object} data data, which been processed by data processor
-//                 */
-//
-//                this.fire('insertData', data);
+                nx.each(inData.links, function (link) {
+                    this.addEdge(link);
+                }, this);
+
+                nx.each(inData.nodeSet, function (nodeSet) {
+                    this.addVertexSet(nodeSet);
+                }, this);
+
+                /**
+                 * Trigger when insert data to ObservableGraph
+                 * @event insertData
+                 * @param sender {Object}  event trigger
+                 * @param {Object} data data, which been processed by data processor
+                 */
+
+                this.fire('insertData', data);
 
             },
             _generate: function (data) {
+                //
                 this.nodes(data.nodes);
                 this.links(data.links);
                 this.nodeSet(data.nodeSet);
-
 
                 var filter = this.filter();
                 if (filter) {
@@ -118,7 +121,7 @@
 
 
                 this.eachVertexSet(this.generateVertexSet, this);
-                //
+
                 this.eachVertexSet(function (vertexSet) {
                     vertexSet.activated(true, {force: true});
                     this.updateVertexSet(vertexSet);
