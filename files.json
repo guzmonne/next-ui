@@ -62,6 +62,7 @@
         "src/js/data/processor/Circle.js",
         "src/js/data/DataProcessor.js",
         "src/js/data/ObservableGraph.js",
+        "src/js/data/UniqObservableCollection.js",
 
 
         "src/js/topology/core/Config.js",

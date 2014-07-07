@@ -201,7 +201,6 @@
                     //                    depth++;
                 }
 
-
             },
             expandNodeSet: function (sender, nodeSet) {
                 clearTimeout(this._sceneTimer);
@@ -319,7 +318,9 @@
             },
             addNodeSet: function () {
                 this._topo.stage().resetFitMatrix();
+                this._topo.fit();
                 this._topo.adjustLayout();
+
             },
             removeNode: function () {
                 this._topo.adjustLayout();
