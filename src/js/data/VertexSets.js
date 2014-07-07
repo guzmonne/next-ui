@@ -254,6 +254,10 @@
 
                 vertexSet.activated(false);
 
+                var parentVertexSet = vertexSet.parentVertexSet();
+                if (parentVertexSet) {
+                    parentVertexSet.removeVertex(id);
+                }
 
                 vertexSet.off('updateCoordinate', this._updateVertexCoordinateFN, this);
 
