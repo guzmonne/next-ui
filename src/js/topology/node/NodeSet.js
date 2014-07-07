@@ -115,7 +115,7 @@
                         icon.showIcon(false);
                         icon.set('visible', false);
                     }
-                    this._updateMinusIcon();
+                    this._updateMinusIcon(value);
 
                     if (this._labelVisible) {
                         this.view('label').set('visible', value > 0.4);
@@ -202,6 +202,7 @@
             _expand: function () {
                 var position = this.position();
                 this.view().visible(false);
+                this.selected(false);
                 this.activated(false);
                 var nodes = this.nodes();
                 var nodeLength = nx.util.keys(nodes).length;
@@ -272,10 +273,17 @@
                     this.fire('beforeCollapseNode');
                 }
             },
-            _updateMinusIcon: function () {
+            _updateMinusIcon: function (revisionScale) {
                 var icon = this.view('icon');
                 var minus = this.view('minus');
                 if (icon.showIcon()) {
+
+                    if (revisionScale == 0.4) {
+                        minus.scale(0.8);
+                    } else {
+                        minus.scale(1);
+                    }
+
                     var iconSize = icon.size();
                     var iconScale = icon.scale();
                     minus.setTransform(iconSize.width * iconScale / 2, iconSize.height * iconScale / 2);

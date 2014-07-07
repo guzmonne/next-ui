@@ -177,7 +177,7 @@
                 var labelContainer = this.view('labelContainer');
 
 
-                if (topo.showIcon() && topo.revisionScale() == 1) {
+                if (topo.showIcon() && topo.revisionScale() > 0.6) {
 
                     shape.dom().setStyle('stroke-width', 60 * stageScale);
 

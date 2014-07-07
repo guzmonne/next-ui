@@ -22,11 +22,11 @@
                         value.each(function (value) {
                             this._addVertex(value);
                         }, this);
-                    } else {
+                        this._nodes = value;
+                    } else if (value) {
                         nx.each(value, this._addVertex, this);
+                        this._nodes = value.slice();
                     }
-
-                    this._nodes = value;
                 }
             },
 
@@ -225,11 +225,11 @@
                 }
 
                 nx.each(vertex.edgeSets(), function (edgeSet) {
-                    this.deleteEdgeSet(edgeSet);
+                    this.deleteEdgeSet(edgeSet.linkKey());
                 }, this);
 
                 nx.each(vertex.edgeSetCollections(), function (esc) {
-                    this.deleteEdgeSetCollection(esc);
+                    this.deleteEdgeSetCollection(esc.linkKey());
                 }, this);
 
                 var vertexSet = vertex.parentVertexSet();

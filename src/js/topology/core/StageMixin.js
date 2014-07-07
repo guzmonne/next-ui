@@ -206,7 +206,9 @@
              * @param value {Number}
              * @method zoom
              */
-            zoom: function (value) {},
+            zoom: function (value) {
+
+            },
             /**
              * Zoom topology by a bound
              * @method zoomByBound
@@ -257,7 +259,7 @@
              * @method move
              * @param x {Number}
              * @param y {Number}
-             * @param [duration] {Number} default is 0
+             * @param [duration] {Number} default is 0,second
              */
             move: function (x, y, duration) {
                 var stage = this.stage();

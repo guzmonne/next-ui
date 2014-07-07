@@ -192,12 +192,14 @@
                 this._adaptiveTimer();
             },
             dispose: function () {
-                nx.each(this.layers(), function (layer) {
-                    layer.dispose();
-                });
+
 
                 this.tooltipManager().dispose();
                 this.graph().dispose();
+
+                nx.each(this.layers(), function (layer) {
+                    layer.dispose();
+                });
 
                 this.inherited();
             }

@@ -94,7 +94,21 @@
             activated: {
                 value: true
             },
-            revisionScale: {}
+            revisionScale: {
+                set: function (value) {
+                    var strokeWidth = value < 0.6 ? 8 : 12;
+                    this.view('numBg').dom().setStyle('stroke-width', strokeWidth);
+
+                    var fontSize = value < 0.6 ? 8 : 10;
+                    this.view('num').dom().setStyle('font-size', fontSize);
+
+                    this.view('number').visible(value !== 0.2);
+
+
+                }
+
+
+            }
         },
         view: {
             type: 'nx.graphic.Group',

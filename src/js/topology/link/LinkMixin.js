@@ -48,6 +48,10 @@
              * @returns {nx.graphic.Topology.Link}
              */
             addLink: function (obj, inOption) {
+                if (obj.source == null || obj.target == null) {
+                    return undefined;
+                }
+                
                 var edge = this.graph().addEdge(obj, inOption);
                 var link = this.getLink(edge.id());
                 this.fire("addLink", link);
