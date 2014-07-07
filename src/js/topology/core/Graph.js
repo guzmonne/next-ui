@@ -304,8 +304,16 @@
              * Set data to topology, recommend use topo.data(data)
              * @method setData
              * @param data {JSON} should be {nodes:[],links:[]}
+             * @param [callback]
+             * @param [context]
              */
-            setData: function (data) {
+            setData: function (data, callback, context) {
+                if (callback) {
+                    this.on('topologyGenerated', function fn() {
+                        callback.call(context || this, this);
+                        this.off('topologyGenerated', fn, this);
+                    }, this);
+                }
                 this.data(data);
             },
             /**
