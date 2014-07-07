@@ -52,8 +52,7 @@
                         nx.each(args.items, function (el) {
                             el.dom().addClass("fade-highlight");
                         });
-                    }
-                    else if (args.action == 'remove' || args.action == "clear") {
+                    } else if (args.action == 'remove' || args.action == "clear") {
                         nx.each(args.items, function (el) {
                             /* jslint -W030 */
                             el.dom() && el.dom().removeClass("fade-highlight");
@@ -61,8 +60,7 @@
                     }
                     if (highlightedElements.count() === 0 && activeElements.count() === 0) {
                         this.dom().removeClass("fade-layer");
-                    }
-                    else {
+                    } else {
                         this.dom().addClass("fade-layer");
                     }
                 }, this);
@@ -73,8 +71,7 @@
                         nx.each(args.items, function (el) {
                             el.dom().addClass("fade-active");
                         });
-                    }
-                    else if (args.action == 'remove' || args.action == "clear") {
+                    } else if (args.action == 'remove' || args.action == "clear") {
                         nx.each(args.items, function (el) {
                             /* jslint -W030 */
                             el.dom() && el.dom().removeClass("fade-active");
@@ -82,8 +79,7 @@
                     }
                     if (highlightedElements.count() === 0 && activeElements.count() === 0) {
                         this.dom().removeClass("fade-layer");
-                    }
-                    else {
+                    } else {
                         this.dom().addClass("fade-layer");
                     }
                 }, this);
