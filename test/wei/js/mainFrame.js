@@ -245,18 +245,18 @@
                                     {"id": 4, "x": 180, "y": 190, "name": "Of-9k-01"}
                                 ],
                                 links: [
-                                    {"source": 0, "target": 1},
-                                    {"source": 1, "target": 2},
-                                    {"source": 1, "target": 3},
-                                    {"source": 4, "target": 1},
-                                    {"source": 2, "target": 3},
-                                    {"source": 2, "target": 0},
-                                    {"source": 3, "target": 0},
-                                    {"source": 3, "target": 0},
-                                    {"source": 3, "target": 0},
-                                    {"source": 0, "target": 4},
-                                    {"source": 0, "target": 4},
-                                    {"source": 0, "target": 3}
+                                    {"id": 0, "source": 0, "target": 1},
+                                    {"id": 1, "source": 1, "target": 2},
+                                    {"id": 2, "source": 1, "target": 3},
+                                    {"id": 3, "source": 4, "target": 1},
+                                    {"id": 4, "source": 2, "target": 3},
+                                    {"id": 5, "source": 2, "target": 0},
+                                    {"id": 6, "source": 3, "target": 0},
+                                    {"id": 7, "source": 3, "target": 0},
+                                    {"id": 8, "source": 3, "target": 0},
+                                    {"id": 9, "source": 0, "target": 4},
+                                    {"id": 10, "source": 0, "target": 4},
+                                    {"id": 11, "source": 0, "target": 3}
                                 ]
                             }
 

@@ -31,8 +31,7 @@
             dispatch: function (eventName, sender, data) {
                 this._tooltipManager.executeAction(eventName, data);
             },
-            pressStage: function (sender, event) {
-            },
+            pressStage: function (sender, event) {},
             clickStage: function (sender, event) {
                 if (event.target == this._topo.stage().view().dom().$dom) {
                     this._topo.selectedNodes().clear();
@@ -98,7 +97,9 @@
                 clearTimeout(this._sceneTimer);
                 if (!this._nodeDragging) {
                     this._sceneTimer = setTimeout(function () {
-                        this._topo.activeRelatedNode(node);
+                        if (!this._nodeDragging) {
+                            this._topo.activeRelatedNode(node);
+                        }
                     }.bind(this), this._interval);
                     this._recover();
                 }
@@ -159,11 +160,9 @@
             },
 
 
-            enterLink: function (sender, events) {
-            },
+            enterLink: function (sender, events) {},
 
-            pressNodeSet: function (sender, nodeSet) {
-            },
+            pressNodeSet: function (sender, nodeSet) {},
             clickNodeSet: function (sender, nodeSet) {
                 clearTimeout(this._sceneTimer);
                 this._recover();
@@ -198,8 +197,8 @@
                     group.draw();
                     parentNodeSet = parentNodeSet.parentNodeSet();
 
-//                    group.opacity(0.6 - depth * 0.2);
-//                    depth++;
+                    //                    group.opacity(0.6 - depth * 0.2);
+                    //                    depth++;
                 }
 
 
@@ -259,8 +258,8 @@
 
                     parentNodeSet = parentNodeSet.parentNodeSet();
 
-//                    group.opacity(0.8 - depth * 0.2);
-//                    depth++;
+                    //                    group.opacity(0.8 - depth * 0.2);
+                    //                    depth++;
                 }
 
                 this._topo.stage().resetFitMatrix();
@@ -326,8 +325,7 @@
                 this._topo.adjustLayout();
             },
 
-            dragGroupStart: function (sender, group) {
-            },
+            dragGroupStart: function (sender, group) {},
 
             dragGroup: function (sender, group) {
                 if (event) {
@@ -337,8 +335,7 @@
                 }
             },
 
-            dragGroupEnd: function (sender, group) {
-            },
+            dragGroupEnd: function (sender, group) {},
             clickGroupLabel: function (sender, group) {
 
             },

@@ -30,29 +30,7 @@
                     QUnit.load();
                 })
 
-//                var self = this;
-//                setTimeout(function(){
-////                    test('ccc',function(){ok(true)})
-//                    view.detach();
-//                    report.attach(self);
-//                    QUnit.load();
-//                },5000)
-
-
             }
         }
     });
 })(nx, window);
-
-
-//<div class="btn-group">
-//    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-//    Dropdown
-//        <span class="caret"></span>
-//    </button>
-//    <ul class="dropdown-menu">
-//        <li><a href="#">Dropdown link</a></li>
-//        <li><a href="#">Dropdown link</a></li>
-//        <li><a href="#">Dropdown link</a></li>
-//    </ul>
-//</div>
