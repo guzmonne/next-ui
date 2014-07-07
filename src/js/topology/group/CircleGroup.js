@@ -58,7 +58,10 @@
                     x: topo.matrix().x(),
                     y: topo.matrix().y()
                 };
-                var bound = topo.getBoundByNodes(this.nodes().toArray());
+                var bound = topo.getBoundByNodes(this.getNodes());
+                if (bound == null) {
+                    return;
+                }
                 var radius = Math.sqrt(Math.pow(bound.width / 2, 2) + Math.pow(bound.height / 2, 2));
 
                 var shape = this.view('shape');

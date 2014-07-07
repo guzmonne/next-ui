@@ -122,7 +122,7 @@
                     }
                 }
             },
-            enabledAnimation: {
+            animation: {
                 value: true
             }
         },
@@ -199,14 +199,14 @@
             expand: function (isAnimation) {
                 this._collapsed = false;
                 if (isAnimation != null) {
-                    this._enabledAnimation = !!isAnimation;
+                    this._animation = !!isAnimation;
                 }
                 this._expand();
             },
             collapse: function (isAnimation) {
                 this._collapsed = true;
                 if (isAnimation != null) {
-                    this._enabledAnimation = !!isAnimation;
+                    this._animation = !!isAnimation;
                 }
                 this._collapse();
             },
@@ -218,7 +218,7 @@
 
                 this.topology().expandNodes(this.nodes(), this.position(), function () {
                     this.fire('expandNode', this);
-                }, this, this._enabledAnimation);
+                }, this, this._animation);
 
             },
 
@@ -230,7 +230,7 @@
                     this.model().activated(true);
 //                    this.view().visible(true);
                     this.fire('collapseNode', this);
-                }, this, this._enabledAnimation);
+                }, this, this._animation);
 
             },
 

@@ -148,9 +148,12 @@
                 if (nx.is(arg, nx.graphic.Topology.AbstractNode)) {
                     id = arg.id();
                 }
-                var node = this.getNode(id);
-                this.fire("deleteNode", node);
-                this.graph().deleteVertex(id);
+                var vertex = this.graph().getVertex(id);
+                if (vertex) {
+                    var node = this.getNode(id);
+                    this.fire("deleteNode", node);
+                    this.graph().deleteVertex(id);
+                }
             },
             /**
              * Add a nodeSet

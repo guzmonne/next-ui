@@ -62,7 +62,10 @@
                     x: topo.matrix().x(),
                     y: topo.matrix().y()
                 };
-                var bound = topo.getBoundByNodes(this.nodes().toArray());
+                var bound = topo.getBoundByNodes(this.getNodes());
+                if (bound == null) {
+                    return;
+                }
                 bound.left -= translate.x;
                 bound.top -= translate.y;
                 var shape = this.view('shape');

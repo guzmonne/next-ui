@@ -148,7 +148,7 @@
             },
             generateVertex: function (vertex) {
                 if (vertex.visible() && !vertex.generated() && !vertex.restricted()) {
-                    vertex.generated(true);
+
                     vertex.on('updateCoordinate', this._updateVertexCoordinateFN = function () {
                         /**
                          * @event updateVertexCoordinate
@@ -163,6 +163,7 @@
                      * @param {nx.data.Vertex} vertex Vertex object
                      */
                     this.fire('addVertex', vertex);
+                    vertex.generated(true);
                 }
             },
 
@@ -186,7 +187,7 @@
                     this.deleteEdgeSetCollection(linkKey);
                 }, this);
 
-                vertex.generated(false);
+
                 vertex.off('updateCoordinate', this._updateVertexCoordinateFN, this);
 
 
@@ -197,6 +198,7 @@
                  */
 
                 this.fire('removeVertex', vertex);
+                vertex.generated(false);
                 return vertex;
             },
             /**

@@ -170,10 +170,10 @@
             _expand: function () {
                 var graph = this.graph();
 
-                var parentVertexSet = this.parentVertexSet();
-                if (parentVertexSet) {
-                    parentVertexSet.activated(false);
-                }
+//                var parentVertexSet = this.parentVertexSet();
+//                if (parentVertexSet) {
+//                    parentVertexSet.activated(false);
+//                }
 
                 this._activated = false;
 
