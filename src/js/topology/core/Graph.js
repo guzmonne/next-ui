@@ -314,6 +314,9 @@
                         this.off('topologyGenerated', fn, this);
                     }, this);
                 }
+                if (data == null || !nx.is(data, Object) || data.nodes == null) {
+                    return;
+                }
                 this.data(data);
             },
             /**

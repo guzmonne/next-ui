@@ -188,13 +188,28 @@
                 if (inNodes.length < 2) {
                     return;
                 }
+
+
+                var nodes = [];
+                nx.each(inNodes, function (n) {
+                    if (nx.is(n, nx.graphic.Topology.AbstractNode)) {
+                        nodes.push(n);
+                    } else {
+                        var node = this.getNode(n);
+                        if (node) {
+                            nodes.push(node);
+                        }
+                    }
+                }, this);
+
+
                 var config = inConfig || {};
                 var vertexSetData = nx.extend({nodes: []}, config);
                 var parentNodeSet;
                 var isSameParentNodeSet = true;
 
                 //check different parent nodeSet aggregate
-                nx.each(inNodes, function (node) {
+                nx.each(nodes, function (node) {
                     var _parentNodeSet = node.parentNodeSet();
                     if (_parentNodeSet) {
                         // get the first parentNodeSet
@@ -216,7 +231,7 @@
                 //check incremental aggregate
 
                 if (parentNodeSet && parentNodeSet.activated() === false) {
-                    var _nodes = inNodes.slice(0);
+                    var _nodes = nodes.slice(0);
                     var isIncrementAggregate = true;
 
                     nx.each(parentNodeSet.nodes(), function (node) {
@@ -229,7 +244,7 @@
 
                     // if select nodes in a same group
                     if (_nodes.length === 0) {
-                        if (nx.util.values(parentNodeSet.nodes()).length == inNodes.length) {
+                        if (nx.util.values(parentNodeSet.nodes()).length == nodes.length) {
                             return;
                         }
                     }
@@ -246,7 +261,7 @@
                 //check extra node aggregate into a nodeSet
                 if (parentNodeSet) {
                     var includeExtraNode = false;
-                    nx.each(inNodes, function (node) {
+                    nx.each(nodes, function (node) {
                         var _parentNodeSet = node.parentNodeSet();
                         if (!_parentNodeSet || parentNodeSet != _parentNodeSet) {
                             includeExtraNode = true;
@@ -263,7 +278,7 @@
 
                 var aggregationRule = this.aggregationRule();
                 if (aggregationRule && nx.is(aggregationRule, 'Function')) {
-                    var result = aggregationRule.call(this, inNodes, inConfig);
+                    var result = aggregationRule.call(this, nodes, inConfig);
                     if (result === false) {
                         return;
                     }
@@ -271,11 +286,11 @@
 
                 vertexSetData.label = config.label;
                 if (config.label == null) {
-                    vertexSetData.label = [inNodes[0].label(), inNodes[inNodes.length - 1].label()].sort().join("-");
+                    vertexSetData.label = [nodes[0].label(), nodes[nodes.length - 1].label()].sort().join("-");
                 }
 
-                vertexSetData.x = config.x == null ? inNodes[0].model().x() : config.x;
-                vertexSetData.y = config.y == null ? inNodes[0].model().y() : config.y;
+                vertexSetData.x = config.x == null ? nodes[0].model().x() : config.x;
+                vertexSetData.y = config.y == null ? nodes[0].model().y() : config.y;
                 //vertexSetData.root = rootNodeID || inNodes[0].id();
 
                 var vertexSetConfig = {};
