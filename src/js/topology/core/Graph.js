@@ -30,7 +30,7 @@
                     return this.graph().getData();
                 },
                 set: function (value) {
-                    if (!value) {
+                    if (value == null || !nx.is(value, Object) || value.nodes == null) {
                         return;
                     }
 
