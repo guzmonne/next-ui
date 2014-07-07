@@ -33,6 +33,11 @@
             },
             dragNodeEnd: function (sender, node) {
                 this.dispatchTopoOriginalEvent('dragNodeEnd');
+                this.MVM().topologyVM().updated(true);
+            },
+            dragNodeSetEnd: function (sender, node) {
+                this.dispatchTopoOriginalEvent('dragNodeSetEnd');
+                this.MVM().topologyVM().updated(true);
             },
             expandNodeSet: function (sender, nodeSet) {
                 if (this.expandALL()) {

@@ -37,6 +37,7 @@
                     'enterNodeSet': '{topologyVM.event.enterNodeSet}',
                     'leaveNodeSet': '{topologyVM.event.leaveNodeSet}',
                     'dragNodeEnd': '{topologyVM.event.dragNodeEnd}',
+                    'dragNodeSetEnd': '{topologyVM.event.dragNodeSetEnd}',
                     'expandNodeSet': '{topologyVM.event.expandNodeSet}'
                 }
             }

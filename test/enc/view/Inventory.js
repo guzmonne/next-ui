@@ -3,7 +3,7 @@
     ENC.TW.inventory = {
         generated: {
             convert: function (value) {
-                return value ? 'tw-inventory-list-item-generated' : ''
+                return value ? 'tw-inventory-list-item-generated' : 'tw-inventory-list-item'
             }
         },
         icon: {
@@ -41,8 +41,7 @@
                             template: {
                                 tag: 'li',
                                 props: {
-                                    'class': '{value.generated,converter=ENC.TW.inventory.generated}',
-                                    selected: ''
+                                    'class': '{value.generated,converter=ENC.TW.inventory.generated}'
                                 },
                                 content: [
                                     {
@@ -76,6 +75,15 @@
                                         events: {
                                             'click': '{#_showInfo}'
                                         }
+                                    },
+                                    {
+                                        tag: 'span',
+                                        props: {
+                                            'class': 'tw-inventory-list-item-locate-node  fa fa-bullseye'
+                                        },
+                                        events: {
+                                            'click': '{#_locateNode}'
+                                        }
                                     }
                                 ],
                                 events: {
@@ -86,6 +94,15 @@
                             }
                         }
                     }
+                },
+                {
+//                    tag: 'button',
+//                    props: {
+//                        'class': 'btn btn-info btn-xs'
+//                    },
+//                    content: 'Save Layout',
+//                    events: {
+//                    }
                 },
                 {
                     name: 'info',
@@ -136,6 +153,9 @@
                 this.view('info').dom().setStyles({
                     display: 'none'
                 })
+            },
+            _locateNode: function (sender, events) {
+                var vertex = sender.model().value();
             }
         }
     });

@@ -12,7 +12,7 @@
                 dependencies: ['type'],
                 update: function (type) {
                     if (type) {
-                        util.getJSON(config.physical, function (data) {
+                        util.getJSON(config[type] || config.physical, function (data) {
                             this.data(data.response);
                         }, this);
                     }
