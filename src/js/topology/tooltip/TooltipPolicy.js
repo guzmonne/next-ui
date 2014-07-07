@@ -39,6 +39,12 @@
             },
             fitStage: function () {
                 this._tm.closeAll();
+            },
+            deleteNode: function () {
+                this._tm.closeAll();
+            },
+            deleteNodeSet: function () {
+                this._tm.closeAll();
             }
         }
     });
