@@ -298,7 +298,9 @@
                 set: function (value) {
                     if (this._initialized && this._source !== value) {
                         this._rebind(0, value);
-                        this._updateTarget();
+                        if (this._direction[0] == '<') {
+                            this._updateTarget();
+                        }
                         this._source = value;
                     }
                 }
@@ -361,7 +363,7 @@
                         }
 
                         if (direction == 'auto') {
-                            direction = (bindingMeta && bindingMeta.direction) || '<-';
+                            direction = this._direction = (bindingMeta && bindingMeta.direction) || '<-';
                         }
 
                         if (format == 'auto') {
@@ -378,7 +380,7 @@
                         }
 
                         if (direction == 'auto') {
-                            direction = '<-';
+                            direction = this._direction = '<-';
                         }
 
                         if (format == 'auto') {
