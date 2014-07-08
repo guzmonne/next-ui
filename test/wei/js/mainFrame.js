@@ -15,84 +15,12 @@
                         }
                     },
                     content: [
-                        {
-                            tag: 'span',
-                            props: {
-                                style: {
-                                    width: '80%',
-                                    height: 20,
-                                    'float': 'left',
-                                    color: 'white',
-                                    'margin-left': '8px'
-                                }
-                            },
-                            content: [
-                                {
-                                    props: {
-                                        style: {
-                                            color: 'red',
-                                            float: 'left'
-                                        }
-                                    },
-                                    content: 'TEST NAME:    '
-                                },
-                                {content: '{#model.testname}'}
-                            ]
-                        },
-                        {
-                            tag: 'span',
-                            props: {
-                                style: {
-                                    width: '80%',
-                                    height: 20,
-                                    'float': 'left',
-                                    color: 'white',
-                                    'margin-left': '8px'
-                                }
-                            },
-                            content: [
-                                {
-                                    props: {
-                                        style: {
-                                            color: 'red',
-                                            float: 'left'
-                                        }
-                                    },
-                                    content: 'TEST DESC:    '
-                                },
-                                {content: '{#model.description}'}
-                            ]
-                        },
-                        {
-                            tag: 'span',
-                            props: {
-                                style: {
-                                    width: '80%',
-                                    height: 80,
-                                    'float': 'left',
-                                    color: 'white',
-                                    'margin-left': '8px',
-                                    overflow: 'scroll'
-                                }
-                            },
-                            content: [
-                                {
-                                    props: {
-                                        style: {
-                                            color: 'red',
-                                            float: 'left'
-                                        }
-                                    },
-                                    content: 'TEST OUTPUT:    '
-                                },
-                                {content: '{#model.output}'}
-                            ]
-                        },
+
                         {
                             props: {
                                 style: {
-                                    float: 'right',
-                                    'margin-right': 110
+                                    float: 'left',
+                                    'margin-right': 40
                                 }
                             },
                             content: [
@@ -210,8 +138,80 @@
                                 }
 
                             ]
-                        }
-
+                        },
+                        {
+                            tag: 'span',
+                            props: {
+                                style: {
+                                    width: '80%',
+                                    height: 20,
+                                    'float': 'right',
+                                    color: 'white',
+                                    'margin-left': '8px'
+                                }
+                            },
+                            content: [
+                                {
+                                    props: {
+                                        style: {
+                                            color: 'red',
+                                            float: 'left'
+                                        }
+                                    },
+                                    content: 'TEST NAME:    '
+                                },
+                                {content: '{#model.testname}'}
+                            ]
+                        },
+                        {
+                            tag: 'span',
+                            props: {
+                                style: {
+                                    width: '80%',
+                                    height: 20,
+                                    'float': 'left',
+                                    color: 'white',
+                                    'margin-left': '8px'
+                                }
+                            },
+                            content: [
+                                {
+                                    props: {
+                                        style: {
+                                            color: 'red',
+                                            float: 'left'
+                                        }
+                                    },
+                                    content: 'TEST DESC:    '
+                                },
+                                {content: '{#model.description}'}
+                            ]
+                        },
+                        {
+                            tag: 'span',
+                            props: {
+                                style: {
+                                    width: '80%',
+                                    height: 80,
+                                    'float': 'left',
+                                    color: 'white',
+                                    'margin-left': '8px',
+                                    overflow: 'scroll'
+                                }
+                            },
+                            content: [
+                                {
+                                    props: {
+                                        style: {
+                                            color: 'red',
+                                            float: 'left'
+                                        }
+                                    },
+                                    content: 'TEST OUTPUT:    '
+                                },
+                                {content: '{#model.output}'}
+                            ]
+                        },
                     ]
                 },
                 {

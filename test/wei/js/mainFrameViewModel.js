@@ -29,6 +29,9 @@ nx.define('topo.test.ViewModel', nx.Observable, {
         },
         menustatus: {
             value: 'btn-group'
+        },
+        tearDown: {
+            value: null
         }
 
 
@@ -42,13 +45,19 @@ nx.define('topo.test.ViewModel', nx.Observable, {
             this.description(tcase[0].description);
             this.script(tcase[0].script);
             this.testname(tcase[0].name);
+            this.tearDown(tcase[0].tearDown)
             this.index(0);
         },
         casePass: function (sender, event) {
             test(this.testname(), function () {
                 ok(true);
             })
-            this.topoRestore()
+            if (this.tearDown()) {
+                console.log(this.tearDown());
+                this.tearDown()(this.topo())
+            }
+
+
             this.passed().push(this.testname());
             this.nextcase(this.index() + 1);
 //            app.fire('generateReport');
@@ -57,6 +66,10 @@ nx.define('topo.test.ViewModel', nx.Observable, {
             test(this.testname(), function () {
                 ok(false);
             })
+            if (this.tearDown()) {
+                console.log(this.tearDown());
+                this.tearDown()(this.topo());
+            }
             this.topoRestore();
             this.failed().push(this.testname());
             this.nextcase(this.index() + 1);
@@ -68,6 +81,7 @@ nx.define('topo.test.ViewModel', nx.Observable, {
                 this.description(this.tcase()[index].description);
                 this.script(this.tcase()[index].script);
                 this.testname(this.tcase()[index].name);
+                this.tearDown(this.tcase()[index].tearDown)
                 this.index(index);
             }
             else {
@@ -77,11 +91,18 @@ nx.define('topo.test.ViewModel', nx.Observable, {
             }
         },
         jumpTo: function (data) {
+            if(this.tearDown())
+            {
+                console.log(this.tearDown())
+                this.tearDown()(this.topo());
+            }
+
             this.script(null);
             this.topoRestore();
             this.description(data.description);
             this.script(data.script);
             this.testname(data.name);
+            this.tearDown(data.tearDown)
         },
         menuaction: function () {
             if (this.menustatus() == 'btn-group')
@@ -129,7 +150,8 @@ nx.define('topo.test.ViewModel', nx.Observable, {
                 }
             }
             catch (err) {
-                this.output(err.message)
+                this.output(err.message);
+                console.log(err.stack)
             }
 
             // })
