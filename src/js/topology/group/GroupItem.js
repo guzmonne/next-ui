@@ -23,7 +23,7 @@
             },
             /**
              * Node array in the shape
-             * @property nodes {nx.data.ObservableCollection}
+             * @property nodes {Array}
              */
             nodes: {
                 get: function () {

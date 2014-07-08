@@ -17,14 +17,14 @@
      * Topology group layer class
 
      var groupsLayer = topo.getLayer('groups');
-     var nodes1 = [sender.getNode(0), sender.getNode(1)];
+     var nodes1 = [0, 1];
      var group1 = groupsLayer.addGroup({
                     nodes: nodes1,
                     label: 'Rect',
                     color: '#f00'
                 });
      group1.on('clickGroupLabel', function (sender, events) {
-                    console.log(group1.nodes().toArray());
+                    console.log(group1.nodes());
                 }, this);
 
      *
@@ -46,8 +46,8 @@
         properties: {
             shapeType: 'polygon',
             /**
-             * Groups collection
-             * @property groupItems {Array}
+             * Groups elements
+             * @property groupItems {nx.data.ObservableDictionary}
              */
             groupItems: {
                 value: function () {
@@ -64,6 +64,10 @@
                     return dict;
                 }
             },
+            /**
+             * groups data
+             * @property groups {Array}
+             */
             groups: {
                 get: function () {
                     return this._groups || [];
@@ -163,14 +167,30 @@
                     groupItems.removeItem(id);
                 }
             },
-            getGroup: function (key) {
-                return this.groupItems().getItem(key);
+            /**
+             * Get a group by id
+             * @method getGroup
+             * @param id
+             * @returns {*}
+             */
+            getGroup: function (id) {
+                return this.groupItems().getItem(id);
             },
+            /**
+             * Iterate all group
+             * @method eachGroupItem
+             * @param callBack
+             * @param context
+             */
             eachGroupItem: function (callBack, context) {
                 this.groupItems().each(function (item) {
                     callBack.call(context || this, item.value(), item.key());
                 }, this);
             },
+            /**
+             * clear all group
+             * @clear
+             */
             clear: function () {
                 this.groupItems().clear();
                 this.inherited();

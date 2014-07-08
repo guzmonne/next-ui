@@ -79,6 +79,9 @@
         "src/js/data/UniqObservableCollection.js",
 
 
+
+
+
         "src/js/topology/core/Config.js",
         "src/js/topology/core/Graph.js",
         "src/js/topology/core/Event.js",
@@ -93,6 +96,8 @@
         "src/js/topology/core/Topology.js",
 
         "src/js/topology/layer/Layer.js",
+
+        "src/js/topology/node/NodeWatcher.js",
         "src/js/topology/node/AbstractNode.js",
         "src/js/topology/node/Node.js",
         "src/js/topology/node/NodesLayer.js",

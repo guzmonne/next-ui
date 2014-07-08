@@ -88,13 +88,59 @@
                     return new nx.data.UniqObservableCollection();
                 }
             },
+            activeNodes: {
+                set: function (value) {
+                    var nodesLayer = this.getLayer("nodes");
+                    var nodeSetLayer = this.getLayer("nodeSet");
+                    var watcher = this._activeNodesWatcher;
+                    if (!watcher) {
+                        watcher = this._activeNodesWatcher = new nx.graphic.Topology.NodeWatcher();
+                        watcher.topology(this);
+                        watcher.updater(function () {
+                            var nodes = watcher.getNodes();
+                            nx.each(nodes, function (node) {
+                                if (node.model().type() == 'vertex') {
+                                    nodesLayer.activeElements().add(node);
+                                } else {
+                                    nodeSetLayer.activeElements().add(node);
+                                }
+                            }, this);
+                        }.bind(this));
+                    }
+                    nodesLayer.activeElements().clear();
+                    nodeSetLayer.activeElements().clear();
+                    watcher.nodes(value);
+                    this._activeNodes = value;
+                }
+            },
+            highlightedNodes: {
+                set: function (value) {
+                    var nodesLayer = this.getLayer("nodes");
+                    var nodeSetLayer = this.getLayer("nodeSet");
+                    var watcher = this._highlightedNodesWatcher;
+                    if (!watcher) {
+                        watcher = this._highlightedNodesWatcher = new nx.graphic.Topology.NodeWatcher();
+                        watcher.topology(this);
+                        watcher.updater(function () {
+                            nx.each(watcher.getNodes(), function (node) {
+                                if (node.model().type() == 'vertex') {
+                                    nodesLayer.highlightedElements().add(node);
+                                } else {
+                                    nodeSetLayer.highlightedElements().add(node);
+                                }
+                            }, this);
+                        }.bind(this));
+                    }
+
+                    nodesLayer.highlightedElements().clear();
+                    nodeSetLayer.highlightedElements().clear();
+                    watcher.nodes(value);
+                    this._highlightedNodes = value;
+                }
+            },
             aggregationRule: {
 
-            },
-            enableNodeSetAnimation: {
-                value: true
             }
-
         },
         methods: {
             initNode: function () {
