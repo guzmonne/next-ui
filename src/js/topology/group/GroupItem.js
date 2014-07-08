@@ -176,7 +176,7 @@
             },
             updateNodesPosition: function (x, y) {
                 var stageScale = this.topology().stageScale();
-                this.getNodes().each(function (node) {
+                nx.each(this.getNodes(), function (node) {
                     node.move(x * stageScale, y * stageScale);
                 });
             },

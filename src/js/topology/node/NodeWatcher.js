@@ -26,7 +26,7 @@
                     if (nx.is(value, Array) || nx.is(value, nx.data.ObservableCollection)) {
                         nx.each(value, function (item) {
                             var vertex = this._getVertex(item);
-                            if (vertices.indexOf(vertex) == -1) {
+                            if (vertex && vertices.indexOf(vertex) == -1) {
                                 vertices.push(vertex);
                             }
                         }, this);

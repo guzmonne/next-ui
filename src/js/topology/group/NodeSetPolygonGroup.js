@@ -25,6 +25,7 @@
                     }
                 },
                 {
+                    name: 'icons',
                     type: 'nx.graphic.Group',
                     content: [
                         {
@@ -74,16 +75,17 @@
                                 }
                             },
                             events: {
-                                'mousedown': '{#_mousedown}',
-                                'dragstart': '{#_dragstart}',
-                                'dragmove': '{#_drag}',
-                                'dragend': '{#_dragend}'
+
                             }
                         }
                     ],
                     events: {
                         'mouseenter': '{#_mouseenter}',
-                        'mouseleave': '{#_mouseleave}'
+                        'mouseleave': '{#_mouseleave}',
+                        'mousedown': '{#_mousedown}',
+                        'dragstart': '{#_dragstart}',
+                        'dragmove': '{#_drag}',
+                        'dragend': '{#_dragend}'
                     }
                 },
 //                {
@@ -222,7 +224,7 @@
                 this.fire('clickGroupLabel');
             },
             _mousedown: function (sender, event) {
-                event.captureDrag(this.view('labelContainer'));
+                event.captureDrag(this.view('icons'));
             },
             _dragstart: function (sender, event) {
                 this.blockDrawing(true);
