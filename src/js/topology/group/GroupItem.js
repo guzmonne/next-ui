@@ -132,7 +132,7 @@
                 var topo = this.topology();
                 var graph = topo.graph();
                 var vertices = this.vertices();
-                var nodes = this._nodes();
+                var nodes = this.nodes();
 
                 if (nx.is(value, nx.graphic.Topology.AbstractNode)) {
                     vertex = value.model();
@@ -155,6 +155,8 @@
                         }
 
                     }
+
+                    this.draw();
 
                 }
 
