@@ -83,7 +83,7 @@
                 text.setTransform((bound.left + bound.width / 2) * stageScale, (bound.top + bound.height / 2 - radius - 12) * stageScale, stageScale);
                 text.view().dom().setStyle('fill', this.color());
 
-                this.view('label').view().dom().setStyle('font-size', 18 * revisionScale);
+                this.view('label').view().dom().setStyle('font-size', 11);
 
 
                 this.setTransform(0, 0);

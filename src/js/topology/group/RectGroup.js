@@ -86,7 +86,7 @@
                 text.setTransform((bound.left + bound.width / 2) * stageScale, (bound.top - 12) * stageScale, stageScale);
                 text.view().dom().setStyle('fill', this.color());
 
-                this.view('label').view().dom().setStyle('font-size', 18 * revisionScale);
+                this.view('label').view().dom().setStyle('font-size', 11);
             },
             _clickLabel: function (sender, event) {
                 this.fire('clickGroupLabel');
