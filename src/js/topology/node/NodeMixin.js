@@ -437,7 +437,22 @@
              * Batch action, highlight node and related nodes and connected links.
              * @param node
              */
-            highlightRelatedNode: function (node) {
+            highlightRelatedNode: function (inNode) {
+                var node;
+                if (!inNode) {
+                    return;
+                }
+
+                if (nx.is(inNode, nx.graphic.Topology.AbstractNode)) {
+                    node = inNode;
+                } else {
+                    node = this.getNode(inNode);
+                }
+                if (!node) {
+                    return;
+                }
+
+
                 var nodeSetLayer = this.getLayer('nodeSet');
                 var nodeLayer = this.getLayer('nodes');
 
@@ -473,7 +488,21 @@
              * Batch action, highlight node and related nodes and connected links.
              * @param node
              */
-            activeRelatedNode: function (node) {
+            activeRelatedNode: function (inNode) {
+
+                var node;
+                if (!inNode) {
+                    return;
+                }
+
+                if (nx.is(inNode, nx.graphic.Topology.AbstractNode)) {
+                    node = inNode;
+                } else {
+                    node = this.getNode(inNode);
+                }
+                if (!node) {
+                    return;
+                }
 
 
                 var nodeSetLayer = this.getLayer('nodeSet');

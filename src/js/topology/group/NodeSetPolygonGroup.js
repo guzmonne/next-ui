@@ -10,7 +10,7 @@
      */
 
     nx.define('nx.graphic.Topology.NodeSetPolygonGroup', nx.graphic.Topology.GroupItem, {
-        events: ['dragGroupStart', 'dragGroup', 'dragGroupEnd', 'clickGroupLabel', 'enterGroup', 'leaveGroup'],
+        events: ['dragGroupStart', 'dragGroup', 'dragGroupEnd', 'clickGroupLabel', 'enterGroup', 'leaveGroup', 'collapseNodeSetGroup'],
         view: {
             type: 'nx.graphic.Group',
             props: {
@@ -239,10 +239,7 @@
 
             },
             _collapse: function () {
-                var nodeSet = this.nodeSet();
-                if (nodeSet) {
-                    nodeSet.collapsed(true);
-                }
+                this.fire('collapseNodeSetGroup', event);
             },
             _mouseenter: function (sender, event) {
                 this.fire('enterGroup');

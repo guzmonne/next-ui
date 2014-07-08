@@ -128,6 +128,12 @@
                     }
                 }, this);
             },
+            collapseNodeSetGroup: function (sender, group) {
+
+            },
+            enterGroup: function (sender, group) {
+
+            },
             _hittest: function (sourceBound, targetBound) {
                 var t = targetBound.top >= sourceBound.top && targetBound.top <= ((sourceBound.top + sourceBound.height)),
                     l = targetBound.left >= sourceBound.left && targetBound.left <= (sourceBound.left + sourceBound.width),

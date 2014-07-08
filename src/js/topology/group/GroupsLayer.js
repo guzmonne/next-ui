@@ -42,7 +42,7 @@
              */
             colorTable: colorTable
         },
-        events: ['dragGroupStart', 'dragGroup', 'dragGroupEnd', 'clickGroupLabel', 'enterGroup', 'leaveGroup'],
+        events: ['dragGroupStart', 'dragGroup', 'dragGroupEnd', 'clickGroupLabel', 'enterGroup', 'leaveGroup', 'collapseNodeSetGroup'],
         properties: {
             shapeType: 'polygon',
             /**
@@ -137,7 +137,7 @@
 
                 groupItems.setItem(id, group);
 
-                var events = ['dragGroupStart', 'dragGroup', 'dragGroupEnd', 'clickGroupLabel', 'enterGroup', 'leaveGroup'];
+                var events = ['dragGroupStart', 'dragGroup', 'dragGroupEnd', 'clickGroupLabel', 'enterGroup', 'leaveGroup', 'collapseNodeSetGroup'];
 
                 nx.each(events, function (e) {
                     group.on(e, function () {
