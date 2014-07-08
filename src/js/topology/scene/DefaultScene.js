@@ -31,7 +31,8 @@
             dispatch: function (eventName, sender, data) {
                 this._tooltipManager.executeAction(eventName, data);
             },
-            pressStage: function (sender, event) {},
+            pressStage: function (sender, event) {
+            },
             clickStage: function (sender, event) {
                 if (event.target == this._topo.stage().view().dom().$dom) {
                     this._topo.selectedNodes().clear();
@@ -160,9 +161,11 @@
             },
 
 
-            enterLink: function (sender, events) {},
+            enterLink: function (sender, events) {
+            },
 
-            pressNodeSet: function (sender, nodeSet) {},
+            pressNodeSet: function (sender, nodeSet) {
+            },
             clickNodeSet: function (sender, nodeSet) {
                 clearTimeout(this._sceneTimer);
                 this._recover();
@@ -192,15 +195,14 @@
                 var parentNodeSet = nodeSet.parentNodeSet();
                 while (parentNodeSet && parentNodeSet.group) {
                     var group = parentNodeSet.group;
-                    group.nodes().clear();
-                    group.nodes().addRange(nx.util.values(parentNodeSet.nodes()));
+                    group.clear();
+                    group.nodes(nx.util.values(parentNodeSet.nodes()));
                     group.draw();
                     parentNodeSet = parentNodeSet.parentNodeSet();
 
                     //                    group.opacity(0.6 - depth * 0.2);
                     //                    depth++;
                 }
-
 
             },
             expandNodeSet: function (sender, nodeSet) {
@@ -237,39 +239,28 @@
                 }
 
                 nx.each(nodeSet.nodeSets(), function (ns, id) {
-                    if (ns) {
+                    if (ns.group) {
                         this._groupsLayer.removeGroup(ns.id());
                         delete ns.group;
                     }
                 }, this);
-
-
+                
                 this._topo.fadeIn();
                 this._topo.recoverHighlight();
             },
             collapseNodeSet: function (sender, nodeSet) {
-
-                nodeSet.visible(true);
                 var parentNodeSet = nodeSet.parentNodeSet();
                 while (parentNodeSet && parentNodeSet.group) {
                     var group = parentNodeSet.group;
-                    group.nodes().clear();
-                    group.nodes().addRange(nx.util.values(parentNodeSet.nodes()));
-
+                    group.clear();
+                    group.nodes(nx.util.values(parentNodeSet.nodes()));
                     parentNodeSet = parentNodeSet.parentNodeSet();
-
-                    //                    group.opacity(0.8 - depth * 0.2);
-                    //                    depth++;
                 }
 
                 this._topo.stage().resetFitMatrix();
-
-
                 this._topo.fit(function () {
                     this._blockEvent(false);
                 }, this);
-
-
             },
             removeNodeSet: function (sender, nodeSet) {
                 if (nodeSet.group) {
@@ -319,13 +310,16 @@
             },
             addNodeSet: function () {
                 this._topo.stage().resetFitMatrix();
+                this._topo.fit();
                 this._topo.adjustLayout();
+
             },
             removeNode: function () {
                 this._topo.adjustLayout();
             },
 
-            dragGroupStart: function (sender, group) {},
+            dragGroupStart: function (sender, group) {
+            },
 
             dragGroup: function (sender, group) {
                 if (event) {
@@ -335,7 +329,8 @@
                 }
             },
 
-            dragGroupEnd: function (sender, group) {},
+            dragGroupEnd: function (sender, group) {
+            },
             clickGroupLabel: function (sender, group) {
 
             },

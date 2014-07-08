@@ -259,7 +259,7 @@
              * @method move
              * @param x {Number}
              * @param y {Number}
-             * @param [duration] {Number} default is 0,second
+             * @param [duration] {Number} default is 0
              */
             move: function (x, y, duration) {
                 var stage = this.stage();

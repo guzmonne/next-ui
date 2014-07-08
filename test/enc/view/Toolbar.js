@@ -17,21 +17,19 @@
                             content: [
                                 {
                                     tag: 'span',
-                                    content: 'Optimize Label',
+                                    content: 'Layer',
+                                    props: {
+                                        target: 'layer'
+                                    },
                                     events: {
-                                        'click': '{controlVM.viewSetting.optimizeLabel}'
+                                        'click': '{#_toggle}'
                                     }
-                                }
-                            ]
-                        },
-                        {
-                            tag: 'li',
-                            content: [
+                                },
                                 {
-                                    tag: 'span',
-                                    content: 'Expand All',
-                                    events: {
-                                        'click': '{topologyVM.expandAll}'
+                                    name: 'layer',
+                                    type: 'ENC.TW.View.Layer',
+                                    props: {
+                                        'class': 'tw-toolbar-body n-hidden'
                                     }
                                 }
                             ]
@@ -42,8 +40,11 @@
                                 {
                                     tag: 'span',
                                     content: 'Inventory',
+                                    props: {
+                                        target: 'inventory'
+                                    },
                                     events: {
-                                        'click': '{#_toggleInventory}'
+                                        'click': '{#_toggle}'
                                     }
                                 },
                                 {
@@ -60,10 +61,33 @@
                             content: [
                                 {
                                     tag: 'span',
+                                    props: {
+                                        target: 'aggregation'
+                                    },
+                                    content: 'Aggregation',
+
+                                    events: {
+                                        'click': '{#_toggle}'
+                                    }
+                                },
+                                {
+                                    name: 'aggregation',
+                                    type: 'ENC.TW.View.Aggregation',
+                                    props: {
+                                        'class': 'tw-toolbar-body n-hidden'
+                                    }
+                                }
+                            ]
+                        } ,
+                        {
+                            tag: 'li',
+                            content: [
+                                {
+                                    tag: 'span',
                                     content: [
                                         {
                                             tag: 'span',
-                                            content: 'Aggregation'
+                                            content: 'Selection'
                                         },
                                         {
                                             tag: 'span',
@@ -73,15 +97,78 @@
                                             content: '{topology.selectedNodes.count}'
                                         }
                                     ],
+                                    props: {
+                                        target: 'selection'
+                                    },
                                     events: {
-                                        'click': '{#_toggleAggregation}'
+                                        'click': '{#_toggle}'
                                     }
                                 },
                                 {
-                                    name: 'aggregation',
-                                    type: 'ENC.TW.View.Aggregation',
+                                    name: 'selection',
+                                    type: 'ENC.TW.View.Selection',
                                     props: {
                                         'class': 'tw-toolbar-body n-hidden'
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            tag: 'li',
+                            content: [
+                                {
+                                    tag: 'span',
+                                    content: 'Layout',
+                                    props: {
+                                        target: 'layout'
+                                    },
+                                    events: {
+                                        'click': '{#_toggle}'
+                                    }
+                                },
+                                {
+                                    name: 'layout',
+                                    type: 'ENC.TW.View.Layout',
+                                    props: {
+                                        'class': 'tw-toolbar-body n-hidden'
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            tag: 'li',
+                            content: [
+                                {
+                                    tag: 'span',
+                                    content: 'Setting',
+                                    props: {
+                                        target: 'setting'
+                                    },
+                                    events: {
+                                        'click': '{#_toggle}'
+                                    }
+                                },
+                                {
+                                    name: 'setting',
+                                    type: 'ENC.TW.View.Setting',
+                                    props: {
+                                        'class': 'tw-toolbar-body n-hidden'
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            tag: 'li',
+                            content: [
+                                {
+                                    tag: 'span',
+                                    content: 'Save',
+                                    props: {
+                                        'class': 'tw-save-btn',
+                                        visible: '{topologyVM.updated}'
+                                    },
+                                    events: {
+                                        'click': '{topologyVM.savePosition}'
                                     }
                                 }
                             ]
@@ -93,17 +180,23 @@
         properties: {
         },
         methods: {
-            _toggleInventory: function (sender, events) {
-                this.view('aggregation').dom().addClass('n-hidden');
-                this.view('inventory').dom().toggleClass('n-hidden');
+            _toggle: function (sender, event) {
+                var target = sender.get('target');
+                this._toggleClass(target);
             },
-            _toggleAggregation: function (sender, events) {
-                this.view('inventory').dom().addClass('n-hidden');
-                this.view('aggregation').dom().toggleClass('n-hidden');
+            _toggleClass: function (name) {
+                var dom = this.view(name).dom();
+                if (dom.hasClass('n-hidden')) {
+                    this._closeAll();
+                    dom.removeClass('n-hidden');
+                } else {
+                    this._closeAll();
+                }
             },
             _closeAll: function () {
-                this.view('inventory').dom().addClass('n-hidden');
-                this.view('aggregation').dom().addClass('n-hidden');
+                nx.each(document.querySelectorAll('.tw-toolbar-body'), function (dom) {
+                    dom.classList.add('n-hidden');
+                })
             }
         }
     });

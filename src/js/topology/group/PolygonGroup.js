@@ -79,7 +79,7 @@
                     y: topo.matrix().y()
                 };
                 var vectorArray = [];
-                this.nodes().each(function (node) {
+                nx.each(this.getNodes(), function (node) {
                     if (node.visible()) {
                         vectorArray.push({x: node.model().x(), y: node.model().y()});
                     }

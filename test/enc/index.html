@@ -9,10 +9,10 @@
     <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/NeXt-UI/lastSuccessfulBuild/artifact/dest/js/next-ui.js"></script>
     <!--<script type="text/javascript" src="lib/NeXt/next-ui/js/next-ui.js"></script>-->
     <link rel="stylesheet" href="http://10.75.161.96:8080/jenkins/job/NeXt-UI/lastSuccessfulBuild/artifact/dest/css/next-blue.css"/>
-    <!--<script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/Next-Graphic/lastSuccessfulBuild/artifact/dest/js/next-graphic.js"></script>-->
+    <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/Next-Graphic/lastSuccessfulBuild/artifact/dest/js/next-graphic.js"></script>
 
 
-    <script type="text/javascript" src="../../src/js/next-graphic.js"></script>
+    <!--<script type="text/javascript" src="../../src/js/next-graphic.js"></script>-->
     <!--<script type="text/javascript" src="../../dest/js/next-graphic.minx.js"></script>-->
     <link rel="stylesheet" href="../../src/less/next-graphic.css"/>
 
@@ -43,6 +43,10 @@
     <script type="text/javascript" src="view/Toolbar.js"></script>
     <script type="text/javascript" src="view/Inventory.js"></script>
     <script type="text/javascript" src="view/Aggregation.js"></script>
+    <script type="text/javascript" src="view/Layer.js"></script>
+    <script type="text/javascript" src="view/Selection.js"></script>
+    <script type="text/javascript" src="view/Setting.js"></script>
+    <script type="text/javascript" src="view/Layout.js"></script>
 
     <!-- viewModel -->
     <script type="text/javascript" src="viewmodel/Main.js"></script>
@@ -55,6 +59,9 @@
     <script type="text/javascript" src="viewmodel/ControlVM.ViewSetting.js"></script>
     <script type="text/javascript" src="viewmodel/ControlVM.Inventory.js"></script>
     <script type="text/javascript" src="viewmodel/ControlVM.Aggregation.js"></script>
+    <script type="text/javascript" src="viewmodel/ControlVM.Layer.js"></script>
+    <script type="text/javascript" src="viewmodel/ControlVM.Selection.js"></script>
+    <script type="text/javascript" src="viewmodel/ControlVM.Layout.js"></script>
 
 
 </head>
@@ -68,8 +75,7 @@
                 vm = new ENC.TW.ViewModel();
                 viewer.model(vm);
                 viewer.attach(this);
-
-                this.on('resize', vm.topologyVM().event().resize(), this);
+                this.on('resize', vm.topologyVM().adapt, vm.topologyVM());
             }
         }
     });

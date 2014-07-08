@@ -18,7 +18,7 @@
                     var nodes = {};
                     var topo = this.topology();
                     var model = this.model();
-                    if (this.activated()) {
+                    if (this.model().activated()) {
                         return;
                     }
                     nx.each(model.vertices(), function (vertex, id) {
@@ -121,6 +121,9 @@
                         this.view('label').set('visible', value > 0.4);
                     }
                 }
+            },
+            animation: {
+                value: true
             }
         },
         view: {
@@ -191,87 +194,53 @@
                 this.setBinding('activated', 'model.activated,direction=<>', this);
             },
             update: function () {
-                this.view().visible(this.activated() && this.model().inheritedVisible());
+//                this.view().visible(this.model().activated() && this.model().inheritedVisible());
             },
             expand: function (isAnimation) {
-
+                this._collapsed = false;
+                if (isAnimation != null) {
+                    this._animation = !!isAnimation;
+                }
+                this._expand();
             },
             collapse: function (isAnimation) {
-
+                this._collapsed = true;
+                if (isAnimation != null) {
+                    this._animation = !!isAnimation;
+                }
+                this._collapse();
             },
             _expand: function () {
-                var position = this.position();
-                this.view().visible(false);
                 this.selected(false);
-                this.activated(false);
-                var nodes = this.nodes();
-                var nodeLength = nx.util.keys(nodes).length;
+                this.model().activated(false);
+                this.fire('beforeExpandNode', this);
+//                this.view().visible(false);
 
-
-                if (nodeLength > 50 || nodeLength === 0 || !topo.enableNodeSetAnimation()) {
-                    this.fire('beforeExpandNode', this);
+                this.topology().expandNodes(this.nodes(), this.position(), function () {
                     this.fire('expandNode', this);
-                } else {
-                    var queueCounter = 0;
-                    var finish = function () {
-                        if (queueCounter == nodeLength) {
-                            this.fire('expandNode', this);
-                        }
-                    }.bind(this);
+                }, this, this._animation);
 
-                    nx.each(this.nodes(), function (node) {
-                        var _position = node.position();
-                        node.position(position);
-                        node.moveTo(_position.x, _position.y, function () {
-                            queueCounter++;
-                            finish();
-                        }, true, 600);
-                    }, this);
-                    this.fire('beforeExpandNode', this);
-                }
             },
 
-            _collapse: function (fn) {
-                var positionMap = {};
-                var position = this.position();
-                var topo = this.topology();
-                var graph = topo.graph();
-                var nodes = this.nodes();
-                var nodeLength = nx.util.keys(nodes).length;
+            _collapse: function () {
 
+                this.fire('beforeCollapseNode');
 
-                if (nodeLength > 100) {
-                    this.view().visible(true);
-                    this.activated(true);
-                    this.fire('beforeCollapseNode');
-                    this.fire('collapseNode');
-                } else {
-                    var queueCounter = 0;
-                    var finish = function () {
-                        if (queueCounter == nodeLength) {
-                            this.view().visible(true);
-                            this.activated(true);
-                            nx.each(positionMap, function (position, id) {
-                                var vertex = graph.getVertex(id) || graph.getVertexSet(id);
-                                if (vertex) {
-                                    vertex.position(position);
-                                }
-                            });
-                            this.fire('collapseNode');
-                        }
-                    }.bind(this);
+                this.topology().collapseNodes(this.nodes(), this.position(), function () {
+                    this.model().activated(true);
+//                    this.view().visible(true);
+                    this.fire('collapseNode', this);
+                }, this, this._animation);
 
-                    nx.each(this.nodes(), function (node) {
-                        positionMap[node.model().id()] = node.model().position();
-                        node.moveTo(position.x, position.y, function () {
-                            queueCounter++;
-                            finish();
-                        }, true, 600);
+            },
 
-                    }, this);
-
-                    this.fire('beforeCollapseNode');
+            expandNodes: function (callback, context) {
+                if (this.model().activated()) {
+                    this.topology().expandNodes(this.nodes(), this.position(), callback, context);
                 }
+            },
+            collapseNodes: function (callback, context) {
+                this.topology().collapseNodes(this.nodes(), this.position(), callback, context);
             },
             _updateMinusIcon: function (revisionScale) {
                 var icon = this.view('icon');

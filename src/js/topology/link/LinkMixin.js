@@ -6,7 +6,7 @@
      * @module nx.graphic.Topology
      */
     nx.define("nx.graphic.Topology.LinkMixin", {
-        events: ['addLink'],
+        events: ['addLink', 'deleteLink'],
         properties: {
             /**
              * Is topology support Multiple link , is false will highly improve performance
@@ -51,7 +51,7 @@
                 if (obj.source == null || obj.target == null) {
                     return undefined;
                 }
-                
+
                 var edge = this.graph().addEdge(obj, inOption);
                 var link = this.getLink(edge.id());
                 this.fire("addLink", link);
@@ -64,15 +64,7 @@
              * @returns {boolean}
              */
             removeLink: function (arg) {
-                var id = arg;
-                if (nx.is(arg, nx.graphic.Topology.AbstractLink)) {
-                    id = arg.id();
-                }
-                var link = this.getLink(id);
-                if (link) {
-                    this.fire("removeLink", link);
-                    this.graph().removeEdge(id);
-                }
+                this.deleteLink(arg);
             },
 
             deleteLink: function (arg) {
@@ -81,10 +73,8 @@
                     id = arg.id();
                 }
                 var link = this.getLink(id);
-                if (link) {
-                    this.fire("deleteLink", link);
-                    this.graph().deleteEdge(id);
-                }
+                this.fire("deleteLink", link);
+                this.graph().deleteEdge(id);
             },
 
 

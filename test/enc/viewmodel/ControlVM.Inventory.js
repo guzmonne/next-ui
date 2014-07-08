@@ -5,13 +5,14 @@
         properties: {
             MVM: {},
             graph: {
-                dependencies: ['MVM.topologyGenerated', 'MVM.topology'],
-                value: function (generated, topology) {
-                    if (generated && topology) {
+                dependencies: ['MVM.topologyGenerated', 'MVM.topology', 'MVM.topoData'],
+                value: function (generated, topology, topoData) {
+                    if (generated && topology && topoData) {
                         var graph = topology.graph();
                         var vertices = graph.vertices();
                         this.vertices(vertices.toArray());
                         this.query(new nx.data.Query(vertices));
+                        console.log(vertices.count());
                     }
                 }
             },

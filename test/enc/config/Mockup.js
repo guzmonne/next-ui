@@ -7,7 +7,8 @@
         static: true,
         statics: {
             'physical': serverURL + 'physical.json',
-            'tag': serverURL + 'tag.json'
+            'tag': serverURL + 'tag.json',
+            'ospf': serverURL + 'ospf.json'
         }
     });
 

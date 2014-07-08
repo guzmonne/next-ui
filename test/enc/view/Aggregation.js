@@ -73,27 +73,13 @@
                         },
                         content: [
                             {
-                                tag: 'span',
-                                content: '{controlVM.aggregation.selectedNodes.count,converter=ENC.TW.aggregation.num}'
-                            },
-                            {
-                                tag: 'span',
+                                tag: 'button',
                                 props: {
-
+                                    'class': 'btn btn-warning btn-xs'
                                 },
-                                content: ' been selected.'
-                            },
-                            {
-                                content: {
-                                    tag: 'button',
-                                    props: {
-                                        'class': 'btn btn-warning btn-xs',
-                                        disabled: '{controlVM.aggregation.selectedNodes.count,converter=inverted}'
-                                    },
-                                    content: 'Aggregate',
-                                    events: {
-                                        'click': '{controlVM.aggregation.aggregate}'
-                                    }
+                                content: 'Expand All',
+                                events: {
+                                    'click': '{topologyVM.expandAll}'
                                 }
                             }
                         ]

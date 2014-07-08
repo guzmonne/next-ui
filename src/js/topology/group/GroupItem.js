@@ -26,8 +26,45 @@
              * @property nodes {nx.data.ObservableCollection}
              */
             nodes: {
+                get: function () {
+                    return this._nodes || [];
+                },
+                set: function (value) {
+                    var topo = this.topology();
+                    var graph = topo.graph();
+                    var vertices = this.vertices();
+                    if (nx.is(value, Array) || nx.is(value, nx.data.ObservableCollection)) {
+
+                        //
+                        nx.each(value, function (value) {
+                            var vertex;
+                            if (nx.is(value, nx.graphic.Topology.AbstractNode)) {
+                                vertex = value.model();
+                            } else if (graph.getVertex(value)) {
+                                vertex = graph.getVertex(value);
+                            }
+
+                            if (vertex && vertices.indexOf(vertex) == -1) {
+                                vertices.push(vertex);
+                            }
+
+                        }, this);
+
+                        //
+                        nx.each(vertices, function (vertex) {
+                            this.attachEvent(vertex);
+                        }, this);
+
+                        this.draw();
+
+
+                    }
+                    this._nodes = value;
+                }
+            },
+            vertices: {
                 value: function () {
-                    return new nx.data.ObservableCollection();
+                    return [];
                 }
             },
             /**
@@ -52,38 +89,75 @@
 
         },
         methods: {
-            init: function (args) {
-
-                this.inherited(args);
-
-                var nodes = this.nodes();
-
-                nodes.on('change', function (sender, args) {
-                    var action = args.action;
-                    var items = args.items;
-
-                    if (action == 'add') {
-
-                        nx.each(items, function (node) {
-                            node.on('updateNodeCoordinate', this._draw, this);
-                            node.on('remove', this.removeNode, this);
-                        }, this);
-
-                        this.draw();
-
-                    } else if (action == 'remove') {
-                        nx.each(items, function (node) {
-                            node.off('updateNodeCoordinate', this._draw, this);
-                        }, this);
-
-                        this.draw();
-                    } else if (action == 'clear') {
-                        nx.each(items, function (node) {
-                            node.off('updateNodeCoordinate', this._draw, this);
-                            node.off('remove', this.removeNode, this);
-                        }, this);
+            attachEvent: function (vertex) {
+                vertex.watch('generated', this._draw, this);
+                vertex.on('updateCoordinate', this._draw, this);
+            },
+            detachEvent: function (vertex) {
+                vertex.unwatch('generated', this._draw, this);
+                vertex.off('updateCoordinate', this._draw, this);
+            },
+            getNodes: function () {
+                var nodes = [];
+                var topo = this.topology();
+                nx.each(this.vertices(), function (vertex) {
+                    var node = topo.getNode(vertex.id());
+                    if (node) {
+                        nodes.push(node);
                     }
-                }, this);
+                });
+                return nodes;
+            },
+            addNode: function (value) {
+                var vertex;
+                var topo = this.topology();
+                var graph = topo.graph();
+                var vertices = this.vertices();
+
+                if (nx.is(value, nx.graphic.Topology.AbstractNode)) {
+                    vertex = value.model();
+                } else if (graph.getVertex(value)) {
+                    vertex = graph.getVertex(value);
+                }
+
+                if (vertex && vertices.indexOf(vertex) == -1) {
+                    vertices.push(vertex);
+                    this.attachEvent(vertex);
+                    this.draw();
+                }
+
+            },
+            removeNode: function (value) {
+                var vertex;
+                var topo = this.topology();
+                var graph = topo.graph();
+                var vertices = this.vertices();
+                var nodes = this._nodes();
+
+                if (nx.is(value, nx.graphic.Topology.AbstractNode)) {
+                    vertex = value.model();
+                } else if (graph.getVertex(value)) {
+                    vertex = graph.getVertex(value);
+                }
+
+                if (vertex && vertices.indexOf(vertex) != -1) {
+                    vertices.splice(vertices.indexOf(vertex), 1);
+                    this.detachEvent(vertex);
+                    if (nx.is(nodes, Array)) {
+                        var id = vertex.id();
+                        var node = topo.getNode(id);
+                        if (nodes.indexOf(id) !== -1) {
+                            nodes.splice(nodes.indexOf(id), 1);
+                        } else if (node && nodes.indexOf(node) !== -1) {
+                            nodes.splice(nodes.indexOf(node), 1);
+                        } else {
+                            //todo throw error
+                        }
+
+                    }
+
+                }
+
 
             },
             _draw: function () {
@@ -92,24 +166,27 @@
                 }
             },
             draw: function () {
-                if (this.nodes().count() === 0) {
+                if (this.getNodes().length === 0) {
                     this.hide();
                 } else {
                     this.show();
                 }
             },
-            removeNode: function (node) {
-                this.nodes().remove(node);
-            },
             updateNodesPosition: function (x, y) {
                 var stageScale = this.topology().stageScale();
-                this.nodes().each(function (node) {
+                this.getNodes().each(function (node) {
                     node.move(x * stageScale, y * stageScale);
                 });
             },
+            clear: function () {
+                nx.each(this.vertices(), function (vertex) {
+                    this.detachEvent(vertex);
+                }, this);
+                this.vertices([]);
+                this.nodes([]);
+            },
             dispose: function () {
-                this.nodes().clear();
-                this.nodes().dispose();
+                this.clear();
                 this.inherited();
             }
         }

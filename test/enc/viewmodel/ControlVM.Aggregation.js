@@ -5,9 +5,9 @@
         properties: {
             MVM: {},
             graph: {
-                dependencies: ['MVM.topologyGenerated', 'MVM.topology', 'update'],
-                value: function (generated, topology) {
-                    if (generated && topology) {
+                dependencies: ['MVM.topologyGenerated', 'MVM.topology', 'update', 'MVM.topoData'],
+                value: function (generated, topology, update, topoData) {
+                    if (generated && topology && topoData) {
                         var graph = topology.graph();
                         var vertexSets = graph.vertexSets();
                         var _vertexSets = {};

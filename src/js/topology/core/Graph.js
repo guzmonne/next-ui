@@ -30,7 +30,7 @@
                     return this.graph().getData();
                 },
                 set: function (value) {
-                    if (!value) {
+                    if (value == null || !nx.is(value, Object) || value.nodes == null) {
                         return;
                     }
 
@@ -313,6 +313,9 @@
                         callback.call(context || this, this);
                         this.off('topologyGenerated', fn, this);
                     }, this);
+                }
+                if (data == null || !nx.is(data, Object) || data.nodes == null) {
+                    return;
                 }
                 this.data(data);
             },

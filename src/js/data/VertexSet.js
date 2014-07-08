@@ -75,7 +75,6 @@
                 },
                 set: function (value) {
                     if (this._activated !== value) {
-                        this._activated = value;
                         if (value) {
                             this._collapse();
                         } else {
@@ -171,11 +170,12 @@
             _expand: function () {
                 var graph = this.graph();
 
-//                var parentVertexSet = this.parentVertexSet();
-//                if (parentVertexSet) {
-//                    parentVertexSet.activated(true);
-//                }
+                var parentVertexSet = this.parentVertexSet();
+                if (parentVertexSet) {
+                    parentVertexSet.activated(false);
+                }
 
+                this._activated = false;
 
                 // remove created edgeSet collection
                 nx.each(this.edgeSetCollections(), function (esc, linkKey) {
@@ -197,10 +197,14 @@
                     }
                 }, this);
 
+                this.visible(false);
+
                 this._generateConnection();
             },
             _collapse: function () {
                 var graph = this.graph();
+
+                this._activated = true;
 
 
                 this.eachSubVertex(function (vertex) {
@@ -225,6 +229,8 @@
                         graph.removeVertex(id);
                     }
                 }, this);
+
+                this.visible(true);
 
                 this._generateConnection();
 

@@ -26,22 +26,26 @@
                 value: function () {
                     return new ENC.TW.ViewModel.TopologyVM.View();
                 }
+            },
+            updated: {
+                value: false
             }
         },
         methods: {
             expandAll: function () {
                 var topo = this.MVM().topology();
-                topo.enableNodeSetAnimation(false);
                 this.event().expandALL(true);
 
 
                 var nodeSetLayer = topo.getLayer('nodeSet');
-//                var isFinished = true;
+
+                console.time('expandAll');
 
                 var fn = function (callback) {
                     var isFinished = true;
                     nodeSetLayer.eachNodeSet(function (nodeSet) {
-                        if (nodeSet.view().visible() != false) {
+                        if (nodeSet.visible()) {
+                            nodeSet.animation(false);
                             nodeSet.collapsed(false);
                             isFinished = false;
                         }
@@ -57,16 +61,42 @@
 
                 setTimeout(function () {
                     fn(function () {
+
+                        nodeSetLayer.eachNodeSet(function (nodeSet) {
+                            nodeSet.animation(true);
+                        });
+
+
                         topo.stage().resetFitMatrix();
-                        topo.enableNodeSetAnimation(true);
                         this.event().expandALL(false);
                         topo.hideLoading();
                         topo.fit(function () {
                             topo.blockEvent(false);
+                            console.timeEnd('expandAll');
                         }, this);
                     }.bind(this));
                 }.bind(this), 100);
 
+            },
+            adapt: function () {
+                var topo = this.MVM().topology();
+                if (topo) {
+
+                    if (this._adaptTimer) {
+                        clearTimeout(this._adaptTimer);
+                    }
+
+                    this._adaptTimer = setTimeout(function () {
+                        topo.adaptToContainer();
+                    }.bind(this), 300);
+                }
+            },
+            savePosition: function () {
+                var topo = this.MVM().topology();
+                topo.showLoading();
+                setTimeout(function () {
+                    topo.hideLoading();
+                }, 3000);
             }
         }
     });

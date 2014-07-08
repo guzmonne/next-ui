@@ -9,7 +9,7 @@
      * @module nx.graphic.Topology
      */
     nx.define("nx.graphic.Topology.NodeMixin", {
-        events: ['addNode', 'removeNode', 'addNodeSet'],
+        events: ['addNode', 'deleteNode', 'addNodeSet'],
         properties: {
             /**
              * Node instance class name, support function
@@ -85,7 +85,7 @@
              */
             selectedNodes: {
                 value: function () {
-                    return new nx.data.ObservableCollection();
+                    return new nx.data.UniqObservableCollection();
                 }
             },
             aggregationRule: {
@@ -141,14 +141,18 @@
              * @returns {boolean}
              */
             removeNode: function (arg) {
+                this.deleteNode(arg);
+            },
+            deleteNode: function (arg) {
                 var id = arg;
                 if (nx.is(arg, nx.graphic.Topology.AbstractNode)) {
                     id = arg.id();
                 }
-                var node = this.getNode(id);
-                if (node) {
-                    this.fire("removeNode", node);
-                    this.graph().removeVertex(id);
+                var vertex = this.graph().getVertex(id);
+                if (vertex) {
+                    var node = this.getNode(id);
+                    this.fire("deleteNode", node);
+                    this.graph().deleteVertex(id);
                 }
             },
             /**
@@ -169,31 +173,46 @@
                 return nodeSet;
             },
             removeNodeSet: function (arg) {
-                var id = arg;
-                if (nx.is(arg, nx.graphic.Topology.AbstractNode)) {
-                    id = arg.id();
-                }
-                var inNodeSet = this.getNode(id);
-                if (inNodeSet) {
-                    if (inNodeSet.activated()) {
-                        inNodeSet.activated(false);
-                    }
-                    //this.fire("removeNode", node);
-                    this.graph().removeVertexSet(id);
-                }
-
+//                var id = arg;
+//                if (nx.is(arg, nx.graphic.Topology.AbstractNode)) {
+//                    id = arg.id();
+//                }
+//                var inNodeSet = this.getNode(id);
+//                if (inNodeSet) {
+//                    if (inNodeSet.activated()) {
+//                        inNodeSet.activated(false);
+//                    }
+//                    //this.fire("removeNode", node);
+//                    this.graph().removeVertexSet(id);
+//                }
+                this.deleteNodeSet(arg);
             },
             aggregationNodes: function (inNodes, inConfig) {
                 if (inNodes.length < 2) {
                     return;
                 }
+
+
+                var nodes = [];
+                nx.each(inNodes, function (n) {
+                    if (nx.is(n, nx.graphic.Topology.AbstractNode)) {
+                        nodes.push(n);
+                    } else {
+                        var node = this.getNode(n);
+                        if (node) {
+                            nodes.push(node);
+                        }
+                    }
+                }, this);
+
+
                 var config = inConfig || {};
                 var vertexSetData = nx.extend({nodes: []}, config);
                 var parentNodeSet;
                 var isSameParentNodeSet = true;
 
                 //check different parent nodeSet aggregate
-                nx.each(inNodes, function (node) {
+                nx.each(nodes, function (node) {
                     var _parentNodeSet = node.parentNodeSet();
                     if (_parentNodeSet) {
                         // get the first parentNodeSet
@@ -215,7 +234,7 @@
                 //check incremental aggregate
 
                 if (parentNodeSet && parentNodeSet.activated() === false) {
-                    var _nodes = inNodes.slice(0);
+                    var _nodes = nodes.slice(0);
                     var isIncrementAggregate = true;
 
                     nx.each(parentNodeSet.nodes(), function (node) {
@@ -228,7 +247,7 @@
 
                     // if select nodes in a same group
                     if (_nodes.length === 0) {
-                        if (nx.util.values(parentNodeSet.nodes()).length == inNodes.length) {
+                        if (nx.util.values(parentNodeSet.nodes()).length == nodes.length) {
                             return;
                         }
                     }
@@ -245,7 +264,7 @@
                 //check extra node aggregate into a nodeSet
                 if (parentNodeSet) {
                     var includeExtraNode = false;
-                    nx.each(inNodes, function (node) {
+                    nx.each(nodes, function (node) {
                         var _parentNodeSet = node.parentNodeSet();
                         if (!_parentNodeSet || parentNodeSet != _parentNodeSet) {
                             includeExtraNode = true;
@@ -262,7 +281,7 @@
 
                 var aggregationRule = this.aggregationRule();
                 if (aggregationRule && nx.is(aggregationRule, 'Function')) {
-                    var result = aggregationRule.call(this, inNodes, inConfig);
+                    var result = aggregationRule.call(this, nodes, inConfig);
                     if (result === false) {
                         return;
                     }
@@ -270,11 +289,11 @@
 
                 vertexSetData.label = config.label;
                 if (config.label == null) {
-                    vertexSetData.label = [inNodes[0].label(), inNodes[inNodes.length - 1].label()].sort().join("-");
+                    vertexSetData.label = [nodes[0].label(), nodes[nodes.length - 1].label()].sort().join("-");
                 }
 
-                vertexSetData.x = config.x == null ? inNodes[0].model().x() : config.x;
-                vertexSetData.y = config.y == null ? inNodes[0].model().y() : config.y;
+                vertexSetData.x = config.x == null ? nodes[0].model().x() : config.x;
+                vertexSetData.y = config.y == null ? nodes[0].model().y() : config.y;
                 //vertexSetData.root = rootNodeID || inNodes[0].id();
 
                 var vertexSetConfig = {};
@@ -288,22 +307,22 @@
                 return nodeSet;
             },
 
-            deleteNode: function (inNode) {
-                this.graph().deleteVertex(inNode.id());
-            },
             deleteNodeSet: function (arg) {
+                if (!arg) {
+                    return;
+                }
                 var id = arg;
                 if (nx.is(arg, nx.graphic.Topology.AbstractNode)) {
                     id = arg.id();
                 }
-                var inNodeSet = this.getNode(id);
-                if (inNodeSet) {
-                    if (inNodeSet.activated()) {
-                        inNodeSet.activated(false);
+                var nodeSet = this.getNode(id);
+                if (nodeSet) {
+                    if (nodeSet.activated()) {
+                        nodeSet.activated(false);
                     }
-                    //this.fire("removeNode", node);
-                    this.graph().deleteVertexSet(id);
+                    this.fire("deleteNodeSet", nodeSet);
                 }
+                this.graph().deleteVertexSet(id);
             },
 
 
@@ -527,6 +546,92 @@
                             node.move(event.drag.delta[0] * stageScale, event.drag.delta[1] * stageScale);
                         });
                     }
+                }
+            },
+            expandNodes: function (nodes, sourcePosition, callback, context, isAnimate) {
+
+                var nodesLength = nx.is(nodes, Array) ? nodes.length : nx.util.keys(nodes).length;
+                callback = callback || function () {
+                };
+
+
+                if (nodesLength > 150 || nodesLength === 0 || isAnimate === false) {
+                    callback.call(context || this, this);
+                } else {
+
+                    var positionMap = [];
+                    nx.each(nodes, function (node) {
+                        positionMap.push({
+                            id: node.id(),
+                            position: node.position(),
+                            node: node
+                        });
+                        node.position(sourcePosition);
+                    }, this);
+
+
+                    var ani = new nx.graphic.Animation({
+                        duration: 600
+                    });
+                    ani.callback(function (progress) {
+                        nx.each(positionMap, function (item) {
+                            var _position = item.position;
+                            var node = item.node;
+                            node.position({
+                                x: sourcePosition.x + (_position.x - sourcePosition.x) * progress,
+                                y: sourcePosition.y + (_position.y - sourcePosition.y) * progress
+                            });
+                        });
+                    }.bind(this));
+
+                    ani.complete(function () {
+                        callback.call(context || this, this);
+                    }.bind(this));
+                    ani.start();
+                }
+            },
+            collapseNodes: function (nodes, targetPosition, callback, context, isAnimate) {
+                var nodesLength = nx.is(nodes, Array) ? nodes.length : nx.util.keys(nodes).length;
+                callback = callback || function () {
+                };
+
+
+                if (nodesLength > 150 || nodesLength === 0 || isAnimate === false) {
+                    callback.call(context || this, this);
+                } else {
+                    var positionMap = [];
+                    nx.each(nodes, function (node) {
+                        positionMap.push({
+                            id: node.id(),
+                            position: node.position(),
+                            node: node,
+                            vertex: node.model(),
+                            vertexPosition: node.model().position()
+                        });
+                    }, this);
+
+
+                    var ani = new nx.graphic.Animation({
+                        duration: 600
+                    });
+                    ani.callback(function (progress) {
+                        nx.each(positionMap, function (item) {
+                            var _position = item.position;
+                            var node = item.node;
+                            node.position({
+                                x: _position.x - (_position.x - targetPosition.x) * progress,
+                                y: _position.y - (_position.y - targetPosition.y) * progress
+                            });
+                        });
+                    }.bind(this));
+
+                    ani.complete(function () {
+                        nx.each(positionMap, function (item) {
+                            item.vertex.position(item.vertexPosition);
+                        });
+                        callback.call(context || this, this);
+                    }.bind(this));
+                    ani.start();
                 }
             },
             _expandAll: function () {

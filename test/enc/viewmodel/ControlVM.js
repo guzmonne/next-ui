@@ -9,6 +9,7 @@
                         this.viewSetting().MVM(value);
                         this.inventory().MVM(value);
                         this.aggregation().MVM(value);
+                        this.layer().MVM(value);
                     }
                 }
             },
@@ -25,6 +26,11 @@
             aggregation: {
                 value: function () {
                     return new ENC.TW.ViewModel.ControlVM.Aggregation();
+                }
+            },
+            layer: {
+                value: function () {
+                    return new ENC.TW.ViewModel.ControlVM.Layer();
                 }
             }
         },

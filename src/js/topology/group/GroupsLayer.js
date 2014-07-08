@@ -64,66 +64,17 @@
                     return dict;
                 }
             },
-
-
             groups: {
-                value: function () {
-
-                    var dict = new nx.data.ObservableDictionary();
-
-                    dict.on('change', function (sender, args) {
-                        var action = args.action;
-                        var items = args.items;
-                        var key, value, config, nodes;
-                        var topo = this.topology();
-
-                        if (action == 'add') {
-                            key = items[0].key();
-                            value = items[0].value();
-                            nodes = [];
-                            nx.each(value.nodes, function (id) {
-                                var node = topo.getNode(id);
-                                if (node) {
-                                    nodes.push(node);
-                                }
-                            });
-
-                            config = nx.extend({}, value);
-                            config.nodes = nodes;
-                            config.label = key;
-                            config.id = key;
-
-                            this.addGroup(config);
-
-                        } else if (action == 'remove') {
-                            this.removeGroup(items[0].key());
-                        } else if (action == 'replace') {
-                            key = args.newItem.key();
-                            value = args.newItem.value();
-                            var group = this.getGroup(key);
-                            var _nodes = value.nodes;
-                            if (group) {
-                                nodes = [];
-                                nx.each(_nodes, function (id) {
-                                    var node = topo.getNode(id);
-                                    if (node) {
-                                        nodes.push(node);
-                                    }
-                                });
-
-                                group.nodes().clear();
-                                group.nodes().addRange(nodes);
-
-                                config = nx.extend({}, value);
-                                delete config.nodes;
-                                group.sets(config);
-
-                            }
-                        }
-
-                    }, this);
-
-
+                get: function () {
+                    return this._groups || [];
+                },
+                set: function (value) {
+                    if (nx.is(value, Array)) {
+                        nx.each(value, function (item) {
+                            this.addGroup(item);
+                        }, this);
+                        this._groups = value;
+                    }
                 }
             }
         },
@@ -176,7 +127,7 @@
                 group.attach(this);
 
 
-                group.nodes().addRange(nodes);
+                group.nodes(nodes);
 
                 var id = config.id || group.__id__;
 
