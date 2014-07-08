@@ -510,16 +510,13 @@
   stroke-linejoin: round;
   pointer-events: none;
 }
-.n-topology.n-topology-blue .fade-active-layer > g {
+.n-topology.n-topology-blue .layer > g {
   transition: opacity .6s;
 }
-.n-topology.n-topology-blue .fade-active-layer > g:not(.fade-highlight-item):not(.fade-active-item) {
+.n-topology .fade-layer > g:not(.fade-highlight-item):not(.fade-active-item) {
   opacity: .2;
 }
-.n-topology.n-topology-blue .fade-highlight-layer > g {
-  transition: opacity .6s;
-}
-.n-topology.n-topology-blue .fade-highlight-layer > g:not(.fade-highlight-item):not(.fade-active-item) {
+.n-topology.fade-all .layer > g:not(.fade-highlight-item):not(.fade-active-item) {
   opacity: .2;
 }
 .n-topology.n-topology-blue .n-topology-nav {
@@ -1196,16 +1193,10 @@
   stroke-linejoin: round;
   pointer-events: none;
 }
-.n-topology.n-topology-dark .fade-active-layer > g {
-  transition: opacity .6s;
+.n-topology.n-topology-dark .fade-layer > g {
+  transition: .6s;
 }
-.n-topology.n-topology-dark .fade-active-layer > g:not(.fade-highlight-item):not(.fade-active-item) {
-  opacity: .2;
-}
-.n-topology.n-topology-dark .fade-highlight-layer > g {
-  transition: opacity .6s;
-}
-.n-topology.n-topology-dark .fade-highlight-layer > g:not(.fade-highlight-item):not(.fade-active-item) {
+.n-topology.n-topology-dark .fade-layer > g:not(.fade-highlight):not(.fade-active) {
   opacity: .2;
 }
 .n-topology.n-topology-dark .n-topology-nav {
@@ -1882,18 +1873,6 @@
   stroke-linejoin: round;
   pointer-events: none;
 }
-.n-topology.n-topology-green .fade-active-layer > g {
-  transition: opacity .6s;
-}
-.n-topology.n-topology-green .fade-active-layer > g:not(.fade-highlight-item):not(.fade-active-item) {
-  opacity: .2;
-}
-.n-topology.n-topology-green .fade-highlight-layer > g {
-  transition: opacity .6s;
-}
-.n-topology.n-topology-green .fade-highlight-layer > g:not(.fade-highlight-item):not(.fade-active-item) {
-  opacity: .2;
-}
 .n-topology.n-topology-green .n-topology-nav {
   position: absolute;
   top: 0px;
@@ -2568,16 +2547,10 @@
   stroke-linejoin: round;
   pointer-events: none;
 }
-.n-topology.n-topology-slate .fade-active-layer > g {
-  transition: opacity .6s;
+.n-topology.n-topology-slate .fade-layer > g {
+  transition: .6s;
 }
-.n-topology.n-topology-slate .fade-active-layer > g:not(.fade-highlight-item):not(.fade-active-item) {
-  opacity: .2;
-}
-.n-topology.n-topology-slate .fade-highlight-layer > g {
-  transition: opacity .6s;
-}
-.n-topology.n-topology-slate .fade-highlight-layer > g:not(.fade-highlight-item):not(.fade-active-item) {
+.n-topology.n-topology-slate .fade-layer > g:not(.fade-highlight):not(.fade-active) {
   opacity: .2;
 }
 .n-topology.n-topology-slate .n-topology-nav {
@@ -3254,16 +3227,10 @@
   stroke-linejoin: round;
   pointer-events: none;
 }
-.n-topology.n-topology-yellow .fade-active-layer > g {
-  transition: opacity .6s;
+.n-topology.n-topology-yellow .fade-layer > g {
+  transition: .6s;
 }
-.n-topology.n-topology-yellow .fade-active-layer > g:not(.fade-highlight-item):not(.fade-active-item) {
-  opacity: .2;
-}
-.n-topology.n-topology-yellow .fade-highlight-layer > g {
-  transition: opacity .6s;
-}
-.n-topology.n-topology-yellow .fade-highlight-layer > g:not(.fade-highlight-item):not(.fade-active-item) {
+.n-topology.n-topology-yellow .fade-layer > g:not(.fade-highlight):not(.fade-active) {
   opacity: .2;
 }
 .n-topology.n-topology-yellow .n-topology-nav {

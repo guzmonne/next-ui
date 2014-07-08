@@ -58,10 +58,10 @@
                             el.dom() && el.dom().removeClass("fade-highlight-item");
                         });
                     }
-                    if (highlightedElements.count() === 0) {
-                        this.dom().removeClass("fade-highlight-layer");
+                    if (highlightedElements.count() === 0 && activeElements.count() === 0) {
+                        this.dom().removeClass("fade-layer");
                     } else {
-                        this.dom().addClass("fade-highlight-layer");
+                        this.dom().addClass("fade-layer");
                     }
                 }, this);
 
@@ -77,10 +77,10 @@
                             el.dom() && el.dom().removeClass("fade-active-item");
                         });
                     }
-                    if (activeElements.count() === 0) {
-                        this.dom().removeClass("fade-active-layer");
+                    if (highlightedElements.count() === 0 && activeElements.count() === 0) {
+                        this.dom().removeClass("fade-layer");
                     } else {
-                        this.dom().addClass("fade-active-layer");
+                        this.dom().addClass("fade-layer");
                     }
                 }, this);
 
