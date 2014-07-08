@@ -298,7 +298,9 @@
                 set: function (value) {
                     if (this._initialized && this._source !== value) {
                         this._rebind(0, value);
-                        this._updateTarget();
+                        if (this._direction[0] == '<') {
+                            this._updateTarget();
+                        }
                         this._source = value;
                     }
                 }
