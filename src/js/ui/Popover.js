@@ -24,8 +24,7 @@
                     if (this._title != value) {
                         this._title = value;
                         return true;
-                    }
-                    else {
+                    } else {
                         return false;
                     }
                 }
@@ -36,32 +35,37 @@
         },
         view: {
             props: {
-                'class': 'popover fade'
+                'class': 'popover fade',
+                style: {
+                    outline: "none"
+                },
+                tabindex: -1
             },
-            content: [
-                {
-                    props: {
-                        'class': 'arrow'
-                    }
-                },
-                {
-                    tag: 'h3',
-                    name: 'title',
-                    props: {
-                        'class': 'popover-title',
-                        style: {
-                            display: 'none'
-                        }
-                    },
-                    content: "{#title}"
-                },
-                {
-                    name: 'body',
-                    props: {
-                        'class': 'popover-content'
-                    }
+            events: {
+                blur: function (sender, evt) {
+                    this.close();
                 }
-            ]
+            },
+            content: [{
+                props: {
+                    'class': 'arrow'
+                }
+            }, {
+                tag: 'h3',
+                name: 'title',
+                props: {
+                    'class': 'popover-title',
+                    style: {
+                        display: 'none'
+                    }
+                },
+                content: "{#title}"
+            }, {
+                name: 'body',
+                props: {
+                    'class': 'popover-content'
+                }
+            }]
         },
         methods: {
             getContainer: function () {

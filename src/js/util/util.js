@@ -3,6 +3,13 @@
     nx.define("nx.util", {
         static: true,
         methods: {
+            uuid: function () {
+                return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+                    var r = Math.random() * 16 | 0,
+                        v = c == 'x' ? r : (r & 0x3 | 0x8);
+                    return v.toString(16);
+                }).toUpperCase();
+            },
             without: function (arrray, item) {
                 var index;
                 while ((index = arrray.indexOf(item)) != -1) {
@@ -54,7 +61,7 @@
                 var script = document.createElement("script");
                 script.type = "text/javascript";
 
-                if (script.readyState) {  //IE
+                if (script.readyState) { //IE
                     script.onreadystatechange = function () {
                         if (script.readyState == "loaded" ||
                             script.readyState == "complete") {
@@ -62,7 +69,7 @@
                             callback();
                         }
                     };
-                } else {  //Others
+                } else { //Others
                     script.onload = function () {
                         callback();
                     };
@@ -82,7 +89,9 @@
                     params: (function () {
                         var ret = {},
                             seg = a.search.replace(/^\?/, '').split('&'),
-                            len = seg.length, i = 0, s;
+                            len = seg.length,
+                            i = 0,
+                            s;
                         for (; i < len; i++) {
                             if (!seg[i]) {
                                 continue;

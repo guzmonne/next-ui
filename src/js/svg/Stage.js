@@ -20,26 +20,22 @@
                     height: '{#height}'
                 }
             },
-            content: [
-                {
-                    name: 'defs',
-                    tag: 'svg:defs'
+            content: [{
+                name: 'defs',
+                tag: 'svg:defs'
+            }, {
+                name: 'scalingLayer',
+                type: 'nx.graphic.Group',
+                props: {
+                    'class': 'stage'
                 },
-                {
-                    name: 'scalingLayer',
-                    type: 'nx.graphic.Group',
-                    props: {
-                        'class': 'stage'
-                    },
-                    events: {
-                        'transitionend': '{#_transitionend}'
-                    }
-                },
-                {
-                    name: 'staticLayer',
-                    type: 'nx.graphic.Group'
+                events: {
+                    'transitionend': '{#_transitionend}'
                 }
-            ],
+            }, {
+                name: 'staticLayer',
+                type: 'nx.graphic.Group'
+            }],
             events: {
                 'mousedown': '{#_mousedown}',
                 'dragstart': '{#_dragstart}',
@@ -48,6 +44,12 @@
             }
         },
         properties: {
+            /**
+             * Is an animation in progress?
+             * @property animating {Boolean}
+             * @readOnly
+             */
+            animating: {},
             /**
              * Set/get topology's scalability
              * @property scalable {Boolean}
@@ -205,8 +207,7 @@
                         height: this.height() - padding * 2,
                         width: this.width() - padding * 2
                     };
-                }
-                else {
+                } else {
                     var bound = {
                         left: stageBound.left - topoBound.left,
                         top: stageBound.top - topoBound.top,
@@ -229,34 +230,34 @@
                 }
             },
             fit: function (callback, context, isAnimated) {
-
-                var _callback = callback || function () {
-                };
-
-
-                if (isAnimated) {
-                    this.scalingLayer().on('transitionend', function fn() {
-                        this.scalingLayer().dom().removeClass('n-topology-fit');
-                        this.scalingLayer().off('transitionend', fn, this);
-                        _callback.call(context || this);
-                    }, this);
-
-                    var originalMatrix = this.matrix();
-                    var newMatrix = this.fitMatrixObject().matrix();
-                    if (!nx.geometry.Matrix.approximate(originalMatrix, newMatrix)) {
-                        this.scalingLayer().dom().addClass('n-topology-fit');
-                        this._setStageMatrix(this.fitMatrixObject().matrix());
+                var watching = nx.keyword.internal.watch(this, "animating", function (animating) {
+                    if (!animating) {
+                        watching.release();
+                        if (isAnimated) {
+                            this.scalingLayer().on('transitionend', function fn() {
+                                this.scalingLayer().dom().removeClass('n-topology-fit');
+                                this.scalingLayer().off('transitionend', fn, this);
+                                /* jslint -W030 */
+                                callback && callback.call(context || this);
+                                this.animating(false);
+                            }, this);
+                            var originalMatrix = this.matrix();
+                            var newMatrix = this.fitMatrixObject().matrix();
+                            if (!nx.geometry.Matrix.approximate(originalMatrix, newMatrix)) {
+                                this.animating(true);
+                                this.scalingLayer().dom().addClass('n-topology-fit');
+                                this._setStageMatrix(this.fitMatrixObject().matrix());
+                            }
+                            this.zoomLevel(1);
+                        } else {
+                            this._setStageMatrix(this.fitMatrixObject().matrix());
+                            this.zoomLevel(1);
+                            /* jslint -W030 */
+                            callback && callback.call(context || this);
+                        }
                     }
-
-                    this.zoomLevel(1);
-                }
-                else {
-                    this._setStageMatrix(this.fitMatrixObject().matrix());
-                    this.zoomLevel(1);
-                    _callback.call(context || this);
-                }
-
-
+                }.bind(this));
+                watching.notify();
             },
             actualSize: function () {
                 this.scalingLayer().setTransition(null, null, 0.6);
@@ -282,9 +283,7 @@
                 var dx = (graph.left + graph.width / 2) - s * (rect.left + rect.width / 2);
                 var dy = (graph.top + graph.height / 2) - s * (rect.top + rect.height / 2);
                 return [
-                    [s, 0, 0],
-                    [0, s, 0],
-                    [dx, dy, 1]
+                    [s, 0, 0], [0, s, 0], [dx, dy, 1]
                 ];
             },
             applyTranslate: function (x, y, duration) {
@@ -326,18 +325,24 @@
                 this.stageScale(1 / m.scale());
             },
             resetFitMatrix: function () {
-                // get transform matrix
-                var contentBound = this.getContentBound();
-                var padding = this.padding();
-                var stageBound = {
-                    left: padding,
-                    top: padding,
-                    height: this.height() - padding * 2,
-                    width: this.width() - padding * 2
-                };
-                var matrix = new nx.geometry.Matrix(this.calcRectZoomMatrix(stageBound, contentBound));
-                matrix.matrix(nx.geometry.Matrix.multiply(this.matrix(), matrix.matrix()));
-                this.fitMatrixObject(matrix);
+                var watching = nx.keyword.internal.watch(this, "animating", function (animating) {
+                    if (!animating) {
+                        watching.release();
+                        // get transform matrix
+                        var contentBound = this.getContentBound();
+                        var padding = this.padding();
+                        var stageBound = {
+                            left: padding,
+                            top: padding,
+                            height: this.height() - padding * 2,
+                            width: this.width() - padding * 2
+                        };
+                        var matrix = new nx.geometry.Matrix(this.calcRectZoomMatrix(stageBound, contentBound));
+                        matrix.matrix(nx.geometry.Matrix.multiply(this.matrix(), matrix.matrix()));
+                        this.fitMatrixObject(matrix);
+                    }
+                }.bind(this));
+                watching.notify();
             },
             _setStageMatrix: function (matrix, according) {
                 according = according || [this.width() / 2, this.height() / 2];
@@ -360,8 +365,7 @@
                     }
                     this.zoomLevel(m.scale() / scaleFit);
                     return m;
-                }
-                else {
+                } else {
                     return this.matrixObject();
                 }
             },

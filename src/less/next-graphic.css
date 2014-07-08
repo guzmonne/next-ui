@@ -510,10 +510,16 @@
   stroke-linejoin: round;
   pointer-events: none;
 }
-.n-topology.n-topology-blue .fade-layer > g {
-  transition: .6s;
+.n-topology.n-topology-blue .fade-highlight-layer > g {
+  transition: opacity .6s;
 }
-.n-topology.n-topology-blue .fade-layer > g:not(.fade-highlight):not(.fade-active) {
+.n-topology.n-topology-blue .fade-highlight-layer > g:not(.fade-highlight-item):not(.fade-active-item) {
+  opacity: .2;
+}
+.n-topology.n-topology-blue .fade-active-layer > g {
+  transition: opacity .6s;
+}
+.n-topology.n-topology-blue .fade-active-layer > g:not(.fade-highlight-item):not(.fade-active-item) {
   opacity: .2;
 }
 .n-topology.n-topology-blue .n-topology-nav {

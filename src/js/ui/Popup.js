@@ -11,7 +11,13 @@
         events: ['open', 'close'],
         view: {
             props: {
-                style: "position:absolute"
+                style: "position:absolute",
+                tabindex: -1
+            },
+            events: {
+                blur: function (sender, evt) {
+                    this.close();
+                }
             }
         },
         properties: {
@@ -74,7 +80,7 @@
              * @property location
              */
             location: {
-                value: "outer"  // outer inner
+                value: "outer" // outer inner
             },
             /**
              * @property listenResize
@@ -132,7 +138,6 @@
              * @param args {Object} config
              */
             open: function (args) {
-
                 this._clearTimeout();
 
 
@@ -155,7 +160,10 @@
                 //process target
 
                 var target = this.target();
-                var targetSize = {width: 0, height: 0};
+                var targetSize = {
+                    width: 0,
+                    height: 0
+                };
 
                 if (target.resolve && target.view()) {
                     target = target.view();
@@ -323,6 +331,7 @@
                 root.addClass(direction);
                 root.addClass("in");
                 this.fire("open");
+                this.dom().$dom.focus();
             },
             /**
              * close popup
@@ -363,26 +372,26 @@
             _delayCloseEvent: function () {
 
                 if (this.lazyClose()) {
-//                    this.on("mouseover", function () {
-//                        var element = this.view().dom().$dom;
-//                        var target = event.target;
-//                        var related = event.relatedTarget;
-//                        if (target && !element.contains(related) && target !== related) {
-//                            if (this.timer) {
-//                                clearTimeout(this.timer);
-//                            }
-//                        }
-//                    }, this);
-//
-//                    this.on("mouseout", function () {
-//                        var element = this.view().dom().$dom;
-//                        var target = event.target;
-//                        var related = event.relatedTarget;
-//                        if (!element.contains(related) && target !== related) {
-//                            clearTimeout(this.timer);
-//                            this.close(true);
-//                        }
-//                    }, this);
+                    //                    this.on("mouseover", function () {
+                    //                        var element = this.view().dom().$dom;
+                    //                        var target = event.target;
+                    //                        var related = event.relatedTarget;
+                    //                        if (target && !element.contains(related) && target !== related) {
+                    //                            if (this.timer) {
+                    //                                clearTimeout(this.timer);
+                    //                            }
+                    //                        }
+                    //                    }, this);
+                    //
+                    //                    this.on("mouseout", function () {
+                    //                        var element = this.view().dom().$dom;
+                    //                        var target = event.target;
+                    //                        var related = event.relatedTarget;
+                    //                        if (!element.contains(related) && target !== related) {
+                    //                            clearTimeout(this.timer);
+                    //                            this.close(true);
+                    //                        }
+                    //                    }, this);
 
 
                     this.on("mouseenter", function () {
@@ -401,40 +410,40 @@
                 var self = this;
                 var timer;
                 if (this.listenResize()) {
-//                    nx.app.on('resize', function () {
-//                        if (!this._closed) {
-//                            if (timer) {
-//                                clearTimeout(timer)
-//                            }
-//                            timer = setTimeout(function () {
-//                                self.open();
-//                            }, 22);
-//                        }
-//
-//                    }, this);
-//
-//
-//                    nx.app.on('scroll', function () {
-//                        if (timer) {
-//                            clearTimeout(timer)
-//                        }
-//                        if (!this._closed) {
-//                            timer = setTimeout(function () {
-//                                self.open();
-//                            }, 22);
-//                        }
-//                    }, this);
+                    //                    nx.app.on('resize', function () {
+                    //                        if (!this._closed) {
+                    //                            if (timer) {
+                    //                                clearTimeout(timer)
+                    //                            }
+                    //                            timer = setTimeout(function () {
+                    //                                self.open();
+                    //                            }, 22);
+                    //                        }
+                    //
+                    //                    }, this);
+                    //
+                    //
+                    //                    nx.app.on('scroll', function () {
+                    //                        if (timer) {
+                    //                            clearTimeout(timer)
+                    //                        }
+                    //                        if (!this._closed) {
+                    //                            timer = setTimeout(function () {
+                    //                                self.open();
+                    //                            }, 22);
+                    //                        }
+                    //                    }, this);
 
                 }
 
 
                 if (this.scrollClose()) {
-//                    nx.app.on('scroll', function () {
-//                        if (timer) {
-//                            clearTimeout(timer)
-//                        }
-//                        self.close(true);
-//                    }, this);
+                    //                    nx.app.on('scroll', function () {
+                    //                        if (timer) {
+                    //                            clearTimeout(timer)
+                    //                        }
+                    //                        self.close(true);
+                    //                    }, this);
                 }
             },
             _hitTest: function () {
@@ -465,19 +474,19 @@
             },
             _resetOffset: function (args) {
                 if (args) {
-//                    if (!args.offset) {
-//                        this.offset(this.offset.defaultValue);
-//                    }
-//
-//
-//                    if (!args.offsetX) {
-//                        this.offsetX(this.offsetX.defaultValue);
-//                    }
-//
-//
-//                    if (!args.offsetY) {
-//                        this.offsetY(this.offsetY.defaultValue);
-//                    }
+                    //                    if (!args.offset) {
+                    //                        this.offset(this.offset.defaultValue);
+                    //                    }
+                    //
+                    //
+                    //                    if (!args.offsetX) {
+                    //                        this.offsetX(this.offsetX.defaultValue);
+                    //                    }
+                    //
+                    //
+                    //                    if (!args.offsetY) {
+                    //                        this.offsetY(this.offsetY.defaultValue);
+                    //                    }
                 }
             }
         }

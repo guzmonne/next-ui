@@ -50,18 +50,18 @@
                 highlightedElements.on('change', function (sender, args) {
                     if (args.action == 'add') {
                         nx.each(args.items, function (el) {
-                            el.dom().addClass("fade-highlight");
+                            el.dom().addClass("fade-highlight-item");
                         });
                     } else if (args.action == 'remove' || args.action == "clear") {
                         nx.each(args.items, function (el) {
                             /* jslint -W030 */
-                            el.dom() && el.dom().removeClass("fade-highlight");
+                            el.dom() && el.dom().removeClass("fade-highlight-item");
                         });
                     }
-                    if (highlightedElements.count() === 0 && activeElements.count() === 0) {
-                        this.dom().removeClass("fade-layer");
+                    if (highlightedElements.count() === 0) {
+                        this.dom().removeClass("fade-highlight-layer");
                     } else {
-                        this.dom().addClass("fade-layer");
+                        this.dom().addClass("fade-highlight-layer");
                     }
                 }, this);
 
@@ -69,18 +69,18 @@
                 activeElements.on('change', function (sender, args) {
                     if (args.action == 'add') {
                         nx.each(args.items, function (el) {
-                            el.dom().addClass("fade-active");
+                            el.dom().addClass("fade-active-item");
                         });
                     } else if (args.action == 'remove' || args.action == "clear") {
                         nx.each(args.items, function (el) {
                             /* jslint -W030 */
-                            el.dom() && el.dom().removeClass("fade-active");
+                            el.dom() && el.dom().removeClass("fade-active-item");
                         });
                     }
-                    if (highlightedElements.count() === 0 && activeElements.count() === 0) {
-                        this.dom().removeClass("fade-layer");
+                    if (activeElements.count() === 0) {
+                        this.dom().removeClass("fade-active-layer");
                     } else {
-                        this.dom().addClass("fade-layer");
+                        this.dom().addClass("fade-active-layer");
                     }
                 }, this);
 
