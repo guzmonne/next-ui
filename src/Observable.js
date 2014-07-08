@@ -363,7 +363,7 @@
                         }
 
                         if (direction == 'auto') {
-                            direction = (bindingMeta && bindingMeta.direction) || '<-';
+                            direction = this._direction = (bindingMeta && bindingMeta.direction) || '<-';
                         }
 
                         if (format == 'auto') {
@@ -380,7 +380,7 @@
                         }
 
                         if (direction == 'auto') {
-                            direction = '<-';
+                            direction = this._direction = '<-';
                         }
 
                         if (format == 'auto') {
