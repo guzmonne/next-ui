@@ -323,7 +323,7 @@ var topoCase = [
         name: 'API add link, dest node not exists',
         description: "add a link, dest node not exists",
         script: function (topo) {
-            topo.addLink({"id": 12, "source": 4, "target": 5})
+            topo.addLink({"id": 12, "source": 4, "target": 500})
             return topo.getData().links.length
         }
     },
@@ -331,7 +331,7 @@ var topoCase = [
         name: 'API add link, src node not exists',
         description: "add a link,src node not exist",
         script: function (topo) {
-            topo.addLink({"id": 12, "source": 5, "target": 4})
+            topo.addLink({"id": 12, "source": 500, "target": 4})
             return topo.getData().links.length
         }
     },
@@ -355,18 +355,24 @@ var topoCase = [
         },
         tearDown:function(topo)
         {
-            topo.adaptToContainer();
+//            console.time('xx');
+//            console.log(topo.stage().matrixObject().toString());
+            topo.fit(function(){},this,100);
+//            console.log(topo.stage().matrixObject().toString());
         }
     },
     {
         name: 'API move-y',
         description: "move",
         script: function (topo) {
+//            console.log(topo.stage().matrixObject().toString());
             topo.move(0, -100);
+//            console.log(topo.stage().matrixObject().toString());
+//            console.timeEnd('xx');
         },
         tearDown:function(topo)
         {
-            topo.adaptToContainer();
+            topo.fit(function(){},this,0)
         }
     },
     {
@@ -381,7 +387,7 @@ var topoCase = [
         },
         tearDown:function(topo)
         {
-            topo.adaptToContainer();
+            topo.fit(function(){},this,0)
         }
     },
     {
@@ -392,7 +398,7 @@ var topoCase = [
         },
         tearDown:function(topo)
         {
-            topo.adaptToContainer();
+            topo.fit(function(){},this,0)
         }
     },
     {
@@ -404,7 +410,7 @@ var topoCase = [
         },
         tearDown:function(topo)
         {
-            topo.adaptToContainer();
+            topo.fit(function(){},this,0)
         }
     },
     {
@@ -424,7 +430,7 @@ var topoCase = [
         },
         tearDown:function(topo)
         {
-            topo.adaptToContainer();
+            topo.fit(function(){},this,0)
         }
     },
     {
@@ -839,6 +845,145 @@ var topoCase = [
         tearDown:function(topo)
         {
             topo.adaptToContainer();
+        }
+    },
+    {
+        name: 'API add group/add by node object',
+        description: "API add group",
+        script: function (topo) {
+            var groupsLayer = topo.getLayer('groups');
+            var nodes1 = [topo.getNode(0), topo.getNode(1)];
+            var group1 = groupsLayer.addGroup({
+                nodes: nodes1,
+                label: 'Rect',
+                color: '#f00'
+            });
+            console.log(group1.__id__);
+            console.log(groupsLayer);
+            //groupsLayer.removeGroup(group1.__id__);
+//            group1.remove()
+        },
+        tearDown:function(topo)
+        {
+            topo.getLayer('groups').clear();
+        }
+    },
+    {
+        name: 'API add group/add by node id',
+        description: "API add group",
+        script: function (topo) {
+            var groupsLayer = topo.getLayer('groups');
+            var nodes1 = [0,1,2];
+            var group1 = groupsLayer.addGroup({
+                nodes: nodes1,
+                label: 'Rect',
+                color: '#f00'
+            });
+            //groupsLayer.removeGroup(group1.__id__);
+//            group1.remove()
+        },
+        tearDown:function(topo)
+        {
+            topo.getLayer('groups').clear();
+        }
+    },
+    {
+        name: 'API add multiple group/add by node id',
+        description: "API add group",
+        script: function (topo) {
+            var groupsLayer = topo.getLayer('groups');
+            groupsLayer.addGroup({
+                nodes: [0,1,2],
+                label: 'Rect',
+                color: '#f00'
+            });
+
+            groupsLayer.addGroup({
+                nodes: [0,3,4],
+                label: 'Rect',
+                color: 'green'
+            });
+
+        },
+        tearDown:function(topo)
+        {
+            topo.getLayer('groups').clear();
+        }
+    },
+    {
+        name: 'API group-add node',
+        description: "API add group",
+        script: function (topo) {
+            var groupsLayer = topo.getLayer('groups');
+            var nodes1 = [topo.getNode(0), topo.getNode(1)];
+            var group1 = groupsLayer.addGroup({
+                nodes: nodes1,
+                label: 'Rect',
+                color: '#f00'
+            });
+            group1.addNode(2)
+            var nodes = group1.getNodes()
+            var result = '';
+            for(var i=0;i<nodes.length;i++)
+            {
+                result = result + nodes[i].label() +'/'
+            }
+            return result ;
+        },
+        tearDown:function(topo)
+        {
+            topo.getLayer('groups').clear();
+        }
+    },
+    {
+        name: 'API multiple group/add same node',
+        description: "API add group",
+        script: function (topo) {
+            var groupsLayer = topo.getLayer('groups');
+            var group1 = groupsLayer.addGroup({
+                nodes: [0,1,2,4],
+                label: 'Rect1',
+                color: '#f00'
+            });
+
+            var group2 = groupsLayer.addGroup({
+                nodes: [0,4],
+                label: 'Rect2',
+                color: 'green'
+            });
+            group1.addNode(3)
+            group2.addNode(3)
+
+
+        },
+        tearDown:function(topo)
+        {
+            topo.getLayer('groups').clear();
+        }
+    },
+    {
+        name: 'API group-remove node',
+        description: "API add group",
+        script: function (topo) {
+            var groupsLayer = topo.getLayer('groups');
+            var nodes1 = [topo.getNode(0), topo.getNode(1)];
+            var group1 = groupsLayer.addGroup({
+                nodes: nodes1,
+                label: 'Rect',
+                color: '#f00'
+            });
+            group1.removeNode(1)
+            var nodes = group1.getNodes()
+            var result = '';
+            for(var i=0;i<nodes.length;i++)
+            {
+                result = result + nodes[i].label() +'/'
+            }
+            return result ;
+        },
+        tearDown:function(topo)
+        {
+            topo.getLayer('groups').clear();
         }
     }
 
