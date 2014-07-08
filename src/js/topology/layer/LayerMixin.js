@@ -57,14 +57,14 @@
                     }, this);
 
 
-//                    debugger;
-//                    nx.Object.extendProperty(this, name + 'LayerConfig', {
-//                        set: function (value) {
-//                            nx.each(value, function (value, key) {
-//                                nx.util.setProperty(layerObj, key, value, this);
-//                            }, this);
-//                        }
-//                    });
+                    //                    debugger;
+                    //                    nx.Object.extendProperty(this, name + 'LayerConfig', {
+                    //                        set: function (value) {
+                    //                            nx.each(value, function (value, key) {
+                    //                                nx.util.setProperty(layerObj, key, value, this);
+                    //                            }, this);
+                    //                        }
+                    //                    });
 
 
                 }
@@ -143,14 +143,10 @@
 
 
             fadeIn: function (force, callback, context) {
-                nx.each(this.layers(), function (layer) {
-                    layer.fadeIn(force);
-                }, this);
+                this.dom().removeClass("fade-all");
             },
             fadeOut: function (force, callback, context) {
-                nx.each(this.layers(), function (layer) {
-                    layer.fadeOut(force);
-                }, this);
+                this.dom().addClass("fade-all");
             },
             recoverActive: function () {
                 nx.each(this.layers(), function (layer) {
@@ -173,7 +169,7 @@
             clear: function () {
                 this.graph().clear();
 
-                nx.each(this.layers(), function (layer,name) {
+                nx.each(this.layers(), function (layer, name) {
                     layer.clear();
                 });
             }

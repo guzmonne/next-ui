@@ -510,16 +510,13 @@
   stroke-linejoin: round;
   pointer-events: none;
 }
-.n-topology.n-topology-blue .fade-highlight-layer > g {
+.n-topology.n-topology-blue .layer > g {
   transition: opacity .6s;
 }
-.n-topology.n-topology-blue .fade-highlight-layer > g:not(.fade-highlight-item):not(.fade-active-item) {
+.n-topology .fade-layer > g:not(.fade-highlight-item):not(.fade-active-item) {
   opacity: .2;
 }
-.n-topology.n-topology-blue .fade-active-layer > g {
-  transition: opacity .6s;
-}
-.n-topology.n-topology-blue .fade-active-layer > g:not(.fade-highlight-item):not(.fade-active-item) {
+.n-topology.fade-all .layer > g:not(.fade-highlight-item):not(.fade-active-item) {
   opacity: .2;
 }
 .n-topology.n-topology-blue .n-topology-nav {
@@ -1875,12 +1872,6 @@
   stroke-width: 3;
   stroke-linejoin: round;
   pointer-events: none;
-}
-.n-topology.n-topology-green .fade-layer > g {
-  transition: .6s;
-}
-.n-topology.n-topology-green .fade-layer > g:not(.fade-highlight):not(.fade-active) {
-  opacity: .2;
 }
 .n-topology.n-topology-green .n-topology-nav {
   position: absolute;
