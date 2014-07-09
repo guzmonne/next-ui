@@ -78,9 +78,9 @@
                         });
                     }
                     if (highlightedElements.count() === 0 && activeElements.count() === 0) {
-                        this.dom().removeClass("fade-layer");
+                        this.fadeIn();
                     } else {
-                        this.dom().addClass("fade-layer");
+                        this.fadeOut();
                     }
                 }, this);
 
@@ -97,9 +97,9 @@
                         });
                     }
                     if (highlightedElements.count() === 0 && activeElements.count() === 0) {
-                        this.dom().removeClass("fade-layer");
+                        this.fadeIn();
                     } else {
-                        this.dom().addClass("fade-layer");
+                        this.fadeOut();
                     }
                 }, this);
 
@@ -134,8 +134,10 @@
             fadeOut: function (force, callback, context) {
                 if (force) {
                     this.forceFade(true);
-                } else if (!this.forceFade()) {
-                    this.forceFade(null);
+                } else {
+                    if (!this.forceFade()) {
+                        this.forceFade(null);
+                    }
                     this.fade(true);
                 }
             },
@@ -148,8 +150,10 @@
             fadeIn: function (force, callback, context) {
                 if (force) {
                     this.forceFade(false);
-                } else if (this.forceFade()) {
-                    this.forceFade(null);
+                } else {
+                    if (this.forceFade()) {
+                        this.forceFade(null);
+                    }
                     this.fade(false);
                 }
             },

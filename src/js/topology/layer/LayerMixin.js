@@ -168,19 +168,36 @@
             eachLayer: function (callback, context) {
                 nx.each(this.layersMap(), callback, context);
             },
+            /**
+             * fade out layer
+             * @method fadeOut
+             * @param [force] {Boolean} force layer fade out and can't fade in
+             * @param [callback] {Function} callback after fade out
+             * @param [context] {Object} callback context
+             */
             fadeOut: function (force, callback, context) {
                 if (force) {
                     this.forceFade(true);
-                } else if (!this.forceFade()) {
-                    this.forceFade(null);
+                } else {
+                    if (!this.forceFade()) {
+                        this.forceFade(null);
+                    }
                     this.fade(true);
                 }
             },
+            /**
+             * FadeIn layer's fade statues
+             * @param force {Boolean} force recover all items
+             * @param [callback] {Function} callback after fade out
+             * @param [context] {Object} callback context
+             */
             fadeIn: function (force, callback, context) {
                 if (force) {
                     this.forceFade(false);
-                } else if (this.forceFade()) {
-                    this.forceFade(null);
+                } else {
+                    if (this.forceFade()) {
+                        this.forceFade(null);
+                    }
                     this.fade(false);
                 }
             },
