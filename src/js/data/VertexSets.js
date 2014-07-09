@@ -80,7 +80,7 @@
                     vertexSet = this._addVertexSet(data);
                 }
 
-                if (vertexSet) {
+                if (!vertexSet) {
                     return null;
                 }
 
