@@ -138,9 +138,10 @@
                     this._highlightedNodes = value;
                 }
             },
-            aggregationRule: {
-
-            }
+            enableNodeSetAnimation: {
+                value: true
+            },
+            aggregationRule: {}
         },
         methods: {
             initNode: function () {
@@ -225,7 +226,9 @@
 
 
                 var config = inConfig || {};
-                var vertexSetData = nx.extend({nodes: []}, config);
+                var vertexSetData = nx.extend({
+                    nodes: []
+                }, config);
                 var parentNodeSet;
                 var isSameParentNodeSet = true;
 
@@ -632,8 +635,7 @@
             expandNodes: function (nodes, sourcePosition, callback, context, isAnimate) {
 
                 var nodesLength = nx.is(nodes, Array) ? nodes.length : nx.util.keys(nodes).length;
-                callback = callback || function () {
-                };
+                callback = callback || function () {};
 
 
                 if (nodesLength > 150 || nodesLength === 0 || isAnimate === false) {
@@ -672,8 +674,7 @@
             },
             collapseNodes: function (nodes, targetPosition, callback, context, isAnimate) {
                 var nodesLength = nx.is(nodes, Array) ? nodes.length : nx.util.keys(nodes).length;
-                callback = callback || function () {
-                };
+                callback = callback || function () {};
 
 
                 if (nodesLength > 150 || nodesLength === 0 || isAnimate === false) {
