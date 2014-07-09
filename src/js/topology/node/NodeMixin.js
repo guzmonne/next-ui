@@ -350,12 +350,21 @@
                 }
                 var nodeSet = this.getNode(id);
                 if (nodeSet) {
-                    if (nodeSet.activated()) {
+                    if (nodeSet.collapsed()) {
                         nodeSet.activated(false);
+                        nodeSet.expandNodes(function () {
+                            this.graph().deleteVertexSet(id);
+                            this.fire("deleteNodeSet", nodeSet);
+                        }, this);
+                    } else {
+                        this.graph().deleteVertexSet(id);
+                        this.fire("deleteNodeSet", nodeSet);
                     }
-                    this.fire("deleteNodeSet", nodeSet);
+
+                } else {
+                    this.graph().deleteVertexSet(id);
                 }
-                this.graph().deleteVertexSet(id);
+
             },
 
 
