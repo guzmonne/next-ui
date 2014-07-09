@@ -140,9 +140,8 @@
             },
             enableNodeSetAnimation: {
                 value: true
-	    },
-            aggregationRule: {
-            }
+            },
+            aggregationRule: {}
         },
         methods: {
             initNode: function () {
