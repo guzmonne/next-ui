@@ -75,7 +75,7 @@
                 var identityKey = this.identityKey();
                 if (nx.is(nodes, nx.data.ObservableCollection)) {
                     nodes.add(data);
-                    //todo
+                    //todo will has issue when data is not current
                     vertex = vertices.getItem(vertices.count() - 1);
                 } else {
                     nodes.push(data);
