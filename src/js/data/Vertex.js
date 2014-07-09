@@ -265,19 +265,16 @@
              */
             generatedRootVertexSet: {
                 get: function () {
+                    var _parentVertexSet;
                     var parentVertexSet = this.parentVertexSet();
 
-                    while (parentVertexSet && parentVertexSet.parentVertexSet()) {
-
-                        var _parentVertexSet = parentVertexSet.parentVertexSet();
-
-                        if (!_parentVertexSet.generated() || (_parentVertexSet.generated() && _parentVertexSet.activated())) {
-                            parentVertexSet = _parentVertexSet;
-                        } else {
-                            break;
+                    while (parentVertexSet) {
+                        if (parentVertexSet.generated() && parentVertexSet.activated()) {
+                            _parentVertexSet = parentVertexSet;
                         }
+                        parentVertexSet = parentVertexSet.parentVertexSet();
                     }
-                    return parentVertexSet;
+                    return _parentVertexSet;
                 }
             }
         },

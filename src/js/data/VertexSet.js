@@ -119,9 +119,10 @@
                     _map[id] = vertex;
                     vertex.restricted(true);
 
-                    if (vertex.parentVertexSet()) {
-                        vertex.parentVertexSet().removeVertex(id);
-                        vertex.parentVertexSet().update(true);
+                    var parentVertexSet = vertex.parentVertexSet();
+                    if (parentVertexSet) {
+                        parentVertexSet.removeVertex(id);
+                        parentVertexSet.updated(true);
                     }
 
                     vertex.parentVertexSet(this);

@@ -23,7 +23,7 @@
             },
             /**
              * Node array in the shape
-             * @property nodes {nx.data.ObservableCollection}
+             * @property nodes {Array}
              */
             nodes: {
                 get: function () {
@@ -101,9 +101,11 @@
                 var nodes = [];
                 var topo = this.topology();
                 nx.each(this.vertices(), function (vertex) {
-                    var node = topo.getNode(vertex.id());
-                    if (node) {
-                        nodes.push(node);
+                    if (vertex.generated()) {
+                        var node = topo.getNode(vertex.id());
+                        if (node) {
+                            nodes.push(node);
+                        }
                     }
                 });
                 return nodes;
@@ -132,7 +134,7 @@
                 var topo = this.topology();
                 var graph = topo.graph();
                 var vertices = this.vertices();
-                var nodes = this._nodes();
+                var nodes = this.nodes();
 
                 if (nx.is(value, nx.graphic.Topology.AbstractNode)) {
                     vertex = value.model();
@@ -156,6 +158,8 @@
 
                     }
 
+                    this.draw();
+
                 }
 
 
@@ -174,7 +178,7 @@
             },
             updateNodesPosition: function (x, y) {
                 var stageScale = this.topology().stageScale();
-                this.getNodes().each(function (node) {
+                nx.each(this.getNodes(), function (node) {
                     node.move(x * stageScale, y * stageScale);
                 });
             },

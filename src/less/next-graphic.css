@@ -510,13 +510,13 @@
   stroke-linejoin: round;
   pointer-events: none;
 }
-.n-topology.n-topology-blue .layer > g {
+.n-topology.n-topology-blue.fade-all .layer > g {
   transition: opacity .6s;
 }
-.n-topology .fade-layer > g:not(.fade-highlight-item):not(.fade-active-item) {
+.n-topology.n-topology-blue.fade-all .layer > g:not(.fade-highlight-item):not(.fade-active-item) {
   opacity: .2;
 }
-.n-topology.fade-all .layer > g:not(.fade-highlight-item):not(.fade-active-item) {
+.n-topology.n-topology-blue.fade-all .layer.fade-layer > g:not(.fade-highlight-item):not(.fade-active-item) {
   opacity: .2;
 }
 .n-topology.n-topology-blue .n-topology-nav {
@@ -1193,10 +1193,13 @@
   stroke-linejoin: round;
   pointer-events: none;
 }
-.n-topology.n-topology-dark .fade-layer > g {
-  transition: .6s;
+.n-topology.n-topology-dark.fade-all .layer > g {
+  transition: opacity .6s;
 }
-.n-topology.n-topology-dark .fade-layer > g:not(.fade-highlight):not(.fade-active) {
+.n-topology.n-topology-dark.fade-all .layer > g:not(.fade-highlight-item):not(.fade-active-item) {
+  opacity: .2;
+}
+.n-topology.n-topology-dark.fade-all .layer.fade-layer > g:not(.fade-highlight-item):not(.fade-active-item) {
   opacity: .2;
 }
 .n-topology.n-topology-dark .n-topology-nav {
@@ -1873,6 +1876,15 @@
   stroke-linejoin: round;
   pointer-events: none;
 }
+.n-topology.n-topology-green.fade-all .layer > g {
+  transition: opacity .6s;
+}
+.n-topology.n-topology-green.fade-all .layer > g:not(.fade-highlight-item):not(.fade-active-item) {
+  opacity: .2;
+}
+.n-topology.n-topology-green.fade-all .layer.fade-layer > g:not(.fade-highlight-item):not(.fade-active-item) {
+  opacity: .2;
+}
 .n-topology.n-topology-green .n-topology-nav {
   position: absolute;
   top: 0px;
@@ -2547,10 +2559,13 @@
   stroke-linejoin: round;
   pointer-events: none;
 }
-.n-topology.n-topology-slate .fade-layer > g {
-  transition: .6s;
+.n-topology.n-topology-slate.fade-all .layer > g {
+  transition: opacity .6s;
 }
-.n-topology.n-topology-slate .fade-layer > g:not(.fade-highlight):not(.fade-active) {
+.n-topology.n-topology-slate.fade-all .layer > g:not(.fade-highlight-item):not(.fade-active-item) {
+  opacity: .2;
+}
+.n-topology.n-topology-slate.fade-all .layer.fade-layer > g:not(.fade-highlight-item):not(.fade-active-item) {
   opacity: .2;
 }
 .n-topology.n-topology-slate .n-topology-nav {
@@ -3227,10 +3242,13 @@
   stroke-linejoin: round;
   pointer-events: none;
 }
-.n-topology.n-topology-yellow .fade-layer > g {
-  transition: .6s;
+.n-topology.n-topology-yellow.fade-all .layer > g {
+  transition: opacity .6s;
 }
-.n-topology.n-topology-yellow .fade-layer > g:not(.fade-highlight):not(.fade-active) {
+.n-topology.n-topology-yellow.fade-all .layer > g:not(.fade-highlight-item):not(.fade-active-item) {
+  opacity: .2;
+}
+.n-topology.n-topology-yellow.fade-all .layer.fade-layer > g:not(.fade-highlight-item):not(.fade-active-item) {
   opacity: .2;
 }
 .n-topology.n-topology-yellow .n-topology-nav {
@@ -3575,6 +3593,7 @@
 .n-topology-tooltip {
   padding: 0px;
   opacity: 0.8 !important;
+  max-height: 450px;
 }
 .n-topology-tooltip-header {
   min-width: 160px;

@@ -106,7 +106,7 @@
                 var text = this.view('text');
                 text.setTransform(bound.left + bound.width / 2, bound.top - 40 * stageScale * revisionScale, stageScale);
 
-                this.view('label').view().dom().setStyle('font-size', 18 * revisionScale);
+                this.view('label').view().dom().setStyle('font-size', 11);
 
                 text.view().dom().setStyle('fill', this.color());
             },

@@ -88,11 +88,60 @@
                     return new nx.data.UniqObservableCollection();
                 }
             },
-            aggregationRule: {
+            activeNodes: {
+                set: function (value) {
+                    var nodesLayer = this.getLayer("nodes");
+                    var nodeSetLayer = this.getLayer("nodeSet");
+                    var watcher = this._activeNodesWatcher;
+                    if (!watcher) {
+                        watcher = this._activeNodesWatcher = new nx.graphic.Topology.NodeWatcher();
+                        watcher.topology(this);
+                        watcher.updater(function () {
+                            var nodes = watcher.getNodes();
+                            nx.each(nodes, function (node) {
+                                if (node.model().type() == 'vertex') {
+                                    nodesLayer.activeElements().add(node);
+                                } else {
+                                    nodeSetLayer.activeElements().add(node);
+                                }
+                            }, this);
+                        }.bind(this));
+                    }
+                    nodesLayer.activeElements().clear();
+                    nodeSetLayer.activeElements().clear();
+                    watcher.nodes(value);
+                    this._activeNodes = value;
+                }
+            },
+            highlightedNodes: {
+                set: function (value) {
+                    var nodesLayer = this.getLayer("nodes");
+                    var nodeSetLayer = this.getLayer("nodeSet");
+                    var watcher = this._highlightedNodesWatcher;
+                    if (!watcher) {
+                        watcher = this._highlightedNodesWatcher = new nx.graphic.Topology.NodeWatcher();
+                        watcher.topology(this);
+                        watcher.updater(function () {
+                            nx.each(watcher.getNodes(), function (node) {
+                                if (node.model().type() == 'vertex') {
+                                    nodesLayer.highlightedElements().add(node);
+                                } else {
+                                    nodeSetLayer.highlightedElements().add(node);
+                                }
+                            }, this);
+                        }.bind(this));
+                    }
 
+                    nodesLayer.highlightedElements().clear();
+                    nodeSetLayer.highlightedElements().clear();
+                    watcher.nodes(value);
+                    this._highlightedNodes = value;
+                }
             },
             enableNodeSetAnimation: {
                 value: true
+	    },
+            aggregationRule: {
             }
         },
         methods: {
@@ -154,43 +203,10 @@
                     this.graph().deleteVertex(id);
                 }
             },
-            /**
-             * Add a nodeSet
-             * @method addNodeSet
-             * @param obj
-             * @param [inOption]
-             * @param [parentNodeSet]
-             * @returns {*}
-             */
-            addNodeSet: function (obj, inOption, parentNodeSet) {
-                var vertex = this.graph().addVertexSet(obj, inOption);
-                var nodeSet = this.getNode(vertex.id());
-                if (parentNodeSet) {
-                    nodeSet.parentNodeSet(parentNodeSet);
-                }
-                this.fire("addNodeSet", nodeSet);
-                return nodeSet;
-            },
-            removeNodeSet: function (arg) {
-                //                var id = arg;
-                //                if (nx.is(arg, nx.graphic.Topology.AbstractNode)) {
-                //                    id = arg.id();
-                //                }
-                //                var inNodeSet = this.getNode(id);
-                //                if (inNodeSet) {
-                //                    if (inNodeSet.activated()) {
-                //                        inNodeSet.activated(false);
-                //                    }
-                //                    //this.fire("removeNode", node);
-                //                    this.graph().removeVertexSet(id);
-                //                }
-                this.deleteNodeSet(arg);
-            },
             aggregationNodes: function (inNodes, inConfig) {
                 if (inNodes.length < 2) {
                     return;
                 }
-
 
                 var nodes = [];
                 nx.each(inNodes, function (n) {
@@ -307,6 +323,26 @@
                 this.stage().resetFitMatrix();
                 return nodeSet;
             },
+            /**
+             * Add a nodeSet
+             * @method addNodeSet
+             * @param obj
+             * @param [inOption]
+             * @param [parentNodeSet]
+             * @returns {*}
+             */
+            addNodeSet: function (obj, inOption, parentNodeSet) {
+                var vertex = this.graph().addVertexSet(obj, inOption);
+                var nodeSet = this.getNode(vertex.id());
+                if (parentNodeSet) {
+                    nodeSet.parentNodeSet(parentNodeSet);
+                }
+                this.fire("addNodeSet", nodeSet);
+                return nodeSet;
+            },
+            removeNodeSet: function (arg) {
+                this.deleteNodeSet(arg);
+            },
 
             deleteNodeSet: function (arg) {
                 if (!arg) {
@@ -318,12 +354,21 @@
                 }
                 var nodeSet = this.getNode(id);
                 if (nodeSet) {
-                    if (nodeSet.activated()) {
+                    if (nodeSet.collapsed()) {
                         nodeSet.activated(false);
+                        nodeSet.expandNodes(function () {
+                            this.graph().deleteVertexSet(id);
+                            this.fire("deleteNodeSet", nodeSet);
+                        }, this);
+                    } else {
+                        this.graph().deleteVertexSet(id);
+                        this.fire("deleteNodeSet", nodeSet);
                     }
-                    this.fire("deleteNodeSet", nodeSet);
+
+                } else {
+                    this.graph().deleteVertexSet(id);
                 }
-                this.graph().deleteVertexSet(id);
+
             },
 
 
@@ -392,7 +437,22 @@
              * Batch action, highlight node and related nodes and connected links.
              * @param node
              */
-            highlightRelatedNode: function (node) {
+            highlightRelatedNode: function (inNode) {
+                var node;
+                if (!inNode) {
+                    return;
+                }
+
+                if (nx.is(inNode, nx.graphic.Topology.AbstractNode)) {
+                    node = inNode;
+                } else {
+                    node = this.getNode(inNode);
+                }
+                if (!node) {
+                    return;
+                }
+
+
                 var nodeSetLayer = this.getLayer('nodeSet');
                 var nodeLayer = this.getLayer('nodes');
 
@@ -428,7 +488,21 @@
              * Batch action, highlight node and related nodes and connected links.
              * @param node
              */
-            activeRelatedNode: function (node) {
+            activeRelatedNode: function (inNode) {
+
+                var node;
+                if (!inNode) {
+                    return;
+                }
+
+                if (nx.is(inNode, nx.graphic.Topology.AbstractNode)) {
+                    node = inNode;
+                } else {
+                    node = this.getNode(inNode);
+                }
+                if (!node) {
+                    return;
+                }
 
 
                 var nodeSetLayer = this.getLayer('nodeSet');

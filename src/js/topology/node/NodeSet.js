@@ -235,7 +235,7 @@
             },
 
             expandNodes: function (callback, context) {
-                if (this.model().activated()) {
+                if (!this.model().activated()) {
                     this.topology().expandNodes(this.nodes(), this.position(), callback, context);
                 }
             },

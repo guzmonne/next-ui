@@ -244,7 +244,7 @@
                         delete ns.group;
                     }
                 }, this);
-                
+
                 this._topo.fadeIn();
                 this._topo.recoverHighlight();
             },
@@ -333,6 +333,12 @@
             },
             clickGroupLabel: function (sender, group) {
 
+            },
+            collapseNodeSetGroup: function (sender, group) {
+                var nodeSet = group.nodeSet();
+                if (nodeSet) {
+                    nodeSet.collapsed(true);
+                }
             },
 
             enterGroup: function (sender, group) {

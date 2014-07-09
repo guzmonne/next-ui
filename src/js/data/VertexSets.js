@@ -226,8 +226,6 @@
 
                 vertexSet.generated(false);
                 vertexSet.off('updateCoordinate', this._updateVertexSetCoordinateFN, this);
-
-
                 this.fire('removeVertexSet', vertexSet);
 
             },
@@ -254,17 +252,23 @@
 
                 vertexSet.activated(false);
 
+
                 var parentVertexSet = vertexSet.parentVertexSet();
                 if (parentVertexSet) {
                     parentVertexSet.removeVertex(id);
+                    nx.each(vertexSet.vertices(), function (vertex) {
+                        parentVertexSet.addVertex(vertex);
+                    });
+                    nx.each(vertexSet.vertexSet(), function (vertexSet) {
+                        parentVertexSet.addVertex(vertexSet);
+                    });
                 }
 
                 vertexSet.off('updateCoordinate', this._updateVertexCoordinateFN, this);
-
-
+                vertexSet.generated(false);
                 this.vertexSets().removeItem(id);
-
                 this.fire('deleteVertexSet', vertexSet);
+
                 vertexSet.dispose();
             },
 
