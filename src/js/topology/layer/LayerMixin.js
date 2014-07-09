@@ -17,7 +17,35 @@
                 value: function () {
                     return [];
                 }
-            }
+            },
+
+            /**
+             * Get fade status.
+             * @property fade
+             * @readOnly
+             */
+            fade: {
+                dependencies: "forceFade",
+                value: function (forceFade) {
+                    // TODO relates highlight and active setting
+                    return (forceFade === true || forceFade === false) ? forceFade : this._fade;
+                }
+            },
+            fadeUpdater_internal_: {
+                dependencies: "fade",
+                update: function (fade) {
+                    if (fade) {
+                        this.dom().addClass("fade-all");
+                    } else {
+                        this.dom().removeClass("fade-all");
+                    }
+                }
+            },
+            /**
+             * Force layer fade.
+             * @property forceFade
+             */
+            forceFade: {}
         },
         methods: {
             initLayer: function () {
@@ -140,13 +168,21 @@
             eachLayer: function (callback, context) {
                 nx.each(this.layersMap(), callback, context);
             },
-
-
-            fadeIn: function (force, callback, context) {
-                this.dom().removeClass("fade-all");
-            },
             fadeOut: function (force, callback, context) {
-                this.dom().addClass("fade-all");
+                if (force) {
+                    this.forceFade(true);
+                } else if (!this.forceFade()) {
+                    this.forceFade(null);
+                    this.fade(true);
+                }
+            },
+            fadeIn: function (force, callback, context) {
+                if (force) {
+                    this.forceFade(false);
+                } else if (this.forceFade()) {
+                    this.forceFade(null);
+                    this.fade(false);
+                }
             },
             recoverActive: function () {
                 nx.each(this.layers(), function (layer) {

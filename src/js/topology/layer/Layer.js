@@ -21,13 +21,6 @@
             topology: {
                 value: null
             },
-            fade: {
-                value: false
-            },
-            /**
-             * Layer's highlight element's collection
-             * @property highlightedElements
-             */
             highlightedElements: {
                 value: function () {
                     return new nx.data.ObservableCollection();
@@ -37,7 +30,33 @@
                 value: function () {
                     return new nx.data.ObservableCollection();
                 }
-            }
+            },
+            /**
+             * Get fade status.
+             * @property fade
+             * @readOnly
+             */
+            fade: {
+                dependencies: "forceFade",
+                value: function (forceFade) {
+                    return (forceFade === true || forceFade === false) ? forceFade : this._fade;
+                }
+            },
+            fadeUpdater_internal_: {
+                dependencies: "fade",
+                update: function (fade) {
+                    if (fade) {
+                        this.dom().addClass("fade-layer");
+                    } else {
+                        this.dom().removeClass("fade-layer");
+                    }
+                }
+            },
+            /**
+             * Force layer fade.
+             * @property forceFade
+             */
+            forceFade: {}
         },
         methods: {
             init: function (args) {
@@ -113,14 +132,12 @@
              * @param [context] {Object} callback context
              */
             fadeOut: function (force, callback, context) {
-                var _force = force !== undefined;
-                if (this._fade && !_force) {
-                    return;
+                if (force) {
+                    this.forceFade(true);
+                } else if (!this.forceFade()) {
+                    this.forceFade(null);
+                    this.fade(true);
                 }
-                this.dom().addClass("fade-layer");
-                // TODO invoke callback when fade complete
-                // el.setStyle('opacity', 0.2, 0.5, callback, context);
-                this._fade = _force;
             },
             /**
              * FadeIn layer's fade statues
@@ -129,13 +146,12 @@
              * @param [context] {Object} callback context
              */
             fadeIn: function (force, callback, context) {
-                if (this._fade && !force) {
-                    return;
+                if (force) {
+                    this.forceFade(false);
+                } else if (this.forceFade()) {
+                    this.forceFade(null);
+                    this.fade(false);
                 }
-                this.dom().removeClass("fade-layer");
-                // TODO invoke callback when un-fade complete
-                // el.setStyle('opacity', 1, 0, callback, context);
-                delete this._fade;
             },
             /**
              * Fade in layer

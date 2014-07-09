@@ -9,8 +9,7 @@
      */
     var CLZ = nx.define('nx.graphic.Topology.NodesLayer', nx.graphic.Topology.Layer, {
         statics: {
-            defaultConfig: {
-            }
+            defaultConfig: {}
         },
         events: ['clickNode', 'enterNode', 'leaveNode', 'dragNodeStart', 'dragNode', 'dragNodeEnd', 'hideNode', 'pressNode', 'selectNode', 'updateNodeCoordinate'],
         properties: {
@@ -58,8 +57,6 @@
                         item.value().revisionScale(value);
                     }, this);
                 }, this);
-
-
             },
             /**
              * Add node a nodes layer
@@ -93,8 +90,7 @@
                     node.update();
                 }
             },
-            highlightRelatedNode: function () {
-            },
+            highlightRelatedNode: function () {},
             //get node instance class
             _getNodeInstanceClass: function (vertex) {
                 var Clz;
@@ -133,9 +129,9 @@
 
 
                 this.updateDefaultSetting(node);
-//                setTimeout(function () {
-//                    this.updateDefaultSetting(node);
-//                }.bind(this), 0);
+                //                setTimeout(function () {
+                //                    this.updateDefaultSetting(node);
+                //                }.bind(this), 0);
                 return node;
             },
 
@@ -153,8 +149,10 @@
                 }, this);
 
                 //properties
-                var nodeConfig = this.nodeConfig = nx.extend({enableSmartLabel: topo.enableSmartLabel()}, CLZ.defaultConfig, topo.nodeConfig());
-                delete  nodeConfig.__owner__;
+                var nodeConfig = this.nodeConfig = nx.extend({
+                    enableSmartLabel: topo.enableSmartLabel()
+                }, CLZ.defaultConfig, topo.nodeConfig());
+                delete nodeConfig.__owner__;
                 nx.each(nodeConfig, function (value, key) {
                     util.setProperty(node, key, value, topo);
                 }, this);

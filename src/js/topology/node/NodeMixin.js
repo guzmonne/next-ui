@@ -94,7 +94,6 @@
             enableNodeSetAnimation: {
                 value: true
             }
-
         },
         methods: {
             initNode: function () {
@@ -173,18 +172,18 @@
                 return nodeSet;
             },
             removeNodeSet: function (arg) {
-//                var id = arg;
-//                if (nx.is(arg, nx.graphic.Topology.AbstractNode)) {
-//                    id = arg.id();
-//                }
-//                var inNodeSet = this.getNode(id);
-//                if (inNodeSet) {
-//                    if (inNodeSet.activated()) {
-//                        inNodeSet.activated(false);
-//                    }
-//                    //this.fire("removeNode", node);
-//                    this.graph().removeVertexSet(id);
-//                }
+                //                var id = arg;
+                //                if (nx.is(arg, nx.graphic.Topology.AbstractNode)) {
+                //                    id = arg.id();
+                //                }
+                //                var inNodeSet = this.getNode(id);
+                //                if (inNodeSet) {
+                //                    if (inNodeSet.activated()) {
+                //                        inNodeSet.activated(false);
+                //                    }
+                //                    //this.fire("removeNode", node);
+                //                    this.graph().removeVertexSet(id);
+                //                }
                 this.deleteNodeSet(arg);
             },
             aggregationNodes: function (inNodes, inConfig) {
@@ -207,7 +206,9 @@
 
 
                 var config = inConfig || {};
-                var vertexSetData = nx.extend({nodes: []}, config);
+                var vertexSetData = nx.extend({
+                    nodes: []
+                }, config);
                 var parentNodeSet;
                 var isSameParentNodeSet = true;
 
@@ -551,8 +552,7 @@
             expandNodes: function (nodes, sourcePosition, callback, context, isAnimate) {
 
                 var nodesLength = nx.is(nodes, Array) ? nodes.length : nx.util.keys(nodes).length;
-                callback = callback || function () {
-                };
+                callback = callback || function () {};
 
 
                 if (nodesLength > 150 || nodesLength === 0 || isAnimate === false) {
@@ -592,8 +592,7 @@
             },
             collapseNodes: function (nodes, targetPosition, callback, context, isAnimate) {
                 var nodesLength = nx.is(nodes, Array) ? nodes.length : nx.util.keys(nodes).length;
-                callback = callback || function () {
-                };
+                callback = callback || function () {};
 
 
                 if (nodesLength > 150 || nodesLength === 0 || isAnimate === false) {
