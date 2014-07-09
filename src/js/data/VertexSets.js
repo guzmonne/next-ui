@@ -226,8 +226,6 @@
 
                 vertexSet.generated(false);
                 vertexSet.off('updateCoordinate', this._updateVertexSetCoordinateFN, this);
-
-
                 this.fire('removeVertexSet', vertexSet);
 
             },
@@ -270,6 +268,7 @@
                 vertexSet.generated(false);
                 this.vertexSets().removeItem(id);
                 this.fire('deleteVertexSet', vertexSet);
+
                 vertexSet.dispose();
             },
 

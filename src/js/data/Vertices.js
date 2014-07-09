@@ -189,16 +189,13 @@
 
 
                 vertex.off('updateCoordinate', this._updateVertexCoordinateFN, this);
-
-
+                vertex.generated(false);
                 /**
                  * @event removeVertex
                  * @param sender {Object}  Trigger instance
                  * @param {nx.data.Vertex} vertex Vertex object
                  */
-
                 this.fire('removeVertex', vertex);
-                vertex.generated(false);
                 return vertex;
             },
             /**
@@ -240,8 +237,7 @@
                 }
 
                 vertex.off('updateCoordinate', this._updateVertexCoordinateFN, this);
-
-
+                vertex.generated(false);
                 this.fire('deleteVertex', vertex);
 
                 this.vertices().removeItem(id);

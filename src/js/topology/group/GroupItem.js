@@ -101,9 +101,11 @@
                 var nodes = [];
                 var topo = this.topology();
                 nx.each(this.vertices(), function (vertex) {
-                    var node = topo.getNode(vertex.id());
-                    if (node) {
-                        nodes.push(node);
+                    if (vertex.generated()) {
+                        var node = topo.getNode(vertex.id());
+                        if (node) {
+                            nodes.push(node);
+                        }
                     }
                 });
                 return nodes;

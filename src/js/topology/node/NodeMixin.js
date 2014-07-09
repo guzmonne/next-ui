@@ -201,43 +201,10 @@
                     this.graph().deleteVertex(id);
                 }
             },
-            /**
-             * Add a nodeSet
-             * @method addNodeSet
-             * @param obj
-             * @param [inOption]
-             * @param [parentNodeSet]
-             * @returns {*}
-             */
-            addNodeSet: function (obj, inOption, parentNodeSet) {
-                var vertex = this.graph().addVertexSet(obj, inOption);
-                var nodeSet = this.getNode(vertex.id());
-                if (parentNodeSet) {
-                    nodeSet.parentNodeSet(parentNodeSet);
-                }
-                this.fire("addNodeSet", nodeSet);
-                return nodeSet;
-            },
-            removeNodeSet: function (arg) {
-//                var id = arg;
-//                if (nx.is(arg, nx.graphic.Topology.AbstractNode)) {
-//                    id = arg.id();
-//                }
-//                var inNodeSet = this.getNode(id);
-//                if (inNodeSet) {
-//                    if (inNodeSet.activated()) {
-//                        inNodeSet.activated(false);
-//                    }
-//                    //this.fire("removeNode", node);
-//                    this.graph().removeVertexSet(id);
-//                }
-                this.deleteNodeSet(arg);
-            },
             aggregationNodes: function (inNodes, inConfig) {
                 if (inNodes.length < 2) {
                     return;
                 }
-
 
                 var nodes = [];
                 nx.each(inNodes, function (n) {
@@ -351,6 +318,26 @@
                 var nodeSet = this.addNodeSet(vertexSetData, vertexSetConfig, parentNodeSet);
                 this.stage().resetFitMatrix();
                 return nodeSet;
+            },
+            /**
+             * Add a nodeSet
+             * @method addNodeSet
+             * @param obj
+             * @param [inOption]
+             * @param [parentNodeSet]
+             * @returns {*}
+             */
+            addNodeSet: function (obj, inOption, parentNodeSet) {
+                var vertex = this.graph().addVertexSet(obj, inOption);
+                var nodeSet = this.getNode(vertex.id());
+                if (parentNodeSet) {
+                    nodeSet.parentNodeSet(parentNodeSet);
+                }
+                this.fire("addNodeSet", nodeSet);
+                return nodeSet;
+            },
+            removeNodeSet: function (arg) {
+                this.deleteNodeSet(arg);
             },
 
             deleteNodeSet: function (arg) {
