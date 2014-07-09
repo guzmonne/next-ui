@@ -392,6 +392,10 @@
                 this.stage().show();
                 if (this.autoFit()) {
                     this.stage().fit(null, null, false);
+                    this.stage().resetFitMatrix();
+                    this.stage().fit(null, null, false);
+                    this.stage().resetFitMatrix();
+                    this.stage().fit(null, null, false);
                 }
                 this.hideLoading();
             }
