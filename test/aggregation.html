@@ -5,8 +5,8 @@
     <!--<script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/NeXt-UI/ws/lib/jquery/jquery-1.10.2.min.js"></script>-->
     <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/NeXt-Core/lastSuccessfulBuild/artifact/dest/next-core.js"></script>
     <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/NeXt-UI/lastSuccessfulBuild/artifact/dest/js/next-ui.js"></script>
-    <!--<script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/Next-Graphic/lastSuccessfulBuild/artifact/dest/js/next-graphic.js"></script>-->
-    <Script Type="text/javascript" src="../src/js/next-graphic.js"></script>
+    <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/Next-Graphic/lastSuccessfulBuild/artifact/dest/js/next-graphic.js"></script>
+    <!--<Script Type="text/javascript" src="../src/js/next-graphic.js"></script>-->
     <link rel="stylesheet" href="http://10.75.161.96:8080/jenkins/job/NeXt-UI/lastSuccessfulBuild/artifact/dest/css/next-blue.css"/>
     <!--<link rel="stylesheet" href="../src/less/next-graphic.css"/>-->
 
@@ -172,7 +172,7 @@ nx.define('List', nx.ui.Component, {
                     },
                     content: [
                         {
-                            tag: 'label',
+//                            tag: 'label',
                             content: [
                                 {
                                     tag: 'input',
@@ -227,7 +227,7 @@ nx.define('List', nx.ui.Component, {
                     },
                     content: [
                         {
-                            tag: 'label',
+//                            tag: 'label',
                             content: [
                                 {
                                     tag: 'span',
@@ -254,12 +254,12 @@ nx.define('List', nx.ui.Component, {
         _del: function (sender, event) {
             var nodeSet = sender.model().value();
             topo.deleteNodeSet(nodeSet);
-            topo.fit();
+//            topo.fit();
         },
         _del2: function (sender, event) {
             var nodeSet = sender.model();
             topo.deleteNodeSet(nodeSet);
-            topo.fit();
+//            topo.fit();
         },
         _aggregate: function () {
             var topo = this.topology();
