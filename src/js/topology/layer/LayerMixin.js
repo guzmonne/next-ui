@@ -204,7 +204,7 @@
                         layer.activeElements().clear();
                     }
                 }, this);
-                topo.fadeIn();
+                this.fadeIn();
             },
             recoverHighlight: function () {
                 nx.each(this.layers(), function (layer) {
@@ -212,7 +212,7 @@
                         layer.highlightedElements().clear();
                     }
                 }, this);
-                topo.fadeIn(true);
+                this.fadeIn(true);
             },
             /**
              * Clear all layer's content
