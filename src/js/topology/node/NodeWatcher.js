@@ -88,7 +88,7 @@
                 nx.each(vertices, function (vertex) {
                     var id = vertex.id();
                     var node = topo.getNode(id);
-                    if (!node) {
+                    if (!node || vertex.generated() === false) {
                         var generatedRootVertexSet = vertex.generatedRootVertexSet();
                         if (generatedRootVertexSet) {
                             node = topo.getNode(generatedRootVertexSet.id());
