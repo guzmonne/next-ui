@@ -10,7 +10,7 @@
             },
             addRange: function (iter) {
                 if (nx.is(iter, Array)) {
-                    var items = iter.slice();
+                    var items = nx.util.uniq(iter.slice());
                     var i = 0;
                     while (i < items.length) {
                         var item = items[i];
