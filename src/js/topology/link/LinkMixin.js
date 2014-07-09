@@ -51,11 +51,15 @@
                 if (obj.source == null || obj.target == null) {
                     return undefined;
                 }
-
                 var edge = this.graph().addEdge(obj, inOption);
-                var link = this.getLink(edge.id());
-                this.fire("addLink", link);
-                return link;
+                if (edge) {
+                    var link = this.getLink(edge.id());
+                    this.fire("addLink", link);
+                    return link;
+                } else {
+                    return null;
+                }
+
             },
             /**
              * Remove a link
@@ -72,8 +76,7 @@
                 if (nx.is(arg, nx.graphic.Topology.AbstractLink)) {
                     id = arg.id();
                 }
-                var link = this.getLink(id);
-                this.fire("deleteLink", link);
+                this.fire("deleteLink", this.getLink(id));
                 this.graph().deleteEdge(id);
             },
 
