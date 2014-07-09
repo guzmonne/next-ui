@@ -516,7 +516,7 @@
 .n-topology.n-topology-blue.fade-all .layer > g:not(.fade-highlight-item):not(.fade-active-item) {
   opacity: .2;
 }
-.n-topology.n-topology-blue.fade-all .layer.fade-layer > g:not(.fade-highlight-item):not(.fade-active-item) {
+.n-topology.n-topology-blue .layer.fade-layer > g:not(.fade-highlight-item):not(.fade-active-item) {
   opacity: .2;
 }
 .n-topology.n-topology-blue .n-topology-nav {
