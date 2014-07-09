@@ -178,10 +178,7 @@
             fadeOut: function (force, callback, context) {
                 if (force) {
                     this.forceFade(true);
-                } else {
-                    if (!this.forceFade()) {
-                        this.forceFade(null);
-                    }
+                } else if (!this.forceFade()) {
                     this.fade(true);
                 }
             },
@@ -192,12 +189,12 @@
              * @param [context] {Object} callback context
              */
             fadeIn: function (force, callback, context) {
-                if (force) {
-                    this.forceFade(false);
-                } else {
-                    if (this.forceFade()) {
+                if (this.forceFade() === true) {
+                    if (force) {
                         this.forceFade(null);
+                        this.fade(false);
                     }
+                } else {
                     this.fade(false);
                 }
             },

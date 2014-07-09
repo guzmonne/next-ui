@@ -510,7 +510,7 @@
   stroke-linejoin: round;
   pointer-events: none;
 }
-.n-topology.n-topology-blue.fade-all .layer > g {
+.n-topology.n-topology-blue .layer > g {
   transition: opacity .6s;
 }
 .n-topology.n-topology-blue.fade-all .layer > g:not(.fade-highlight-item):not(.fade-active-item) {
