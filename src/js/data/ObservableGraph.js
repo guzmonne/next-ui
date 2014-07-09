@@ -27,8 +27,7 @@
                 value: 'index'
             },
             filter: {},
-            groupBy: {},
-            levelBy: {}
+            groupBy: {}
         },
         methods: {
             init: function (args) {
@@ -67,8 +66,8 @@
              */
             insertData: function (inData) {
 
-                var data = this.processData(inData);
-
+//                var data = this.processData(inData);
+                var data = inData;
                 nx.each(inData.nodes, function (node) {
                     this.addVertex(node);
                 }, this);

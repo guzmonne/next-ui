@@ -325,6 +325,9 @@
              * @param data {JSON}  should be {nodes:[],links:[]}
              */
             insertData: function (data) {
+                if (data == null || !nx.is(data, Object)) {
+                    return;
+                }
                 this.graph().insertData(data);
                 /**
                  * Fired after insert data

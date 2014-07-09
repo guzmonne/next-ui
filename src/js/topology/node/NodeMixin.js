@@ -444,11 +444,11 @@
             },
             /**
              * Batch action, highlight node and related nodes and connected links.
-             * @param node
+             * @param inNode
              */
             highlightRelatedNode: function (inNode) {
                 var node;
-                if (!inNode) {
+                if (inNode == null) {
                     return;
                 }
 
@@ -486,16 +486,13 @@
                 // highlight connected links and linkSets
                 this.getLayer('linkSet').highlightLinkSets(util.values(node.linkSets()));
                 this.getLayer('links').highlightLinks(util.values(node.links()));
-                this.getLayer('linkSet').fadeOut();
-                this.getLayer('links').fadeOut();
 
-                // fade Out layer
-                nodeSetLayer.fadeOut();
-                nodeLayer.fadeOut();
+                topo.fadeOut(true);
+
             },
             /**
              * Batch action, highlight node and related nodes and connected links.
-             * @param node
+             * @param inNode
              */
             activeRelatedNode: function (inNode) {
 
@@ -538,12 +535,8 @@
                 // highlight connected links and linkSets
                 this.getLayer('linkSet').activeLinkSets(util.values(node.linkSets()));
                 this.getLayer('links').activeLinks(util.values(node.links()));
-                this.getLayer('linkSet').fadeOut();
-                this.getLayer('links').fadeOut();
 
-                // fade Out layer
-                nodeSetLayer.fadeOut();
-                nodeLayer.fadeOut();
+                topo.fadeOut(true);
 
             },
             /**
@@ -635,7 +628,8 @@
             expandNodes: function (nodes, sourcePosition, callback, context, isAnimate) {
 
                 var nodesLength = nx.is(nodes, Array) ? nodes.length : nx.util.keys(nodes).length;
-                callback = callback || function () {};
+                callback = callback || function () {
+                };
 
 
                 if (nodesLength > 150 || nodesLength === 0 || isAnimate === false) {
@@ -674,7 +668,8 @@
             },
             collapseNodes: function (nodes, targetPosition, callback, context, isAnimate) {
                 var nodesLength = nx.is(nodes, Array) ? nodes.length : nx.util.keys(nodes).length;
-                callback = callback || function () {};
+                callback = callback || function () {
+                };
 
 
                 if (nodesLength > 150 || nodesLength === 0 || isAnimate === false) {
