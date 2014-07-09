@@ -536,7 +536,7 @@
                 this.getLayer('linkSet').activeLinkSets(util.values(node.linkSets()));
                 this.getLayer('links').activeLinks(util.values(node.links()));
 
-                topo.fadeOut(true);
+                topo.fadeOut();
 
             },
             /**
