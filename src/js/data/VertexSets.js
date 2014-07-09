@@ -80,6 +80,10 @@
                     vertexSet = this._addVertexSet(data);
                 }
 
+                if (vertexSet) {
+                    return null;
+                }
+
                 if (config) {
                     vertexSet.sets(config);
                 }
@@ -104,12 +108,17 @@
             },
             _addVertexSet: function (data) {
                 var identityKey = this.identityKey();
+                var vertexSets = this.vertexSets();
                 //
                 if (typeof(data) == 'string' || typeof(data) == 'number') {
                     data = {data: data};
                 }
                 var id = nx.path(data, identityKey);
                 id = id !== undefined ? id : this.vertexSets().count() + this.vertices().count();
+
+                if (vertexSets.getItem(id)) {
+                    return null;
+                }
 
                 var vertexSet = new nx.data.VertexSet(data);
 

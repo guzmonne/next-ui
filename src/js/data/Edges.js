@@ -78,6 +78,10 @@
                     edge = this._addEdge(data);
                 }
 
+                if (!edge) {
+                    return null;
+                }
+
                 if (config) {
                     edge.sets(config);
                 }
@@ -115,6 +119,11 @@
                 if (source && target) {
                     var edge = new nx.data.Edge(data);
                     var id = nx.path(data, 'id') != null ? nx.path(data, 'id') : edge.__id__;
+
+                    if (edges.getItem(id)) {
+                        return null;
+                    }
+
 
                     edge.sets({
                         id: id,

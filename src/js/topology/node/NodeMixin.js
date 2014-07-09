@@ -176,9 +176,14 @@
              */
             addNode: function (obj, inOption) {
                 var vertex = this.graph().addVertex(obj, inOption);
-                var node = this.getNode(vertex.id());
-                this.fire("addNode", node);
-                return node;
+                if (vertex) {
+                    var node = this.getNode(vertex.id());
+                    this.fire("addNode", node);
+                    return node;
+                } else {
+                    return null;
+                }
+
             },
 
             /**
@@ -332,12 +337,17 @@
              */
             addNodeSet: function (obj, inOption, parentNodeSet) {
                 var vertex = this.graph().addVertexSet(obj, inOption);
-                var nodeSet = this.getNode(vertex.id());
-                if (parentNodeSet) {
-                    nodeSet.parentNodeSet(parentNodeSet);
+                if (vertex) {
+                    var nodeSet = this.getNode(vertex.id());
+                    if (parentNodeSet) {
+                        nodeSet.parentNodeSet(parentNodeSet);
+                    }
+                    this.fire("addNodeSet", nodeSet);
+                    return nodeSet;
+                } else {
+                    return null;
                 }
-                this.fire("addNodeSet", nodeSet);
-                return nodeSet;
+
             },
             removeNodeSet: function (arg) {
                 this.deleteNodeSet(arg);
@@ -631,7 +641,6 @@
                 if (nodesLength > 150 || nodesLength === 0 || isAnimate === false) {
                     callback.call(context || this, this);
                 } else {
-
                     var positionMap = [];
                     nx.each(nodes, function (node) {
                         positionMap.push({

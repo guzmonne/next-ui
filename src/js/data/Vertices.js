@@ -72,12 +72,18 @@
                 var vertex;
                 var nodes = this.nodes();
                 var vertices = this.vertices();
+                var identityKey = this.identityKey();
                 if (nx.is(nodes, nx.data.ObservableCollection)) {
                     nodes.add(data);
+                    //todo will has issue when data is not current
                     vertex = vertices.getItem(vertices.count() - 1);
                 } else {
                     nodes.push(data);
                     vertex = this._addVertex(data, config);
+                }
+
+                if (!vertex) {
+                    return null;
                 }
 
                 if (config) {
@@ -98,6 +104,10 @@
 
                 var id = nx.path(data, identityKey);
                 id = id !== undefined ? id : (this.vertexSets().count() + this.vertices().count());
+
+                if (vertices.getItem(id)) {
+                    return null;
+                }
 
                 var vertex = new nx.data.Vertex(data);
 
