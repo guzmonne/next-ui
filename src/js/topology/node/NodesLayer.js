@@ -90,7 +90,6 @@
                     node.update();
                 }
             },
-            highlightRelatedNode: function () {},
             //get node instance class
             _getNodeInstanceClass: function (vertex) {
                 var Clz;
@@ -196,8 +195,20 @@
             },
             dispose: function () {
                 this.clear();
-                this.topology().unwatch('stageScale', this.__watchStageScaleFN, this);
-                this.topology().unwatch('revisionScale', this.__watchRevisionScale, this);
+                var topo = this.topology();
+                if (topo) {
+                    this.topology().unwatch('stageScale', this.__watchStageScaleFN, this);
+                    this.topology().unwatch('revisionScale', this.__watchRevisionScale, this);
+                    if (topo._activeNodesWatcher) {
+                        topo._activeNodesWatcher.dispose();
+                    }
+                    if (topo._highlightedNodesWatcher) {
+                        topo._highlightedNodesWatcher.dispose();
+                    }
+
+                }
+
+
                 this.inherited();
             }
         }

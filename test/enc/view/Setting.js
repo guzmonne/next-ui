@@ -10,7 +10,6 @@
         activated: {
             convert: function (value) {
                 var cls = 'list-group-item';
-                console.log(value);
                 if (value && value == 'label') {
                     cls += ' active';
                 }

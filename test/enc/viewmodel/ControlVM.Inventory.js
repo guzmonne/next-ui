@@ -5,7 +5,7 @@
         properties: {
             MVM: {},
             graph: {
-                dependencies: ['MVM.topologyGenerated', 'MVM.topology', 'MVM.topoData'],
+                dependencies: ['MVM.status.topologyGenerated', 'MVM.topology', 'MVM.topoData'],
                 value: function (generated, topology, topoData) {
                     if (generated && topology && topoData) {
                         var graph = topology.graph();
@@ -46,6 +46,21 @@
         methods: {
             selectItem: function (sender, args) {
                 var vertex = sender.model().value();
+            },
+            locateNode: function (sender, events) {
+                var vertex = sender.model().value();
+                this.MVM().topologyVM().locateNode(vertex.id());
+            },
+            highlightItem: function (sender, events) {
+                var vertex = sender.model().value();
+                this.MVM().topologyVM().highlightedNodes([vertex.id()]);
+            },
+            recoverItem: function (sender, events) {
+                var vertex = sender.model().value();
+                this.MVM().topologyVM().recoverHighlighted();
+            },
+            showInfo: function () {
+
             }
         }
     })

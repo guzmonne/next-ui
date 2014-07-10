@@ -6,10 +6,7 @@
         properties: {
             scene: {},
             topo: {},
-            MVM: {},
-            expandALL: {
-                value: false
-            }
+            MVM: {}
         },
         methods: {
             ready: function (topo, event) {
@@ -29,7 +26,10 @@
 
             },
             topologyGenerated: function () {
-                console.log(this._topo.getData());
+            },
+            beforeSetData: function () {
+                var topo = this.topo();
+                topo.showLoading();
             },
             dragNodeEnd: function (sender, node) {
                 this.dispatchTopoOriginalEvent('dragNodeEnd');
@@ -40,7 +40,7 @@
                 this.MVM().topologyVM().updated(true);
             },
             expandNodeSet: function (sender, nodeSet) {
-                if (this.expandALL()) {
+                if (!nodeSet.animation()) {
                     var _groupsLayer = this._topo.getLayer('groups');
                     var group = nodeSet.group = _groupsLayer.addGroup({
                         shapeType: 'TWNodeSetPolygonGroup',
@@ -94,6 +94,10 @@
             leaveNodeSet: function (sender, nodeSet) {
                 this.dispatchTopoOriginalEvent('leaveNodeSet');
                 nodeSet.view('label').text(nodeSet.label());
+            },
+            deleteNodeSet: function (sender, events) {
+                this.dispatchTopoOriginalEvent('deleteNodeSet');
+                this.MVM().status().aggregationModified(true);
             }
         }
     });

@@ -222,6 +222,7 @@
                     this.adjustLayout();
                     /* jshint -W030 */
                     callback && callback.call(context || this);
+                    this.fire('zoomend');
                 }, this, duration !== undefined ? duration : 0.9);
             },
             /**
@@ -232,13 +233,26 @@
              * @param nodes {Array} nodes collection
              */
             zoomByNodes: function (nodes, callback, context, boundScale) {
-                var bound = this.getBoundByNodes(nodes);
+                var bound = this.getBoundByNodes(nodes,true);
 
                 if (!bound) {
                     /* jshint -W030 */
                     callback && callback.call(context || this);
                     return;
                 }
+
+//                var gap = 300 * this.stageScale();
+//
+//                if (bound.width < gap) {
+//                    bound.left -= (gap - bound.width * this.stageScale()) / 2;
+//                    bound.width = gap;
+//                }
+//
+//                if (bound.height < gap) {
+//                    bound.top -= (gap - bound.height * this.stageScale()) / 2;
+//                    bound.height = gap;
+//                }
+
 
                 if (boundScale != null) {
                     bound.left -= bound.width * (boundScale - 1) / 2;
@@ -252,6 +266,7 @@
                     this.adjustLayout();
                     /* jshint -W030 */
                     callback && callback.call(context || this);
+                    this.fire('zoomend');
                 }, this);
             },
             /**

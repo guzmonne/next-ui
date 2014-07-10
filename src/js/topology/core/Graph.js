@@ -325,6 +325,9 @@
              * @param data {JSON}  should be {nodes:[],links:[]}
              */
             insertData: function (data) {
+                if (data == null || !nx.is(data, Object)) {
+                    return;
+                }
                 this.graph().insertData(data);
                 /**
                  * Fired after insert data
@@ -388,6 +391,10 @@
             __fit: function () {
                 this.stage().show();
                 if (this.autoFit()) {
+                    this.stage().fit(null, null, false);
+                    this.stage().resetFitMatrix();
+                    this.stage().fit(null, null, false);
+                    this.stage().resetFitMatrix();
                     this.stage().fit(null, null, false);
                 }
                 this.hideLoading();

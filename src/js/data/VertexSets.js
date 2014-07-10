@@ -253,25 +253,35 @@
                 }
             },
             _deleteVertexSet: function (id) {
-
                 var vertexSet = this.vertexSets().getItem(id);
                 if (!vertexSet) {
                     return false;
                 }
-
-                vertexSet.activated(false);
+                if (vertexSet.generated()) {
+                    vertexSet.activated(false);
+                }
 
 
                 var parentVertexSet = vertexSet.parentVertexSet();
                 if (parentVertexSet) {
                     parentVertexSet.removeVertex(id);
-                    nx.each(vertexSet.vertices(), function (vertex) {
-                        parentVertexSet.addVertex(vertex);
-                    });
-                    nx.each(vertexSet.vertexSet(), function (vertexSet) {
-                        parentVertexSet.addVertex(vertexSet);
-                    });
+
                 }
+
+                nx.each(vertexSet.vertices(), function (vertex) {
+                    if (parentVertexSet) {
+                        parentVertexSet.addVertex(vertex);
+                    } else {
+                        vertex.parentVertexSet(null);
+                    }
+                });
+                nx.each(vertexSet.vertexSet(), function (vertexSet) {
+                    if (parentVertexSet) {
+                        parentVertexSet.addVertex(vertexSet);
+                    } else {
+                        vertexSet.parentVertexSet(null);
+                    }
+                });
 
                 vertexSet.off('updateCoordinate', this._updateVertexCoordinateFN, this);
                 vertexSet.generated(false);

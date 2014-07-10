@@ -9,7 +9,7 @@
      * @module nx.graphic.Topology
      */
     nx.define("nx.graphic.Topology.NodeMixin", {
-        events: ['addNode', 'deleteNode', 'addNodeSet'],
+        events: ['addNode', 'deleteNode', 'addNodeSet', 'deleteNodeSet'],
         properties: {
             /**
              * Node instance class name, support function
@@ -106,6 +106,8 @@
                                 }
                             }, this);
                         }.bind(this));
+
+
                     }
                     nodesLayer.activeElements().clear();
                     nodeSetLayer.activeElements().clear();
@@ -356,7 +358,7 @@
                 if (nx.is(arg, nx.graphic.Topology.AbstractNode)) {
                     id = arg.id();
                 }
-                var nodeSet = this.getNode(id);
+                var nodeSet = this.getLayer("nodeSet").getNodeSet(id);
                 if (nodeSet) {
                     if (nodeSet.collapsed()) {
                         nodeSet.activated(false);
@@ -439,11 +441,11 @@
             },
             /**
              * Batch action, highlight node and related nodes and connected links.
-             * @param node
+             * @param inNode
              */
             highlightRelatedNode: function (inNode) {
                 var node;
-                if (!inNode) {
+                if (inNode == null) {
                     return;
                 }
 
@@ -481,16 +483,13 @@
                 // highlight connected links and linkSets
                 this.getLayer('linkSet').highlightLinkSets(util.values(node.linkSets()));
                 this.getLayer('links').highlightLinks(util.values(node.links()));
-                this.getLayer('linkSet').fadeOut();
-                this.getLayer('links').fadeOut();
 
-                // fade Out layer
-                nodeSetLayer.fadeOut();
-                nodeLayer.fadeOut();
+                this.fadeOut(true);
+
             },
             /**
              * Batch action, highlight node and related nodes and connected links.
-             * @param node
+             * @param inNode
              */
             activeRelatedNode: function (inNode) {
 
@@ -533,12 +532,8 @@
                 // highlight connected links and linkSets
                 this.getLayer('linkSet').activeLinkSets(util.values(node.linkSets()));
                 this.getLayer('links').activeLinks(util.values(node.links()));
-                this.getLayer('linkSet').fadeOut();
-                this.getLayer('links').fadeOut();
 
-                // fade Out layer
-                nodeSetLayer.fadeOut();
-                nodeLayer.fadeOut();
+                this.fadeOut();
 
             },
             /**
@@ -560,7 +555,7 @@
                 nx.each(inNodes, function (node) {
                     if (node.visible()) {
                         if (isNotIncludeLabel) {
-                            boundAry.push(node.getIconBound());
+                            boundAry.push(this.getInsideBound(node.getBound(true)));
                         } else {
                             boundAry.push(this.getInsideBound(node.getBound()));
                         }
@@ -630,7 +625,8 @@
             expandNodes: function (nodes, sourcePosition, callback, context, isAnimate) {
 
                 var nodesLength = nx.is(nodes, Array) ? nodes.length : nx.util.keys(nodes).length;
-                callback = callback || function () {};
+                callback = callback || function () {
+                };
 
 
                 if (nodesLength > 150 || nodesLength === 0 || isAnimate === false) {
@@ -669,7 +665,8 @@
             },
             collapseNodes: function (nodes, targetPosition, callback, context, isAnimate) {
                 var nodesLength = nx.is(nodes, Array) ? nodes.length : nx.util.keys(nodes).length;
-                callback = callback || function () {};
+                callback = callback || function () {
+                };
 
 
                 if (nodesLength > 150 || nodesLength === 0 || isAnimate === false) {

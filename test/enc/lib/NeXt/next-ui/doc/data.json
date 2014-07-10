@@ -1,0 +1,3982 @@
+{
+    "project": {},
+    "files": {
+        "src/js/dom/Document.js": {
+            "name": "src/js/dom/Document.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/js/dom/Element.js": {
+            "name": "src/js/dom/Element.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/js/dom/Fragment.js": {
+            "name": "src/js/dom/Fragment.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/js/dom/Node.js": {
+            "name": "src/js/dom/Node.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/js/dom/Text.js": {
+            "name": "src/js/dom/Text.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/js/dom(yangyxu)/Document.js": {
+            "name": "src/js/dom(yangyxu)/Document.js",
+            "modules": {},
+            "classes": {
+                "nx.dom.Document": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/js/dom(yangyxu)/Element.js": {
+            "name": "src/js/dom(yangyxu)/Element.js",
+            "modules": {},
+            "classes": {
+                "nx.dom.Element": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/js/dom(yangyxu)/Fragment.js": {
+            "name": "src/js/dom(yangyxu)/Fragment.js",
+            "modules": {},
+            "classes": {
+                "nx.dom.Fragment": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/js/dom(yangyxu)/Node.js": {
+            "name": "src/js/dom(yangyxu)/Node.js",
+            "modules": {},
+            "classes": {
+                "nx.dom.Node": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/js/dom(yangyxu)/Text.js": {
+            "name": "src/js/dom(yangyxu)/Text.js",
+            "modules": {},
+            "classes": {
+                "nx.dom.Text": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/js/http/Http.js": {
+            "name": "src/js/http/Http.js",
+            "modules": {},
+            "classes": {
+                "nx.http.XHR": 1,
+                "nx.http.XHRPool": 1,
+                "nx.task.nx.http.HttpClient": 1
+            },
+            "fors": {},
+            "namespaces": {
+                "nx.task": 1
+            }
+        },
+        "src/js/http/JSON.js": {
+            "name": "src/js/http/JSON.js",
+            "modules": {},
+            "classes": {
+                "nx.nx.JSON": 1
+            },
+            "fors": {},
+            "namespaces": {
+                "nx": 1
+            }
+        },
+        "src/js/http/Task.js": {
+            "name": "src/js/http/Task.js",
+            "modules": {},
+            "classes": {
+                "nx.task.TaskList": 1,
+                "nx.task.Task": 1
+            },
+            "fors": {},
+            "namespaces": {
+                "nx.task": 1
+            }
+        },
+        "src/js/ui/AbstractComponent.js": {
+            "name": "src/js/ui/AbstractComponent.js",
+            "modules": {},
+            "classes": {
+                "nx.ui.Collection": 1,
+                "nx.ui.CssClass": 1,
+                "nx.ui.CssStyle": 1,
+                "nx.ui.DOMComponent": 1
+            },
+            "fors": {},
+            "namespaces": {
+                "nx.ui": 1
+            }
+        },
+        "src/js/ui/Application.js": {
+            "name": "src/js/ui/Application.js",
+            "modules": {},
+            "classes": {
+                "nx.ui.Application": 1
+            },
+            "fors": {},
+            "namespaces": {
+                "nx.ui": 1
+            }
+        },
+        "src/js/ui/Component.js": {
+            "name": "src/js/ui/Component.js",
+            "modules": {},
+            "classes": {
+                "nx.ui.Component": 1
+            },
+            "fors": {},
+            "namespaces": {
+                "nx.ui": 1
+            }
+        },
+        "src/js/Env.js": {
+            "name": "src/js/Env.js",
+            "modules": {},
+            "classes": {
+                "nx.ui.nx.Env": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/js/HttpClient.js": {
+            "name": "src/js/HttpClient.js",
+            "modules": {},
+            "classes": {
+                "nx.ui.nx.HttpClient": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "src/js/Util.js": {
+            "name": "src/js/Util.js",
+            "modules": {},
+            "classes": {
+                "nx.ui.nx.Util": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        }
+    },
+    "modules": {},
+    "classes": {
+        "nx.dom.Document": {
+            "name": "nx.dom.Document",
+            "shortname": "nx.dom.Document",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "src/js/dom(yangyxu)/Document.js",
+            "line": 127,
+            "description": "Document Element",
+            "is_constructor": 1
+        },
+        "nx.dom.Element": {
+            "name": "nx.dom.Element",
+            "shortname": "nx.dom.Element",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "src/js/dom(yangyxu)/Element.js",
+            "line": 143,
+            "description": "Dom Element",
+            "is_constructor": 1
+        },
+        "nx.dom.Fragment": {
+            "name": "nx.dom.Fragment",
+            "shortname": "nx.dom.Fragment",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "src/js/dom(yangyxu)/Fragment.js",
+            "line": 4,
+            "description": "Dom Fragment",
+            "is_constructor": 1
+        },
+        "nx.dom.Node": {
+            "name": "nx.dom.Node",
+            "shortname": "nx.dom.Node",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "src/js/dom(yangyxu)/Node.js",
+            "line": 14,
+            "description": "Dom Node",
+            "is_constructor": 1
+        },
+        "nx.dom.Text": {
+            "name": "nx.dom.Text",
+            "shortname": "nx.dom.Text",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "src/js/dom(yangyxu)/Text.js",
+            "line": 2,
+            "description": "Text Node",
+            "is_constructor": 1
+        },
+        "nx.http.XHR": {
+            "name": "nx.http.XHR",
+            "shortname": "nx.http.XHR",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "src/js/http/Http.js",
+            "line": 2,
+            "description": "XHR: XmlHttpRequest",
+            "is_constructor": 1
+        },
+        "nx.http.XHRPool": {
+            "name": "nx.http.XHRPool",
+            "shortname": "nx.http.XHRPool",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "src/js/http/Http.js",
+            "line": 125,
+            "description": "XHRPool: XmlHttpRequestPool",
+            "is_constructor": 1
+        },
+        "nx.task.nx.http.HttpClient": {
+            "name": "nx.task.nx.http.HttpClient",
+            "shortname": "nx.task.nx.http.HttpClient",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "namespace": "nx.task",
+            "file": "src/js/http/Http.js",
+            "line": 156,
+            "description": "HttpClient: HttpClient"
+        },
+        "nx.nx.JSON": {
+            "name": "nx.nx.JSON",
+            "shortname": "nx.JSON",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "namespace": "nx",
+            "file": "src/js/http/JSON.js",
+            "line": 3,
+            "description": "JSON: JSON"
+        },
+        "nx.task.TaskList": {
+            "name": "nx.task.TaskList",
+            "shortname": "nx.task.TaskList",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "namespace": "nx.task",
+            "file": "src/js/http/Task.js",
+            "line": 3,
+            "description": "TaskList: tasklist"
+        },
+        "nx.task.Task": {
+            "name": "nx.task.Task",
+            "shortname": "nx.task.Task",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "namespace": "nx.task",
+            "file": "src/js/http/Task.js",
+            "line": 79,
+            "description": "Task"
+        },
+        "nx.ui.Collection": {
+            "name": "nx.ui.Collection",
+            "shortname": "nx.ui.Collection",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "namespace": "nx.ui",
+            "file": "src/js/ui/AbstractComponent.js",
+            "line": 134,
+            "extends": "nx.Observable"
+        },
+        "nx.ui.CssClass": {
+            "name": "nx.ui.CssClass",
+            "shortname": "CssClass",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "namespace": "nx.ui",
+            "file": "src/js/ui/AbstractComponent.js",
+            "line": 396,
+            "extends": "nx.Observable",
+            "internal": ""
+        },
+        "nx.ui.CssStyle": {
+            "name": "nx.ui.CssStyle",
+            "shortname": "CssStyle",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "namespace": "nx.ui",
+            "file": "src/js/ui/AbstractComponent.js",
+            "line": 453,
+            "extends": "nx.Observable",
+            "internal": ""
+        },
+        "nx.ui.DOMComponent": {
+            "name": "nx.ui.DOMComponent",
+            "shortname": "DOMComponent",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "namespace": "nx.ui",
+            "file": "src/js/ui/AbstractComponent.js",
+            "line": 477,
+            "extends": "nx.ui.AbstractComponent",
+            "internal": ""
+        },
+        "nx.ui.Application": {
+            "name": "nx.ui.Application",
+            "shortname": "nx.ui.Application",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "namespace": "nx.ui",
+            "file": "src/js/ui/Application.js",
+            "line": 5,
+            "extends": "nx.ui.AbstractComponent"
+        },
+        "nx.ui.Component": {
+            "name": "nx.ui.Component",
+            "shortname": "nx.ui.Component",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "namespace": "nx.ui",
+            "file": "src/js/ui/Component.js",
+            "line": 4,
+            "extends": "nx.ui.AbstractComponent"
+        },
+        "nx.ui.nx.Env": {
+            "name": "nx.ui.nx.Env",
+            "shortname": "nx.Env",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "namespace": "nx.ui",
+            "file": "src/js/Env.js",
+            "line": 225,
+            "description": "Environment and check behavior support",
+            "is_constructor": 1
+        },
+        "nx.ui.nx.HttpClient": {
+            "name": "nx.ui.nx.HttpClient",
+            "shortname": "nx.HttpClient",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "namespace": "nx.ui",
+            "file": "src/js/HttpClient.js",
+            "line": 2,
+            "description": "Ajax http client",
+            "is_constructor": 1
+        },
+        "nx.ui.nx.Util": {
+            "name": "nx.ui.nx.Util",
+            "shortname": "nx.Util",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "namespace": "nx.ui",
+            "file": "src/js/Util.js",
+            "line": 28,
+            "description": "This is Util",
+            "is_constructor": 1
+        }
+    },
+    "classitems": [
+        {
+            "file": "src/js/dom/Document.js",
+            "line": 136,
+            "description": "Get/set next cssStyle sheet",
+            "itemtype": "property",
+            "name": "cssStyleSheet",
+            "type": "{Object}",
+            "default": "{}",
+            "class": "nx.dom.Document"
+        },
+        {
+            "file": "src/js/dom/Document.js",
+            "line": 152,
+            "description": "Get document root element",
+            "itemtype": "property",
+            "name": "root",
+            "type": "{Object}",
+            "default": "{}",
+            "class": "nx.dom.Document"
+        },
+        {
+            "file": "src/js/dom/Document.js",
+            "line": 163,
+            "description": "Get next body element",
+            "itemtype": "property",
+            "name": "body",
+            "type": "{Object}",
+            "default": "{}",
+            "class": "nx.dom.Document"
+        },
+        {
+            "file": "src/js/dom/Document.js",
+            "line": 181,
+            "description": "Add an event listener",
+            "itemtype": "method",
+            "name": "on",
+            "params": [
+                {
+                    "name": "name",
+                    "description": ""
+                },
+                {
+                    "name": "handler",
+                    "description": ""
+                },
+                {
+                    "name": "context",
+                    "description": ""
+                }
+            ],
+            "class": "nx.dom.Document"
+        },
+        {
+            "file": "src/js/dom/Document.js",
+            "line": 192,
+            "description": "Add an event listener when you need not remove it.",
+            "itemtype": "method",
+            "name": "upon",
+            "params": [
+                {
+                    "name": "name",
+                    "description": ""
+                },
+                {
+                    "name": "handler",
+                    "description": ""
+                },
+                {
+                    "name": "context",
+                    "description": ""
+                }
+            ],
+            "class": "nx.dom.Document"
+        },
+        {
+            "file": "src/js/dom/Document.js",
+            "line": 203,
+            "description": "Register html tag namespace",
+            "itemtype": "method",
+            "name": "registerNS",
+            "params": [
+                {
+                    "name": "key",
+                    "description": ""
+                },
+                {
+                    "name": "value",
+                    "description": ""
+                }
+            ],
+            "class": "nx.dom.Document"
+        },
+        {
+            "file": "src/js/dom/Document.js",
+            "line": 212,
+            "description": "Get a tag namespace value",
+            "itemtype": "method",
+            "name": "resolveNS",
+            "params": [
+                {
+                    "name": "key",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "*"
+            },
+            "class": "nx.dom.Document"
+        },
+        {
+            "file": "src/js/dom/Document.js",
+            "line": 221,
+            "description": "Create document fragment",
+            "itemtype": "method",
+            "name": "createFragment",
+            "return": {
+                "description": "",
+                "type": "nx.dom.Fragment"
+            },
+            "class": "nx.dom.Document"
+        },
+        {
+            "file": "src/js/dom/Document.js",
+            "line": 229,
+            "description": "Create element",
+            "itemtype": "method",
+            "name": "createElement",
+            "params": [
+                {
+                    "name": "tag",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "nx.dom.Element"
+            },
+            "class": "nx.dom.Document"
+        },
+        {
+            "file": "src/js/dom/Document.js",
+            "line": 238,
+            "description": "Create text node.",
+            "itemtype": "method",
+            "name": "createText",
+            "params": [
+                {
+                    "name": "text",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "nx.dom.Text"
+            },
+            "class": "nx.dom.Document"
+        },
+        {
+            "file": "src/js/dom/Document.js",
+            "line": 247,
+            "description": "Create element by namespace",
+            "itemtype": "method",
+            "name": "createElementNS",
+            "params": [
+                {
+                    "name": "ns",
+                    "description": ""
+                },
+                {
+                    "name": "tag",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "nx.dom.Element"
+            },
+            "class": "nx.dom.Document"
+        },
+        {
+            "file": "src/js/dom/Document.js",
+            "line": 263,
+            "description": "Wrap dom element to next element",
+            "itemtype": "method",
+            "name": "wrap",
+            "params": [
+                {
+                    "name": "dom",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "*"
+            },
+            "class": "nx.dom.Document"
+        },
+        {
+            "file": "src/js/dom/Document.js",
+            "line": 277,
+            "description": "Get document position information",
+            "itemtype": "method",
+            "name": "docRect",
+            "return": {
+                "description": "}",
+                "type": "Width: (Function|number), height: (Function|number), scrollWidth: *, scrollHeight: *, scrollX: *, scrollY: *"
+            },
+            "class": "nx.dom.Document"
+        },
+        {
+            "file": "src/js/dom/Document.js",
+            "line": 303,
+            "description": "Dom ready",
+            "itemtype": "method",
+            "name": "ready",
+            "params": [
+                {
+                    "name": "inHandler",
+                    "description": ""
+                }
+            ],
+            "class": "nx.dom.Document"
+        },
+        {
+            "file": "src/js/dom/Document.js",
+            "line": 316,
+            "description": "Add a rule to next style sheet",
+            "itemtype": "method",
+            "name": "addRule",
+            "params": [
+                {
+                    "name": "inSelector",
+                    "description": ""
+                },
+                {
+                    "name": "inCssText",
+                    "description": ""
+                },
+                {
+                    "name": "inIndex",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "*"
+            },
+            "class": "nx.dom.Document"
+        },
+        {
+            "file": "src/js/dom/Document.js",
+            "line": 327,
+            "description": "insert a rule to next style sheet",
+            "itemtype": "method",
+            "name": "insertRule",
+            "params": [
+                {
+                    "name": "inFullCssText",
+                    "description": ""
+                },
+                {
+                    "name": "inIndex",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "*"
+            },
+            "class": "nx.dom.Document"
+        },
+        {
+            "file": "src/js/dom/Document.js",
+            "line": 337,
+            "description": "Delete a rule from next style sheet at last line",
+            "itemtype": "method",
+            "name": "deleteRule",
+            "params": [
+                {
+                    "name": "inIndex",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "*"
+            },
+            "class": "nx.dom.Document"
+        },
+        {
+            "file": "src/js/dom/Document.js",
+            "line": 346,
+            "description": "Remove a rule from next style sheet",
+            "itemtype": "method",
+            "name": "removeRule",
+            "params": [
+                {
+                    "name": "inSelector",
+                    "description": ""
+                },
+                {
+                    "name": "inIndex",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "*"
+            },
+            "class": "nx.dom.Document"
+        },
+        {
+            "file": "src/js/dom/Document.js",
+            "line": 356,
+            "description": "Add multi rules",
+            "itemtype": "method",
+            "name": "addRules",
+            "params": [
+                {
+                    "name": "inRules",
+                    "description": ""
+                }
+            ],
+            "class": "nx.dom.Document"
+        },
+        {
+            "file": "src/js/dom/Document.js",
+            "line": 366,
+            "description": "Delete all rules",
+            "itemtype": "method",
+            "name": "deleteRules",
+            "class": "nx.dom.Document"
+        },
+        {
+            "file": "src/js/dom/Element.js",
+            "line": 106,
+            "description": "Get an attribute from element",
+            "itemtype": "method",
+            "name": "get",
+            "params": [
+                {
+                    "name": "name",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "*"
+            },
+            "class": "nx.dom.Element"
+        },
+        {
+            "file": "src/js/dom/Element.js",
+            "line": 123,
+            "description": "Set an attribute for an element",
+            "itemtype": "method",
+            "name": "set",
+            "params": [
+                {
+                    "name": "name",
+                    "description": ""
+                },
+                {
+                    "name": "value",
+                    "description": ""
+                }
+            ],
+            "class": "nx.dom.Element"
+        },
+        {
+            "file": "src/js/dom/Element.js",
+            "line": 140,
+            "description": "Get an element by selector.",
+            "itemtype": "method",
+            "name": "get",
+            "params": [
+                {
+                    "name": "inSelector",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "HTMLElement"
+            },
+            "class": "nx.dom.Element"
+        },
+        {
+            "file": "src/js/dom/Element.js",
+            "line": 150,
+            "description": "Get a collection by selector",
+            "itemtype": "method",
+            "name": "selectAll",
+            "params": [
+                {
+                    "name": "inSelector",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "nx.data.Collection"
+            },
+            "class": "nx.dom.Element"
+        },
+        {
+            "file": "src/js/dom/Element.js",
+            "line": 167,
+            "description": "Focus an element",
+            "itemtype": "method",
+            "name": "focus",
+            "class": "nx.dom.Element"
+        },
+        {
+            "file": "src/js/dom/Element.js",
+            "line": 174,
+            "description": "Blur form an element",
+            "itemtype": "method",
+            "name": "blur",
+            "class": "nx.dom.Element"
+        },
+        {
+            "file": "src/js/dom/Element.js",
+            "line": 181,
+            "description": "Show an element",
+            "itemtype": "method",
+            "name": "show",
+            "class": "nx.dom.Element"
+        },
+        {
+            "file": "src/js/dom/Element.js",
+            "line": 188,
+            "description": "Hide an element",
+            "itemtype": "method",
+            "name": "hide",
+            "class": "nx.dom.Element"
+        },
+        {
+            "file": "src/js/dom/Element.js",
+            "line": 195,
+            "description": "Whether the element has the class",
+            "itemtype": "method",
+            "name": "hasClass",
+            "params": [
+                {
+                    "name": "inClassName",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
+            "class": "nx.dom.Element"
+        },
+        {
+            "file": "src/js/dom/Element.js",
+            "line": 210,
+            "description": "Set css class existence for element",
+            "itemtype": "method",
+            "name": "setClass",
+            "params": [
+                {
+                    "name": "className",
+                    "description": "the class name"
+                },
+                {
+                    "name": "has",
+                    "description": "existence"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "*"
+            },
+            "class": "nx.dom.Element"
+        },
+        {
+            "file": "src/js/dom/Element.js",
+            "line": 225,
+            "description": "Add class for element",
+            "itemtype": "method",
+            "name": "addClass",
+            "return": {
+                "description": "",
+                "type": "*"
+            },
+            "class": "nx.dom.Element"
+        },
+        {
+            "file": "src/js/dom/Element.js",
+            "line": 248,
+            "description": "Remove class from element",
+            "itemtype": "method",
+            "name": "removeClass",
+            "return": {
+                "description": "",
+                "type": "*"
+            },
+            "class": "nx.dom.Element"
+        },
+        {
+            "file": "src/js/dom/Element.js",
+            "line": 276,
+            "description": "Toggle a class on element",
+            "itemtype": "method",
+            "name": "toggleClass",
+            "params": [
+                {
+                    "name": "inClassName",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "*"
+            },
+            "class": "nx.dom.Element"
+        },
+        {
+            "file": "src/js/dom/Element.js",
+            "line": 296,
+            "description": "Get document",
+            "itemtype": "method",
+            "name": "getDocument",
+            "return": {
+                "description": "",
+                "type": "*"
+            },
+            "class": "nx.dom.Element"
+        },
+        {
+            "file": "src/js/dom/Element.js",
+            "line": 311,
+            "description": "Get window",
+            "itemtype": "method",
+            "name": "getWindow",
+            "return": {
+                "description": "",
+                "type": "DocumentView|window|*"
+            },
+            "class": "nx.dom.Element"
+        },
+        {
+            "file": "src/js/dom/Element.js",
+            "line": 320,
+            "description": "Get root element",
+            "itemtype": "method",
+            "name": "getRoot",
+            "return": {
+                "description": "",
+                "type": "Element"
+            },
+            "class": "nx.dom.Element"
+        },
+        {
+            "file": "src/js/dom/Element.js",
+            "line": 328,
+            "description": "Get element position information",
+            "itemtype": "method",
+            "name": "getBound",
+            "return": {
+                "description": "}",
+                "type": "Top: number, right: Number, bottom: Number, left: number, width: Number, height: Number"
+            },
+            "class": "nx.dom.Element"
+        },
+        {
+            "file": "src/js/dom/Element.js",
+            "line": 347,
+            "description": "Get margin distance information",
+            "itemtype": "method",
+            "name": "margin",
+            "params": [
+                {
+                    "name": "inDirection",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "*"
+            },
+            "class": "nx.dom.Element"
+        },
+        {
+            "file": "src/js/dom/Element.js",
+            "line": 356,
+            "description": "Get padding distance information",
+            "itemtype": "method",
+            "name": "padding",
+            "params": [
+                {
+                    "name": "inDirection",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "*"
+            },
+            "class": "nx.dom.Element"
+        },
+        {
+            "file": "src/js/dom/Element.js",
+            "line": 365,
+            "description": "Get border width information",
+            "itemtype": "method",
+            "name": "border",
+            "params": [
+                {
+                    "name": "inDirection",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "*"
+            },
+            "class": "nx.dom.Element"
+        },
+        {
+            "file": "src/js/dom/Element.js",
+            "line": 374,
+            "description": "Get offset information",
+            "itemtype": "method",
+            "name": "getOffset",
+            "return": {
+                "description": "}",
+                "type": "Top: number, left: number"
+            },
+            "class": "nx.dom.Element"
+        },
+        {
+            "file": "src/js/dom/Element.js",
+            "line": 389,
+            "description": "Set offset style",
+            "itemtype": "method",
+            "name": "setOffset",
+            "params": [
+                {
+                    "name": "inStyleObj",
+                    "description": ""
+                }
+            ],
+            "class": "nx.dom.Element"
+        },
+        {
+            "file": "src/js/dom/Element.js",
+            "line": 409,
+            "description": "Has in line style",
+            "itemtype": "method",
+            "name": "hasStyle",
+            "params": [
+                {
+                    "name": "inName",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
+            "class": "nx.dom.Element"
+        },
+        {
+            "file": "src/js/dom/Element.js",
+            "line": 419,
+            "description": "Get computed style",
+            "itemtype": "method",
+            "name": "getStyle",
+            "params": [
+                {
+                    "name": "inName",
+                    "description": ""
+                },
+                {
+                    "name": "isInline",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "*"
+            },
+            "class": "nx.dom.Element"
+        },
+        {
+            "file": "src/js/dom/Element.js",
+            "line": 436,
+            "description": "Set style for element",
+            "itemtype": "method",
+            "name": "setStyle",
+            "params": [
+                {
+                    "name": "inName",
+                    "description": ""
+                },
+                {
+                    "name": "inValue",
+                    "description": ""
+                }
+            ],
+            "class": "nx.dom.Element"
+        },
+        {
+            "file": "src/js/dom/Element.js",
+            "line": 446,
+            "description": "Remove inline style",
+            "itemtype": "method",
+            "name": "removeStyle",
+            "params": [
+                {
+                    "name": "inName",
+                    "description": ""
+                }
+            ],
+            "class": "nx.dom.Element"
+        },
+        {
+            "file": "src/js/dom/Element.js",
+            "line": 455,
+            "description": "Set style by style object",
+            "itemtype": "method",
+            "name": "setStyles",
+            "params": [
+                {
+                    "name": "inStyles",
+                    "description": ""
+                }
+            ],
+            "class": "nx.dom.Element"
+        },
+        {
+            "file": "src/js/dom/Element.js",
+            "line": 463,
+            "description": "Get attribute",
+            "itemtype": "method",
+            "name": "getAttribute",
+            "params": [
+                {
+                    "name": "inName",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "*"
+            },
+            "class": "nx.dom.Element"
+        },
+        {
+            "file": "src/js/dom/Element.js",
+            "line": 481,
+            "description": "Set attribute",
+            "itemtype": "method",
+            "name": "setAttribute",
+            "params": [
+                {
+                    "name": "inName",
+                    "description": ""
+                },
+                {
+                    "name": "inValue",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "*"
+            },
+            "class": "nx.dom.Element"
+        },
+        {
+            "file": "src/js/dom/Element.js",
+            "line": 502,
+            "description": "Remove attribute",
+            "itemtype": "method",
+            "name": "removeAttribute",
+            "params": [
+                {
+                    "name": "inName",
+                    "description": ""
+                }
+            ],
+            "class": "nx.dom.Element"
+        },
+        {
+            "file": "src/js/dom/Element.js",
+            "line": 510,
+            "description": "Get all attributes",
+            "itemtype": "method",
+            "name": "getAttributes",
+            "return": {
+                "description": "}"
+            },
+            "class": "nx.dom.Element"
+        },
+        {
+            "file": "src/js/dom/Element.js",
+            "line": 522,
+            "description": "Set attributes",
+            "itemtype": "method",
+            "name": "setAttributes",
+            "params": [
+                {
+                    "name": "attrs",
+                    "description": ""
+                }
+            ],
+            "class": "nx.dom.Element"
+        },
+        {
+            "file": "src/js/dom/Element.js",
+            "line": 532,
+            "description": "Get inner text",
+            "itemtype": "method",
+            "name": "getText",
+            "return": {
+                "description": "",
+                "type": "*"
+            },
+            "class": "nx.dom.Element"
+        },
+        {
+            "file": "src/js/dom/Element.js",
+            "line": 540,
+            "description": "Set inner text",
+            "itemtype": "method",
+            "name": "setText",
+            "params": [
+                {
+                    "name": "text",
+                    "description": ""
+                }
+            ],
+            "class": "nx.dom.Element"
+        },
+        {
+            "file": "src/js/dom/Element.js",
+            "line": 548,
+            "description": "Get inner html",
+            "itemtype": "method",
+            "name": "getHtml",
+            "return": {
+                "description": "",
+                "type": "*|string"
+            },
+            "class": "nx.dom.Element"
+        },
+        {
+            "file": "src/js/dom/Element.js",
+            "line": 556,
+            "description": "Set inner html",
+            "itemtype": "method",
+            "name": "setHtml",
+            "params": [
+                {
+                    "name": "html",
+                    "description": ""
+                }
+            ],
+            "class": "nx.dom.Element"
+        },
+        {
+            "file": "src/js/dom/Element.js",
+            "line": 564,
+            "description": "Add event listener",
+            "itemtype": "method",
+            "name": "addEventListener",
+            "params": [
+                {
+                    "name": "name",
+                    "description": ""
+                },
+                {
+                    "name": "listener",
+                    "description": ""
+                },
+                {
+                    "name": "useCapture",
+                    "description": ""
+                }
+            ],
+            "class": "nx.dom.Element"
+        },
+        {
+            "file": "src/js/dom/Element.js",
+            "line": 574,
+            "description": "Remove event listener",
+            "itemtype": "method",
+            "name": "removeEventListener",
+            "params": [
+                {
+                    "name": "name",
+                    "description": ""
+                },
+                {
+                    "name": "listener",
+                    "description": ""
+                },
+                {
+                    "name": "useCapture",
+                    "description": ""
+                }
+            ],
+            "class": "nx.dom.Element"
+        },
+        {
+            "file": "src/js/dom/Fragment.js",
+            "line": 11,
+            "description": "Get collection child nodes.",
+            "return": {
+                "description": "",
+                "type": "nx.data.Collection"
+            },
+            "class": "nx.dom.Fragment"
+        },
+        {
+            "file": "src/js/dom/Node.js",
+            "line": 10,
+            "description": "Set $dom as an attribute for node",
+            "params": [
+                {
+                    "name": "node",
+                    "description": ""
+                }
+            ],
+            "class": "nx.dom.Node"
+        },
+        {
+            "file": "src/js/dom/Node.js",
+            "line": 17,
+            "description": "Whether target is current dom element",
+            "params": [
+                {
+                    "name": "target",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "class": "nx.dom.Node"
+        },
+        {
+            "file": "src/js/dom/Node.js",
+            "line": 30,
+            "description": "Whether target is a element",
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
+            "class": "nx.dom.Node"
+        },
+        {
+            "file": "src/js/dom/Node.js",
+            "line": 37,
+            "description": "Get current element's index",
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "class": "nx.dom.Node"
+        },
+        {
+            "file": "src/js/dom/Node.js",
+            "line": 53,
+            "description": "Get the index child element",
+            "params": [
+                {
+                    "name": "inIndex",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Null"
+            },
+            "class": "nx.dom.Node"
+        },
+        {
+            "file": "src/js/dom/Node.js",
+            "line": 69,
+            "description": "Compare dom element position",
+            "params": [
+                {
+                    "name": "inTarget",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "*"
+            },
+            "class": "nx.dom.Node"
+        },
+        {
+            "file": "src/js/dom/Node.js",
+            "line": 77,
+            "description": "Get first element child",
+            "return": {
+                "description": "",
+                "type": "this.constructor"
+            },
+            "class": "nx.dom.Node"
+        },
+        {
+            "file": "src/js/dom/Node.js",
+            "line": 84,
+            "description": "Get last element child",
+            "return": {
+                "description": "",
+                "type": "this.constructor"
+            },
+            "class": "nx.dom.Node"
+        },
+        {
+            "file": "src/js/dom/Node.js",
+            "line": 91,
+            "description": "Get previous element",
+            "return": {
+                "description": "",
+                "type": "this.constructor"
+            },
+            "class": "nx.dom.Node"
+        },
+        {
+            "file": "src/js/dom/Node.js",
+            "line": 98,
+            "description": "Get next element",
+            "return": {
+                "description": "",
+                "type": "this.constructor"
+            },
+            "class": "nx.dom.Node"
+        },
+        {
+            "file": "src/js/dom/Node.js",
+            "line": 105,
+            "description": "Get parent element",
+            "return": {
+                "description": "",
+                "type": "this.constructor"
+            },
+            "class": "nx.dom.Node"
+        },
+        {
+            "file": "src/js/dom/Node.js",
+            "line": 112,
+            "description": "Get element children",
+            "return": {
+                "description": "",
+                "type": "nx.data.Collection"
+            },
+            "class": "nx.dom.Node"
+        },
+        {
+            "file": "src/js/dom/Node.js",
+            "line": 123,
+            "description": "Clone an element node",
+            "params": [
+                {
+                    "name": "deep",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "this.constructor"
+            },
+            "class": "nx.dom.Node"
+        },
+        {
+            "file": "src/js/dom/Node.js",
+            "line": 131,
+            "description": "Whether the element has child.",
+            "params": [
+                {
+                    "name": "child",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
+            "class": "nx.dom.Node"
+        },
+        {
+            "file": "src/js/dom/Node.js",
+            "line": 139,
+            "description": "Adds a node to the end of the list of children of a specified parent node",
+            "params": [
+                {
+                    "name": "child",
+                    "description": ""
+                }
+            ],
+            "class": "nx.dom.Node"
+        },
+        {
+            "file": "src/js/dom/Node.js",
+            "line": 146,
+            "description": "Inserts the specified node before a reference element as a child of the current node",
+            "params": [
+                {
+                    "name": "child",
+                    "description": ""
+                },
+                {
+                    "name": "ref",
+                    "description": ""
+                }
+            ],
+            "class": "nx.dom.Node"
+        },
+        {
+            "file": "src/js/dom/Node.js",
+            "line": 154,
+            "description": "Removes a child node from the DOM",
+            "params": [
+                {
+                    "name": "child",
+                    "description": ""
+                }
+            ],
+            "class": "nx.dom.Node"
+        },
+        {
+            "file": "src/js/dom/Node.js",
+            "line": 163,
+            "description": "Remove all child nodes",
+            "class": "nx.dom.Node"
+        },
+        {
+            "file": "src/js/dom(yangyxu)/Document.js",
+            "line": 135,
+            "description": "Get/set next cssStyle sheet",
+            "itemtype": "property",
+            "name": "cssStyleSheet",
+            "type": "{Object}",
+            "default": "{}",
+            "class": "nx.dom.Document"
+        },
+        {
+            "file": "src/js/dom(yangyxu)/Document.js",
+            "line": 151,
+            "description": "Get document root element",
+            "itemtype": "property",
+            "name": "root",
+            "type": "{Object}",
+            "default": "{}",
+            "class": "nx.dom.Document"
+        },
+        {
+            "file": "src/js/dom(yangyxu)/Document.js",
+            "line": 162,
+            "description": "Get next body element",
+            "itemtype": "property",
+            "name": "body",
+            "type": "{Object}",
+            "default": "{}",
+            "class": "nx.dom.Document"
+        },
+        {
+            "file": "src/js/dom(yangyxu)/Document.js",
+            "line": 180,
+            "description": "Add an event listener",
+            "itemtype": "method",
+            "name": "on",
+            "params": [
+                {
+                    "name": "name",
+                    "description": ""
+                },
+                {
+                    "name": "handler",
+                    "description": ""
+                },
+                {
+                    "name": "context",
+                    "description": ""
+                }
+            ],
+            "class": "nx.dom.Document"
+        },
+        {
+            "file": "src/js/dom(yangyxu)/Document.js",
+            "line": 191,
+            "description": "Add an event listener when you need not remove it.",
+            "itemtype": "method",
+            "name": "upon",
+            "params": [
+                {
+                    "name": "name",
+                    "description": ""
+                },
+                {
+                    "name": "handler",
+                    "description": ""
+                },
+                {
+                    "name": "context",
+                    "description": ""
+                }
+            ],
+            "class": "nx.dom.Document"
+        },
+        {
+            "file": "src/js/dom(yangyxu)/Document.js",
+            "line": 202,
+            "description": "Register html tag namespace",
+            "itemtype": "method",
+            "name": "registerNS",
+            "params": [
+                {
+                    "name": "key",
+                    "description": ""
+                },
+                {
+                    "name": "value",
+                    "description": ""
+                }
+            ],
+            "class": "nx.dom.Document"
+        },
+        {
+            "file": "src/js/dom(yangyxu)/Document.js",
+            "line": 211,
+            "description": "Get a tag namespace value",
+            "itemtype": "method",
+            "name": "resolveNS",
+            "params": [
+                {
+                    "name": "key",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "*"
+            },
+            "class": "nx.dom.Document"
+        },
+        {
+            "file": "src/js/dom(yangyxu)/Document.js",
+            "line": 220,
+            "description": "Create document fragment",
+            "itemtype": "method",
+            "name": "createFragment",
+            "return": {
+                "description": "",
+                "type": "nx.dom.Fragment"
+            },
+            "class": "nx.dom.Document"
+        },
+        {
+            "file": "src/js/dom(yangyxu)/Document.js",
+            "line": 228,
+            "description": "Create element",
+            "itemtype": "method",
+            "name": "createElement",
+            "params": [
+                {
+                    "name": "tag",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "nx.dom.Element"
+            },
+            "class": "nx.dom.Document"
+        },
+        {
+            "file": "src/js/dom(yangyxu)/Document.js",
+            "line": 237,
+            "description": "Create text node.",
+            "itemtype": "method",
+            "name": "createText",
+            "params": [
+                {
+                    "name": "text",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "nx.dom.Text"
+            },
+            "class": "nx.dom.Document"
+        },
+        {
+            "file": "src/js/dom(yangyxu)/Document.js",
+            "line": 246,
+            "description": "Create element by namespace",
+            "itemtype": "method",
+            "name": "createElementNS",
+            "params": [
+                {
+                    "name": "ns",
+                    "description": ""
+                },
+                {
+                    "name": "tag",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "nx.dom.Element"
+            },
+            "class": "nx.dom.Document"
+        },
+        {
+            "file": "src/js/dom(yangyxu)/Document.js",
+            "line": 262,
+            "description": "Wrap dom element to next element",
+            "itemtype": "method",
+            "name": "wrap",
+            "params": [
+                {
+                    "name": "dom",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "*"
+            },
+            "class": "nx.dom.Document"
+        },
+        {
+            "file": "src/js/dom(yangyxu)/Document.js",
+            "line": 276,
+            "description": "Get document position information",
+            "itemtype": "method",
+            "name": "docRect",
+            "return": {
+                "description": "}",
+                "type": "Width: (Function|number), height: (Function|number), scrollWidth: *, scrollHeight: *, scrollX: *, scrollY: *"
+            },
+            "class": "nx.dom.Document"
+        },
+        {
+            "file": "src/js/dom(yangyxu)/Document.js",
+            "line": 302,
+            "description": "Dom ready",
+            "itemtype": "method",
+            "name": "ready",
+            "params": [
+                {
+                    "name": "inHandler",
+                    "description": ""
+                }
+            ],
+            "class": "nx.dom.Document"
+        },
+        {
+            "file": "src/js/dom(yangyxu)/Document.js",
+            "line": 315,
+            "description": "Add a rule to next style sheet",
+            "itemtype": "method",
+            "name": "addRule",
+            "params": [
+                {
+                    "name": "inSelector",
+                    "description": ""
+                },
+                {
+                    "name": "inCssText",
+                    "description": ""
+                },
+                {
+                    "name": "inIndex",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "*"
+            },
+            "class": "nx.dom.Document"
+        },
+        {
+            "file": "src/js/dom(yangyxu)/Document.js",
+            "line": 326,
+            "description": "insert a rule to next style sheet",
+            "itemtype": "method",
+            "name": "insertRule",
+            "params": [
+                {
+                    "name": "inFullCssText",
+                    "description": ""
+                },
+                {
+                    "name": "inIndex",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "*"
+            },
+            "class": "nx.dom.Document"
+        },
+        {
+            "file": "src/js/dom(yangyxu)/Document.js",
+            "line": 336,
+            "description": "Delete a rule from next style sheet at last line",
+            "itemtype": "method",
+            "name": "deleteRule",
+            "params": [
+                {
+                    "name": "inIndex",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "*"
+            },
+            "class": "nx.dom.Document"
+        },
+        {
+            "file": "src/js/dom(yangyxu)/Document.js",
+            "line": 345,
+            "description": "Remove a rule from next style sheet",
+            "itemtype": "method",
+            "name": "removeRule",
+            "params": [
+                {
+                    "name": "inSelector",
+                    "description": ""
+                },
+                {
+                    "name": "inIndex",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "*"
+            },
+            "class": "nx.dom.Document"
+        },
+        {
+            "file": "src/js/dom(yangyxu)/Document.js",
+            "line": 355,
+            "description": "Add multi rules",
+            "itemtype": "method",
+            "name": "addRules",
+            "params": [
+                {
+                    "name": "inRules",
+                    "description": ""
+                }
+            ],
+            "class": "nx.dom.Document"
+        },
+        {
+            "file": "src/js/dom(yangyxu)/Document.js",
+            "line": 365,
+            "description": "Delete all rules",
+            "itemtype": "method",
+            "name": "deleteRules",
+            "class": "nx.dom.Document"
+        },
+        {
+            "file": "src/js/dom(yangyxu)/Element.js",
+            "line": 150,
+            "description": "Get an attribute from element",
+            "itemtype": "method",
+            "name": "get",
+            "params": [
+                {
+                    "name": "name",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "*"
+            },
+            "class": "nx.dom.Element"
+        },
+        {
+            "file": "src/js/dom(yangyxu)/Element.js",
+            "line": 167,
+            "description": "Set an attribute for an element",
+            "itemtype": "method",
+            "name": "set",
+            "params": [
+                {
+                    "name": "name",
+                    "description": ""
+                },
+                {
+                    "name": "value",
+                    "description": ""
+                }
+            ],
+            "class": "nx.dom.Element"
+        },
+        {
+            "file": "src/js/dom(yangyxu)/Element.js",
+            "line": 184,
+            "description": "Get an element by selector.",
+            "itemtype": "method",
+            "name": "get",
+            "params": [
+                {
+                    "name": "inSelector",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "HTMLElement"
+            },
+            "class": "nx.dom.Element"
+        },
+        {
+            "file": "src/js/dom(yangyxu)/Element.js",
+            "line": 194,
+            "description": "Get a collection by selector",
+            "itemtype": "method",
+            "name": "selectAll",
+            "params": [
+                {
+                    "name": "inSelector",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "nx.data.Collection"
+            },
+            "class": "nx.dom.Element"
+        },
+        {
+            "file": "src/js/dom(yangyxu)/Element.js",
+            "line": 211,
+            "description": "Focus an element",
+            "itemtype": "method",
+            "name": "focus",
+            "class": "nx.dom.Element"
+        },
+        {
+            "file": "src/js/dom(yangyxu)/Element.js",
+            "line": 218,
+            "description": "Blur form an element",
+            "itemtype": "method",
+            "name": "blur",
+            "class": "nx.dom.Element"
+        },
+        {
+            "file": "src/js/dom(yangyxu)/Element.js",
+            "line": 225,
+            "description": "Show an element",
+            "itemtype": "method",
+            "name": "show",
+            "class": "nx.dom.Element"
+        },
+        {
+            "file": "src/js/dom(yangyxu)/Element.js",
+            "line": 232,
+            "description": "Hide an element",
+            "itemtype": "method",
+            "name": "hide",
+            "class": "nx.dom.Element"
+        },
+        {
+            "file": "src/js/dom(yangyxu)/Element.js",
+            "line": 239,
+            "description": "Whether the element has the class",
+            "itemtype": "method",
+            "name": "hasClass",
+            "params": [
+                {
+                    "name": "inClassName",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
+            "class": "nx.dom.Element"
+        },
+        {
+            "file": "src/js/dom(yangyxu)/Element.js",
+            "line": 253,
+            "description": "Add class for element",
+            "itemtype": "method",
+            "name": "addClass",
+            "return": {
+                "description": "",
+                "type": "*"
+            },
+            "class": "nx.dom.Element"
+        },
+        {
+            "file": "src/js/dom(yangyxu)/Element.js",
+            "line": 275,
+            "description": "Remove class from element",
+            "itemtype": "method",
+            "name": "removeClass",
+            "return": {
+                "description": "",
+                "type": "*"
+            },
+            "class": "nx.dom.Element"
+        },
+        {
+            "file": "src/js/dom(yangyxu)/Element.js",
+            "line": 301,
+            "description": "Toggle a class on element",
+            "itemtype": "method",
+            "name": "toggleClass",
+            "params": [
+                {
+                    "name": "inClassName",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "*"
+            },
+            "class": "nx.dom.Element"
+        },
+        {
+            "file": "src/js/dom(yangyxu)/Element.js",
+            "line": 319,
+            "description": "Get document",
+            "itemtype": "method",
+            "name": "getDocument",
+            "return": {
+                "description": "",
+                "type": "*"
+            },
+            "class": "nx.dom.Element"
+        },
+        {
+            "file": "src/js/dom(yangyxu)/Element.js",
+            "line": 334,
+            "description": "Get window",
+            "itemtype": "method",
+            "name": "getWindow",
+            "return": {
+                "description": "",
+                "type": "DocumentView|window|*"
+            },
+            "class": "nx.dom.Element"
+        },
+        {
+            "file": "src/js/dom(yangyxu)/Element.js",
+            "line": 343,
+            "description": "Get root element",
+            "itemtype": "method",
+            "name": "getRoot",
+            "return": {
+                "description": "",
+                "type": "Element"
+            },
+            "class": "nx.dom.Element"
+        },
+        {
+            "file": "src/js/dom(yangyxu)/Element.js",
+            "line": 351,
+            "description": "Get element position information",
+            "itemtype": "method",
+            "name": "getBound",
+            "return": {
+                "description": "}",
+                "type": "Top: number, right: Number, bottom: Number, left: number, width: Number, height: Number"
+            },
+            "class": "nx.dom.Element"
+        },
+        {
+            "file": "src/js/dom(yangyxu)/Element.js",
+            "line": 370,
+            "description": "Get margin distance information",
+            "itemtype": "method",
+            "name": "margin",
+            "params": [
+                {
+                    "name": "inDirection",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "*"
+            },
+            "class": "nx.dom.Element"
+        },
+        {
+            "file": "src/js/dom(yangyxu)/Element.js",
+            "line": 379,
+            "description": "Get padding distance information",
+            "itemtype": "method",
+            "name": "padding",
+            "params": [
+                {
+                    "name": "inDirection",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "*"
+            },
+            "class": "nx.dom.Element"
+        },
+        {
+            "file": "src/js/dom(yangyxu)/Element.js",
+            "line": 388,
+            "description": "Get border width information",
+            "itemtype": "method",
+            "name": "border",
+            "params": [
+                {
+                    "name": "inDirection",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "*"
+            },
+            "class": "nx.dom.Element"
+        },
+        {
+            "file": "src/js/dom(yangyxu)/Element.js",
+            "line": 397,
+            "description": "Get offset information",
+            "itemtype": "method",
+            "name": "getOffset",
+            "return": {
+                "description": "}",
+                "type": "Top: number, left: number"
+            },
+            "class": "nx.dom.Element"
+        },
+        {
+            "file": "src/js/dom(yangyxu)/Element.js",
+            "line": 412,
+            "description": "Set offset style",
+            "itemtype": "method",
+            "name": "setOffset",
+            "params": [
+                {
+                    "name": "inStyleObj",
+                    "description": ""
+                }
+            ],
+            "class": "nx.dom.Element"
+        },
+        {
+            "file": "src/js/dom(yangyxu)/Element.js",
+            "line": 431,
+            "description": "Has in line style",
+            "itemtype": "method",
+            "name": "hasStyle",
+            "params": [
+                {
+                    "name": "inName",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
+            "class": "nx.dom.Element"
+        },
+        {
+            "file": "src/js/dom(yangyxu)/Element.js",
+            "line": 441,
+            "description": "Get computed style",
+            "itemtype": "method",
+            "name": "getStyle",
+            "params": [
+                {
+                    "name": "inName",
+                    "description": ""
+                },
+                {
+                    "name": "isInline",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "*"
+            },
+            "class": "nx.dom.Element"
+        },
+        {
+            "file": "src/js/dom(yangyxu)/Element.js",
+            "line": 457,
+            "description": "Set style for element",
+            "itemtype": "method",
+            "name": "setStyle",
+            "params": [
+                {
+                    "name": "inName",
+                    "description": ""
+                },
+                {
+                    "name": "inValue",
+                    "description": ""
+                }
+            ],
+            "class": "nx.dom.Element"
+        },
+        {
+            "file": "src/js/dom(yangyxu)/Element.js",
+            "line": 467,
+            "description": "Remove inline style",
+            "itemtype": "method",
+            "name": "removeStyle",
+            "params": [
+                {
+                    "name": "inName",
+                    "description": ""
+                }
+            ],
+            "class": "nx.dom.Element"
+        },
+        {
+            "file": "src/js/dom(yangyxu)/Element.js",
+            "line": 476,
+            "description": "Set style by style object",
+            "itemtype": "method",
+            "name": "setStyles",
+            "params": [
+                {
+                    "name": "inStyles",
+                    "description": ""
+                }
+            ],
+            "class": "nx.dom.Element"
+        },
+        {
+            "file": "src/js/dom(yangyxu)/Element.js",
+            "line": 484,
+            "description": "Get attribute",
+            "itemtype": "method",
+            "name": "getAttribute",
+            "params": [
+                {
+                    "name": "inName",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "*"
+            },
+            "class": "nx.dom.Element"
+        },
+        {
+            "file": "src/js/dom(yangyxu)/Element.js",
+            "line": 501,
+            "description": "Set attribute",
+            "itemtype": "method",
+            "name": "setAttribute",
+            "params": [
+                {
+                    "name": "inName",
+                    "description": ""
+                },
+                {
+                    "name": "inValue",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "*"
+            },
+            "class": "nx.dom.Element"
+        },
+        {
+            "file": "src/js/dom(yangyxu)/Element.js",
+            "line": 521,
+            "description": "Remove attribute",
+            "itemtype": "method",
+            "name": "removeAttribute",
+            "params": [
+                {
+                    "name": "inName",
+                    "description": ""
+                }
+            ],
+            "class": "nx.dom.Element"
+        },
+        {
+            "file": "src/js/dom(yangyxu)/Element.js",
+            "line": 529,
+            "description": "Get all attributes",
+            "itemtype": "method",
+            "name": "getAttributes",
+            "return": {
+                "description": "}"
+            },
+            "class": "nx.dom.Element"
+        },
+        {
+            "file": "src/js/dom(yangyxu)/Element.js",
+            "line": 541,
+            "description": "Set attributes",
+            "itemtype": "method",
+            "name": "setAttributes",
+            "params": [
+                {
+                    "name": "attrs",
+                    "description": ""
+                }
+            ],
+            "class": "nx.dom.Element"
+        },
+        {
+            "file": "src/js/dom(yangyxu)/Element.js",
+            "line": 551,
+            "description": "Get inner text",
+            "itemtype": "method",
+            "name": "getText",
+            "return": {
+                "description": "",
+                "type": "*"
+            },
+            "class": "nx.dom.Element"
+        },
+        {
+            "file": "src/js/dom(yangyxu)/Element.js",
+            "line": 559,
+            "description": "Set inner text",
+            "itemtype": "method",
+            "name": "setText",
+            "params": [
+                {
+                    "name": "text",
+                    "description": ""
+                }
+            ],
+            "class": "nx.dom.Element"
+        },
+        {
+            "file": "src/js/dom(yangyxu)/Element.js",
+            "line": 567,
+            "description": "Get inner html",
+            "itemtype": "method",
+            "name": "getHtml",
+            "return": {
+                "description": "",
+                "type": "*|string"
+            },
+            "class": "nx.dom.Element"
+        },
+        {
+            "file": "src/js/dom(yangyxu)/Element.js",
+            "line": 575,
+            "description": "Set inner html",
+            "itemtype": "method",
+            "name": "setHtml",
+            "params": [
+                {
+                    "name": "html",
+                    "description": ""
+                }
+            ],
+            "class": "nx.dom.Element"
+        },
+        {
+            "file": "src/js/dom(yangyxu)/Element.js",
+            "line": 583,
+            "description": "Add event listener",
+            "itemtype": "method",
+            "name": "addEventListener",
+            "params": [
+                {
+                    "name": "name",
+                    "description": ""
+                },
+                {
+                    "name": "listener",
+                    "description": ""
+                },
+                {
+                    "name": "useCapture",
+                    "description": ""
+                }
+            ],
+            "class": "nx.dom.Element"
+        },
+        {
+            "file": "src/js/dom(yangyxu)/Element.js",
+            "line": 599,
+            "description": "Remove event listener",
+            "itemtype": "method",
+            "name": "removeEventListener",
+            "params": [
+                {
+                    "name": "name",
+                    "description": ""
+                },
+                {
+                    "name": "listener",
+                    "description": ""
+                },
+                {
+                    "name": "useCapture",
+                    "description": ""
+                }
+            ],
+            "class": "nx.dom.Element"
+        },
+        {
+            "file": "src/js/dom(yangyxu)/Fragment.js",
+            "line": 11,
+            "description": "Get collection child nodes.",
+            "return": {
+                "description": "",
+                "type": "nx.data.Collection"
+            },
+            "class": "nx.dom.Fragment"
+        },
+        {
+            "file": "src/js/dom(yangyxu)/Node.js",
+            "line": 21,
+            "description": "Set $dom as an attribute for node",
+            "params": [
+                {
+                    "name": "node",
+                    "description": ""
+                }
+            ],
+            "class": "nx.dom.Node"
+        },
+        {
+            "file": "src/js/dom(yangyxu)/Node.js",
+            "line": 28,
+            "description": "Whether target is current dom element",
+            "params": [
+                {
+                    "name": "target",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "class": "nx.dom.Node"
+        },
+        {
+            "file": "src/js/dom(yangyxu)/Node.js",
+            "line": 41,
+            "description": "Whether target is a element",
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
+            "class": "nx.dom.Node"
+        },
+        {
+            "file": "src/js/dom(yangyxu)/Node.js",
+            "line": 48,
+            "description": "Get current element's index",
+            "return": {
+                "description": "",
+                "type": "Number"
+            },
+            "class": "nx.dom.Node"
+        },
+        {
+            "file": "src/js/dom(yangyxu)/Node.js",
+            "line": 64,
+            "description": "Get the index child element",
+            "params": [
+                {
+                    "name": "inIndex",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Null"
+            },
+            "class": "nx.dom.Node"
+        },
+        {
+            "file": "src/js/dom(yangyxu)/Node.js",
+            "line": 80,
+            "description": "Compare dom element position",
+            "params": [
+                {
+                    "name": "inTarget",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "*"
+            },
+            "class": "nx.dom.Node"
+        },
+        {
+            "file": "src/js/dom(yangyxu)/Node.js",
+            "line": 88,
+            "description": "Get first element child",
+            "return": {
+                "description": "",
+                "type": "this.constructor"
+            },
+            "class": "nx.dom.Node"
+        },
+        {
+            "file": "src/js/dom(yangyxu)/Node.js",
+            "line": 96,
+            "description": "Get last element child",
+            "return": {
+                "description": "",
+                "type": "this.constructor"
+            },
+            "class": "nx.dom.Node"
+        },
+        {
+            "file": "src/js/dom(yangyxu)/Node.js",
+            "line": 103,
+            "description": "Get previous element",
+            "return": {
+                "description": "",
+                "type": "this.constructor"
+            },
+            "class": "nx.dom.Node"
+        },
+        {
+            "file": "src/js/dom(yangyxu)/Node.js",
+            "line": 110,
+            "description": "Get next element",
+            "return": {
+                "description": "",
+                "type": "this.constructor"
+            },
+            "class": "nx.dom.Node"
+        },
+        {
+            "file": "src/js/dom(yangyxu)/Node.js",
+            "line": 117,
+            "description": "Get parent element",
+            "return": {
+                "description": "",
+                "type": "this.constructor"
+            },
+            "class": "nx.dom.Node"
+        },
+        {
+            "file": "src/js/dom(yangyxu)/Node.js",
+            "line": 134,
+            "description": "Get element children",
+            "return": {
+                "description": "",
+                "type": "nx.data.Collection"
+            },
+            "class": "nx.dom.Node"
+        },
+        {
+            "file": "src/js/dom(yangyxu)/Node.js",
+            "line": 145,
+            "description": "Clone an element node",
+            "params": [
+                {
+                    "name": "deep",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "this.constructor"
+            },
+            "class": "nx.dom.Node"
+        },
+        {
+            "file": "src/js/dom(yangyxu)/Node.js",
+            "line": 153,
+            "description": "Whether the element has child.",
+            "params": [
+                {
+                    "name": "child",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
+            "class": "nx.dom.Node"
+        },
+        {
+            "file": "src/js/dom(yangyxu)/Node.js",
+            "line": 161,
+            "description": "Adds a node to the end of the list of children of a specified parent node",
+            "params": [
+                {
+                    "name": "child",
+                    "description": ""
+                }
+            ],
+            "class": "nx.dom.Node"
+        },
+        {
+            "file": "src/js/dom(yangyxu)/Node.js",
+            "line": 168,
+            "description": "Inserts the specified node before a reference element as a child of the current node",
+            "params": [
+                {
+                    "name": "child",
+                    "description": ""
+                },
+                {
+                    "name": "ref",
+                    "description": ""
+                }
+            ],
+            "class": "nx.dom.Node"
+        },
+        {
+            "file": "src/js/dom(yangyxu)/Node.js",
+            "line": 176,
+            "description": "Removes a child node from the DOM",
+            "params": [
+                {
+                    "name": "child",
+                    "description": ""
+                }
+            ],
+            "class": "nx.dom.Node"
+        },
+        {
+            "file": "src/js/dom(yangyxu)/Node.js",
+            "line": 185,
+            "description": "Remove all child nodes",
+            "class": "nx.dom.Node"
+        },
+        {
+            "file": "src/js/ui/AbstractComponent.js",
+            "line": 142,
+            "description": "Create component by json view.",
+            "itemtype": "method",
+            "name": "createComponent",
+            "static": 1,
+            "class": "nx.ui.Collection",
+            "namespace": "nx.ui"
+        },
+        {
+            "file": "src/js/ui/AbstractComponent.js",
+            "line": 151,
+            "itemtype": "property",
+            "name": "count",
+            "type": "{nx.data.Collection}",
+            "class": "nx.ui.Collection",
+            "namespace": "nx.ui"
+        },
+        {
+            "file": "src/js/ui/AbstractComponent.js",
+            "line": 176,
+            "itemtype": "property",
+            "name": "model",
+            "type": "{Any}",
+            "class": "nx.ui.Collection",
+            "namespace": "nx.ui"
+        },
+        {
+            "file": "src/js/ui/AbstractComponent.js",
+            "line": 203,
+            "itemtype": "property",
+            "name": "owner",
+            "type": "{nx.ui.AbstractComponent}",
+            "class": "nx.ui.Collection",
+            "namespace": "nx.ui"
+        },
+        {
+            "file": "src/js/ui/AbstractComponent.js",
+            "line": 210,
+            "itemtype": "property",
+            "name": "parent",
+            "type": "{nx.ui.AbstractComponent}",
+            "class": "nx.ui.Collection",
+            "namespace": "nx.ui"
+        },
+        {
+            "file": "src/js/ui/AbstractComponent.js",
+            "line": 224,
+            "description": "Attach the component to parent.",
+            "itemtype": "method",
+            "name": "attach",
+            "params": [
+                {
+                    "name": "parent",
+                    "description": ""
+                },
+                {
+                    "name": "index",
+                    "description": ""
+                }
+            ],
+            "class": "nx.ui.Collection",
+            "namespace": "nx.ui"
+        },
+        {
+            "file": "src/js/ui/AbstractComponent.js",
+            "line": 265,
+            "description": "Detach the component from parent.",
+            "itemtype": "method",
+            "name": "detach",
+            "class": "nx.ui.Collection",
+            "namespace": "nx.ui"
+        },
+        {
+            "file": "src/js/ui/AbstractComponent.js",
+            "line": 295,
+            "description": "Register a resource.",
+            "itemtype": "method",
+            "name": "register",
+            "params": [
+                {
+                    "name": "name",
+                    "description": ""
+                },
+                {
+                    "name": "value",
+                    "description": ""
+                },
+                {
+                    "name": "force",
+                    "description": ""
+                }
+            ],
+            "class": "nx.ui.Collection",
+            "namespace": "nx.ui"
+        },
+        {
+            "file": "src/js/ui/AbstractComponent.js",
+            "line": 308,
+            "description": "Unregister a resource.",
+            "itemtype": "method",
+            "name": "unregister",
+            "params": [
+                {
+                    "name": "name",
+                    "description": ""
+                }
+            ],
+            "class": "nx.ui.Collection",
+            "namespace": "nx.ui"
+        },
+        {
+            "file": "src/js/ui/AbstractComponent.js",
+            "line": 319,
+            "description": "Resolve a resource.",
+            "itemtype": "method",
+            "name": "resolve",
+            "params": [
+                {
+                    "name": "name",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Any"
+            },
+            "class": "nx.ui.Collection",
+            "namespace": "nx.ui"
+        },
+        {
+            "file": "src/js/ui/AbstractComponent.js",
+            "line": 331,
+            "description": "Get the container for component.",
+            "itemtype": "method",
+            "name": "getContainer",
+            "params": [
+                {
+                    "name": "comp",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "nx.dom.Element"
+            },
+            "class": "nx.ui.Collection",
+            "namespace": "nx.ui"
+        },
+        {
+            "file": "src/js/ui/AbstractComponent.js",
+            "line": 347,
+            "description": "Dispose the component.",
+            "itemtype": "method",
+            "name": "dispose",
+            "class": "nx.ui.Collection",
+            "namespace": "nx.ui"
+        },
+        {
+            "file": "src/js/ui/AbstractComponent.js",
+            "line": 365,
+            "description": "Destroy the component.",
+            "itemtype": "method",
+            "name": "destroy",
+            "class": "nx.ui.Collection",
+            "namespace": "nx.ui"
+        },
+        {
+            "file": "src/js/ui/AbstractComponent.js",
+            "line": 373,
+            "description": "Template method for component attach.",
+            "itemtype": "method",
+            "name": "onAttach",
+            "class": "nx.ui.Collection",
+            "namespace": "nx.ui"
+        },
+        {
+            "file": "src/js/ui/AbstractComponent.js",
+            "line": 378,
+            "description": "Template method for component detach.",
+            "itemtype": "method",
+            "name": "onDetach",
+            "class": "nx.ui.Collection",
+            "namespace": "nx.ui"
+        },
+        {
+            "file": "src/js/ui/AbstractComponent.js",
+            "line": 383,
+            "description": "Template method for child component attach.",
+            "itemtype": "method",
+            "name": "onChildAttach",
+            "class": "nx.ui.Collection",
+            "namespace": "nx.ui"
+        },
+        {
+            "file": "src/js/ui/AbstractComponent.js",
+            "line": 388,
+            "description": "Template method for child component detach.",
+            "itemtype": "method",
+            "name": "onChildDetach",
+            "class": "nx.ui.Collection",
+            "namespace": "nx.ui"
+        },
+        {
+            "file": "src/js/ui/AbstractComponent.js",
+            "line": 486,
+            "itemtype": "property",
+            "name": "class",
+            "type": "{CssClass}",
+            "class": "nx.ui.DOMComponent",
+            "namespace": "nx.ui"
+        },
+        {
+            "file": "src/js/ui/AbstractComponent.js",
+            "line": 517,
+            "itemtype": "property",
+            "name": "style",
+            "type": "{CssStyle}",
+            "class": "nx.ui.DOMComponent",
+            "namespace": "nx.ui"
+        },
+        {
+            "file": "src/js/ui/AbstractComponent.js",
+            "line": 537,
+            "itemtype": "property",
+            "name": "template",
+            "class": "nx.ui.DOMComponent",
+            "namespace": "nx.ui"
+        },
+        {
+            "file": "src/js/ui/AbstractComponent.js",
+            "line": 549,
+            "itemtype": "property",
+            "name": "items",
+            "class": "nx.ui.DOMComponent",
+            "namespace": "nx.ui"
+        },
+        {
+            "file": "src/js/ui/AbstractComponent.js",
+            "line": 569,
+            "itemtype": "property",
+            "name": "value",
+            "class": "nx.ui.DOMComponent",
+            "namespace": "nx.ui"
+        },
+        {
+            "file": "src/js/ui/AbstractComponent.js",
+            "line": 583,
+            "itemtype": "property",
+            "name": "states",
+            "class": "nx.ui.DOMComponent",
+            "namespace": "nx.ui"
+        },
+        {
+            "file": "src/js/ui/AbstractComponent.js",
+            "line": 589,
+            "itemtype": "property",
+            "name": "dom",
+            "class": "nx.ui.DOMComponent",
+            "namespace": "nx.ui"
+        },
+        {
+            "file": "src/js/ui/Application.js",
+            "line": 35,
+            "description": "Start the application.",
+            "itemtype": "method",
+            "name": "start",
+            "class": "nx.ui.Application",
+            "namespace": "nx.ui"
+        },
+        {
+            "file": "src/js/ui/Application.js",
+            "line": 42,
+            "description": "Stop the application.",
+            "itemtype": "method",
+            "name": "stop",
+            "class": "nx.ui.Application",
+            "namespace": "nx.ui"
+        },
+        {
+            "file": "src/js/Env.js",
+            "line": 233,
+            "description": "Document mode",
+            "itemtype": "property",
+            "name": "documentMode",
+            "type": "{Number}",
+            "default": "0",
+            "class": "nx.ui.nx.Env",
+            "namespace": "nx.ui"
+        },
+        {
+            "file": "src/js/Env.js",
+            "line": 242,
+            "description": "Document compatMode",
+            "itemtype": "property",
+            "name": "compatMode",
+            "type": "{String}",
+            "default": "\"CSS1Compat\"",
+            "class": "nx.ui.nx.Env",
+            "namespace": "nx.ui"
+        },
+        {
+            "file": "src/js/Env.js",
+            "line": 251,
+            "description": "User agent string",
+            "itemtype": "property",
+            "name": "userAgent",
+            "type": "{String}",
+            "default": "\"\"",
+            "class": "nx.ui.nx.Env",
+            "namespace": "nx.ui"
+        },
+        {
+            "file": "src/js/Env.js",
+            "line": 260,
+            "description": "Browser render model CSS1Compat",
+            "itemtype": "property",
+            "name": "strict",
+            "type": "{Boolean}",
+            "default": "true",
+            "class": "nx.ui.nx.Env",
+            "namespace": "nx.ui"
+        },
+        {
+            "file": "src/js/Env.js",
+            "line": 269,
+            "description": "If it is secure",
+            "itemtype": "property",
+            "name": "strict",
+            "type": "{Boolean}",
+            "default": "false",
+            "class": "nx.ui.nx.Env",
+            "namespace": "nx.ui"
+        },
+        {
+            "file": "src/js/Env.js",
+            "line": 278,
+            "description": "Get operating system information",
+            "itemtype": "property",
+            "name": "os",
+            "type": "{Object}",
+            "default": "{}",
+            "class": "nx.ui.nx.Env",
+            "namespace": "nx.ui"
+        },
+        {
+            "file": "src/js/Env.js",
+            "line": 287,
+            "description": "Get specific prefix",
+            "itemtype": "property",
+            "name": "prefix",
+            "type": "{Array}",
+            "default": "['webkit','-webkit-']",
+            "class": "nx.ui.nx.Env",
+            "namespace": "nx.ui"
+        },
+        {
+            "file": "src/js/Env.js",
+            "line": 296,
+            "description": "Get browser's render engine information",
+            "itemtype": "property",
+            "name": "engine",
+            "type": "{Object}",
+            "default": "{}",
+            "class": "nx.ui.nx.Env",
+            "namespace": "nx.ui"
+        },
+        {
+            "file": "src/js/Env.js",
+            "line": 305,
+            "description": "Get basic browser information",
+            "itemtype": "property",
+            "name": "browser",
+            "type": "{Object}",
+            "default": "{}",
+            "class": "nx.ui.nx.Env",
+            "namespace": "nx.ui"
+        },
+        {
+            "file": "src/js/Env.js",
+            "line": 314,
+            "description": "Get keyboard key code map.",
+            "itemtype": "property",
+            "name": "keyMap",
+            "type": "{Object}",
+            "default": "{}",
+            "class": "nx.ui.nx.Env",
+            "namespace": "nx.ui"
+        },
+        {
+            "file": "src/js/Env.js",
+            "line": 325,
+            "description": "Whether the property is support",
+            "itemtype": "method",
+            "name": "support",
+            "params": [
+                {
+                    "name": "inName",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "*"
+            },
+            "class": "nx.ui.nx.Env",
+            "namespace": "nx.ui"
+        },
+        {
+            "file": "src/js/Env.js",
+            "line": 334,
+            "description": "Support map for debug",
+            "itemtype": "method",
+            "name": "getSupportMap",
+            "return": {
+                "description": "}",
+                "type": "AddEventListener: boolean, dispatchEvent: boolean, getBoundingClientRect: boolean, onmousewheel: boolean, XDomainRequest: boolean, crossDomain: boolean, getComputedStyle: boolean, iePropertyChange: boolean, w3cChange: boolean, w3cFocus: boolean, w3cInput: boolean, innerText: boolean, firstElementChild: boolean, cssFloat: boolean, opacity: boolean, filter: boolean, removeProperty: boolean"
+            },
+            "class": "nx.ui.nx.Env",
+            "namespace": "nx.ui"
+        },
+        {
+            "file": "src/js/Env.js",
+            "line": 342,
+            "description": "Register a support item",
+            "itemtype": "method",
+            "name": "registerSupport",
+            "params": [
+                {
+                    "name": "inName",
+                    "description": ""
+                },
+                {
+                    "name": "inValue",
+                    "description": ""
+                }
+            ],
+            "class": "nx.ui.nx.Env",
+            "namespace": "nx.ui"
+        },
+        {
+            "file": "src/js/HttpClient.js",
+            "line": 10,
+            "description": "Ajax send.",
+            "itemtype": "method",
+            "name": "send",
+            "params": [
+                {
+                    "name": "options",
+                    "description": ""
+                }
+            ],
+            "class": "nx.ui.nx.HttpClient",
+            "namespace": "nx.ui"
+        },
+        {
+            "file": "src/js/HttpClient.js",
+            "line": 37,
+            "description": "Get request",
+            "itemtype": "method",
+            "name": "GET",
+            "params": [
+                {
+                    "name": "url",
+                    "description": ""
+                },
+                {
+                    "name": "callback",
+                    "description": ""
+                }
+            ],
+            "is_constructor": 1,
+            "class": "nx.ui.nx.HttpClient",
+            "namespace": "nx.ui"
+        },
+        {
+            "file": "src/js/HttpClient.js",
+            "line": 51,
+            "description": "Post request",
+            "itemtype": "method",
+            "name": "POST",
+            "params": [
+                {
+                    "name": "url",
+                    "description": ""
+                },
+                {
+                    "name": "data",
+                    "description": ""
+                },
+                {
+                    "name": "callback",
+                    "description": ""
+                }
+            ],
+            "is_constructor": 1,
+            "class": "nx.ui.nx.HttpClient",
+            "namespace": "nx.ui"
+        },
+        {
+            "file": "src/js/HttpClient.js",
+            "line": 67,
+            "description": "Put request",
+            "itemtype": "method",
+            "name": "PUT",
+            "params": [
+                {
+                    "name": "url",
+                    "description": ""
+                },
+                {
+                    "name": "data",
+                    "description": ""
+                },
+                {
+                    "name": "callback",
+                    "description": ""
+                }
+            ],
+            "is_constructor": 1,
+            "class": "nx.ui.nx.HttpClient",
+            "namespace": "nx.ui"
+        },
+        {
+            "file": "src/js/HttpClient.js",
+            "line": 83,
+            "description": "Delete request",
+            "itemtype": "method",
+            "name": "DELETE",
+            "params": [
+                {
+                    "name": "url",
+                    "description": ""
+                },
+                {
+                    "name": "callback",
+                    "description": ""
+                }
+            ],
+            "is_constructor": 1,
+            "class": "nx.ui.nx.HttpClient",
+            "namespace": "nx.ui"
+        },
+        {
+            "file": "src/js/Util.js",
+            "line": 36,
+            "description": "Get a string which is join by an style object.",
+            "itemtype": "method",
+            "name": "getCssText",
+            "params": [
+                {
+                    "name": "inStyles",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "class": "nx.ui.nx.Util",
+            "namespace": "nx.ui"
+        },
+        {
+            "file": "src/js/Util.js",
+            "line": 49,
+            "description": "Get real value of the style name.",
+            "itemtype": "method",
+            "name": "getStyleValue",
+            "params": [
+                {
+                    "name": "inName",
+                    "description": ""
+                },
+                {
+                    "name": "inValue",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "*"
+            },
+            "class": "nx.ui.nx.Util",
+            "namespace": "nx.ui"
+        },
+        {
+            "file": "src/js/Util.js",
+            "line": 66,
+            "description": "Get compatible css property.",
+            "itemtype": "method",
+            "name": "getStyleProperty",
+            "params": [
+                {
+                    "name": "inName",
+                    "description": ""
+                },
+                {
+                    "name": "isLowerCase",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "*"
+            },
+            "class": "nx.ui.nx.Util",
+            "namespace": "nx.ui"
+        },
+        {
+            "file": "src/js/Util.js",
+            "line": 102,
+            "description": "Lower camel case.",
+            "itemtype": "method",
+            "name": "lowerCamelCase",
+            "params": [
+                {
+                    "name": "inName",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "class": "nx.ui.nx.Util",
+            "namespace": "nx.ui"
+        },
+        {
+            "file": "src/js/Util.js",
+            "line": 112,
+            "description": "Upper camel case.",
+            "itemtype": "method",
+            "name": "upperCamelCase",
+            "params": [
+                {
+                    "name": "inName",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "*|string|void"
+            },
+            "class": "nx.ui.nx.Util",
+            "namespace": "nx.ui"
+        },
+        {
+            "file": "src/js/Util.js",
+            "line": 123,
+            "description": "Decode camel case to '-' model.",
+            "itemtype": "method",
+            "name": "deCamelCase",
+            "params": [
+                {
+                    "name": "inName",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "*|string|void"
+            },
+            "class": "nx.ui.nx.Util",
+            "namespace": "nx.ui"
+        },
+        {
+            "file": "src/js/Util.js",
+            "line": 134,
+            "description": "Upper first word of a string.",
+            "itemtype": "method",
+            "name": "capitalize",
+            "params": [
+                {
+                    "name": "inString",
+                    "description": ""
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "class": "nx.ui.nx.Util",
+            "namespace": "nx.ui"
+        }
+    ],
+    "warnings": [
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom/Document.js:212"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom/Document.js:221"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom/Document.js:229"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom/Document.js:238"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom/Document.js:247"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom/Document.js:263"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom/Document.js:277"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom/Document.js:316"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom/Document.js:327"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom/Document.js:337"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom/Document.js:346"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom/Element.js:106"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom/Element.js:140"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom/Element.js:150"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom/Element.js:195"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom/Element.js:210"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom/Element.js:225"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom/Element.js:248"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom/Element.js:276"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom/Element.js:296"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom/Element.js:311"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom/Element.js:320"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom/Element.js:328"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom/Element.js:347"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom/Element.js:356"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom/Element.js:365"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom/Element.js:374"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom/Element.js:409"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom/Element.js:419"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom/Element.js:463"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom/Element.js:481"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom/Element.js:510"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom/Element.js:532"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom/Element.js:548"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom/Fragment.js:11"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom/Node.js:17"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom/Node.js:30"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom/Node.js:37"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom/Node.js:53"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom/Node.js:69"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom/Node.js:77"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom/Node.js:84"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom/Node.js:91"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom/Node.js:98"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom/Node.js:105"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom/Node.js:112"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom/Node.js:123"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom/Node.js:131"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom(yangyxu)/Document.js:211"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom(yangyxu)/Document.js:220"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom(yangyxu)/Document.js:228"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom(yangyxu)/Document.js:237"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom(yangyxu)/Document.js:246"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom(yangyxu)/Document.js:262"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom(yangyxu)/Document.js:276"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom(yangyxu)/Document.js:315"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom(yangyxu)/Document.js:326"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom(yangyxu)/Document.js:336"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom(yangyxu)/Document.js:345"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom(yangyxu)/Element.js:150"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom(yangyxu)/Element.js:184"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom(yangyxu)/Element.js:194"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom(yangyxu)/Element.js:239"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom(yangyxu)/Element.js:253"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom(yangyxu)/Element.js:275"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom(yangyxu)/Element.js:301"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom(yangyxu)/Element.js:319"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom(yangyxu)/Element.js:334"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom(yangyxu)/Element.js:343"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom(yangyxu)/Element.js:351"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom(yangyxu)/Element.js:370"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom(yangyxu)/Element.js:379"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom(yangyxu)/Element.js:388"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom(yangyxu)/Element.js:397"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom(yangyxu)/Element.js:431"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom(yangyxu)/Element.js:441"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom(yangyxu)/Element.js:484"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom(yangyxu)/Element.js:501"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom(yangyxu)/Element.js:529"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom(yangyxu)/Element.js:551"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom(yangyxu)/Element.js:567"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom(yangyxu)/Fragment.js:11"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom(yangyxu)/Node.js:28"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom(yangyxu)/Node.js:41"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom(yangyxu)/Node.js:48"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom(yangyxu)/Node.js:64"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom(yangyxu)/Node.js:80"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom(yangyxu)/Node.js:88"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom(yangyxu)/Node.js:96"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom(yangyxu)/Node.js:103"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom(yangyxu)/Node.js:110"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom(yangyxu)/Node.js:117"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom(yangyxu)/Node.js:134"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom(yangyxu)/Node.js:145"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/dom(yangyxu)/Node.js:153"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/ui/AbstractComponent.js:319"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/ui/AbstractComponent.js:331"
+        },
+        {
+            "message": "unknown tag: internal",
+            "line": " src/js/ui/AbstractComponent.js:396"
+        },
+        {
+            "message": "unknown tag: internal",
+            "line": " src/js/ui/AbstractComponent.js:453"
+        },
+        {
+            "message": "unknown tag: internal",
+            "line": " src/js/ui/AbstractComponent.js:477"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/Env.js:325"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/Env.js:334"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/Util.js:36"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/Util.js:49"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/Util.js:66"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/Util.js:102"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/Util.js:112"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/Util.js:123"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " src/js/Util.js:134"
+        },
+        {
+            "message": "Missing item type\nGet collection child nodes.",
+            "line": " src/js/dom/Fragment.js:11"
+        },
+        {
+            "message": "Missing item type\nSet $dom as an attribute for node",
+            "line": " src/js/dom/Node.js:10"
+        },
+        {
+            "message": "Missing item type\nWhether target is current dom element",
+            "line": " src/js/dom/Node.js:17"
+        },
+        {
+            "message": "Missing item type\nWhether target is a element",
+            "line": " src/js/dom/Node.js:30"
+        },
+        {
+            "message": "Missing item type\nGet current element's index",
+            "line": " src/js/dom/Node.js:37"
+        },
+        {
+            "message": "Missing item type\nGet the index child element",
+            "line": " src/js/dom/Node.js:53"
+        },
+        {
+            "message": "Missing item type\nCompare dom element position",
+            "line": " src/js/dom/Node.js:69"
+        },
+        {
+            "message": "Missing item type\nGet first element child",
+            "line": " src/js/dom/Node.js:77"
+        },
+        {
+            "message": "Missing item type\nGet last element child",
+            "line": " src/js/dom/Node.js:84"
+        },
+        {
+            "message": "Missing item type\nGet previous element",
+            "line": " src/js/dom/Node.js:91"
+        },
+        {
+            "message": "Missing item type\nGet next element",
+            "line": " src/js/dom/Node.js:98"
+        },
+        {
+            "message": "Missing item type\nGet parent element",
+            "line": " src/js/dom/Node.js:105"
+        },
+        {
+            "message": "Missing item type\nGet element children",
+            "line": " src/js/dom/Node.js:112"
+        },
+        {
+            "message": "Missing item type\nClone an element node",
+            "line": " src/js/dom/Node.js:123"
+        },
+        {
+            "message": "Missing item type\nWhether the element has child.",
+            "line": " src/js/dom/Node.js:131"
+        },
+        {
+            "message": "Missing item type\nAdds a node to the end of the list of children of a specified parent node",
+            "line": " src/js/dom/Node.js:139"
+        },
+        {
+            "message": "Missing item type\nInserts the specified node before a reference element as a child of the current node",
+            "line": " src/js/dom/Node.js:146"
+        },
+        {
+            "message": "Missing item type\nRemoves a child node from the DOM",
+            "line": " src/js/dom/Node.js:154"
+        },
+        {
+            "message": "Missing item type\nRemove all child nodes",
+            "line": " src/js/dom/Node.js:163"
+        },
+        {
+            "message": "Missing item type\nGet collection child nodes.",
+            "line": " src/js/dom(yangyxu)/Fragment.js:11"
+        },
+        {
+            "message": "Missing item type\nSet $dom as an attribute for node",
+            "line": " src/js/dom(yangyxu)/Node.js:21"
+        },
+        {
+            "message": "Missing item type\nWhether target is current dom element",
+            "line": " src/js/dom(yangyxu)/Node.js:28"
+        },
+        {
+            "message": "Missing item type\nWhether target is a element",
+            "line": " src/js/dom(yangyxu)/Node.js:41"
+        },
+        {
+            "message": "Missing item type\nGet current element's index",
+            "line": " src/js/dom(yangyxu)/Node.js:48"
+        },
+        {
+            "message": "Missing item type\nGet the index child element",
+            "line": " src/js/dom(yangyxu)/Node.js:64"
+        },
+        {
+            "message": "Missing item type\nCompare dom element position",
+            "line": " src/js/dom(yangyxu)/Node.js:80"
+        },
+        {
+            "message": "Missing item type\nGet first element child",
+            "line": " src/js/dom(yangyxu)/Node.js:88"
+        },
+        {
+            "message": "Missing item type\nGet last element child",
+            "line": " src/js/dom(yangyxu)/Node.js:96"
+        },
+        {
+            "message": "Missing item type\nGet previous element",
+            "line": " src/js/dom(yangyxu)/Node.js:103"
+        },
+        {
+            "message": "Missing item type\nGet next element",
+            "line": " src/js/dom(yangyxu)/Node.js:110"
+        },
+        {
+            "message": "Missing item type\nGet parent element",
+            "line": " src/js/dom(yangyxu)/Node.js:117"
+        },
+        {
+            "message": "Missing item type\nGet element children",
+            "line": " src/js/dom(yangyxu)/Node.js:134"
+        },
+        {
+            "message": "Missing item type\nClone an element node",
+            "line": " src/js/dom(yangyxu)/Node.js:145"
+        },
+        {
+            "message": "Missing item type\nWhether the element has child.",
+            "line": " src/js/dom(yangyxu)/Node.js:153"
+        },
+        {
+            "message": "Missing item type\nAdds a node to the end of the list of children of a specified parent node",
+            "line": " src/js/dom(yangyxu)/Node.js:161"
+        },
+        {
+            "message": "Missing item type\nInserts the specified node before a reference element as a child of the current node",
+            "line": " src/js/dom(yangyxu)/Node.js:168"
+        },
+        {
+            "message": "Missing item type\nRemoves a child node from the DOM",
+            "line": " src/js/dom(yangyxu)/Node.js:176"
+        },
+        {
+            "message": "Missing item type\nRemove all child nodes",
+            "line": " src/js/dom(yangyxu)/Node.js:185"
+        }
+    ]
+}

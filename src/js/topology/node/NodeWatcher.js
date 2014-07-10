@@ -2,22 +2,17 @@
 
     nx.define('nx.graphic.Topology.NodeWatcher', nx.Observable, {
         properties: {
-            property: {
-                value: 'generated'
-            },
-            topology: {},
-            'nodes': {
+            nodes: {
                 get: function () {
                     return this._nodes || [];
                 },
                 set: function (value) {
                     var updater = this.updater();
-                    var property = this.property();
                     var vertices = this.vertices();
 
                     if (vertices.length !== 0) {
                         nx.each(vertices, function (vertex) {
-                            vertex.unwatch(property, updater, this);
+                            vertex.unwatch('generated', updater, this);
                         }, this);
                         vertices.length = 0;
                     }
@@ -48,16 +43,11 @@
 
 
                     nx.each(vertices, function (vertex) {
-                        vertex.watch(property, updater, this);
+                        vertex.watch('generated', updater, this);
                     }, this);
 
                     updater();
                     this._nodes = value;
-                }
-            },
-            vertices: {
-                value: function () {
-                    return [];
                 }
             },
             updater: {
@@ -65,6 +55,23 @@
                     return function () {
 
                     };
+                }
+            },
+            topology: {
+                set: function (topo) {
+                    if (topo && topo.graph()) {
+                        var graph = topo.graph();
+                        graph.on("addVertexSet", this.update, this);
+                        graph.on("removeVertexSet", this.update, this);
+                        graph.on("deleteVertexSet", this.update, this);
+                        graph.on("updateVertexSet", this.update, this);
+                    }
+                    this._topology = topo;
+                }
+            },
+            vertices: {
+                value: function () {
+                    return [];
                 }
             }
         },
@@ -80,15 +87,14 @@
                 }
                 return vertex;
             },
-            getNodes: function () {
+            getNodes: function (includeParent) {
                 var nodes = [];
                 var topo = this.topology();
-                var graph = topo.graph();
                 var vertices = this.vertices();
                 nx.each(vertices, function (vertex) {
                     var id = vertex.id();
                     var node = topo.getNode(id);
-                    if (!node) {
+                    if (includeParent !== false && (!node || vertex.generated() === false)) {
                         var generatedRootVertexSet = vertex.generatedRootVertexSet();
                         if (generatedRootVertexSet) {
                             node = topo.getNode(generatedRootVertexSet.id());
@@ -101,6 +107,24 @@
                 });
 
                 return nodes;
+            },
+            update: function () {
+                var updater = this.updater();
+                var vertices = this.vertices();
+                if (vertices.length !== 0) {
+                    updater();
+                }
+            },
+            dispose: function () {
+                var topo = this.topology();
+                if (topo && topo.graph()) {
+                    var graph = topo.graph();
+                    graph.off("addVertexSet", this.update, this);
+                    graph.off("removeVertexSet", this.update, this);
+                    graph.off("deleteVertexSet", this.update, this);
+                    graph.off("updateVertexSet", this.update, this);
+                }
+                this.inherited();
             }
 
         }

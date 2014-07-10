@@ -5,15 +5,16 @@
         properties: {
             MVM: {},
             graph: {
-                dependencies: ['MVM.topologyGenerated', 'MVM.topology', 'update', 'MVM.topoData'],
-                value: function (generated, topology, update, topoData) {
+                dependencies: ['MVM.topology', 'MVM.topoData', 'MVM.status.topologyGenerated', 'MVM.status.aggregationModified', 'update'],
+                value: function (topology, topoData, generated) {
                     if (generated && topology && topoData) {
                         var graph = topology.graph();
                         var vertexSets = graph.vertexSets();
+                        //get the generated root vertex set
                         var _vertexSets = {};
                         vertexSets.each(function (item, key) {
                             var vertexSet = item.value();
-                            if (vertexSet.generated()) {
+                            if (vertexSet.generated() && !vertexSet.rootVertexSet()) {
                                 _vertexSets[key] = vertexSet;
                             }
                         });
