@@ -71,11 +71,14 @@
 
                 if (nx.is(links, nx.data.ObservableCollection)) {
                     links.add(data);
+                    // todo, handler when the data error,
                     edge = edges.getItem(edges.count() - 1);
                 }
                 else {
-                    links.push(data);
                     edge = this._addEdge(data);
+                    if (edge) {
+                        links.push(data);
+                    }
                 }
 
                 if (!edge) {

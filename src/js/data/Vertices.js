@@ -78,8 +78,10 @@
                     //todo will has issue when data is not current
                     vertex = vertices.getItem(vertices.count() - 1);
                 } else {
-                    nodes.push(data);
                     vertex = this._addVertex(data, config);
+                    if (vertex) {
+                        nodes.push(data);
+                    }
                 }
 
                 if (!vertex) {
