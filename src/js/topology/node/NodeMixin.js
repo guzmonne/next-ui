@@ -557,7 +557,7 @@
                     // just centralize them instead of zoom
                     center = nx.geometry.Vector.transform(bound.center, stage.matrix());
                     delta = [stage.width() / 2 - center[0], stage.height() / 2 - center[1]];
-                    stage.applyTranslate(delta[0], delta[1], .6);
+                    stage.applyTranslate(delta[0], delta[1], 0.6);
                     stage.applyStageScale(stage.maxZoomLevel() / stage.zoomLevel());
                 } else {
                     p0 = nx.geometry.Vector.transform([bound.left, bound.top], stage.matrix());
