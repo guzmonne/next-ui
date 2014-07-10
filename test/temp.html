@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script type="text/javascript"
+            src="http://10.75.161.96:8080/jenkins/job/NeXt-Core/lastSuccessfulBuild/artifact/dest/next-core.js"></script>
+    <script type="text/javascript"
+            src="http://10.75.161.96:8080/jenkins/job/NeXt-UI/lastSuccessfulBuild/artifact/dest/js/next-ui.js"></script>
+</head>
+<body>
+<script type="text/javascript">
+    var MyComponent = nx.define(nx.ui.Component, {
+        view: {
+            tag: 'ul',
+            props: {
+                template: {
+                    tag: 'li',
+                    content: {
+                        tag: 'span',
+                        content: '{label}'
+                    }
+                }
+            }
+        },
+        methods: {
+            init: function () {
+                this.inherited();
+                this.view().items([
+                    {label: 'Apple'},
+                    {label: 'Orange'},
+                    {label: 'Banana'},
+                    {label: 'Watermelon'},
+                    {label: 'Peach'}
+                ]);
+
+                var children = this.view().content();
+                nx.ui.AbstractComponent.createComponent({
+                    tag: 'i',
+                    content: 'icon-1 '
+                }).attach(children.getItem(0), 0);
+
+                nx.ui.AbstractComponent.createComponent({
+                    tag: 'i',
+                    content: 'icon-2 '
+                }).attach(children.getItem(children.count() - 1), 0);
+            }
+        }
+    });
+
+    var App = nx.define(nx.ui.Application, {
+        methods: {
+            start: function () {
+                (new MyComponent()).attach(this);
+            }
+        }
+    });
+
+    (new App()).start();
+</script>
+</body>
+</html>
