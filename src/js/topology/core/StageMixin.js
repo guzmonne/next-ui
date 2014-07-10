@@ -240,6 +240,19 @@
                     return;
                 }
 
+                var gap = 300 * this.stageScale();
+
+                if (bound.width < gap) {
+                    bound.left -= (gap - bound.width) / 2;
+                    bound.width = gap;
+                }
+
+                if (bound.height < gap) {
+                    bound.top -= (gap - bound.height) / 2;
+                    bound.height = gap;
+                }
+
+
                 if (boundScale != null) {
                     bound.left -= bound.width * (boundScale - 1) / 2;
                     bound.top -= bound.height * (boundScale - 1) / 2;

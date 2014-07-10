@@ -9,7 +9,7 @@
      * @module nx.graphic.Topology
      */
     nx.define("nx.graphic.Topology.NodeMixin", {
-        events: ['addNode', 'deleteNode', 'addNodeSet'],
+        events: ['addNode', 'deleteNode', 'addNodeSet', 'deleteNodeSet'],
         properties: {
             /**
              * Node instance class name, support function

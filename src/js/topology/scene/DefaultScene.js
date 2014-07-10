@@ -246,7 +246,6 @@
                 }, this);
 
                 this._topo.fadeIn();
-                this._topo.recoverHighlight();
             },
             collapseNodeSet: function (sender, nodeSet) {
                 var parentNodeSet = nodeSet.parentNodeSet();
@@ -344,17 +343,7 @@
             enterGroup: function (sender, group) {
                 if (nx.is(group, 'nx.graphic.Topology.NodeSetPolygonGroup')) {
                     var ns = group.nodeSet();
-                    var nodeLayerHighlightElements = this._nodesLayer.highlightedElements();
-                    var nodeSetLayerHighlightElements = this._nodeSetLayer.highlightedElements();
-                    nx.each(ns.nodes(), function (node) {
-                        if (node.model().type() == 'vertex') {
-                            nodeLayerHighlightElements.add(node);
-                        } else {
-                            nodeSetLayerHighlightElements.add(node);
-                        }
-                    });
-
-
+                    this._topo.activeNodes(nx.util.values(ns.nodes()));
                     this._topo.fadeOut();
                     this._groupsLayer.fadeIn();
 
@@ -364,7 +353,7 @@
             leaveGroup: function (sender, group) {
                 group.view().dom().removeClass('active');
                 this._topo.fadeIn();
-                this._topo.recoverHighlight();
+                this._topo.recoverActive();
             },
 
 

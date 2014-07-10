@@ -253,13 +253,13 @@
                 }
             },
             _deleteVertexSet: function (id) {
-
                 var vertexSet = this.vertexSets().getItem(id);
                 if (!vertexSet) {
                     return false;
                 }
-
-                vertexSet.activated(false);
+                if (vertexSet.generated()) {
+                    vertexSet.activated(false);
+                }
 
 
                 var parentVertexSet = vertexSet.parentVertexSet();
