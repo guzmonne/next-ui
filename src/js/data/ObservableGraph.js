@@ -59,7 +59,37 @@
                  */
                 this.fire('setData', data);
             },
-
+            subordinates: function (vertex, callback) {
+                // argument type overload
+                if (typeof vertex === "function") {
+                    callback = vertex;
+                    vertex = null;
+                }
+                // check the vertex children
+                var result;
+                if (vertex) {
+                    result = nx.util.values(vertex.vertices()).concat(nx.util.values(vertex.vertexSet()));
+                } else {
+                    result = [];
+                    nx.each(this.vertices(), function (pair) {
+                        var vertex = pair.value();
+                        if (!vertex.parentVertexSet()) {
+                            result.push(vertex);
+                        }
+                    }.bind(this));
+                    nx.each(this.vertexSets(), function (pair) {
+                        var vertex = pair.value();
+                        if (!vertex.parentVertexSet()) {
+                            result.push(vertex);
+                        }
+                    }.bind(this));
+                }
+                // callback if given
+                if (callback) {
+                    nx.each(result, callback);
+                }
+                return result;
+            },
             /**
              * Insert data, data should follow Common Topology Data Definition
              * @method insertData
@@ -111,19 +141,21 @@
                 this.fire('startGenerate');
 
 
-//                console.time('vertex');
+                //                console.time('vertex');
                 this.eachVertex(this.generateVertex, this);
-//                console.timeEnd('vertex');
+                //                console.timeEnd('vertex');
 
-//                console.time('edgeSet');
+                //                console.time('edgeSet');
                 this.eachEdgeSet(this.generateEdgeSet, this);
-//                console.timeEnd('edgeSet');
+                //                console.timeEnd('edgeSet');
 
 
                 this.eachVertexSet(this.generateVertexSet, this);
 
                 this.eachVertexSet(function (vertexSet) {
-                    vertexSet.activated(true, {force: true});
+                    vertexSet.activated(true, {
+                        force: true
+                    });
                     this.updateVertexSet(vertexSet);
                 }, this);
 
@@ -161,7 +193,10 @@
              */
             getJSON: function (inData) {
                 var data = inData || this.getData();
-                var obj = {nodes: [], links: []};
+                var obj = {
+                    nodes: [],
+                    links: []
+                };
 
 
                 if (nx.is(data.nodes, nx.data.ObservableCollection)) {
