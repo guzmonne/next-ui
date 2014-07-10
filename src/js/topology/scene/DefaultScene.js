@@ -266,8 +266,8 @@
             },
             updateNodeSet: function (sender, nodeSet) {
                 if (nodeSet.group) {
-                    nodeSet.group.nodes().clear();
-                    nodeSet.group.nodes().addRange(nx.util.values(nodeSet.nodes()));
+                    nodeSet.group.clear();
+                    nodeSet.group.nodes(nx.util.values(nodeSet.nodes()));
                 }
 
             },
@@ -341,13 +341,13 @@
                     var ns = group.nodeSet();
                     this._topo.activeNodes(nx.util.values(ns.nodes()));
                     this._topo.fadeOut();
-                    this._groupsLayer.fadeIn();
+                    this._groupsLayer.fadeOut();
 
-                    group.view().dom().addClass('active');
+                    group.view().dom().addClass('fade-active-item');
                 }
             },
             leaveGroup: function (sender, group) {
-                group.view().dom().removeClass('active');
+                group.view().dom().removeClass('fade-active-item');
                 this._topo.fadeIn();
                 this._topo.recoverActive();
             },

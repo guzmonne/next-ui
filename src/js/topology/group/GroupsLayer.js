@@ -82,9 +82,6 @@
                 }
             }
         },
-        view: {
-            type: 'nx.graphic.Group'
-        },
         methods: {
 
             /**

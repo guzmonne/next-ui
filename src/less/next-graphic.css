@@ -442,10 +442,10 @@
 
   transition: opacity 0.3s linear;
 }
-.n-topology.n-topology-blue .group.aggregationGroup.active {
+.n-topology.n-topology-blue .group.aggregationGroup.fade-active-item {
   opacity: 1;
 }
-.n-topology.n-topology-blue .group.aggregationGroup.active .bg {
+.n-topology.n-topology-blue .group.aggregationGroup.fade-active-item .bg {
   opacity: 0.5;
 }
 .n-topology.n-topology-blue .link-set-bg {
@@ -513,10 +513,10 @@
 .n-topology.n-topology-blue .layer > g {
   transition: opacity .6s;
 }
-.n-topology.n-topology-blue.fade-all .layer > g:not(.fade-highlight-item):not(.fade-active-item) {
+.n-topology.n-topology-blue .layer.fade-layer > g:not(.fade-highlight-item):not(.fade-active-item) {
   opacity: .2;
 }
-.n-topology.n-topology-blue .layer.fade-layer > g:not(.fade-highlight-item):not(.fade-active-item) {
+.n-topology.n-topology-blue.fade-all .layer > g:not(.fade-highlight-item):not(.fade-active-item) {
   opacity: .2;
 }
 .n-topology.n-topology-blue .n-topology-nav {
@@ -1125,10 +1125,10 @@
 
   transition: opacity 0.3s linear;
 }
-.n-topology.n-topology-dark .group.aggregationGroup.active {
+.n-topology.n-topology-dark .group.aggregationGroup.fade-active-item {
   opacity: 1;
 }
-.n-topology.n-topology-dark .group.aggregationGroup.active .bg {
+.n-topology.n-topology-dark .group.aggregationGroup.fade-active-item .bg {
   opacity: 0.5;
 }
 .n-topology.n-topology-dark .link-set-bg {
@@ -1193,13 +1193,13 @@
   stroke-linejoin: round;
   pointer-events: none;
 }
-.n-topology.n-topology-dark.fade-all .layer > g {
+.n-topology.n-topology-dark .layer > g {
   transition: opacity .6s;
 }
-.n-topology.n-topology-dark.fade-all .layer > g:not(.fade-highlight-item):not(.fade-active-item) {
+.n-topology.n-topology-dark .layer.fade-layer > g:not(.fade-highlight-item):not(.fade-active-item) {
   opacity: .2;
 }
-.n-topology.n-topology-dark.fade-all .layer.fade-layer > g:not(.fade-highlight-item):not(.fade-active-item) {
+.n-topology.n-topology-dark.fade-all .layer > g:not(.fade-highlight-item):not(.fade-active-item) {
   opacity: .2;
 }
 .n-topology.n-topology-dark .n-topology-nav {
@@ -1808,10 +1808,10 @@
 
   transition: opacity 0.3s linear;
 }
-.n-topology.n-topology-green .group.aggregationGroup.active {
+.n-topology.n-topology-green .group.aggregationGroup.fade-active-item {
   opacity: 1;
 }
-.n-topology.n-topology-green .group.aggregationGroup.active .bg {
+.n-topology.n-topology-green .group.aggregationGroup.fade-active-item .bg {
   opacity: 0.5;
 }
 .n-topology.n-topology-green .link-set-bg {
@@ -1876,13 +1876,13 @@
   stroke-linejoin: round;
   pointer-events: none;
 }
-.n-topology.n-topology-green.fade-all .layer > g {
+.n-topology.n-topology-green .layer > g {
   transition: opacity .6s;
 }
-.n-topology.n-topology-green.fade-all .layer > g:not(.fade-highlight-item):not(.fade-active-item) {
+.n-topology.n-topology-green .layer.fade-layer > g:not(.fade-highlight-item):not(.fade-active-item) {
   opacity: .2;
 }
-.n-topology.n-topology-green.fade-all .layer.fade-layer > g:not(.fade-highlight-item):not(.fade-active-item) {
+.n-topology.n-topology-green.fade-all .layer > g:not(.fade-highlight-item):not(.fade-active-item) {
   opacity: .2;
 }
 .n-topology.n-topology-green .n-topology-nav {
@@ -2491,10 +2491,10 @@
 
   transition: opacity 0.3s linear;
 }
-.n-topology.n-topology-slate .group.aggregationGroup.active {
+.n-topology.n-topology-slate .group.aggregationGroup.fade-active-item {
   opacity: 1;
 }
-.n-topology.n-topology-slate .group.aggregationGroup.active .bg {
+.n-topology.n-topology-slate .group.aggregationGroup.fade-active-item .bg {
   opacity: 0.5;
 }
 .n-topology.n-topology-slate .link-set-bg {
@@ -2559,13 +2559,13 @@
   stroke-linejoin: round;
   pointer-events: none;
 }
-.n-topology.n-topology-slate.fade-all .layer > g {
+.n-topology.n-topology-slate .layer > g {
   transition: opacity .6s;
 }
-.n-topology.n-topology-slate.fade-all .layer > g:not(.fade-highlight-item):not(.fade-active-item) {
+.n-topology.n-topology-slate .layer.fade-layer > g:not(.fade-highlight-item):not(.fade-active-item) {
   opacity: .2;
 }
-.n-topology.n-topology-slate.fade-all .layer.fade-layer > g:not(.fade-highlight-item):not(.fade-active-item) {
+.n-topology.n-topology-slate.fade-all .layer > g:not(.fade-highlight-item):not(.fade-active-item) {
   opacity: .2;
 }
 .n-topology.n-topology-slate .n-topology-nav {
@@ -3174,10 +3174,10 @@
 
   transition: opacity 0.3s linear;
 }
-.n-topology.n-topology-yellow .group.aggregationGroup.active {
+.n-topology.n-topology-yellow .group.aggregationGroup.fade-active-item {
   opacity: 1;
 }
-.n-topology.n-topology-yellow .group.aggregationGroup.active .bg {
+.n-topology.n-topology-yellow .group.aggregationGroup.fade-active-item .bg {
   opacity: 0.5;
 }
 .n-topology.n-topology-yellow .link-set-bg {
@@ -3242,13 +3242,13 @@
   stroke-linejoin: round;
   pointer-events: none;
 }
-.n-topology.n-topology-yellow.fade-all .layer > g {
+.n-topology.n-topology-yellow .layer > g {
   transition: opacity .6s;
 }
-.n-topology.n-topology-yellow.fade-all .layer > g:not(.fade-highlight-item):not(.fade-active-item) {
+.n-topology.n-topology-yellow .layer.fade-layer > g:not(.fade-highlight-item):not(.fade-active-item) {
   opacity: .2;
 }
-.n-topology.n-topology-yellow.fade-all .layer.fade-layer > g:not(.fade-highlight-item):not(.fade-active-item) {
+.n-topology.n-topology-yellow.fade-all .layer > g:not(.fade-highlight-item):not(.fade-active-item) {
   opacity: .2;
 }
 .n-topology.n-topology-yellow .n-topology-nav {
