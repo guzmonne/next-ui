@@ -232,7 +232,7 @@
              * @param nodes {Array} nodes collection
              */
             zoomByNodes: function (nodes, callback, context, boundScale) {
-                var bound = this.getBoundByNodes(nodes);
+                var bound = this.getBoundByNodes(nodes,true);
 
                 if (!bound) {
                     /* jshint -W030 */
@@ -243,12 +243,12 @@
                 var gap = 300 * this.stageScale();
 
                 if (bound.width < gap) {
-                    bound.left -= (gap - bound.width) / 2;
+                    bound.left -= (gap - bound.width * this.stageScale()) / 2;
                     bound.width = gap;
                 }
 
                 if (bound.height < gap) {
-                    bound.top -= (gap - bound.height) / 2;
+                    bound.top -= (gap - bound.height * this.stageScale()) / 2;
                     bound.height = gap;
                 }
 

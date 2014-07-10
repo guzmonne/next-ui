@@ -361,7 +361,7 @@
                 if (nx.is(arg, nx.graphic.Topology.AbstractNode)) {
                     id = arg.id();
                 }
-                var nodeSet = this.getNode(id);
+                var nodeSet = this.getLayer("nodeSet").getNodeSet(id);
                 if (nodeSet) {
                     if (nodeSet.collapsed()) {
                         nodeSet.activated(false);
@@ -558,7 +558,7 @@
                 nx.each(inNodes, function (node) {
                     if (node.visible()) {
                         if (isNotIncludeLabel) {
-                            boundAry.push(node.getIconBound());
+                            boundAry.push(this.getInsideBound(node.getBound(true)));
                         } else {
                             boundAry.push(this.getInsideBound(node.getBound()));
                         }
