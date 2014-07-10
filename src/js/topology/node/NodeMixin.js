@@ -537,6 +537,67 @@
 
             },
             /**
+             * Zoom topology to let the passing nodes just visible at the screen
+             * @method zoomByNodes
+             * @param [callback] {Function} callback function
+             * @param [context] {Object} callback context
+             * @param nodes {Array} nodes collection
+             */
+            zoomByNodes: function (nodes, callback, context, boundScale) {
+                // TODO more overload about nodes
+                if (nx.is(nodes, nx.graphic.Topology.AbstractNode)) {
+                    nodes = [nodes];
+                }
+                // get bound of the selected nodes' models
+                var stage = this.stage();
+                var p0, p1, center, bound = this.getModelBoundByNodes(nodes);
+                var matrix, scale, limitscale = stage.maxZoomLevel() * stage.fitMatrixObject().scale();
+                // check if the nodes are too close to zoom
+                if (bound.width * limitscale < 1 && bound.height * limitscale < 1) {
+                    // just centralize them instead of zoom
+                    center = nx.geometry.Vector.transform(bound.center, stage.matrix());
+                    delta = [stage.width() / 2 - center[0], stage.height() / 2 - center[1]];
+                    stage.applyTranslate(delta[0], delta[1], .6);
+                    stage.applyStageScale(stage.maxZoomLevel() / stage.zoomLevel());
+                } else {
+                    p0 = nx.geometry.Vector.transform([bound.left, bound.top], stage.matrix());
+                    p1 = nx.geometry.Vector.transform([bound.right, bound.bottom], stage.matrix());
+                    bound = {
+                        left: p0[0],
+                        top: p0[1],
+                        width: Math.max(1, p1[0] - p0[0]),
+                        height: Math.max(1, p1[1] - p0[1])
+                    };
+                    this.zoomByBound(bound, function () {
+                        this.adjustLayout();
+                        /* jshint -W030 */
+                        callback && callback.call(context || this);
+                        this.fire('zoomend');
+                    }, this);
+                }
+            },
+            getModelBoundByNodes: function (nodes) {
+                var xmin, xmax, ymin, ymax;
+                nx.each(nodes, function (node) {
+                    var vertex = node.model();
+                    var x = vertex.x(),
+                        y = vertex.y();
+                    xmin = (xmin < x ? xmin : x);
+                    ymin = (ymin < y ? ymin : y);
+                    xmax = (xmax > x ? xmax : x);
+                    ymax = (ymax > y ? ymax : y);
+                });
+                return {
+                    left: xmin,
+                    top: ymin,
+                    right: xmax,
+                    bottom: ymax,
+                    center: [(xmax + xmin) / 2, (ymax + ymin) / 2],
+                    width: xmax - xmin,
+                    height: ymax - ymin
+                };
+            },
+            /**
              * Get the bound of passing node's
              * @param inNodes {Array}
              * @param isNotIncludeLabel {Boolean}
@@ -625,8 +686,7 @@
             expandNodes: function (nodes, sourcePosition, callback, context, isAnimate) {
 
                 var nodesLength = nx.is(nodes, Array) ? nodes.length : nx.util.keys(nodes).length;
-                callback = callback || function () {
-                };
+                callback = callback || function () {};
 
 
                 if (nodesLength > 150 || nodesLength === 0 || isAnimate === false) {
@@ -665,8 +725,7 @@
             },
             collapseNodes: function (nodes, targetPosition, callback, context, isAnimate) {
                 var nodesLength = nx.is(nodes, Array) ? nodes.length : nx.util.keys(nodes).length;
-                callback = callback || function () {
-                };
+                callback = callback || function () {};
 
 
                 if (nodesLength > 150 || nodesLength === 0 || isAnimate === false) {

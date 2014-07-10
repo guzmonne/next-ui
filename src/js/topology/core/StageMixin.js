@@ -112,8 +112,7 @@
                         this.fire('ready');
                     }.bind(this), 0);
 
-                }
-                else {
+                } else {
                     var timer = setInterval(function () {
                         if (nx.dom.Document.body().contains(self.view().dom())) {
                             //
@@ -226,50 +225,6 @@
                 }, this, duration !== undefined ? duration : 0.9);
             },
             /**
-             * Zoom topology to let the passing nodes just visible at the screen
-             * @method zoomByNodes
-             * @param [callback] {Function} callback function
-             * @param [context] {Object} callback context
-             * @param nodes {Array} nodes collection
-             */
-            zoomByNodes: function (nodes, callback, context, boundScale) {
-                var bound = this.getBoundByNodes(nodes,true);
-
-                if (!bound) {
-                    /* jshint -W030 */
-                    callback && callback.call(context || this);
-                    return;
-                }
-
-//                var gap = 300 * this.stageScale();
-//
-//                if (bound.width < gap) {
-//                    bound.left -= (gap - bound.width * this.stageScale()) / 2;
-//                    bound.width = gap;
-//                }
-//
-//                if (bound.height < gap) {
-//                    bound.top -= (gap - bound.height * this.stageScale()) / 2;
-//                    bound.height = gap;
-//                }
-
-
-                if (boundScale != null) {
-                    bound.left -= bound.width * (boundScale - 1) / 2;
-                    bound.top -= bound.height * (boundScale - 1) / 2;
-                    bound.width *= boundScale;
-                    bound.height *= boundScale;
-                }
-
-
-                this.zoomByBound(bound, function () {
-                    this.adjustLayout();
-                    /* jshint -W030 */
-                    callback && callback.call(context || this);
-                    this.fire('zoomend');
-                }, this);
-            },
-            /**
              * Move topology
              * @method move
              * @param x {Number}
@@ -365,11 +320,9 @@
                                 overlapPercent = 0.8;
                                 if (dotOverlapCounter / length > 0.8) {
                                     overlapPercent = 0.2;
-                                }
-                                else if (dotOverlapCounter / length > 0.5) {
+                                } else if (dotOverlapCounter / length > 0.5) {
                                     overlapPercent = 0.4;
-                                }
-                                else if (dotOverlapCounter / length > 0.15) {
+                                } else if (dotOverlapCounter / length > 0.15) {
                                     overlapPercent = 0.6;
                                 }
                             }

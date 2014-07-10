@@ -20,26 +20,22 @@
                     height: '{#height}'
                 }
             },
-            content: [
-                {
-                    name: 'defs',
-                    tag: 'svg:defs'
+            content: [{
+                name: 'defs',
+                tag: 'svg:defs'
+            }, {
+                name: 'scalingLayer',
+                type: 'nx.graphic.Group',
+                props: {
+                    'class': 'stage'
                 },
-                {
-                    name: 'scalingLayer',
-                    type: 'nx.graphic.Group',
-                    props: {
-                        'class': 'stage'
-                    },
-                    events: {
-                        'transitionend': '{#_transitionend}'
-                    }
-                },
-                {
-                    name: 'staticLayer',
-                    type: 'nx.graphic.Group'
+                events: {
+                    'transitionend': '{#_transitionend}'
                 }
-            ],
+            }, {
+                name: 'staticLayer',
+                type: 'nx.graphic.Group'
+            }],
             events: {
                 'mousedown': '{#_mousedown}',
                 'dragstart': '{#_dragstart}',
@@ -135,7 +131,7 @@
                 },
                 set: function (matrix) {
                     var dom = this.scalingLayer().dom().$dom;
-                    var matrixString = "matrix(" + nx.geometry.Matrix.toString(matrix) + ")";
+                    var matrixString = "matrix(" + nx.geometry.Matrix.stringify(matrix) + ")";
                     dom.style.transform = matrixString;
                     dom.style.webkitTransform = matrixString;
                     this._matrix = matrix;
@@ -287,9 +283,7 @@
                 var dx = (graph.left + graph.width / 2) - s * (rect.left + rect.width / 2);
                 var dy = (graph.top + graph.height / 2) - s * (rect.top + rect.height / 2);
                 return [
-                    [s, 0, 0],
-                    [0, s, 0],
-                    [dx, dy, 1]
+                    [s, 0, 0], [0, s, 0], [dx, dy, 1]
                 ];
             },
             applyTranslate: function (x, y, duration) {

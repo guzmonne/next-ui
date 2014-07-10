@@ -36,8 +36,7 @@
                             scale: scale,
                             rotate: rotate
                         };
-                    }
-                    else {
+                    } else {
                         return {
                             x: 0,
                             y: 0,
@@ -123,8 +122,7 @@
                         [0, 1, 0],
                         [accord[0], accord[1], 1]
                     ]));
-                }
-                else {
+                } else {
                     this.matrix(nx.geometry.Matrix.multiply(this.matrix(), [
                         [s, 0, 0],
                         [0, s, 0],
@@ -151,8 +149,7 @@
                         [0, 1, 0],
                         [accord[0], accord[1], 1]
                     ]));
-                }
-                else {
+                } else {
                     this.matrix(nx.geometry.Matrix.multiply(this.matrix(), [
                         [cos, sin, 0],
                         [-sin, cos, 0],
@@ -178,8 +175,7 @@
                 if (value === this.transform_internal_()[key]) {
                     this["_" + key] = value;
                     this.notify(key);
-                }
-                else {
+                } else {
                     switch (key) {
                     case "x":
                         this.applyTranslate(value - this.transform_internal_().x, 0);
@@ -197,7 +193,7 @@
                 }
             },
             toString: function () {
-                return nx.geometry.Matrix.toString(this.matrix());
+                return nx.geometry.Matrix.stringify(this.matrix());
             }
         }
     });
