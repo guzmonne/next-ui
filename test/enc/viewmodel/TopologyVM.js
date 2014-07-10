@@ -165,6 +165,28 @@
                     }.bind(this), 300);
                 }
             },
+            highlightNodeSetGroup: function (id) {
+                var topo = this.topology();
+                var ns = topo.getNode(id);
+                var groupsLayer = topo.getLayer('groups');
+                var group = groupsLayer.getGroup(id);
+                if (group) {
+                    topo.activeNodes(nx.util.values(ns.nodes()));
+                    topo.fadeOut();
+                    groupsLayer.fadeOut();
+                    groupsLayer.getGroup(id).dom().addClass('fade-active-item');
+                }
+            },
+            recoverHighlightNodeSetGroup: function (id) {
+                var topo = this.topology();
+                var groupsLayer = topo.getLayer('groups');
+                var group = groupsLayer.getGroup(id);
+                if (group) {
+                    topo.fadeIn();
+                    topo.recoverActive();
+                    groupsLayer.getGroup(id).dom().removeClass('fade-active-item');
+                }
+            },
             _saveLastOpenedNodeSet: function () {
                 var topo = this.topology();
                 var vertexSets = topo._graph.vertexSets();
@@ -188,6 +210,15 @@
                     }
 
                 });
+            },
+            showHost: function (boolean) {
+                var topo = this.topology();
+                var graph = topo.graph();
+                graph.eachVertex(function (vertex) {
+                    if (vertex.get('role') == 'host') {
+                        vertex.visible(!vertex.visible());
+                    }
+                })
             },
             _expandLastOpenedNodeSet: function () {
                 var openedNodeSetIDs = this._openedNodeSetIDs;

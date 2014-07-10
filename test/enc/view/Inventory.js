@@ -5,12 +5,6 @@
             convert: function (value) {
                 return value ? 'tw-inventory-list-item tw-inventory-list-item-generated' : 'tw-inventory-list-item'
             }
-        },
-        icon: {
-            convert: function (value) {
-
-                return 'n-icon-' + deviceTypeMapping[value];
-            }
         }
     };
 
@@ -53,7 +47,7 @@
                                     {
                                         tag: 'span',
                                         props: {
-                                            'class': '{value.deviceType,converter=ENC.TW.inventory.icon}',
+                                            'class': '{value.deviceType,converter=ENC.TW.converter.icon}',
                                             type: '{value.deviceType}'
                                         }
                                     },
@@ -95,15 +89,6 @@
                     }
                 },
                 {
-//                    tag: 'button',
-//                    props: {
-//                        'class': 'btn btn-info btn-xs'
-//                    },
-//                    content: 'Save Layout',
-//                    events: {
-//                    }
-                },
-                {
                     name: 'info',
                     props: {
                         'class': 'tw-inventory-info'
@@ -112,7 +97,7 @@
                         {
                             tag: 'span',
                             props: {
-                                'class': '{#item.deviceType,converter=ENC.TW.inventory.icon}',
+                                'class': '{#item.deviceType,converter=ENC.TW.inventory.icon}'
                             }
                         },
                         {
@@ -135,9 +120,6 @@
             item: {}
         },
         methods: {
-            _selectItem: function () {
-                debugger;
-            },
             _showInfo: function (sender, events) {
                 var vertex = sender.model().value();
                 this.item(vertex);
@@ -146,12 +128,7 @@
                     left: bound.left + 32,
                     top: bound.top - 20,
                     display: 'block'
-                })
-            },
-            _mouseleave: function (sender, events) {
-                this.view('info').dom().setStyles({
-                    display: 'none'
-                })
+                });
             }
         }
     });

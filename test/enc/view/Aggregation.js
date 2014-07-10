@@ -200,7 +200,11 @@
                                         'click': '{#_rename}'
                                     }
                                 }
-                            ]
+                            ],
+                            events: {
+                                'mouseenter': '{#root.model.controlVM.aggregation.enterGroup}',
+                                'mouseleave': '{#root.model.controlVM.aggregation.leaveGroup}'
+                            }
                         },
                         {
                             type: 'ENC.TW.View.Aggregation.List',
@@ -220,7 +224,7 @@
                                         {
                                             tag: 'span',
                                             props: {
-                                                'class': '{deviceType,converter=ENC.TW.inventory.icon}',
+                                                'class': '{deviceType,converter=ENC.TW.converter.icon}',
                                                 type: '{deviceType}'
                                             }
                                         },
@@ -232,7 +236,11 @@
                                             },
                                             content: '{label}'
                                         }
-                                    ]
+                                    ],
+                                    events: {
+                                        'mouseenter': '{#root.model.controlVM.aggregation.vertexEnterGroup}',
+                                        'mouseleave': '{#root.model.controlVM.aggregation.vertexLeaveGroup}'
+                                    }
                                 }
                             }
                         }

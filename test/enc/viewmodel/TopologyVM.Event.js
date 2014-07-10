@@ -17,6 +17,11 @@
 
                 topo.getLayer('groups').registerGroupItem('TWNodeSetPolygonGroup', 'ENC.TW.View.TopologyView.NodeSetPolygonGroup');
 
+                topo.graph().vertexFilter(function (model) {
+                    return model.role == "host";
+                });
+
+
             },
             dispatchTopoOriginalEvent: function (eventName) {
                 var args = arguments.callee.caller.arguments;
@@ -33,11 +38,25 @@
             },
             dragNodeEnd: function (sender, node) {
                 this.dispatchTopoOriginalEvent('dragNodeEnd');
-                this.MVM().topologyVM().updated(true);
+                this.MVM().status().nodePositionUpdated(true);
+
+                //update nodeset's position if node is root node
+                var vertex = node.model();
+                var parentVertexSet = vertex.parentVertexSet();
+                if (parentVertexSet) {
+                    var id = node.id();
+                    if (parentVertexSet.get('root') == id) {
+                        parentVertexSet._data.x = vertex._x;
+                        parentVertexSet._data.y = vertex._y;
+                        parentVertexSet._x = vertex._x;
+                        parentVertexSet._y = vertex._y;
+                        node.parentNodeSet().position(node.position());
+                    }
+                }
             },
             dragNodeSetEnd: function (sender, node) {
                 this.dispatchTopoOriginalEvent('dragNodeSetEnd');
-                this.MVM().topologyVM().updated(true);
+                this.MVM().status().nodePositionUpdated(true);
             },
             expandNodeSet: function (sender, nodeSet) {
                 if (!nodeSet.animation()) {

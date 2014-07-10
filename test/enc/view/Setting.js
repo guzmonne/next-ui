@@ -31,7 +31,25 @@
                     content: [
                         {
                             tag: 'h5',
-                            content: 'Label'
+                            content: [
+                                {
+                                    tag: 'span',
+                                    content: 'Label'
+                                },
+                                {
+                                    tag: 'button',
+                                    props: {
+                                        'class': 'btn btn-info btn-xs',
+                                        style: {
+                                            'float': 'right'
+                                        }
+                                    },
+                                    content: 'Optimize Label',
+                                    events: {
+                                        'click': '{controlVM.viewSetting.optimizeLabel}'
+                                    }
+                                }
+                            ]
                         },
                         {
                             tag: 'div',
@@ -52,17 +70,28 @@
                             }
                         },
                         {
-                            tag: 'button',
-                            props: {
-                                'class': 'btn btn-info btn-xs'
-                            },
-                            content: 'Optimize Label',
-                            events: {
-                                'click': '{controlVM.viewSetting.optimizeLabel}'
-                            }
+                            tag: 'h5',
+                            content: [
+                                {
+                                    tag: 'span',
+                                    content: 'Show Host'
+                                },
+                                {
+                                    tag: 'input',
+                                    props: {
+                                        type: 'checkbox',
+                                        style: {
+                                            'float': 'right'
+                                        }
+                                    },
+                                    events: {
+                                        click: '{controlVM.viewSetting.showHost}'
+                                    }
+                                }
+                            ]
                         }
                     ]
-                },
+                }
 
             ]
         },

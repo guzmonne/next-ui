@@ -9,5 +9,15 @@ var deviceTypeMapping = {
     core: 'groupm',
     WLC: 'wlc',
     accesspoint: 'accesspoint',
-    WIRELESS:''
+    WIRELESS: ''
 };
+
+nx.define("ENC.TW.converter", {
+    statics: {
+        icon: {
+            convert: function (value) {
+                return 'n-icon-' + (deviceTypeMapping[value] || value);
+            }
+        }
+    }
+});

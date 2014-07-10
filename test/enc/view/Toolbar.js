@@ -141,7 +141,7 @@
                             content: [
                                 {
                                     tag: 'span',
-                                    content: 'Setting',
+                                    content: 'View Setting',
                                     props: {
                                         target: 'setting'
                                     },
@@ -166,7 +166,7 @@
                                     content: 'Save',
                                     props: {
                                         'class': 'tw-save-btn',
-                                        visible: '{topologyVM.updated}'
+                                        visible: false
                                     },
                                     events: {
                                         'click': '{topologyVM.savePosition}'

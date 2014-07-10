@@ -67,7 +67,22 @@
                 var topo = this.MVM().topology();
                 var view = this.MVM().topologyVM().view();
                 view.notify('labelKey');
-
+            },
+            enterGroup: function (sender, events) {
+                var vertexSet = sender.model();
+                this.MVM().topologyVM().highlightNodeSetGroup(vertexSet.id());
+            },
+            leaveGroup: function (sender, events) {
+                var vertexSet = sender.model();
+                this.MVM().topologyVM().recoverHighlightNodeSetGroup(vertexSet.id());
+            },
+            vertexEnterGroup: function (sender, events) {
+                var vertex = sender.model();
+                this.MVM().topologyVM().highlightNodeSetGroup(vertex.parentVertexSet().id());
+            },
+            vertexLeaveGroup: function (sender, events) {
+                var vertex = sender.model();
+                this.MVM().topologyVM().recoverHighlightNodeSetGroup(vertex.parentVertexSet().id());
             }
         }
     })

@@ -6,6 +6,10 @@
             MVM: {}
         },
         methods: {
+            showHost: function (sender, args) {
+                var checked = sender.get('checked');
+                this.MVM().topologyVM().showHost(checked);
+            },
             optimizeLabel: function (sender, args) {
 
 

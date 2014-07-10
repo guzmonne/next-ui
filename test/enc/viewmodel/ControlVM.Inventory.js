@@ -37,7 +37,11 @@
                                 var label = item.value().get('label');
                                 return label.indexOf(searchKey) != -1;
                             });
-                            return col.toArray();
+                            var res = col.toArray();
+//                            res.sort(function (a, b) {
+//                                return b.value().generated();
+//                            });
+                            return res;
                         }
                     }
                 }
@@ -58,6 +62,10 @@
             recoverItem: function (sender, events) {
                 var vertex = sender.model().value();
                 this.MVM().topologyVM().recoverHighlighted();
+
+                //todo , use property fix
+                sender.owner().view('info').style().set('display', 'none');
+
             },
             showInfo: function () {
 
