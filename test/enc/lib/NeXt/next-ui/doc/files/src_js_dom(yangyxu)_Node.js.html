@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>src/js/dom(yangyxu)/Node.js</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+            
+                <h1><img src="../assets/css/logo.png" title=""></h1>
+            
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: </em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+    <h2 class="off-left">APIs</h2>
+    <div id="api-tabview" class="tabview">
+        <ul class="tabs">
+            <li><a href="#api-classes">Classes</a></li>
+            <li><a href="#api-modules">Modules</a></li>
+        </ul>
+
+        <div id="api-tabview-filter">
+            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+        </div>
+
+        <div id="api-tabview-panel">
+            <ul id="api-classes" class="apis classes">
+            
+                <li><a href="../classes/nx.dom.Document.html">nx.dom.Document</a></li>
+            
+                <li><a href="../classes/nx.dom.Element.html">nx.dom.Element</a></li>
+            
+                <li><a href="../classes/nx.dom.Fragment.html">nx.dom.Fragment</a></li>
+            
+                <li><a href="../classes/nx.dom.Node.html">nx.dom.Node</a></li>
+            
+                <li><a href="../classes/nx.dom.Text.html">nx.dom.Text</a></li>
+            
+                <li><a href="../classes/nx.http.XHR.html">nx.http.XHR</a></li>
+            
+                <li><a href="../classes/nx.http.XHRPool.html">nx.http.XHRPool</a></li>
+            
+                <li><a href="../classes/nx.nx.JSON.html">nx.nx.JSON</a></li>
+            
+                <li><a href="../classes/nx.task.nx.http.HttpClient.html">nx.task.nx.http.HttpClient</a></li>
+            
+                <li><a href="../classes/nx.task.Task.html">nx.task.Task</a></li>
+            
+                <li><a href="../classes/nx.task.TaskList.html">nx.task.TaskList</a></li>
+            
+                <li><a href="../classes/nx.ui.Application.html">nx.ui.Application</a></li>
+            
+                <li><a href="../classes/nx.ui.Collection.html">nx.ui.Collection</a></li>
+            
+                <li><a href="../classes/nx.ui.Component.html">nx.ui.Component</a></li>
+            
+                <li><a href="../classes/nx.ui.CssClass.html">nx.ui.CssClass</a></li>
+            
+                <li><a href="../classes/nx.ui.CssStyle.html">nx.ui.CssStyle</a></li>
+            
+                <li><a href="../classes/nx.ui.DOMComponent.html">nx.ui.DOMComponent</a></li>
+            
+                <li><a href="../classes/nx.ui.nx.Env.html">nx.ui.nx.Env</a></li>
+            
+                <li><a href="../classes/nx.ui.nx.HttpClient.html">nx.ui.nx.HttpClient</a></li>
+            
+                <li><a href="../classes/nx.ui.nx.Util.html">nx.ui.nx.Util</a></li>
+            
+            </ul>
+
+            <ul id="api-modules" class="apis modules">
+            
+            </ul>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+        Show:
+        <label for="api-show-inherited">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </div>
+
+
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <h1 class="file-heading">File: src/js/dom(yangyxu)/Node.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+(function (nx) {
+    var Collection = nx.data.Collection;
+
+    function _findTargetElement (target, path, ifCheckSelf){
+        if (!target){ return; };
+        if (ifCheckSelf&amp;&amp;target.nodeType===1){ return target; };
+        var _ele = target[path];
+        if (_ele.nodeType!==1){
+            return _findTargetElement(_ele, path);
+        }else {
+            return _ele;
+        }
+    }
+    /**
+     * Dom Node
+     * @class nx.dom.Node
+     * @constructor
+     */
+    var Node = nx.define(&#x27;nx.dom.Node&#x27;,nx.Comparable,{
+        methods: {
+            /**
+             * Set $dom as an attribute for node
+             * @param node
+             */
+            init: function (node) {
+                this.$dom = node;
+            },
+            /**
+             * Whether target is current dom element
+             * @param target
+             * @returns {number}
+             */
+            compare: function (target) {
+                if (target &amp;&amp; this.$dom === target.$dom) {
+                    return 0;
+                }
+                else {
+                    return -1;
+                }
+            },
+            /**
+             * Whether target is a element
+             * @returns {boolean}
+             */
+            isElement: function () {
+                return this.$dom.nodeType === 1;
+            },
+            /**
+             * Get current element&#x27;s index
+             * @returns {number}
+             */
+            index: function () {
+                var node,
+                    index = 0;
+                if (this.parentNode() !== null) {
+                    while ((node = this.previousSibling()) !== null) {
+                        ++index;
+                    }
+                } else {
+                    index = -1;
+                }
+                return index;
+            },
+            /**
+             * Get the index child element
+             * @param inIndex
+             * @returns {null}
+             */
+            childAt: function (inIndex) {
+                var node = null;
+                if (inIndex &gt;= 0) {
+                    node = this.firstChild();
+                    while (node &amp;&amp; --inIndex &gt;= 0) {
+                        node = node.nextSibling();
+                        break;
+                    }
+                }
+                return node;
+            },
+            /**
+             * Compare dom element position
+             * @param inTarget
+             * @returns {*}
+             */
+            contains: function (inTarget) {
+                return this.$dom.contains(inTarget.$dom);
+            },
+            /**
+             * Get first element child
+             * @returns {this.constructor}
+             */
+            firstChild: function () {
+                console.log(_findTargetElement(this.$dom.firstChild, &#x27;nextSibling&#x27;, true));
+                return new this.constructor(this.$dom.firstElementChild||_findTargetElement(this.$dom.firstChild, &#x27;nextSibling&#x27;, true));
+            },
+            /**
+             * Get last element child
+             * @returns {this.constructor}
+             */
+            lastChild: function () {
+                return new this.constructor(this.$dom.lastElementChild||_findTargetElement(this.$dom.lastChild, &#x27;previousSibling&#x27;, true));
+            },
+            /**
+             * Get previous element
+             * @returns {this.constructor}
+             */
+            previousSibling: function () {
+                return new this.constructor(this.$dom.previousElementSibling||_findTargetElement(this.$dom, &#x27;previousSibling&#x27;));
+            },
+            /**
+             * Get next element
+             * @returns {this.constructor}
+             */
+            nextSibling: function () {
+                return new this.constructor(this.$dom.nextElementSibling||_findTargetElement(this.$dom, &#x27;nextSibling&#x27;));
+            },
+            /**
+             * Get parent element
+             * @returns {this.constructor}
+             */
+            parentNode: function (deep) {
+                if(deep){
+                    var _self = this;
+                    while (deep) {
+                        if (!_self){ return;}
+                        _self = _self.parentNode();
+                        deep--;
+                    };
+                    return _self;
+                }else {
+                    return new this.constructor(this.$dom.parentNode);
+                }
+            },
+            /**
+             * Get element children
+             * @returns {nx.data.Collection}
+             */
+            children: function () {
+                var result = new Collection();
+                nx.each(this.$dom.children, function (child) {
+                    result.add(new this.constructor(child));
+                }, this);
+                return result;
+            },
+            /**
+             * Clone an element node
+             * @param deep
+             * @returns {this.constructor}
+             */
+            cloneNode: function (deep) {
+                return new this.constructor(this.$dom.cloneNode(deep));
+            },
+            /**
+             * Whether the element has child.
+             * @param child
+             * @returns {boolean}
+             */
+            hasChild: function (child) {
+                return child.$dom.parentNode == this.$dom;
+            },
+            /**
+             * Adds a node to the end of the list of children of a specified parent node
+             * @param child
+             */
+            appendChild: function (child) {
+                this.$dom.appendChild(child.$dom);
+            },
+            /**
+             * Inserts the specified node before a reference element as a child of the current node
+             * @param child
+             * @param ref
+             */
+            insertBefore: function (child,ref) {
+                this.$dom.insertBefore(child.$dom,ref.$dom);
+            },
+            /**
+             * Removes a child node from the DOM
+             * @param child
+             */
+            removeChild: function (child) {
+                if (this.hasChild(child)) {
+                    this.$dom.removeChild(child.$dom);
+                }
+            },
+            /**
+             * Remove all child nodes
+             */
+            empty: function () {
+                this.children().each(function (child) {
+                    this.removeChild(child);
+                },this);
+            }
+        }
+    });
+})(nx);
+    </pre>
+</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

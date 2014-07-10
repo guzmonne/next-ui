@@ -3,12 +3,22 @@
  */
 
 var nx = {
-    VERSION: '0.5.0',
+    VERSION: '0.7.0',
     DEBUG: false,
     global: (function () {
         return this;
     }).call(null)
 };
+
+if (!Function.prototype.bind) {
+    Function.prototype.bind = function (context) {
+        var f = this;
+        return function () {
+            return f.apply(context, arguments);
+        };
+    };
+}
+
 
 (function (nx) {
     /**
@@ -317,7 +327,6 @@ var nx = {
     };
 
 })(nx);
-
 (function (nx) {
 
     var classId = 1,
@@ -332,8 +341,7 @@ var nx = {
      * @class nx.Object
      * @constructor
      */
-    function NXObject() {
-    }
+    function NXObject() {}
 
     var NXPrototype = NXObject.prototype = {
         constructor: NXObject,
@@ -482,9 +490,11 @@ var nx = {
          */
         on: function (name, handler, context) {
             var map = this.__listeners__;
-            var listeners = map[name] = map[name] || [
-                {owner: null, handler: null, context: null}
-            ];
+            var listeners = map[name] = map[name] || [{
+                owner: null,
+                handler: null,
+                context: null
+            }];
 
             listeners.push({
                 owner: this,
@@ -500,7 +510,8 @@ var nx = {
          * @param [context] {Object}
          */
         off: function (name, handler, context) {
-            var listeners = this.__listeners__[name], listener;
+            var listeners = this.__listeners__[name],
+                listener;
             if (listeners) {
                 if (handler) {
                     context = context || this;
@@ -526,9 +537,11 @@ var nx = {
          */
         upon: function (name, handler, context) {
             var map = this.__listeners__;
-            var listeners = map[name] = map[name] || [
-                {owner: null, handler: null, context: null}
-            ];
+            var listeners = map[name] = map[name] || [{
+                owner: null,
+                handler: null,
+                context: null
+            }];
 
             listeners[0] = {
                 owner: this,
@@ -543,7 +556,8 @@ var nx = {
          * @param [data] {*}
          */
         fire: function (name, data) {
-            var listeners = this.__listeners__[name], listener, result;
+            var listeners = this.__listeners__[name],
+                listener, result;
             if (listeners) {
                 for (var i = 0, length = listeners.length; i < length; i++) {
                     listener = listeners[i];
@@ -599,9 +613,11 @@ var nx = {
         var exist = target[eventName] && target[eventName].__type__ == 'event';
         var fn = target[eventName] = function (handler, context) {
             var map = this.__listeners__;
-            var listeners = map[name] = map[name] || [
-                {owner: null, handler: null, context: null}
-            ];
+            var listeners = map[name] = map[name] || [{
+                owner: null,
+                handler: null,
+                context: null
+            }];
 
             listeners[0] = {
                 owner: this,
@@ -616,6 +632,8 @@ var nx = {
         if (!exist) {
             target.__events__.push(name);
         }
+
+        return fn;
     }
 
     /**
@@ -627,24 +645,44 @@ var nx = {
      * @param meta {Object}
      */
     function extendProperty(target, name, meta) {
+        if (nx.is(meta, nx.keyword.internal.Keyword) || !nx.is(meta, "Object")) {
+            meta = {
+                value: meta
+            };
+        }
         var defaultValue;
         var exist = target[name] && target[name].__type__ == 'property';
-        if (nx.is(meta, 'Object')) {
-            defaultValue = meta.value;
+        if (meta.dependencies) {
+            if (nx.is(meta.dependencies, "String")) {
+                meta.dependencies = meta.dependencies.replace(/\s/g, "").split(",");
+            }
+            defaultValue = nx.keyword.binding({
+                source: meta.dependencies,
+                async: true,
+                callback: function () {
+                    var owner = this.owner;
+                    if (meta.update) {
+                        meta.update.apply(owner, arguments);
+                    }
+                    if (nx.is(meta.value, "Function")) {
+                        owner.set(name, meta.value.apply(owner, arguments));
+                    }
+                    else if (!meta.update && !meta.value) {
+                        owner.set(name, arguments[0]);
+                    }
+                }
+            });
         }
         else {
-            defaultValue = meta;
-            meta = {
-                value: defaultValue
-            };
+            defaultValue = meta.value;
         }
 
         if (target[name] && meta.inherits) {
             meta = nx.extend({}, target[name].__meta__, meta);
         }
 
-        var fn = target[name] = function (value, params) {
-            if (value === undefined) {
+        var fn = function (value, params) {
+            if (value === undefined && arguments.length === 0) {
                 return fn.__getter__.call(this, params);
             }
             else {
@@ -667,13 +705,25 @@ var nx = {
             return key ? fn.__meta__[key] : fn.__meta__;
         };
 
+        if (nx.is(target, "Function") && target.__properties__ && !target.__static__) {
+            target.prototype[name] = fn;
+        }
+        else {
+            target[name] = fn;
+        }
+
         if (defaultValue !== undefined) {
             target.__defaults__[name] = defaultValue;
         }
 
         if (!exist) {
+            if (!nx.is(target, "Function") && target.__properties__ === target.constructor.__properties) {
+                target.__properties__ = target.__properties__.slice();
+            }
             target.__properties__.push(name);
         }
+
+        return fn;
     }
 
     /**
@@ -687,7 +737,7 @@ var nx = {
     function extendMethod(target, name, method) {
         var exist = target[name] && target[name].__type__ == 'method';
 
-        if (target[name]) {
+        if (target[name] && target[name] !== method) {
             method.__super__ = target[name];
         }
 
@@ -790,8 +840,21 @@ var nx = {
             }
 
             nx.each(Class.__defaults__, function (value, name) {
-                Class['_' + name] = nx.is(value, 'Function') ? value.call(this) : value;
-            }, this);
+                if (nx.is(value, "Function")) {
+                    this["_" + name] = value.call(this);
+                }
+                else if (nx.is(value, nx.keyword.internal.Keyword)) {
+                    switch (value.type) {
+                    case "binding":
+                        // FIXME memory leak
+                        value.apply(this, name);
+                        break;
+                    }
+                }
+                else {
+                    this["_" + name] = value;
+                }
+            }, Class);
 
             if (methods.init) {
                 methods.init.call(Class);
@@ -802,12 +865,12 @@ var nx = {
                 var mixins = this.__mixins__;
                 this.__id__ = instanceId++;
                 this.__listeners__ = {};
+                this.__bindings__ = this.__bindings__ || {};
+                this.__watchers__ = this.__watchers__ || {};
+                this.__keyword_bindings__ = this.__keyword_bindings__ || [];
+                this.__keyword_watchers__ = this.__keyword_watchers__ || {};
 
                 this.__initializing__ = true;
-
-                nx.each(Class.__defaults__, function (value, name) {
-                    this['_' + name] = nx.is(value, 'Function') ? value.call(this) : value;
-                }, this);
 
                 for (var i = 0, length = mixins.length; i < length; i++) {
                     var ctor = mixins[i].__ctor__;
@@ -816,15 +879,59 @@ var nx = {
                     }
                 }
 
+                nx.each(Class.__defaults__, function (value, name) {
+                    if (nx.is(value, "Function")) {
+                        this["_" + name] = value.call(this);
+                    }
+                    else if (nx.is(value, nx.keyword.internal.Keyword)) {
+                        // FIXME memory leak
+                        // FIXME bind order
+                        this.__keyword_bindings__.push({
+                            name: name,
+                            definition: value
+                        });
+                    }
+                    else {
+                        this["_" + name] = value;
+                    }
+                }, this);
+
+                nx.each(Class.__properties__, function (name) {
+                    var prop = this[name];
+                    if (!prop || prop.__type__ !== "property") {
+                        return;
+                    }
+                    var meta = prop.__meta__,
+                        watcher = meta.watcher;
+                    if (watcher) {
+                        if (nx.is(watcher, "String")) {
+                            watcher = this[watcher];
+                        }
+                        this.watch(name, watcher.bind(this));
+                        this.__keyword_watchers__[name] = watcher;
+                    }
+                }, this);
+
+                nx.each(this.__keyword_bindings__, function (binding) {
+                    binding.instance = binding.definition.apply(this, binding.name);
+                }, this);
+
                 if (this.__ctor__) {
                     this.__ctor__.apply(this, arguments);
                 }
 
+                nx.each(this.__keyword_watchers__, function (watcher, name) {
+                    watcher.call(this, name, this[name].call(this));
+                }, this);
+
+                nx.each(this.__keyword_bindings__, function (binding) {
+                    binding.instance.notify();
+                }, this);
+
                 this.__initializing__ = false;
             };
 
-            SuperClass = function () {
-            };
+            SuperClass = function () {};
 
             SuperClass.prototype = sup.prototype;
             prototype = new SuperClass();
@@ -913,6 +1020,196 @@ var nx = {
 })(nx);
 
 (function (nx) {
+    var keyword = nx.keyword = nx.keyword || {
+        binding: function (source, callback, async) {
+            var context = false;
+            if (typeof source !== "string") {
+                context = !! source.context;
+                callback = source.callback;
+                async = source.async;
+                source = source.source;
+            }
+            return new nx.keyword.internal.Keyword({
+                type: "binding",
+                context: context,
+                source: source,
+                async: async,
+                callback: callback
+            });
+        },
+        internal: {
+            idle: function () {},
+            watch: (function () {
+                var single = function (o, path, listener, context) {
+                    var keys = path.split(".");
+
+                    function level(parent, idx) {
+                        if (parent && idx < keys.length) {
+                            var key = keys[idx];
+                            // watch on the collection changes
+                            if (key == "*" || key == "%") {
+                                // TODO handler watching on collection changes
+                            }
+                            else {
+                                var child = nx.path(parent, key);
+                                if (parent.watch) {
+                                    var pathRest = keys.slice(idx + 1).join("."),
+                                        childUnwatch = level(child, idx + 1);
+                                    var watcher = function (pname, pnewvalue, poldvalue) {
+                                        var newvalue = pathRest ? nx.path(pnewvalue, pathRest) : pnewvalue;
+                                        var oldvalue = pathRest ? nx.path(poldvalue, pathRest) : poldvalue;
+                                        listener.call(context || o, path, newvalue, oldvalue);
+                                        if (pnewvalue !== child) {
+                                            childUnwatch();
+                                            child = pnewvalue;
+                                            childUnwatch = level(child, idx + 1);
+                                        }
+                                    };
+                                    parent.watch(key, watcher, parent);
+                                    return function () {
+                                        childUnwatch();
+                                        parent.unwatch(key, watcher, parent);
+                                    };
+                                }
+                                else if (child) {
+                                    return level(child, idx + 1);
+                                }
+                            }
+                        }
+                        return keyword.internal.idle;
+                    }
+                    var unwatch = level(o, 0);
+                    return {
+                        unwatch: unwatch,
+                        notify: function () {
+                            var value = nx.path(o, path);
+                            listener.call(context || o, path, value, value);
+                        }
+                    };
+                };
+
+                var singleWithCollection = function (o, path, listener, context) {
+                    var collman = {
+                        collection: null,
+                        unlistener: null,
+                        listener: function (collection, evt) {
+                            listener.call(context || o, path, collection, evt);
+                        },
+                        update: function (value) {
+                            if (collman.collection === value) {
+                                return;
+                            }
+                            /* jslint -W030 */
+                            collman.unlistener && collman.unlistener();
+                            if (value && value.is && value.is(nx.data.ObservableCollection)) {
+                                value.on("change", collman.listener, o);
+                                collman.unlistener = function () {
+                                    value.off("change", collman.listener, o);
+                                };
+                            }
+                            else {
+                                collman.unlistener = null;
+                            }
+                            collman.collection = value;
+                        }
+                    };
+                    collman.update(nx.path(o, path));
+                    var unwatcher = single(o, path, function (path, value) {
+                        collman.update(value);
+                        listener.call(context || o, path, value);
+                    }, context);
+                    return {
+                        unwatch: function () {
+                            unwatcher.unwatch();
+                            /* jslint -W030 */
+                            collman.unlistener && collman.unlistener();
+                        },
+                        notify: unwatcher.notify
+                    };
+                };
+
+                return function (target, paths, update) {
+                    if (!target || !paths || !update) {
+                        return;
+                    }
+                    // apply the watching
+                    var deps;
+                    if (nx.is(paths, "String")) {
+                        deps = paths.replace(/\s/g, "").split(",");
+                    }
+                    else {
+                        deps = paths;
+                    }
+                    nx.each(deps, function (v, i) {
+                        if (/^\d+$/.test(v)) {
+                            deps[i] = v * 1;
+                        }
+                    });
+                    var unwatchers = [],
+                        vals = [];
+                    var notify = function (key, diff) {
+                        var values = vals.slice();
+                        values.push(key);
+                        /* jslint -W030 */
+                        diff && values.push(diff);
+                        update.apply(target, values);
+                    };
+                    for (i = 0; i < deps.length; i++) {
+                        /* jslint -W083 */
+                        (function (idx) {
+                            vals[idx] = nx.path(target, deps[idx]);
+                            var unwatcher = singleWithCollection(target, deps[idx], function (path, value, diff) {
+                                vals[idx] = value;
+                                notify(deps[idx], diff);
+                            });
+                            unwatchers.push(unwatcher);
+                        })(i);
+                    }
+                    return {
+                        notify: notify,
+                        uncascade: function () {
+                            while (unwatchers.length) {
+                                unwatchers.shift().unwatch();
+                            }
+                        }
+                    };
+                };
+            })(),
+            Keyword: (function () {
+                var Keyword = function (options) {
+                    nx.sets(this, options);
+                };
+                Keyword.prototype = {
+                    apply: function (o, pname) {
+                        var binding = {
+                            owner: o,
+                            property: pname,
+                            set: o && pname && function (v) {
+                                o.set(pname, v);
+                            }
+                        };
+                        var watching = nx.keyword.internal.watch(o, this.source, function () {
+                            var rslt;
+                            if (this.callback) {
+                                rslt = this.callback.apply(this.context ? binding.owner : binding, arguments);
+                            }
+                            else {
+                                rslt = arguments[0];
+                            }
+                            if (!this.async) {
+                                binding.set(rslt);
+                            }
+                        }.bind(this));
+                        return watching;
+                    }
+                };
+                return Keyword;
+            })()
+        }
+    };
+})(nx);
+
+(function (nx) {
 
     /**
      * @class Comparable
@@ -942,29 +1239,6 @@ var nx = {
             __compare__: function (source) {
                 return this.compare(source);
             }
-        }
-    });
-})(nx);
-(function (nx) {
-
-    /**
-     * @class Deferrable
-     * @namespace nx
-     */
-    var Deferrable = nx.define('nx.Deferrable', {
-        events: ['completed'],
-        properties: {
-            value: {
-                get: function () {
-
-                },
-                set: function () {
-
-                }
-            }
-        },
-        methods: {
-
         }
     });
 })(nx);
@@ -1062,13 +1336,44 @@ var nx = {
      * @namespace nx
      */
     var Observable = nx.define('nx.Observable', {
+        statics: {
+            extendProperty: function extendProperty(target, name, meta) {
+                var property = nx.Object.extendProperty(target, name, meta);
+                if (property && property.__type__ == 'property') {
+                    if (!property._watched) {
+                        var setter = property.__setter__;
+                        var dependencies = property.getMeta('dependencies');
+                        nx.each(dependencies, function (dep) {
+                            this.watch(dep, function () {
+                                this.notify(name);
+                            }, this);
+                        }, this);
+
+                        property.__setter__ = function (value, params) {
+                            var oldValue = this.get(name);
+                            if (oldValue !== value) {
+                                if (setter.call(this, value, params) !== false) {
+                                    return this.notify(name, oldValue);
+                                }
+                            }
+
+                            return false;
+                        };
+
+                        property._watched = true;
+                    }
+                }
+
+                return property;
+            }
+        },
         methods: {
             /**
              * @constructor
              */
             init: function () {
-                this.__bindings__ = {};
-                this.__watchers__ = {};
+                this.__bindings__ = this.__bindings__ || {};
+                this.__watchers__ = this.__watchers__ || {};
             },
             /**
              * Dispose current object.
@@ -1107,16 +1412,17 @@ var nx = {
             /**
              * @method notify
              * @param names
+             * @param oldValue
              */
-            notify: function (names) {
+            notify: function (names, oldValue) {
                 if (names == '*') {
                     nx.each(this.__watchers__, function (value, name) {
-                        this._notify(name);
+                        this._notify(name, oldValue);
                     }, this);
                 }
                 else {
                     nx.each(nx.is(names, 'Array') ? names : [names], function (name) {
-                        this._notify(name);
+                        this._notify(name, oldValue);
                     }, this);
                 }
 
@@ -1144,7 +1450,8 @@ var nx = {
                 if (nx.is(expr, 'String')) {
                     var tokens = expr.split(',');
                     var path = tokens[0];
-                    var i = 1, length = tokens.length;
+                    var i = 1,
+                        length = tokens.length;
 
                     for (; i < length; i++) {
                         var pair = tokens[i].split('=');
@@ -1196,24 +1503,22 @@ var nx = {
                 if (property && property.__type__ == 'property') {
                     if (!property._watched) {
                         var setter = property.__setter__;
-                        var deps = property.getMeta('dependencies');
-                        var refs = property._refs = property._refs || [];
-                        refs.push(name);
-                        nx.each(deps, function (dep) {
-                            var depProp = this[dep];
-                            if (depProp) {
-                                var depRefs = depProp._refs = depProp._refs || [];
-                                depRefs.push(name);
-                            }
+                        var dependencies = property.getMeta('dependencies');
+                        nx.each(dependencies, function (dep) {
+                            this.watch(dep, function () {
+                                this.notify(name);
+                            }, this);
                         }, this);
 
                         property.__setter__ = function (value, params) {
                             var oldValue = this.get(name);
-                            if (oldValue !== value) {
+                            if (oldValue !== value || (params && params.force)) {
                                 if (setter.call(this, value, params) !== false) {
-                                    this.notify(refs);
+                                    return this.notify(name, oldValue);
                                 }
                             }
+
+                            return false;
                         };
 
                         property._watched = true;
@@ -1222,7 +1527,8 @@ var nx = {
             },
             _unwatch: function (name, handler, context) {
                 var map = this.__watchers__;
-                var watchers = map[name], watcher;
+                var watchers = map[name],
+                    watcher;
 
                 if (watchers) {
                     if (handler) {
@@ -1239,11 +1545,11 @@ var nx = {
                     }
                 }
             },
-            _notify: function (name) {
+            _notify: function (name, oldValue) {
                 var map = this.__watchers__;
                 nx.each(map[name], function (watcher) {
                     if (watcher && watcher.handler) {
-                        watcher.handler.call(watcher.context, name, this.get(name), watcher.owner);
+                        watcher.handler.call(watcher.context, name, this.get(name), oldValue, watcher.owner);
                     }
                 }, this);
             }
@@ -1368,8 +1674,10 @@ var nx = {
                     var converter = this.converter();
                     var targetMember = target[targetPath];
                     var watchers = this._watchers = [];
-                    var keys = this._keys = sourcePath.split('.'), key;
-                    var i = 0, length = keys.length;
+                    var keys = this._keys = sourcePath.split('.'),
+                        key;
+                    var i = 0,
+                        length = keys.length;
                     var self = this;
 
                     if (targetMember) {
@@ -1461,7 +1769,7 @@ var nx = {
                     }
 
                     if (direction[1] == '>') {
-                        if (target.watch) {
+                        if (target.watch && target.watch.__type__ === 'method') {
                             target.watch(targetPath, this._onTargetChanged = function (property, value) {
                                 var actualValue = value;
                                 if (converter) {
@@ -1479,13 +1787,11 @@ var nx = {
             dispose: function () {
                 var target = this._target;
                 this._rebind(0, null);
-                if (target.unwatch) {
-                    target.unwatch('propertyChanged', this._onTargetChanged, this);
-                }
             },
             _rebind: function (index, value) {
                 var watchers = this._watchers;
-                var newSource = value, oldSource;
+                var newSource = value,
+                    oldSource;
 
                 for (var i = index, length = watchers.length; i < length; i++) {
                     var watcher = watchers[i];
@@ -1494,14 +1800,14 @@ var nx = {
 
                     oldSource = watcher.source;
 
-                    if (oldSource && oldSource.unwatch) {
+                    if (oldSource && oldSource.unwatch && oldSource.unwatch.__type__ === 'method') {
                         oldSource.unwatch(key, handler, this);
                     }
 
                     watcher.source = newSource;
 
                     if (newSource) {
-                        if (newSource.watch) {
+                        if (newSource.watch && newSource.watch.__type__ === 'method') {
                             newSource.watch(key, handler, this);
                         }
 
@@ -1570,6 +1876,15 @@ var nx = {
              * @type {Number}
              */
             count: {
+                get: function () {
+                    return this._data.length;
+                }
+            },
+            /**
+             * @property length
+             * @type {Number}
+             */
+            length: {
                 get: function () {
                     return this._data.length;
                 }
@@ -1657,7 +1972,7 @@ var nx = {
              * @returns {*}
              */
             clear: function () {
-                var items = this._data;
+                var items = this._data.slice();
 
                 this._data.length = 0;
                 return items;
@@ -1756,6 +2071,30 @@ var nx = {
 (function (nx) {
     var Iterable = nx.Iterable;
 
+    var DictionaryItem = nx.define({
+        properties: {
+            key: {
+                get: function () {
+                    return this._key;
+                }
+            },
+            value: {
+                get: function () {
+                    return this._dict.getItem(this._key);
+                },
+                set: function (value) {
+                    this._dict.setItem(this._key, value);
+                }
+            }
+        },
+        methods: {
+            init: function (dict, key) {
+                this._dict = dict;
+                this._key = key;
+            }
+        }
+    });
+
     var KeyIterator = nx.define(Iterable, {
         methods: {
             init: function (dict) {
@@ -1763,7 +2102,7 @@ var nx = {
             },
             each: function (callback, context) {
                 this._dict.each(function (item) {
-                    callback.call(context, item.key);
+                    callback.call(context, item.key());
                 });
             }
         }
@@ -1776,7 +2115,7 @@ var nx = {
             },
             each: function (callback, context) {
                 this._dict.each(function (item) {
-                    callback.call(context, item.value);
+                    callback.call(context, item.value());
                 });
             }
         }
@@ -1829,15 +2168,13 @@ var nx = {
                 var map = this._map = {};
                 if (dict) {
                     nx.each(dict, function (value, key) {
-                        map[key] = {
-                            key: '' + key,
-                            value: value
-                        };
-                    });
+                        map[key] = new DictionaryItem(this, '' + key);
+                        map[key]._value = value;
+                    }, this);
                 }
 
-                this._keys = new KeyIterator(dict);
-                this._values = new ValueIterator(dict);
+                this._keys = new KeyIterator(this);
+                this._values = new ValueIterator(this);
             },
             /**
              * @method contains
@@ -1854,7 +2191,7 @@ var nx = {
              */
             getItem: function (key) {
                 var item = this._map[key];
-                return item && item.value;
+                return item && item._value;
             },
             /**
              * @method setItem
@@ -1862,27 +2199,27 @@ var nx = {
              * @param value {any}
              */
             setItem: function (key, value) {
-                var item = this._map[key];
-                if (!item) {
-                    item = this._map[key] = {
-                        key: key
-                    };
-                }
+                var item = this._map[key] = new DictionaryItem(this, '' + key);
+                item._value = value;
 
-                item.value = value;
+                return item;
             },
             /**
              * @method removeItem
              * @param key {String}
              */
             removeItem: function (key) {
+                var item = this._map[key];
                 delete this._map[key];
+                return item;
             },
             /**
              * @method clear
              */
             clear: function () {
+                var items = this.toArray();
                 this._map = {};
+                return items;
             },
             /**
              * @method each
@@ -1911,7 +2248,7 @@ var nx = {
             toObject: function () {
                 var result = {};
                 this.each(function (item) {
-                    result[item.key] = item.value;
+                    result[item.key()] = item.value();
                 });
 
                 return result;
@@ -2020,6 +2357,7 @@ var nx = {
             add: function (item) {
                 this.inherited(item);
                 this.notify('count');
+                this.notify('length');
                 this.fire('change', {
                     action: 'add',
                     items: [item]
@@ -2034,6 +2372,7 @@ var nx = {
             addRange: function (iter) {
                 var items = this.inherited(iter);
                 this.notify('count');
+                this.notify('length');
                 this.fire('change', {
                     action: 'add',
                     items: items
@@ -2049,6 +2388,7 @@ var nx = {
             insert: function (item, index) {
                 this.inherited(item, index);
                 this.notify('count');
+                this.notify('length');
                 this.fire('change', {
                     action: 'add',
                     items: [item],
@@ -2063,6 +2403,7 @@ var nx = {
             insertRange: function (iter, index) {
                 var result = this.inherited(iter, index);
                 this.notify('count');
+                this.notify('length');
                 this.fire('change', {
                     action: 'add',
                     items: result,
@@ -2077,6 +2418,7 @@ var nx = {
                 var result = this.inherited(item);
                 if (result >= 0) {
                     this.notify('count');
+                    this.notify('length');
                     this.fire('change', {
                         action: 'remove',
                         items: [item],
@@ -2094,6 +2436,7 @@ var nx = {
                 var result = this.inherited(index);
                 if (result !== undefined) {
                     this.notify('count');
+                    this.notify('length');
                     this.fire('change', {
                         action: 'remove',
                         items: [result],
@@ -2109,6 +2452,7 @@ var nx = {
             clear: function () {
                 var result = this.inherited();
                 this.notify('count');
+                this.notify('length');
                 this.fire('change', {
                     action: 'clear',
                     items: result
@@ -2121,6 +2465,7 @@ var nx = {
             sort: function (comp) {
                 var result = this.inherited(comp);
                 this.notify('count');
+                this.notify('length');
                 this.fire('change', {
                     action: 'sort',
                     comparator: comp || function (a, b) {
@@ -2141,6 +2486,7 @@ var nx = {
         }
     });
 })(nx);
+
 (function (nx) {
 
     var Observable = nx.Observable;
@@ -2166,10 +2512,7 @@ var nx = {
                 var map = this._map;
                 if (key in map) {
                     var oldItem = map[key];
-                    var newItem = map[key] = {
-                        key: key,
-                        value: value
-                    };
+                    var newItem = this.inherited(key, value);
                     this.fire('change', {
                         action: 'replace',
                         oldItem: oldItem,
@@ -2177,10 +2520,7 @@ var nx = {
                     });
                 }
                 else {
-                    var item = map[key] = {
-                        key: key,
-                        value: value
-                    };
+                    var item = this.inherited(key, value);
                     this.notify('count');
                     this.fire('change', {
                         action: 'add',
@@ -2208,13 +2548,13 @@ var nx = {
              * @method clear
              */
             clear: function () {
-                var result = this._map;
-                this._map = {};
+                var items = this.toArray();
                 this.notify('count');
                 this.fire('change', {
                     action: 'clear',
-                    items: this.toArray()
+                    items: items
                 });
+                this._map = {};
             }
         }
     });
@@ -2491,6 +2831,199 @@ var nx = {
                 this.reset();
                 return arr;
             }
+        },
+        statics: {
+            query: (function () {
+                var i, internal = {
+                        publics: {
+                            select: function (array, selector) {
+                                var rslt = [];
+                                if (nx.is(array, "Array") && nx.is(selector, "Function")) {
+                                    var i, item;
+                                    for (i = 0; i < array.length; i++) {
+                                        item = array[i];
+                                        if (selector(item)) {
+                                            rslt.push(item);
+                                        }
+                                    }
+                                }
+                                return rslt;
+                            },
+                            group: function (array, grouper) {
+                                var map;
+                                if (nx.is(grouper, "Function")) {
+                                    map = {};
+                                    var i, id, group;
+                                    for (i = 0; i < array.length; i++) {
+                                        id = grouper(array[i]);
+                                        if (!id || typeof id !== "string") {
+                                            continue;
+                                        }
+                                        group = map[id] = map[id] || [];
+                                        group.push(array[i]);
+                                    }
+                                }
+                                else {
+                                    map = array;
+                                }
+                                return map;
+                            },
+                            aggregate: function (array, aggregater) {
+                                var rslt = null,
+                                    key;
+                                if (nx.is(aggregater, "Function")) {
+                                    if (nx.is(array, "Array")) {
+                                        rslt = aggregater(array);
+                                    }
+                                    else {
+                                        rslt = [];
+                                        for (key in array) {
+                                            rslt.push(aggregater(array[key], key));
+                                        }
+                                    }
+                                }
+                                return rslt;
+                            }
+                        },
+                        privates: {
+                            aggregate: function (array, args) {
+                                var rslt, grouper = null,
+                                    aggregater = null;
+                                // get original identfier and aggregater
+                                if (nx.is(args, "Array")) {
+                                    if (typeof args[args.length - 1] === "function") {
+                                        aggregater = args.pop();
+                                    }
+                                    grouper = (args.length > 1 ? args : args[0]);
+                                }
+                                else {
+                                    grouper = args.map;
+                                    aggregater = args.aggregate;
+                                }
+                                // translate grouper into function if possible
+                                if (typeof grouper === "string") {
+                                    grouper = grouper.replace(/\s/g, "").split(",");
+                                }
+                                if (nx.is(grouper, "Array") && grouper[0] && typeof grouper[0] === "string") {
+                                    grouper = (function (keys) {
+                                        return function (obj) {
+                                            var i, o = {};
+                                            for (i = 0; i < keys.length; i++) {
+                                                o[keys[i]] = obj[keys[i]];
+                                            }
+                                            return JSON.stringify(o);
+                                        };
+                                    })(grouper);
+                                }
+                                // do map aggregate
+                                rslt = internal.publics.aggregate(internal.publics.group(array, grouper), aggregater);
+                                return rslt;
+                            },
+                            mapping: function (array, mapper) {
+                                var i, rslt;
+                                if (mapper === true) {
+                                    rslt = EXPORT.clone(array);
+                                }
+                                else if (nx.is(mapper, "Function")) {
+                                    if (nx.is(array, "Array")) {
+                                        rslt = [];
+                                        for (i = 0; i < array.length; i++) {
+                                            rslt.push(mapper(array[i], i));
+                                        }
+                                    }
+                                    else {
+                                        rslt = mapper(array, 0);
+                                    }
+                                }
+                                else {
+                                    if (nx.is(array, "Array")) {
+                                        rslt = array.slice();
+                                    }
+                                    else {
+                                        rslt = array;
+                                    }
+                                }
+                                return rslt;
+                            },
+                            orderby: function (array, comparer) {
+                                if (typeof comparer === "string") {
+                                    comparer = comparer.replace(/^\s*(.*)$/, "$1").replace(/\s*$/, "").replace(/\s*,\s*/g, ",").split(",");
+                                }
+                                if (nx.is(comparer, "Array") && comparer[0] && typeof comparer[0] === "string") {
+                                    comparer = (function (keys) {
+                                        return function (o1, o2) {
+                                            var i, key, desc;
+                                            if (!o1 && !o2) {
+                                                return 0;
+                                            }
+                                            for (i = 0; i < keys.length; i++) {
+                                                key = keys[i];
+                                                desc = /\sdesc$/.test(key);
+                                                key = key.replace(/(\s+desc|\s+asc)$/, "");
+                                                if (o1[key] > o2[key]) {
+                                                    return desc ? -1 : 1;
+                                                }
+                                                else if (o2[key] > o1[key]) {
+                                                    return desc ? 1 : -1;
+                                                }
+                                            }
+                                            return 0;
+                                        };
+                                    })(comparer);
+                                }
+                                if (comparer && typeof comparer === "function") {
+                                    array.sort(comparer);
+                                }
+                                return array;
+                            }
+                        },
+                        query: function (array, options) {
+                            /**
+                             * @doctype MarkDown
+                             * options:
+                             * - options.array [any*]
+                             *   - the target array
+                             * - options.select: function(any){return boolean;}
+                             *   - *optional*
+                             *   - pre-filter of the array
+                             * - options.aggregate: {grouper:grouper,aggregater:aggregater} or [proplist, aggregater] or [prop, prop, ..., aggregater]
+                             *   - *optional*
+                             *   - proplist: "prop,prop,..."
+                             *   - prop: property name on array items
+                             *   - grouper: map an array item into a string key
+                             *   - aggregater: function(mapped){return aggregated}
+                             * - options.mapping: function(item){return newitem}
+                             *   - *optional*
+                             * - options.orderby: proplist or [prop, prop, ...]
+                             *   - *optional*
+                             */
+                            if (arguments.length == 1) {
+                                options = array;
+                                array = options.array;
+                            }
+                            if (!array) {
+                                return array;
+                            }
+                            if (options.select) {
+                                array = internal.publics.select(array, options.select);
+                            }
+                            if (options.aggregate) {
+                                array = internal.privates.aggregate(array, options.aggregate);
+                            }
+                            if (options.mapping) {
+                                array = internal.privates.mapping(array, options.mapping);
+                            }
+                            if (options.orderby) {
+                                array = internal.privates.orderby(array, options.orderby);
+                            }
+                            return array;
+                        }
+                    };
+                for (i in internal.publics) {
+                    internal.query[i] = internal.publics[i];
+                }
+                return internal.query;
+            })()
         }
     });
 })(nx);

@@ -53,13 +53,6 @@
                     }
                 }
             },
-            status: {
-                watcher: function (prop, value) {
-                    if (this.MVM()) {
-                        this.MVM().topologyGenerated(value == "generated");
-                    }
-                }
-            },
             nodeIconPath: {
                 value: function () {
                     var self = this;
@@ -93,6 +86,22 @@
 
                     }
                 }
+            },
+            nodeGreyOut: {
+                value: function () {
+                    var self = this;
+                    return function (model, node) {
+                        return !model.get('greyOut');
+                    }
+                }
+            },
+            linkGreyOut: {
+                value: function () {
+                    var self = this;
+                    return function (model, node) {
+                        return !model.source().get('greyOut') && !model.target().get('greyOut');
+                    }
+                }
             }
         },
         methods: {
@@ -109,5 +118,6 @@
             }
         }
     });
+
 
 })(nx, nx.global);

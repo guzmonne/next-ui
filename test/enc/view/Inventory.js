@@ -3,7 +3,7 @@
     ENC.TW.inventory = {
         generated: {
             convert: function (value) {
-                return value ? 'tw-inventory-list-item-generated' : 'tw-inventory-list-item'
+                return value ? 'tw-inventory-list-item tw-inventory-list-item-generated' : 'tw-inventory-list-item'
             }
         },
         icon: {
@@ -12,8 +12,6 @@
                 return 'n-icon-' + deviceTypeMapping[value];
             }
         }
-
-
     };
 
 
@@ -82,13 +80,14 @@
                                             'class': 'tw-inventory-list-item-locate-node  fa fa-bullseye'
                                         },
                                         events: {
-                                            'click': '{#_locateNode}'
+                                            'click': '{#owner.model.controlVM.inventory.locateNode}'
                                         }
                                     }
                                 ],
                                 events: {
                                     'click': '{#owner.model.controlVM.inventory.selectItem}',
-                                    'mouseleave': '{#_mouseleave}'
+                                    'mouseenter': '{#owner.model.controlVM.inventory.highlightItem}',
+                                    'mouseleave': '{#owner.model.controlVM.inventory.recoverItem}'
                                 }
 
                             }
@@ -153,9 +152,6 @@
                 this.view('info').dom().setStyles({
                     display: 'none'
                 })
-            },
-            _locateNode: function (sender, events) {
-                var vertex = sender.model().value();
             }
         }
     });

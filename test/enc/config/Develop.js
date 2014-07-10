@@ -10,7 +10,8 @@
             'tag': serverURL + 'api/v0/network-device/tag',
             'isis': serverURL + 'api/v0/topology/l3/isis',
             'static-route': serverURL + 'api/v0/topology/l3/static-route',
-            'ospf': serverURL + 'api/v0/topology/l3/ospf'
+            'ospf': serverURL + 'api/v0/topology/l3/ospf',
+            'l2default': serverURL + 'api/v0/topology/l2/default'
         }
     });
 

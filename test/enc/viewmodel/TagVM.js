@@ -5,7 +5,7 @@
         properties: {
             MVM: {},
             tagData: {
-                dependencies: ['MVM.topoDataModel.data', 'MVM.topologyGenerated'],
+                dependencies: ['MVM.topoDataModel.data', 'MVM.status.topologyGenerated'],
                 value: function (data, generated) {
                     if (data && generated) {
                         var nodes = data.nodes;

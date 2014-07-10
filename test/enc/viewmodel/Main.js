@@ -5,7 +5,7 @@
         properties: {
 
             topoDataType: {
-                value: 'physical',
+                value: 'physical',//physical
                 watcher: function (prop, value) {
                     this.topoDataModel().type(value);
                 }
@@ -21,6 +21,17 @@
                     if (data) {
                         return data;
                     }
+                }
+            },
+
+
+
+
+            status: {
+                value: function () {
+                    var vm = new ENC.TW.ViewModel.Status();
+                    vm.set('MVM', this);
+                    return vm;
                 }
             },
             topologyVM: {
