@@ -285,7 +285,7 @@
                     this[key].call(this, value);
                 } else {
                     nx.path(this._data, key, value);
-                    this.notify('key');
+                    this.notify(key);
                 }
             },
             get: function (key) {
