@@ -209,99 +209,96 @@
                     this.graph().deleteVertex(id);
                 }
             },
+            _getAggregationTargets: function (vertices) {
+                var graph = this.graph();
+                var mark, marks, markmap = {}, NONE = nx.util.uuid();
+                var i, v, vp, vpid, changed, vs = vertices.slice();
+                // iterate unless the aggregation successful
+                do {
+                    changed = false;
+                    for (i = vs.length - 1; i >= 0; i--) {
+                        v = vs[i];
+                        // for the graph
+                        if (v === graph) {
+                            continue;
+                        }
+                        // get the parent vertex and its ID
+                        vp = v.parentVertexSet();
+                        vpid = (vp ? vp.id() : NONE);
+                        // check if same parent vertex marked
+                        if (!markmap.hasOwnProperty(vpid)) {
+                            // create mark for the parent vertex
+                            markmap[vpid] = {
+                                vertex: vp || graph,
+                                finding: graph.subordinates(vp),
+                                found: []
+                            };
+                        }
+                        // get parent mark
+                        mark = markmap[vpid];
+                        // check if child vertex marked already
+                        if (mark === false || mark.found.indexOf(v) >= 0) {
+                            // duplicated vertex appears, unable to aggregate
+                            throw "wrong input";
+                        }
+                        // mark child vertex to its parent vertex
+                        mark.found.push(v);
+                        // remove child vertex from the pool
+                        vs.splice(i, 1);
+                        // set the vertex array changed
+                        changed = true;
+                        // check if the parent vertex is fully maatched
+                        if (mark.finding.length === mark.found.length) {
+                            // add parent vertex from the pool
+                            vs.push(mark.vertex);
+                            // mark the parent vertex as fully matched
+                            markmap[vpid] = false;
+                        }
+                    }
+                } while (changed);
+                // clear fully matched marks from mark map
+                for (mark in markmap) {
+                    if (!markmap[mark]) {
+                        delete markmap[mark];
+                    }
+                }
+                // get remain marks of parent vertices
+                marks = nx.util.values(markmap);
+                // check if the number of parent not fully matched
+                if (marks.length !== 1) {
+                    // it should be at most & least one
+                    throw nx.graphic.Topology.i18n.cantAggregateNodesInDifferentNodeSet;
+                }
+                // get the only parent's mark
+                mark = marks[0];
+                return mark.found;
+            },
             aggregationNodes: function (inNodes, inConfig) {
-                if (inNodes.length < 2) {
-                    return;
+                // transform nodes or node ids into vertices
+                var nodes = [],
+                    vertices = [];
+                nx.each(inNodes, function (node) {
+                    if (!nx.is(node, nx.graphic.Topology.AbstractNode)) {
+                        node = this.getNode(node);
+                    }
+                    if (!nx.is(node, nx.graphic.Topology.AbstractNode)) {
+                        throw "wrong input";
+                    }
+                    nodes.push(node);
+                    vertices.push(node.model());
+                }.bind(this));
+                // get aggregate target vertices and ids
+                var aggregateVertices, aggregateIds;
+                // FIXME catch or not
+                aggregateVertices = this._getAggregationTargets(vertices);
+                if (aggregateVertices.length < 2) {
+                    throw "wrong input. unable to aggregate.";
                 }
-
-                var nodes = [];
-                nx.each(inNodes, function (n) {
-                    if (nx.is(n, nx.graphic.Topology.AbstractNode)) {
-                        nodes.push(n);
-                    } else {
-                        var node = this.getNode(n);
-                        if (node) {
-                            nodes.push(node);
-                        }
-                    }
-                }, this);
-
-
-                var config = inConfig || {};
-                var vertexSetData = nx.extend({
-                    nodes: []
-                }, config);
-                var parentNodeSet;
-                var isSameParentNodeSet = true;
-
-                //check different parent nodeSet aggregate
-                nx.each(nodes, function (node) {
-                    var _parentNodeSet = node.parentNodeSet();
-                    if (_parentNodeSet) {
-                        // get the first parentNodeSet
-                        if (!parentNodeSet) {
-                            parentNodeSet = _parentNodeSet;
-                        }
-                        // check if all nodes in the same parent nodeSet
-                        isSameParentNodeSet = parentNodeSet == _parentNodeSet;
-                    }
-                    vertexSetData.nodes.push(node.id());
+                aggregateIds = [];
+                nx.each(aggregateVertices, function (vertex) {
+                    aggregateIds.push(vertex.id());
                 });
-
-
-                if (!isSameParentNodeSet) {
-                    alert(nx.graphic.Topology.i18n.cantAggregateNodesInDifferentNodeSet);
-                    return;
-                }
-
-                //check incremental aggregate
-
-                if (parentNodeSet && parentNodeSet.activated() === false) {
-                    var _nodes = nodes.slice(0);
-                    var isIncrementAggregate = true;
-
-                    nx.each(parentNodeSet.nodes(), function (node) {
-                        if (_nodes.indexOf(node) == -1) {
-                            isIncrementAggregate = false;
-                        } else {
-                            _nodes.splice(_nodes.indexOf(node), 1);
-                        }
-                    });
-
-                    // if select nodes in a same group
-                    if (_nodes.length === 0) {
-                        if (nx.util.values(parentNodeSet.nodes()).length == nodes.length) {
-                            return;
-                        }
-                    }
-
-
-                    if (isIncrementAggregate) {
-                        parentNodeSet.activated(true);
-                        _nodes.push(parentNodeSet);
-                        this.aggregationNodes(_nodes, config);
-                        return;
-                    }
-                }
-
-                //check extra node aggregate into a nodeSet
-                if (parentNodeSet) {
-                    var includeExtraNode = false;
-                    nx.each(nodes, function (node) {
-                        var _parentNodeSet = node.parentNodeSet();
-                        if (!_parentNodeSet || parentNodeSet != _parentNodeSet) {
-                            includeExtraNode = true;
-                        }
-                    }, this);
-
-
-                    if (includeExtraNode) {
-                        alert(nx.graphic.Topology.i18n.cantAggregateExtraNode);
-                        return;
-                    }
-                }
-
-
+                // check the user rule
                 var aggregationRule = this.aggregationRule();
                 if (aggregationRule && nx.is(aggregationRule, 'Function')) {
                     var result = aggregationRule.call(this, nodes, inConfig);
@@ -309,23 +306,21 @@
                         return;
                     }
                 }
-
-                vertexSetData.label = config.label;
-                if (config.label == null) {
-                    vertexSetData.label = [nodes[0].label(), nodes[nodes.length - 1].label()].sort().join("-");
+                // make up data, config and parent
+                var data, parent, pn = null,
+                    config = {};
+                data = {
+                    nodes: aggregateIds,
+                    x: (inConfig && typeof inConfig.x === "number" ? inConfig.x : aggregateVertices[0].x()),
+                    y: (inConfig && typeof inConfig.y === "number" ? inConfig.y : aggregateVertices[0].y()),
+                    label: (inConfig && inConfig.label || [nodes[0].label(), nodes[nodes.length - 1].label()].sort().join("-"))
+                };
+                parent = aggregateVertices[0].parentVertexSet();
+                if (parent) {
+                    config.parentVertexSetID = parent.id();
+                    pn = this.getNode(parent.id());
                 }
-
-                vertexSetData.x = config.x == null ? nodes[0].model().x() : config.x;
-                vertexSetData.y = config.y == null ? nodes[0].model().y() : config.y;
-                //vertexSetData.root = rootNodeID || inNodes[0].id();
-
-                var vertexSetConfig = {};
-                if (parentNodeSet) {
-                    vertexSetConfig.parentVertexSetID = parentNodeSet.id();
-                }
-
-
-                var nodeSet = this.addNodeSet(vertexSetData, vertexSetConfig, parentNodeSet);
+                var nodeSet = this.addNodeSet(data, config, pn);
                 this.stage().resetFitMatrix();
                 return nodeSet;
             },

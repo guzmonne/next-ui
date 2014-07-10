@@ -10,16 +10,16 @@
                     return v.toString(16);
                 }).toUpperCase();
             },
-            without: function (arrray, item) {
+            without: function (array, item) {
                 var index;
-                while ((index = arrray.indexOf(item)) != -1) {
-                    arrray.splice(index, 1);
+                while ((index = array.indexOf(item)) != -1) {
+                    array.splice(index, 1);
                 }
-                return arrray;
+                return array;
             },
-            find: function (arrray, iterator, context) {
+            find: function (array, iterator, context) {
                 var result;
-                arrray.some(function (value, index, list) {
+                array.some(function (value, index, list) {
                     if (iterator.call(context || this, value, index, list)) {
                         result = value;
                         return true;
