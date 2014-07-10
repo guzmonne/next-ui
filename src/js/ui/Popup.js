@@ -165,7 +165,7 @@
                     height: 0
                 };
 
-                if (target.resolve && target.view()) {
+                if (target.resolve && target.view) {
                     target = target.view();
                 }
 
