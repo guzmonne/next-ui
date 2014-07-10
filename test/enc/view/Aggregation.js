@@ -56,10 +56,11 @@
                             'class': 'tw-aggregation-list-box'
                         },
                         content: {
+                            name: 'list',
                             type: 'ENC.TW.View.Aggregation.List',
                             props: {
                                 vertexSets: '{controlVM.aggregation.vertexSets}',
-                                root: '{#owner}'
+//                                root: '{#owner}'
                             }
                         }
                     },
@@ -83,6 +84,25 @@
                                 }
                             }
                         ]
+                    },
+                    {
+
+                        props: {
+                            'class': 'tw-aggregation-rename'
+                        },
+                        content: {
+                            name: 'renamePanel',
+                            type: 'nx.ui.Popup',
+                            props: {
+                                'class': 'popover tw-aggregation-rename-panel'
+                            },
+                            content: {
+                                tag: 'input',
+                                props: {
+                                    'value': '{controlVM.aggregation.currentNodeSet.label}'
+                                }
+                            }
+                        }
                     }
                 ]
 
@@ -95,6 +115,14 @@
             _activated: function (sender, events) {
                 var vertexSet = sender.model();
                 vertexSet.activated(!vertexSet.activated());
+            },
+            rename: function (sender, events) {
+                var vertexSet = sender.model();
+                debugger;
+            },
+            attach: function (parent, index) {
+                this.inherited(parent, index);
+                this.view('list').root(this);
             }
         }
     });
@@ -133,13 +161,18 @@
                                     }
                                 },
                                 {
-                                    tag: 'span',
+                                    tag: 'input',
+                                    name: 'input',
                                     props: {
-                                        'class': 'tw-aggregation-list-item-label'
+                                        'class': 'tw-aggregation-list-item-label',
+                                        value: '{name}',
+                                        'readOnly': true
                                     },
-                                    content: '{name}',
+//                                    content: '{name}',
                                     events: {
-                                        'click': '{#root.model.controlVM.aggregation.expand}'
+                                        'click': '{#root.model.controlVM.aggregation.expand}',
+                                        'blur': '{#_blur}',
+                                        'keydown': '{#_key}'
                                     }
                                 },
                                 {
@@ -152,10 +185,19 @@
                                 {
                                     tag: 'span',
                                     props: {
-                                        'class': 'fa fa-trash-o tw-aggregation-list-item-trash '
+                                        'class': 'fa fa-trash-o tw-aggregation-list-item-trash tools '
                                     },
                                     events: {
                                         'click': '{#root.model.controlVM.aggregation.delete}'
+                                    }
+                                },
+                                {
+                                    tag: 'span',
+                                    props: {
+                                        'class': 'fa fa-pencil-square-o tw-aggregation-list-item-edit tools'
+                                    },
+                                    events: {
+                                        'click': '{#_rename}'
                                     }
                                 }
                             ]
@@ -189,7 +231,7 @@
                                                 type: '{label}'
                                             },
                                             content: '{label}'
-                                        },
+                                        }
                                     ]
                                 }
                             }
@@ -205,12 +247,26 @@
             root: {}
         },
         methods: {
-            _activated: function (sender, events) {
-                var vertexSet = sender.model();
-                var expand = nx.path(this, 'owner.model.controlVM.aggregation.expand');
-                debugger;
-                vertexSet.activated(!vertexSet.activated());
-                debugger;
+            _rename: function (sender, events) {
+                var parent = sender.parent();
+                var input = parent.content().getItem('2');
+                if (input.dom().$dom.hasAttribute('readOnly')) {
+                    input.dom().removeAttribute('readOnly');
+                    input.dom().$dom.focus();
+                } else {
+                    input.dom().setAttribute('readOnly', 'true');
+                }
+            },
+            _blur: function (sender, events) {
+                sender.dom().setAttribute('readOnly', 'true');
+                this.root().model().controlVM().aggregation().rename(sender.model());
+            },
+            _key: function (sender, event) {
+                var code = event.keyCode;
+                switch (code) {
+                    case 13:
+                        sender.dom().blur();
+                }
             }
         }
     });

@@ -31,15 +31,20 @@
             },
             update: {
                 value: true
+            },
+            nodeSetLabel: {
+                value: null
             }
         },
         methods: {
             expand: function (sender, args) {
-                var vertexSet = sender.model();
-                var topo = this.MVM().topology();
-                var nodeSet = topo.getNode(vertexSet.id());
-                if (nodeSet) {
-                    nodeSet.collapsed(!nodeSet.collapsed());
+                if (sender.dom().$dom.getAttribute('readOnly')) {
+                    var vertexSet = sender.model();
+                    var topo = this.MVM().topology();
+                    var nodeSet = topo.getNode(vertexSet.id());
+                    if (nodeSet) {
+                        nodeSet.collapsed(!nodeSet.collapsed());
+                    }
                 }
             },
             delete: function (sender, args) {
@@ -57,6 +62,12 @@
                 var nodes = topo.selectedNodes().toArray();
                 topo.selectedNodes().clear();
                 topo.aggregationNodes(nodes);
+            },
+            rename: function (vertexSet) {
+                var topo = this.MVM().topology();
+                var view = this.MVM().topologyVM().view();
+                view.notify('labelKey');
+
             }
         }
     })
