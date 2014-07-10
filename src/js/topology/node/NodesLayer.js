@@ -199,8 +199,13 @@
                 if (topo) {
                     this.topology().unwatch('stageScale', this.__watchStageScaleFN, this);
                     this.topology().unwatch('revisionScale', this.__watchRevisionScale, this);
-                    topo._activeNodesWatcher.dispose();
-                    topo._highlightedNodesWatcher.dispose();
+                    if (topo._activeNodesWatcher) {
+                        topo._activeNodesWatcher.dispose();
+                    }
+                    if (topo._highlightedNodesWatcher) {
+                        topo._highlightedNodesWatcher.dispose();
+                    }
+
                 }
 
 

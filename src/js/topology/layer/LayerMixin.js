@@ -204,6 +204,7 @@
                         layer.activeElements().clear();
                     }
                 }, this);
+                this.activeNodes([]);
                 this.fadeIn();
             },
             recoverHighlight: function () {
@@ -212,18 +213,9 @@
                         layer.highlightedElements().clear();
                     }
                 }, this);
+                //todo refactore
+                this.highlightedNodes([]);
                 this.fadeIn(true);
-            },
-            /**
-             * Clear all layer's content
-             * @method clear
-             */
-            clear: function () {
-                this.graph().clear();
-
-                nx.each(this.layers(), function (layer, name) {
-                    layer.clear();
-                });
             }
         }
     });

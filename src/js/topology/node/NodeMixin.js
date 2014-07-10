@@ -106,6 +106,8 @@
                                 }
                             }, this);
                         }.bind(this));
+
+
                     }
                     nodesLayer.activeElements().clear();
                     nodeSetLayer.activeElements().clear();

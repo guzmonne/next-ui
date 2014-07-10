@@ -81,6 +81,7 @@
             nx.graphic.Topology.SceneMixin,
             nx.graphic.Topology.Categories
         ],
+        events: ['clear'],
         view: {
             props: {
                 'class': ['n-topology', '{#themeClass}'],
@@ -191,16 +192,29 @@
                 this.inherited(args);
                 this._adaptiveTimer();
             },
+            /**
+             * Clear all layer's content
+             * @method clear
+             */
+            clear: function () {
+                this.status('cleared');
+                this.graph().clear();
+                this.tooltipManager().closeAll();
+                nx.each(this.layers(), function (layer, name) {
+                    layer.clear();
+                });
+                this.blockEvent(false);
+                this.fire('clear');
+            },
             dispose: function () {
-
-
+                this.status('disposed');
                 this.tooltipManager().dispose();
                 this.graph().dispose();
 
                 nx.each(this.layers(), function (layer) {
                     layer.dispose();
                 });
-
+                this.blockEvent(false);
                 this.inherited();
             }
         }

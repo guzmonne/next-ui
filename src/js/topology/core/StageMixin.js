@@ -222,6 +222,7 @@
                     this.adjustLayout();
                     /* jshint -W030 */
                     callback && callback.call(context || this);
+                    this.fire('zoomend');
                 }, this, duration !== undefined ? duration : 0.9);
             },
             /**
@@ -265,6 +266,7 @@
                     this.adjustLayout();
                     /* jshint -W030 */
                     callback && callback.call(context || this);
+                    this.fire('zoomend');
                 }, this);
             },
             /**
