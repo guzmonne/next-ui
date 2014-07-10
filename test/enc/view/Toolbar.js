@@ -74,7 +74,8 @@
                                     name: 'aggregation',
                                     type: 'ENC.TW.View.Aggregation',
                                     props: {
-                                        'class': 'tw-toolbar-body n-hidden'
+                                        'class': 'tw-toolbar-body n-hidden',
+                                        type: 'aggregation'
                                     }
                                 }
                             ]

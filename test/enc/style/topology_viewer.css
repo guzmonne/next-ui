@@ -182,6 +182,9 @@ li {
   margin-top: -30px;
   margin-left: 35px;
 }
+[type="aggregation"] {
+  width: 400px;
+}
 .tw-aggregation {
   padding: 10px;
   margin-bottom: 20px;
@@ -217,6 +220,10 @@ li {
 .tw-aggregation-list-item-label {
   font-size: 11px;
   color: #666;
+  width: 250px;
+}
+.tw-aggregation-list-item-label[readonly] {
+  border: 0 none;
 }
 .tw-aggregation-list-item-num {
   float: right;
@@ -244,13 +251,24 @@ li {
 .tw-aggregation-list-item-trash:hover {
   opacity: 1;
 }
+.tw-aggregation-list-item-edit {
+  margin-right: 4px;
+  color: #96C27D;
+  cursor: pointer;
+  display: none !important;
+  opacity: 0.6;
+  float: right;
+}
+.tw-aggregation-list-item-edit:hover {
+  opacity: 1;
+}
 .tw-aggregation-list-item-info {
   border-bottom: dotted 1px #fff;
 }
 .tw-aggregation-list-item-info:hover {
   border-bottom: dotted 1px #eee;
 }
-.tw-aggregation-list-item-info:hover > .tw-aggregation-list-item-trash {
+.tw-aggregation-list-item-info:hover > .tools {
   display: inline-block !important;
 }
 .tw-aggregation-list-item-devices {
@@ -262,6 +280,9 @@ li {
 .tw-aggregation-list-item-devices-label {
   font-size: 11px;
   color: #666;
+}
+.tw-aggregation-rename-panel {
+  padding: 10px;
 }
 .tw-aggregation-action {
   font-size: 12px;

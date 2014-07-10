@@ -225,6 +225,10 @@ li {
   }
 }
 
+[type="aggregation"] {
+  width: 400px;
+}
+
 .tw-aggregation {
   padding: 10px;
   margin-bottom: 20px;
@@ -268,6 +272,10 @@ li {
   &-label {
     font-size: 11px;
     color: #666;
+    width:250px;
+    &[readonly] {
+      border: 0 none;
+    }
 
   }
 
@@ -299,11 +307,23 @@ li {
     }
   }
 
+  &-edit {
+    margin-right: 4px;
+    color: #96C27D;
+    cursor: pointer;
+    display: none !important;
+    opacity: 0.6;
+    float: right;
+    &:hover {
+      opacity: 1;
+    }
+  }
+
   &-info {
     border-bottom: dotted 1px #fff;
     &:hover {
       border-bottom: dotted 1px #eee;
-      & > .tw-aggregation-list-item-trash {
+      & > .tools {
         display: inline-block !important;
       }
     }
@@ -322,6 +342,12 @@ li {
 
   }
 
+}
+
+.tw-aggregation-rename {
+  &-panel {
+    padding: 10px;
+  }
 }
 
 .tw-aggregation-action {
