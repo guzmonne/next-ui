@@ -189,9 +189,7 @@
             beforeExpandNodeSet: function (sender, nodeSet) {
 
                 this._blockEvent(true);
-
                 //update parent group
-                var depth = 1;
                 var parentNodeSet = nodeSet.parentNodeSet();
                 while (parentNodeSet && parentNodeSet.group) {
                     var group = parentNodeSet.group;
@@ -199,11 +197,8 @@
                     group.nodes(nx.util.values(parentNodeSet.nodes()));
                     group.draw();
                     parentNodeSet = parentNodeSet.parentNodeSet();
-
-                    //                    group.opacity(0.6 - depth * 0.2);
-                    //                    depth++;
                 }
-
+                this._recover();
             },
             expandNodeSet: function (sender, nodeSet) {
                 clearTimeout(this._sceneTimer);
@@ -246,6 +241,7 @@
                 }, this);
 
                 this._topo.fadeIn();
+                this._recover();
             },
             collapseNodeSet: function (sender, nodeSet) {
                 var parentNodeSet = nodeSet.parentNodeSet();
