@@ -76,7 +76,9 @@
                 return matrixes[0];
             },
             transpose: function (m) {
-                var t = [], r, c, row = m.length, col = m[0].length;
+                var t = [],
+                    r, c, row = m.length,
+                    col = m[0].length;
                 for (c = 0; c < col; c++) {
                     t[c] = [];
                     for (r = 0; r < row; r++) {
@@ -87,18 +89,22 @@
             },
             inverse: function (m) {
                 // FIXME just for 2D 3x3 Matrix
-                var a = m[0][0], b = m[0][1], c = m[1][0], d = m[1][1], e = m[2][0], f = m[2][1];
-                var rslt = [], deno = a * d - b * c;
+                var a = m[0][0],
+                    b = m[0][1],
+                    c = m[1][0],
+                    d = m[1][1],
+                    e = m[2][0],
+                    f = m[2][1];
+                var rslt = [],
+                    deno = a * d - b * c;
                 if (deno === 0) {
                     return null;
                 }
                 return [
-                    [d / deno, -b / deno, 0],
-                    [-c / deno, a / deno, 0],
-                    [(c * f - d * e) / deno, (b * e - a * f) / deno, 1]
+                    [d / deno, -b / deno, 0], [-c / deno, a / deno, 0], [(c * f - d * e) / deno, (b * e - a * f) / deno, 1]
                 ];
             },
-            toString: function (matrix) {
+            stringify: function (matrix) {
                 return [matrix[0][0], matrix[0][1], matrix[1][0], matrix[1][1], matrix[2][0], matrix[2][1]].join(",").replace(/-?\d+e[+-]?\d+/g, "0");
             }
         }
