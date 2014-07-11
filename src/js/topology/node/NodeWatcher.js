@@ -6,7 +6,7 @@
                 get: function () {
                     return this._nodes || [];
                 },
-                set: function (value) {
+                set: function (inNodes) {
                     var updater = this.updater();
                     var vertices = this.vertices();
 
@@ -17,18 +17,23 @@
                         vertices.length = 0;
                     }
 
-
-                    if (nx.is(value, Array) || nx.is(value, nx.data.ObservableCollection)) {
-                        nx.each(value, function (item) {
-                            var vertex = this._getVertex(item);
-                            if (vertex && vertices.indexOf(vertex) == -1) {
-                                vertices.push(vertex);
-                            }
-                        }, this);
+                    if (!inNodes) {
+                        return;
                     }
 
-                    if (nx.is(value, nx.data.ObservableCollection)) {
-                        value.on('change', function (sender, args) {
+                    var nodes = inNodes;
+                    if (!nx.is(nodes, Array) && !nx.is(nodes, nx.data.ObservableCollection)) {
+                        nodes = [nodes];
+                    }
+                    nx.each(nodes, function (item) {
+                        var vertex = this._getVertex(item);
+                        if (vertex && vertices.indexOf(vertex) == -1) {
+                            vertices.push(vertex);
+                        }
+                    }, this);
+
+                    if (nx.is(nodes, nx.data.ObservableCollection)) {
+                        nodes.on('change', function (sender, args) {
                             var action = args.action;
                             var items = args.items;
                             if (action == 'add') {
@@ -47,7 +52,7 @@
                     }, this);
 
                     updater();
-                    this._nodes = value;
+                    this._nodes = nodes;
                 }
             },
             updater: {
