@@ -43,8 +43,7 @@
             enterNode: function () {
 
             },
-            clickNode: function (sender, node) {
-            },
+            clickNode: function (sender, node) {},
             dragStageStart: function (sender, event) {
                 this.inherited(sender, event);
                 var selectedNodes = this.selectedNodes();
@@ -106,8 +105,8 @@
             },
             selectNodeByRect: function (bound) {
                 nx.each(this.bounds, function (item) {
-                    var nodeBound = item.bound;
                     var node = item.node;
+                    var nodeBound = node.getBound();
                     var nodeSelected = node.selected();
                     if (this._hittest(bound, nodeBound)) {
                         if (!nodeSelected) {
