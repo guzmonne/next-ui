@@ -545,7 +545,7 @@
              */
             zoomByNodes: function (nodes, callback, context, boundScale) {
                 // TODO more overload about nodes
-                if (nx.is(nodes, nx.graphic.Topology.AbstractNode)) {
+                if (!nx.is(nodes, Array)) {
                     nodes = [nodes];
                 }
                 // get bound of the selected nodes' models
@@ -576,17 +576,32 @@
                     }, this);
                 }
             },
-            getModelBoundByNodes: function (nodes) {
+            getModelBoundByNodes: function (nodes, isIncludeInvisibleNodes) {
                 var xmin, xmax, ymin, ymax;
-                nx.each(nodes, function (node) {
-                    var vertex = node.model();
+                nx.each(nodes, function (inNode) {
+                    var vertex;
+                    if (nx.is(inNode, nx.graphic.Topology.AbstractNode)) {
+                        vertex = inNode.model();
+                    } else {
+                        if (isIncludeInvisibleNodes) {
+                            vertex = this.graph().getVertex(inNode) || this.graph().getVertexSet(inNode);
+                        } else {
+                            var node = this.getNode(inNode);
+                            vertex = node && node.model();
+                        }
+                    }
+                    if (!vertex) {
+                        return;
+                    }
+
+
                     var x = vertex.x(),
                         y = vertex.y();
                     xmin = (xmin < x ? xmin : x);
                     ymin = (ymin < y ? ymin : y);
                     xmax = (xmax > x ? xmax : x);
                     ymax = (ymax > y ? ymax : y);
-                });
+                }, this);
                 return {
                     left: xmin,
                     top: ymin,
@@ -610,21 +625,6 @@
                     return null;
                 }
 
-                var boundAry = [];
-
-
-                nx.each(inNodes, function (node) {
-                    if (node.visible()) {
-                        if (isNotIncludeLabel) {
-                            boundAry.push(this.getInsideBound(node.getBound(true)));
-                        } else {
-                            boundAry.push(this.getInsideBound(node.getBound()));
-                        }
-                    }
-                }, this);
-
-
-                var lastIndex = boundAry.length - 1;
                 var bound = {
                     left: 0,
                     top: 0,
@@ -636,6 +636,33 @@
                     maxY: 0
                 };
 
+                var boundAry = [];
+
+
+                nx.each(inNodes, function (inNode) {
+                    var node;
+                    if (nx.is(inNode, nx.graphic.Topology.AbstractNode)) {
+                        node = inNode;
+                    } else {
+                        node = this.getNode(inNode);
+                    }
+
+                    if (!node) {
+                        return;
+                    }
+
+
+                    if (node.visible()) {
+                        if (isNotIncludeLabel) {
+                            boundAry.push(this.getInsideBound(node.getBound(true)));
+                        } else {
+                            boundAry.push(this.getInsideBound(node.getBound()));
+                        }
+                    }
+                }, this);
+
+
+                var lastIndex = boundAry.length - 1;
 
                 //
                 boundAry.sort(function (a, b) {
@@ -686,7 +713,8 @@
             expandNodes: function (nodes, sourcePosition, callback, context, isAnimate) {
 
                 var nodesLength = nx.is(nodes, Array) ? nodes.length : nx.util.keys(nodes).length;
-                callback = callback || function () {};
+                callback = callback || function () {
+                };
 
 
                 if (nodesLength > 150 || nodesLength === 0 || isAnimate === false) {
@@ -725,7 +753,8 @@
             },
             collapseNodes: function (nodes, targetPosition, callback, context, isAnimate) {
                 var nodesLength = nx.is(nodes, Array) ? nodes.length : nx.util.keys(nodes).length;
-                callback = callback || function () {};
+                callback = callback || function () {
+                };
 
 
                 if (nodesLength > 150 || nodesLength === 0 || isAnimate === false) {
