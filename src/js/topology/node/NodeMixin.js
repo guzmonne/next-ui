@@ -194,10 +194,10 @@
              * @param arg
              * @returns {boolean}
              */
-            removeNode: function (arg) {
+            removeNode: function (arg, callback, context) {
                 this.deleteNode(arg);
             },
-            deleteNode: function (arg) {
+            deleteNode: function (arg, callback, context) {
                 var id = arg;
                 if (nx.is(arg, nx.graphic.Topology.AbstractNode)) {
                     id = arg.id();
@@ -207,6 +207,9 @@
                     var node = this.getNode(id);
                     this.fire("deleteNode", node);
                     this.graph().deleteVertex(id);
+                    if (callback) {
+                        callback.call(context || this);
+                    }
                 }
             },
             _getAggregationTargets: function (vertices) {
@@ -346,11 +349,11 @@
                 }
 
             },
-            removeNodeSet: function (arg) {
+            removeNodeSet: function (arg, callback, context) {
                 this.deleteNodeSet(arg);
             },
 
-            deleteNodeSet: function (arg) {
+            deleteNodeSet: function (arg, callback, context) {
                 if (!arg) {
                     return;
                 }
@@ -363,18 +366,26 @@
                     if (nodeSet.collapsed()) {
                         nodeSet.activated(false);
                         nodeSet.expandNodes(function () {
-                            this.graph().deleteVertexSet(id);
                             this.fire("deleteNodeSet", nodeSet);
+                            this.graph().deleteVertexSet(id);
+                            if (callback) {
+                                callback.call(context || this);
+                            }
                         }, this);
                     } else {
-                        this.graph().deleteVertexSet(id);
                         this.fire("deleteNodeSet", nodeSet);
+                        this.graph().deleteVertexSet(id);
+                        if (callback) {
+                            callback.call(context || this);
+                        }
                     }
 
                 } else {
                     this.graph().deleteVertexSet(id);
+                    if (callback) {
+                        callback.call(context || this);
+                    }
                 }
-
             },
 
 
