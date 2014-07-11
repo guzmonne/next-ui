@@ -305,7 +305,7 @@
             },
             addNodeSet: function () {
                 this._topo.stage().resetFitMatrix();
-                this._topo.fit();
+//                this._topo.fit();
                 this._topo.adjustLayout();
 
             },

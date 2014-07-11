@@ -194,10 +194,10 @@
              * @param arg
              * @returns {boolean}
              */
-            removeNode: function (arg) {
+            removeNode: function (arg, callback, context) {
                 this.deleteNode(arg);
             },
-            deleteNode: function (arg) {
+            deleteNode: function (arg, callback, context) {
                 var id = arg;
                 if (nx.is(arg, nx.graphic.Topology.AbstractNode)) {
                     id = arg.id();
@@ -207,6 +207,9 @@
                     var node = this.getNode(id);
                     this.fire("deleteNode", node);
                     this.graph().deleteVertex(id);
+                    if (callback) {
+                        callback.call(context || this);
+                    }
                 }
             },
             _getAggregationTargets: function (vertices) {
@@ -342,11 +345,11 @@
                 }
 
             },
-            removeNodeSet: function (arg) {
+            removeNodeSet: function (arg, callback, context) {
                 this.deleteNodeSet(arg);
             },
 
-            deleteNodeSet: function (arg) {
+            deleteNodeSet: function (arg, callback, context) {
                 if (!arg) {
                     return;
                 }
@@ -359,18 +362,26 @@
                     if (nodeSet.collapsed()) {
                         nodeSet.activated(false);
                         nodeSet.expandNodes(function () {
-                            this.graph().deleteVertexSet(id);
                             this.fire("deleteNodeSet", nodeSet);
+                            this.graph().deleteVertexSet(id);
+                            if (callback) {
+                                callback.call(context || this);
+                            }
                         }, this);
                     } else {
-                        this.graph().deleteVertexSet(id);
                         this.fire("deleteNodeSet", nodeSet);
+                        this.graph().deleteVertexSet(id);
+                        if (callback) {
+                            callback.call(context || this);
+                        }
                     }
 
                 } else {
                     this.graph().deleteVertexSet(id);
+                    if (callback) {
+                        callback.call(context || this);
+                    }
                 }
-
             },
 
 
@@ -541,20 +552,31 @@
              */
             zoomByNodes: function (nodes, callback, context, boundScale) {
                 // TODO more overload about nodes
-                if (nx.is(nodes, nx.graphic.Topology.AbstractNode)) {
+                if (!nx.is(nodes, Array)) {
                     nodes = [nodes];
                 }
                 // get bound of the selected nodes' models
                 var stage = this.stage();
                 var p0, p1, center, bound = this.getModelBoundByNodes(nodes);
-                var matrix, scale, limitscale = stage.maxZoomLevel() * stage.fitMatrixObject().scale();
+                var delta, limitscale = stage.maxZoomLevel() * stage.fitMatrixObject().scale();
+
+                if (!bound) {
+                    return;
+                }
+
                 // check if the nodes are too close to zoom
                 if (bound.width * limitscale < 1 && bound.height * limitscale < 1) {
                     // just centralize them instead of zoom
                     center = nx.geometry.Vector.transform(bound.center, stage.matrix());
                     delta = [stage.width() / 2 - center[0], stage.height() / 2 - center[1]];
-                    stage.applyTranslate(delta[0], delta[1], 0.6);
-                    stage.applyStageScale(stage.maxZoomLevel() / stage.zoomLevel());
+                    stage.scalingLayer().setTransition(function () {
+                        this.adjustLayout();
+                        /* jshint -W030 */
+                        callback && callback.call(context || this);
+                        this.fire('zoomend');
+                    }, this, 0.6);
+                    stage.applyTranslate(delta[0], delta[1]);
+                    stage.applyStageScale(stage.maxZoomLevel() / stage.zoomLevel() * boundScale);
                 } else {
                     p0 = nx.geometry.Vector.transform([bound.left, bound.top], stage.matrix());
                     p1 = nx.geometry.Vector.transform([bound.right, bound.bottom], stage.matrix());
@@ -564,6 +586,13 @@
                         width: Math.max(1, p1[0] - p0[0]),
                         height: Math.max(1, p1[1] - p0[1])
                     };
+
+                    boundScale = 1 / (boundScale || 1);
+                    bound.left += bound.width * (1 - boundScale) / 2;
+                    bound.top += bound.height * (1 - boundScale) / 2;
+                    bound.height *= boundScale;
+                    bound.width *= boundScale;
+
                     this.zoomByBound(bound, function () {
                         this.adjustLayout();
                         /* jshint -W030 */
@@ -572,17 +601,35 @@
                     }, this);
                 }
             },
-            getModelBoundByNodes: function (nodes) {
+            getModelBoundByNodes: function (nodes, isIncludeInvisibleNodes) {
                 var xmin, xmax, ymin, ymax;
-                nx.each(nodes, function (node) {
-                    var vertex = node.model();
+                nx.each(nodes, function (inNode) {
+                    var vertex;
+                    if (nx.is(inNode, nx.graphic.Topology.AbstractNode)) {
+                        vertex = inNode.model();
+                    } else {
+                        if (isIncludeInvisibleNodes) {
+                            vertex = this.graph().getVertex(inNode) || this.graph().getVertexSet(inNode);
+                        } else {
+                            var node = this.getNode(inNode);
+                            vertex = node && node.model();
+                        }
+                    }
+                    if (!vertex) {
+                        return;
+                    }
+
+
                     var x = vertex.x(),
                         y = vertex.y();
                     xmin = (xmin < x ? xmin : x);
                     ymin = (ymin < y ? ymin : y);
                     xmax = (xmax > x ? xmax : x);
                     ymax = (ymax > y ? ymax : y);
-                });
+                }, this);
+                if (xmin === undefined || ymin === undefined) {
+                    return undefined;
+                }
                 return {
                     left: xmin,
                     top: ymin,
@@ -606,21 +653,6 @@
                     return null;
                 }
 
-                var boundAry = [];
-
-
-                nx.each(inNodes, function (node) {
-                    if (node.visible()) {
-                        if (isNotIncludeLabel) {
-                            boundAry.push(this.getInsideBound(node.getBound(true)));
-                        } else {
-                            boundAry.push(this.getInsideBound(node.getBound()));
-                        }
-                    }
-                }, this);
-
-
-                var lastIndex = boundAry.length - 1;
                 var bound = {
                     left: 0,
                     top: 0,
@@ -632,6 +664,33 @@
                     maxY: 0
                 };
 
+                var boundAry = [];
+
+
+                nx.each(inNodes, function (inNode) {
+                    var node;
+                    if (nx.is(inNode, nx.graphic.Topology.AbstractNode)) {
+                        node = inNode;
+                    } else {
+                        node = this.getNode(inNode);
+                    }
+
+                    if (!node) {
+                        return;
+                    }
+
+
+                    if (node.visible()) {
+                        if (isNotIncludeLabel) {
+                            boundAry.push(this.getInsideBound(node.getBound(true)));
+                        } else {
+                            boundAry.push(this.getInsideBound(node.getBound()));
+                        }
+                    }
+                }, this);
+
+
+                var lastIndex = boundAry.length - 1;
 
                 //
                 boundAry.sort(function (a, b) {
@@ -682,7 +741,8 @@
             expandNodes: function (nodes, sourcePosition, callback, context, isAnimate) {
 
                 var nodesLength = nx.is(nodes, Array) ? nodes.length : nx.util.keys(nodes).length;
-                callback = callback || function () {};
+                callback = callback || function () {
+                };
 
 
                 if (nodesLength > 150 || nodesLength === 0 || isAnimate === false) {
@@ -721,7 +781,8 @@
             },
             collapseNodes: function (nodes, targetPosition, callback, context, isAnimate) {
                 var nodesLength = nx.is(nodes, Array) ? nodes.length : nx.util.keys(nodes).length;
-                callback = callback || function () {};
+                callback = callback || function () {
+                };
 
 
                 if (nodesLength > 150 || nodesLength === 0 || isAnimate === false) {

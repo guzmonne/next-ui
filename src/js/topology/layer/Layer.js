@@ -23,12 +23,12 @@
             },
             highlightedElements: {
                 value: function () {
-                    return new nx.data.ObservableCollection();
+                    return new nx.data.UniqObservableCollection();
                 }
             },
             activeElements: {
                 value: function () {
-                    return new nx.data.ObservableCollection();
+                    return new nx.data.UniqObservableCollection();
                 }
             },
             /**
