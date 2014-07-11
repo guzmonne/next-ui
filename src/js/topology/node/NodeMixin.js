@@ -551,13 +551,19 @@
                 // get bound of the selected nodes' models
                 var stage = this.stage();
                 var p0, p1, center, bound = this.getModelBoundByNodes(nodes);
-                var matrix, scale, limitscale = stage.maxZoomLevel() * stage.fitMatrixObject().scale();
+                var delta, limitscale = stage.maxZoomLevel() * stage.fitMatrixObject().scale();
                 // check if the nodes are too close to zoom
                 if (bound.width * limitscale < 1 && bound.height * limitscale < 1) {
                     // just centralize them instead of zoom
                     center = nx.geometry.Vector.transform(bound.center, stage.matrix());
                     delta = [stage.width() / 2 - center[0], stage.height() / 2 - center[1]];
-                    stage.applyTranslate(delta[0], delta[1], 0.6);
+                    stage.scalingLayer().setTransition(function () {
+                        this.adjustLayout();
+                        /* jshint -W030 */
+                        callback && callback.call(context || this);
+                        this.fire('zoomend');
+                    }, this, 0.6);
+                    stage.applyTranslate(delta[0], delta[1]);
                     stage.applyStageScale(stage.maxZoomLevel() / stage.zoomLevel());
                 } else {
                     p0 = nx.geometry.Vector.transform([bound.left, bound.top], stage.matrix());
