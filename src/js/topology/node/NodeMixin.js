@@ -218,10 +218,6 @@
                     changed = false;
                     for (i = vs.length - 1; i >= 0; i--) {
                         v = vs[i];
-                        // for the graph
-                        if (v === graph) {
-                            continue;
-                        }
                         // get the parent vertex and its ID
                         vp = v.parentVertexSet();
                         vpid = (vp ? vp.id() : NONE);
@@ -247,8 +243,8 @@
                         vs.splice(i, 1);
                         // set the vertex array changed
                         changed = true;
-                        // check if the parent vertex is fully maatched
-                        if (mark.finding.length === mark.found.length) {
+                        // check if the parent vertex is fully matched
+                        if (mark.finding.length === mark.found.length && mark.vertex !== graph) {
                             // add parent vertex from the pool
                             vs.push(mark.vertex);
                             // mark the parent vertex as fully matched
