@@ -86,8 +86,7 @@ var topoCase = [
                 {"source": 1, "target": 2}
             ]})
         },
-        tearDown:function(topo)
-        {
+        tearDown: function (topo) {
             topo.setData({
                 nodes: [
                     {"id": 0, "x": 410, "y": 100, "name": "12K-1"},
@@ -119,8 +118,7 @@ var topoCase = [
         script: function (topo) {
             topo.setData({"nodes": [], "links": []});
         },
-        tearDown:function(topo)
-        {
+        tearDown: function (topo) {
             topo.setData({
                 nodes: [
                     {"id": 0, "x": 410, "y": 100, "name": "12K-1"},
@@ -182,8 +180,7 @@ var topoCase = [
 //            topo.fit();
             return topo.width() + ',' + topo.height();
         },
-        tearDown:function(topo)
-        {
+        tearDown: function (topo) {
             topo.adaptToContainer();
         }
     },
@@ -196,8 +193,7 @@ var topoCase = [
             topo.fit();
             return topo.width() + ',' + topo.height();
         },
-        tearDown:function(topo)
-        {
+        tearDown: function (topo) {
             topo.adaptToContainer();
         }
     },
@@ -211,8 +207,7 @@ var topoCase = [
             return topo.width() + ',' + topo.height();
             //topo.adaptToContainer();
         },
-        tearDown:function(topo)
-        {
+        tearDown: function (topo) {
             topo.adaptToContainer();
         }
     },
@@ -222,12 +217,11 @@ var topoCase = [
         script: function (topo) {
 //            topo.adaptToContainer();
             topo.resize(3000, 3000);
-            topo.fit();
+//            topo.fit();
             return topo.width() + ',' + topo.height();
             //topo.adaptToContainer();
         },
-        tearDown:function(topo)
-        {
+        tearDown: function (topo) {
             topo.adaptToContainer();
         }
     },
@@ -243,8 +237,7 @@ var topoCase = [
             return topo.width() + ',' + topo.height();
             //topo.adaptToContainer();
         },
-        tearDown:function(topo)
-        {
+        tearDown: function (topo) {
             topo.adaptToContainer();
         }
     },
@@ -292,20 +285,20 @@ var topoCase = [
         name: 'API add link, normal data',
         description: "add a link, from 9k-01 to 9k-03",
         script: function (topo) {
-            topo.addLink({"id": 12, "source": 4, "target": 2})
+            topo.addLink({"id": 100, "source": 4, "target": 2})
         }
     },
     {
         name: 'API add link, normal data, mulitple times',
         description: "add a link, from 9k-01 to 9k-03",
         script: function (topo) {
-            topo.addLink({"id": 12, "source": 4, "target": 2})
-            topo.addLink({"id": 13, "source": 4, "target": 2})
-            topo.addLink({"id": 14, "source": 4, "target": 2})
-            topo.addLink({"id": 15, "source": 4, "target": 2})
-            topo.addLink({"id": 16, "source": 4, "target": 2})
-            topo.addLink({"id": 17, "source": 4, "target": 2})
-            topo.addLink({"id": 18, "source": 4, "target": 2})
+            topo.addLink({"id": 101, "source": 4, "target": 2})
+            topo.addLink({"id": 102, "source": 4, "target": 2})
+            topo.addLink({"id": 103, "source": 4, "target": 2})
+            topo.addLink({"id": 104, "source": 4, "target": 2})
+            topo.addLink({"id": 105, "source": 4, "target": 2})
+            topo.addLink({"id": 106, "source": 4, "target": 2})
+            topo.addLink({"id": 107, "source": 4, "target": 2})
             return topo.getData().links.length + "expect: 19"
         }
     },
@@ -316,14 +309,46 @@ var topoCase = [
             var before = topo.getData().links.length
             console.log(topo.getData().links)
             topo.addLink({})
-            return "before: "+before + " after: "+topo.getData().links.length
+            return "before: " + before + " after: " + topo.getData().links.length
+        }
+    },
+    {
+        name: 'API add link, link id exists',
+        description: "add a link, data is {}",
+        script: function (topo) {
+            topo.addLink({"id": 1, "source": 4, "target": 2});
+        },
+        tearDown: function (topo) {
+            topo.setData({
+                nodes: [
+                    {"id": 0, "x": 410, "y": 100, "name": "12K-1"},
+                    {"id": 1, "x": 410, "y": 280, "name": "12K-2"},
+                    {"id": 2, "x": 660, "y": 280, "name": "Of-9k-03"},
+                    {"id": 3, "x": 660, "y": 100, "name": "Of-9k-02"},
+                    {"id": 4, "x": 180, "y": 190, "name": "Of-9k-01"}
+                ],
+                links: [
+                    {"id": 0, "source": 0, "target": 1},
+                    {"id": 1, "source": 1, "target": 2},
+                    {"id": 2, "source": 1, "target": 3},
+                    {"id": 3, "source": 4, "target": 1},
+                    {"id": 4, "source": 2, "target": 3},
+                    {"id": 5, "source": 2, "target": 0},
+                    {"id": 6, "source": 3, "target": 0},
+                    {"id": 7, "source": 3, "target": 0},
+                    {"id": 8, "source": 3, "target": 0},
+                    {"id": 9, "source": 0, "target": 4},
+                    {"id": 10, "source": 0, "target": 4},
+                    {"id": 11, "source": 0, "target": 3}
+                ]
+            });
         }
     },
     {
         name: 'API add link, dest node not exists',
         description: "add a link, dest node not exists",
         script: function (topo) {
-            topo.addLink({"id": 12, "source": 4, "target": 500})
+            topo.addLink({"id": 108, "source": 4, "target": 500})
             return topo.getData().links.length
         }
     },
@@ -331,7 +356,7 @@ var topoCase = [
         name: 'API add link, src node not exists',
         description: "add a link,src node not exist",
         script: function (topo) {
-            topo.addLink({"id": 12, "source": 500, "target": 4})
+            topo.addLink({"id": 109, "source": 500, "target": 4})
             return topo.getData().links.length
         }
     },
@@ -353,11 +378,11 @@ var topoCase = [
         script: function (topo) {
             topo.move(-100, 0);
         },
-        tearDown:function(topo)
-        {
+        tearDown: function (topo) {
 //            console.time('xx');
 //            console.log(topo.stage().matrixObject().toString());
-            topo.fit(function(){},this,100);
+            topo.fit(function () {
+            }, this, 100);
 //            console.log(topo.stage().matrixObject().toString());
         }
     },
@@ -370,9 +395,9 @@ var topoCase = [
 //            console.log(topo.stage().matrixObject().toString());
 //            console.timeEnd('xx');
         },
-        tearDown:function(topo)
-        {
-            topo.fit(function(){},this,0)
+        tearDown: function (topo) {
+            topo.fit(function () {
+            }, this, 0)
         }
     },
     {
@@ -385,9 +410,9 @@ var topoCase = [
             }, 1000)
 
         },
-        tearDown:function(topo)
-        {
-            topo.fit(function(){},this,0)
+        tearDown: function (topo) {
+            topo.fit(function () {
+            }, this, 0)
         }
     },
     {
@@ -396,9 +421,9 @@ var topoCase = [
         script: function (topo) {
             topo.move(-100, 0, 5);
         },
-        tearDown:function(topo)
-        {
-            topo.fit(function(){},this,0)
+        tearDown: function (topo) {
+            topo.fit(function () {
+            }, this, 0)
         }
     },
     {
@@ -408,9 +433,9 @@ var topoCase = [
             console.log(1111)
             topo.move(-3000, -2000);
         },
-        tearDown:function(topo)
-        {
-            topo.fit(function(){},this,0)
+        tearDown: function (topo) {
+            topo.fit(function () {
+            }, this, 0)
         }
     },
     {
@@ -428,9 +453,9 @@ var topoCase = [
             }, 600)
 
         },
-        tearDown:function(topo)
-        {
-            topo.fit(function(){},this,0)
+        tearDown: function (topo) {
+            topo.fit(function () {
+            }, this, 0)
         }
     },
     {
@@ -449,6 +474,39 @@ var topoCase = [
         }
     },
     {
+        name: 'NG-API addNode with existing id',
+        description: "Add a Node which id is existing, drag the Of-9k-01 the see if it have bug",
+        script: function (topo) {
+            topo.addNode({"id": 4, "x": 190, "y": 150, "name": "qiaowei2"})
+            console.log(topo.getData())
+        },
+        tearDown: function (topo) {
+            topo.setData({
+                nodes: [
+                    {"id": 0, "x": 410, "y": 100, "name": "12K-1"},
+                    {"id": 1, "x": 410, "y": 280, "name": "12K-2"},
+                    {"id": 2, "x": 660, "y": 280, "name": "Of-9k-03"},
+                    {"id": 3, "x": 660, "y": 100, "name": "Of-9k-02"},
+                    {"id": 4, "x": 180, "y": 190, "name": "Of-9k-01"}
+                ],
+                links: [
+                    {"id": 0, "source": 0, "target": 1},
+                    {"id": 1, "source": 1, "target": 2},
+                    {"id": 2, "source": 1, "target": 3},
+                    {"id": 3, "source": 4, "target": 1},
+                    {"id": 4, "source": 2, "target": 3},
+                    {"id": 5, "source": 2, "target": 0},
+                    {"id": 6, "source": 3, "target": 0},
+                    {"id": 7, "source": 3, "target": 0},
+                    {"id": 8, "source": 3, "target": 0},
+                    {"id": 9, "source": 0, "target": 4},
+                    {"id": 10, "source": 0, "target": 4},
+                    {"id": 11, "source": 0, "target": 3}
+                ]
+            });
+        }
+    },
+    {
         name: 'API addNode-empty',
         description: "Add a empty data for Node",
         script: function (topo) {
@@ -462,10 +520,82 @@ var topoCase = [
             var before = topo.getLink(0).sourceNode().label();
             topo.removeLink(0);
             var after = topo.getLink(0);
-            return 'result: before: '+before +' after: ' + after;
+            return 'result: before: ' + before + ' after: ' + after;
         },
-        tearDown:function(topo)
-        {
+        tearDown: function (topo) {
+            topo.setData({
+                nodes: [
+                    {"id": 0, "x": 410, "y": 100, "name": "12K-1"},
+                    {"id": 1, "x": 410, "y": 280, "name": "12K-2"},
+                    {"id": 2, "x": 660, "y": 280, "name": "Of-9k-03"},
+                    {"id": 3, "x": 660, "y": 100, "name": "Of-9k-02"},
+                    {"id": 4, "x": 180, "y": 190, "name": "Of-9k-01"}
+                ],
+                links: [
+                    {"id": 0, "source": 0, "target": 1},
+                    {"id": 1, "source": 1, "target": 2},
+                    {"id": 2, "source": 1, "target": 3},
+                    {"id": 3, "source": 4, "target": 1},
+                    {"id": 4, "source": 2, "target": 3},
+                    {"id": 5, "source": 2, "target": 0},
+                    {"id": 6, "source": 3, "target": 0},
+                    {"id": 7, "source": 3, "target": 0},
+                    {"id": 8, "source": 3, "target": 0},
+                    {"id": 9, "source": 0, "target": 4},
+                    {"id": 10, "source": 0, "target": 4},
+                    {"id": 11, "source": 0, "target": 3}
+                ]
+            });
+        }
+    },
+    {
+        name: 'API Remove existing Link in a nodeset',
+        description: "Remove a existing link",
+        script: function (topo) {
+            var nodeset = topo.aggregationNodes([topo.getNode(0), topo.getNode(1)]);
+//            var before = topo.getLink(0).sourceNode().label();
+            topo.removeLink(0);
+//            var after = topo.getLink(0);
+//            return 'result: before: ' + before + ' after: ' + after;
+        },
+        tearDown: function (topo) {
+            topo.setData({
+                nodes: [
+                    {"id": 0, "x": 410, "y": 100, "name": "12K-1"},
+                    {"id": 1, "x": 410, "y": 280, "name": "12K-2"},
+                    {"id": 2, "x": 660, "y": 280, "name": "Of-9k-03"},
+                    {"id": 3, "x": 660, "y": 100, "name": "Of-9k-02"},
+                    {"id": 4, "x": 180, "y": 190, "name": "Of-9k-01"}
+                ],
+                links: [
+                    {"id": 0, "source": 0, "target": 1},
+                    {"id": 1, "source": 1, "target": 2},
+                    {"id": 2, "source": 1, "target": 3},
+                    {"id": 3, "source": 4, "target": 1},
+                    {"id": 4, "source": 2, "target": 3},
+                    {"id": 5, "source": 2, "target": 0},
+                    {"id": 6, "source": 3, "target": 0},
+                    {"id": 7, "source": 3, "target": 0},
+                    {"id": 8, "source": 3, "target": 0},
+                    {"id": 9, "source": 0, "target": 4},
+                    {"id": 10, "source": 0, "target": 4},
+                    {"id": 11, "source": 0, "target": 3}
+                ]
+            });
+        }
+    },
+    {
+        name: 'API Remove existing Link in a expanded nodeset',
+        description: "Remove a existing link",
+        script: function (topo) {
+            var nodeset = topo.aggregationNodes([topo.getNode(0), topo.getNode(1)]);
+            nodeset.collapsed(false);
+//            var before = topo.getLink(0).sourceNode().label();
+            topo.removeLink(0);
+//            var after = topo.getLink(0);
+//            return 'result: before: ' + before + ' after: ' + after;
+        },
+        tearDown: function (topo) {
             topo.setData({
                 nodes: [
                     {"id": 0, "x": 410, "y": 100, "name": "12K-1"},
@@ -498,7 +628,7 @@ var topoCase = [
             var before = topo.getLink(100);
             topo.removeLink(0);
             var after = topo.getLink(100);
-            return 'result: before: '+before +' after: ' + after;
+            return 'result: before: ' + before + ' after: ' + after;
         }
     },
     {
@@ -506,12 +636,11 @@ var topoCase = [
         description: "Remove a existing node",
         script: function (topo) {
             topo.removeNode(0);
-            var removed = (topo.getNode(0)===undefined);
-            removed = removed && (topo.getLink(0)===undefined)
-            return "can not get by getNode: " + removed + "//getData: node number+"+ topo.getData().nodes.length;
+            var removed = (topo.getNode(0) === undefined);
+            removed = removed && (topo.getLink(0) === undefined)
+            return "can not get by getNode: " + removed + "//getData: node number+" + topo.getData().nodes.length;
         },
-        tearDown:function(topo)
-        {
+        tearDown: function (topo) {
             topo.setData({
                 nodes: [
                     {"id": 0, "x": 410, "y": 100, "name": "12K-1"},
@@ -538,10 +667,80 @@ var topoCase = [
         }
     },
     {
-        name: 'props Remove unexisting node',
+        name: 'API Remove unexisting node',
         description: "Remove a unexisting node",
         script: function (topo) {
             topo.removeNode(100);
+        }
+    },
+    {
+        name: 'API Remove node in a nodeset',
+        description: "Remove node in a nodeset",
+        script: function (topo) {
+            var nodeset = topo.aggregationNodes([topo.getNode(0), topo.getNode(1)]);
+            topo.removeNode(0);
+        },
+        tearDown: function (topo) {
+            topo.setData({
+                nodes: [
+                    {"id": 0, "x": 410, "y": 100, "name": "12K-1"},
+                    {"id": 1, "x": 410, "y": 280, "name": "12K-2"},
+                    {"id": 2, "x": 660, "y": 280, "name": "Of-9k-03"},
+                    {"id": 3, "x": 660, "y": 100, "name": "Of-9k-02"},
+                    {"id": 4, "x": 180, "y": 190, "name": "Of-9k-01"}
+                ],
+                links: [
+                    {"id": 0, "source": 0, "target": 1},
+                    {"id": 1, "source": 1, "target": 2},
+                    {"id": 2, "source": 1, "target": 3},
+                    {"id": 3, "source": 4, "target": 1},
+                    {"id": 4, "source": 2, "target": 3},
+                    {"id": 5, "source": 2, "target": 0},
+                    {"id": 6, "source": 3, "target": 0},
+                    {"id": 7, "source": 3, "target": 0},
+                    {"id": 8, "source": 3, "target": 0},
+                    {"id": 9, "source": 0, "target": 4},
+                    {"id": 10, "source": 0, "target": 4},
+                    {"id": 11, "source": 0, "target": 3}
+                ]
+            });
+        }
+    },
+    {
+        name: 'API Remove node in a expanded nodeset',
+        description: "Remove node in a nodeset",
+        script: function (topo) {
+            var nodeset = topo.aggregationNodes([topo.getNode(0), topo.getNode(1)]);
+            nodeset.collapsed(false);
+            setTimeout(function () {
+                topo.removeNode(0);
+            }, 2000)
+
+        },
+        tearDown: function (topo) {
+            topo.setData({
+                nodes: [
+                    {"id": 0, "x": 410, "y": 100, "name": "12K-1"},
+                    {"id": 1, "x": 410, "y": 280, "name": "12K-2"},
+                    {"id": 2, "x": 660, "y": 280, "name": "Of-9k-03"},
+                    {"id": 3, "x": 660, "y": 100, "name": "Of-9k-02"},
+                    {"id": 4, "x": 180, "y": 190, "name": "Of-9k-01"}
+                ],
+                links: [
+                    {"id": 0, "source": 0, "target": 1},
+                    {"id": 1, "source": 1, "target": 2},
+                    {"id": 2, "source": 1, "target": 3},
+                    {"id": 3, "source": 4, "target": 1},
+                    {"id": 4, "source": 2, "target": 3},
+                    {"id": 5, "source": 2, "target": 0},
+                    {"id": 6, "source": 3, "target": 0},
+                    {"id": 7, "source": 3, "target": 0},
+                    {"id": 8, "source": 3, "target": 0},
+                    {"id": 9, "source": 0, "target": 4},
+                    {"id": 10, "source": 0, "target": 4},
+                    {"id": 11, "source": 0, "target": 3}
+                ]
+            });
         }
     },
     {
@@ -550,15 +749,13 @@ var topoCase = [
         script: function (topo) {
             topo.selectedNodes().add(topo.getNode(0));
             var data = topo.selectedNodes().toArray()
-            var result="";
-            for (var i=0;i<data.length;i++)
-            {
-                result = result + "//"+data[i].label();
+            var result = "";
+            for (var i = 0; i < data.length; i++) {
+                result = result + "//" + data[i].label();
             }
             return result;
         },
-        tearDown:function(topo)
-        {
+        tearDown: function (topo) {
             topo.selectedNodes().clear()
         }
     },
@@ -571,15 +768,13 @@ var topoCase = [
             topo.selectedNodes().add(topo.getNode(2));
             topo.selectedNodes().add(topo.getNode(3));
             var data = topo.selectedNodes().toArray()
-            var result="";
-            for (var i=0;i<data.length;i++)
-            {
-                result = result + "//"+data[i].label();
+            var result = "";
+            for (var i = 0; i < data.length; i++) {
+                result = result + "//" + data[i].label();
             }
             return result;
         },
-        tearDown:function(topo)
-        {
+        tearDown: function (topo) {
             topo.selectedNodes().clear()
         }
     },
@@ -592,15 +787,13 @@ var topoCase = [
             topo.selectedNodes().add(topo.getNode(0));
             topo.selectedNodes().add(topo.getNode(0));
             var data = topo.selectedNodes().toArray()
-            var result="";
-            for (var i=0;i<data.length;i++)
-            {
-                result = result + "//"+data[i].label();
+            var result = "";
+            for (var i = 0; i < data.length; i++) {
+                result = result + "//" + data[i].label();
             }
             return result;
         },
-        tearDown:function(topo)
-        {
+        tearDown: function (topo) {
             topo.selectedNodes().clear()
         }
     },
@@ -612,15 +805,13 @@ var topoCase = [
             topo.selectedNodes().add(node);
 
             var data = topo.selectedNodes().toArray()
-            var result="";
-            for (var i=0;i<data.length;i++)
-            {
-                result = result + "//"+data[i].label();
+            var result = "";
+            for (var i = 0; i < data.length; i++) {
+                result = result + "//" + data[i].label();
             }
             return result;
         },
-        tearDown:function(topo)
-        {
+        tearDown: function (topo) {
             topo.selectedNodes().clear()
         }
     },
@@ -634,10 +825,9 @@ var topoCase = [
             topo.selectedNodes().add(topo.getNode(3));
             topo.selectedNodes().clear();
             var data = topo.selectedNodes().toArray()
-            var result="";
-            for (var i=0;i<data.length;i++)
-            {
-                result = result + "//"+data[i].label();
+            var result = "";
+            for (var i = 0; i < data.length; i++) {
+                result = result + "//" + data[i].label();
             }
             return result;
         }
@@ -649,10 +839,9 @@ var topoCase = [
             topo.selectedNodes().clear();
             topo.selectedNodes().clear();
             var data = topo.selectedNodes().toArray()
-            var result="";
-            for (var i=0;i<data.length;i++)
-            {
-                result = result + "//"+data[i].label();
+            var result = "";
+            for (var i = 0; i < data.length; i++) {
+                result = result + "//" + data[i].label();
             }
             return result;
         }
@@ -661,18 +850,16 @@ var topoCase = [
         name: 'props selectedNodes addRange',
         description: "props selectedNodes addRange",
         script: function (topo) {
-            topo.selectedNodes().addRange([topo.getNode(0),topo.getNode(1),topo.getNode(2)])
+            topo.selectedNodes().addRange([topo.getNode(0), topo.getNode(1), topo.getNode(2)])
 
             var data = topo.selectedNodes().toArray()
-            var result="";
-            for (var i=0;i<data.length;i++)
-            {
-                result = result + "//"+data[i].label();
+            var result = "";
+            for (var i = 0; i < data.length; i++) {
+                result = result + "//" + data[i].label();
             }
             return result;
         },
-        tearDown:function(topo)
-        {
+        tearDown: function (topo) {
             topo.selectedNodes().clear()
         }
     },
@@ -680,18 +867,16 @@ var topoCase = [
         name: 'props selectedNodes addRange duplicate',
         description: "props selectedNodes addRange duplicate",
         script: function (topo) {
-            topo.selectedNodes().addRange([topo.getNode(0),topo.getNode(0),topo.getNode(0)])
+            topo.selectedNodes().addRange([topo.getNode(0), topo.getNode(0), topo.getNode(0)])
 
             var data = topo.selectedNodes().toArray()
-            var result="";
-            for (var i=0;i<data.length;i++)
-            {
-                result = result + "//"+data[i].label();
+            var result = "";
+            for (var i = 0; i < data.length; i++) {
+                result = result + "//" + data[i].label();
             }
             return result;
         },
-        tearDown:function(topo)
-        {
+        tearDown: function (topo) {
             topo.selectedNodes().clear()
         }
     },
@@ -699,17 +884,15 @@ var topoCase = [
         name: 'API hignlight nodes only ',
         description: "API hignlight nodes only",
         script: function (topo) {
-            nx.each(topo.layers(), function (layer) {
-                layer.fadeOut(true);
-            }, this);
-
+            topo.fadeOut();
             var nodeLayer = topo.getLayer('nodes');
             var nodeLayerHighlightElements = nodeLayer.highlightedElements();
             nodeLayerHighlightElements.add(topo.getNode(0));
             nodeLayerHighlightElements.add(topo.getNode(1));
+
+//            topo.fade
         },
-        tearDown:function(topo)
-        {
+        tearDown: function (topo) {
             topo.recoverHighlight()
         }
     },
@@ -717,10 +900,10 @@ var topoCase = [
         name: 'API highlightRelatedNode ',
         description: "API hignlight nodes only",
         script: function (topo) {
+//            topo.fadeOut();
             topo.highlightRelatedNode(topo.getNode(1));
         },
-        tearDown:function(topo)
-        {
+        tearDown: function (topo) {
             topo.recoverHighlight()
         }
     },
@@ -728,14 +911,13 @@ var topoCase = [
         name: 'API highlightRelatedNode in the nodeset ',
         description: "API hignlight nodes in the nodeset ",
         script: function (topo) {
-            var nodeset = topo.aggregationNodes([topo.getNode(0),topo.getNode(1)]);
+            var nodeset = topo.aggregationNodes([topo.getNode(0), topo.getNode(1)]);
 //            nodeset.collapsed(false);
             topo.highlightRelatedNode(topo.getNode(1));
         },
-        tearDown:function(topo)
-        {
+        tearDown: function (topo) {
             var nodesets = topo.getLayer('nodeSet').nodeSetDictionary().toObject();
-            nx.each(nodesets,function(nodeset,id){
+            nx.each(nodesets, function (nodeset, id) {
                 topo.deleteNodeSet(id);
             })
             topo.recoverHighlight()
@@ -745,14 +927,13 @@ var topoCase = [
         name: 'API highlightRelatedNode in the expanded nodeset',
         description: "API hignlight nodes in the expanded nodeset ",
         script: function (topo) {
-            var nodeset = topo.aggregationNodes([topo.getNode(0),topo.getNode(1)]);
+            var nodeset = topo.aggregationNodes([topo.getNode(0), topo.getNode(1)]);
             nodeset.collapsed(false);
             topo.highlightRelatedNode(topo.getNode(1));
         },
-        tearDown:function(topo)
-        {
+        tearDown: function (topo) {
             var nodesets = topo.getLayer('nodeSet').nodeSetDictionary().toObject();
-            nx.each(nodesets,function(nodeset,id){
+            nx.each(nodesets, function (nodeset, id) {
                 topo.deleteNodeSet(id);
             })
 
@@ -760,48 +941,71 @@ var topoCase = [
         }
     },
     {
-        name: 'API nodeLayerHighlightElements in the nodeset ',
+        name: 'API highlightNode in the node ',
+        description: "API hignlight nodes in the node ",
+        script: function (topo) {
+            topo.fadeOut(true)
+            topo.highlightedNodes([topo.getNode(0)]);
+
+        },
+        tearDown: function (topo) {
+            var nodesets = topo.getLayer('nodeSet').nodeSetDictionary().toObject();
+            nx.each(nodesets, function (nodeset, id) {
+                topo.deleteNodeSet(id);
+            })
+            topo.recoverHighlight()
+        }
+    },
+    {
+        name: 'API highlightedNodes in the nodeset ',
         description: "API hignlight nodes in the nodeset ",
         script: function (topo) {
-            var nodeset = topo.aggregationNodes([topo.getNode(0),topo.getNode(1)]);
+            var nodeset = topo.aggregationNodes([topo.getNode(0), topo.getNode(1)]);
 //            nodeset.collapsed(false);
-            nx.each(topo.layers(), function (layer) {
-                layer.fadeOut(true);
-            }, this);
+            setTimeout(function () {
+                topo.fadeOut(true)
+                topo.highlightedNodes([topo.getNode(0), topo.getNode(1)]);
+            }, 2000)
 
-            var nodeLayer = topo.getLayer('nodes');
-            var nodeLayerHighlightElements = nodeLayer.highlightedElements();
-            nodeLayerHighlightElements.add(topo.getNode(0));
-            nodeLayerHighlightElements.add(topo.getNode(1));
+
         },
-        tearDown:function(topo)
-        {
+        tearDown: function (topo) {
             var nodesets = topo.getLayer('nodeSet').nodeSetDictionary().toObject();
-            nx.each(nodesets,function(nodeset,id){
+            nx.each(nodesets, function (nodeset, id) {
                 topo.deleteNodeSet(id);
             })
             topo.recoverHighlight()
         }
     },
     {
-        name: 'API nodeLayerHighlightElements in the expanded nodeset',
+        name: 'API highlightedNodes in the expanded nodeset',
         description: "API hignlight nodes in the expanded nodeset ",
         script: function (topo) {
-            var nodeset = topo.aggregationNodes([topo.getNode(0),topo.getNode(1)]);
+            var nodeset = topo.aggregationNodes([topo.getNode(0), topo.getNode(1)]);
             nodeset.collapsed(false);
-            nx.each(topo.layers(), function (layer) {
-                layer.fadeOut(true);
-            }, this);
-
-            var nodeLayer = topo.getLayer('nodes');
-            var nodeLayerHighlightElements = nodeLayer.highlightedElements();
-            nodeLayerHighlightElements.add(topo.getNode(0));
-            nodeLayerHighlightElements.add(topo.getNode(1));
+            topo.fadeOut(true)
+            topo.highlightedNodes([topo.getNode(0), topo.getNode(1)]);
         },
-        tearDown:function(topo)
-        {
+        tearDown: function (topo) {
             var nodesets = topo.getLayer('nodeSet').nodeSetDictionary().toObject();
-            nx.each(nodesets,function(nodeset,id){
+            nx.each(nodesets, function (nodeset, id) {
+                topo.deleteNodeSet(id);
+            })
+            topo.recoverHighlight()
+        }
+    },
+    {
+        name: 'API highlightedNodes in the mul nodeset',
+        description: "API hignlight nodes in the mul nodeset ",
+        script: function (topo) {
+            var nodeset = topo.aggregationNodes([topo.getNode(0), topo.getNode(1)]);
+            topo.aggregationNodes([nodeset, topo.getNode(2)]);
+            topo.fadeOut(true)
+            topo.highlightedNodes([0, 2]);
+        },
+        tearDown: function (topo) {
+            var nodesets = topo.getLayer('nodeSet').nodeSetDictionary().toObject();
+            nx.each(nodesets, function (nodeset, id) {
                 topo.deleteNodeSet(id);
             })
             topo.recoverHighlight()
@@ -834,16 +1038,15 @@ var topoCase = [
                     {"id": 11, "source": 0, "target": 3}
                 ]
             };
-            topo.setData(data, function(){
+            topo.setData(data, function () {
                 topo.fit()
-            },this)
-            topo.setData(data, function(){
+            }, this)
+            topo.setData(data, function () {
                 topo.fit()
-            },this)
+            }, this)
             return topo.width() + ',' + topo.height();
         },
-        tearDown:function(topo)
-        {
+        tearDown: function (topo) {
             topo.adaptToContainer();
         }
     },
@@ -858,13 +1061,25 @@ var topoCase = [
                 label: 'Rect',
                 color: '#f00'
             });
-            console.log(group1.__id__);
-            console.log(groupsLayer);
-            //groupsLayer.removeGroup(group1.__id__);
-//            group1.remove()
         },
-        tearDown:function(topo)
-        {
+        tearDown: function (topo) {
+            topo.getLayer('groups').clear();
+        }
+    },
+    {
+        name: 'API add group/one node in the group',
+        description: "API add group",
+        script: function (topo) {
+            var groupsLayer = topo.getLayer('groups');
+            var nodes1 = [topo.getNode(0)];
+            var group1 = groupsLayer.addGroup({
+                nodes: nodes1,
+                label: 'Rect',
+                color: '#f00'
+            });
+
+        },
+        tearDown: function (topo) {
             topo.getLayer('groups').clear();
         }
     },
@@ -873,7 +1088,7 @@ var topoCase = [
         description: "API add group",
         script: function (topo) {
             var groupsLayer = topo.getLayer('groups');
-            var nodes1 = [0,1,2];
+            var nodes1 = [0, 1, 2];
             var group1 = groupsLayer.addGroup({
                 nodes: nodes1,
                 label: 'Rect',
@@ -882,8 +1097,7 @@ var topoCase = [
             //groupsLayer.removeGroup(group1.__id__);
 //            group1.remove()
         },
-        tearDown:function(topo)
-        {
+        tearDown: function (topo) {
             topo.getLayer('groups').clear();
         }
     },
@@ -893,20 +1107,19 @@ var topoCase = [
         script: function (topo) {
             var groupsLayer = topo.getLayer('groups');
             groupsLayer.addGroup({
-                nodes: [0,1,2],
+                nodes: [0, 1, 2],
                 label: 'Rect',
                 color: '#f00'
             });
 
             groupsLayer.addGroup({
-                nodes: [0,3,4],
+                nodes: [0, 3, 4],
                 label: 'Rect',
                 color: 'green'
             });
 
         },
-        tearDown:function(topo)
-        {
+        tearDown: function (topo) {
             topo.getLayer('groups').clear();
         }
     },
@@ -924,14 +1137,12 @@ var topoCase = [
             group1.addNode(2)
             var nodes = group1.getNodes()
             var result = '';
-            for(var i=0;i<nodes.length;i++)
-            {
-                result = result + nodes[i].label() +'/'
+            for (var i = 0; i < nodes.length; i++) {
+                result = result + nodes[i].label() + '/'
             }
-            return result ;
+            return result;
         },
-        tearDown:function(topo)
-        {
+        tearDown: function (topo) {
             topo.getLayer('groups').clear();
         }
     },
@@ -941,13 +1152,13 @@ var topoCase = [
         script: function (topo) {
             var groupsLayer = topo.getLayer('groups');
             var group1 = groupsLayer.addGroup({
-                nodes: [0,1,2,4],
+                nodes: [0, 1, 2, 4],
                 label: 'Rect1',
                 color: '#f00'
             });
 
             var group2 = groupsLayer.addGroup({
-                nodes: [0,4],
+                nodes: [0, 4],
                 label: 'Rect2',
                 color: 'green'
             });
@@ -956,8 +1167,7 @@ var topoCase = [
 
 
         },
-        tearDown:function(topo)
-        {
+        tearDown: function (topo) {
             topo.getLayer('groups').clear();
         }
     },
@@ -972,18 +1182,89 @@ var topoCase = [
                 label: 'Rect',
                 color: '#f00'
             });
-            group1.removeNode(1)
-            var nodes = group1.getNodes()
-            var result = '';
-            for(var i=0;i<nodes.length;i++)
-            {
-                result = result + nodes[i].label() +'/'
-            }
-            return result ;
+            setTimeout(function () {
+                group1.removeNode(1);
+            }, 2000)
+
         },
-        tearDown:function(topo)
-        {
+        tearDown: function (topo) {
             topo.getLayer('groups').clear();
+        }
+    },
+    {
+        name: 'API group-remove GROUP',
+        description: "API remove group",
+        script: function (topo) {
+            var groupsLayer = topo.getLayer('groups');
+            var nodes1 = [topo.getNode(0), topo.getNode(1)];
+            var group1 = groupsLayer.addGroup({
+                nodes: nodes1,
+                label: 'Rect',
+                color: '#f00'
+            });
+            setTimeout(function () {
+                groupsLayer.removeGroup(group1.__id__)
+            }, 2000, this)
+
+
+        },
+        tearDown: function (topo) {
+            topo.getLayer('groups').clear();
+        }
+    },
+    {
+        name: 'API zoomByBound',
+        description: "API zoomByBound",
+        script: function (topo) {
+            topo.zoomByBound({left: 500, top: 200, width: 100, height: 100})
+        },
+        tearDown: function (topo) {
+            topo.fit(function () {
+            }, this, 0)
+        }
+    },
+    {
+        name: 'API zoomByNodes',
+        description: "API zoomByNodes",
+        script: function (topo) {
+            topo.zoomByNodes([topo.getNode(0)])
+        },
+        tearDown: function (topo) {
+            topo.fit(function () {
+            }, this, 0)
+        }
+    },
+    {
+        name: 'API zoomByNodes-multiple nodes',
+        description: "API zoomByNodes",
+        script: function (topo) {
+            topo.zoomByNodes([topo.getNode(0), topo.getNode(1), topo.getNode(2)])
+        },
+        tearDown: function (topo) {
+            topo.fit(function () {
+            }, this, 0)
+        }
+    },
+    {
+        name: 'API zoomByNodes-nodes goes not exists',
+        description: "API zoomByNodes",
+        script: function (topo) {
+            topo.zoomByNodes([topo.getNode(100)])
+        },
+        tearDown: function (topo) {
+            topo.fit(function () {
+            }, this, 0)
+        }
+    },
+    {
+        name: 'API zoomByNodes-no nodes',
+        description: "API zoomByNodes",
+        script: function (topo) {
+            topo.zoomByNodes([])
+        },
+        tearDown: function (topo) {
+            topo.fit(function () {
+            }, this, 0)
         }
     }
 
