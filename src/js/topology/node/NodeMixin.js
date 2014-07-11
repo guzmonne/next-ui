@@ -552,6 +552,11 @@
                 var stage = this.stage();
                 var p0, p1, center, bound = this.getModelBoundByNodes(nodes);
                 var delta, limitscale = stage.maxZoomLevel() * stage.fitMatrixObject().scale();
+
+                if (!bound) {
+                    return;
+                }
+
                 // check if the nodes are too close to zoom
                 if (bound.width * limitscale < 1 && bound.height * limitscale < 1) {
                     // just centralize them instead of zoom
@@ -564,7 +569,7 @@
                         this.fire('zoomend');
                     }, this, 0.6);
                     stage.applyTranslate(delta[0], delta[1]);
-                    stage.applyStageScale(stage.maxZoomLevel() / stage.zoomLevel());
+                    stage.applyStageScale(stage.maxZoomLevel() / stage.zoomLevel() * boundScale);
                 } else {
                     p0 = nx.geometry.Vector.transform([bound.left, bound.top], stage.matrix());
                     p1 = nx.geometry.Vector.transform([bound.right, bound.bottom], stage.matrix());
@@ -574,6 +579,13 @@
                         width: Math.max(1, p1[0] - p0[0]),
                         height: Math.max(1, p1[1] - p0[1])
                     };
+
+                    boundScale = 1 / (boundScale || 1);
+                    bound.left += bound.width * (1 - boundScale) / 2;
+                    bound.top += bound.height * (1 - boundScale) / 2;
+                    bound.height *= boundScale;
+                    bound.width *= boundScale;
+
                     this.zoomByBound(bound, function () {
                         this.adjustLayout();
                         /* jshint -W030 */
@@ -608,6 +620,9 @@
                     xmax = (xmax > x ? xmax : x);
                     ymax = (ymax > y ? ymax : y);
                 }, this);
+                if (xmin === undefined || ymin === undefined) {
+                    return undefined;
+                }
                 return {
                     left: xmin,
                     top: ymin,
