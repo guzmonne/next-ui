@@ -93,7 +93,7 @@ nx.define('topo.test.ViewModel', nx.Observable, {
         jumpTo: function (data) {
             if(this.tearDown())
             {
-                console.log(this.tearDown())
+//                console.log(this.tearDown())
                 this.tearDown()(this.topo());
             }
 

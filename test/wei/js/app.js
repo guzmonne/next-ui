@@ -14,7 +14,7 @@
 
                 })
                 this.on('resize', function () {
-                    if (abc){
+                    if (abc) {
                         clearTimeout(abc);
                     }
                     abc = setTimeout(function () {
@@ -28,7 +28,8 @@
                     view.detach(this);
                     report.attach(this);
                     QUnit.load();
-                })
+                });
+
 
             }
         }
