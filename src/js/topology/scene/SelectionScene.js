@@ -47,41 +47,31 @@
                 });
             },
             dragStageStart: function (sender, event) {
-                this._offset = {
-                    x: event.clientX,
-                    y: event.clientY
-                };
-                var topo = this.topology();
-                var stage = topo.stage();
-                var rect = this.rect;
-                this._stageBound = stage.view().dom().getBound();
-                rect.set('x', event.clientX - this._stageBound.left);
-                rect.set('y', event.clientY - this._stageBound.top);
                 this.rect.set('visible', true);
                 this._blockEvent(true);
-
                 nx.dom.Document.html().addClass('n-crosshairCursor');
             },
             dragStage: function (sender, event) {
                 var rect = this.rect;
-                var width = event.clientX - this._offset.x;
-                var height = event.clientY - this._offset.y;
-                if (width < 0) {
-                    rect.set('x', this._offset.x - this._stageBound.left + width);
-                    rect.set('width', width * -1);
+                var origin = event.drag.origin;
+                var size = event.drag.offset;
+                // check if width negative
+                if (size[0] < 0) {
+                    rect.set('x', origin[0] + size[0]);
+                    rect.set('width', -size[0]);
                 } else {
-                    rect.set('width', width);
+                    rect.set('x', origin[0]);
+                    rect.set('width', size[0]);
                 }
-
-                if (height < 0) {
-                    rect.set('y', this._offset.y - this._stageBound.top + height);
-                    rect.set('height', height * -1);
+                if (size[1] < 0) {
+                    rect.set('y', origin[1] + size[1]);
+                    rect.set('height', -size[1]);
                 } else {
-                    rect.set('height', height);
+                    rect.set('y', origin[1]);
+                    rect.set('height', size[1]);
                 }
             },
             dragStageEnd: function (sender, event) {
-                this._offset = null;
                 this._stageTranslate = null;
                 this.rect.set('visible', false);
                 this._blockEvent(false);
@@ -102,8 +92,7 @@
             esc: {
 
             },
-            clickNodeSet: function (sender, nodeSet) {
-            },
+            clickNodeSet: function (sender, nodeSet) {},
             dragNode: function () {
 
             },
