@@ -23,10 +23,9 @@
                     }
                 }
             },
-
-
-
-
+            topology: {
+                value: null
+            },
             status: {
                 value: function () {
                     var vm = new ENC.TW.ViewModel.Status();
@@ -41,25 +40,12 @@
                     return vm;
                 }
             },
-            tagVM: {
-                value: function () {
-                    var vm = new ENC.TW.ViewModel.TagVM();
-                    vm.set('MVM', this);
-                    return vm;
-                }
-            },
             controlVM: {
                 value: function () {
                     var vm = new ENC.TW.ViewModel.ControlVM();
                     vm.set('MVM', this);
                     return vm;
                 }
-            },
-            topologyGenerated: {
-                value: false
-            },
-            topology: {
-                value: null
             }
         }
     });

@@ -14,6 +14,12 @@
             },
             topologyCleared: {
                 value: false
+            },
+            updated: {
+                dependencies: ['aggregationModified', 'nodePositionUpdated'],
+                value: function (modified, updated) {
+                    return !!modified || !!updated;
+                }
             }
         }
     })

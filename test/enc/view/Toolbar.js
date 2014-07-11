@@ -85,6 +85,28 @@
                             content: [
                                 {
                                     tag: 'span',
+                                    content: 'Tag',
+                                    props: {
+                                        target: 'tag'
+                                    },
+                                    events: {
+                                        'click': '{#_toggle}'
+                                    }
+                                },
+                                {
+                                    name: 'tag',
+                                    type: 'ENC.TW.View.Tag',
+                                    props: {
+                                        'class': 'tw-toolbar-body n-hidden'
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            tag: 'li',
+                            content: [
+                                {
+                                    tag: 'span',
                                     content: [
                                         {
                                             tag: 'span',
@@ -166,7 +188,7 @@
                                     content: 'Save',
                                     props: {
                                         'class': 'tw-save-btn',
-                                        visible: false
+                                        visible: '{status.updated}'
                                     },
                                     events: {
                                         'click': '{topologyVM.savePosition}'

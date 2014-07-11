@@ -7,21 +7,38 @@
             type: {
                 dependencies: ['MVM.topoDataType']
             },
-            layers: {
+            types: {
                 value: function () {
                     return [
-                        {id: 'physical', label: 'Physical'},
-                        {id: 'l2', label: 'L2-default', number: '20'},
-                        {id: 'ospf', label: 'OSPF', number: '30'}
+                        {label: 'Enterprise network layout', id: 'enterprise', value: 'enterprise', activated: true},
+                        {label: 'Force layout', id: 'force', value: 'force'},
+                        {label: 'Customize layout', id: 'customize', value: 'customize'}
                     ];
                 }
+            },
+            currentType: {
+                value: 'enterprise'
             }
         },
         methods: {
-            switchLayer: function (sender, args) {
+            switchLayout: function (sender, args) {
                 var model = sender.model();
-                var layer = model.id;
-                this.MVM().topoDataType(layer);
+                this.MVM().topologyVM().switchLayout(model.value);
+
+                var types = this.types();
+                var currentType = this.currentType();
+                nx.each(types, function (item) {
+                    if (item.id == model.id) {
+                        item.activated = true
+                    }
+                    if (item.id == currentType) {
+                        item.activated = false;
+                    }
+                });
+
+                this.currentType(model.id);
+                this.notify('types');
+
             }
         }
     })

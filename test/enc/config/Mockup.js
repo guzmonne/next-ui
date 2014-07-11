@@ -9,7 +9,9 @@
             'physical': serverURL + 'physical.json',
             'tag': serverURL + 'tag.json',
             'l2default': serverURL + 'l2default.json',
-            'ospf': serverURL + 'ospf.json'
+            'ospf': serverURL + 'ospf.json',
+            'force': serverURL + 'force.json',
+            'enterprise': serverURL + 'enterprise.json'
         }
     });
 

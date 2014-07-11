@@ -11,12 +11,12 @@
             "osType": "c2960s-universalk9-mz.152-1.E2.bin",
             "fixed": true,
             "role": "Access",
-            "greyOut": true,
             "nodeType": "device",
             "deviceRoleOrigin": "manual",
-            "tag": "iaintest",
             "aclApplied": true,
-            "family": "C2960S"
+            "order": 1000,
+            "family": "C2960S",
+            "platformId": "WS-C2960S-24TS-L"
         },
         {
             "deviceType": "SWITCH",
@@ -29,12 +29,13 @@
             "osType": "c2960s-universalk9-mz.152-1.E2.bin",
             "fixed": true,
             "role": "Access",
-            "greyOut": true,
             "nodeType": "device",
             "deviceRoleOrigin": "auto",
             "tag": "iaintest",
             "aclApplied": true,
-            "family": "C2960S"
+            "order": 1000,
+            "family": "C2960S",
+            "platformId": "WS-C2960S-48FPD-L"
         },
         {
             "deviceType": "SWITCH",
@@ -47,11 +48,13 @@
             "osType": "c3560c405ex-universalk9-mz.122-55.EX.bin",
             "fixed": true,
             "role": "Access",
-            "greyOut": true,
             "nodeType": "device",
             "deviceRoleOrigin": "auto",
             "aclApplied": true,
-            "family": "C3560CG"
+            "order": 1000,
+            "family": "C3560CG",
+            "platformId": "WS-C3560CG-8PC-S",
+            "upperNode": "e5936417-d733-4d2b-a23d-53068dae9afb"
         },
         {
             "deviceType": "SWITCH",
@@ -64,11 +67,13 @@
             "osType": "c3560e-universalk9-mz.152-1.E2.bin",
             "fixed": true,
             "role": "Access",
-            "greyOut": true,
             "nodeType": "device",
             "deviceRoleOrigin": "auto",
             "aclApplied": true,
-            "family": "C3560X"
+            "order": 1000,
+            "family": "C3560X",
+            "platformId": "WS-C3560X-48U",
+            "upperNode": "e5936417-d733-4d2b-a23d-53068dae9afb"
         },
         {
             "deviceType": "SWITCH",
@@ -81,11 +86,12 @@
             "osType": "packages.conf",
             "fixed": true,
             "role": "Access",
-            "greyOut": true,
             "nodeType": "device",
             "deviceRoleOrigin": "auto",
             "aclApplied": true,
-            "family": "C3650"
+            "order": 1000,
+            "family": "C3650",
+            "platformId": "WS-C3650-24PD"
         },
         {
             "deviceType": "SWITCH",
@@ -98,11 +104,12 @@
             "osType": "c3750e-universalk9-mz.152-1.E2.bin",
             "fixed": true,
             "role": "Access",
-            "greyOut": true,
             "nodeType": "device",
             "deviceRoleOrigin": "auto",
             "aclApplied": true,
-            "family": "C3750X"
+            "order": 1000,
+            "family": "C3750X",
+            "platformId": "WS-C3750X-48P"
         },
         {
             "deviceType": "AP",
@@ -115,11 +122,13 @@
             "osType": "c1140-k9w8-mx.152-2.JA",
             "fixed": true,
             "role": "Access",
-            "greyOut": true,
             "nodeType": "device",
             "deviceRoleOrigin": "auto",
             "aclApplied": true,
-            "family": "LAP1142N"
+            "order": 1000,
+            "family": "LAP1142N",
+            "platformId": "AIR-LAP1142N-A-K9",
+            "upperNode": "8def1315-3946-445a-9dc3-3a366616607d"
         },
         {
             "deviceType": "accesspoint",
@@ -130,10 +139,12 @@
             "ip": "40.0.5.39",
             "softwareVersion": "15.2(20130113:221158)$",
             "fixed": true,
-            "role": "Access",
-            "greyOut": true,
+            "role": "access",
             "nodeType": "device",
-            "aclApplied": true
+            "aclApplied": true,
+            "order": 1000,
+            "platformId": "AIR-LAP1252AG-A-K9",
+            "upperNode": "e5936417-d733-4d2b-a23d-53068dae9afb"
         },
         {
             "deviceType": "ROUTER",
@@ -146,12 +157,13 @@
             "osType": "asr1000rp1-adventerprisek9.03.07.03.S.152-4.S3.bin",
             "fixed": true,
             "role": "Border Router",
-            "greyOut": true,
             "nodeType": "device",
             "deviceRoleOrigin": "auto",
             "tag": "abdd,sadflkkkkkk",
             "aclApplied": true,
-            "family": "ASR1002"
+            "order": 1,
+            "family": "ASR1002",
+            "platformId": "ASR1002"
         },
         {
             "deviceType": "SWITCH",
@@ -164,11 +176,13 @@
             "osType": "c2960s-universalk9-mz.152-1.E2.bin",
             "fixed": true,
             "role": "Access",
-            "greyOut": true,
             "nodeType": "device",
             "deviceRoleOrigin": "auto",
             "aclApplied": true,
-            "family": "C2960S"
+            "order": 1000,
+            "family": "C2960S",
+            "platformId": "WS-C2960S-48TS-S",
+            "upperNode": "e5936417-d733-4d2b-a23d-53068dae9afb"
         },
         {
             "deviceType": "SWITCH",
@@ -180,11 +194,13 @@
             "softwareVersion": "03.03.00.XO",
             "fixed": true,
             "role": "Distribution",
-            "greyOut": true,
             "nodeType": "device",
             "deviceRoleOrigin": "auto",
+            "tag": "abdd",
             "aclApplied": true,
-            "family": "C4510R"
+            "order": 1000,
+            "family": "C4510R",
+            "platformId": "WS-C4510R+E"
         },
         {
             "deviceType": "SWITCH",
@@ -197,11 +213,13 @@
             "osType": "c6880x-ipservicesk9-mz.SPA.151-2.SY1.bin",
             "fixed": true,
             "role": "Distribution",
-            "greyOut": true,
             "nodeType": "device",
             "deviceRoleOrigin": "auto",
             "aclApplied": true,
-            "family": "C6880-X"
+            "order": 1,
+            "family": "C6880-X",
+            "platformId": "C6880-X",
+            "upperNode": "b380192f-ff97-4ce0-bf8e-9fda5fcffcc5"
         },
         {
             "deviceType": "SWITCH",
@@ -214,11 +232,12 @@
             "osType": "s2t54-ipbasek9-mz.SPA.150-1.SY4.bin",
             "fixed": true,
             "role": "Distribution",
-            "greyOut": true,
             "nodeType": "device",
             "deviceRoleOrigin": "auto",
             "aclApplied": true,
-            "family": "C6513"
+            "order": 1000,
+            "family": "C6513",
+            "platformId": "WS-C6513-E"
         },
         {
             "deviceType": "ROUTER",
@@ -231,12 +250,13 @@
             "osType": "c3900-universalk9-mz.SPA.153-3.M.bin",
             "fixed": true,
             "role": "Border Router",
-            "greyOut": true,
             "nodeType": "device",
             "deviceRoleOrigin": "auto",
             "tag": "abdd,sadflkkkkkk",
             "aclApplied": true,
-            "family": "C3900-SPE150/K9"
+            "order": 3,
+            "family": "C3900-SPE150/K9",
+            "platformId": "C3900-SPE150/K9"
         },
         {
             "deviceType": "ROUTER",
@@ -249,11 +269,12 @@
             "osType": "isr4400-universalk9.03.11.00.S.154-1.S-std.SPA.bin",
             "fixed": true,
             "role": "Border Router",
-            "greyOut": true,
             "nodeType": "device",
             "deviceRoleOrigin": "auto",
             "aclApplied": true,
-            "family": "ISR4451-X/K9"
+            "order": 1,
+            "family": "ISR4451-X/K9",
+            "platformId": "ISR4451-X/K9"
         },
         {
             "deviceType": "SWITCH",
@@ -266,11 +287,13 @@
             "osType": "bootflash:///n3500-uk9.6.0.2.A1.1c.bin",
             "fixed": true,
             "role": "Access",
-            "greyOut": true,
             "nodeType": "device",
             "deviceRoleOrigin": "auto",
             "aclApplied": true,
-            "family": "C3548P"
+            "order": 1000,
+            "family": "C3548P",
+            "platformId": "N3K-C3548P-10G",
+            "upperNode": "b380192f-ff97-4ce0-bf8e-9fda5fcffcc5"
         },
         {
             "deviceType": "SWITCH",
@@ -283,11 +306,12 @@
             "osType": "bootflash:///n5000-uk9.6.0.2.N2.3.bin",
             "fixed": true,
             "role": "Distribution",
-            "greyOut": true,
             "nodeType": "device",
             "deviceRoleOrigin": "auto",
             "aclApplied": true,
-            "family": "N5K-C5548UP"
+            "order": 2001,
+            "family": "N5K-C5548UP",
+            "platformId": "N5K-C5548UP"
         },
         {
             "deviceType": "WLC",
@@ -300,11 +324,13 @@
             "osType": "packages.conf",
             "fixed": true,
             "role": "Access",
-            "greyOut": true,
             "nodeType": "device",
             "deviceRoleOrigin": "auto",
             "aclApplied": true,
-            "family": "AIR-CT5760"
+            "order": 1000,
+            "family": "AIR-CT5760",
+            "platformId": "AIR-CT5760",
+            "upperNode": "b380192f-ff97-4ce0-bf8e-9fda5fcffcc5"
         },
         {
             "deviceType": "WLC",
@@ -316,11 +342,13 @@
             "softwareVersion": "8.0.49.11",
             "fixed": true,
             "role": "Access",
-            "greyOut": true,
             "nodeType": "device",
             "deviceRoleOrigin": "auto",
             "aclApplied": true,
-            "family": "CT5508"
+            "order": 1000,
+            "family": "CT5508",
+            "platformId": "AIR-CT5508-K9",
+            "upperNode": "e5936417-d733-4d2b-a23d-53068dae9afb"
         },
         {
             "deviceType": "ROUTER",
@@ -336,7 +364,9 @@
             "nodeType": "device",
             "deviceRoleOrigin": "auto",
             "aclApplied": true,
-            "family": "ASR1002"
+            "order": 2,
+            "family": "ASR1002",
+            "platformId": "ASR1002"
         },
         {
             "deviceType": "SWITCH",
@@ -349,11 +379,12 @@
             "osType": "cat3k_caa-universalk9.SPA.03.03.02.SE.150-1.EZ2.bin",
             "fixed": true,
             "role": "Access",
-            "greyOut": true,
             "nodeType": "device",
             "deviceRoleOrigin": "auto",
             "aclApplied": true,
-            "family": "C3850"
+            "order": 2000,
+            "family": "C3850",
+            "platformId": "WS-C3850-48P"
         },
         {
             "deviceType": "SWITCH",
@@ -366,11 +397,12 @@
             "osType": "cat3k_caa-universalk9.SPA.03.03.02.SE.150-1.EZ2.bin",
             "fixed": true,
             "role": "Access",
-            "greyOut": true,
             "nodeType": "device",
             "deviceRoleOrigin": "auto",
             "aclApplied": true,
-            "family": "C3850"
+            "order": 2000,
+            "family": "C3850",
+            "platformId": "WS-C3850-48P"
         },
         {
             "deviceType": "SWITCH",
@@ -385,7 +417,9 @@
             "nodeType": "device",
             "deviceRoleOrigin": "auto",
             "aclApplied": true,
-            "family": "C4507R"
+            "order": 2001,
+            "family": "C4507R",
+            "platformId": "WS-C4507R+E"
         },
         {
             "deviceType": "ROUTER",
@@ -401,7 +435,9 @@
             "nodeType": "device",
             "deviceRoleOrigin": "auto",
             "aclApplied": true,
-            "family": "C3900-SPE150/K9"
+            "order": 3,
+            "family": "C3900-SPE150/K9",
+            "platformId": "C3900-SPE150/K9"
         },
         {
             "deviceType": "ROUTER",
@@ -417,7 +453,10 @@
             "nodeType": "device",
             "deviceRoleOrigin": "auto",
             "aclApplied": true,
-            "family": "ISR4451-X/K9"
+            "order": 2,
+            "family": "ISR4451-X/K9",
+            "platformId": "ISR4451-X/K9",
+            "upperNode": "e7e761d3-7002-440e-bd7d-605f1d13ba0e"
         },
         {
             "deviceType": "SWITCH",
@@ -430,11 +469,13 @@
             "osType": "bootflash:///n7000-s2-dk9.6.2.6.bin",
             "fixed": true,
             "role": "Distribution",
-            "greyOut": true,
             "nodeType": "device",
             "deviceRoleOrigin": "auto",
             "aclApplied": true,
-            "family": "N7K-C7009"
+            "order": 2001,
+            "family": "N7K-C7009",
+            "platformId": "N7K-C7009",
+            "upperNode": "0fff4d81-617b-4c55-b0c4-9372a2dbb9e9"
         },
         {
             "deviceType": "WIRED",
@@ -445,8 +486,10 @@
             "ip": "40.0.0.15",
             "fixed": true,
             "role": "host",
-            "greyOut": true,
-            "nodeType": "host"
+            "nodeType": "host",
+            "userId": "admin",
+            "order": 1000,
+            "upperNode": "a6b02c54-2103-43dd-9b29-69b8648e4f13"
         },
         {
             "deviceType": "WIRED",
@@ -457,68 +500,52 @@
             "ip": "40.0.7.16",
             "fixed": true,
             "role": "host",
-            "greyOut": true,
-            "nodeType": "host"
-        },
-        {
-            "deviceType": "WIRED",
-            "label": "40.0.0.12",
-            "id": "7daec49a-e704-4063-ab37-ed82c21f9100",
-            "x": 690,
-            "y": 675,
-            "ip": "40.0.0.12",
-            "fixed": true,
-            "role": "host",
-            "greyOut": true,
-            "nodeType": "host"
+            "nodeType": "host",
+            "userId": "admin",
+            "order": 1000,
+            "upperNode": "65dbf43c-7c92-4c1e-a364-e0910a670859"
         },
         {
             "deviceType": "WIRED",
             "label": "40.0.0.22",
             "id": "7832299d-6370-4b10-bed7-5b26581d07e8",
-            "x": 874,
+            "x": 966,
             "y": 675,
             "ip": "40.0.0.22",
             "fixed": true,
             "role": "host",
-            "greyOut": true,
-            "nodeType": "host"
+            "nodeType": "host",
+            "userId": "admin",
+            "order": 1000,
+            "upperNode": "934f06d4-265f-41b5-b448-1769d109df6c"
         },
         {
             "deviceType": "WIRED",
             "label": "40.0.0.41",
             "id": "9c36877c-0e33-412f-921c-4661016e7fc5",
-            "x": 966,
+            "x": 1058,
             "y": 675,
             "ip": "40.0.0.41",
             "fixed": true,
             "role": "host",
-            "greyOut": true,
-            "nodeType": "host"
-        },
-        {
-            "deviceType": "WIRED",
-            "label": "40.0.0.16",
-            "id": "09a9cab1-f2aa-4b96-8e70-52b3f9b2f726",
-            "x": 1058,
-            "y": 675,
-            "ip": "40.0.0.16",
-            "fixed": true,
-            "role": "host",
-            "greyOut": true,
-            "nodeType": "host"
+            "nodeType": "host",
+            "userId": "admin",
+            "order": 1000,
+            "upperNode": "934f06d4-265f-41b5-b448-1769d109df6c"
         },
         {
             "deviceType": "WIRED",
             "label": "40.0.0.14",
             "id": "09c15e04-6aed-4b72-bcab-87874b306915",
-            "x": 782,
+            "x": 690,
             "y": 675,
             "ip": "40.0.0.14",
             "fixed": true,
             "role": "host",
-            "greyOut": true,
-            "nodeType": "host"
+            "nodeType": "host",
+            "userId": "admin",
+            "order": 1000,
+            "upperNode": "a6b02c54-2103-43dd-9b29-69b8648e4f13"
         },
         {
             "deviceType": "WIRED",
@@ -529,8 +556,38 @@
             "ip": "40.0.0.21",
             "fixed": true,
             "role": "host",
-            "greyOut": true,
-            "nodeType": "host"
+            "nodeType": "host",
+            "userId": "admin",
+            "order": 1000,
+            "upperNode": "934f06d4-265f-41b5-b448-1769d109df6c"
+        },
+        {
+            "deviceType": "WIRED",
+            "label": "40.0.0.13",
+            "id": "7bc1f503-3541-4c64-b812-65fe33d2e535",
+            "x": 782,
+            "y": 675,
+            "ip": "40.0.0.13",
+            "fixed": true,
+            "role": "host",
+            "nodeType": "host",
+            "userId": "admin",
+            "order": 1000,
+            "upperNode": "a6b02c54-2103-43dd-9b29-69b8648e4f13"
+        },
+        {
+            "deviceType": "WIRED",
+            "label": "40.0.0.12",
+            "id": "7daec49a-e704-4063-ab37-ed82c21f9100",
+            "x": 874,
+            "y": 675,
+            "ip": "40.0.0.12",
+            "fixed": true,
+            "role": "host",
+            "nodeType": "host",
+            "userId": "admin",
+            "order": 1000,
+            "upperNode": "a6b02c54-2103-43dd-9b29-69b8648e4f13"
         },
         {
             "deviceType": "WIRED",
@@ -541,8 +598,10 @@
             "ip": "40.0.5.11",
             "fixed": true,
             "role": "host",
-            "greyOut": true,
-            "nodeType": "host"
+            "nodeType": "host",
+            "userId": "admin",
+            "order": 1000,
+            "upperNode": "6bbc8f4a-0658-4b60-b99f-49eb8b321f6e"
         },
         {
             "deviceType": "WIRED",
@@ -553,8 +612,10 @@
             "ip": "40.0.5.13",
             "fixed": true,
             "role": "host",
-            "greyOut": true,
-            "nodeType": "host"
+            "nodeType": "host",
+            "userId": "admin",
+            "order": 1000,
+            "upperNode": "4dce5813-5b0f-45ab-b2e4-1ea7f7f9b1a9"
         },
         {
             "deviceType": "WIRED",
@@ -565,8 +626,10 @@
             "ip": "40.0.7.14",
             "fixed": true,
             "role": "host",
-            "greyOut": true,
-            "nodeType": "host"
+            "nodeType": "host",
+            "userId": "admin",
+            "order": 1000,
+            "upperNode": "4d47e12e-5373-4927-8848-5f5acb1f114a"
         },
         {
             "deviceType": "WIRED",
@@ -577,8 +640,10 @@
             "ip": "40.0.7.15",
             "fixed": true,
             "role": "host",
-            "greyOut": true,
-            "nodeType": "host"
+            "nodeType": "host",
+            "userId": "admin",
+            "order": 1000,
+            "upperNode": "65dbf43c-7c92-4c1e-a364-e0910a670859"
         },
         {
             "deviceType": "WIRED",
@@ -589,40 +654,28 @@
             "ip": "40.0.5.12",
             "fixed": true,
             "role": "host",
-            "greyOut": true,
-            "nodeType": "host"
+            "nodeType": "host",
+            "userId": "admin",
+            "order": 1000,
+            "upperNode": "4dce5813-5b0f-45ab-b2e4-1ea7f7f9b1a9"
         }
     ],
     "links": [
-        {
-            "id": "8a9752e9-8a74-4014-86d6-5279e8cb27c3",
-            "source": "07fa2357-6021-4535-a898-ad868ae5872a",
-            "startPortID": "718f9b06-40f7-4f07-b50a-09093afd5ce0",
-            "target": "27d433e5-662c-4438-8497-2c23109cb539",
-            "endPortID": "15dc84a8-5cb4-4915-a28b-b95083c36e97"
-        },
-        {
-            "id": "90d0e436-f4ee-458b-9f2b-99cd3a3e5d19",
-            "source": "6727af21-de76-47ed-8b6e-5d2ad55587ad",
-            "startPortID": "467c3a99-ed28-43a0-84a6-4322863ecb09",
-            "target": "07fa2357-6021-4535-a898-ad868ae5872a",
-            "endPortID": "8de67cbd-6bc2-480e-a875-e49d717ea14f"
-        },
-        {
-            "id": "9b8a3d69-4fcf-4a69-99a8-42a7445b9ad4",
-            "source": "671c305f-bbb4-4f43-b61e-01f4123ed8c1",
-            "startPortID": "4fe9b4ab-03c3-46ed-b2c3-71709c0e034e",
-            "target": "07fa2357-6021-4535-a898-ad868ae5872a",
-            "endPortID": "d54ab704-c896-4e76-9231-99a5b19dc57b"
-        },
         {
             "id": "27bd11e4-ced2-4295-80e3-ebb06243f03f",
             "source": "07fa2357-6021-4535-a898-ad868ae5872a",
             "startPortID": "b02712c1-e6b4-40e4-9279-7dcd2e0b52b3",
             "target": "73f3dc2e-7ade-4191-aea3-1318d193bc2e",
             "endPortID": "b1dce1b7-c7f0-48f4-9c79-dea37ee28b8a",
-            "linkStatus": "UP",
-            "greyOut": true
+            "linkStatus": "UP"
+        },
+        {
+            "id": "4fb67c7d-9b2f-4ccd-9112-18fe54bc73dc",
+            "source": "27d433e5-662c-4438-8497-2c23109cb539",
+            "startPortID": "15dc84a8-5cb4-4915-a28b-b95083c36e97",
+            "target": "07fa2357-6021-4535-a898-ad868ae5872a",
+            "endPortID": "718f9b06-40f7-4f07-b50a-09093afd5ce0",
+            "linkStatus": "UP"
         },
         {
             "id": "60d5d28a-6254-4e59-9a18-aefa7b39b7f8",
@@ -630,8 +683,7 @@
             "startPortID": "adbb8584-4552-477d-abce-c1a2057b4377",
             "target": "73f3dc2e-7ade-4191-aea3-1318d193bc2e",
             "endPortID": "327d6896-4413-4a27-a05c-96d730f9e66c",
-            "linkStatus": "UP",
-            "greyOut": true
+            "linkStatus": "UP"
         },
         {
             "id": "e988e728-72c5-4bfd-a382-ed0cc7673d55",
@@ -639,8 +691,7 @@
             "startPortID": "ea39aee5-8b0b-4090-8849-0c342524819e",
             "target": "73f3dc2e-7ade-4191-aea3-1318d193bc2e",
             "endPortID": "ba5ec6cd-59da-420e-ac1d-aac0573584ec",
-            "linkStatus": "UP",
-            "greyOut": true
+            "linkStatus": "UP"
         },
         {
             "id": "ac5dc85a-69fa-48ca-922e-9cadfe3746dc",
@@ -648,8 +699,7 @@
             "startPortID": "26b6bc5f-9d56-425e-9445-48c49c72d967",
             "target": "27d433e5-662c-4438-8497-2c23109cb539",
             "endPortID": "c2d20259-f08c-4081-b054-38bbaca1e669",
-            "linkStatus": "UP",
-            "greyOut": true
+            "linkStatus": "UP"
         },
         {
             "id": "80fe9c57-b011-4e8e-b55a-f394a798b79b",
@@ -657,8 +707,7 @@
             "startPortID": "6313e70e-fa9a-4981-a190-36a3a6a13723",
             "target": "73f3dc2e-7ade-4191-aea3-1318d193bc2e",
             "endPortID": "2311e441-39a8-4942-896b-f603091fcda7",
-            "linkStatus": "UP",
-            "greyOut": true
+            "linkStatus": "UP"
         },
         {
             "id": "3b1c64c5-ecca-4eed-b37a-51be8a5586fb",
@@ -666,8 +715,23 @@
             "startPortID": "5d73530f-10fb-45f0-8106-0fd286bd1940",
             "target": "27d433e5-662c-4438-8497-2c23109cb539",
             "endPortID": "e7effce5-565a-4ac8-b39a-29601e00d2f1",
-            "linkStatus": "UP",
-            "greyOut": true
+            "linkStatus": "UP"
+        },
+        {
+            "id": "10b1a279-e9d2-4d09-ba9d-9a868d708f77",
+            "source": "6727af21-de76-47ed-8b6e-5d2ad55587ad",
+            "startPortID": "467c3a99-ed28-43a0-84a6-4322863ecb09",
+            "target": "07fa2357-6021-4535-a898-ad868ae5872a",
+            "endPortID": "8de67cbd-6bc2-480e-a875-e49d717ea14f",
+            "linkStatus": "UP"
+        },
+        {
+            "id": "1ae3e0c0-5f26-4a00-91a1-1a1d38083382",
+            "source": "671c305f-bbb4-4f43-b61e-01f4123ed8c1",
+            "startPortID": "4fe9b4ab-03c3-46ed-b2c3-71709c0e034e",
+            "target": "07fa2357-6021-4535-a898-ad868ae5872a",
+            "endPortID": "d54ab704-c896-4e76-9231-99a5b19dc57b",
+            "linkStatus": "UP"
         },
         {
             "id": "83bf95ae-bc66-40e2-8c43-c7a6feedc8cc",
@@ -675,8 +739,7 @@
             "startPortID": "d086a4ea-a52b-4312-80ec-234e2edc2f7d",
             "target": "73f3dc2e-7ade-4191-aea3-1318d193bc2e",
             "endPortID": "92c9b577-6f5c-48bf-b869-0d6034b5c3fc",
-            "linkStatus": "UP",
-            "greyOut": true
+            "linkStatus": "UP"
         },
         {
             "id": "01c8ec52-ca14-429b-b781-865dc471f55a",
@@ -684,8 +747,7 @@
             "startPortID": "ffad2e41-42bf-4c82-b379-975233d9e42b",
             "target": "6727af21-de76-47ed-8b6e-5d2ad55587ad",
             "endPortID": "04935e87-46b6-4fc7-abad-b26c7f5b24b3",
-            "linkStatus": "UP",
-            "greyOut": true
+            "linkStatus": "UP"
         },
         {
             "id": "834b26b8-5671-4461-b965-f3914245b620",
@@ -693,8 +755,7 @@
             "startPortID": "bc98ab48-0661-4c80-b8e4-c303c7386260",
             "target": "27d433e5-662c-4438-8497-2c23109cb539",
             "endPortID": "520a52e5-3f23-4be3-8852-0623aae99224",
-            "linkStatus": "UP",
-            "greyOut": true
+            "linkStatus": "UP"
         },
         {
             "id": "048bf6cb-dcae-4530-b9a1-f724cb09c47d",
@@ -702,8 +763,7 @@
             "startPortID": "288de3af-364f-4171-b792-28c27c84a843",
             "target": "6727af21-de76-47ed-8b6e-5d2ad55587ad",
             "endPortID": "57cab573-7812-46f8-b848-7780be6755dc",
-            "linkStatus": "UP",
-            "greyOut": true
+            "linkStatus": "UP"
         },
         {
             "id": "aaf48e75-8445-47be-9943-d44fcc975c34",
@@ -711,8 +771,7 @@
             "startPortID": "5ab30930-60e0-4f63-846f-6df69cf5d74b",
             "target": "a09205cf-77ad-41ee-8286-df962ebbe30e",
             "endPortID": "d8260931-9104-4079-b3b0-83a9770f0e58",
-            "linkStatus": "UP",
-            "greyOut": true
+            "linkStatus": "UP"
         },
         {
             "id": "07c0c388-3318-4c59-a903-58127e61907b",
@@ -720,8 +779,7 @@
             "startPortID": "f3cd94f0-6e14-4f1f-b302-796ab2ea5e23",
             "target": "a09205cf-77ad-41ee-8286-df962ebbe30e",
             "endPortID": "8c6b9556-4c66-4c8c-a74f-2eee50ff07a3",
-            "linkStatus": "UP",
-            "greyOut": true
+            "linkStatus": "UP"
         },
         {
             "id": "6e6b7b58-7a6d-45dc-97dd-65a07138fcf0",
@@ -729,8 +787,7 @@
             "startPortID": "756f35b8-ee21-4193-9903-6f1785152ccb",
             "target": "9fdc1d39-b86d-4950-ac98-0e250b0010ee",
             "endPortID": "054cbe43-27fb-49f3-92b1-ccf252b5770d",
-            "linkStatus": "UP",
-            "greyOut": true
+            "linkStatus": "UP"
         },
         {
             "id": "984ad9c1-57e4-48af-a539-38949e516d6d",
@@ -738,8 +795,7 @@
             "startPortID": "478e36cf-d3b6-4890-b9b9-923767a39117",
             "target": "9fdc1d39-b86d-4950-ac98-0e250b0010ee",
             "endPortID": "82cb48c9-f5b1-4d25-893a-b334630b7497",
-            "linkStatus": "UP",
-            "greyOut": true
+            "linkStatus": "UP"
         },
         {
             "id": "e69d907f-505f-46c5-9bbb-f57203c7918a",
@@ -747,8 +803,7 @@
             "startPortID": "ffe92c91-2dd5-46de-98fc-686242586c86",
             "target": "1308c8a7-5260-42de-bd94-f19c47c46f6a",
             "endPortID": "38d41d63-0be7-49cf-b518-282dbd8fd59a",
-            "linkStatus": "UP",
-            "greyOut": true
+            "linkStatus": "UP"
         },
         {
             "id": "efadade0-c59e-4a43-ac51-e52611b3079d",
@@ -756,8 +811,7 @@
             "startPortID": "751ed64c-892d-4c90-b3b2-15f3b4807024",
             "target": "b8a24a12-94c4-4606-a5fb-7ce883c77f30",
             "endPortID": "null",
-            "linkStatus": "UP",
-            "greyOut": true
+            "linkStatus": "UP"
         },
         {
             "id": "40f9cec2-6a85-4d8b-b33b-b7f411a07d18",
@@ -765,8 +819,7 @@
             "startPortID": "2504d8bb-d338-4ffd-adf4-9d1ed5a1428d",
             "target": "00750be1-54bb-4066-ad46-afc79c894a15",
             "endPortID": "effbfcf4-b159-49e0-8be8-af811cec68b0",
-            "linkStatus": "UP",
-            "greyOut": true
+            "linkStatus": "UP"
         },
         {
             "id": "fc47bdfb-69b4-4035-95ed-b8065e83139c",
@@ -774,8 +827,7 @@
             "startPortID": "21e3f8db-c190-4a50-8776-07b867a05045",
             "target": "5455fb9c-2eb9-4019-85fb-617d053ac5f4",
             "endPortID": "59874f2d-917d-4b44-86eb-b683f7c724ee",
-            "linkStatus": "UP",
-            "greyOut": true
+            "linkStatus": "UP"
         },
         {
             "id": "66fbc3da-ba1e-49a7-b133-12f4caeeae29",
@@ -783,8 +835,7 @@
             "startPortID": "450da6dc-8e9b-408c-a53b-183ab3f8b6a6",
             "target": "3e7e5599-83f3-4f2c-bc01-e8a821fed1d0",
             "endPortID": "d0d8ad38-a643-4b67-90e7-764db9b312bd",
-            "linkStatus": "UP",
-            "greyOut": true
+            "linkStatus": "UP"
         },
         {
             "id": "7e510bdb-e36c-4188-b9d9-79969ff09005",
@@ -792,8 +843,7 @@
             "startPortID": "b8689cc4-0657-45d5-9586-855e5b177bb8",
             "target": "7871f1ba-4a0b-42a5-a28c-6d6edcfe7d94",
             "endPortID": "4bbe04e1-ff89-4230-80b0-f2a841d81a76",
-            "linkStatus": "UP",
-            "greyOut": true
+            "linkStatus": "UP"
         },
         {
             "id": "44a065f1-1365-4228-9f83-3efdb313267c",
@@ -801,8 +851,7 @@
             "startPortID": "f3e61991-2678-431d-bca4-7d841c58b59f",
             "target": "3e7e5599-83f3-4f2c-bc01-e8a821fed1d0",
             "endPortID": "61d9b2f2-da9a-4b7a-a644-d14d68047639",
-            "linkStatus": "UP",
-            "greyOut": true
+            "linkStatus": "UP"
         },
         {
             "id": "28051ce9-9b55-44f1-92b2-4a9174d360d9",
@@ -810,8 +859,7 @@
             "startPortID": "f274823c-53a1-45fc-8840-2cdc945ba880",
             "target": "d488297e-ad2a-4d07-8b41-e1bb55cc3fbd",
             "endPortID": "4e91c745-9097-428f-bf47-dedc74e8eda1",
-            "linkStatus": "UP",
-            "greyOut": true
+            "linkStatus": "UP"
         },
         {
             "id": "d17d5f27-a404-4e77-84da-c2eacbd75412",
@@ -819,8 +867,7 @@
             "startPortID": "3a16e8fd-56f4-4ddc-b86c-0ee2f8ad63ab",
             "target": "4561d97f-545f-4fc3-aec5-ba63f9f7bf61",
             "endPortID": "cce50a20-38d1-4c67-b91f-138aa328e2f1",
-            "linkStatus": "UP",
-            "greyOut": true
+            "linkStatus": "UP"
         },
         {
             "id": "4e1b4543-08f8-4f66-8078-9a2d72e0fff8",
@@ -828,8 +875,7 @@
             "startPortID": "6eef489b-3ddd-4a67-9134-1dfd3cd5758e",
             "target": "104a61f3-346d-4e14-86ad-fdc704becf40",
             "endPortID": "05e99681-bd0b-4473-8acb-14d6bd92297f",
-            "linkStatus": "UP",
-            "greyOut": true
+            "linkStatus": "UP"
         },
         {
             "id": "90d40718-e1b5-4554-8ab5-270ccbf5b200",
@@ -837,8 +883,7 @@
             "startPortID": "b42298f7-63e5-4f83-9baa-a29c617dcee7",
             "target": "19e2a19e-b35f-4c32-bf57-cbc8845f4f8d",
             "endPortID": "b3196653-5989-4c13-8737-66db6f42079d",
-            "linkStatus": "UP",
-            "greyOut": true
+            "linkStatus": "UP"
         },
         {
             "id": "b0a157e6-453e-4e0d-9c22-b7b422fd0601",
@@ -846,8 +891,7 @@
             "startPortID": "4cee9480-376a-46ff-83ea-044375f5da36",
             "target": "19e2a19e-b35f-4c32-bf57-cbc8845f4f8d",
             "endPortID": "8d54a4b3-ebe1-4c87-a74a-2a4193507dc2",
-            "linkStatus": "UP",
-            "greyOut": true
+            "linkStatus": "UP"
         },
         {
             "id": "70babc10-a565-4238-8e9a-d9c4026daccf",
@@ -855,8 +899,7 @@
             "startPortID": "15b454d7-3645-4d73-86bb-95da9cfbe425",
             "target": "19e2a19e-b35f-4c32-bf57-cbc8845f4f8d",
             "endPortID": "a3815ce9-3b4c-4aae-a697-524d621a11c1",
-            "linkStatus": "UP",
-            "greyOut": true
+            "linkStatus": "UP"
         },
         {
             "id": "54b2b724-fda2-4e80-98ef-ca0a9b45c9a0",
@@ -864,8 +907,7 @@
             "startPortID": "6cd378e6-15e5-4644-aa88-216c19d7617c",
             "target": "3e7e5599-83f3-4f2c-bc01-e8a821fed1d0",
             "endPortID": "1f0a9438-a40d-401d-b61e-c22bc523b8c6",
-            "linkStatus": "UP",
-            "greyOut": true
+            "linkStatus": "UP"
         },
         {
             "id": "bfcb35f7-1a9a-4c4e-a765-4d8f08efb7f6",
@@ -873,104 +915,98 @@
             "startPortID": "fd27d50a-b622-47f3-8636-568db52a0042",
             "target": "77d056cc-c583-48ed-91a1-3e2fd4b69302",
             "endPortID": "null",
-            "linkStatus": "UP",
-            "greyOut": true
+            "linkStatus": "UP"
         },
         {
             "source": "c0b819ba-2cb3-4a4c-aa71-42b618f3dcd9",
             "startPortID": "54ab60b9-2c14-41a4-94c7-8e06c4638fc6",
             "target": "7f0da4c5-ca43-45d5-b51e-a32114e301e8",
             "endPortID": "",
-            "linkStatus": "UP",
-            "greyOut": true
+            "linkStatus": "UP"
         },
         {
             "source": "c6b67339-4337-4f51-895b-0bab0dcdb290",
             "startPortID": "e5c1f139-ec72-419f-b8e6-117bc237d474",
             "target": "fa5ee4b6-8f50-42e0-9d58-ea24069bec63",
             "endPortID": "",
-            "linkStatus": "UP",
-            "greyOut": true
-        },
-        {
-            "source": "c0b819ba-2cb3-4a4c-aa71-42b618f3dcd9",
-            "startPortID": "7a087ca6-cabe-4bd3-9c3c-5bfdae2a90d9",
-            "target": "7daec49a-e704-4063-ab37-ed82c21f9100",
-            "endPortID": "",
-            "linkStatus": "UP",
-            "greyOut": true
+            "linkStatus": "UP"
         },
         {
             "source": "896819f3-69c9-4dba-a037-6e04ce1e2d42",
             "startPortID": "a310246c-bf7a-440d-b8f6-3515fcc302d5",
             "target": "7832299d-6370-4b10-bed7-5b26581d07e8",
             "endPortID": "",
-            "linkStatus": "UP",
-            "greyOut": true
+            "linkStatus": "UP"
         },
         {
             "source": "896819f3-69c9-4dba-a037-6e04ce1e2d42",
             "startPortID": "8eabea4e-f6f4-4965-910a-941b67d19bc2",
             "target": "9c36877c-0e33-412f-921c-4661016e7fc5",
             "endPortID": "",
-            "linkStatus": "UP",
-            "greyOut": true
+            "linkStatus": "UP"
         },
         {
             "source": "c0b819ba-2cb3-4a4c-aa71-42b618f3dcd9",
             "startPortID": "0dac6421-53a8-4863-a24a-b4ab7b0ae8d4",
             "target": "09c15e04-6aed-4b72-bcab-87874b306915",
             "endPortID": "",
-            "linkStatus": "UP",
-            "greyOut": true
+            "linkStatus": "UP"
         },
         {
             "source": "896819f3-69c9-4dba-a037-6e04ce1e2d42",
             "startPortID": "b0668677-3cc6-4079-a38f-31855784c0a4",
             "target": "0a0dbbd7-0c20-4e05-bb8d-cfb41a353ade",
             "endPortID": "",
-            "linkStatus": "UP",
-            "greyOut": true
+            "linkStatus": "UP"
+        },
+        {
+            "source": "c0b819ba-2cb3-4a4c-aa71-42b618f3dcd9",
+            "startPortID": "7a087ca6-cabe-4bd3-9c3c-5bfdae2a90d9",
+            "target": "7bc1f503-3541-4c64-b812-65fe33d2e535",
+            "endPortID": "",
+            "linkStatus": "UP"
+        },
+        {
+            "source": "c0b819ba-2cb3-4a4c-aa71-42b618f3dcd9",
+            "startPortID": "7a087ca6-cabe-4bd3-9c3c-5bfdae2a90d9",
+            "target": "7daec49a-e704-4063-ab37-ed82c21f9100",
+            "endPortID": "",
+            "linkStatus": "UP"
         },
         {
             "source": "1d9e8675-11d9-4d91-a0a3-02ccea57a85a",
             "startPortID": "a359abe2-b5e6-4f13-bed0-e34f20e97456",
             "target": "004260cd-8c73-4e47-91e0-15a9df5ce3b3",
             "endPortID": "",
-            "linkStatus": "UP",
-            "greyOut": true
+            "linkStatus": "UP"
         },
         {
             "source": "60b42968-97c6-4718-a475-b541c778f308",
             "startPortID": "c9722cee-5898-4658-8462-6a40dc04e86b",
             "target": "90165875-2bea-4685-b6ae-fb41a90e3797",
             "endPortID": "",
-            "linkStatus": "UP",
-            "greyOut": true
+            "linkStatus": "UP"
         },
         {
             "source": "4f03ea9e-2c81-4738-9cfa-22a2a8621287",
             "startPortID": "7f6fcbe1-f85e-4532-bdd9-0615080c6549",
             "target": "8976de4c-96a8-4615-afeb-415f05013542",
             "endPortID": "",
-            "linkStatus": "UP",
-            "greyOut": true
+            "linkStatus": "UP"
         },
         {
             "source": "c6b67339-4337-4f51-895b-0bab0dcdb290",
             "startPortID": "bbb48900-eff7-4e8d-80f5-130c11f53119",
             "target": "4eeb6567-9089-47e9-915a-a9e2e7435b2f",
             "endPortID": "",
-            "linkStatus": "UP",
-            "greyOut": true
+            "linkStatus": "UP"
         },
         {
             "source": "60b42968-97c6-4718-a475-b541c778f308",
             "startPortID": "42e100d1-0081-414a-8b63-5a701aae91cd",
             "target": "76b9e42f-7c42-4641-9699-77d9cca58215",
             "endPortID": "",
-            "linkStatus": "UP",
-            "greyOut": true
+            "linkStatus": "UP"
         }
     ],
     "nodeSet": [
@@ -983,7 +1019,7 @@
             "nodes": ["004260cd-8c73-4e47-91e0-15a9df5ce3b3", "1d9e8675-11d9-4d91-a0a3-02ccea57a85a"],
             "name": "access-SDN-BRANCH-2960S",
             "iconType": "0",
-            "upperNode": "89274cff-4af0-4ecc-8a0f-6b517f5c6675",
+            "upperNode": "e5936417-d733-4d2b-a23d-53068dae9afb",
             "order": 1000
         },
         {
@@ -995,7 +1031,7 @@
             "nodes": ["8976de4c-96a8-4615-afeb-415f05013542", "4f03ea9e-2c81-4738-9cfa-22a2a8621287"],
             "name": "access-SDN-BRANCH-2960S-STACK",
             "iconType": "1",
-            "upperNode": "4c0e6f20-4886-4580-84a7-e40223ed83e4",
+            "upperNode": "8def1315-3946-445a-9dc3-3a366616607d",
             "order": 1000
         },
         {
@@ -1007,7 +1043,7 @@
             "nodes": ["fa5ee4b6-8f50-42e0-9d58-ea24069bec63", "4eeb6567-9089-47e9-915a-a9e2e7435b2f", "c6b67339-4337-4f51-895b-0bab0dcdb290"],
             "name": "access-SDN-BRANCH-3650",
             "iconType": "2",
-            "upperNode": "4c0e6f20-4886-4580-84a7-e40223ed83e4",
+            "upperNode": "8def1315-3946-445a-9dc3-3a366616607d",
             "order": 1000
         },
         {
@@ -1019,7 +1055,7 @@
             "nodes": ["90165875-2bea-4685-b6ae-fb41a90e3797", "76b9e42f-7c42-4641-9699-77d9cca58215", "60b42968-97c6-4718-a475-b541c778f308"],
             "name": "access-SDN-BRANCH-3750-STACK",
             "iconType": "3",
-            "upperNode": "89274cff-4af0-4ecc-8a0f-6b517f5c6675",
+            "upperNode": "e5936417-d733-4d2b-a23d-53068dae9afb",
             "order": 1000
         },
         {
@@ -1028,10 +1064,10 @@
             "x": 1080,
             "y": 540,
             "root": "c0b819ba-2cb3-4a4c-aa71-42b618f3dcd9",
-            "nodes": ["7f0da4c5-ca43-45d5-b51e-a32114e301e8", "7daec49a-e704-4063-ab37-ed82c21f9100", "09c15e04-6aed-4b72-bcab-87874b306915", "c0b819ba-2cb3-4a4c-aa71-42b618f3dcd9"],
+            "nodes": ["7f0da4c5-ca43-45d5-b51e-a32114e301e8", "09c15e04-6aed-4b72-bcab-87874b306915", "7bc1f503-3541-4c64-b812-65fe33d2e535", "7daec49a-e704-4063-ab37-ed82c21f9100", "c0b819ba-2cb3-4a4c-aa71-42b618f3dcd9"],
             "name": "access-SDN-CAMPUS-C3850",
             "iconType": "4",
-            "upperNode": "d6c3d4f3-c55d-494d-b70d-688fa18e675b",
+            "upperNode": "4a4e5a01-a6ee-4e40-a2b4-092a7a1b39a8",
             "order": 2000
         },
         {
@@ -1040,10 +1076,10 @@
             "x": 1160,
             "y": 540,
             "root": "896819f3-69c9-4dba-a037-6e04ce1e2d42",
-            "nodes": ["7832299d-6370-4b10-bed7-5b26581d07e8", "9c36877c-0e33-412f-921c-4661016e7fc5", "09a9cab1-f2aa-4b96-8e70-52b3f9b2f726", "0a0dbbd7-0c20-4e05-bb8d-cfb41a353ade", "896819f3-69c9-4dba-a037-6e04ce1e2d42"],
+            "nodes": ["7832299d-6370-4b10-bed7-5b26581d07e8", "9c36877c-0e33-412f-921c-4661016e7fc5", "0a0dbbd7-0c20-4e05-bb8d-cfb41a353ade", "896819f3-69c9-4dba-a037-6e04ce1e2d42"],
             "name": "access-SDN-CAMPUS-C3850-STACK",
             "iconType": "5",
-            "upperNode": "d6c3d4f3-c55d-494d-b70d-688fa18e675b",
+            "upperNode": "4a4e5a01-a6ee-4e40-a2b4-092a7a1b39a8",
             "order": 2000
         },
         {
@@ -1055,7 +1091,7 @@
             "nodes": ["b8a24a12-94c4-4606-a5fb-7ce883c77f30", "7871f1ba-4a0b-42a5-a28c-6d6edcfe7d94", "4561d97f-545f-4fc3-aec5-ba63f9f7bf61", "2444556c-478d-49cd-ad93-05f3227e780a", "77d056cc-c583-48ed-91a1-3e2fd4b69302", "SET-1d9e8675-11d9-4d91-a0a3-02ccea57a85a", "SET-60b42968-97c6-4718-a475-b541c778f308", "19e2a19e-b35f-4c32-bf57-cbc8845f4f8d"],
             "name": "distribution-SDN-BRANCH-C4K",
             "iconType": "6",
-            "upperNode": "a6f5f4fd-f7e2-4b9c-bbef-caa64e1518d6",
+            "upperNode": "6c9025e0-0d80-41d1-a33c-11c1065b1693",
             "order": 1000
         },
         {
@@ -1067,7 +1103,7 @@
             "nodes": ["7872b09c-7c29-4719-bf30-cb34ae71dc1c", "SET-4f03ea9e-2c81-4738-9cfa-22a2a8621287", "SET-c6b67339-4337-4f51-895b-0bab0dcdb290", "3e7e5599-83f3-4f2c-bc01-e8a821fed1d0"],
             "name": "distribution-SDN-BRANCH-C6K",
             "iconType": "7",
-            "upperNode": "a6f5f4fd-f7e2-4b9c-bbef-caa64e1518d6",
+            "upperNode": "6c9025e0-0d80-41d1-a33c-11c1065b1693",
             "order": 1000
         },
         {
@@ -1079,7 +1115,7 @@
             "nodes": ["104a61f3-346d-4e14-86ad-fdc704becf40", "00750be1-54bb-4066-ad46-afc79c894a15", "5455fb9c-2eb9-4019-85fb-617d053ac5f4", "d488297e-ad2a-4d07-8b41-e1bb55cc3fbd"],
             "name": "distribution-SDN-BRANCH-N5K",
             "iconType": "8",
-            "upperNode": "4e1e5060-4870-4395-bfe8-15e05470b428",
+            "upperNode": "dd60b590-5237-4cd8-ab4d-c8732806ed52",
             "order": 2001
         },
         {
@@ -1091,7 +1127,7 @@
             "nodes": ["SET-c0b819ba-2cb3-4a4c-aa71-42b618f3dcd9", "SET-896819f3-69c9-4dba-a037-6e04ce1e2d42", "27d433e5-662c-4438-8497-2c23109cb539"],
             "name": "distribution-SDN-CAMPUS-C4K",
             "iconType": "9",
-            "upperNode": "a46b3c12-2512-4232-b09b-6fb7b9d0197f",
+            "upperNode": "0fff4d81-617b-4c55-b0c4-9372a2dbb9e9",
             "order": 2001
         },
         {
@@ -1103,7 +1139,7 @@
             "nodes": ["9fdc1d39-b86d-4950-ac98-0e250b0010ee", "SET-19e2a19e-b35f-4c32-bf57-cbc8845f4f8d", "SET-3e7e5599-83f3-4f2c-bc01-e8a821fed1d0"],
             "name": "border router-SDN-BRANCH-ASR1002",
             "iconType": "10",
-            "upperNode": "e07b5115-1619-4dbb-a130-3f2102ee96e3",
+            "upperNode": "1a7aba84-b233-4cd5-bc75-6d6596ec45ff",
             "order": 1
         },
         {
@@ -1115,7 +1151,7 @@
             "nodes": ["1308c8a7-5260-42de-bd94-f19c47c46f6a", "SET-d488297e-ad2a-4d07-8b41-e1bb55cc3fbd"],
             "name": "border router-SDN-BRANCH-ISR4451",
             "iconType": "11",
-            "upperNode": "e07b5115-1619-4dbb-a130-3f2102ee96e3",
+            "upperNode": "1a7aba84-b233-4cd5-bc75-6d6596ec45ff",
             "order": 1
         },
         {
@@ -1127,7 +1163,7 @@
             "nodes": ["671c305f-bbb4-4f43-b61e-01f4123ed8c1", "73f3dc2e-7ade-4191-aea3-1318d193bc2e", "SET-27d433e5-662c-4438-8497-2c23109cb539"],
             "name": "border router-SDN-CAMPUS-ASR1002",
             "iconType": "12",
-            "upperNode": "33de4cd6-9b0e-4abb-80cb-6bcae52edf4f",
+            "upperNode": "e7e761d3-7002-440e-bd7d-605f1d13ba0e",
             "order": 2
         },
         {

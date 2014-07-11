@@ -12,7 +12,6 @@
                         var vertices = graph.vertices();
                         this.vertices(vertices.toArray());
                         this.query(new nx.data.Query(vertices));
-                        console.log(vertices.count());
                     }
                 }
             },

@@ -1,37 +1,20 @@
 (function (nx, global) {
-    nx.Binding.converters.objectToArray = {
-        convert: function (value) {
-            return nx.util.values(value);
-        }
-    };
-
-    ENC.TW.aggregation = {
-        activated: {
-            convert: function (value) {
-                return 'tw-aggregation-list-item-activated ' + (value ? 'fa  fa-caret-right' : 'fa  fa-caret-down')
-            }
-        },
-        icon: {
-            convert: function (value) {
-                return 'n-icon-' + deviceTypeMapping[value];
-            }
-        },
-        subVertices: {
-            convert: function (value) {
-                return value ? Object.keys(value).length : 0;
-            }
-        },
-        child: {
-            convert: function (value) {
-                return value ? 'n-hidden' : '';
+    ENC.TW.selection = {
+        aggregatable: {
+            convert: function (len) {
+                if (len < 2) {
+                    return  "disabled"
+                } else {
+                    return  ''
+                }
             }
         },
         num: {
-            convert: function (value) {
-                if (value < 2) {
-                    return  value + " node has"
+            convert: function (len) {
+                if (len < 2) {
+                    return  len + " device has"
                 } else {
-                    return  value + " nodes have"
+                    return  len + " devices have"
                 }
             }
         }
@@ -44,32 +27,96 @@
         view: {
             content: {
                 props: {
-                    'class': 'tw-aggregation'
+                    'class': 'tw-selection'
                 },
                 content: [
-//                    {
-//                        tag: 'h5',
-//                        content: 'List'
-//                    },
+                    {
+                        tag: 'h5',
+                        content: 'List'
+                    },
+
+                    {
+                        props: {
+                            'class': 'tw-node-list'
+                        },
+                        content: {
+                            tag: 'ul',
+                            props: {
+                                items: '{controlVM.selection.selectedNodes}',
+                                template: {
+                                    tag: 'li',
+                                    props: {
+                                        'class': ['tw-node-list-item', '{model.generated,converter=ENC.TW.nodelist.generated}']
+                                    },
+                                    content: [
+                                        {
+                                            tag: 'input',
+                                            props: {
+                                                type: 'checkbox',
+                                                checked: 'checked',
+                                                disabled: true
+                                            }
+                                        },
+                                        {
+                                            tag: 'span',
+                                            props: {
+                                                'class': 'tw-node-list-item-color',
+                                                color: '{model.color}'
+                                            }
+
+                                        },
+                                        {
+                                            tag: 'span',
+                                            props: {
+                                                'class': '{model.deviceType,converter=ENC.TW.converter.icon}',
+                                                type: '{model.deviceType}'
+                                            }
+                                        },
+                                        {
+                                            tag: 'span',
+                                            props: {
+                                                'class': 'tw-node-list-item-label',
+                                                type: '{model.label}'
+                                            },
+                                            content: '{model.label}'
+                                        },
+                                    ],
+                                    events: {
+                                        'click': '{#owner.model.controlVM.inventory.selectItem}',
+                                        'mouseenter': '{#owner.model.controlVM.selection.highlightItem}',
+                                        'mouseleave': '{#owner.model.controlVM.selection.recoverItem}'
+                                    }
+
+                                }
+                            }
+                        }
+                    },
                     {
                         tag: 'h5',
                         content: 'Action'
                     },
                     {
                         props: {
-                            'class': 'tw-aggregation-action'
+                            'class': 'tw-selection-action'
                         },
                         content: [
                             {
-                                tag: 'span',
-                                content: '{controlVM.aggregation.selectedNodes.count,converter=ENC.TW.aggregation.num}'
-                            },
-                            {
-                                tag: 'span',
                                 props: {
-
+                                    'class': 'tw-selection-action-info'
                                 },
-                                content: ' been selected.'
+                                content: [
+                                    {
+                                        tag: 'span',
+                                        content: '{controlVM.selection.selectedNodes.length,converter=ENC.TW.selection.num}'
+                                    },
+                                    {
+                                        tag: 'span',
+                                        props: {
+
+                                        },
+                                        content: ' been selected.'
+                                    },
+                                ]
                             },
                             {
                                 content: [
@@ -77,21 +124,22 @@
                                         tag: 'button',
                                         props: {
                                             'class': 'btn btn-warning btn-xs',
-                                            disabled: '{controlVM.aggregation.selectedNodes.count,converter=inverted}'
+                                            disabled: '{controlVM.selection.selectedNodes.length,converter=ENC.TW.selection.aggregatable}'
                                         },
                                         content: 'Aggregate',
                                         events: {
-                                            'click': '{controlVM.aggregation.aggregate}'
+                                            'click': '{controlVM.selection.aggregate}'
                                         }
                                     },
                                     {
                                         tag: 'button',
                                         props: {
                                             'class': 'btn btn-warning btn-xs',
-                                            disabled: '{controlVM.aggregation.selectedNodes.count,converter=inverted}'
+                                            disabled: '{controlVM.selection.selectedNodes.length,converter=inverted}'
                                         },
                                         content: 'Add Tag',
                                         events: {
+                                            'click': '{controlVM.selection.addTag}'
                                         }
                                     }
                                 ]

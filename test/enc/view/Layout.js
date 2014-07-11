@@ -4,9 +4,8 @@
     ENC.TW.layout = {
         activated: {
             convert: function (value) {
-                var model = this.target().model();
-                var cls = 'list-group-item';
-                if (value && value == 'Enterprise network layout') {
+                var cls = '';
+                if (value) {
                     cls += ' active';
                 }
                 return cls;
@@ -33,26 +32,17 @@
                             tag: 'div',
                             props: {
                                 'class': 'list-group',
-                                items: [
-                                    {id: 'Enterprise network layout'},
-                                    {id: 'Force layout'}
-                                ],
+                                items: '{controlVM.layout.types}',
                                 template: {
                                     tag: 'a',
-                                    content: '{id}',
+                                    content: '{label}',
                                     props: {
-                                        'class': '{id,converter=ENC.TW.layout.activated}'
+                                        'class': ['list-group-item', '{activated,converter=ENC.TW.layout.activated}']
+                                    },
+                                    events: {
+                                        'click': '{#owner.model.controlVM.layout.switchLayout}'
                                     }
                                 }
-                            }
-                        },
-                        {
-                            tag: 'button',
-                            props: {
-                                'class': 'btn btn-info btn-xs'
-                            },
-                            content: 'Save Layout',
-                            events: {
                             }
                         }
                     ]

@@ -9,18 +9,15 @@
         properties: {
             type: {},
             data: {
-                dependencies: ['type'],
-                update: function (type) {
-                    if (type && type == 'physical') {
-                        util.getJSON(config.tag, function (data) {
-                            this.data(data.response);
-                        }, this);
-                    }
-                }
             }
         },
         methods: {
-
+            init: function (args) {
+                this.inherited(args);
+                util.getJSON(config.tag, function (data) {
+                    this.data(data.response);
+                }, this);
+            }
         }
     });
 

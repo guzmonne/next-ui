@@ -147,7 +147,7 @@
             highlightedNodes: function (ids) {
                 var topo = this.topology();
                 topo.fadeOut(true);
-                topo.highlightedNodes([ids]);
+                topo.highlightedNodes(ids);
             },
             recoverHighlighted: function () {
                 var topo = this.topology();
@@ -216,9 +216,31 @@
                 var graph = topo.graph();
                 graph.eachVertex(function (vertex) {
                     if (vertex.get('role') == 'host') {
-                        vertex.visible(!vertex.visible());
+                        vertex.visible(!!boolean);
                     }
-                })
+                });
+                topo.stage().resetFitMatrix();
+                topo.fit();
+            },
+            selectNode: function (id, boolean) {
+                var topo = this.topology();
+                var node = topo.getNode(id);
+                if (node) {
+                    if (boolean !== undefined) {
+                        node.selected(!!boolean);
+                    }
+                    return node.selected();
+                } else {
+                    return false;
+                }
+            },
+            switchLayout: function (id) {
+                var topo = this.topology();
+                topo.showLoading();
+                setTimeout(function () {
+                    this.MVM().topoDataModel().layout(id);
+                }.bind(this), 0)
+
             },
             _expandLastOpenedNodeSet: function () {
                 var openedNodeSetIDs = this._openedNodeSetIDs;
@@ -227,13 +249,6 @@
                 }, this);
                 topo.stage().resetFitMatrix();
                 topo.fit(null, null, false);
-            },
-            savePosition: function () {
-                var topo = this.topology();
-                topo.showLoading();
-                setTimeout(function () {
-                    topo.hideLoading();
-                }, 3000);
             }
         }
     });
