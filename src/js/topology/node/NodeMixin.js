@@ -766,10 +766,12 @@
                         nx.each(positionMap, function (item) {
                             var _position = item.position;
                             var node = item.node;
-                            node.position({
-                                x: sourcePosition.x + (_position.x - sourcePosition.x) * progress,
-                                y: sourcePosition.y + (_position.y - sourcePosition.y) * progress
-                            });
+                            if (node && node.model()) {
+                                node.position({
+                                    x: sourcePosition.x + (_position.x - sourcePosition.x) * progress,
+                                    y: sourcePosition.y + (_position.y - sourcePosition.y) * progress
+                                });
+                            }
                         });
                     }.bind(this));
 
@@ -807,10 +809,12 @@
                         nx.each(positionMap, function (item) {
                             var _position = item.position;
                             var node = item.node;
-                            node.position({
-                                x: _position.x - (_position.x - targetPosition.x) * progress,
-                                y: _position.y - (_position.y - targetPosition.y) * progress
-                            });
+                            if (node && node.model()) {
+                                node.position({
+                                    x: _position.x - (_position.x - targetPosition.x) * progress,
+                                    y: _position.y - (_position.y - targetPosition.y) * progress
+                                });
+                            }
                         });
                     }.bind(this));
 

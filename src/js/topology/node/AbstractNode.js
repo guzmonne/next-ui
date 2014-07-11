@@ -234,6 +234,7 @@
 
 
                 this.setBinding('visible', 'model.visible,direction=<>', this);
+                this.setBinding('selected', 'model.selected,direction=<>', this);
 
                 //initialize position
                 this.position(model.position());

@@ -276,6 +276,9 @@
                     }
                     return _parentVertexSet;
                 }
+            },
+            selected: {
+                value: false
             }
         },
         methods: {
