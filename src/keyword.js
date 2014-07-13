@@ -28,8 +28,7 @@
                             // watch on the collection changes
                             if (key == "*" || key == "%") {
                                 // TODO handler watching on collection changes
-                            }
-                            else {
+                            } else {
                                 var child = nx.path(parent, key);
                                 if (parent.watch) {
                                     var pathRest = keys.slice(idx + 1).join("."),
@@ -49,8 +48,7 @@
                                         childUnwatch();
                                         parent.unwatch(key, watcher, parent);
                                     };
-                                }
-                                else if (child) {
+                                } else if (child) {
                                     return level(child, idx + 1);
                                 }
                             }
@@ -85,8 +83,7 @@
                                 collman.unlistener = function () {
                                     value.off("change", collman.listener, o);
                                 };
-                            }
-                            else {
+                            } else {
                                 collman.unlistener = null;
                             }
                             collman.collection = value;
@@ -115,8 +112,7 @@
                     var deps;
                     if (nx.is(paths, "String")) {
                         deps = paths.replace(/\s/g, "").split(",");
-                    }
-                    else {
+                    } else {
                         deps = paths;
                     }
                     nx.each(deps, function (v, i) {
@@ -146,7 +142,7 @@
                     }
                     return {
                         notify: notify,
-                        uncascade: function () {
+                        release: function () {
                             while (unwatchers.length) {
                                 unwatchers.shift().unwatch();
                             }
@@ -165,14 +161,14 @@
                             property: pname,
                             set: o && pname && function (v) {
                                 o.set(pname, v);
+                                return o.get(pname);
                             }
                         };
                         var watching = nx.keyword.internal.watch(o, this.source, function () {
                             var rslt;
                             if (this.callback) {
                                 rslt = this.callback.apply(this.context ? binding.owner : binding, arguments);
-                            }
-                            else {
+                            } else {
                                 rslt = arguments[0];
                             }
                             if (!this.async) {
