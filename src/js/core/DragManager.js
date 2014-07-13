@@ -74,9 +74,7 @@
              * @property dragging
              * @type Boolean
              */
-            dragging: {
-                value: false
-            }
+            dragging: {value: false}
         },
         methods: {
             init: function () {
@@ -96,11 +94,11 @@
                     if (node && !this.node()) {
                         this.node(node);
                         // track and data
-                        var delta, track = [];
+                        var track = [];
                         this.track(track);
-                        delta = this._clientDelta(evt.target, node.dom().$dom);
-                        this.track().push([evt.offsetX + delta[0], evt.offsetY + delta[1]]);
-                        evt.dragCapture = function () {};
+                        this.track().push([evt.pageX, evt.pageY]);
+                        evt.dragCapture = function () {
+                        };
                         return true;
                     }
                 }.bind(this);
@@ -143,42 +141,14 @@
                     this.dragging(false);
                 }
             },
-            _scrollDelta: function (element) {
-                if (element === document.documentElement) {
-                    return [0, 0];
-                }
-                var parent = element && element.parentNode;
-                var left = 0,
-                    top = 0;
-                do {
-                    parent = element && element.parentNode;
-                    if (!parent || element === document.body || element === parent) {
-                        break;
-                    }
-                    left += parent.scrollLeft;
-                    top += parent.scrollTop;
-                    element = parent;
-                } while (true);
-                return [left, top];
-            },
-            _clientDelta: function (from, to) {
-                var dfrom = from.getBoundingClientRect();
-                var dto = to.getBoundingClientRect();
-                return [dfrom.left - dto.left, dfrom.top - dto.top];
-            },
             _makeDragData: function (evt) {
-                var track = this.track(),
-                    node = this.node();
-                var delta = this._clientDelta(evt.target, node.dom().$dom);
-                var current = [evt.offsetX + delta[0], evt.offsetY + delta[1]],
-                    origin = track[0],
-                    last = track[track.length - 1];
+                var track = this.track();
+                var current = [evt.pageX, evt.pageY], origin = track[0], last = track[track.length - 1];
                 this.track([origin, current]);
                 //track.push(current);
                 // TODO make sure the data is correct when target applied a matrix
                 return {
-                    target: node,
-                    origin: origin.slice(),
+                    target: this.node(),
                     current: current,
                     offset: [current[0] - origin[0], current[1] - origin[1]],
                     delta: [current[0] - last[0], current[1] - last[1]]
@@ -191,7 +161,8 @@
                 if (evt.type === "mousedown") {
                     evt.captureDrag = this.start(evt);
                 } else {
-                    evt.captureDrag = function () {};
+                    evt.captureDrag = function () {
+                    };
                 }
             },
             _capture_mousemove: function (evt) {
