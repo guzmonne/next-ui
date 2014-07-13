@@ -8,11 +8,12 @@
         view: {},
         properties: {
             type: {},
+            layout: {},
             data: {
-                dependencies: ['type'],
-                update: function (type) {
+                dependencies: ['type', 'layout'],
+                update: function (type, layout) {
                     if (type) {
-                        util.getJSON(config[type] || config.physical, function (data) {
+                        util.getJSON(config[layout] || config[type] || config.physical, function (data) {
                             this.data(data.response);
                         }, this);
                     }
