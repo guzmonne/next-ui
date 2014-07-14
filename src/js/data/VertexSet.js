@@ -209,6 +209,7 @@
 
 
                 this.eachSubVertex(function (vertex) {
+                    vertex.restricted(true);
                     if (vertex.generated()) {
                         nx.each(vertex.edgeSetCollections(), function (esc, linkKey) {
                             graph.deleteEdgeSetCollection(linkKey);
@@ -218,15 +219,15 @@
 
 
                 nx.each(this.vertexSet(), function (vertexSet, id) {
+                    vertexSet.restricted(true);
                     if (vertexSet.generated()) {
-                        vertexSet.restricted(true);
                         graph.removeVertexSet(id, false);
                     }
                 }, this);
 
                 nx.each(this.vertices(), function (vertex, id) {
+                    vertex.restricted(true);
                     if (vertex.generated()) {
-                        vertex.restricted(true);
                         graph.removeVertex(id);
                     }
                 }, this);

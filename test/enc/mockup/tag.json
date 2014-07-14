@@ -1,44 +1,38 @@
 {"response": [
     {
-        "id": "7063005f-8c28-4f74-a605-950989bc25e2",
-        "tag": "RmaTag",
-        "networkDeviceId": "78ea057b-f259-497c-9569-8002bbeac7d9",
+        "id": "586ca1d2-77b6-43dd-a27d-9ec3c8165f73",
+        "tag": "iaintest",
+        "networkDeviceId": "1d9e8675-11d9-4d91-a0a3-02ccea57a85a",
         "attributeInfo": {}
     },
     {
-        "id": "7063005f-8c28-4f74-a605-950989bc25e2",
-        "tag": "RmaTag",
-        "networkDeviceId": "60778851-8159-4445-9ea7-e66e94e29340",
+        "id": "586ca1d2-77b6-43dd-a27d-9ec3c8165f73",
+        "tag": "iaintest",
+        "networkDeviceId": "4f03ea9e-2c81-4738-9cfa-22a2a8621287",
         "attributeInfo": {}
     },
     {
-        "id": "7063005f-8c28-4f74-a605-950989bc25e2",
-        "tag": "RmaTag",
-        "networkDeviceId": "59f6edae-e914-4096-8a59-e53744188be9",
+        "id": "d5a0bd15-fe41-42dc-b382-d89a3f3c35f6",
+        "tag": "abdd",
+        "networkDeviceId": "a09205cf-77ad-41ee-8286-df962ebbe30e",
         "attributeInfo": {}
     },
     {
-        "id": "7063005f-8c28-4f74-a605-950989bc25e2",
-        "tag": "RmaTag",
-        "networkDeviceId": "2d96492b-d08e-4c60-a84a-caae65847694",
+        "id": "d5a0bd15-fe41-42dc-b382-d89a3f3c35f6",
+        "tag": "abdd",
+        "networkDeviceId": "9fdc1d39-b86d-4950-ac98-0e250b0010ee",
         "attributeInfo": {}
     },
     {
-        "id": "d62e8735-db8e-45a2-bb30-68f25629089a",
-        "tag": "tagtest",
-        "networkDeviceId": "78ea057b-f259-497c-9569-8002bbeac7d9",
+        "id": "53e4cebb-e363-46ab-afb3-9ba8b58d4023",
+        "tag": "sadflkkkkkk",
+        "networkDeviceId": "a09205cf-77ad-41ee-8286-df962ebbe30e",
         "attributeInfo": {}
     },
     {
-        "id": "d62e8735-db8e-45a2-bb30-68f25629089a",
-        "tag": "tagtest",
-        "networkDeviceId": "59f6edae-e914-4096-8a59-e53744188be9",
-        "attributeInfo": {}
-    },
-    {
-        "id": "516203cc-d584-4569-bbac-318ef1deb2a1",
-        "tag": "cccc",
-        "networkDeviceId": "11c93d80-fe68-4e13-9595-c47bb1fefa3f",
+        "id": "53e4cebb-e363-46ab-afb3-9ba8b58d4023",
+        "tag": "sadflkkkkkk",
+        "networkDeviceId": "9fdc1d39-b86d-4950-ac98-0e250b0010ee",
         "attributeInfo": {}
     }
 ], "version": "0.0"}

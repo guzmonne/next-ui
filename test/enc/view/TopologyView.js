@@ -12,7 +12,8 @@
                     nodeConfig: {
                         label: '{topologyVM.view.nodeLabel}',
                         iconType: '{topologyVM.view.nodeIconPath}',
-                        enable: '{topologyVM.view.nodeGreyOut}'
+                        enable: '{topologyVM.view.nodeGreyOut}',
+                        color: 'model.color'
                     },
                     nodeSetConfig: {
                         label: '{topologyVM.view.nodeSetLabel}',

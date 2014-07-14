@@ -2,6 +2,7 @@ html,
 body {
   height: 100%;
   width: 100%;
+  overflow: hidden;
 }
 
 .tw {
@@ -111,7 +112,7 @@ li {
   width: 94%;
 }
 
-.tw-inventory-list {
+.tw-node-list {
   margin-top: 10px;
   max-height: 300px;
   overflow: auto;
@@ -126,7 +127,7 @@ li {
     -webkit-user-select: none;
     cursor: pointer;
 
-    &.tw-inventory-list-item-generated {
+    &.tw-node-list-item-generated {
       opacity: 1 !important;
     }
 
@@ -144,7 +145,7 @@ li {
 
 }
 
-.tw-inventory-list-item {
+.tw-node-list-item {
   padding-left: 12px;
   &-color {
     border-radius: 3px;
@@ -168,7 +169,7 @@ li {
     color: #3D8515;
   }
 
-  .tw-inventory-list-item-locate-node {
+  .tw-node-list-item-locate-node {
     float: right;
     color: #3D8515;
     font-size: 12px;
@@ -182,9 +183,8 @@ li {
     }
   }
 
-  &:hover .tw-inventory-list-item-locate-node {
+  &:hover .tw-node-list-item-locate-node {
     display: block;
-
   }
 
 }
@@ -272,7 +272,7 @@ li {
   &-label {
     font-size: 11px;
     color: #666;
-    width:220px;
+    width: 220px;
     &[readonly] {
       border: 0 none;
     }
@@ -378,4 +378,84 @@ li {
 
 .tw-setting {
   padding: 10px;
+}
+
+.tw-selection {
+  padding: 10px;
+
+  .tw-node-list {
+    padding: 0px;
+  }
+
+}
+
+.tw-selection-action {
+  &-info {
+    font-size: 12px;
+    color: #666;
+  }
+
+  .btn {
+    margin-right: 10px;
+  }
+}
+
+.tw-tag-search {
+  margin: 10px;
+  width: 94%;
+}
+
+.tw-tag-list {
+  padding: 10px;
+}
+
+.tw-tag-list-item {
+  padding-left: 12px;
+  margin: 2px;
+  border-bottom: dotted 1px #ccc;
+
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: pointer !important;
+
+  &-opened {
+    color:#333;
+    margin-right: 6px;
+  }
+
+  &-label {
+    font-size: 11px;
+    color: #666;
+    width: 200px;
+    &[readonly] {
+      border: 0 none;
+    }
+  }
+
+  &-num {
+    float: right;
+    display: inline-block;
+    background: #0386D2;
+    border-radius: 10px;
+    font-size: 10px;
+    color: #fff;
+    padding: 3px;
+    height: 14px;
+    overflow: hidden;
+    line-height: 8px;
+    min-width: 14px;
+    text-align: center;
+    font-family: Tahoma;
+  }
+
+  span[class^="fa"] {
+    color: #0386D2;
+    margin: 0px 3px 0px 2px;
+    font-size: 14px;
+    float: right;
+    opacity: 0.5;
+    &:hover {
+      opacity: 1;
+    }
+  }
 }

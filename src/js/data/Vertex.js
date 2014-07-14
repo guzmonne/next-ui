@@ -37,8 +37,8 @@
                 value: function () {
                     return function (position) {
                         if (this._data) {
-                            var x = this._x || nx.path(this._data, 'x');
-                            var y = this._y || nx.path(this._data, 'y');
+                            var x = nx.path(this._data, 'x');
+                            var y = nx.path(this._data, 'y');
                             if (position.x !== x || position.y !== y) {
                                 nx.path(this._data, 'x', position.x);
                                 nx.path(this._data, 'y', position.y);

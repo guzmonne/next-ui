@@ -11,7 +11,11 @@
             'isis': serverURL + 'api/v0/topology/l3/isis',
             'static-route': serverURL + 'api/v0/topology/l3/static-route',
             'ospf': serverURL + 'api/v0/topology/l3/ospf',
-            'l2default': serverURL + 'api/v0/topology/l2/default'
+            'l2default': serverURL + 'api/v0/topology/l2/default',
+            'force': serverURL + ' api/v0/topology/force',
+            'enterprise': serverURL + 'api/v0/topology/enterprise'
+
+
         }
     });
 

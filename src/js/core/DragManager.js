@@ -132,7 +132,7 @@
                 var node = this.node();
                 if (node) {
                     // attach to the event
-                    evt.drag = this._makeDragData(evt);
+                    Evt.Drag = This._makeDragData(evt);
                     // fire events
                     if (this.dragging()) {
                         node.fire("dragend", evt);
@@ -154,8 +154,7 @@
                 //track.push(current);
                 // TODO make sure the data is correct when target applied a matrix
                 return {
-                    target: node,
-                    origin: origin.slice(),
+                    target: this.node(),
                     current: current,
                     offset: [current[0] - origin[0], current[1] - origin[1]],
                     delta: [current[0] - last[0], current[1] - last[1]]

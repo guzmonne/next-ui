@@ -10,6 +10,9 @@
                         this.inventory().MVM(value);
                         this.aggregation().MVM(value);
                         this.layer().MVM(value);
+                        this.selection().MVM(value);
+                        this.tag().MVM(value);
+                        this.layout().MVM(value);
                     }
                 }
             },
@@ -31,6 +34,30 @@
             layer: {
                 value: function () {
                     return new ENC.TW.ViewModel.ControlVM.Layer();
+                }
+            },
+            layout: {
+                value: function () {
+                    return new ENC.TW.ViewModel.ControlVM.Layout();
+                }
+            },
+            tag: {
+                value: function () {
+                    return new ENC.TW.ViewModel.ControlVM.Tag();
+                }
+            },
+            selection: {
+                value: function () {
+                    return new ENC.TW.ViewModel.ControlVM.Selection();
+                }
+            },
+
+            tagData: {
+                dependencies: ['tagDataModel.data'],
+                value: function (data) {
+                    if (data) {
+                        return data;
+                    }
                 }
             }
         },

@@ -19,7 +19,7 @@
                             }
                         });
                         this.vertexSets(_vertexSets);
-                        this.selectedNodes(topo.selectedNodes());
+                        this.selectedNodes(topology.selectedNodes());
                     }
                 }
             },
@@ -55,6 +55,7 @@
                     topo.deleteNodeSet(nodeSet);
                     topo.fit();
                     this.notify('update');
+                    this.MVM().status().aggregationModified(true);
                 }
             },
             aggregate: function (sender, events) {
@@ -67,6 +68,7 @@
                 var topo = this.MVM().topology();
                 var view = this.MVM().topologyVM().view();
                 view.notify('labelKey');
+                this.MVM().status().aggregationModified(true);
             },
             enterGroup: function (sender, events) {
                 var vertexSet = sender.model();
@@ -78,11 +80,15 @@
             },
             vertexEnterGroup: function (sender, events) {
                 var vertex = sender.model();
-                this.MVM().topologyVM().highlightNodeSetGroup(vertex.parentVertexSet().id());
+                if (vertex.parentVertexSet()) {
+                    this.MVM().topologyVM().highlightNodeSetGroup(vertex.parentVertexSet().id());
+                }
             },
             vertexLeaveGroup: function (sender, events) {
                 var vertex = sender.model();
-                this.MVM().topologyVM().recoverHighlightNodeSetGroup(vertex.parentVertexSet().id());
+                if (vertex.parentVertexSet()) {
+                    this.MVM().topologyVM().recoverHighlightNodeSetGroup(vertex.parentVertexSet().id());
+                }
             }
         }
     })
