@@ -92,7 +92,7 @@
                 this.fire('clickGroupLabel');
             },
             _mousedown: function (sender, event) {
-                event.captureDrag(this.view('shape'));
+                event.captureDrag(this.view('shape'),this.topology().stage());
             },
             _dragstart: function (sender, event) {
                 this.blockDrawing(true);

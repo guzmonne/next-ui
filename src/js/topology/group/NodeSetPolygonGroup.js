@@ -224,7 +224,7 @@
                 this.fire('clickGroupLabel');
             },
             _mousedown: function (sender, event) {
-                event.captureDrag(this.view('icons'));
+                event.captureDrag(this.view('icons'),this.topology().stage());
             },
             _dragstart: function (sender, event) {
                 this.blockDrawing(true);

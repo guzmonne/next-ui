@@ -295,7 +295,7 @@
             _mousedown: function (sender, event) {
                 if (this.enable()) {
                     this._prevPosition = this.position();
-                    event.captureDrag(this.view('graphic'));
+                    event.captureDrag(this.view('graphic'),this.topology().stage());
                     this.fire('pressNode', event);
                 }
             },
@@ -344,6 +344,7 @@
                 }
             },
             _dragstart: function (sender, event) {
+                window.event = event;
                 if (this.enable()) {
                     /**
                      * Fired when start drag a node
@@ -355,6 +356,7 @@
                 }
             },
             _drag: function (sender, event) {
+                window.event = event;
                 if (this.enable()) {
                     /**
                      * Fired when drag a node

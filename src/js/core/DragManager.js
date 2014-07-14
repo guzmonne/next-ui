@@ -60,10 +60,15 @@
         static: true,
         properties: {
             /**
-             * activated element
+             * activated component.
              * @property node {nx.graphic.Component}
              */
             node: {},
+            /**
+             * All coordinate will reference to this element.
+             * @property referrer {DOMELement}
+             */
+            referrer: {},
             /**
              * drag track
              * @property track {Array}
@@ -74,7 +79,9 @@
              * @property dragging
              * @type Boolean
              */
-            dragging: {value: false}
+            dragging: {
+                value: false
+            }
         },
         methods: {
             init: function () {
@@ -89,16 +96,20 @@
              * @returns {function(this:nx.graphic.DragManager)}
              */
             start: function (evt) {
-                return function (node) {
+                return function (node, referrer) {
                     // make sure only one node can capture the "drag" event
                     if (node && !this.node()) {
+                        // FIXME may not be right on global
+                        referrer = (referrer === window || referrer === document || referrer === document.body) ? document.body : (referrer || node);
+                        referrer = (typeof referrer.dom === "function") ? referrer.dom().$dom : referrer;
                         this.node(node);
+                        this.referrer(referrer);
                         // track and data
-                        var track = [];
+                        var bound, track = [];
+                        bound = referrer.getBoundingClientRect();
                         this.track(track);
-                        this.track().push([evt.pageX, evt.pageY]);
-                        evt.dragCapture = function () {
-                        };
+                        this.track().push([evt.pageX - document.body.scrollLeft - bound.left, evt.pageY - document.body.scrollTop - bound.top]);
+                        evt.dragCapture = function () {};
                         return true;
                     }
                 }.bind(this);
@@ -143,12 +154,17 @@
             },
             _makeDragData: function (evt) {
                 var track = this.track();
-                var current = [evt.pageX, evt.pageY], origin = track[0], last = track[track.length - 1];
+                var bound = this.referrer().getBoundingClientRect();
+                var current = [evt.pageX - document.body.scrollLeft - bound.left, evt.pageY - document.body.scrollTop - bound.top],
+                    origin = track[0],
+                    last = track[track.length - 1];
                 this.track([origin, current]);
                 //track.push(current);
                 // TODO make sure the data is correct when target applied a matrix
                 return {
                     target: this.node(),
+                    accord: this.referrer(),
+                    origin: origin,
                     current: current,
                     offset: [current[0] - origin[0], current[1] - origin[1]],
                     delta: [current[0] - last[0], current[1] - last[1]]
@@ -161,8 +177,7 @@
                 if (evt.type === "mousedown") {
                     evt.captureDrag = this.start(evt);
                 } else {
-                    evt.captureDrag = function () {
-                    };
+                    evt.captureDrag = function () {};
                 }
             },
             _capture_mousemove: function (evt) {

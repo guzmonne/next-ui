@@ -38,12 +38,13 @@
                     selectedNodes.clear();
                 }
 
-                event.captureDrag(sender.stage().view());
+                event.captureDrag(sender.stage().view(), this.topology().stage());
             },
             enterNode: function () {
 
             },
-            clickNode: function (sender, node) {},
+            clickNode: function (sender, node) {
+            },
             dragStageStart: function (sender, event) {
                 this.inherited(sender, event);
                 var selectedNodes = this.selectedNodes();
