@@ -34,9 +34,14 @@ li {
 .tw-toolbar {
   height: 32px;
   border-bottom: solid 1px #ccc;
-  box-shadow: 0px 2px 3px #ccc;
   margin-bottom: 5px;
   padding-left: 20px;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  right: 0px;
+  z-index: 999;
+  background: rgba(255, 255, 255, 0.8);
 }
 .tw-toolbar > ul > li {
   position: relative;
@@ -73,15 +78,63 @@ li {
 .tw-toolbar > ul > li .tw-toolbar-hint:empty {
   display: none;
 }
+.n-topology-nav {
+  top: 10px !important;
+}
+/* Chrome, Safari, Opera */
+@-webkit-keyframes toolbarBody {
+  0% {
+    opacity: 0;
+    max-height: 0px;
+    left: 2px;
+  }
+  60% {
+    left: 0px;
+    opacity: 1;
+    max-height: 600px;
+    padding-bottom: 20px;
+    overflow: visible;
+  }
+  100% {
+    opacity: 1;
+    max-height: 600px;
+    padding-bottom: 0px;
+    overflow: visible;
+  }
+}
 .tw-toolbar-body {
   position: absolute;
   width: 320px;
   z-index: 999;
   box-shadow: 0px 2px 3px #ccc;
-  background: rgba(255, 255, 255, 0.85);
-  top: 31px;
+  background: rgba(255, 255, 255, 0.8);
+  top: 32px;
   border: 1px solid #ddd;
   border-top-width: 0px;
+}
+.tw-toolbar-body > * {
+  -webkit-transition: opacity 0.3s ;
+  -webkit-transition-delay: 0.3s;
+  /* Safari */
+
+  transition-delay: 0.3s;
+  opacity: 0;
+}
+.tw-toolbar .tw-toolbar-body-anim {
+  -webkit-animation: toolbarBody 1s;
+  /* Chrome, Safari, Opera */
+
+  animation: toolbarBody 1s ease;
+  opacity: 1;
+}
+.tw-toolbar .tw-toolbar-body-anim > * {
+  opacity: 1;
+}
+.tw-toolbar-body.n-hidden {
+  display: block !important;
+  opacity: 0;
+  height: 0px;
+  overflow: hidden;
 }
 .tw-inventory-search {
   margin: 10px;
@@ -222,6 +275,7 @@ li {
   font-size: 11px;
   color: #666;
   width: 220px;
+  background: transparent;
 }
 .tw-aggregation-list-item-label[readonly] {
   border: 0 none;
@@ -344,6 +398,7 @@ li {
   font-size: 11px;
   color: #666;
   width: 200px;
+  background: transparent;
 }
 .tw-tag-list-item-label[readonly] {
   border: 0 none;

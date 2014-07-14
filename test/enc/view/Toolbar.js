@@ -212,6 +212,7 @@
                 if (dom.hasClass('n-hidden')) {
                     this._closeAll();
                     dom.removeClass('n-hidden');
+                    dom.addClass('tw-toolbar-body-anim');
                 } else {
                     this._closeAll();
                 }
@@ -219,6 +220,7 @@
             _closeAll: function () {
                 nx.each(document.querySelectorAll('.tw-toolbar-body'), function (dom) {
                     dom.classList.add('n-hidden');
+                    dom.classList.remove('tw-toolbar-body-anim');
                 })
             }
         }

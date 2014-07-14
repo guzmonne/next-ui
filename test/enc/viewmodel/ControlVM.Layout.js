@@ -12,7 +12,7 @@
                     return [
                         {label: 'Enterprise network layout', id: 'enterprise', value: 'enterprise', activated: true},
                         {label: 'Force layout', id: 'force', value: 'force'},
-                        {label: 'Customize layout', id: 'customize', value: 'customize'}
+                        {label: 'Customize layout', id: 'customized', value: 'customized'}
                     ];
                 }
             },

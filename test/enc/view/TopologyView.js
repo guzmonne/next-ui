@@ -30,7 +30,8 @@
                     status: '{topologyVM.status,direction=<>}',
                     //currentScene: '{event.scene,direction=>}',
                     data: '{topologyVM.data.topologyData}',
-                    enableGradualScaling: false
+                    enableGradualScaling: false,
+                    theme: 'slate'
                 },
                 events: {
                     'clear': '{topologyVM.event.clear}',
