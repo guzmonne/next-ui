@@ -96,10 +96,10 @@
                     if (node && !this.node()) {
                         this.node(node);
                         // track and data
-                        var delta, track = [];
+                        var bound, track = [];
+                        bound = node.dom().$dom.getBoundingClientRect();
                         this.track(track);
-                        delta = this._clientDelta(evt.target, node.dom().$dom);
-                        this.track().push([evt.offsetX + delta[0], evt.offsetY + delta[1]]);
+                        this.track().push([evt.pageX - document.body.scrollLeft - bound.left, evt.pageY - document.body.scrollTop - bound.top]);
                         evt.dragCapture = function () {};
                         return true;
                     }
@@ -143,34 +143,11 @@
                     this.dragging(false);
                 }
             },
-            _scrollDelta: function (element) {
-                if (element === document.documentElement) {
-                    return [0, 0];
-                }
-                var parent = element && element.parentNode;
-                var left = 0,
-                    top = 0;
-                do {
-                    parent = element && element.parentNode;
-                    if (!parent || element === document.body || element === parent) {
-                        break;
-                    }
-                    left += parent.scrollLeft;
-                    top += parent.scrollTop;
-                    element = parent;
-                } while (true);
-                return [left, top];
-            },
-            _clientDelta: function (from, to) {
-                var dfrom = from.getBoundingClientRect();
-                var dto = to.getBoundingClientRect();
-                return [dfrom.left - dto.left, dfrom.top - dto.top];
-            },
             _makeDragData: function (evt) {
                 var track = this.track(),
                     node = this.node();
-                var delta = this._clientDelta(evt.target, node.dom().$dom);
-                var current = [evt.offsetX + delta[0], evt.offsetY + delta[1]],
+                var bound = node.dom().$dom.getBoundingClientRect();
+                var current = [evt.pageX - document.body.scrollLeft - bound.left, evt.pageY - document.body.scrollTop - bound.top],
                     origin = track[0],
                     last = track[track.length - 1];
                 this.track([origin, current]);
