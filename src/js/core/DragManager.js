@@ -60,10 +60,15 @@
         static: true,
         properties: {
             /**
-             * activated element
+             * activated component.
              * @property node {nx.graphic.Component}
              */
             node: {},
+            /**
+             * All coordinate will reference to this element.
+             * @property referrer {DOMELement}
+             */
+            referrer: {},
             /**
              * drag track
              * @property track {Array}
@@ -91,13 +96,17 @@
              * @returns {function(this:nx.graphic.DragManager)}
              */
             start: function (evt) {
-                return function (node) {
+                return function (node, referrer) {
                     // make sure only one node can capture the "drag" event
                     if (node && !this.node()) {
+                        // FIXME may not be right on global
+                        referrer = (referrer === window || referrer === document || referrer === document.body) ? document.body : (referrer || node);
+                        referrer = (typeof referrer.dom === "function") ? referrer.dom().$dom : referrer;
                         this.node(node);
+                        this.referrer(referrer);
                         // track and data
                         var bound, track = [];
-                        bound = node.dom().$dom.getBoundingClientRect();
+                        bound = referrer.getBoundingClientRect();
                         this.track(track);
                         this.track().push([evt.pageX - document.body.scrollLeft - bound.left, evt.pageY - document.body.scrollTop - bound.top]);
                         evt.dragCapture = function () {};
@@ -144,9 +153,8 @@
                 }
             },
             _makeDragData: function (evt) {
-                var track = this.track(),
-                    node = this.node();
-                var bound = node.dom().$dom.getBoundingClientRect();
+                var track = this.track();
+                var bound = this.referrer().getBoundingClientRect();
                 var current = [evt.pageX - document.body.scrollLeft - bound.left, evt.pageY - document.body.scrollTop - bound.top],
                     origin = track[0],
                     last = track[track.length - 1];
@@ -155,6 +163,7 @@
                 // TODO make sure the data is correct when target applied a matrix
                 return {
                     target: this.node(),
+                    accord: this.referrer(),
                     origin: origin,
                     current: current,
                     offset: [current[0] - origin[0], current[1] - origin[1]],
