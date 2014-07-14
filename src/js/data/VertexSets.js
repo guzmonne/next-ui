@@ -167,35 +167,27 @@
             generateVertexSet: function (vertexSet) {
                 if (vertexSet.visible() && !vertexSet.generated()) {
                     vertexSet.generated(true);
-                    vertexSet.on('updateCoordinate', this._updateVertexSetCoordinateFN = function (sender, args) {
-                        /**
-                         * @event updateVertexSetCoordinate
-                         * @param sender {Object}  Trigger instance
-                         * @param {nx.data.VertexSet} vertexSet VertexSet object
-                         */
-                        this.fire('updateVertexSetCoordinate', vertexSet);
-
-                        var _xDelta = args.newPosition.x - args.oldPosition.x;
-                        var _yDelta = args.newPosition.y - args.oldPosition.y;
-
-                        nx.each(vertexSet.vertices(), function (vertex) {
-                            vertex.translate(_xDelta, _yDelta);
-                        });
-                        nx.each(vertexSet.vertexSet(), function (vertexSet) {
-                            vertexSet.translate(_xDelta, _yDelta);
-                        });
-
-
-                    }, this);
-
-
-                    //todo
-//                    setTimeout(function () {
-//
-//                    }.bind(this), 0);
-
+                    vertexSet.on('updateCoordinate', this._updateVertexSetCoordinateFN, this);
                     this.fire('addVertexSet', vertexSet);
                 }
+            },
+            _updateVertexSetCoordinateFN: function (vertexSet, args) {
+                /**
+                 * @event updateVertexSetCoordinate
+                 * @param sender {Object}  Trigger instance
+                 * @param {nx.data.VertexSet} vertexSet VertexSet object
+                 */
+                this.fire('updateVertexSetCoordinate', vertexSet);
+
+                var _xDelta = args.newPosition.x - args.oldPosition.x;
+                var _yDelta = args.newPosition.y - args.oldPosition.y;
+
+                nx.each(vertexSet.vertices(), function (vertex) {
+                    vertex.translate(_xDelta, _yDelta);
+                });
+                nx.each(vertexSet.vertexSet(), function (vertexSet) {
+                    vertexSet.translate(_xDelta, _yDelta);
+                });
             },
             updateVertexSet: function (vertexSet) {
                 if (vertexSet.generated()) {
