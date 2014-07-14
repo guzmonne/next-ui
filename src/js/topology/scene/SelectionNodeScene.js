@@ -53,16 +53,6 @@
                     selectedNodes.clear();
                 }
                 this._prevSelectedNodes = this.selectedNodes().toArray().slice();
-                var bounds = this.bounds = [];
-                this.topology().eachNode(function (node) {
-                    if (node.enable()) {
-                        var bound = node.getBound(true);
-                        bounds.push({
-                            bound: bound,
-                            node: node
-                        });
-                    }
-                }, this);
             },
             dragStage: function (sender, event) {
                 this.inherited(sender, event);
@@ -105,8 +95,7 @@
                 }
             },
             selectNodeByRect: function (bound) {
-                nx.each(this.bounds, function (item) {
-                    var node = item.node;
+                this.topology().eachNode(function (node) {
                     var nodeBound = node.getBound();
                     var nodeSelected = node.selected();
                     if (this._hittest(bound, nodeBound)) {
