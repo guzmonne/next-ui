@@ -43,7 +43,7 @@
             },
             events: {
                 blur: function (sender, evt) {
-                    this.close();
+                    // this.close();
                 }
             },
             content: [{
