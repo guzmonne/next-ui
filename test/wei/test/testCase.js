@@ -929,7 +929,9 @@ var topoCase = [
         script: function (topo) {
             var nodeset = topo.aggregationNodes([topo.getNode(0), topo.getNode(1)]);
             nodeset.collapsed(false);
-            topo.highlightRelatedNode(topo.getNode(1));
+            setTimeout(function () {
+                topo.highlightRelatedNode(topo.getNode(1));
+            }, 2000)
         },
         tearDown: function (topo) {
             var nodesets = topo.getLayer('nodeSet').nodeSetDictionary().toObject();
@@ -964,7 +966,7 @@ var topoCase = [
 //            nodeset.collapsed(false);
             setTimeout(function () {
                 topo.fadeOut(true)
-                topo.highlightedNodes([topo.getNode(0), topo.getNode(1)]);
+                topo.highlightedNodes([0, 1]);
             }, 2000)
 
 
@@ -1265,6 +1267,329 @@ var topoCase = [
         tearDown: function (topo) {
             topo.fit(function () {
             }, this, 0)
+        }
+    },
+    {
+        name: 'prop hide-navi',
+        description: "API hide-navi",
+        script: function (topo) {
+            topo.showNavigation(false)
+        },
+        tearDown: function (topo) {
+            topo.showNavigation(true)
+        }
+    },
+    {
+        name: 'prop theme',
+        description: "API theme",
+        script: function (topo) {
+            setTimeout(function () {
+                topo.theme("blue")
+            }, 1000);
+            setTimeout(function () {
+                topo.theme("green")
+            }, 2000);
+            setTimeout(function () {
+                topo.theme("dark")
+            }, 3000);
+            setTimeout(function () {
+                topo.theme("slate")
+            }, 4000);
+            setTimeout(function () {
+                topo.theme("yellow")
+            }, 5000);
+        },
+        tearDown: function (topo) {
+            topo.theme("blue")
+        }
+    },
+    {
+        name: 'prop width/height',
+        description: "API theme",
+        script: function (topo) {
+            topo.height(600);
+            topo.width(610);
+            return 'height: ' + topo.height() + 'width: ' + topo.width()
+        },
+        tearDown: function (topo) {
+            topo.adaptToContainer();
+        }
+    },
+    {
+        name: 'prop node-Draggable-false',
+        description: "API node-Draggable",
+        script: function (topo) {
+            topo.nodeDraggable(false);
+
+        },
+        tearDown: function (topo) {
+            topo.nodeDraggable(true);
+        }
+    },
+    {
+        name: 'prop showIcon',
+        description: "API showIcon",
+        script: function (topo) {
+            topo.showIcon(false);
+            setTimeout(function () {
+                topo.showIcon(true);
+            }, 3000)
+        },
+        tearDown: function (topo) {
+            topo.nodeDraggable(true);
+        }
+    },
+    {
+        name: 'prop supportMultipleLink',
+        description: "API supportMultipleLink",
+        script: function (topo) {
+            topo.supportMultipleLink(false);
+            topo.setData({
+                nodes: [
+                    {"id": 0, "x": 410, "y": 100, "name": "12K-1"},
+                    {"id": 1, "x": 410, "y": 280, "name": "12K-2"},
+                    {"id": 2, "x": 660, "y": 280, "name": "Of-9k-03"},
+                    {"id": 3, "x": 660, "y": 100, "name": "Of-9k-02"},
+                    {"id": 4, "x": 180, "y": 190, "name": "Of-9k-01"}
+                ],
+                links: [
+                    {"id": 0, "source": 0, "target": 1},
+                    {"id": 1, "source": 1, "target": 2},
+                    {"id": 2, "source": 1, "target": 3},
+                    {"id": 3, "source": 4, "target": 1},
+                    {"id": 4, "source": 2, "target": 3},
+                    {"id": 5, "source": 2, "target": 0},
+                    {"id": 6, "source": 3, "target": 0},
+                    {"id": 7, "source": 3, "target": 0},
+                    {"id": 8, "source": 3, "target": 0},
+                    {"id": 9, "source": 0, "target": 4},
+                    {"id": 10, "source": 0, "target": 4},
+                    {"id": 11, "source": 0, "target": 3}
+                ]
+            })
+        },
+        tearDown: function (topo) {
+            topo.supportMultipleLink(true);
+            topo.setData({
+                nodes: [
+                    {"id": 0, "x": 410, "y": 100, "name": "12K-1"},
+                    {"id": 1, "x": 410, "y": 280, "name": "12K-2"},
+                    {"id": 2, "x": 660, "y": 280, "name": "Of-9k-03"},
+                    {"id": 3, "x": 660, "y": 100, "name": "Of-9k-02"},
+                    {"id": 4, "x": 180, "y": 190, "name": "Of-9k-01"}
+                ],
+                links: [
+                    {"id": 0, "source": 0, "target": 1},
+                    {"id": 1, "source": 1, "target": 2},
+                    {"id": 2, "source": 1, "target": 3},
+                    {"id": 3, "source": 4, "target": 1},
+                    {"id": 4, "source": 2, "target": 3},
+                    {"id": 5, "source": 2, "target": 0},
+                    {"id": 6, "source": 3, "target": 0},
+                    {"id": 7, "source": 3, "target": 0},
+                    {"id": 8, "source": 3, "target": 0},
+                    {"id": 9, "source": 0, "target": 4},
+                    {"id": 10, "source": 0, "target": 4},
+                    {"id": 11, "source": 0, "target": 3}
+                ]
+            });
+        }
+    },
+    {
+        name: 'prop scalable',
+        description: "API scalable",
+        script: function (topo) {
+            topo.scalable(false)
+        },
+        tearDown: function (topo) {
+            topo.scalable(true);
+        }
+    },
+    {
+        name: 'event/before setData/after setData',
+        description: "event/before setData/after setData",
+        script: function (topo, context) {
+            topo.on('beforeSetData', function () {
+                context.log('beforeSetData1');
+            });
+            topo.on('beforeSetData', function () {
+                context.log('beforeSetData2');
+            });
+            topo.on('afterSetData', function () {
+                context.log('afterSetData1');
+            });
+            topo.on('afterSetData', function () {
+                context.log('afterSetData2');
+            });
+            topo.setData({
+                nodes: [
+                    {"id": 0, "x": 410, "y": 100, "name": "12K-1"},
+                    {"id": 1, "x": 410, "y": 280, "name": "12K-2"},
+                    {"id": 2, "x": 660, "y": 280, "name": "Of-9k-03"},
+                    {"id": 3, "x": 660, "y": 100, "name": "Of-9k-02"},
+                    {"id": 4, "x": 180, "y": 190, "name": "Of-9k-01"}
+                ],
+                links: [
+                    {"id": 0, "source": 0, "target": 1},
+                    {"id": 1, "source": 1, "target": 2},
+                    {"id": 2, "source": 1, "target": 3},
+                    {"id": 3, "source": 4, "target": 1},
+                    {"id": 4, "source": 2, "target": 3},
+                    {"id": 5, "source": 2, "target": 0},
+                    {"id": 6, "source": 3, "target": 0},
+                    {"id": 7, "source": 3, "target": 0},
+                    {"id": 8, "source": 3, "target": 0},
+                    {"id": 9, "source": 0, "target": 4},
+                    {"id": 10, "source": 0, "target": 4},
+                    {"id": 11, "source": 0, "target": 3}
+                ]
+            });
+            topo.off('afterSetData');
+            topo.off('beforeSetData');
+            topo.setData({
+                nodes: [
+                    {"id": 0, "x": 410, "y": 100, "name": "12K-1"},
+                    {"id": 1, "x": 410, "y": 280, "name": "12K-2"},
+                    {"id": 2, "x": 660, "y": 280, "name": "Of-9k-03"},
+                    {"id": 3, "x": 660, "y": 100, "name": "Of-9k-02"},
+                    {"id": 4, "x": 180, "y": 190, "name": "Of-9k-01"}
+                ],
+                links: [
+                    {"id": 0, "source": 0, "target": 1},
+                    {"id": 1, "source": 1, "target": 2},
+                    {"id": 2, "source": 1, "target": 3},
+                    {"id": 3, "source": 4, "target": 1},
+                    {"id": 4, "source": 2, "target": 3},
+                    {"id": 5, "source": 2, "target": 0},
+                    {"id": 6, "source": 3, "target": 0},
+                    {"id": 7, "source": 3, "target": 0},
+                    {"id": 8, "source": 3, "target": 0},
+                    {"id": 9, "source": 0, "target": 4},
+                    {"id": 10, "source": 0, "target": 4},
+                    {"id": 11, "source": 0, "target": 3}
+                ]
+            });
+        },
+        tearDown: function (topo) {
+            //topo.scalable(true);
+        }
+    },
+    {
+        name: 'event/click stage',
+        description: "click the stage, you will see the message",
+        script: function (topo, context) {
+            topo.on('clickStage', function () {
+                context.log('clickStage1');
+            });
+            topo.on('clickStage', function () {
+                context.log('clickStage2');
+            });
+
+        },
+        tearDown: function (topo) {
+            topo.off('clickStage')
+        }
+    },
+    {
+        name: 'event/click stage-removed',
+        description: "click the stage, you wont see the message",
+        script: function (topo, context) {
+            topo.on('clickStage', function () {
+                context.log('clickStage1 ');
+            });
+            topo.off('clickStage');
+
+        }
+    },
+    {
+        name: 'event/drag stage',
+        description: "drag the stage, you will see the drag event sequence",
+        script: function (topo, context) {
+            topo.on('dragStage', function () {
+                context.log('dragStage ');
+            });
+            topo.on('dragStageEnd', function () {
+                context.log('dragStageEnd ');
+            });
+            topo.on('dragStageStart', function () {
+                context.log('dragStageStart ');
+            });
+
+        },
+        tearDown: function (topo) {
+            topo.off('dragStage');
+            topo.off('dragStageEnd')
+            topo.off('dragStageStart')
+        }
+    },
+    {
+        name: 'event/drag stage-removed',
+        description: "drag the stage, you will see the drag event sequence",
+        script: function (topo, context) {
+            topo.on('dragStage', function () {
+                context.log('dragStage ');
+            });
+            topo.on('dragStageEnd', function () {
+                context.log('dragStageEnd ');
+            });
+            topo.on('dragStageStart', function () {
+                context.log('dragStageStart ');
+            });
+            topo.off('dragStage');
+            topo.off('dragStageEnd')
+            topo.off('dragStageStart')
+
+        },
+        tearDown: function (topo) {
+
+        }
+    },
+    {
+        name: 'event/pressStage stage',
+        description: "drag the stage, you will see the drag event sequence",
+        script: function (topo, context) {
+            topo.on('pressStage', function () {
+                context.log('pressStage ');
+            });
+        },
+        tearDown: function (topo) {
+            topo.off("pressStage")
+        }
+    },
+    {
+        name: 'event/resizeStage stage',
+        description: "drag the stage, you will see the drag event sequence",
+        script: function (topo, context) {
+            topo.on('resizeStage', function () {
+                context.log('resizeStage ');
+            });
+            topo.resize(600, 600);
+
+        },
+        tearDown: function (topo) {
+            topo.off("resizeStage")
+        }
+    },
+    {
+        name: 'event/resizeStage the set height/width',
+        description: "drag the stage, you will see the drag event sequence",
+        script: function (topo, context) {
+            topo.on('resizeStage', function () {
+                context.log('resizeStage ');
+            });
+            topo.height(600);
+            topo.width(600);
+
+        },
+        tearDown: function (topo) {
+            topo.off("resizeStage")
+        }
+    },
+    {
+        name: 'for test only',
+        description: "for test only",
+        script: function (topo, context) {
+            context.log('aaa');
         }
     }
 

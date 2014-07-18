@@ -48,6 +48,11 @@ nx.define('topo.test.ViewModel', nx.Observable, {
             this.tearDown(tcase[0].tearDown)
             this.index(0);
         },
+        log:function(value)
+        {
+            var temp = this.output();
+            this.output(temp + '//' + value);
+        },
         casePass: function (sender, event) {
             test(this.testname(), function () {
                 ok(true);
@@ -142,11 +147,10 @@ nx.define('topo.test.ViewModel', nx.Observable, {
             //this.topo().on('topologyGenerated', function () {
             try {
                 if (this.script()) {
-                    var result = this.script()(this.topo());
+                    this.output('');
+                    var result = this.script()(this.topo(),this);
                     if (result)
                         this.output(result);
-                    else
-                        this.output('');
                 }
             }
             catch (err) {
