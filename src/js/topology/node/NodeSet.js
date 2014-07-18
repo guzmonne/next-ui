@@ -131,8 +131,7 @@
             props: {
                 'class': 'node'
             },
-            content: [
-                {
+            content: [{
                     name: 'label',
                     type: 'nx.graphic.Text',
                     props: {
@@ -140,38 +139,34 @@
                         'alignment-baseline': 'central',
                         y: 12
                     }
-                },
-                {
+                }, {
                     name: 'selectedBG',
                     type: 'nx.graphic.Circle',
                     props: {
-                        'class': 'selectedBG'
+                        'class': 'selectedBG',
+                        'r': 26
                     }
-                },
-                {
+                }, {
                     type: 'nx.graphic.Group',
                     name: 'graphic',
-                    content: [
-                        {
-                            name: 'icon',
-                            type: 'nx.graphic.Icon',
-                            props: {
-                                'class': 'icon',
-                                'iconType': 'unknown',
-                                'showIcon': false,
-                                scale: 1
-                            }
-                        },
-                        {
-                            name: 'minus',
-                            type: 'nx.graphic.Icon',
-                            props: {
-                                'class': 'indicator',
-                                'iconType': 'expand',
-                                scale: 1
-                            }
+                    content: [{
+                        name: 'icon',
+                        type: 'nx.graphic.Icon',
+                        props: {
+                            'class': 'icon',
+                            'iconType': 'unknown',
+                            'showIcon': false,
+                            scale: 1
                         }
-                    ],
+                    }, {
+                        name: 'minus',
+                        type: 'nx.graphic.Icon',
+                        props: {
+                            'class': 'indicator',
+                            'iconType': 'expand',
+                            scale: 1
+                        }
+                    }],
                     events: {
                         'mousedown': '{#_mousedown}',
                         'mouseup': '{#_mouseup}',
@@ -194,19 +189,19 @@
                 this.setBinding('activated', 'model.activated,direction=<>', this);
             },
             update: function () {
-//                this.view().visible(this.model().activated() && this.model().inheritedVisible());
+                //                this.view().visible(this.model().activated() && this.model().inheritedVisible());
             },
             expand: function (isAnimation) {
                 this._collapsed = false;
                 if (isAnimation != null) {
-                    this._animation = !!isAnimation;
+                    this._animation = !! isAnimation;
                 }
                 this._expand();
             },
             collapse: function (isAnimation) {
                 this._collapsed = true;
                 if (isAnimation != null) {
-                    this._animation = !!isAnimation;
+                    this._animation = !! isAnimation;
                 }
                 this._collapse();
             },
@@ -214,7 +209,7 @@
                 this.selected(false);
                 this.model().activated(false);
                 this.fire('beforeExpandNode', this);
-//                this.view().visible(false);
+                //                this.view().visible(false);
 
                 this.topology().expandNodes(this.nodes(), this.position(), function () {
                     this.fire('expandNode', this);
@@ -228,7 +223,7 @@
 
                 this.topology().collapseNodes(this.nodes(), this.position(), function () {
                     this.model().activated(true);
-//                    this.view().visible(true);
+                    //                    this.view().visible(true);
                     this.fire('collapseNode', this);
                 }, this, this._animation);
 
