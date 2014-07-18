@@ -240,7 +240,6 @@
                 setTimeout(function () {
                     this.MVM().topoDataModel().layout(id);
                 }.bind(this), 0)
-
             },
             _expandLastOpenedNodeSet: function () {
                 var openedNodeSetIDs = this._openedNodeSetIDs;

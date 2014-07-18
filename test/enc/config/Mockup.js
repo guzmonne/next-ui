@@ -11,7 +11,8 @@
             'l2default': serverURL + 'l2default.json',
             'ospf': serverURL + 'ospf.json',
             'force': serverURL + 'force.json',
-            'enterprise': serverURL + 'enterprise.json'
+            'enterprise': serverURL + 'enterprise.json',
+            'customized':serverURL + 'enterprise.json'
         }
     });
 
