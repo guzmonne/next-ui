@@ -193,25 +193,14 @@
             },
             expand: function (isAnimation) {
                 this._collapsed = false;
-                if (isAnimation != null) {
-                    this._animation = !! isAnimation;
-                }
-                this._expand();
-                if (!this._animation) {
-                    this.topology().blockEvent(false);
-                }
+                this._expand(isAnimation);
             },
             collapse: function (isAnimation) {
                 this._collapsed = true;
-                if (isAnimation != null) {
-                    this._animation = !! isAnimation;
-                }
-                this._collapse();
-                if (!this._animation) {
-                    this.topology().blockEvent(false);
-                }
+                this._collapse(isAnimation);
             },
-            _expand: function () {
+            _expand: function (animation) {
+                animation = (typeof animation === "boolean" ? animation : this.animation());
                 this.selected(false);
                 this.model().activated(false);
                 this.fire('beforeExpandNode', this);
@@ -219,20 +208,24 @@
 
                 this.topology().expandNodes(this.nodes(), this.position(), function () {
                     this.fire('expandNode', this);
-                }, this, this._animation);
-
+                }, this, animation);
+                if (!animation) {
+                    this.topology().blockEvent(false);
+                }
             },
 
-            _collapse: function () {
+            _collapse: function (animation) {
+                animation = (typeof animation === "boolean" ? animation : this.animation());
 
                 this.fire('beforeCollapseNode');
 
                 this.topology().collapseNodes(this.nodes(), this.position(), function () {
                     this.model().activated(true);
-                    //                    this.view().visible(true);
                     this.fire('collapseNode', this);
-                }, this, this._animation);
-
+                }, this, animation);
+                if (!animation) {
+                    this.topology().blockEvent(false);
+                }
             },
 
             expandNodes: function (callback, context) {
