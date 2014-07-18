@@ -199,6 +199,10 @@
   }
 
   .nodeset {
+    &:not(.node-selected) .selectedBG {
+	display: none;
+    }
+    
     .selectedBG {
       fill: transparent;
       opacity: 0.8;

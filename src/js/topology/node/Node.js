@@ -116,7 +116,7 @@
             color: {
                 set: function (inValue) {
                     var value = this._processPropertyValue(inValue);
-//                    this.view('graphic').dom().setStyle('fill', value);
+                    //                    this.view('graphic').dom().setStyle('fill', value);
                     this.view('label').dom().setStyle('fill', value);
                     this.view('icon').set('color', value);
                     this._color = value;
@@ -129,7 +129,7 @@
              */
             scale: {
                 get: function () {
-                    return  this.view('graphic').scale();
+                    return this.view('graphic').scale();
                 },
                 set: function (inValue) {
                     var value = this._processPropertyValue(inValue);
@@ -156,18 +156,15 @@
                 },
                 set: function (inValue) {
                     var value = this._processPropertyValue(inValue);
-                    if (this._selected != value) {
-                        this._selected = value;
-
-                        var el = this.view('selectedBG');
-                        if (inValue) {
-                            el.set('r', this.selectedRingRadius());
-                        }
-                        el.set('visible', inValue);
-                        return true;
-                    } else {
+                    if (this._selected == value) {
                         return false;
                     }
+                    this._selected = value;
+                    this.dom().setClass("node-selected", !! value);
+                    if (value) {
+                        this.view('selectedBG').set('r', this.selectedRingRadius());
+                    }
+                    return true;
                 }
             },
             enable: {
@@ -210,8 +207,7 @@
             props: {
                 'class': 'node'
             },
-            content: [
-                {
+            content: [{
                     name: 'label',
                     type: 'nx.graphic.Text',
                     props: {
@@ -219,29 +215,26 @@
                         'alignment-baseline': 'central',
                         y: 12
                     }
-                },
-                {
+                }, {
                     name: 'selectedBG',
                     type: 'nx.graphic.Circle',
                     props: {
-                        'class': 'selectedBG'
+                        'class': 'selectedBG',
+			'r': 26
                     }
-                },
-                {
+                }, {
                     type: 'nx.graphic.Group',
                     name: 'graphic',
-                    content: [
-                        {
-                            name: 'icon',
-                            type: 'nx.graphic.Icon',
-                            props: {
-                                'class': 'icon',
-                                'iconType': 'unknown',
-                                'showIcon': false,
-                                scale: 1
-                            }
+                    content: [{
+                        name: 'icon',
+                        type: 'nx.graphic.Icon',
+                        props: {
+                            'class': 'icon',
+                            'iconType': 'unknown',
+                            'showIcon': false,
+                            scale: 1
                         }
-                    ],
+                    }],
                     events: {
                         'mousedown': '{#_mousedown}',
                         'mouseup': '{#_mouseup}',
@@ -295,7 +288,7 @@
             _mousedown: function (sender, event) {
                 if (this.enable()) {
                     this._prevPosition = this.position();
-                    event.captureDrag(this.view('graphic'),this.topology().stage());
+                    event.captureDrag(this.view('graphic'), this.topology().stage());
                     this.fire('pressNode', event);
                 }
             },
@@ -396,10 +389,10 @@
                     if (force) {
                         this._centralizedText();
                     } else {
-//                        clearTimeout(this._centralizedTextTimer || 0);
-//                        this._centralizedTextTimer = setTimeout(function () {
+                        //                        clearTimeout(this._centralizedTextTimer || 0);
+                        //                        this._centralizedTextTimer = setTimeout(function () {
                         this._centralizedText();
-//                        }.bind(this), 100);
+                        //                        }.bind(this), 100);
                     }
 
                 } else {
@@ -446,7 +439,8 @@
                 // get the min incline angle
 
                 var startVector = new nx.geometry.Vector(1, 0);
-                var maxAngle = 0, labelAngle;
+                var maxAngle = 0,
+                    labelAngle;
 
                 if (vectors.length === 0) {
                     labelAngle = 90;

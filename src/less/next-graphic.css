@@ -274,6 +274,9 @@
 .n-topology.n-topology-blue .iconBGActive {
   fill: #0386d2;
 }
+.n-topology .node:not(.node-selected) .selectedBG {
+  display: none;
+}
 .n-topology.n-topology-blue .node .selectedBG {
   fill: transparent;
   opacity: 0.8;
