@@ -197,6 +197,9 @@
                     this._animation = !! isAnimation;
                 }
                 this._expand();
+                if (!this._animation) {
+                    this.topology().blockEvent(false);
+                }
             },
             collapse: function (isAnimation) {
                 this._collapsed = true;
