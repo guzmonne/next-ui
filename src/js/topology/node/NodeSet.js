@@ -204,6 +204,9 @@
                     this._animation = !! isAnimation;
                 }
                 this._collapse();
+                if (!this._animation) {
+                    this.topology().blockEvent(false);
+                }
             },
             _expand: function () {
                 this.selected(false);
