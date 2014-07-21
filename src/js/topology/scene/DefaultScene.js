@@ -34,11 +34,10 @@
             pressStage: function (sender, event) {
             },
             clickStage: function (sender, event) {
-                if (event.target == this._topo.stage().view().dom().$dom) {
+                if (event.target == this._topo.stage().view().dom().$dom && !event.shiftKey) {
                     this._topo.selectedNodes().clear();
                 }
             },
-
             dragStageStart: function (sender, event) {
                 var nodes = this._nodesLayer.nodes().length;
                 if (nodes > 300) {
@@ -134,13 +133,13 @@
             },
 
             pressNode: function (sender, node) {
-
             },
             clickNode: function (sender, node) {
                 if (!this._nodeDragging) {
-                    var selected = node.selected();
-                    this._topo.selectedNodes().clear();
-                    node.selected(!selected);
+                    if (!event.shiftKey) {
+                        this._topo.selectedNodes().clear();
+                    }
+                    node.selected(!node.selected());
                 }
             },
             selectNode: function (sender, node) {
@@ -169,7 +168,11 @@
             clickNodeSet: function (sender, nodeSet) {
                 clearTimeout(this._sceneTimer);
                 this._recover();
-                nodeSet.collapsed(!nodeSet.collapsed());
+                if (event.shiftKey) {
+                    nodeSet.selected(!nodeSet.selected());
+                } else {
+                    nodeSet.collapsed(!nodeSet.collapsed());
+                }
             },
 
             enterNodeSet: function (sender, nodeSet) {

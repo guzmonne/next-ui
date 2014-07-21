@@ -33,7 +33,7 @@
 
             pressStage: function (sender, event) {
                 var selectedNodes = this.selectedNodes();
-                var multi = this._multi = event.metaKey || event.ctrlKey;
+                var multi = this._multi = event.metaKey || event.ctrlKey || event.shiftKey;
                 if (!multi) {
                     selectedNodes.clear();
                 }
@@ -48,7 +48,7 @@
             dragStageStart: function (sender, event) {
                 this.inherited(sender, event);
                 var selectedNodes = this.selectedNodes();
-                var multi = this._multi = event.metaKey || event.ctrlKey;
+                var multi = this._multi = event.metaKey || event.ctrlKey || event.shiftKey;
                 if (!multi) {
                     selectedNodes.clear();
                 }
@@ -77,7 +77,7 @@
             pressNode: function (sender, node) {
                 if (node.enable()) {
                     var selectedNodes = this.selectedNodes();
-                    this._multi = event.metaKey || event.ctrlKey;
+                    this._multi = event.metaKey || event.ctrlKey || event.shiftKey;
                     if (!this._multi) {
                         selectedNodes.clear();
                     }
@@ -87,7 +87,7 @@
             pressNodeSet: function (sender, nodeSet) {
                 if (nodeSet.enable()) {
                     var selectedNodes = this.selectedNodes();
-                    this._multi = event.metaKey || event.ctrlKey;
+                    this._multi = event.metaKey || event.ctrlKey || event.shiftKey;
                     if (!this._multi) {
                         selectedNodes.clear();
                     }
