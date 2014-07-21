@@ -103,7 +103,6 @@
 
                     var model = n.model();
                     var p = projection([nx.path(n, longitude), nx.path(n, latitude)]);
-                    model.autoSave(false);
                     model.position({
                         x: p[0],
                         y: p[1]
@@ -162,7 +161,7 @@
 
 
                     topo.stage().resetFitMatrix();
-                    topo.fit();
+                    topo.fit(null,null,true);
                     if (this.complete()) {
                         this.complete().call();
                     }
