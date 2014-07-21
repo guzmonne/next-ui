@@ -16,7 +16,7 @@
                     return this._width || 300 + this.padding() * 2;
                 },
                 set: function (value) {
-                    this._width = Math.max(value, 300 + this.padding() * 2);
+                    return this.resize(value);
                 }
             },
             /**
@@ -28,7 +28,7 @@
                     return this._height || 300 + this.padding() * 2;
                 },
                 set: function (value) {
-                    this._height = Math.max(value, 300 + this.padding() * 2);
+                    this.resize(null, value);
                 }
             },
             /**
@@ -102,12 +102,12 @@
                 var self = this;
                 if (!this.adaptive() && (this.width() !== 0 && this.height() !== 0)) {
                     this.status('appended');
-                    //                    /**
-                    //                     * Fired when topology appended to container with with& height
-                    //                     * @event ready
-                    //                     * @param sender{Object} trigger instance
-                    //                     * @param event {Object} original event object
-                    //                     */
+                    /**
+                     * Fired when topology appended to container with with& height
+                     * @event ready
+                     * @param sender{Object} trigger instance
+                     * @param event {Object} original event object
+                     */
                     setTimeout(function () {
                         this.fire('ready');
                     }.bind(this), 0);
@@ -115,30 +115,24 @@
                 } else {
                     var timer = setInterval(function () {
                         if (nx.dom.Document.body().contains(self.view().dom())) {
-                            //
                             clearInterval(timer);
-                            self._adaptToContainer();
-                            self.status('appended');
-                            self.fire('ready');
+                            this._adaptToContainer();
+                            this.status('appended');
+                            this.fire('ready');
                         }
-                    }, 10);
+                    }.bind(this), 10);
                 }
             },
             _adaptToContainer: function () {
                 var bound = this.view().dom().parentNode().getBound();
                 if (bound.width === 0 || bound.height === 0) {
-                    //nx.logger.log("Please set height*width to topology's parent container");
+                    if (console) {
+                        console.log("Please set height*width to topology's parent container");
+                    }
+                    return;
                 }
                 if (this._width !== bound.width || this._height !== bound.height) {
-                    /**
-                     * Fired when topology's stage changed
-                     * @event resizeStage
-                     * @param sender{Object} trigger instance
-                     * @param event {Object} original event object
-                     */
-                    this.fire('resizeStage');
-                    this.height(Math.max(bound.height, 300));
-                    this.width(Math.max(bound.width, 300));
+                    this.resize(bound.width, bound.height);
                 }
             },
             /**
@@ -150,7 +144,6 @@
                     return;
                 }
                 this._adaptToContainer();
-                this.stage().resetFitMatrix();
                 this.fit();
             },
 
@@ -242,10 +235,34 @@
              * @param height {Number}
              */
             resize: function (width, height) {
-                this.width(width);
-                this.height(height);
-                this.stage().resetFitMatrix();
-                this.fire('resizeStage');
+                var modified = false;
+                if (width != null && width != this._width) {
+                    var _width = Math.max(width, 300 + this.padding() * 2);
+                    if (_width != this._width) {
+                        this._width = _width;
+                        modified = true;
+                    }
+                }
+                if (height != null) {
+                    var _height = Math.max(height, 300 + this.padding() * 2);
+                    if (_height != this._height) {
+                        this._height = _height;
+                    }
+                }
+
+                if (modified) {
+                    this.notify('width');
+                    this.notify('height');
+                    this.stage().resetFitMatrix();
+                    /**
+                     * Fired when topology's stage changed
+                     * @event resizeStage
+                     * @param sender{Object} trigger instance
+                     * @param event {Object} original event object
+                     */
+                    this.fire('resizeStage');
+                }
+                return modified;
             },
             /**
              * If enable enableSmartNode, this function will auto adjust the node's overlapping and set the nodes to right size
