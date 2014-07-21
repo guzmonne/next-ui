@@ -68,9 +68,9 @@
                     if (this._collapsed !== value) {
                         this._collapsed = value;
                         if (value) {
-                            this._collapse();
+                            this.collapse(this._animation);
                         } else {
-                            this._expand();
+                            this.expand(this._animation);
                         }
                         return true;
                     } else {
@@ -191,43 +191,43 @@
             update: function () {
                 //                this.view().visible(this.model().activated() && this.model().inheritedVisible());
             },
-            expand: function (isAnimation) {
-                this._collapsed = false;
-                this._expand(isAnimation);
-            },
-            collapse: function (isAnimation) {
-                this._collapsed = true;
-                this._collapse(isAnimation);
-            },
-            _expand: function (animation) {
-                animation = (typeof animation === "boolean" ? animation : this.animation());
+            expand: function (animation, callback, context) {
+                // remember the animation status
+                var _animation = this.animation();
+                this.animation(typeof animation === "boolean" ? animation : _animation);
+                // prepare to expand
                 this.selected(false);
                 this.model().activated(false);
                 this.fire('beforeExpandNode', this);
-                //                this.view().visible(false);
-
+                // expand
                 this.topology().expandNodes(this.nodes(), this.position(), function () {
+                    // set the result
+                    this._collapsed = false;
                     this.fire('expandNode', this);
-                }, this, animation);
-                if (!animation) {
-                    this.topology().blockEvent(false);
-                }
+                    /* jslint -W030 */
+                    callback && callback.call(context, this, this);
+                }, this, this.animation());
+                // restore the animation
+                this.animation(_animation);
             },
-
-            _collapse: function (animation) {
-                animation = (typeof animation === "boolean" ? animation : this.animation());
-
+            collapse: function (animation, callback, context) {
+                // remember the animation status
+                var _animation = this.animation();
+                this.animation(typeof animation === "boolean" ? animation : _animation);
+                // prepare to expand
+                this.selected(false);
+                this.model().activated(false);
                 this.fire('beforeCollapseNode');
-
                 this.topology().collapseNodes(this.nodes(), this.position(), function () {
+                    this._collapsed = true;
                     this.model().activated(true);
                     this.fire('collapseNode', this);
-                }, this, animation);
-                if (!animation) {
-                    this.topology().blockEvent(false);
-                }
+                    /* jslint -W030 */
+                    callback && callback.call(context, this, this);
+                }, this, this.animation());
+                // restore the animation
+                this.animation(_animation);
             },
-
             expandNodes: function (callback, context) {
                 if (!this.model().activated()) {
                     this.topology().expandNodes(this.nodes(), this.position(), callback, context);
