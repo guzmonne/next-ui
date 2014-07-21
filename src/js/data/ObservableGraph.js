@@ -56,7 +56,7 @@
                  * @param sender {Object}  event trigger
                  * @param {Object} data data, which been processed by data processor
                  */
-                this.fire('setData', data);
+                this.fire('setData', inData);
             },
             subordinates: function (vertex, callback) {
                 // argument type overload
