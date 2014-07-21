@@ -85,7 +85,7 @@
                         vertex.set(_latitude, p[1]);
                     });
 
-                    vertex.initPosition();
+                    vertex.position(vertex.positionGetter().call(vertex));
                 });
 
 
