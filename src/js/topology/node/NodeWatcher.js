@@ -32,6 +32,8 @@
                         }
                     }, this);
 
+
+                    //todo
                     if (nx.is(nodes, nx.data.ObservableCollection)) {
                         nodes.on('change', function (sender, args) {
                             var action = args.action;
@@ -46,9 +48,12 @@
                         });
                     }
 
-
+                    var observePosition = this.observePosition();
                     nx.each(vertices, function (vertex) {
                         vertex.watch('generated', updater, this);
+                        if (observePosition) {
+                            vertex.on('updateCoordinate', updater, this);
+                        }
                     }, this);
 
                     updater();
@@ -78,17 +83,22 @@
                 value: function () {
                     return [];
                 }
+            },
+            observePosition: {
+                value: false
             }
         },
         methods: {
             _getVertex: function (value) {
                 var vertex;
                 var topo = this.topology();
-                var graph = topo.graph();
-                if (nx.is(value, nx.graphic.Topology.AbstractNode)) {
-                    vertex = value.model();
-                } else if (graph.getVertex(value)) {
-                    vertex = graph.getVertex(value);
+                if (topo && topo.graph()) {
+                    var graph = topo.graph();
+                    if (nx.is(value, nx.graphic.Topology.AbstractNode)) {
+                        vertex = value.model();
+                    } else if (graph.getVertex(value)) {
+                        vertex = graph.getVertex(value);
+                    }
                 }
                 return vertex;
             },
