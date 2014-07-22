@@ -12,15 +12,15 @@
                 var graphicBound = this.getBoundByNodes();
 
                 //scale
-                var xRate = width / graphicBound.width;
-                var yRate = height / graphicBound.height;
+                var xRate = (width - padding * 2) / graphicBound.width;
+                var yRate = (height - padding * 2) / graphicBound.height;
 
                 this.eachNode(function (node) {
                     if (node.visible()) {
                         var absolutePosition = node.absolutePosition();
                         node.absolutePosition({
-                            x: (absolutePosition.x - graphicBound.left) * xRate,
-                            y: (absolutePosition.y - graphicBound.top) * yRate
+                            x: (absolutePosition.x - graphicBound.left) * xRate + padding,
+                            y: (absolutePosition.y - graphicBound.top) * yRate + padding
                         });
                     }
                 });

@@ -225,7 +225,7 @@
                     this._blockEvent(false);
                     this._topo.adjustLayout();
 
-                }, this, 1.5);
+                }, this, nodeSet.animation() ? 1.5 : false);
 
                 //
             },
@@ -258,7 +258,7 @@
                 this._topo.stage().resetFitMatrix();
                 this._topo.fit(function () {
                     this._blockEvent(false);
-                }, this);
+                }, this, nodeSet.animation() ? 1.5 : false);
             },
             removeNodeSet: function (sender, nodeSet) {
                 if (nodeSet.group) {
