@@ -8,6 +8,62 @@
      */
     nx.define('nx.data.VertexSet', nx.data.Vertex, {
         properties: {
+            position: {
+                get: function () {
+                    return{
+                        x: this._x || 0,
+                        y: this._y || 0
+                    };
+                },
+                set: function (obj) {
+                    var isModified = false;
+                    var _position = {
+                        x: this._x,
+                        y: this._y
+                    };
+                    if (obj.x !== undefined && this._x !== obj.x) {
+                        this._x = obj.x;
+                        isModified = true;
+                    }
+
+                    if (obj.y !== undefined && this._y !== obj.y) {
+                        this._y = obj.y;
+                        isModified = true;
+                    }
+
+
+                    if (isModified) {
+
+                        this.positionSetter().call(this, {x: this._x, y: this._y});
+
+
+                        var _xDelta = this._x - _position.x;
+                        var _yDelta = this._y - _position.y;
+
+                        nx.each(this.vertices(), function (vertex) {
+                            vertex.translate(_xDelta, _yDelta);
+                        });
+                        nx.each(this.vertexSet(), function (vertexSet) {
+                            vertexSet.translate(_xDelta, _yDelta);
+                        });
+
+                        /**
+                         * @event updateVertexSetCoordinate
+                         * @param sender {Object}  Trigger instance
+                         * @param {Object} {oldPosition:Point,newPosition:Point}
+                         */
+
+                        this.fire("updateCoordinate", {
+                            oldPosition: _position,
+                            newPosition: {
+                                x: this._x,
+                                y: this._y
+                            }
+                        });
+                        this.notify("vector");
+                    }
+                }
+            },
             /**
              * All child vertices
              * @property vertices {Object}
