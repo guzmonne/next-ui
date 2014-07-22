@@ -239,6 +239,9 @@
                 });
                 this.blockEvent(false);
                 this.fire('clear');
+                if (this.width() && this.height()) {
+                    this.status('appended');
+                }
             },
             dispose: function () {
                 this.status('disposed');
