@@ -21,7 +21,7 @@
 
                 this.graph().vertexSets().each(function (item) {
                     var vs = item.value();
-                    if (vs.parentVertexSet() == null) {
+                    if (vs.generated() && vs.activated()) {
                         var position = vs.position();
                         var absolutePosition = {
                             x: position.x * stageScale + topoMatrix.x(),
@@ -38,7 +38,7 @@
 
                 this.graph().vertices().each(function (item) {
                     var vertex = item.value();
-                    if (vertex.parentVertexSet() == null) {
+                    if (vertex.parentVertexSet() == null || !(vertex.parentVertexSet().generated() && vertex.parentVertexSet().activated())) {
                         var position = vertex.position();
                         var absolutePosition = {
                             x: position.x * stageScale + topoMatrix.x(),
@@ -52,16 +52,6 @@
                     }
                 });
 
-
-//                this.eachNode(function (node) {
-//                    if (node.visible()) {
-//                        var absolutePosition = node.absolutePosition();
-//                        node.absolutePosition({
-//                            x: (absolutePosition.x - graphicBound.left) * xRate + padding,
-//                            y: (absolutePosition.y - graphicBound.top) * yRate + padding
-//                        });
-//                    }
-//                });
 
                 this.fit(null, null, false);
 
