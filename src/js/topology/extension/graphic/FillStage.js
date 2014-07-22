@@ -16,11 +16,13 @@
                 var yRate = height / graphicBound.height;
 
                 this.eachNode(function (node) {
-                    var absolutePosition = node.absolutePosition();
-                    node.absolutePosition({
-                        x: (absolutePosition.x - graphicBound.left) * xRate,
-                        y: (absolutePosition.y - graphicBound.top) * yRate
-                    });
+                    if (node.visible()) {
+                        var absolutePosition = node.absolutePosition();
+                        node.absolutePosition({
+                            x: (absolutePosition.x - graphicBound.left) * xRate,
+                            y: (absolutePosition.y - graphicBound.top) * yRate
+                        });
+                    }
                 });
 
                 this.fit(null, null, false);
