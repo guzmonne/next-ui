@@ -61,11 +61,35 @@
      * @uses nx.graphic.Topology.SceneMixin
      *
      */
-    nx.define("nx.graphic.Topology", nx.ui.Component, {
+    var extendEvent = nx.Object.extendEvent;
+    var extendProperty = nx.Object.extendProperty;
+    var extendMethod = nx.Object.extendMethod;
+    var Topology = nx.define("nx.graphic.Topology", nx.ui.Component, {
         statics: {
             i18n: {
                 'cantAggregateExtraNode': 'Can\'t aggregate extra node',
                 'cantAggregateNodesInDifferentNodeSet': 'Can\'t aggregate nodes in different nodeSet'
+            },
+            extensions: [],
+            registerExtension: function (cls) {
+                var prototype = Topology.prototype;
+                var classPrototype = cls.prototype;
+
+                Topology.extensions.push(cls);
+
+                nx.each(cls.__events__, function (name) {
+                    extendEvent(prototype, name);
+                });
+
+                nx.each(cls.__properties__, function (name) {
+                    extendProperty(prototype, name, classPrototype[name].__meta__);
+                });
+
+                nx.each(cls.__methods__, function (name) {
+                    if (name !== 'init') {
+                        extendMethod(prototype, name, classPrototype[name]);
+                    }
+                });
             }
         },
         mixins: [
@@ -187,6 +211,16 @@
                 this.initNode();
                 this.initScene();
                 this.initLayout();
+
+
+                nx.each(Topology.extensions, function (cls) {
+                    var ctor = cls.__ctor__;
+                    if (ctor) {
+                        ctor.call(this);
+                    }
+                }, this);
+
+
             },
             attach: function (args) {
                 this.inherited(args);

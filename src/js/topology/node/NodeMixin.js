@@ -649,8 +649,8 @@
 
             getBoundByNodes: function (inNodes, isNotIncludeLabel) {
 
-                if (inNodes.length === 0) {
-                    return null;
+                if (inNodes == null || inNodes.length === 0) {
+                    inNodes = this.getNodes();
                 }
 
                 var bound = {
