@@ -8,7 +8,7 @@
                 var rate;
                 var width = this.width();
                 var height = this.height();
-                var padding = this.padding();
+                var padding = this.padding() / 3;
                 var graphicBound = this.getBoundByNodes();
 
                 //scale
