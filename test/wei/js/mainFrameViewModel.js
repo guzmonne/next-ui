@@ -108,6 +108,10 @@ nx.define('topo.test.ViewModel', nx.Observable, {
             this.script(data.script);
             this.testname(data.name);
             this.tearDown(data.tearDown)
+            this.menuaction()
+        },
+        clearConsole: function(){
+            this.output('');
         },
         menuaction: function () {
             if (this.menustatus() == 'btn-group')

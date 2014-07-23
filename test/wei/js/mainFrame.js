@@ -108,6 +108,23 @@
                                             ]
                                         },
                                         {
+                                            tag: 'button',
+                                            props: {
+                                                type: 'button',
+                                                class: 'btn btn-default dropdown-toggle',
+                                                'data-toggle': 'dropdown'
+                                            },
+                                            events: {
+                                                click: '{clearConsole}'
+                                            },
+                                            content: [
+                                                {
+                                                    tag: 'span',
+                                                    content: 'clear Console'
+                                                }
+                                            ]
+                                        },
+                                        {
                                             tag: 'ul',
                                             name: 'menu',
                                             props: {

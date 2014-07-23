@@ -9,7 +9,7 @@
      * @module nx.graphic.Topology
      */
     nx.define("nx.graphic.Topology.NodeMixin", {
-        events: ['addNode', 'deleteNode', 'addNodeSet', 'deleteNodeSet'],
+        events: ['addNode', 'deleteNode', 'addNodeSet', 'deleteNodeSet','expandAll'],
         properties: {
             /**
              * Node instance class name, support function
@@ -649,8 +649,8 @@
 
             getBoundByNodes: function (inNodes, isNotIncludeLabel) {
 
-                if (inNodes.length === 0) {
-                    return null;
+                if (inNodes == null || inNodes.length === 0) {
+                    inNodes = this.getNodes();
                 }
 
                 var bound = {
@@ -827,29 +827,41 @@
                     ani.start();
                 }
             },
-            _expandAll: function () {
+            expandAll: function () {
                 var nodeSetLayer = this.getLayer('nodeSet');
-                var isFinished = true;
-                nodeSetLayer.eachNodeSet(function (nodeSet) {
-                    nodeSet.collapsed(false);
-                    isFinished = false;
-                });
+                //console.time('expandAll');
+                var fn = function (callback) {
+                    var isFinished = true;
+                    nodeSetLayer.eachNodeSet(function (nodeSet) {
+                        if (nodeSet.visible()) {
+                            nodeSet.animation(false);
+                            nodeSet.collapsed(false);
+                            isFinished = false;
+                        }
+                    });
+                    if (!isFinished) {
+                        fn(callback);
+                    } else {
+                        callback();
+                    }
+                };
 
-                if (!isFinished) {
+                this.showLoading();
 
-                    this.disableCurrentScene(true);
-                    this.on('expandNodeSet', this.expandAll, this);
-                } else {
-                    this.stage().resetFitMatrix();
-                    this.off('expandNodeSet', this.expandAll, this);
-                    this.fit(function () {
-                        setTimeout(function () {
-                            this.disableCurrentScene(false);
-                        }.bind(this), 1200);
+                setTimeout(function () {
+                    fn(function () {
 
-                    }, this);
-
-                }
+                        nodeSetLayer.eachNodeSet(function (nodeSet) {
+                            nodeSet.animation(true);
+                        });
+                        this.stage().resetFitMatrix();
+                        this.hideLoading();
+                        this.fit(function () {
+                            this.blockEvent(false);
+                            this.fire('expandAll');
+                        }, this);
+                    }.bind(this));
+                }.bind(this), 100);
 
             }
         }

@@ -161,14 +161,7 @@
             generateVertex: function (vertex) {
                 if (vertex.visible() && !vertex.generated() && !vertex.restricted()) {
 
-                    vertex.on('updateCoordinate', this._updateVertexCoordinateFN = function () {
-                        /**
-                         * @event updateVertexCoordinate
-                         * @param sender {Object}  Trigger instance
-                         * @param {nx.data.Vertex} vertex Vertex object
-                         */
-                        this.fire('updateVertexCoordinate', vertex);
-                    }, this);
+                    vertex.on('updateCoordinate', this._updateVertexCoordinateFN, this);
                     /**
                      * @event addVertex
                      * @param sender {Object}  Trigger instance
@@ -178,6 +171,15 @@
                     vertex.generated(true);
                 }
             },
+            _updateVertexCoordinateFN: function (vertex) {
+                /**
+                 * @event updateVertexCoordinate
+                 * @param sender {Object}  Trigger instance
+                 * @param {nx.data.Vertex} vertex Vertex object
+                 */
+                this.fire('updateVertexCoordinate', vertex);
+            },
+
 
             /**
              * Remove a vertex from Graph

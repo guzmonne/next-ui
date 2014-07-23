@@ -56,6 +56,18 @@
                         x: position.x * stageScale + topoMatrix.x(),
                         y: position.y * stageScale + topoMatrix.y()
                     };
+                },
+                set: function (position) {
+                    if (position == null || position.x == null || position.y == null) {
+                        return false;
+                    }
+                    var topoMatrix = this.topology().matrix();
+                    var stageScale = topoMatrix.scale();
+
+                    this.position({
+                        x: (position.x - topoMatrix.x()) / stageScale,
+                        y: (position.y - topoMatrix.y()) / stageScale
+                    });
                 }
             },
             matrix: {

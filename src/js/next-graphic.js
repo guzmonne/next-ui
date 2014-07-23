@@ -79,9 +79,6 @@
         "src/js/data/UniqObservableCollection.js",
 
 
-
-
-
         "src/js/topology/core/Config.js",
         "src/js/topology/core/Graph.js",
         "src/js/topology/core/Event.js",
@@ -144,7 +141,10 @@
         "src/js/topology/path/PathLayer.js",
 
         "src/js/topology/plugin/Nav.js",
-        "src/js/topology/plugin/Thumbnail.js"
+        "src/js/topology/plugin/Thumbnail.js",
+
+        "src/js/topology/extension/graphic/OptimizeLabel.js",
+        "src/js/topology/extension/graphic/FillStage.js"
     ];
 
     xPath = path + "../../";

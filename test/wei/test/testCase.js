@@ -1586,12 +1586,315 @@ var topoCase = [
         }
     },
     {
+        name: 'event/fit ',
+        description: "click fit to see the message",
+        script: function (topo, context) {
+            topo.on('fit', function () {
+                context.log('fit ');
+            });
+        },
+        tearDown: function (topo) {
+            topo.off("fit")
+        }
+    },
+    {
+        name: 'event/insertData ',
+        description: "",
+        script: function (topo, context) {
+            topo.on('insertData', function () {
+                context.log('insertData ');
+            });
+            topo.insertData({
+                nodes: [
+                    {"id": 5, "x": 500, "y": 500, "name": "qiaowei"}
+                ],
+                links: [
+                    {"id": 12, "source": 0, "target": 5}
+                ]
+            })
+        },
+        tearDown: function (topo) {
+            topo.off("insertData")
+            topo.removeNode(5);
+            topo.removeLink(12);
+        }
+    },
+    {
+        name: 'event/insertData nodes: [],links: []',
+        description: "",
+        script: function (topo, context) {
+            topo.on('insertData', function () {
+                context.log('insertData ');
+            });
+            topo.insertData({
+                nodes: [],
+                links: []
+            })
+        },
+        tearDown: function (topo) {
+            topo.off("insertData")
+        }
+    },
+    {
+        name: 'event/insertData duplicate data',
+        description: "",
+        script: function (topo, context) {
+            topo.on('insertData', function () {
+                context.log('insertData ');
+            });
+            topo.insertData({
+                nodes: [
+                    {"id": 0, "x": 410, "y": 100, "name": "12K-1"}
+                ],
+                links: [
+                    {"id": 0, "source": 0, "target": 1}
+                ]})
+        },
+        tearDown: function (topo) {
+            topo.off("insertData")
+        }
+    },
+    {
+        name: 'event/select Node',
+        description: "click a node to trigger the event",
+        script: function (topo, context) {
+            topo.on('selectNode', function () {
+                context.log('selectNode ');
+            });
+        },
+        tearDown: function (topo) {
+            topo.off("selectNode")
+        }
+    },
+    {
+        name: 'event/enter Node.leave node',
+        description: "click a node to trigger the event",
+        script: function (topo, context) {
+            topo.on('enterNode', function () {
+                context.log('enterNode ');
+            });
+            topo.on('leaveNode', function () {
+                context.log('leaveNode ');
+            });
+        },
+        tearDown: function (topo) {
+            topo.off("enterNode")
+            topo.off("leaveNode")
+        }
+    },
+    {
+        name: 'event/updateNodeCoordinate',
+        description: "click a node to a new place",
+        script: function (topo, context) {
+            topo.on('updateNodeCoordinate', function () {
+                context.log('updateNodeCoordinate ');
+            });
+        },
+        tearDown: function (topo) {
+            topo.off("updateNodeCoordinate");
+        }
+    },
+    {
+        name: 'event/drag node',
+        description: "drag the node, you will see the drag event sequence",
+        script: function (topo, context) {
+            topo.on('dragNode', function () {
+                context.log('dragNode ');
+            });
+            topo.on('dragNodeStart', function () {
+                context.log('dragNodeStart ');
+            });
+            topo.on('dragNodeEnd', function () {
+                context.log('dragNodeEnd ');
+            });
+
+        },
+        tearDown: function (topo) {
+            topo.off('dragNode');
+            topo.off('dragNodeStart');
+            topo.off('dragNodeEnd');
+        }
+    },
+    {
         name: 'for test only',
         description: "for test only",
         script: function (topo, context) {
             context.log('aaa');
         }
+    },
+    {
+        name: 'API, add path',
+        description: "click a node to a new place",
+        script: function (topo, context) {
+            var pathLayer = topo.getLayer("paths");
+            var links1 = [topo.getLink(2)];
+            var path1 = new nx.graphic.Topology.Path({
+                links: links1,
+                arrow: 'cap'
+            });
+            path1.pathWidth(20)
+            pathLayer.addPath(path1);
+        },
+        tearDown: function (topo) {
+            var pathLayer = topo.getLayer("paths");
+            var paths = pathLayer.paths();
+            nx.each(paths, function(path){
+                pathLayer.removePath(path);
+            })
+
+        }
+    },
+    {
+        name: 'API, add path, path not exists',
+        description: "click a node to a new place",
+        script: function (topo, context) {
+            var pathLayer = topo.getLayer("paths");
+            var links1 = [topo.getLink(100)];
+            var path1 = new nx.graphic.Topology.Path({
+                links: links1,
+                arrow: 'cap'
+            });
+            path1.pathWidth(20)
+            pathLayer.addPath(path1);
+        },
+        tearDown: function (topo) {
+            var pathLayer = topo.getLayer("paths");
+            var paths = pathLayer.paths();
+            nx.each(paths, function(path){
+                pathLayer.removePath(path);
+            })
+
+        }
+    },
+    {
+        name: 'API, add multiple path',
+        description: "click a node to a new place",
+        script: function (topo, context) {
+            var pathLayer = topo.getLayer("paths");
+            var links1 = [topo.getLink(0),topo.getLink(1),topo.getLink(4),topo.getLink(6)];
+            var path1 = new nx.graphic.Topology.Path({
+                links: links1,
+                arrow: 'cap'
+            });
+
+            var links2 = [topo.getLink(3),topo.getLink(1),topo.getLink(5)];
+            var path2 = new nx.graphic.Topology.Path({
+                links: links2,
+                arrow: 'cap'
+            });
+            path1.pathWidth(10)
+            path2.pathWidth(10)
+            pathLayer.addPath(path1);
+            pathLayer.addPath(path2);
+            var paths = pathLayer.paths();
+            console.log(paths)
+        },
+        tearDown: function (topo) {
+            var pathLayer = topo.getLayer("paths");
+            var paths = pathLayer.paths();
+            console.log(paths)
+            nx.each(paths, function(path){
+                pathLayer.removePath(path);
+            })
+
+        }
+    },
+    {
+        name: 'API, fade out path',
+        description: "API, fade out path",
+        script: function (topo, context) {
+            var pathLayer = topo.getLayer("paths");
+            var links1 = [topo.getLink(0),topo.getLink(1),topo.getLink(4),topo.getLink(6)];
+            var path1 = new nx.graphic.Topology.Path({
+                links: links1,
+                arrow: 'cap'
+            });
+
+            var links2 = [topo.getLink(3),topo.getLink(1),topo.getLink(5)];
+            var path2 = new nx.graphic.Topology.Path({
+                links: links2,
+                arrow: 'cap'
+            });
+            path1.pathWidth(10)
+            path2.pathWidth(10)
+            pathLayer.addPath(path1);
+            pathLayer.addPath(path2);
+            pathLayer.fadeOut(true);
+        },
+        tearDown: function (topo) {
+            var pathLayer = topo.getLayer("paths");
+            var paths = pathLayer.paths();
+            nx.each(paths, function(path){
+                pathLayer.removePath(path);
+            })
+
+        }
+    },
+    {
+        name: 'API, add path first then do aggregration',
+        description: "API, fade out path",
+        script: function (topo, context) {
+
+            var pathLayer = topo.getLayer("paths");
+            var links1 = [topo.getLink(0),topo.getLink(1),topo.getLink(4),topo.getLink(6)];
+            var path1 = new nx.graphic.Topology.Path({
+                links: links1,
+                arrow: 'cap'
+            });
+
+            var links2 = [topo.getLink(3),topo.getLink(1),topo.getLink(5)];
+            var path2 = new nx.graphic.Topology.Path({
+                links: links2,
+                arrow: 'cap'
+            });
+            path1.pathWidth(10)
+            path2.pathWidth(10)
+            pathLayer.addPath(path1);
+            pathLayer.addPath(path2);
+            topo.aggregationNodes([topo.getNode(0), topo.getNode(1)]);
+        },
+        tearDown: function (topo) {
+            var pathLayer = topo.getLayer("paths");
+            var paths = pathLayer.paths();
+            nx.each(paths, function(path){
+                pathLayer.removePath(path);
+            })
+
+        }
+    },
+    {
+        name: 'API, aggregration first then add path',
+        description: "API, fade out path",
+        script: function (topo, context) {
+            topo.aggregationNodes([topo.getNode(0), topo.getNode(1)]);
+            var pathLayer = topo.getLayer("paths");
+            var links1 = [topo.getLink(0),topo.getLink(1),topo.getLink(4),topo.getLink(6)];
+            var path1 = new nx.graphic.Topology.Path({
+                links: links1,
+                arrow: 'cap'
+            });
+
+            var links2 = [topo.getLink(3),topo.getLink(1),topo.getLink(5)];
+            var path2 = new nx.graphic.Topology.Path({
+                links: links2,
+                arrow: 'cap'
+            });
+            path1.pathWidth(10)
+            path2.pathWidth(10)
+            pathLayer.addPath(path1);
+            pathLayer.addPath(path2);
+
+        },
+        tearDown: function (topo) {
+            var pathLayer = topo.getLayer("paths");
+            var paths = pathLayer.paths();
+            nx.each(paths, function(path){
+                pathLayer.removePath(path);
+            })
+
+        }
     }
+
 
 
 ]
