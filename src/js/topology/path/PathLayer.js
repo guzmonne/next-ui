@@ -20,9 +20,6 @@
                 }
             }
         },
-        view: {
-            type: 'nx.graphic.Group'
-        },
         methods: {
             attach: function (args) {
                 this.attach.__super__.apply(this, arguments);
