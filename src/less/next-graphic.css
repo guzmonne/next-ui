@@ -472,6 +472,13 @@
   font-size: 12px;
   pointer-events: none;
 }
+.n-topology.n-topology-blue .link-set.disable .link-set-bg {
+  stroke: #ccc;
+}
+.n-topology.n-topology-blue .link-set.disable .link-set-circle {
+  fill: #ccc;
+  stroke: #ccc;
+}
 @media screen and (-webkit-min-device-pixel-ratio: 0) {
   .n-topology.n-topology-blue {
     /* Safari only override */
@@ -484,14 +491,14 @@
 }
 .n-topology.n-topology-blue .mapPath {
   fill: #d6effe;
-  stroke: #ccecfe;
+  stroke: #ade0fe;
   stroke-width: 1;
   opacity: 0.5;
   pointer-events: none;
 }
 .n-topology.n-topology-blue .mapBoundary {
-  fill: transparent;
-  stroke: #ccecfe;
+  fill: none;
+  stroke: #ade0fe;
   stroke-width: 1;
   pointer-events: none;
 }
@@ -1152,6 +1159,13 @@
   font-size: 12px;
   pointer-events: none;
 }
+.n-topology.n-topology-dark .link-set.disable .link-set-bg {
+  stroke: #ccc;
+}
+.n-topology.n-topology-dark .link-set.disable .link-set-circle {
+  fill: #ccc;
+  stroke: #ccc;
+}
 @media screen and (-webkit-min-device-pixel-ratio: 0) {
   .n-topology.n-topology-dark {
     /* Safari only override */
@@ -1164,14 +1178,14 @@
 }
 .n-topology.n-topology-dark .mapPath {
   fill: #ffffff;
-  stroke: #f5fcff;
+  stroke: #d6f1ff;
   stroke-width: 1;
   opacity: 0.5;
   pointer-events: none;
 }
 .n-topology.n-topology-dark .mapBoundary {
-  fill: transparent;
-  stroke: #f5fcff;
+  fill: none;
+  stroke: #d6f1ff;
   stroke-width: 1;
   pointer-events: none;
 }
@@ -1832,6 +1846,13 @@
   font-size: 12px;
   pointer-events: none;
 }
+.n-topology.n-topology-green .link-set.disable .link-set-bg {
+  stroke: #ccc;
+}
+.n-topology.n-topology-green .link-set.disable .link-set-circle {
+  fill: #ccc;
+  stroke: #ccc;
+}
 @media screen and (-webkit-min-device-pixel-ratio: 0) {
   .n-topology.n-topology-green {
     /* Safari only override */
@@ -1844,14 +1865,14 @@
 }
 .n-topology.n-topology-green .mapPath {
   fill: #cff2f4;
-  stroke: #c7f0f2;
+  stroke: #afe9ec;
   stroke-width: 1;
   opacity: 0.5;
   pointer-events: none;
 }
 .n-topology.n-topology-green .mapBoundary {
-  fill: transparent;
-  stroke: #c7f0f2;
+  fill: none;
+  stroke: #afe9ec;
   stroke-width: 1;
   pointer-events: none;
 }
@@ -2512,6 +2533,13 @@
   font-size: 12px;
   pointer-events: none;
 }
+.n-topology.n-topology-slate .link-set.disable .link-set-bg {
+  stroke: #ccc;
+}
+.n-topology.n-topology-slate .link-set.disable .link-set-circle {
+  fill: #ccc;
+  stroke: #ccc;
+}
 @media screen and (-webkit-min-device-pixel-ratio: 0) {
   .n-topology.n-topology-slate {
     /* Safari only override */
@@ -2524,14 +2552,14 @@
 }
 .n-topology.n-topology-slate .mapPath {
   fill: #ffffff;
-  stroke: #ffffff;
+  stroke: #eeeeee;
   stroke-width: 1;
   opacity: 0.5;
   pointer-events: none;
 }
 .n-topology.n-topology-slate .mapBoundary {
-  fill: transparent;
-  stroke: #ffffff;
+  fill: none;
+  stroke: #eeeeee;
   stroke-width: 1;
   pointer-events: none;
 }
@@ -3192,6 +3220,13 @@
   font-size: 12px;
   pointer-events: none;
 }
+.n-topology.n-topology-yellow .link-set.disable .link-set-bg {
+  stroke: #ccc;
+}
+.n-topology.n-topology-yellow .link-set.disable .link-set-circle {
+  fill: #ccc;
+  stroke: #ccc;
+}
 @media screen and (-webkit-min-device-pixel-ratio: 0) {
   .n-topology.n-topology-yellow {
     /* Safari only override */
@@ -3210,8 +3245,8 @@
   pointer-events: none;
 }
 .n-topology.n-topology-yellow .mapBoundary {
-  fill: transparent;
-  stroke: #fffdf5;
+  fill: none;
+  stroke: #555555;
   stroke-width: 1;
   pointer-events: none;
 }
