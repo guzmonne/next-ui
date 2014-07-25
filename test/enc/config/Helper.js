@@ -1,4 +1,4 @@
-var deviceTypeMapping = {
+var DEVICETYPEMAP = {
     SWITCH: 'switch',
     ROUTER: 'router',
     AP: 'accesspoint',
@@ -11,12 +11,14 @@ var deviceTypeMapping = {
     accesspoint: 'accesspoint',
     WIRELESS: ''
 };
+var COLORTABLE = ['#C3A5E4', '#75C6EF', '#CBDA5C', '#2CC86F'];
+
 
 nx.define("ENC.TW.converter", {
     statics: {
         icon: {
             convert: function (value) {
-                return 'n-icon-' + (deviceTypeMapping[value] || value);
+                return 'n-icon-' + (DEVICETYPEMAP[value] || value);
             }
         }
     }

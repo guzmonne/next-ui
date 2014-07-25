@@ -7,6 +7,9 @@
             content: [
                 {
                     type: 'ENC.TW.View.Toolbar'
+                },
+                {
+                    type: 'ENC.TW.View.Search'
                 }
             ]
         },

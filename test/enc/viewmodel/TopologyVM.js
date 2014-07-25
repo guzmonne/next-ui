@@ -34,7 +34,7 @@
                         this.MVM().status().topologyGenerated(value == "generated");
                         this.MVM().status().topologyCleared(value == "generated");
                         if (value == 'generated') {
-                            this._expandLastOpenedNodeSet();
+                            this._topologyGenerated();
                         }
                         if (value == "cleared") {
                             this._saveLastOpenedNodeSet();
@@ -51,9 +51,24 @@
                 get: function () {
                     return this.MVM().topology();
                 }
+            },
+            tags: {
+                value: function () {
+                    return {}
+                }
+            },
+            tagRingType: {
+                value: 'Pi'
             }
         },
         methods: {
+            _topologyGenerated: function () {
+                this._expandLastOpenedNodeSet();
+                var topo = this.topology();
+                topo.graph().on('addVertex', this.updateAllTag, this);
+                topo.watch('showIcon', this.updateTag, this);
+                this.expandAll();
+            },
             expandAll: function () {
                 var topo = this.topology();
                 var nodeSetLayer = topo.getLayer('nodeSet');
@@ -248,6 +263,72 @@
                 }, this);
                 topo.stage().resetFitMatrix();
                 topo.fit(null, null, false);
+            },
+            addTag: function (tag) {
+                var tags = this.tags();
+                var topo = this.topology();
+                var tagRingType = this.tagRingType();
+                nx.each(tag.get('nodes'), function (item) {
+                    var node = topo.getNode(item.networkDeviceId);
+                    if (node) {
+                        node.tagRingType(tagRingType);
+                        node.addTag(tag);
+                        node.updateTag();
+                    }
+                });
+                tags[tag.get('key')] = tag;
+            },
+            removeTag: function (tag) {
+                var tags = this.tags();
+                nx.each(tag.get('nodes'), function (item) {
+                    var node = topo.getNode(item.networkDeviceId);
+                    if (node) {
+                        node.removeTag(tag);
+                        node.updateTag();
+                    }
+                });
+                delete tags[tag.get('key')];
+            },
+            updateTag: function () {
+                var tagRingType = this.tagRingType();
+                nx.each(this.tags(), function (tag) {
+                    nx.each(tag.get('nodes'), function (item) {
+                        var node = topo.getNode(item.networkDeviceId);
+                        if (node) {
+                            node.tagRingType(tagRingType);
+                            node.updateTag();
+                        }
+                    });
+                });
+            },
+            updateAllTag: function () {
+                var topo = this.topology();
+                if (this._updateAllTagTimer) {
+                    clearTimeout(this._updateAllTagTimer);
+                }
+                this._updateAllTagTimer = setTimeout(function () {
+                    var tagMap = {};
+                    nx.each(this.tags(), function (tag) {
+                        nx.each(tag.get('nodes'), function (item) {
+                            var id = item.networkDeviceId;
+                            var ary = tagMap[id] = tagMap[id] || [];
+                            ary.push(tag);
+                        });
+                    });
+
+                    topo.eachNode(function (node, id) {
+                        if (tagMap[id]) {
+                            nx.each(tagMap[id], function (tag) {
+                                node.addTag(tag);
+                            });
+                            node.updateTag();
+                        }
+                    });
+                }.bind(this), 100);
+            },
+            updateTagType: function (value) {
+                this.tagRingType(value);
+                this.updateTag();
             }
         }
     });

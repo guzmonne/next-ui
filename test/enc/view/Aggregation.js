@@ -13,7 +13,7 @@
         },
         icon: {
             convert: function (value) {
-                return 'n-icon-' + deviceTypeMapping[value];
+                return 'n-icon-' + DEVICETYPEMAP[value];
             }
         },
         subVertices: {

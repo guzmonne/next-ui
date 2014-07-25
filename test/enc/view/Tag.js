@@ -13,13 +13,57 @@
         events: [],
         view: {
             content: [
+//                {
+//                    tag: 'input',
+//                    props: {
+//                        'class': 'form-control tw-tag-search',
+//                        value: '{controlVM.inventory.searchKey}',
+//                        placeholder: 'Search'
+//                    }
+//                },
                 {
-                    tag: 'input',
                     props: {
-                        'class': 'form-control tw-tag-search',
-                        value: '{controlVM.inventory.searchKey}',
-                        placeholder: 'Search'
-                    }
+                        'class': 'tw-tag-type'
+                    },
+                    content: [
+                        {
+                            tag: 'span',
+                            content: "Tag drawing type :"
+                        },
+                        {
+                            tag: 'input',
+                            props: {
+                                type: 'radio',
+                                name: 'tagType',
+                                x: 'Pi',
+                                checked: 'checked'
+                            },
+                            events: {
+                                'change': '{#owner.model.controlVM.tag.updateTagType}'
+                            }
+                        },
+                        {
+                            tag: 'span',
+                            content: 'Pi'
+
+                        },
+                        {
+                            tag: 'input',
+                            props: {
+                                type: 'radio',
+                                name: 'tagType',
+                                x: 'Ring'
+                            },
+                            events: {
+                                'change': '{#owner.model.controlVM.tag.updateTagType}'
+                            }
+                        },
+                        {
+                            tag: 'span',
+                            content: 'Ring'
+
+                        }
+                    ]
                 },
                 {
                     props: {
@@ -39,21 +83,34 @@
                                     {
                                         content: [
                                             {
-                                                tag: 'span',
+                                                tag: 'input',
                                                 props: {
-                                                    'class': '{opened,converter=ENC.TW.tag.opened}'
+                                                    type: 'checkbox',
+                                                    'class': 'tw-tag-list-item-checkbox'
                                                 },
                                                 events: {
-                                                    'click': '{#_collapsed}'
+                                                    'click': '{#owner.model.controlVM.tag.selectTag}'
                                                 }
                                             },
+//                                            {
+//                                                tag: 'span',
+//                                                props: {
+//                                                    'class': '{opened,converter=ENC.TW.tag.opened}'
+//                                                },
+//                                                events: {
+//                                                    'click': '{#_collapsed}'
+//                                                }
+//                                            },
                                             {
                                                 tag: 'input',
                                                 name: 'input',
                                                 props: {
                                                     'class': 'tw-tag-list-item-label',
                                                     value: '{key}',
-                                                    'readOnly': true
+                                                    'readOnly': true,
+                                                    style: {
+                                                        'color': '{color}'
+                                                    }
                                                 },
                                                 events: {
                                                     'click': '{#root.model.controlVM.tag.highlightTag}',
@@ -67,6 +124,18 @@
                                                     'class': 'tw-tag-list-item-num'
                                                 },
                                                 content: '{nodes.length}' //converter
+                                            },
+                                            {
+                                                tag: 'input',
+                                                props: {
+                                                    'type': 'color',
+                                                    'class': 'tw-tag-list-item-color',
+                                                    value: '{color}',
+                                                    color: '{color}'
+                                                },
+                                                events: {
+                                                    'change': '{#owner.model.controlVM.tag.updateTag}'
+                                                }
                                             },
                                             {
                                                 tag: 'span',

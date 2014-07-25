@@ -20,13 +20,14 @@
                             dict[tag] = items;
                         });
 
-                        var tags = [];
+                        var tags = [], colorIndex = -1;
                         nx.each(dict, function (value, key) {
                             tags.push(new nx.data.ObservableObject({
                                 key: key,
                                 nodes: value,
                                 originalKey: key,
-                                opened: false
+                                opened: false,
+                                color: COLORTABLE[++colorIndex % COLORTABLE.length]
                             }))
                         });
                         this.tags(tags);
@@ -59,7 +60,24 @@
             },
             update: function (model) {
                 console.log(model);
-            }
+            },
+            selectTag: function (sender, event) {
+                var checked = sender.get('checked');
+                if (checked) {
+                    this.MVM().topologyVM().addTag(sender.model());
+                } else {
+                    this.MVM().topologyVM().removeTag(sender.model());
+                }
+            },
+            updateTag: function (sender, event) {
+                var color = sender.get('value');
+                sender.model().set('color', color);
+                this.MVM().topologyVM().updateTag(sender.model());
+            },
+            updateTagType: function (sender, events) {
+                var tagType = sender.get('x');
+                this.MVM().topologyVM().updateTagType(tagType);
+            },
         }
     });
 

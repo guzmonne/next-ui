@@ -1,5 +1,5 @@
 (function (nx, global) {
-    nx.define("ENC.TW.View.TopologyView", nx.ui.Component, {
+    nx.define('ENC.TW.View.TopologyView', nx.ui.Component, {
         events: [],
         view: {
             content: {
@@ -9,6 +9,7 @@
                     adaptive: true,
                     identityKey: 'id',
 //                    dataProcessor: 'force',
+                    nodeInstanceClass: 'ENC.TW.View.Node',
                     nodeConfig: {
                         label: '{topologyVM.view.nodeLabel}',
                         iconType: '{topologyVM.view.nodeIconPath}',
@@ -31,7 +32,7 @@
                     //currentScene: '{event.scene,direction=>}',
                     data: '{topologyVM.data.topologyData}',
                     enableGradualScaling: false,
-                    theme: 'slate'
+                    theme: 'green'
                 },
                 events: {
                     'clear': '{topologyVM.event.clear}',

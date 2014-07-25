@@ -58,7 +58,7 @@
                     var self = this;
                     return function (model, node) {
                         var deviceType = model.get('deviceType');
-                        return deviceTypeMapping[deviceType];
+                        return DEVICETYPEMAP[deviceType];
 
                     }
                 }
@@ -78,7 +78,7 @@
                             if (role == "Border Router") {
                                 return 'groupl';
                             } else {
-                                return deviceTypeMapping[deviceType];
+                                return DEVICETYPEMAP[deviceType];
                             }
                         } else {
                             return 'groupl';
