@@ -1732,13 +1732,13 @@ var topoCase = [
                 links: links1,
                 arrow: 'cap'
             });
-            path1.pathWidth(20)
+            path1.pathWidth(20);
             pathLayer.addPath(path1);
         },
         tearDown: function (topo) {
             var pathLayer = topo.getLayer("paths");
             var paths = pathLayer.paths();
-            nx.each(paths, function(path){
+            nx.each(paths, function (path) {
                 pathLayer.removePath(path);
             })
 
@@ -1754,13 +1754,13 @@ var topoCase = [
                 links: links1,
                 arrow: 'cap'
             });
-            path1.pathWidth(20)
+            path1.pathWidth(20);
             pathLayer.addPath(path1);
         },
         tearDown: function (topo) {
             var pathLayer = topo.getLayer("paths");
             var paths = pathLayer.paths();
-            nx.each(paths, function(path){
+            nx.each(paths, function (path) {
                 pathLayer.removePath(path);
             })
 
@@ -1771,19 +1771,19 @@ var topoCase = [
         description: "click a node to a new place",
         script: function (topo, context) {
             var pathLayer = topo.getLayer("paths");
-            var links1 = [topo.getLink(0),topo.getLink(1),topo.getLink(4),topo.getLink(6)];
+            var links1 = [topo.getLink(0), topo.getLink(1), topo.getLink(4), topo.getLink(6)];
             var path1 = new nx.graphic.Topology.Path({
                 links: links1,
                 arrow: 'cap'
             });
 
-            var links2 = [topo.getLink(3),topo.getLink(1),topo.getLink(5)];
+            var links2 = [topo.getLink(3), topo.getLink(1), topo.getLink(5)];
             var path2 = new nx.graphic.Topology.Path({
                 links: links2,
                 arrow: 'cap'
             });
-            path1.pathWidth(10)
-            path2.pathWidth(10)
+            path1.pathWidth(10);
+            path2.pathWidth(10);
             pathLayer.addPath(path1);
             pathLayer.addPath(path2);
             var paths = pathLayer.paths();
@@ -1793,7 +1793,7 @@ var topoCase = [
             var pathLayer = topo.getLayer("paths");
             var paths = pathLayer.paths();
             console.log(paths)
-            nx.each(paths, function(path){
+            nx.each(paths, function (path) {
                 pathLayer.removePath(path);
             })
 
@@ -1804,19 +1804,19 @@ var topoCase = [
         description: "API, fade out path",
         script: function (topo, context) {
             var pathLayer = topo.getLayer("paths");
-            var links1 = [topo.getLink(0),topo.getLink(1),topo.getLink(4),topo.getLink(6)];
+            var links1 = [topo.getLink(0), topo.getLink(1), topo.getLink(4), topo.getLink(6)];
             var path1 = new nx.graphic.Topology.Path({
                 links: links1,
                 arrow: 'cap'
             });
 
-            var links2 = [topo.getLink(3),topo.getLink(1),topo.getLink(5)];
+            var links2 = [topo.getLink(3), topo.getLink(1), topo.getLink(5)];
             var path2 = new nx.graphic.Topology.Path({
                 links: links2,
                 arrow: 'cap'
             });
-            path1.pathWidth(10)
-            path2.pathWidth(10)
+            path1.pathWidth(10);
+            path2.pathWidth(10);
             pathLayer.addPath(path1);
             pathLayer.addPath(path2);
             pathLayer.fadeOut(true);
@@ -1824,7 +1824,7 @@ var topoCase = [
         tearDown: function (topo) {
             var pathLayer = topo.getLayer("paths");
             var paths = pathLayer.paths();
-            nx.each(paths, function(path){
+            nx.each(paths, function (path) {
                 pathLayer.removePath(path);
             })
 
@@ -1832,23 +1832,23 @@ var topoCase = [
     },
     {
         name: 'API, add path first then do aggregration',
-        description: "API, fade out path",
+        description: "add path first then do aggregration",
         script: function (topo, context) {
 
             var pathLayer = topo.getLayer("paths");
-            var links1 = [topo.getLink(0),topo.getLink(1),topo.getLink(4),topo.getLink(6)];
+            var links1 = [topo.getLink(0), topo.getLink(1), topo.getLink(4), topo.getLink(6)];
             var path1 = new nx.graphic.Topology.Path({
                 links: links1,
                 arrow: 'cap'
             });
 
-            var links2 = [topo.getLink(3),topo.getLink(1),topo.getLink(5)];
+            var links2 = [topo.getLink(3), topo.getLink(1), topo.getLink(5)];
             var path2 = new nx.graphic.Topology.Path({
                 links: links2,
                 arrow: 'cap'
             });
-            path1.pathWidth(10)
-            path2.pathWidth(10)
+            path1.pathWidth(10);
+            path2.pathWidth(10);
             pathLayer.addPath(path1);
             pathLayer.addPath(path2);
             topo.aggregationNodes([topo.getNode(0), topo.getNode(1)]);
@@ -1856,7 +1856,7 @@ var topoCase = [
         tearDown: function (topo) {
             var pathLayer = topo.getLayer("paths");
             var paths = pathLayer.paths();
-            nx.each(paths, function(path){
+            nx.each(paths, function (path) {
                 pathLayer.removePath(path);
             })
 
@@ -1864,23 +1864,23 @@ var topoCase = [
     },
     {
         name: 'API, aggregration first then add path',
-        description: "API, fade out path",
+        description: "API, aggregration first then add path",
         script: function (topo, context) {
             topo.aggregationNodes([topo.getNode(0), topo.getNode(1)]);
             var pathLayer = topo.getLayer("paths");
-            var links1 = [topo.getLink(0),topo.getLink(1),topo.getLink(4),topo.getLink(6)];
+            var links1 = [topo.getLink(0), topo.getLink(1), topo.getLink(4), topo.getLink(6)];
             var path1 = new nx.graphic.Topology.Path({
                 links: links1,
                 arrow: 'cap'
             });
 
-            var links2 = [topo.getLink(3),topo.getLink(1),topo.getLink(5)];
+            var links2 = [topo.getLink(3), topo.getLink(1), topo.getLink(5)];
             var path2 = new nx.graphic.Topology.Path({
                 links: links2,
                 arrow: 'cap'
             });
-            path1.pathWidth(10)
-            path2.pathWidth(10)
+            path1.pathWidth(10);
+            path2.pathWidth(10);
             pathLayer.addPath(path1);
             pathLayer.addPath(path2);
 
@@ -1888,13 +1888,78 @@ var topoCase = [
         tearDown: function (topo) {
             var pathLayer = topo.getLayer("paths");
             var paths = pathLayer.paths();
-            nx.each(paths, function(path){
+            nx.each(paths, function (path) {
                 pathLayer.removePath(path);
             })
 
         }
-    }
+    },
+    {
+        name: 'API, pathlayer clear',
+        description: "API, wait for 2 sec, clear the path",
+        script: function (topo, context) {
+            var pathLayer = topo.getLayer("paths");
+            var links1 = [topo.getLink(0), topo.getLink(1), topo.getLink(4), topo.getLink(6)];
+            var path1 = new nx.graphic.Topology.Path({
+                links: links1,
+                arrow: 'cap'
+            });
 
+            var links2 = [topo.getLink(3), topo.getLink(1), topo.getLink(5)];
+            var path2 = new nx.graphic.Topology.Path({
+                links: links2,
+                arrow: 'cap'
+            });
+            path1.pathWidth(10);
+            path2.pathWidth(10);
+            pathLayer.addPath(path1);
+            pathLayer.addPath(path2);
+
+            setTimeout(function () {
+                pathLayer.clear();
+            }, 2000)
+
+        }
+    },
+    {
+        name: 'API, pathlayer clear-nothing to clear',
+        description: "pathlayer clear-nothing to clear",
+        script: function (topo, context) {
+            var pathLayer = topo.getLayer("paths");
+            setTimeout(function () {
+                pathLayer.clear();
+            }, 2000)
+
+        }
+    },
+    {
+        name: 'API, remove path',
+        description: "pathlayer,wait for 2sec to clear the path",
+        script: function (topo, context) {
+            var pathLayer = topo.getLayer("paths");
+            var links1 = [topo.getLink(0), topo.getLink(1), topo.getLink(4), topo.getLink(6)];
+            var path1 = new nx.graphic.Topology.Path({
+                links: links1,
+                arrow: 'cap'
+            });
+
+            var links2 = [topo.getLink(3), topo.getLink(1), topo.getLink(5)];
+            var path2 = new nx.graphic.Topology.Path({
+                links: links2,
+                arrow: 'cap'
+            });
+            path1.pathWidth(10);
+            path2.pathWidth(10);
+            pathLayer.addPath(path1);
+            pathLayer.addPath(path2);
+
+            setTimeout(function () {
+                pathLayer.removePath(path1);
+                pathLayer.removePath(path2);
+            }, 2000)
+
+        }
+    }
 
 
 ]
