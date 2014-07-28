@@ -9,7 +9,7 @@
      * @module nx.graphic.Topology
      */
     nx.define("nx.graphic.Topology.NodeMixin", {
-        events: ['addNode', 'deleteNode', 'addNodeSet', 'deleteNodeSet','expandAll'],
+        events: ['addNode', 'deleteNode', 'addNodeSet', 'deleteNodeSet', 'expandAll'],
         properties: {
             /**
              * Node instance class name, support function
@@ -758,8 +758,11 @@
                         node.position(sourcePosition);
                     }, this);
 
+                    if (this._nodesAnimation) {
+                        this._nodesAnimation.stop();
+                    }
 
-                    var ani = new nx.graphic.Animation({
+                    var ani = this._nodesAnimation = new nx.graphic.Animation({
                         duration: 600
                     });
                     ani.callback(function (progress) {
@@ -801,8 +804,12 @@
                         });
                     }, this);
 
+                    if (this._nodesAnimation) {
+                        this._nodesAnimation.stop();
+                    }
 
-                    var ani = new nx.graphic.Animation({
+
+                    var ani = this._nodesAnimation = new nx.graphic.Animation({
                         duration: 600
                     });
                     ani.callback(function (progress) {

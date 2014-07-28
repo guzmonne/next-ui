@@ -232,6 +232,9 @@
              */
             clear: function () {
                 this.status('cleared');
+                if (this._nodesAnimation) {
+                    this._nodesAnimation.stop();
+                }
                 this.graph().clear();
                 this.tooltipManager().closeAll();
                 nx.each(this.layers(), function (layer, name) {
