@@ -47,7 +47,6 @@
                                         content: {
                                             props: {
                                                 'class': 'n-icon-selectnode',
-                                                style: '-webkit-transform: rotate(90deg)',
                                                 title: "Select node mode"
                                             },
                                             tag: 'span'
