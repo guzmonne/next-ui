@@ -404,7 +404,7 @@
                 return sheet;
             },
             _attachDocumentListeners: function (name) {
-                var documentListeners = this._documentListeners;
+                var documentListeners = this._documentListeners = this._documentListeners || {};
                 if (!(name in documentListeners)) {
                     var self = this;
                     var listener = documentListeners[name] = function (event) {
