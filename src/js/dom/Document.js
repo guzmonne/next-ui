@@ -208,6 +208,32 @@
                 this._attachDocumentListeners(name);
             },
             /**
+             * Remove an event handler.
+             * @method off
+             * @param name {String}
+             * @param [handler] {Function}
+             * @param [context] {Object}
+             */
+            off: function (name, handler, context) {
+                var listeners = this.__listeners__[name],
+                    listener;
+                if (listeners) {
+                    if (handler) {
+                        context = context || this;
+                        for (var i = 0, length = listeners.length; i < length; i++) {
+                            listener = listeners[i];
+                            if (listener.handler == handler && listener.context == context) {
+                                listeners.splice(i, 1);
+                                break;
+                            }
+                        }
+                    }
+                    else {
+                        listeners.length = 1;
+                    }
+                }
+            },
+            /**
              * Add a single event handler.
              * @method upon
              * @param name {String}
@@ -231,6 +257,28 @@
                 };
 
                 this._attachDocumentListeners(name);
+            },
+            /**
+             * Trigger an event.
+             * @method fire
+             * @param name {String}
+             * @param [data] {*}
+             */
+            fire: function (name, data) {
+                var listeners = this.__listeners__[name],
+                    listener, result;
+                if (listeners) {
+                    listeners = listeners.slice();
+                    for (var i = 0, length = listeners.length; i < length; i++) {
+                        listener = listeners[i];
+                        if (listener && listener.handler) {
+                            result = listener.handler.call(listener.context, listener.owner, data);
+                            if (result === false) {
+                                return false;
+                            }
+                        }
+                    }
+                }
             },
             /**
              * Register html tag namespace

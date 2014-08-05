@@ -172,6 +172,7 @@
                     }
                 },
                 content: 'Hello'
+
             }],
             properties: {
                 hello: 'Hello world'
@@ -315,7 +316,7 @@
 
         var MyApp = nx.define(nx.ui.Application, {
             methods: {
-                start: function () {
+                start: function (h) {
                     var comp = this._comp = new MyComp();
                     comp.attach(this);
                     comp.items(col);
@@ -324,7 +325,7 @@
             }
         });
 
-        (new MyApp).start();
+        (new MyApp).start({a:1,b:2});
 
         function load() {
             comp = new MyComp();
