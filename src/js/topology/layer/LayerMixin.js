@@ -51,9 +51,9 @@
             initLayer: function () {
                 this.layersMap({});
                 this.layers([]);
-                this.attachLayer("groups", "nx.graphic.Topology.GroupsLayer");
                 this.attachLayer("links", "nx.graphic.Topology.LinksLayer");
                 this.attachLayer("linkSet", "nx.graphic.Topology.LinkSetLayer");
+                this.attachLayer("groups", "nx.graphic.Topology.GroupsLayer");
                 this.attachLayer("nodes", "nx.graphic.Topology.NodesLayer");
                 this.attachLayer("nodeSet", "nx.graphic.Topology.NodeSetLayer");
                 this.attachLayer("paths", "nx.graphic.Topology.PathLayer");
