@@ -179,26 +179,50 @@
         },
         methods: {
             /**
-             * Add an event listener
+             * Add an event handler.
              * @method on
-             * @param name
-             * @param handler
-             * @param context
+             * @param name {String}
+             * @param handler {Function}
+             * @param [context] {Object}
              */
             on: function (name, handler, context) {
+                var map = this.__listeners__;
+                var listeners = map[name] = map[name] || [{
+                    owner: null,
+                    handler: null,
+                    context: null
+                }];
+
+                listeners.push({
+                    owner: this,
+                    handler: handler,
+                    context: context || this
+                });
+
                 this._attachDocumentListeners(name);
-                this.inherited(name, handler, context);
             },
             /**
-             * Add an event listener when you need not remove it.
+             * Add a single event handler.
              * @method upon
-             * @param name
-             * @param handler
-             * @param context
+             * @param name {String}
+             * @param handler {Function}
+             * @param [context] {Object}
              */
             upon: function (name, handler, context) {
+                var map = this.__listeners__;
+                var listeners = map[name] = map[name] || [{
+                    owner: null,
+                    handler: null,
+                    context: null
+                }];
+
+                listeners[0] = {
+                    owner: this,
+                    handler: handler,
+                    context: context
+                };
+
                 this._attachDocumentListeners(name);
-                this.inherited(name, handler, context);
             },
             /**
              * Register html tag namespace
