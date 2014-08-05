@@ -178,6 +178,10 @@
             }
         },
         methods: {
+            init: function () {
+                this.__listeners__ = {};
+                this._documentListeners = {};
+            },
             /**
              * Add an event handler.
              * @method on
@@ -187,11 +191,13 @@
              */
             on: function (name, handler, context) {
                 var map = this.__listeners__;
-                var listeners = map[name] = map[name] || [{
-                    owner: null,
-                    handler: null,
-                    context: null
-                }];
+                var listeners = map[name] = map[name] || [
+                    {
+                        owner: null,
+                        handler: null,
+                        context: null
+                    }
+                ];
 
                 listeners.push({
                     owner: this,
@@ -210,11 +216,13 @@
              */
             upon: function (name, handler, context) {
                 var map = this.__listeners__;
-                var listeners = map[name] = map[name] || [{
-                    owner: null,
-                    handler: null,
-                    context: null
-                }];
+                var listeners = map[name] = map[name] || [
+                    {
+                        owner: null,
+                        handler: null,
+                        context: null
+                    }
+                ];
 
                 listeners[0] = {
                     owner: this,
@@ -428,7 +436,7 @@
                 return sheet;
             },
             _attachDocumentListeners: function (name) {
-                var documentListeners = this._documentListeners = this._documentListeners || {};
+                var documentListeners = this._documentListeners;
                 if (!(name in documentListeners)) {
                     var self = this;
                     var listener = documentListeners[name] = function (event) {
