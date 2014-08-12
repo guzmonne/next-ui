@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8"/>
+    <script type="text/javascript"
+            src="http://10.75.161.96:8080/jenkins/job/NeXt-Core/lastSuccessfulBuild/artifact/dest/next-core.js"></script>
+    <script type="text/javascript"
+            src="http://10.75.161.96:8080/jenkins/job/NeXt-UI/lastSuccessfulBuild/artifact/dest/js/next-ui.js"></script>
+</head>
+<body>
+<style type="text/css">
+    fieldset {
+        width: 300px;
+    }
+
+    input {
+        width: 200px;
+        float: right;
+    }
+</style>
+<script type="text/javascript">
+    (function () {
+        var Comp = nx.define(nx.ui.Component, {
+            view: {
+                tag: 'fieldset',
+                content: [
+                    {
+                        tag: 'legend',
+                        content: '{#resource.contact}'
+                    },
+                    {
+                        tag: 'p',
+                        content: [
+                            {
+                                tag: 'label',
+                                content: '{#resource.firstName}'
+                            },
+                            {
+                                tag: 'input',
+                                props: {
+                                    type: 'text'
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        tag: 'p',
+                        content: [
+                            {
+                                tag: 'label',
+                                content: '{#resource.lastName}'
+                            },
+                            {
+                                tag: 'input',
+                                props: {
+                                    type: 'text'
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        tag: 'p',
+                        content: [
+                            {
+                                tag: 'label',
+                                content: '{#resource.age}'
+                            },
+                            {
+                                tag: 'input',
+                                props: {
+                                    type: 'text'
+                                }
+                            }
+                        ]
+                    }
+                ]
+            },
+            properties: {
+                resource: null
+            },
+            methods: {
+                init: function (props) {
+                    this.inherited();
+                    this.sets(props);
+                }
+            }
+        });
+
+        var resources = {
+            'en': {
+                contact: 'Contact',
+                firstName: 'First Name',
+                lastName: 'Last Name',
+                age: 'Age'
+            },
+            'zh': {
+                contact: '联系人',
+                firstName: '名',
+                lastName: '姓',
+                age: '年龄'
+            }
+        };
+
+        var lang = location.search.substr(location.search.indexOf('lang') + 5, 2) || 'en';
+
+        (new Comp({resource: resources[lang]})).attach(new nx.ui.Application());
+    })();
+</script>
+</body>
+</html>
