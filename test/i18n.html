@@ -102,6 +102,7 @@
             }
         };
 
+
         var lang = location.search.substr(location.search.indexOf('lang') + 5, 2) || 'en';
 
         (new Comp({resource: resources[lang]})).attach(new nx.ui.Application());
