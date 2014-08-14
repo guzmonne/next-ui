@@ -464,6 +464,10 @@ var topoCase = [
         script: function (topo) {
             console.log(1111)
             topo.move(-3000, -2000);
+        },
+        tearDown: function (topo) {
+            topo.fit(function () {
+            }, this, 0)
         }
     },
     {
@@ -1008,8 +1012,10 @@ var topoCase = [
         tearDown: function (topo) {
             var nodesets = topo.getLayer('nodeSet').nodeSetDictionary().toObject();
             nx.each(nodesets, function (nodeset, id) {
+                console.log(id)
                 topo.deleteNodeSet(id);
             })
+
             topo.recoverHighlight()
         }
     },
@@ -1234,6 +1240,65 @@ var topoCase = [
         tearDown: function (topo) {
             topo.fit(function () {
             }, this, 0)
+        }
+    },
+    {
+        name: 'API zoomByNodes-one by one',
+        description: "API zoomByNodes-4 times, wait for a moment",
+        script: function (topo) {
+            topo.selectedNodes().add(topo.getNode(0));
+            topo.zoomByNodes([topo.getNode(0)]);
+            setTimeout(function () {
+                topo.selectedNodes().clear()
+                topo.zoomByNodes([topo.getNode(1)]);
+                topo.selectedNodes().add(topo.getNode(1));
+            }, 1000)
+            setTimeout(function () {
+                topo.selectedNodes().clear()
+                topo.zoomByNodes([topo.getNode(2)]);
+                topo.selectedNodes().add(topo.getNode(2));
+            }, 2000)
+            setTimeout(function () {
+                topo.selectedNodes().clear()
+                topo.zoomByNodes([topo.getNode(3)]);
+                topo.selectedNodes().add(topo.getNode(3));
+            }, 3000)
+            setTimeout(function () {
+                topo.selectedNodes().clear()
+                topo.fit();
+            }, 4000)
+        }
+    },
+    {
+        name: 'API resize then zoomByNodes-one by one',
+        description: "API zoomByNodes-4 times, wait for a moment",
+        script: function (topo) {
+            topo.resize(500, 500);
+            topo.selectedNodes().add(topo.getNode(0));
+            topo.zoomByNodes([topo.getNode(0),topo.getNode(1)]);
+
+            setTimeout(function () {
+                topo.selectedNodes().clear()
+                topo.zoomByNodes([topo.getNode(1)]);
+                topo.selectedNodes().add(topo.getNode(1));
+            }, 2000);
+            setTimeout(function () {
+                topo.selectedNodes().clear()
+                topo.zoomByNodes([topo.getNode(2)]);
+                topo.selectedNodes().add(topo.getNode(2));
+            }, 3000);
+            setTimeout(function () {
+                topo.selectedNodes().clear()
+                topo.zoomByNodes([topo.getNode(3)]);
+                topo.selectedNodes().add(topo.getNode(3));
+            }, 4000);
+            setTimeout(function () {
+                topo.selectedNodes().clear()
+                topo.fit();
+            }, 5000);
+        },
+        tearDown: function (topo) {
+            topo.adaptToContainer();
         }
     },
     {
@@ -1479,10 +1544,10 @@ var topoCase = [
         description: "click the stage, you will see the message",
         script: function (topo, context) {
             topo.on('clickStage', function () {
-                context.log('clickStage1');
+                context.log('clickStage1 ');
             });
             topo.on('clickStage', function () {
-                context.log('clickStage2');
+                context.log('clickStage2 ');
             });
 
         },
