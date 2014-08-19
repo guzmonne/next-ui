@@ -156,7 +156,7 @@
                         vertex.parentVertexSet(this);
                     } else {
                         if (console) {
-                            console.log('NodeSet data error', this.id(), id);
+                            console.warn('NodeSet data error', this.id(), id);
                         }
                     }
                 }, this);

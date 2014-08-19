@@ -127,7 +127,7 @@
                 var bound = this.view().dom().parentNode().getBound();
                 if (bound.width === 0 || bound.height === 0) {
                     if (console) {
-                        console.log("Please set height*width to topology's parent container");
+                        console.warn("Please set height*width to topology's parent container");
                     }
                     return;
                 }
@@ -367,7 +367,6 @@
                         //                        var overlapPercent = calc(positionAry);
                         //                        this.revisionScale(overlapPercent);
                         //                        nodesLayer.updateNodeRevisionScale(overlapPercent);
-                        //                        console.log('overlapTime', new Date() - startTime);
 
                     }
                 }.bind(this), 200);

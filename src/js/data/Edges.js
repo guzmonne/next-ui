@@ -175,7 +175,7 @@
                 }
                 else {
                     if (console) {
-                        console.log('source node or target node is not defined, or linkMappingKey value error', data, source, target);
+                        console.warn('source node or target node is not defined, or linkMappingKey value error', data, source, target);
                     }
                     return undefined;
                 }
