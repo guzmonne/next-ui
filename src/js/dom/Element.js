@@ -77,8 +77,7 @@
                 set: function (inElement, inValue) {
                     if (!inValue) {
                         inElement.removeAttribute(hookKey);
-                    }
-                    else {
+                    } else {
                         inElement.setAttribute(hookKey, hookKey);
                     }
                     inElement[hookValue] = !! inValue;
@@ -112,11 +111,9 @@
             get: function (name) {
                 if (name === 'text') {
                     return this.getText();
-                }
-                else if (name == 'html') {
+                } else if (name == 'html') {
                     return this.getHtml();
-                }
-                else {
+                } else {
                     return this.getAttribute(name);
                 }
             },
@@ -129,11 +126,9 @@
             set: function (name, value) {
                 if (name === 'text') {
                     this.setText(value);
-                }
-                else if (name == 'html') {
+                } else if (name == 'html') {
                     this.setHtml(value);
-                }
-                else {
+                } else {
                     this.setAttribute(name, value);
                 }
             },
@@ -202,8 +197,7 @@
                 var element = this.$dom;
                 if (nx.Env.support('classList')) {
                     return this.$dom.classList.contains(inClassName);
-                }
-                else {
+                } else {
                     return getClsPos(element, inClassName) > -1;
                 }
             },
@@ -217,8 +211,7 @@
             setClass: function (inClassName, inHas) {
                 if (!inHas) {
                     this.removeClass(inClassName);
-                }
-                else {
+                } else {
                     this.addClass(inClassName);
                 }
             },
@@ -236,8 +229,7 @@
                         args = args[0].split(rBlank);
                     }
                     return classList.add.apply(classList, args);
-                }
-                else {
+                } else {
                     if (!this.hasClass(args[0])) {
                         var curCls = element.className;
                         /* jslint -W093 */
@@ -252,11 +244,13 @@
              */
             removeClass: function () {
                 var element = this.$dom;
+                if (!element) {
+                    return;
+                }
                 if (nx.Env.support('classList')) {
                     var classList = this.$dom.classList;
                     return classList.remove.apply(classList, arguments);
-                }
-                else {
+                } else {
                     var curCls = element.className,
                         index = getClsPos(element, arguments[0]),
                         className = arguments[0];
@@ -265,8 +259,7 @@
                             if (curCls !== className) {
                                 className = className + ' ';
                             }
-                        }
-                        else {
+                        } else {
                             className = ' ' + className;
                         }
                         element.className = curCls.replace(className, '');
@@ -283,12 +276,10 @@
                 var element = this.$dom;
                 if (nx.Env.support('classList')) {
                     return this.$dom.classList.toggle(inClassName);
-                }
-                else {
+                } else {
                     if (this.hasClass(inClassName)) {
                         this.removeClass(inClassName);
-                    }
-                    else {
+                    } else {
                         this.addClass(inClassName);
                     }
                 }
@@ -427,8 +418,7 @@
                 var property = util.getStyleProperty(inName);
                 if (isInline) {
                     return this.$dom.style[property];
-                }
-                else {
+                } else {
                     var styles = getComputedStyle(this.$dom, null);
                     return styles[property] || '';
                 }
@@ -471,8 +461,7 @@
                 if (hook) {
                     if (hook.get) {
                         return hook.get(this.$dom);
-                    }
-                    else {
+                    } else {
                         return this.$dom.getAttribute(hook);
                     }
                 }
@@ -491,8 +480,7 @@
                     if (hook) {
                         if (hook.set) {
                             return hook.set(this.$dom, inValue);
-                        }
-                        else {
+                        } else {
                             return this.$dom.setAttribute(hook, inValue);
                         }
                     }
