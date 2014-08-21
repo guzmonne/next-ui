@@ -72,7 +72,7 @@
              * @returns {*}
              */
             contains: function (inTarget) {
-                return this.$dom.contains(inTarget.$dom);
+                return this.$dom && this.$dom.contains(inTarget.$dom);
             },
             /**
              * Get first element child
