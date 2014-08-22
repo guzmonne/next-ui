@@ -406,16 +406,16 @@
   }
 
   .layer {
-    > g {
+    > * {
       transition: opacity .6s;
     }
-    &.fade-layer > g:not(.fade-highlight-item):not(.fade-active-item) {
+    &.fade-layer > *:not(.fade-highlight-item):not(.fade-active-item) {
       opacity: .2;
     }
   }
 
   &.fade-all .layer {
-    > g:not(.fade-highlight-item):not(.fade-active-item) {
+    > *:not(.fade-highlight-item):not(.fade-active-item) {
       opacity: .2;
     }
   }
