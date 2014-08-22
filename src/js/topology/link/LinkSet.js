@@ -77,7 +77,7 @@
                 },
                 set: function (inValue) {
                     var value = this._processPropertyValue(inValue);
-                    this.dom().setClass("disable", !inValue);
+                    this.dom().setClass("disable", !value);
                     this._enable = value;
                     this.eachLink(function (link) {
                         link.enable(value);
