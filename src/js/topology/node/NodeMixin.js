@@ -13,7 +13,7 @@
         properties: {
             /**
              * Node instance class name, support function
-             * @property nodeInstanceClass
+            * @property nodeInstanceClass
              */
             nodeInstanceClass: {
                 value: 'nx.graphic.Topology.Node'

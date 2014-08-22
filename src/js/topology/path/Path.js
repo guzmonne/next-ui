@@ -111,8 +111,7 @@
                                         verticesIdCollection.add(id);
                                     }
                                 });
-                            }
-                            else {
+                            } else {
                                 nx.each(evt.items, function (item) {
                                     var edge = allEdges.getItem(item);
                                     edge.unwatch("generated", watcher);
@@ -133,8 +132,7 @@
                         }.bind(this);
                         if (!this.topology()) {
                             this.watch("topology", waitForTopology);
-                        }
-                        else {
+                        } else {
                             waitForTopology("topology", this.topology());
                         }
                     }.bind(this));
@@ -154,8 +152,7 @@
                                 var vertex = allVertices.getItem(item);
                                 vertex.watch("position", watcher);
                             }.bind(this));
-                        }
-                        else {
+                        } else {
                             nx.each(evt.items, function (item) {
                                 var vertex = allVertices.getItem(item);
                                 vertex.unwatch("position", watcher);
@@ -253,12 +250,10 @@
                 if (pathPadding === "auto") {
                     paddingStart = Math.min(firstLink.sourceNode().showIcon() ? 24 : 4, line1.length() / 4 / stageScale);
                     paddingEnd = Math.min(firstLink.targetNode().showIcon() ? 24 : 4, line1.length() / 4 / stageScale);
-                }
-                else if (nx.is(pathPadding, 'Array')) {
+                } else if (nx.is(pathPadding, 'Array')) {
                     paddingStart = pathPadding[0];
                     paddingEnd = pathPadding[1];
-                }
-                else {
+                } else {
                     paddingStart = paddingEnd = pathPadding;
                 }
                 if (typeof paddingStart == 'string' && paddingStart.indexOf('%') > 0) {
@@ -266,7 +261,7 @@
                 }
 
                 if (pathWidth === "auto") {
-                    pathWidth = 3 * stageScale; // Math.min(10, Math.max(3, Math.round(stageScale * 3)));
+                    pathWidth = Math.min(10, Math.max(3, Math.round(3 / stageScale))); //3/stageScale
                 }
                 v1 = new Vector(0, pathWidth / 2 * stageScale);
                 v2 = new Vector(0, -pathWidth / 2 * stageScale);
@@ -293,8 +288,7 @@
                         }
                         line1 = line2;
                     }
-                }
-                else {
+                } else {
                     line2 = line1;
                 }
 
@@ -317,8 +311,7 @@
 
                     pt = line2.pad(0, paddingEnd).end;
                     d1.push('L', pt.x, pt.y);
-                }
-                else if (arrow == 'end') {
+                } else if (arrow == 'end') {
                     pt = line2.translate(v1).pad(0, 2 * pathWidth + paddingEnd).end;
                     d1.push('L', pt.x, pt.y);
 
@@ -327,12 +320,10 @@
 
                     pt = line2.pad(0, paddingEnd).end;
                     d1.push('L', pt.x, pt.y);
-                }
-                else if (arrow == 'full') {
+                } else if (arrow == 'full') {
                     pt = line2.pad(0, paddingEnd).end;
                     d1.push('L', pt.x, pt.y);
-                }
-                else {
+                } else {
                     pt = line2.translate(v1).pad(0, paddingEnd).end;
                     d1.push('L', pt.x, pt.y);
                     pt = line2.translate(v2).pad(0, paddingEnd).end;
@@ -358,8 +349,7 @@
 
                 if (this.reverse()) {
                     linksSequentialArray.push(new Line(links[0].targetVector(), links[0].sourceVector()));
-                }
-                else {
+                } else {
                     linksSequentialArray.push(new Line(links[0].sourceVector(), links[0].targetVector()));
                 }
 
@@ -373,16 +363,13 @@
 
                     if (firstLink.targetNodeID() == secondLink.sourceNodeID()) {
                         linksSequentialArray.push(new Line(secondLinkSourceVector, secondLinkTargetVector));
-                    }
-                    else if (firstLink.targetNodeID() == secondLink.targetNodeID()) {
+                    } else if (firstLink.targetNodeID() == secondLink.targetNodeID()) {
                         linksSequentialArray.push(new Line(secondLinkTargetVector, secondLinkSourceVector));
-                    }
-                    else if (firstLink.sourceNodeID() == secondLink.sourceNodeID()) {
+                    } else if (firstLink.sourceNodeID() == secondLink.sourceNodeID()) {
                         linksSequentialArray.pop();
                         linksSequentialArray.push(new Line(firstLinkTargetVector, firstLinkSourceVector));
                         linksSequentialArray.push(new Line(secondLinkSourceVector, secondLinkTargetVector));
-                    }
-                    else {
+                    } else {
                         linksSequentialArray.pop();
                         linksSequentialArray.push(new Line(firstLinkTargetVector, firstLinkSourceVector));
                         linksSequentialArray.push(new Line(secondLinkTargetVector, secondLinkSourceVector));
