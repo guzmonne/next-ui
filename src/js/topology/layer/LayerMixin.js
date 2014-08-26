@@ -186,7 +186,7 @@
             insertLayerAfter: function (name, layer, upsideLayerName) {
                 var afterLayer = this.layersMap()[upsideLayerName];
                 if (afterLayer) {
-                    var index = layers.indexOf(afterLayer);
+                    var index = this.layers().indexOf(afterLayer);
                     if (index >= 0) {
                         return this.attachLayer(name, layer, index + 1);
                     }
