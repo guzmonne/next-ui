@@ -184,7 +184,7 @@
              * @param upsideLayerName {String} name of upside layer
              */
             insertLayerAfter: function (name, layer, upsideLayerName) {
-                var afterLayer = layersMap[upsideLayerName];
+                var afterLayer = this.layersMap()[upsideLayerName];
                 if (afterLayer) {
                     var index = layers.indexOf(afterLayer);
                     if (index >= 0) {
