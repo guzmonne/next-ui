@@ -31,6 +31,21 @@
                     return (forceFade === true || forceFade === false) ? forceFade : this._fade;
                 }
             },
+            /**
+             * Set active priority over highlight.
+             * @property fadeActivePriority
+             */
+            fadeActivePriority: {
+                value: false,
+                set: function (v) {
+                    if (v) {
+                        this.dom().addClass("fade-active-priority");
+                    } else {
+                        this.dom().addClass("fade-active-priority");
+                    }
+                    this._fadeActivePriority = !! v;
+                }
+            },
             fadeUpdater_internal_: {
                 dependencies: "fade",
                 update: function (fade) {
@@ -45,7 +60,12 @@
              * Force layer fade.
              * @property forceFade
              */
-            forceFade: {}
+            forceFade: {},
+            layerResource_internal_: {
+                value: function () {
+                    return {};
+                }
+            }
         },
         methods: {
             initLayer: function () {
@@ -117,14 +137,33 @@
              * @param name {String} handler to get this layer
              * @param layer <String,nx.graphic.Topology.Layer> Could be string of a layer's class name, or a reference of a layer
              */
-            attachLayer: function (name, layer) {
+            attachLayer: function (name, layer, index) {
                 var layersMap = this.layersMap();
                 var layers = this.layers();
                 var layerObj = this._generateLayer(name, layer);
+                var layerResourceMap, layerResource = {};
                 if (layerObj) {
-                    layerObj.attach(this.stage());
+                    if (index >= 0) {
+                        layerObj.attach(this.stage(), index);
+                        layers.splice(index, 0, layerObj);
+                    } else {
+                        layerObj.attach(this.stage());
+                        layers.push(layerObj);
+                    }
                     layersMap[name] = layerObj;
-                    layers.push(layerObj);
+                    // listen layer active elements change
+                    layerResourceMap = this.layerResource_internal_();
+                    layerResourceMap[name] = layerResource;
+                    layerResource.activeElementsChangeListener = function (sender, edata) {
+                        layerResource.activeCount = layerObj.activeElements().count();
+                        // get the total active count and update class
+                        var total = 0;
+                        nx.each(layerResourceMap, function (res) {
+                            total += res.activeCount;
+                        });
+                        this.dom().setClass("fade-active-occur", total > 0);
+                    };
+                    layerObj.activeElements().on("change", layerResource.activeElementsChangeListener, this);
                 }
                 return layerObj;
             },
@@ -135,15 +174,7 @@
              * @param layer <String,nx.graphic.Topology.Layer> Could be string of a layer's class name, or a reference of a layer
              */
             prependLayer: function (name, layer) {
-                var layersMap = this.layersMap();
-                var layers = this.layers();
-                var layerObj = this._generateLayer(name, layer);
-                if (layerObj) {
-                    layerObj.attach(this.stage(), 0);
-                    layersMap[name] = layerObj;
-                    layers.push(layerObj);
-                }
-                return layerObj;
+                return this.attachLayer(name, layer, 0);
             },
             /**
              * Insert a layer under a certain layer, that should be subclass of nx.graphic.Topology.Layer
@@ -153,15 +184,12 @@
              * @param upsideLayerName {String} name of upside layer
              */
             insertLayerAfter: function (name, layer, upsideLayerName) {
-                var layersMap = this.layersMap();
-                var layers = this.layers();
-                var layerObj = this._generateLayer(name, layer);
                 var afterLayer = layersMap[upsideLayerName];
-                if (layerObj && afterLayer) {
+                if (afterLayer) {
                     var index = layers.indexOf(afterLayer);
-                    layerObj.attach(this.stage(), index);
-                    layersMap[name] = layerObj;
-                    layers.splice(index + 1, 0, layerObj);
+                    if (index >= 0) {
+                        return this.attachLayer(name, layer, index + 1);
+                    }
                 }
             },
 

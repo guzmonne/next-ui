@@ -15,7 +15,6 @@
   text-transform: none;
   line-height: 1;
   /* Better Font Rendering =========== */
-
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -190,7 +189,6 @@
   background: #ffffff;
   -webkit-transition: background 0.6s;
   /* For Safari 3.1 to 6.0 */
-
   transition: background 0.6s;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -204,7 +202,6 @@
 .n-topology.n-topology-blue .n-topology-fit {
   -webkit-transition: all 0.6s linear !important;
   /* For Safari 3.1 to 6.0 */
-
   transition: all 0.6s linear !important;
 }
 .n-topology.n-topology-blue .n-topology-fit .node,
@@ -213,7 +210,6 @@
 .n-topology.n-topology-blue .n-topology-fit .linkSet {
   -webkit-transition: all 0.9s linear !important;
   /* For Safari 3.1 to 6.0 */
-
   transition: all 0.9s linear !important;
 }
 .n-topology.n-topology-blue.n-topology-loading svg,
@@ -264,13 +260,11 @@
   text-transform: none;
   line-height: 1;
   /* Better Font Rendering =========== */
-
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 .n-topology.n-topology-blue text {
   /* Better Font Rendering =========== */
-
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -445,7 +439,6 @@
   opacity: 0;
   -webkit-transition: opacity 0.3s linear;
   /* For Safari 3.1 to 6.0 */
-
   transition: opacity 0.3s linear;
 }
 .n-topology.n-topology-blue .group.aggregationGroup.fade-active-item {
@@ -482,7 +475,6 @@
 @media screen and (-webkit-min-device-pixel-ratio: 0) {
   .n-topology.n-topology-blue {
     /* Safari only override */
-  
   }
   .n-topology.n-topology-blue ::i-block-chrome,
   .n-topology.n-topology-blue .link-set-circle {
@@ -523,13 +515,19 @@
   stroke-linejoin: round;
   pointer-events: none;
 }
-.n-topology.n-topology-blue .layer > g {
+.n-topology.n-topology-blue .layer > * {
   transition: opacity .6s;
 }
-.n-topology.n-topology-blue .layer.fade-layer > g:not(.fade-highlight-item):not(.fade-active-item) {
+.n-topology.n-topology-blue .layer.fade-layer > *:not(.fade-highlight-item):not(.fade-active-item) {
   opacity: .2;
 }
-.n-topology.n-topology-blue.fade-all .layer > g:not(.fade-highlight-item):not(.fade-active-item) {
+.n-topology.n-topology-blue.fade-active-priority.fade-active-occur .layer.fade-layer > .fade-highlight-item:not(.fade-active-item) {
+  opacity: .2;
+}
+.n-topology.n-topology-blue.fade-all .layer > *:not(.fade-highlight-item):not(.fade-active-item) {
+  opacity: .2;
+}
+.n-topology.n-topology-blue.fade-active-priority.fade-active-occur.fade-all .layer > .fade-highlight-item:not(.fade-active-item) {
   opacity: .2;
 }
 .n-topology.n-topology-blue .n-topology-nav {
@@ -553,7 +551,6 @@
 .n-topology.n-topology-blue .n-topology-nav span {
   -webkit-transition: all 0.6s;
   /* For Safari 3.1 to 6.0 */
-
   transition: all 0.6s;
 }
 .n-topology.n-topology-blue .n-topology-nav > ul {
@@ -568,7 +565,6 @@
   margin-top: 5px;
   -webkit-transition: all 0.6s;
   /* For Safari 3.1 to 6.0 */
-
   transition: all 0.6s;
 }
 .n-topology.n-topology-blue .n-topology-nav-mode {
@@ -585,7 +581,6 @@
   cursor: pointer;
   -webkit-transition: all 0.6s;
   /* For Safari 3.1 to 6.0 */
-
   transition: all 0.6s;
   background: #eaeaea;
   margin-top: -2px;
@@ -715,7 +710,6 @@
   line-height: 1;
   -webkit-transition: none 0 !important;
   /* For Safari 3.1 to 6.0 */
-
   transition: none 0 !important;
 }
 .n-topology.n-topology-blue .n-topology-nav-setting:hover {
@@ -877,7 +871,6 @@
   background: #000000;
   -webkit-transition: background 0.6s;
   /* For Safari 3.1 to 6.0 */
-
   transition: background 0.6s;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -891,7 +884,6 @@
 .n-topology.n-topology-dark .n-topology-fit {
   -webkit-transition: all 0.6s linear !important;
   /* For Safari 3.1 to 6.0 */
-
   transition: all 0.6s linear !important;
 }
 .n-topology.n-topology-dark .n-topology-fit .node,
@@ -900,7 +892,6 @@
 .n-topology.n-topology-dark .n-topology-fit .linkSet {
   -webkit-transition: all 0.9s linear !important;
   /* For Safari 3.1 to 6.0 */
-
   transition: all 0.9s linear !important;
 }
 .n-topology.n-topology-dark.n-topology-loading svg,
@@ -951,13 +942,11 @@
   text-transform: none;
   line-height: 1;
   /* Better Font Rendering =========== */
-
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 .n-topology.n-topology-dark text {
   /* Better Font Rendering =========== */
-
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -1132,7 +1121,6 @@
   opacity: 0;
   -webkit-transition: opacity 0.3s linear;
   /* For Safari 3.1 to 6.0 */
-
   transition: opacity 0.3s linear;
 }
 .n-topology.n-topology-dark .group.aggregationGroup.fade-active-item {
@@ -1169,7 +1157,6 @@
 @media screen and (-webkit-min-device-pixel-ratio: 0) {
   .n-topology.n-topology-dark {
     /* Safari only override */
-  
   }
   .n-topology.n-topology-dark ::i-block-chrome,
   .n-topology.n-topology-dark .link-set-circle {
@@ -1210,13 +1197,19 @@
   stroke-linejoin: round;
   pointer-events: none;
 }
-.n-topology.n-topology-dark .layer > g {
+.n-topology.n-topology-dark .layer > * {
   transition: opacity .6s;
 }
-.n-topology.n-topology-dark .layer.fade-layer > g:not(.fade-highlight-item):not(.fade-active-item) {
+.n-topology.n-topology-dark .layer.fade-layer > *:not(.fade-highlight-item):not(.fade-active-item) {
   opacity: .2;
 }
-.n-topology.n-topology-dark.fade-all .layer > g:not(.fade-highlight-item):not(.fade-active-item) {
+.n-topology.n-topology-dark.fade-active-priority.fade-active-occur .layer.fade-layer > .fade-highlight-item:not(.fade-active-item) {
+  opacity: .2;
+}
+.n-topology.n-topology-dark.fade-all .layer > *:not(.fade-highlight-item):not(.fade-active-item) {
+  opacity: .2;
+}
+.n-topology.n-topology-dark.fade-active-priority.fade-active-occur.fade-all .layer > .fade-highlight-item:not(.fade-active-item) {
   opacity: .2;
 }
 .n-topology.n-topology-dark .n-topology-nav {
@@ -1240,7 +1233,6 @@
 .n-topology.n-topology-dark .n-topology-nav span {
   -webkit-transition: all 0.6s;
   /* For Safari 3.1 to 6.0 */
-
   transition: all 0.6s;
 }
 .n-topology.n-topology-dark .n-topology-nav > ul {
@@ -1255,7 +1247,6 @@
   margin-top: 5px;
   -webkit-transition: all 0.6s;
   /* For Safari 3.1 to 6.0 */
-
   transition: all 0.6s;
 }
 .n-topology.n-topology-dark .n-topology-nav-mode {
@@ -1272,7 +1263,6 @@
   cursor: pointer;
   -webkit-transition: all 0.6s;
   /* For Safari 3.1 to 6.0 */
-
   transition: all 0.6s;
   background: #333333;
   margin-top: -2px;
@@ -1402,7 +1392,6 @@
   line-height: 1;
   -webkit-transition: none 0 !important;
   /* For Safari 3.1 to 6.0 */
-
   transition: none 0 !important;
 }
 .n-topology.n-topology-dark .n-topology-nav-setting:hover {
@@ -1564,7 +1553,6 @@
   background: #ffffff;
   -webkit-transition: background 0.6s;
   /* For Safari 3.1 to 6.0 */
-
   transition: background 0.6s;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -1578,7 +1566,6 @@
 .n-topology.n-topology-green .n-topology-fit {
   -webkit-transition: all 0.6s linear !important;
   /* For Safari 3.1 to 6.0 */
-
   transition: all 0.6s linear !important;
 }
 .n-topology.n-topology-green .n-topology-fit .node,
@@ -1587,7 +1574,6 @@
 .n-topology.n-topology-green .n-topology-fit .linkSet {
   -webkit-transition: all 0.9s linear !important;
   /* For Safari 3.1 to 6.0 */
-
   transition: all 0.9s linear !important;
 }
 .n-topology.n-topology-green.n-topology-loading svg,
@@ -1638,13 +1624,11 @@
   text-transform: none;
   line-height: 1;
   /* Better Font Rendering =========== */
-
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 .n-topology.n-topology-green text {
   /* Better Font Rendering =========== */
-
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -1819,7 +1803,6 @@
   opacity: 0;
   -webkit-transition: opacity 0.3s linear;
   /* For Safari 3.1 to 6.0 */
-
   transition: opacity 0.3s linear;
 }
 .n-topology.n-topology-green .group.aggregationGroup.fade-active-item {
@@ -1856,7 +1839,6 @@
 @media screen and (-webkit-min-device-pixel-ratio: 0) {
   .n-topology.n-topology-green {
     /* Safari only override */
-  
   }
   .n-topology.n-topology-green ::i-block-chrome,
   .n-topology.n-topology-green .link-set-circle {
@@ -1897,13 +1879,19 @@
   stroke-linejoin: round;
   pointer-events: none;
 }
-.n-topology.n-topology-green .layer > g {
+.n-topology.n-topology-green .layer > * {
   transition: opacity .6s;
 }
-.n-topology.n-topology-green .layer.fade-layer > g:not(.fade-highlight-item):not(.fade-active-item) {
+.n-topology.n-topology-green .layer.fade-layer > *:not(.fade-highlight-item):not(.fade-active-item) {
   opacity: .2;
 }
-.n-topology.n-topology-green.fade-all .layer > g:not(.fade-highlight-item):not(.fade-active-item) {
+.n-topology.n-topology-green.fade-active-priority.fade-active-occur .layer.fade-layer > .fade-highlight-item:not(.fade-active-item) {
+  opacity: .2;
+}
+.n-topology.n-topology-green.fade-all .layer > *:not(.fade-highlight-item):not(.fade-active-item) {
+  opacity: .2;
+}
+.n-topology.n-topology-green.fade-active-priority.fade-active-occur.fade-all .layer > .fade-highlight-item:not(.fade-active-item) {
   opacity: .2;
 }
 .n-topology.n-topology-green .n-topology-nav {
@@ -1927,7 +1915,6 @@
 .n-topology.n-topology-green .n-topology-nav span {
   -webkit-transition: all 0.6s;
   /* For Safari 3.1 to 6.0 */
-
   transition: all 0.6s;
 }
 .n-topology.n-topology-green .n-topology-nav > ul {
@@ -1942,7 +1929,6 @@
   margin-top: 5px;
   -webkit-transition: all 0.6s;
   /* For Safari 3.1 to 6.0 */
-
   transition: all 0.6s;
 }
 .n-topology.n-topology-green .n-topology-nav-mode {
@@ -1959,7 +1945,6 @@
   cursor: pointer;
   -webkit-transition: all 0.6s;
   /* For Safari 3.1 to 6.0 */
-
   transition: all 0.6s;
   background: #eaeaea;
   margin-top: -2px;
@@ -2089,7 +2074,6 @@
   line-height: 1;
   -webkit-transition: none 0 !important;
   /* For Safari 3.1 to 6.0 */
-
   transition: none 0 !important;
 }
 .n-topology.n-topology-green .n-topology-nav-setting:hover {
@@ -2251,7 +2235,6 @@
   background: #223343;
   -webkit-transition: background 0.6s;
   /* For Safari 3.1 to 6.0 */
-
   transition: background 0.6s;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -2265,7 +2248,6 @@
 .n-topology.n-topology-slate .n-topology-fit {
   -webkit-transition: all 0.6s linear !important;
   /* For Safari 3.1 to 6.0 */
-
   transition: all 0.6s linear !important;
 }
 .n-topology.n-topology-slate .n-topology-fit .node,
@@ -2274,7 +2256,6 @@
 .n-topology.n-topology-slate .n-topology-fit .linkSet {
   -webkit-transition: all 0.9s linear !important;
   /* For Safari 3.1 to 6.0 */
-
   transition: all 0.9s linear !important;
 }
 .n-topology.n-topology-slate.n-topology-loading svg,
@@ -2325,13 +2306,11 @@
   text-transform: none;
   line-height: 1;
   /* Better Font Rendering =========== */
-
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 .n-topology.n-topology-slate text {
   /* Better Font Rendering =========== */
-
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -2506,7 +2485,6 @@
   opacity: 0;
   -webkit-transition: opacity 0.3s linear;
   /* For Safari 3.1 to 6.0 */
-
   transition: opacity 0.3s linear;
 }
 .n-topology.n-topology-slate .group.aggregationGroup.fade-active-item {
@@ -2543,7 +2521,6 @@
 @media screen and (-webkit-min-device-pixel-ratio: 0) {
   .n-topology.n-topology-slate {
     /* Safari only override */
-  
   }
   .n-topology.n-topology-slate ::i-block-chrome,
   .n-topology.n-topology-slate .link-set-circle {
@@ -2584,13 +2561,19 @@
   stroke-linejoin: round;
   pointer-events: none;
 }
-.n-topology.n-topology-slate .layer > g {
+.n-topology.n-topology-slate .layer > * {
   transition: opacity .6s;
 }
-.n-topology.n-topology-slate .layer.fade-layer > g:not(.fade-highlight-item):not(.fade-active-item) {
+.n-topology.n-topology-slate .layer.fade-layer > *:not(.fade-highlight-item):not(.fade-active-item) {
   opacity: .2;
 }
-.n-topology.n-topology-slate.fade-all .layer > g:not(.fade-highlight-item):not(.fade-active-item) {
+.n-topology.n-topology-slate.fade-active-priority.fade-active-occur .layer.fade-layer > .fade-highlight-item:not(.fade-active-item) {
+  opacity: .2;
+}
+.n-topology.n-topology-slate.fade-all .layer > *:not(.fade-highlight-item):not(.fade-active-item) {
+  opacity: .2;
+}
+.n-topology.n-topology-slate.fade-active-priority.fade-active-occur.fade-all .layer > .fade-highlight-item:not(.fade-active-item) {
   opacity: .2;
 }
 .n-topology.n-topology-slate .n-topology-nav {
@@ -2614,7 +2597,6 @@
 .n-topology.n-topology-slate .n-topology-nav span {
   -webkit-transition: all 0.6s;
   /* For Safari 3.1 to 6.0 */
-
   transition: all 0.6s;
 }
 .n-topology.n-topology-slate .n-topology-nav > ul {
@@ -2629,7 +2611,6 @@
   margin-top: 5px;
   -webkit-transition: all 0.6s;
   /* For Safari 3.1 to 6.0 */
-
   transition: all 0.6s;
 }
 .n-topology.n-topology-slate .n-topology-nav-mode {
@@ -2646,7 +2627,6 @@
   cursor: pointer;
   -webkit-transition: all 0.6s;
   /* For Safari 3.1 to 6.0 */
-
   transition: all 0.6s;
   background: #446787;
   margin-top: -2px;
@@ -2776,7 +2756,6 @@
   line-height: 1;
   -webkit-transition: none 0 !important;
   /* For Safari 3.1 to 6.0 */
-
   transition: none 0 !important;
 }
 .n-topology.n-topology-slate .n-topology-nav-setting:hover {
@@ -2938,7 +2917,6 @@
   background: #000000;
   -webkit-transition: background 0.6s;
   /* For Safari 3.1 to 6.0 */
-
   transition: background 0.6s;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -2952,7 +2930,6 @@
 .n-topology.n-topology-yellow .n-topology-fit {
   -webkit-transition: all 0.6s linear !important;
   /* For Safari 3.1 to 6.0 */
-
   transition: all 0.6s linear !important;
 }
 .n-topology.n-topology-yellow .n-topology-fit .node,
@@ -2961,7 +2938,6 @@
 .n-topology.n-topology-yellow .n-topology-fit .linkSet {
   -webkit-transition: all 0.9s linear !important;
   /* For Safari 3.1 to 6.0 */
-
   transition: all 0.9s linear !important;
 }
 .n-topology.n-topology-yellow.n-topology-loading svg,
@@ -3012,13 +2988,11 @@
   text-transform: none;
   line-height: 1;
   /* Better Font Rendering =========== */
-
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 .n-topology.n-topology-yellow text {
   /* Better Font Rendering =========== */
-
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -3193,7 +3167,6 @@
   opacity: 0;
   -webkit-transition: opacity 0.3s linear;
   /* For Safari 3.1 to 6.0 */
-
   transition: opacity 0.3s linear;
 }
 .n-topology.n-topology-yellow .group.aggregationGroup.fade-active-item {
@@ -3230,7 +3203,6 @@
 @media screen and (-webkit-min-device-pixel-ratio: 0) {
   .n-topology.n-topology-yellow {
     /* Safari only override */
-  
   }
   .n-topology.n-topology-yellow ::i-block-chrome,
   .n-topology.n-topology-yellow .link-set-circle {
@@ -3271,13 +3243,19 @@
   stroke-linejoin: round;
   pointer-events: none;
 }
-.n-topology.n-topology-yellow .layer > g {
+.n-topology.n-topology-yellow .layer > * {
   transition: opacity .6s;
 }
-.n-topology.n-topology-yellow .layer.fade-layer > g:not(.fade-highlight-item):not(.fade-active-item) {
+.n-topology.n-topology-yellow .layer.fade-layer > *:not(.fade-highlight-item):not(.fade-active-item) {
   opacity: .2;
 }
-.n-topology.n-topology-yellow.fade-all .layer > g:not(.fade-highlight-item):not(.fade-active-item) {
+.n-topology.n-topology-yellow.fade-active-priority.fade-active-occur .layer.fade-layer > .fade-highlight-item:not(.fade-active-item) {
+  opacity: .2;
+}
+.n-topology.n-topology-yellow.fade-all .layer > *:not(.fade-highlight-item):not(.fade-active-item) {
+  opacity: .2;
+}
+.n-topology.n-topology-yellow.fade-active-priority.fade-active-occur.fade-all .layer > .fade-highlight-item:not(.fade-active-item) {
   opacity: .2;
 }
 .n-topology.n-topology-yellow .n-topology-nav {
@@ -3301,7 +3279,6 @@
 .n-topology.n-topology-yellow .n-topology-nav span {
   -webkit-transition: all 0.6s;
   /* For Safari 3.1 to 6.0 */
-
   transition: all 0.6s;
 }
 .n-topology.n-topology-yellow .n-topology-nav > ul {
@@ -3316,7 +3293,6 @@
   margin-top: 5px;
   -webkit-transition: all 0.6s;
   /* For Safari 3.1 to 6.0 */
-
   transition: all 0.6s;
 }
 .n-topology.n-topology-yellow .n-topology-nav-mode {
@@ -3333,7 +3309,6 @@
   cursor: pointer;
   -webkit-transition: all 0.6s;
   /* For Safari 3.1 to 6.0 */
-
   transition: all 0.6s;
   background: #333333;
   margin-top: -2px;
@@ -3463,7 +3438,6 @@
   line-height: 1;
   -webkit-transition: none 0 !important;
   /* For Safari 3.1 to 6.0 */
-
   transition: none 0 !important;
 }
 .n-topology.n-topology-yellow .n-topology-nav-setting:hover {
@@ -3740,7 +3714,6 @@
 .n-transition {
   -webkit-transition: all 0.4 !important;
   /* For Safari 3.1 to 6.0 */
-
   transition: all 0.4s !important;
 }
 .n-moveCursor {
@@ -3771,10 +3744,8 @@
 .clearfix:after {
   content: " ";
   /* 1 */
-
   display: table;
   /* 2 */
-
 }
 .clearfix:after {
   clear: both;
@@ -3825,7 +3796,7 @@
   white-space: nowrap;
   padding: 6px 12px;
   font-size: 14px;
-  line-height: 1.428571429;
+  line-height: 1.42857143;
   border-radius: 4px;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -4200,10 +4171,8 @@ input[type="button"].btn-block {
 .btn-toolbar:after {
   content: " ";
   /* 1 */
-
   display: table;
   /* 2 */
-
 }
 .btn-toolbar:after {
   clear: both;
@@ -4212,10 +4181,8 @@ input[type="button"].btn-block {
 .btn-toolbar:after {
   content: " ";
   /* 1 */
-
   display: table;
   /* 2 */
-
 }
 .btn-toolbar:after {
   clear: both;
@@ -4319,10 +4286,8 @@ input[type="button"].btn-block {
 .btn-group-vertical > .btn-group:after {
   content: " ";
   /* 1 */
-
   display: table;
   /* 2 */
-
 }
 .btn-group-vertical > .btn-group:after {
   clear: both;
@@ -4331,10 +4296,8 @@ input[type="button"].btn-block {
 .btn-group-vertical > .btn-group:after {
   content: " ";
   /* 1 */
-
   display: table;
   /* 2 */
-
 }
 .btn-group-vertical > .btn-group:after {
   clear: both;

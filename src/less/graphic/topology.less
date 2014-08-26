@@ -409,13 +409,28 @@
     > * {
       transition: opacity .6s;
     }
+  }
+
+  .layer {
     &.fade-layer > *:not(.fade-highlight-item):not(.fade-active-item) {
+      opacity: .2;
+    }
+  }
+
+  &.fade-active-priority.fade-active-occur .layer {
+    &.fade-layer > .fade-highlight-item:not(.fade-active-item) {
       opacity: .2;
     }
   }
 
   &.fade-all .layer {
     > *:not(.fade-highlight-item):not(.fade-active-item) {
+      opacity: .2;
+    }
+  }
+
+  &.fade-active-priority.fade-active-occur.fade-all .layer {
+    > .fade-highlight-item:not(.fade-active-item) {
       opacity: .2;
     }
   }
