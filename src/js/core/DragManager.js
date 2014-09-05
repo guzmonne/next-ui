@@ -158,8 +158,11 @@
                 var current = [evt.pageX - document.body.scrollLeft - bound.left, evt.pageY - document.body.scrollTop - bound.top],
                     origin = track[0],
                     last = track[track.length - 1];
-                this.track([origin, current]);
-                //track.push(current);
+                track.push(current);
+                // FIXME optimize if track too large
+                if (track.length > 20) {
+                    track.splice(0, track.length - 20);
+                }
                 // TODO make sure the data is correct when target applied a matrix
                 return {
                     target: this.node(),
@@ -167,7 +170,8 @@
                     origin: origin,
                     current: current,
                     offset: [current[0] - origin[0], current[1] - origin[1]],
-                    delta: [current[0] - last[0], current[1] - last[1]]
+                    delta: [current[0] - last[0], current[1] - last[1]],
+                    track: track
                 };
             },
             _capture_mousedown: function (evt) {
