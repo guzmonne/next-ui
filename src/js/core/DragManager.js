@@ -161,7 +161,7 @@
                 track.push(current);
                 // FIXME optimize if track too large
                 if (track.length > 20) {
-                    track.splice(0, track.length - 20);
+                    track.splice(1, track.length - 20);
                 }
                 // TODO make sure the data is correct when target applied a matrix
                 return {
