@@ -158,6 +158,7 @@
                 var current = [evt.pageX - document.body.scrollLeft - bound.left, evt.pageY - document.body.scrollTop - bound.top],
                     origin = track[0],
                     last = track[track.length - 1];
+                current.time = evt.timeStamp;
                 track.push(current);
                 // FIXME optimize if track too large
                 if (track.length > 20) {
