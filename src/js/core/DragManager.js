@@ -108,7 +108,8 @@
                         var bound, track = [];
                         bound = referrer.getBoundingClientRect();
                         this.track(track);
-                        this.track().push([evt.pageX - document.body.scrollLeft - bound.left, evt.pageY - document.body.scrollTop - bound.top]);
+                        track.push([evt.pageX - document.body.scrollLeft - bound.left, evt.pageY - document.body.scrollTop - bound.top]);
+                        track[0].time = evt.timeStamp;
                         evt.dragCapture = function () {};
                         return true;
                     }
