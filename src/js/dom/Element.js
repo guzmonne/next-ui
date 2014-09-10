@@ -214,7 +214,6 @@
                 var element = this.$dom;
                 var args = arguments, classList = element.classList;
                 if (classList) {
-                }
                 if (nx.Env.support('classList')) {
                     if (args.length === 1 && args[0].search(rBlank) > -1) {
                         args = args[0].split(rBlank);
