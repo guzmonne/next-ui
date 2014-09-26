@@ -10,7 +10,7 @@
 
 
     var colorTable = ['#C3A5E4', '#75C6EF', '#CBDA5C', '#ACAEB1 ', '#2CC86F'];
-//    var colorTable = ['#75C6EF', '#75C6EF', '#75C6EF', '#75C6EF ', '#75C6EF'];
+    //    var colorTable = ['#75C6EF', '#75C6EF', '#75C6EF', '#75C6EF ', '#75C6EF'];
 
 
     /**
@@ -99,6 +99,8 @@
                 var topo = this.topology();
                 topo.on('afterFitStage', this._redraw.bind(this), this);
                 topo.on('zoomend', this._redraw.bind(this), this);
+                topo.on('collapseNode', this._redraw.bind(this), this);
+                topo.on('expandNode', this._redraw.bind(this), this);
                 topo.watch('revisionScale', this._redraw.bind(this), this);
                 topo.watch('showIcon', this._redraw.bind(this), this);
             },
@@ -121,8 +123,8 @@
                 if (!config.color) {
                     config.color = colorTable[groupItems.count() % 5];
                 }
-                delete  config.nodes;
-                delete  config.shapeType;
+                delete config.nodes;
+                delete config.shapeType;
 
                 group.sets(config);
                 group.attach(this);
@@ -195,8 +197,8 @@
             dispose: function () {
                 this.clear();
                 var topo = this.topology();
-                topo.off('collapseNodeSet', this._redraw.bind(this), this);
-                topo.off('expandNodeSet', this._redraw.bind(this), this);
+                topo.off('collapseNode', this._redraw.bind(this), this);
+                topo.off('expandNode', this._redraw.bind(this), this);
                 topo.off('zoomend', this._redraw.bind(this), this);
                 topo.off('fitStage', this._redraw.bind(this), this);
                 topo.unwatch('revisionScale', this._redraw.bind(this), this);

@@ -71,7 +71,7 @@
                     _latitude = latitude.split(".").pop();
 
 
-                topo.graph().eachVertex(function (vertex) {
+                topo.graph().eachVertexSet(function (vertex) {
                     vertex.positionGetter(function () {
                         var p = projection([nx.path(vertex, _longitude), nx.path(vertex, _latitude)]);
                         return {
@@ -88,7 +88,8 @@
                     vertex.position(vertex.positionGetter().call(vertex));
                 });
 
-                topo.graph().eachVertexSet(function (vertex) {
+
+                topo.graph().eachVertex(function (vertex) {
                     vertex.positionGetter(function () {
                         var p = projection([nx.path(vertex, _longitude), nx.path(vertex, _latitude)]);
                         return {

@@ -247,6 +247,9 @@
                                 this.animating(true);
                                 this.scalingLayer().dom().addClass('n-topology-fit');
                                 this._setStageMatrix(this.fitMatrixObject().matrix());
+                            } else {
+                                /* jslint -W030 */
+                                callback && callback.call(context || this);
                             }
                             this.zoomLevel(1);
                         } else {
