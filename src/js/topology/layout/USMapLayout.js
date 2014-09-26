@@ -49,7 +49,7 @@
             process: function (graph, config, callback) {
                 // load d3
 
-                if (typeof(d3) === "undefined") {
+                if (typeof (d3) === "undefined") {
                     util.loadScript(D3URL, function () {
                         this._process(graph, config, callback);
                     }.bind(this));
@@ -69,6 +69,24 @@
 
                 var _longitude = longitude.split(".").pop(),
                     _latitude = latitude.split(".").pop();
+
+
+                topo.graph().eachVertexSet(function (vertex) {
+                    vertex.positionGetter(function () {
+                        var p = projection([nx.path(vertex, _longitude), nx.path(vertex, _latitude)]);
+                        return {
+                            x: p[0],
+                            y: p[1]
+                        };
+                    });
+                    vertex.positionSetter(function (position) {
+                        var p = projection.invert([position.x, position.y]);
+                        vertex.set(_longitude, p[0]);
+                        vertex.set(_latitude, p[1]);
+                    });
+
+                    vertex.position(vertex.positionGetter().call(vertex));
+                });
 
 
                 topo.graph().eachVertex(function (vertex) {
@@ -123,14 +141,14 @@
                 map.view().dom().$dom.appendChild(document.importNode(el.documentElement.firstChild, true));
             },
             updateMap: function () {
-//                var topo = this.topology();
-//                var g = this.view('map');
-//                var width = 960, height = 500;
-//                var containerWidth = topo._width - topo._padding * 2, containerHeight = topo._height - topo._padding * 2;
-//                var scale = Math.min(containerWidth / width, containerHeight / height);
-//                var translateX = (containerWidth - width * scale) / 2;
-//                var translateY = (containerHeight - height * scale) / 2;
-//                g.setTransform(translateX, translateY, scale);
+                //                var topo = this.topology();
+                //                var g = this.view('map');
+                //                var width = 960, height = 500;
+                //                var containerWidth = topo._width - topo._padding * 2, containerHeight = topo._height - topo._padding * 2;
+                //                var scale = Math.min(containerWidth / width, containerHeight / height);
+                //                var translateX = (containerWidth - width * scale) / 2;
+                //                var translateY = (containerHeight - height * scale) / 2;
+                //                g.setTransform(translateX, translateY, scale);
             }
 
         }
