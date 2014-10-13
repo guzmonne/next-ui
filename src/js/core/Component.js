@@ -84,7 +84,7 @@
              */
             translate: {
                 get: function () {
-                    return{
+                    return {
                         x: this._translateX || 0,
                         y: this._translateY || 0
                     };
@@ -148,12 +148,12 @@
              */
             setTransform: function (translateX, translateY, scale, duration) {
 
-                var tx = translateX != null ? translateX : this._translateX || 0;
-                var ty = translateY != null ? translateY : this._translateY || 0;
-                var scl = scale != null ? scale : this._scale || 1;
+                var tx = (1 * (translateX != null ? translateX : this._translateX || 0)).toFixed(10);
+                var ty = (1 * (translateY != null ? translateY : this._translateY || 0)).toFixed(10);
+                var scl = (1 * (scale != null ? scale : this._scale || 1)).toFixed(10);
 
                 this.setStyle('transform', ' matrix(' + scl + ',' + 0 + ',' + 0 + ',' + scl + ',' + tx + ', ' + ty + ')', duration);
-//                this.setStyle('transform', ' translate(' + tx + 'px, ' + ty + 'px) scale(' + scl + ')', duration);
+                //                this.setStyle('transform', ' translate(' + tx + 'px, ' + ty + 'px) scale(' + scl + ')', duration);
 
                 this._translateX = tx;
                 this._translateY = ty;
@@ -216,7 +216,7 @@
                 if (parent) {
                     parentElement = this._parentElement = parent.view().dom();
                 } else {
-                    parentElement = this._parentElement = this._parentElement || this.view().dom().parentNode();//|| this.parent().view();
+                    parentElement = this._parentElement = this._parentElement || this.view().dom().parentNode(); //|| this.parent().view();
                 }
                 if (parentElement && parentElement.$dom && this._resources && this.view() && !parentElement.contains(this.view().dom())) {
                     parentElement.appendChild(this.view().dom());
@@ -294,7 +294,7 @@
                 ani.callback(function (progress) {
                     nx.each(aniMap, function (item) {
                         var value = item.oldValue + (item.newValue - item.oldValue) * progress;
-//                        var value = ease(progress, item.oldValue, item.newValue - item.oldValue, 1);
+                        //                        var value = ease(progress, item.oldValue, item.newValue - item.oldValue, 1);
                         self.set(item.key, value);
                     });
                     //console.log(progress);
