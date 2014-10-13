@@ -32,7 +32,7 @@
 
     {
         "nodes": [
-            {"function": "core", "name": "sfc", "latitude": 63.391325999999886, "ipaddress": "29.29.29.29", "isisarea": "72", "site": "sfc", "longitude": -149.8286774, "type": "physical"},
+            {"function": "core", "name": "sfc", "latitude": 37.7577, "ipaddress": "29.29.29.29", "isisarea": "72", "site": "sfc", "longitude": -122.4376, "type": "physical"},
             {"function": "core", "name": "sea", "latitude": 47.60620000000019, "ipaddress": "28.28.28.28", "isisarea": "72", "site": "sea", "longitude": -122.332},
             {"function": "core", "name": "hst", "latitude": 29.763300000000147, "ipaddress": "20.20.20.20", "isisarea": "72", "site": "hst", "longitude": -95.3633},
             {"function": "core", "name": "chi", "latitude": 41.85000000000014, "ipaddress": "19.19.19.19", "isisarea": "72", "site": "chi", "longitude": -87.65},
@@ -125,11 +125,10 @@
         },
         showIcon: false,
         identityKey: 'name',
-        layoutType: 'WorldMap',
+        layoutType: 'USMap',
         layoutConfig: {
             longitude: 'model.longitude',
-            latitude: 'model.latitude',
-            worldTopoJson: 'lib/world-50m.json'
+            latitude: 'model.latitude'
         },
         data: topologyData
     });
