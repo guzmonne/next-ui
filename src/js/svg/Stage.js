@@ -331,18 +331,61 @@
                 var watching = nx.keyword.internal.watch(this, "animating", function (animating) {
                     if (!animating) {
                         watching.release();
-                        // get transform matrix
-                        var contentBound = this.getContentBound();
-                        var padding = this.padding();
-                        var stageBound = {
-                            left: padding,
-                            top: padding,
-                            height: this.height() - padding * 2,
-                            width: this.width() - padding * 2
-                        };
-                        var matrix = new nx.geometry.Matrix(this.calcRectZoomMatrix(stageBound, contentBound));
-                        matrix.matrix(nx.geometry.Matrix.multiply(this.matrix(), matrix.matrix()));
-                        this.fitMatrixObject(matrix);
+                        // FIXME for firefox bug with g.getBoundingClientRect
+                        if (!nx.util.isFirefox()) {
+                            // get transform matrix
+                            var contentBound = this.getContentBound();
+                            var padding = this.padding();
+                            var stageBound = {
+                                left: padding,
+                                top: padding,
+                                height: this.height() - padding * 2,
+                                width: this.width() - padding * 2
+                            };
+                            var matrix = new nx.geometry.Matrix(this.calcRectZoomMatrix(stageBound, contentBound));
+                            matrix.matrix(nx.geometry.Matrix.multiply(this.matrix(), matrix.matrix()));
+                            this.fitMatrixObject(matrix);
+                        } else {
+                            var topo = this.owner();
+                            var contentBound = (function () {
+                                var nodes = topo.getLayer("nodes").nodes();
+                                var xmin, xmax, ymin, ymax;
+                                nx.each(nodes, function (node) {
+                                    if (!(xmax < node.x())) {
+                                        xmax = node.x();
+                                    }
+                                    if (!(xmin > node.x())) {
+                                        xmin = node.x();
+                                    }
+                                    if (!(ymax < node.y())) {
+                                        ymax = node.y();
+                                    }
+                                    if (!(ymin > node.y())) {
+                                        ymin = node.y();
+                                    }
+                                });
+                                return {
+                                    x: xmin || 0,
+                                    y: ymin || 0,
+                                    left: xmin || 0,
+                                    top: ymin || 0,
+                                    right: xmax || 0,
+                                    bottom: ymax || 0,
+                                    width: xmax - xmin || 0,
+                                    height: ymax - ymin || 0
+                                };
+                            })();
+                            var padding = this.padding();
+                            var stageBound = {
+                                left: padding,
+                                top: padding,
+                                height: this.height() - padding * 2,
+                                width: this.width() - padding * 2
+                            };
+                            var matrix = new nx.geometry.Matrix(this.calcRectZoomMatrix(stageBound, contentBound));
+                            matrix.matrix(matrix.matrix());
+                            this.fitMatrixObject(matrix);
+                        }
                     }
                 }.bind(this));
                 watching.notify();

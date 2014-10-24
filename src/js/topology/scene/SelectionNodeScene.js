@@ -43,8 +43,7 @@
             enterNode: function () {
 
             },
-            clickNode: function (sender, node) {
-            },
+            clickNode: function (sender, node) {},
             dragStageStart: function (sender, event) {
                 this.inherited(sender, event);
                 var selectedNodes = this.selectedNodes();
@@ -97,6 +96,17 @@
             selectNodeByRect: function (bound) {
                 this.topology().eachNode(function (node) {
                     var nodeBound = node.getBound();
+                    // FIXME for firefox bug with g.getBoundingClientRect
+                    if (nx.util.isFirefox()) {
+                        var position = [node.x(), node.y()];
+                        var svgbound = this.topology().stage().dom().getBound();
+                        var matrix = this.topology().stage().matrix();
+                        position = nx.geometry.Vector.transform(position, matrix);
+                        nodeBound.x = nodeBound.left = position[0] + svgbound.left - nodeBound.width / 2;
+                        nodeBound.right = nodeBound.left + nodeBound.width;
+                        nodeBound.y = nodeBound.top = position[1] + svgbound.top - nodeBound.height / 2;
+                        nodeBound.bottom = nodeBound.top + nodeBound.height;
+                    }
                     var nodeSelected = node.selected();
                     if (this._hittest(bound, nodeBound)) {
                         if (!nodeSelected) {
