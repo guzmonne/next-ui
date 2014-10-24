@@ -331,23 +331,24 @@
                 var watching = nx.keyword.internal.watch(this, "animating", function (animating) {
                     if (!animating) {
                         watching.release();
+                        var contentBound, padding, stageBound, matrix;
                         // FIXME for firefox bug with g.getBoundingClientRect
                         if (!nx.util.isFirefox()) {
                             // get transform matrix
-                            var contentBound = this.getContentBound();
-                            var padding = this.padding();
-                            var stageBound = {
+                            contentBound = this.getContentBound();
+                            padding = this.padding();
+                            stageBound = {
                                 left: padding,
                                 top: padding,
                                 height: this.height() - padding * 2,
                                 width: this.width() - padding * 2
                             };
-                            var matrix = new nx.geometry.Matrix(this.calcRectZoomMatrix(stageBound, contentBound));
+                            matrix = new nx.geometry.Matrix(this.calcRectZoomMatrix(stageBound, contentBound));
                             matrix.matrix(nx.geometry.Matrix.multiply(this.matrix(), matrix.matrix()));
                             this.fitMatrixObject(matrix);
                         } else {
                             var topo = this.owner();
-                            var contentBound = (function () {
+                            contentBound = (function () {
                                 var nodes = topo.getLayer("nodes").nodes();
                                 var xmin, xmax, ymin, ymax;
                                 nx.each(nodes, function (node) {
@@ -375,14 +376,14 @@
                                     height: ymax - ymin || 0
                                 };
                             })();
-                            var padding = this.padding();
-                            var stageBound = {
+                            padding = this.padding();
+                            stageBound = {
                                 left: padding,
                                 top: padding,
                                 height: this.height() - padding * 2,
                                 width: this.width() - padding * 2
                             };
-                            var matrix = new nx.geometry.Matrix(this.calcRectZoomMatrix(stageBound, contentBound));
+                            matrix = new nx.geometry.Matrix(this.calcRectZoomMatrix(stageBound, contentBound));
                             matrix.matrix(matrix.matrix());
                             this.fitMatrixObject(matrix);
                         }
