@@ -100,8 +100,10 @@
                 var vertices = this.vertices();
                 var identityKey = this.identityKey();
 
-                if (typeof(data) == 'string' || typeof(data) == 'number') {
-                    data = {data: data};
+                if (typeof (data) == 'string' || typeof (data) == 'number') {
+                    data = {
+                        data: data
+                    };
                 }
 
                 var id = nx.path(data, identityKey);
@@ -220,15 +222,18 @@
              */
             deleteVertex: function (id) {
                 var nodes = this.nodes();
-                if (nx.is(nodes, nx.data.ObservableCollection)) {
-                    var data = this.getVertex(id).getData();
-                    nodes.remove(data);
-                } else {
-                    var index = this.nodes().indexOf(this.getVertex(id).getData());
-                    if (index != -1) {
-                        this.nodes().splice(index, 1);
+                var vertex = this.getVertex(id);
+                if (vertex) {
+                    if (nx.is(nodes, nx.data.ObservableCollection)) {
+                        var data = vertex.getData();
+                        nodes.remove(data);
+                    } else {
+                        var index = this.nodes().indexOf(vertex.getData());
+                        if (index != -1) {
+                            this.nodes().splice(index, 1);
+                        }
+                        this._deleteVertex(id);
                     }
-                    this._deleteVertex(id);
                 }
             },
             _deleteVertex: function (id) {
@@ -264,7 +269,7 @@
                 });
             },
             getVertex: function (id) {
-                return  this.vertices().getItem(id);
+                return this.vertices().getItem(id);
             },
             _nodesCollectionProcessor: function (sender, args) {
                 var items = args.items;

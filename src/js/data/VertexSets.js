@@ -101,7 +101,9 @@
 
                 this.generateVertexSet(vertexSet);
 
-                vertexSet.activated(true, {force: true});
+                vertexSet.activated(true, {
+                    force: true
+                });
                 this.updateVertexSet(vertexSet);
 
                 return vertexSet;
@@ -110,8 +112,10 @@
                 var identityKey = this.identityKey();
                 var vertexSets = this.vertexSets();
                 //
-                if (typeof(data) == 'string' || typeof(data) == 'number') {
-                    data = {data: data};
+                if (typeof (data) == 'string' || typeof (data) == 'number') {
+                    data = {
+                        data: data
+                    };
                 }
                 var id = nx.path(data, identityKey);
                 id = id !== undefined ? id : this.vertexSets().count() + this.vertices().count();
@@ -221,17 +225,19 @@
 
             },
             deleteVertexSet: function (id) {
-
                 var nodeSet = this.nodeSet();
-                if (nx.is(nodeSet, nx.data.ObservableCollection)) {
-                    var data = this.getVertexSet(id).getData();
-                    nodeSet.remove(data);
-                } else {
-                    var index = this.nodeSet().indexOf(this.getVertexSet(id).getData());
-                    if (index != -1) {
-                        this.nodeSet().splice(index, 1);
+                var vertexSet = this.getVertexSet(id);
+                if (vertexSet) {
+                    if (nx.is(nodeSet, nx.data.ObservableCollection)) {
+                        var data = vertexSet.getData();
+                        nodeSet.remove(data);
+                    } else {
+                        var index = this.nodeSet().indexOf(vertexSet.getData());
+                        if (index != -1) {
+                            this.nodeSet().splice(index, 1);
+                        }
+                        this._deleteVertexSet(id);
                     }
-                    this._deleteVertexSet(id);
                 }
             },
             _deleteVertexSet: function (id) {
@@ -279,7 +285,7 @@
                 });
             },
             getVertexSet: function (id) {
-                return  this.vertexSets().getItem(id);
+                return this.vertexSets().getItem(id);
             },
             _nodeSetCollectionProcessor: function (sender, args) {
                 var items = args.items;
