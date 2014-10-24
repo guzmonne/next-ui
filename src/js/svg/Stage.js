@@ -351,6 +351,7 @@
                             contentBound = (function () {
                                 var nodes = topo.getLayer("nodes").nodes();
                                 var xmin, xmax, ymin, ymax;
+                                /* jshint -W018 */
                                 nx.each(nodes, function (node) {
                                     if (!(xmax < node.x())) {
                                         xmax = node.x();
