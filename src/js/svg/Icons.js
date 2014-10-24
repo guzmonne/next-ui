@@ -89,93 +89,93 @@
             width: 32,
             height: 32,
             name: "Switch",
-            font: ["\ue618", "\ue619"]
+            font: ["\ue618", "\ue643"]
         },
         router: {
             width: 32,
             height: 32,
             name: "Router",
-            font: ["\ue61c", "\ue61d"]
+            font: ["\ue61c", "\ue641"]
         },
         wlc: {
             width: 32,
             height: 32,
-            font: ["\ue60f", "\ue610"]
+            font: ["\ue60f", "\ue645"]
         },
         unknown: {
             width: 32,
             height: 32,
-            font: ["\ue612", "\ue611"]
+            font: ["\ue612", "\ue63b"]
         },
         server: {
             width: 32,
             height: 32,
-            font: ["\ue61b", "\ue61a"]
+            font: ["\ue61b", "\ue642"]
         },
         phone: {
             width: 32,
             height: 32,
-            font: ["\ue61e", "\ue61f"]
+            font: ["\ue61e", "\ue640"]
         },
         nexus5000: {
             width: 32,
             height: 32,
-            font: ["\ue620", "\ue621"]
+            font: ["\ue620", "\ue63f"]
         },
         ipphone: {
             width: 32,
             height: 32,
-            font: ["\ue622", "\ue623"]
+            font: ["\ue622", "\ue63e"]
         },
         host: {
             width: 32,
             height: 32,
-            font: ["\ue624", "\ue625"]
+            font: ["\ue624", "\ue63d"]
         },
         camera: {
             width: 32,
             height: 32,
-            font: ["\ue626", "\ue627"]
+            font: ["\ue626", "\ue638"]
         },
         accesspoint: {
             width: 32,
             height: 32,
-            font: ["\ue628", "\ue629"]
+            font: ["\ue628", "\ue637"]
         },
         groups: {
             width: 32,
             height: 32,
-            font: ["\ue615", "\ue62f"]
+            font: ["\ue615", "\ue63c"]
         },
         groupm: {
             width: 32,
             height: 32,
-            font: ["\ue616", "\ue630"]
+            font: ["\ue616", "\ue63b"]
         },
         groupl: {
             width: 32,
             height: 32,
-            font: ["\ue617", "\ue631"]
+            font: ["\ue617", "\ue63a"]
         },
         collapse: {
             width: 16,
             height: 16,
-            font: ["\ue62e", "\ue611"]
+            font: ["\ue62e", "\ue62e"]
         },
         expand: {
             width: 14,
             height: 14,
-            font: ["\ue614", "\ue611"]
+            font: ["\ue62d", "\ue62d"]
         },
         nodeset: {
             width: 32,
             height: 32,
-            font: ["\ue617", "\ue617"]
+            font: ["\ue617", "\ue63a"]
         },
         cloud: {
             width: 48,
             height: 48,
-            font: ["\ue633", "\ue633"]
+            font: ["\ue633", "\ue639"]
         }
     };
 
