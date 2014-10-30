@@ -136,7 +136,7 @@
 
     topo.on('topologyGenerated', function () {
         var generator = function () {
-            var link = topo.getLinkSet('sea', 'min').links()[0];
+            var link = nx.util.values(topo.getLinkSet('sea', 'min').links())[0];
             var totalLength = link.view('path').dom().$dom.getTotalLength;
 
             var model = link.model();
