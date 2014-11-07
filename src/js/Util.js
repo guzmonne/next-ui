@@ -27,32 +27,37 @@
 
     nx.ready = function (clz) {
         var callback;
-        if (typeof clz === "string" || (typeof clz === "function" && clz.__classId__)) {
-            var App = nx.define("nx.ui.Application", {
-                properties: {
-                    view: {
-                        value: function () {
-                            return new clz();
+        if (typeof clz === "string") {
+            clz = nx.path(global, clz);
+        }
+        if (typeof clz === "function") {
+            if (clz.__classId__) {
+                var App = nx.define("nx.ui.Application", {
+                    properties: {
+                        view: {
+                            value: function () {
+                                return new clz();
+                            }
+                        }
+                    },
+                    methods: {
+                        start: function () {
+                            this.view().attach(this);
+                        },
+                        stop: function () {
+                            this.view().detach(this);
                         }
                     }
-                },
-                methods: {
-                    start: function () {
-                        this.view().attach(this);
-                    },
-                    stop: function () {
-                        this.view().detach(this);
-                    }
-                }
-            });
-            callback = function () {
-                var app = new App();
-                app.start();
-            };
-        } else {
-            callback = clz;
+                });
+                callback = function () {
+                    var app = new App();
+                    app.start();
+                };
+            } else {
+                callback = clz;
+            }
+            window.addEventListener("load", callback);
         }
-        window.addEventListener("load", callback);
     };
 
     /**
