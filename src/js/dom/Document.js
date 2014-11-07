@@ -9,7 +9,7 @@
     var readyModel = {
         topFrame: null,
         hasReady: false,
-        queue: []
+        queue: [],
     };
 
     var readyService = {
