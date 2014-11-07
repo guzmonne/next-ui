@@ -32,7 +32,7 @@
         }
         if (typeof clz === "function") {
             if (clz.__classId__) {
-                var App = nx.define("nx.ui.Application", {
+                var App = nx.define(nx.ui.Application, {
                     properties: {
                         comp: {
                             value: function () {
