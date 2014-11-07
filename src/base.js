@@ -111,7 +111,7 @@ if (!Function.prototype.bind) {
                 };
             };
             top = function (stack) {
-                if (stack.length == 0) {
+                if (stack.length === 0) {
                     return null;
                 }
                 return stack[stack.length - 1];
@@ -178,7 +178,8 @@ if (!Function.prototype.bind) {
                         continue;
                     }
                     // check if needn't deep into or cloned already
-                    if (cached = get(map, origin[key])) {
+                    cached = get(map, origin[key]);
+                    if (cached) {
                         dest[key] = cached;
                         continue;
                     }
