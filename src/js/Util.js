@@ -34,7 +34,7 @@
             if (clz.__classId__) {
                 var App = nx.define("nx.ui.Application", {
                     properties: {
-                        view: {
+                        comp: {
                             value: function () {
                                 return new clz();
                             }
@@ -42,10 +42,10 @@
                     },
                     methods: {
                         start: function () {
-                            this.view().attach(this);
+                            this.comp().attach(this);
                         },
                         stop: function () {
-                            this.view().detach(this);
+                            this.comp().detach(this);
                         }
                     }
                 });
