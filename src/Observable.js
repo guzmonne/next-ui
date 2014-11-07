@@ -175,6 +175,7 @@
                     if (!property._watched) {
                         var setter = property.__setter__;
                         var dependencies = property.getMeta('dependencies');
+                        var equalityCheck = property.getMeta('equalityCheck');
                         nx.each(dependencies, function (dep) {
                             this.watch(dep, function () {
                                 this.notify(name);
@@ -183,7 +184,7 @@
 
                         property.__setter__ = function (value, params) {
                             var oldValue = this.get(name);
-                            if (oldValue !== value || (params && params.force)) {
+                            if (oldValue !== value || (params && params.force) || equalityCheck === false) {
                                 if (setter.call(this, value, params) !== false) {
                                     return this.notify(name, oldValue);
                                 }

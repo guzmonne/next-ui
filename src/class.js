@@ -12,7 +12,8 @@
      * @class nx.Object
      * @constructor
      */
-    function NXObject() {}
+    function NXObject() {
+    }
 
     var NXPrototype = NXObject.prototype = {
         constructor: NXObject,
@@ -161,11 +162,13 @@
          */
         on: function (name, handler, context) {
             var map = this.__listeners__;
-            var listeners = map[name] = map[name] || [{
-                owner: null,
-                handler: null,
-                context: null
-            }];
+            var listeners = map[name] = map[name] || [
+                {
+                    owner: null,
+                    handler: null,
+                    context: null
+                }
+            ];
 
             listeners.push({
                 owner: this,
@@ -208,11 +211,13 @@
          */
         upon: function (name, handler, context) {
             var map = this.__listeners__;
-            var listeners = map[name] = map[name] || [{
-                owner: null,
-                handler: null,
-                context: null
-            }];
+            var listeners = map[name] = map[name] || [
+                {
+                    owner: null,
+                    handler: null,
+                    context: null
+                }
+            ];
 
             listeners[0] = {
                 owner: this,
@@ -285,11 +290,13 @@
         var exist = target[eventName] && target[eventName].__type__ == 'event';
         var fn = target[eventName] = function (handler, context) {
             var map = this.__listeners__;
-            var listeners = map[name] = map[name] || [{
-                owner: null,
-                handler: null,
-                context: null
-            }];
+            var listeners = map[name] = map[name] || [
+                {
+                    owner: null,
+                    handler: null,
+                    context: null
+                }
+            ];
 
             listeners[0] = {
                 owner: this,
@@ -517,10 +524,10 @@
                 }
                 else if (nx.is(value, nx.keyword.internal.Keyword)) {
                     switch (value.type) {
-                    case "binding":
-                        // FIXME memory leak
-                        value.apply(this, name);
-                        break;
+                        case "binding":
+                            // FIXME memory leak
+                            value.apply(this, name);
+                            break;
                     }
                 }
                 else {
@@ -603,7 +610,8 @@
                 this.__initializing__ = false;
             };
 
-            SuperClass = function () {};
+            SuperClass = function () {
+            };
 
             SuperClass.prototype = sup.prototype;
             prototype = new SuperClass();
@@ -641,7 +649,7 @@
                 });
 
                 nx.each(mixin.__methods__, function (name) {
-                    if (name !== 'init') {
+                    if (name !== 'init' && name !== 'dispose') {
                         extendMethod(prototype, name, mixinPrototype[name]);
                     }
                 });
