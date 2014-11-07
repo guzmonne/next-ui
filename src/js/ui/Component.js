@@ -15,8 +15,7 @@
                 set: function (value, inherited) {
                     if (inherited) {
                         this._inheritedModel = value;
-                    }
-                    else {
+                    } else {
                         this._model = value;
                     }
 
@@ -71,7 +70,7 @@
                             break;
                         }
                     }
-                    view = view.call(this, nx.clone(superView));
+                    view = view.call(this, nx.clone(superView, true));
                 }
 
                 if (view) {
@@ -87,16 +86,14 @@
             get: function (name) {
                 if (this.has(name)) {
                     return this.inherited(name);
-                }
-                else {
+                } else {
                     return this.view().get(name);
                 }
             },
             set: function (name, value) {
                 if (this.has(name)) {
                     this.inherited(name, value);
-                }
-                else {
+                } else {
                     this.view().set(name, value);
                     this.notify(name);
                 }
@@ -110,24 +107,21 @@
             on: function (name, handler, context) {
                 if (this.can(name)) {
                     this.inherited(name, handler, context);
-                }
-                else {
+                } else {
                     this.view().on(name, handler, context);
                 }
             },
             upon: function (name, handler, context) {
                 if (this.can(name)) {
                     this.inherited(name, handler, context);
-                }
-                else {
+                } else {
                     this.view().upon(name, handler, context);
                 }
             },
             off: function (name, handler, context) {
                 if (this.can(name)) {
                     this.inherited(name, handler, context);
-                }
-                else {
+                } else {
                     this.view().off(name, handler, context);
                 }
             },
