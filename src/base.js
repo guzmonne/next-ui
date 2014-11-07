@@ -30,6 +30,24 @@ if (!Function.prototype.bind) {
     var isArray = Array.isArray || function (target) {
             return target && target.constructor === Array;
         };
+    var isPojo = function (obj) {
+        var hasown = Object.prototype.hasOwnProperty;
+        if (!obj || Object.prototype.toString(obj) !== "[object Object]" || obj.nodeType || obj === window) {
+            return false;
+        }
+        try {
+            // Not own constructor property must be Object
+            if (obj.constructor && !hasown.call(obj, "constructor") && !hasown.call(obj.constructor.prototype, "isPrototypeOf")) {
+                return false;
+            }
+        } catch (e) {
+            // IE8,9 Will throw exceptions on certain host objects #9897
+            return false;
+        }
+        var key;
+        for (key in obj) {}
+        return key === undefined || hasown.call(obj, key);
+    };
 
     /**
      * Extend target with properties from sources.
@@ -135,16 +153,16 @@ if (!Function.prototype.bind) {
                     // window and document cannot be clone
                     return null;
                 }
-                if (util.array.contain(["null", "undefined", "number", "string", "boolean", "function"], typeof self)) {
+                if (["null", "undefined", "number", "string", "boolean", "function"].indexOf(typeof self) >= 0) {
                     return self;
                 }
-                if (!util.is.arr(self) && !util.is.obj(self)) {
+                if (!isArray(self) && !isPojo(self)) {
                     return self;
                 }
                 var map = [],
                     stack = [],
                     origin = self,
-                    dest = (util.is.arr(self) ? [] : {});
+                    dest = (isArray(self) ? [] : {});
                 var stacktop, key, cached;
                 // initialize the map and stack
                 put(map, origin, dest);
@@ -169,9 +187,9 @@ if (!Function.prototype.bind) {
                     }
                     key = stacktop.keys[stacktop.idx++];
                     // clone an object
-                    if (util.is.arr(origin[key])) {
+                    if (isArray(origin[key])) {
                         dest[key] = [];
-                    } else if (util.is.obj(origin[key])) {
+                    } else if (isPojo(origin[key])) {
                         dest[key] = {};
                     } else {
                         dest[key] = origin[key];
@@ -248,6 +266,8 @@ if (!Function.prototype.bind) {
                 return typeof target === type.toLowerCase();
             case 'Array':
                 return isArray(target);
+            case 'POJO':
+                return isPojo(target);
             default:
                 return target instanceof type;
             }
