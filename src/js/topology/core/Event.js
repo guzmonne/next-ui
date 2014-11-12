@@ -5,7 +5,7 @@
         }
 
         if (e.detail) {
-            return e.detail / -40;
+            return e.detail * -40;
         }
 
 
@@ -54,7 +54,7 @@
                     }
 
 
-                    stage.applyStageScale(1 + scale, [event.offsetX, event.offsetY]);
+                    stage.applyStageScale(1 + scale, [event.offsetX === undefined ? event.layerX : event.offsetX, event.offsetY === undefined ? event.layerY : event.offsetY]);
 
                     if (this._zooomEventTimer) {
                         clearTimeout(this._zooomEventTimer);
@@ -142,122 +142,122 @@
             _key: function (sender, event) {
                 var code = event.keyCode;
                 switch (code) {
-                    case 38:
-                        /**
-                         * Fired when press up arrow key
-                         * @event up
-                         * @param sender {Object}  Trigger instance
-                         * @param event {Object} original event object
-                         */
-                        this.fire('up', event);
-                        event.preventDefault();
-                        break;
-                    case 40:
-                        /**
-                         * Fired when press down arrow key
-                         * @event down
-                         * @param sender {Object}  Trigger instance
-                         * @param event {Object} original event object
-                         */
-                        this.fire('down', event);
-                        event.preventDefault();
-                        break;
-                    case 37:
-                        /**
-                         * Fired when press left arrow key
-                         * @event left
-                         * @param sender {Object}  Trigger instance
-                         * @param event {Object} original event object
-                         */
-                        this.fire('left', event);
-                        event.preventDefault();
-                        break;
-                    case 39:
-                        /**
-                         * Fired when press right arrow key
-                         * @event right
-                         * @param sender {Object}  Trigger instance
-                         * @param event {Object} original event object
-                         */
-                        this.fire('right', event);
-                        event.preventDefault();
-                        break;
-                    case 13:
-                        /**
-                         * Fired when press enter key
-                         * @event enter
-                         * @param sender {Object}  Trigger instance
-                         * @param event {Object} original event object
-                         */
-                        this.fire('enter', event);
-                        event.preventDefault();
-                        break;
-                    case 27:
-                        /**
-                         * Fired when press esc key
-                         * @event esc
-                         * @param sender {Object}  Trigger instance
-                         * @param event {Object} original event object
-                         */
-                        this.fire('esc', event);
-                        event.preventDefault();
-                        break;
-                    case 65:
-                        /**
-                         * Fired when press a key
-                         * @event pressA
-                         * @param sender {Object}  Trigger instance
-                         * @param event {Object} original event object
-                         */
-                        this.fire('pressA', event);
-                        break;
-                    case 70:
-                        /**
-                         * Fired when press f key
-                         * @event pressF
-                         * @param sender {Object}  Trigger instance
-                         * @param event {Object} original event object
-                         */
-                        this.fire('pressF', event);
-                        break;
-                    case 77:
-                        /**
-                         * Fired when press m key
-                         * @event pressM
-                         * @param sender {Object}  Trigger instance
-                         * @param event {Object} original event object
-                         */
-                        this.fire('pressM', event);
-                        break;
-                    case 82:
-                        /**
-                         * Fired when press r key
-                         * @event pressR
-                         * @param sender {Object}  Trigger instance
-                         * @param event {Object} original event object
-                         */
-                        this.fire('pressR', event);
-                        break;
-                    case 83:
-                        /**
-                         * Fired when press s key
-                         * @event pressS
-                         * @param sender {Object}  Trigger instance
-                         * @param event {Object} original event object
-                         */
-                        this.fire('pressS', event);
-                        break;
+                case 38:
+                    /**
+                     * Fired when press up arrow key
+                     * @event up
+                     * @param sender {Object}  Trigger instance
+                     * @param event {Object} original event object
+                     */
+                    this.fire('up', event);
+                    event.preventDefault();
+                    break;
+                case 40:
+                    /**
+                     * Fired when press down arrow key
+                     * @event down
+                     * @param sender {Object}  Trigger instance
+                     * @param event {Object} original event object
+                     */
+                    this.fire('down', event);
+                    event.preventDefault();
+                    break;
+                case 37:
+                    /**
+                     * Fired when press left arrow key
+                     * @event left
+                     * @param sender {Object}  Trigger instance
+                     * @param event {Object} original event object
+                     */
+                    this.fire('left', event);
+                    event.preventDefault();
+                    break;
+                case 39:
+                    /**
+                     * Fired when press right arrow key
+                     * @event right
+                     * @param sender {Object}  Trigger instance
+                     * @param event {Object} original event object
+                     */
+                    this.fire('right', event);
+                    event.preventDefault();
+                    break;
+                case 13:
+                    /**
+                     * Fired when press enter key
+                     * @event enter
+                     * @param sender {Object}  Trigger instance
+                     * @param event {Object} original event object
+                     */
+                    this.fire('enter', event);
+                    event.preventDefault();
+                    break;
+                case 27:
+                    /**
+                     * Fired when press esc key
+                     * @event esc
+                     * @param sender {Object}  Trigger instance
+                     * @param event {Object} original event object
+                     */
+                    this.fire('esc', event);
+                    event.preventDefault();
+                    break;
+                case 65:
+                    /**
+                     * Fired when press a key
+                     * @event pressA
+                     * @param sender {Object}  Trigger instance
+                     * @param event {Object} original event object
+                     */
+                    this.fire('pressA', event);
+                    break;
+                case 70:
+                    /**
+                     * Fired when press f key
+                     * @event pressF
+                     * @param sender {Object}  Trigger instance
+                     * @param event {Object} original event object
+                     */
+                    this.fire('pressF', event);
+                    break;
+                case 77:
+                    /**
+                     * Fired when press m key
+                     * @event pressM
+                     * @param sender {Object}  Trigger instance
+                     * @param event {Object} original event object
+                     */
+                    this.fire('pressM', event);
+                    break;
+                case 82:
+                    /**
+                     * Fired when press r key
+                     * @event pressR
+                     * @param sender {Object}  Trigger instance
+                     * @param event {Object} original event object
+                     */
+                    this.fire('pressR', event);
+                    break;
+                case 83:
+                    /**
+                     * Fired when press s key
+                     * @event pressS
+                     * @param sender {Object}  Trigger instance
+                     * @param event {Object} original event object
+                     */
+                    this.fire('pressS', event);
+                    break;
 
-                    case 32:
-                        /**
-                         * Fired when press space key
-                         * @event space
-                         * @param sender {Object}  Trigger instance
-                         * @param event {Object} original event object
-                         */
-                        this.fire('space', event);
-                        event.preventDefault();
-                        break;
+                case 32:
+                    /**
+                     * Fired when press space key
+                     * @event space
+                     * @param sender {Object}  Trigger instance
+                     * @param event {Object} original event object
+                     */
+                    this.fire('space', event);
+                    event.preventDefault();
+                    break;
                 }
 
 

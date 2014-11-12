@@ -160,7 +160,7 @@
                         return false;
                     }
                     this._selected = value;
-                    this.dom().setClass("node-selected", !!value);
+                    this.dom().setClass("node-selected", !! value);
                     if (value) {
                         this.view('selectedBG').set('r', this.selectedRingRadius());
                     }
@@ -207,8 +207,7 @@
             props: {
                 'class': 'node'
             },
-            content: [
-                {
+            content: [{
                     name: 'label',
                     type: 'nx.graphic.Text',
                     props: {
@@ -216,30 +215,26 @@
                         'alignment-baseline': 'central',
                         y: 12
                     }
-                },
-                {
+                }, {
                     name: 'selectedBG',
                     type: 'nx.graphic.Circle',
                     props: {
                         'class': 'selectedBG',
                         'r': 26
                     }
-                },
-                {
+                }, {
                     type: 'nx.graphic.Group',
                     name: 'graphic',
-                    content: [
-                        {
-                            name: 'icon',
-                            type: 'nx.graphic.Icon',
-                            props: {
-                                'class': 'icon',
-                                'iconType': 'unknown',
-                                'showIcon': false,
-                                scale: 1
-                            }
+                    content: [{
+                        name: 'icon',
+                        type: 'nx.graphic.Icon',
+                        props: {
+                            'class': 'icon',
+                            'iconType': 'unknown',
+                            'showIcon': false,
+                            scale: 1
                         }
-                    ],
+                    }],
                     events: {
                         'mousedown': '{#_mousedown}',
                         'mouseup': '{#_mouseup}',
@@ -508,6 +503,10 @@
                 //
 
                 el.set('text-anchor', anchor);
+                // FIXME for firefox bug with g.getBoundingClientRect
+                if (nx.util.isFirefox()) {
+                    this.view("icon").translateY(size.height / 2);
+                }
 
                 this._labelAngle = angle;
 

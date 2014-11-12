@@ -129,6 +129,9 @@
                     vm = sourceBound.left >= targetBound.left && (sourceBound.left + sourceBound.width) <= (targetBound.left + targetBound.width);
 
                 return (t && l) || (b && r) || (t && r) || (b && l) || (t && vm) || (b && vm) || (l && hm) || (r && hm);
+            },
+            isFirefox: function () {
+                return navigator.userAgent.indexOf("Firefox") > 0;
             }
         }
     });

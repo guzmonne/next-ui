@@ -64,12 +64,19 @@
                 ]);
             },
             rotate: function (v, a) {
-                var sin = nx.geometry.Math.sin(a), cos = nx.geometry.Math.cos(a);
+                var sin = nx.geometry.Math.sin(a),
+                    cos = nx.geometry.Math.cos(a);
                 return Vector.transform(v, [
                     [cos, sin, 0],
                     [-sin, cos, 0],
                     [0, 0, 1]
                 ]);
+            },
+            length: function (v) {
+                return Math.sqrt(v[0] * v[0] + v[1] * v[1]);
+            },
+            angleCosine: function (v1, v2) {
+                return (v1[0] * v2[0] + v1[1] * v2[1]) / Vector.length(v1) / Vector.length(v2);
             }
         },
         methods: {
