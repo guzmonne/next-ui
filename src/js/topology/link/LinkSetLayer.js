@@ -87,9 +87,31 @@
                     return false;
                 }
             },
+
+            _getLinkSetInstanceClass: function (edgeSet) {
+                var Clz;
+                var topo = this.topology();
+                var nodeSetInstanceClass = topo.linkSetInstanceClass();
+                if (nx.is(nodeSetInstanceClass, 'Function')) {
+                    Clz = nodeSetInstanceClass.call(this, edgeSet);
+                    if (nx.is(Clz, 'String')) {
+                        Clz = nx.path(global, Clz);
+                    }
+                } else {
+                    Clz = nx.path(global, nodeSetInstanceClass);
+                }
+
+                if (!Clz) {
+                    throw "Error on instance linkSet class";
+                }
+                return Clz;
+
+            },
+
             _generateLinkSet: function (edgeSet) {
                 var topo = this.topology();
-                var linkSet = new nx.graphic.Topology.LinkSet({
+                var Clz = this._getLinkSetInstanceClass(edgeSet);
+                var linkSet = new Clz({
                     topology: topo
                 });
                 //set model

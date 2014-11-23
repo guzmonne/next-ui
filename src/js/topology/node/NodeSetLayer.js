@@ -119,6 +119,9 @@
                 nx.each(nodeSet.__events__, function (e) {
                     if (superEvents.indexOf(e) == -1) {
                         nodeSet.on(e, function (sender, event) {
+                            if (event instanceof MouseEvent) {
+                                window.event = event;
+                            }
                             this.fire(e.replace('Node', 'NodeSet'), nodeSet);
                         }, this);
                     }

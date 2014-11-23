@@ -130,10 +130,12 @@
                     return this._matrix || nx.geometry.Matrix.I;
                 },
                 set: function (matrix) {
+                    //dom.style.webkitTransform = matrixString;
+                    var matrixObject = this.matrixObject();
                     var dom = this.scalingLayer().dom().$dom;
                     var matrixString = "matrix(" + nx.geometry.Matrix.stringify(matrix) + ")";
                     dom.style.transform = matrixString;
-                    dom.style.webkitTransform = matrixString;
+                    dom.setAttribute('transform', ' translate(' + matrixObject.x() + ', ' + matrixObject.y() + ') scale(' + matrixObject.scale() + ')');
                     this._matrix = matrix;
                 }
             },
@@ -332,62 +334,19 @@
                     if (!animating) {
                         watching.release();
                         var contentBound, padding, stageBound, matrix;
-                        // FIXME for firefox bug with g.getBoundingClientRect
-                        if (!nx.util.isFirefox()) {
-                            // get transform matrix
-                            contentBound = this.getContentBound();
-                            padding = this.padding();
-                            stageBound = {
-                                left: padding,
-                                top: padding,
-                                height: this.height() - padding * 2,
-                                width: this.width() - padding * 2
-                            };
-                            matrix = new nx.geometry.Matrix(this.calcRectZoomMatrix(stageBound, contentBound));
-                            matrix.matrix(nx.geometry.Matrix.multiply(this.matrix(), matrix.matrix()));
-                            this.fitMatrixObject(matrix);
-                        } else {
-                            var topo = this.owner();
-                            contentBound = (function () {
-                                var nodes = topo.getLayer("nodes").nodes();
-                                var xmin, xmax, ymin, ymax;
-                                /* jshint -W018 */
-                                nx.each(nodes, function (node) {
-                                    if (!(xmax < node.x())) {
-                                        xmax = node.x();
-                                    }
-                                    if (!(xmin > node.x())) {
-                                        xmin = node.x();
-                                    }
-                                    if (!(ymax < node.y())) {
-                                        ymax = node.y();
-                                    }
-                                    if (!(ymin > node.y())) {
-                                        ymin = node.y();
-                                    }
-                                });
-                                return {
-                                    x: xmin || 0,
-                                    y: ymin || 0,
-                                    left: xmin || 0,
-                                    top: ymin || 0,
-                                    right: xmax || 0,
-                                    bottom: ymax || 0,
-                                    width: xmax - xmin || 0,
-                                    height: ymax - ymin || 0
-                                };
-                            })();
-                            padding = this.padding();
-                            stageBound = {
-                                left: padding,
-                                top: padding,
-                                height: this.height() - padding * 2,
-                                width: this.width() - padding * 2
-                            };
-                            matrix = new nx.geometry.Matrix(this.calcRectZoomMatrix(stageBound, contentBound));
-                            matrix.matrix(matrix.matrix());
-                            this.fitMatrixObject(matrix);
-                        }
+                        // get transform matrix
+                        contentBound = this.getContentBound();
+                        padding = this.padding();
+                        stageBound = {
+                            left: padding,
+                            top: padding,
+                            height: this.height() - padding * 2,
+                            width: this.width() - padding * 2
+                        };
+                        matrix = new nx.geometry.Matrix(this.calcRectZoomMatrix(stageBound, contentBound));
+                        matrix.matrix(nx.geometry.Matrix.multiply(this.matrix(), matrix.matrix()));
+                        this.fitMatrixObject(matrix);
+
                     }
                 }.bind(this));
                 watching.notify();

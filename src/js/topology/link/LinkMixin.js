@@ -9,6 +9,20 @@
         events: ['addLink', 'deleteLink'],
         properties: {
             /**
+             * Link instance class name, support function
+             * @property nodeInstanceClass
+             */
+            linkInstanceClass: {
+                value: 'nx.graphic.Topology.Link'
+            },
+            /**
+             * LinkSet instance class name, support function
+             * @property linkSetInstanceClass
+             */
+            linkSetInstanceClass: {
+                value: 'nx.graphic.Topology.LinkSet'
+            },
+            /**
              * Is topology support Multiple link , is false will highly improve performance
              * @property supportMultipleLink {Boolean}
              */
@@ -23,9 +37,7 @@
              * value could be a normal binding expression eg : label :'{#label}'
              * @property {linkConfig}
              */
-            linkConfig: {
-
-            },
+            linkConfig: {},
             /**
              * All linkSet's config. key is link's property, support super binding
              * value could be a single string eg: color:'#f00'
@@ -34,9 +46,7 @@
              * value could be a normal binding expression eg : label :'{#label}'
              * @property {linkSetConfig}
              */
-            linkSetConfig: {
-
-            }
+            linkSetConfig: {}
         },
         methods: {
 

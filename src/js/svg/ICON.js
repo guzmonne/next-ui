@@ -86,7 +86,7 @@
 
                         //compatible with before
                         useEL.$dom.setAttributeNS(xlink, 'xlink:href', '#' + value);
-                        img.setStyle('-webkit-transform', 'translate(' + size.width / -2 + 'px, ' + size.height / -2 + 'px)');
+                        img.setStyle('transform', 'translate(' + size.width / -2 + 'px, ' + size.height / -2 + 'px)');
 
                         this.imageType('image');
                     }
@@ -98,6 +98,7 @@
 
                     this.size(size);
                     this._iconType = icon.name;
+
 
                 }
             },
@@ -134,8 +135,15 @@
                     bgEL.setStyle('font-size', _size);
 
                     if (this.imageType() == 'image' && value) {
-                        img.setStyle('-webkit-transform', 'translate(' + size.width / -2 + 'px, ' + size.height / -2 + 'px) scale(' + value + ')');
+                        img.setStyle('transform', 'translate(' + size.width / -2 + 'px, ' + size.height / -2 + 'px) scale(' + value + ')');
                     }
+
+                    // FIXME for firefox bug with g.getBoundingClientRect
+                    if (nx.util.isFirefox()) {
+                        shapeEL.$dom.setAttribute('transform', ' translate(0, ' + _size / 2 + ')');
+                        bgEL.$dom.setAttribute('transform', ' translate(0, ' + _size / 2 + ')');
+                    }
+
 
                     this._scale = value;
                 }

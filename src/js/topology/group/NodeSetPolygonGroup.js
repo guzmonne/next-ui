@@ -189,10 +189,20 @@
 
                     var iconSize = nodeIconImg.size();
 
-                    minus.setTransform(bound.left + bound.width / 2, bound.top - iconSize.height * stageScale / 2 - 22 * stageScale, 1 * stageScale);
-
                     nodeIcon.visible(true);
-                    nodeIcon.setTransform(bound.left + bound.width / 2 + 3 * stageScale + iconSize.width * stageScale / 2, bound.top - iconSize.height * stageScale / 2 - 22 * stageScale, 0.5 * stageScale);
+
+                    if (nx.util.isFirefox()) {
+                        minus.setTransform(bound.left + bound.width / 2, bound.top - iconSize.height * stageScale / 2 + 8 * stageScale, 1 * stageScale);
+                        nodeIcon.setTransform(bound.left + bound.width / 2 + 3 * stageScale + iconSize.width * stageScale / 2, bound.top - iconSize.height * stageScale / 2 - 0 * stageScale, 0.5 * stageScale);
+
+
+                    }else{
+                        minus.setTransform(bound.left + bound.width / 2, bound.top - iconSize.height * stageScale / 2 - 22 * stageScale, 1 * stageScale);
+                        nodeIcon.setTransform(bound.left + bound.width / 2 + 3 * stageScale + iconSize.width * stageScale / 2, bound.top - iconSize.height * stageScale / 2 - 22 * stageScale, 0.5 * stageScale);
+                    }
+
+
+
 
                     label.sets({
                         x: bound.left + bound.width / 2 - 3 * stageScale + iconSize.width * stageScale,
@@ -205,7 +215,12 @@
 
                     shape.dom().setStyle('stroke-width', 30 * stageScale);
 
-                    minus.setTransform(bound.left + bound.width / 2, bound.top - 45 * stageScale / 2, stageScale);
+                    if (nx.util.isFirefox()) {
+                        minus.setTransform(bound.left + bound.width / 2, bound.top - 29 * stageScale / 2, stageScale);
+                    }else{
+                        minus.setTransform(bound.left + bound.width / 2, bound.top - 45 * stageScale / 2, stageScale);
+                    }
+
                     nodeIcon.visible(false);
 
                     label.sets({
@@ -213,7 +228,7 @@
                         y: bound.top - 45 * stageScale / 2
                     });
                     label.view().dom().setStyle('font-size', 16 * stageScale);
-//                    labelContainer.view().dom().setStyle('fill', this.color());
+
                 }
 
 

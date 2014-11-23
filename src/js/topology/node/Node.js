@@ -160,7 +160,7 @@
                         return false;
                     }
                     this._selected = value;
-                    this.dom().setClass("node-selected", !! value);
+                    this.dom().setClass("node-selected", !!value);
                     if (value) {
                         this.view('selectedBG').set('r', this.selectedRingRadius());
                     }
@@ -208,45 +208,45 @@
                 'class': 'node'
             },
             content: [{
-                    name: 'label',
-                    type: 'nx.graphic.Text',
-                    props: {
-                        'class': 'node-label',
-                        'alignment-baseline': 'central',
-                        y: 12
-                    }
-                }, {
-                    name: 'selectedBG',
-                    type: 'nx.graphic.Circle',
-                    props: {
-                        'class': 'selectedBG',
-                        'r': 26
-                    }
-                }, {
-                    type: 'nx.graphic.Group',
-                    name: 'graphic',
-                    content: [{
-                        name: 'icon',
-                        type: 'nx.graphic.Icon',
-                        props: {
-                            'class': 'icon',
-                            'iconType': 'unknown',
-                            'showIcon': false,
-                            scale: 1
-                        }
-                    }],
-                    events: {
-                        'mousedown': '{#_mousedown}',
-                        'mouseup': '{#_mouseup}',
-
-                        'mouseenter': '{#_mouseenter}',
-                        'mouseleave': '{#_mouseleave}',
-
-                        'dragstart': '{#_dragstart}',
-                        'dragmove': '{#_drag}',
-                        'dragend': '{#_dragend}'
-                    }
+                name: 'label',
+                type: 'nx.graphic.Text',
+                props: {
+                    'class': 'node-label',
+                    'alignment-baseline': 'central',
+                    y: 12
                 }
+            }, {
+                name: 'selectedBG',
+                type: 'nx.graphic.Circle',
+                props: {
+                    'class': 'selectedBG',
+                    'r': 26
+                }
+            }, {
+                type: 'nx.graphic.Group',
+                name: 'graphic',
+                content: [{
+                    name: 'icon',
+                    type: 'nx.graphic.Icon',
+                    props: {
+                        'class': 'icon',
+                        'iconType': 'unknown',
+                        'showIcon': false,
+                        scale: 1
+                    }
+                }],
+                events: {
+                    'mousedown': '{#_mousedown}',
+                    'mouseup': '{#_mouseup}',
+
+                    'mouseenter': '{#_mouseenter}',
+                    'mouseleave': '{#_mouseleave}',
+
+                    'dragstart': '{#_dragstart}',
+                    'dragmove': '{#_drag}',
+                    'dragend': '{#_dragend}'
+                }
+            }
 
 
             ]
@@ -503,10 +503,6 @@
                 //
 
                 el.set('text-anchor', anchor);
-                // FIXME for firefox bug with g.getBoundingClientRect
-                if (nx.util.isFirefox()) {
-                    this.view("icon").translateY(size.height / 2);
-                }
 
                 this._labelAngle = angle;
 

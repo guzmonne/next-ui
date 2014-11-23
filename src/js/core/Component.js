@@ -148,12 +148,14 @@
              */
             setTransform: function (translateX, translateY, scale, duration) {
 
-                var tx = (1 * (translateX != null ? translateX : this._translateX || 0)).toFixed(10);
-                var ty = (1 * (translateY != null ? translateY : this._translateY || 0)).toFixed(10);
-                var scl = (1 * (scale != null ? scale : this._scale || 1)).toFixed(10);
+                var tx = parseFloat(translateX != null ? translateX : this._translateX || 0);
+                var ty = parseFloat(translateY != null ? translateY : this._translateY || 0);
+                var scl = parseFloat(scale != null ? scale : this._scale || 1);
 
                 this.setStyle('transform', ' matrix(' + scl + ',' + 0 + ',' + 0 + ',' + scl + ',' + tx + ', ' + ty + ')', duration);
-                //                this.setStyle('transform', ' translate(' + tx + 'px, ' + ty + 'px) scale(' + scl + ')', duration);
+                //this.setStyle('transform', ' translate(' + tx + 'px, ' + ty + 'px) scale(' + scl + ')', duration);
+
+                this.dom().$dom.setAttribute('transform', ' translate(' + tx + ', ' + ty + ') scale(' + scl + ')');
 
                 this._translateX = tx;
                 this._translateY = ty;
@@ -238,6 +240,9 @@
              * @returns {*|ClientRect}
              */
             getBound: function () {
+
+                //console.log(this.dom().$dom.getBoundingClientRect())
+                //debugger;
                 return this.dom().$dom.getBoundingClientRect();
             },
             /**

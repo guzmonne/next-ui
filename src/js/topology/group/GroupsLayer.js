@@ -57,7 +57,11 @@
                         var items = args.items;
                         if (action == 'clear') {
                             nx.each(items, function (item) {
-                                item.value().dispose();
+                                var group = item.value();
+                                if (group) {
+                                    group.dispose();
+                                }
+
                             });
                         }
                     }, this);
@@ -139,7 +143,10 @@
                 var events = ['dragGroupStart', 'dragGroup', 'dragGroupEnd', 'clickGroupLabel', 'enterGroup', 'leaveGroup', 'collapseNodeSetGroup'];
 
                 nx.each(events, function (e) {
-                    group.on(e, function () {
+                    group.on(e, function (sender, event) {
+                        if (event instanceof MouseEvent) {
+                            window.event = event;
+                        }
                         this.fire(e, group);
                     }, this);
                 }, this);

@@ -11,7 +11,10 @@
                         var items = args.items;
                         if (action == 'clear') {
                             nx.each(items, function (item) {
-                                this.deleteEdgeSetCollection(item.value().linkKey());
+                                //[TODO] DEBUG
+                                if(item.value()){
+                                    this.deleteEdgeSetCollection(item.value().linkKey());
+                                }
                             }, this);
                         }
                     }, this);

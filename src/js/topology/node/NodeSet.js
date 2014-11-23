@@ -132,53 +132,53 @@
                 'class': 'node'
             },
             content: [{
-                    name: 'label',
-                    type: 'nx.graphic.Text',
-                    props: {
-                        'class': 'node-label',
-                        'alignment-baseline': 'central',
-                        y: 12
-                    }
-                }, {
-                    name: 'selectedBG',
-                    type: 'nx.graphic.Circle',
-                    props: {
-                        'class': 'selectedBG',
-                        'r': 26
-                    }
-                }, {
-                    type: 'nx.graphic.Group',
-                    name: 'graphic',
-                    content: [{
-                        name: 'icon',
-                        type: 'nx.graphic.Icon',
-                        props: {
-                            'class': 'icon',
-                            'iconType': 'unknown',
-                            'showIcon': false,
-                            scale: 1
-                        }
-                    }, {
-                        name: 'minus',
-                        type: 'nx.graphic.Icon',
-                        props: {
-                            'class': 'indicator',
-                            'iconType': 'expand',
-                            scale: 1
-                        }
-                    }],
-                    events: {
-                        'mousedown': '{#_mousedown}',
-                        'mouseup': '{#_mouseup}',
-
-                        'mouseenter': '{#_mouseenter}',
-                        'mouseleave': '{#_mouseleave}',
-
-                        'dragstart': '{#_dragstart}',
-                        'dragmove': '{#_drag}',
-                        'dragend': '{#_dragend}'
-                    }
+                name: 'label',
+                type: 'nx.graphic.Text',
+                props: {
+                    'class': 'node-label',
+                    'alignment-baseline': 'central',
+                    y: 12
                 }
+            }, {
+                name: 'selectedBG',
+                type: 'nx.graphic.Circle',
+                props: {
+                    'class': 'selectedBG',
+                    'r': 26
+                }
+            }, {
+                type: 'nx.graphic.Group',
+                name: 'graphic',
+                content: [{
+                    name: 'icon',
+                    type: 'nx.graphic.Icon',
+                    props: {
+                        'class': 'icon',
+                        'iconType': 'unknown',
+                        'showIcon': false,
+                        scale: 1
+                    }
+                }, {
+                    name: 'minus',
+                    type: 'nx.graphic.Icon',
+                    props: {
+                        'class': 'indicator',
+                        'iconType': 'expand',
+                        scale: 1
+                    }
+                }],
+                events: {
+                    'mousedown': '{#_mousedown}',
+                    'mouseup': '{#_mouseup}',
+
+                    'mouseenter': '{#_mouseenter}',
+                    'mouseleave': '{#_mouseleave}',
+
+                    'dragstart': '{#_dragstart}',
+                    'dragmove': '{#_drag}',
+                    'dragend': '{#_dragend}'
+                }
+            }
 
 
             ]
@@ -249,7 +249,14 @@
 
                     var iconSize = icon.size();
                     var iconScale = icon.scale();
+
                     minus.setTransform(iconSize.width * iconScale / 2, iconSize.height * iconScale / 2);
+
+                    //if (nx.util.isFirefox()) {
+                    //    minus.setTransform(iconSize.width * iconScale / 2, iconSize.height * iconScale / 2);
+                    //} else {
+                    //
+                    //}
                 } else {
                     minus.setTransform(0, 0);
                 }

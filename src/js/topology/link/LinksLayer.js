@@ -85,10 +85,31 @@
                 this.linkDictionary().getItem(id).update();
             },
 
+            //get link instance class
+            _getLinkInstanceClass: function (edge) {
+                var Clz;
+                var topo = this.topology();
+                var linkInstanceClass = topo.linkInstanceClass();
+                if (nx.is(linkInstanceClass, 'Function')) {
+                    Clz = linkInstanceClass.call(this, edge);
+                    if (nx.is(Clz, 'String')) {
+                        Clz = nx.path(global, Clz);
+                    }
+                } else {
+                    Clz = nx.path(global, linkInstanceClass);
+                }
+                if (!Clz) {
+                    throw "Error on instance link class";
+                }
+                return Clz;
+            },
+
+
             _generateLink: function (edge) {
                 var id = edge.id();
                 var topo = this.topology();
-                var link = new nx.graphic.Topology.Link({
+                var Clz = this._getLinkInstanceClass(edge);
+                var link = new Clz({
                     topology: topo
                 });
                 //set model

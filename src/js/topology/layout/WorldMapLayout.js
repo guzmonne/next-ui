@@ -187,7 +187,7 @@
 
 
                     topo.stage().resetFitMatrix();
-                    topo.fit(null, null, true);
+                    topo.fit(null, null, false);
                     if (this.complete()) {
                         this.complete().call();
                     }

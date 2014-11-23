@@ -142,6 +142,9 @@
                 nx.each(node.__events__, function (e) {
                     if (superEvents.indexOf(e) == -1) {
                         node.on(e, function (sender, event) {
+                            if (event instanceof MouseEvent) {
+                                window.event = event;
+                            }
                             this.fire(e, node);
                         }, this);
                     }
