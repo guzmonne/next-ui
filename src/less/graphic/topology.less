@@ -244,7 +244,8 @@
     }
 
     .indicator .iconBG {
-      fill: darken(@primaryColor, 10%);
+      fill: @topologyBackgroundColor;
+
     }
 
     .indicator .iconBG:hover {
@@ -252,7 +253,7 @@
     }
 
     .indicator .iconShape {
-      fill: @topologyBackgroundColor;
+      fill: darken(@primaryColor, 10%);
     }
 
   }
