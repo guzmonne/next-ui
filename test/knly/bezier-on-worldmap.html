@@ -93,10 +93,9 @@
             }]
         };
         var colorTable = ['#C3A5E4', '#75C6EF', '#CBDA5C', '#ACAEB1 ', '#2CC86F'];
-        var projection;
         var width = 960;
         var height = 480;
-        projection = d3.geo.equirectangular().translate([width / 2, height / 2]).precision(0.1);
+        var projection;
         var topo = new nx.graphic.Topology({
             adaptive: true,
             nodeConfig: {
@@ -133,10 +132,11 @@
             layoutConfig: {
                 longitude: 'model.longitude',
                 latitude: 'model.latitude',
-                worldTopoJson: 'lib/world-50m.json'
+                worldTopoJson: 'lib/world-smaller.json'
             },
             data: topologyData
         });
+        projection = topo.getLayout("WorldMap").projection();
 
 
         topo.on('topologyGenerated', function () {

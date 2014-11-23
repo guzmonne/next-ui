@@ -1,20 +1,29 @@
 (function (nx, global) {
     nx.data.Force = function () {
         var force = {};
-        var size = [ 100, 100 ];
-        var alpha = 0, friction = 0.9;
+        var size = [100, 100];
+        var alpha = 0,
+            friction = 0.9;
         var linkDistance = function () {
             return 100;
         };
         var linkStrength = function () {
             return 1;
         };
-        var charge = -1200, gravity = 0.1, theta = 0.8, nodes = [], links = [], distances, strengths, charges;
+        var charge = -1200,
+            gravity = 0.1,
+            theta = 0.8,
+            nodes = [],
+            links = [],
+            distances, strengths, charges;
 
         function repulse(node) {
             return function (quad, x1, _, x2) {
                 if (quad.point !== node) {
-                    var dx = quad.cx - node.x, dy = quad.cy - node.y, dn = 1 / Math.sqrt(dx * dx + dy * dy), k;
+                    var dx = quad.cx - node.x,
+                        dy = quad.cy - node.y,
+                        dn = 1 / Math.sqrt(dx * dx + dy * dy),
+                        k;
                     if ((x2 - x1) * dn < theta) {
                         k = quad.charge * dn * dn;
                         node.px -= dx * k;
@@ -36,7 +45,9 @@
                 alpha = 0;
                 return true;
             }
-            var n = nodes.length, m = links.length, q, i, o, s, t, l, k, x, y;
+            var n = nodes.length,
+                m = links.length,
+                q, i, o, s, t, l, k, x, y;
             for (i = 0; i < m; ++i) {
                 o = links[i];
                 s = o.source;
@@ -57,11 +68,12 @@
                 x = size[0] / 2;
                 y = size[1] / 2;
                 i = -1;
-                if (k) while (++i < n) {
-                    o = nodes[i];
-                    o.x += (x - o.x) * k;
-                    o.y += (y - o.y) * k;
-                }
+                if (k)
+                    while (++i < n) {
+                        o = nodes[i];
+                        o.x += (x - o.x) * k;
+                        o.y += (y - o.y) * k;
+                    }
             }
             if (charge) {
                 forceAccumulate(q = quadtree(nodes), alpha, charges);
@@ -108,7 +120,8 @@
         force.alpha = function (x) {
             if (!arguments.length) return alpha;
             if (alpha) {
-                if (x > 0) alpha = x; else alpha = 0;
+                if (x > 0) alpha = x;
+                else alpha = 0;
             } else if (x > 0) {
                 alpha = x;
                 force.tick();
@@ -116,7 +129,11 @@
             return force;
         };
         force.start = function () {
-            var i, j, n = nodes.length, m = links.length, w = size[0], h = size[1], neighbors, o;
+            var i, j, n = nodes.length,
+                m = links.length,
+                w = size[0],
+                h = size[1],
+                neighbors, o;
             for (i = 0; i < n; ++i) {
                 (o = nodes[i]).index = i;
                 o.weight = 0;
@@ -149,9 +166,14 @@
                     charges[i] = charge;
                 }
             }
+
             function position(dimension, size) {
-                var neighbors = neighbor(i), j = -1, m = neighbors.length, x;
-                while (++j < m) if (!isNaN(x = neighbors[j][dimension])) return x;
+                var neighbors = neighbor(i),
+                    j = -1,
+                    m = neighbors.length,
+                    x;
+                while (++j < m)
+                    if (!isNaN(x = neighbors[j][dimension])) return x;
                 return Math.random() * size;
             }
 
@@ -184,10 +206,14 @@
 
 
     var forceAccumulate = function (quad, alpha, charges) {
-        var cx = 0, cy = 0;
+        var cx = 0,
+            cy = 0;
         quad.charge = 0;
         if (!quad.leaf) {
-            var nodes = quad.nodes, n = nodes.length, i = -1, c;
+            var nodes = quad.nodes,
+                n = nodes.length,
+                i = -1,
+                c;
             while (++i < n) {
                 c = nodes[i];
                 if (c == null) continue;
@@ -212,7 +238,8 @@
     };
 
     var quadtree = function (points, x1, y1, x2, y2) {
-        var p, i = -1, n = points.length;
+        var p, i = -1,
+            n = points.length;
         if (arguments.length < 5) {
             if (arguments.length === 3) {
                 y2 = y1;
@@ -230,8 +257,11 @@
                 }
             }
         }
-        var dx = x2 - x1, dy = y2 - y1;
-        if (dx > dy) y2 = y1 + dx; else x2 = x1 + dy;
+        var dx = x2 - x1,
+            dy = y2 - y1;
+        if (dx > dy) y2 = y1 + dx;
+        else x2 = x1 + dy;
+
         function insert(n, p, x1, y1, x2, y2) {
             if (isNaN(p.x) || isNaN(p.y)) return;
             if (n.leaf) {
@@ -253,11 +283,17 @@
         }
 
         function insertChild(n, p, x1, y1, x2, y2) {
-            var sx = (x1 + x2) * 0.5, sy = (y1 + y2) * 0.5, right = p.x >= sx, bottom = p.y >= sy, i = (bottom << 1) + right;
+            var sx = x1 * 0.5 + x2 * 0.5,
+                sy = y1 * 0.5 + y2 * 0.5,
+                right = p.x >= sx,
+                bottom = p.y >= sy,
+                i = (bottom << 1) + right;
             n.leaf = false;
             n = n.nodes[i] || (n.nodes[i] = quadtreeNode());
-            if (right) x1 = sx; else x2 = sx;
-            if (bottom) y1 = sy; else y2 = sy;
+            if (right) x1 = sx;
+            else x2 = sx;
+            if (bottom) y1 = sy;
+            else y2 = sy;
             insert(n, p, x1, y1, x2, y2);
         }
 
@@ -282,7 +318,9 @@
 
     var quadtreeVisit = function (f, node, x1, y1, x2, y2) {
         if (!f(node, x1, y1, x2, y2)) {
-            var sx = (x1 + x2) * 0.5, sy = (y1 + y2) * 0.5, children = node.nodes;
+            var sx = (x1 + x2) * 0.5,
+                sy = (y1 + y2) * 0.5,
+                children = node.nodes;
             if (children[0]) quadtreeVisit(f, children[0], x1, y1, sx, sy);
             if (children[1]) quadtreeVisit(f, children[1], sx, y1, x2, sy);
             if (children[2]) quadtreeVisit(f, children[2], x1, sy, sx, y2);
