@@ -16,7 +16,10 @@
              */
             paths: {
                 value: function () {
-                    return[];
+                    return [];
+                },
+                get: function () {
+                    return this._paths.slice();
                 }
             }
         },
