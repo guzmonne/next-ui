@@ -58,7 +58,7 @@
         methods: {
             init: function (args) {
                 this.inherited(args);
-                if (!projection && d3) {
+                if (!projection && typeof(d3) !== "undefined") {
                     projection = d3.geo.equirectangular().translate([width / 2, height / 2]).precision(0.1);
                     this.projection(projection);
                 }
