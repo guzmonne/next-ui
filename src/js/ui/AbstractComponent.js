@@ -22,18 +22,15 @@
             target.setBinding(name, nx.extend(value.gets(), {
                 bindingType: 'property'
             }));
-        }
-        else {
+        } else {
             var expr = extractBindingExpression(value);
             if (expr !== null) {
                 if (expr[0] === '#') {
                     target.setBinding(name, expr.slice(1) + ',bindingType=property', owner || target);
-                }
-                else {
+                } else {
                     target.setBinding(name, (expr ? 'model.' + expr : 'model') + ',bindingType=property', source || target);
                 }
-            }
-            else {
+            } else {
                 target.set(name, value);
             }
         }
@@ -42,18 +39,15 @@
     function setEvent(target, name, value, source, owner) {
         if (nx.is(value, Binding)) {
             target.setBinding(name, value.gets());
-        }
-        else {
+        } else {
             var expr = extractBindingExpression(value);
             if (expr !== null) {
                 if (expr[0] === '#') {
                     target.setBinding(name, expr.slice(1) + ',bindingType=event', owner || target);
-                }
-                else {
+                } else {
                     target.setBinding(name, (expr ? 'model.' + expr : 'model') + ',bindingType=event', source || target);
                 }
-            }
-            else {
+            } else {
                 target.on(name, value, owner || target);
             }
         }
@@ -68,19 +62,16 @@
                 nx.each(view, function (child) {
                     createComponent(child, owner).attach(comp);
                 });
-            }
-            else if (nx.is(view, 'Object')) {
+            } else if (nx.is(view, 'Object')) {
                 var type = view.type;
                 if (type) {
                     var clazz = nx.is(type, 'String') ? nx.path(global, type) : type;
                     if (nx.is(clazz, 'Function')) {
                         comp = new clazz();
-                    }
-                    else {
+                    } else {
                         throw new Error('Component "' + type + '" is not defined.');
                     }
-                }
-                else {
+                } else {
                     comp = new DOMComponent(view.tag || 'div');
                 }
 
@@ -120,8 +111,7 @@
                 if (content !== undefined) {
                     setProperty(comp, 'content', content, comp, owner);
                 }
-            }
-            else if (view !== undefined) {
+            } else if (view !== undefined) {
                 comp = new DOMComponent('text', view);
             }
 
@@ -162,13 +152,11 @@
                     });
                     if (nx.is(value, AbstractComponent)) {
                         value.attach(this);
-                    }
-                    else if (nx.is(value, 'Array')) {
+                    } else if (nx.is(value, 'Array')) {
                         nx.each(value, function (v) {
                             createComponent(v, this.owner()).attach(this);
                         }, this);
-                    }
-                    else if (value) {
+                    } else if (value) {
                         createComponent(value, this.owner()).attach(this);
                     }
                 }
@@ -188,8 +176,7 @@
 
                     if (inherited) {
                         this._inheritedModel = value;
-                    }
-                    else {
+                    } else {
                         this._model = value;
                     }
 
@@ -247,8 +234,7 @@
 
                     if (index >= 0) {
                         parent.content().insert(this, index);
-                    }
-                    else {
+                    } else {
                         parent.content().add(this);
                     }
 
@@ -439,8 +425,7 @@
                 var index = this._classList.indexOf(name);
                 if (index >= 0) {
                     this._classList.splice(index, 1);
-                }
-                else {
+                } else {
                     this._classList.push(name);
                 }
 
@@ -501,8 +486,7 @@
                         nx.each(value, function (item, index) {
                             setProperty(cssClass, '' + index, item, this, value.__owner__ || this.owner());
                         }, this);
-                    }
-                    else if (nx.is(value, 'Object')) {
+                    } else if (nx.is(value, 'Object')) {
                         if (value.add) {
                             this._class.addClass(value.add);
                         }
@@ -512,8 +496,7 @@
                         if (value.toggle) {
                             this._class.addClass(value.toggle);
                         }
-                    }
-                    else {
+                    } else {
                         this.resolve('@root').set('class', value);
                     }
                 }
@@ -532,8 +515,7 @@
                         nx.each(value, function (v, k) {
                             setProperty(cssStyle, k, v, this, value.__owner__ || this.owner());
                         }, this);
-                    }
-                    else {
+                    } else {
                         this.resolve('@root').set('style', value);
                     }
                 }
@@ -615,14 +597,11 @@
                         tag = tokens[1];
                         this.register('@ns', ns);
                         this.register('@root', Document.createElementNS(ns, tag));
-                    }
-                    else if (tag === 'text') {
+                    } else if (tag === 'text') {
                         this.register('@root', Document.createText(text));
-                    }
-                    else if (tag === 'fragment') {
+                    } else if (tag === 'fragment') {
                         this.register('@root', Document.createFragment());
-                    }
-                    else {
+                    } else {
                         this.register('@root', Document.createElement(tag));
                     }
 
@@ -659,16 +638,14 @@
             get: function (name) {
                 if (this.has(name) || name.indexOf(':') >= 0) {
                     return this.inherited(name);
-                }
-                else {
+                } else {
                     return this.resolve('@root').get(name);
                 }
             },
             set: function (name, value) {
                 if (this.has(name) || name.indexOf(':') >= 0) {
                     this.inherited(name, value);
-                }
-                else {
+                } else {
                     this.resolve('@root').set(name, value);
                     this.notify(name);
                 }
@@ -687,8 +664,7 @@
                     nx.each(this._domListeners, function (listener, name) {
                         if (name.charAt(0) === ':') {
                             root.removeEventListener(name.slice(1), listener, true);
-                        }
-                        else {
+                        } else {
                             root.removeEventListener(name, listener);
                         }
                     });
@@ -713,12 +689,10 @@
 
                         if (ref) {
                             container.insertBefore(root, ref.resolve('@root'));
-                        }
-                        else {
+                        } else {
                             container.appendChild(root);
                         }
-                    }
-                    else {
+                    } else {
                         container.appendChild(root);
                     }
 
@@ -753,8 +727,7 @@
                         nx.each(self.content(), function (child) {
                             root.appendChild(child.resolve('@root'));
                         });
-                    }
-                    else {
+                    } else {
                         var states = this.states();
                         var leaveState = null;
                         if (states) {
@@ -772,8 +745,7 @@
                                 root.$dom.style.cssText = cssText;
                                 parent.getContainer(this).removeChild(root);
                             });
-                        }
-                        else {
+                        } else {
                             parent.getContainer(this).removeChild(root);
                         }
                     }
@@ -790,8 +762,7 @@
 
                     if (name.charAt(0) === ':') {
                         root.addEventListener(name.slice(1), listener, true);
-                    }
-                    else {
+                    } else {
                         root.addEventListener(name, listener);
                     }
                 }
@@ -827,8 +798,7 @@
                         comp.model(item);
                         comp.attach(this, index + i);
                     }, this);
-                }
-                else if (action === 'remove') {
+                } else if (action === 'remove') {
                     nx.each(event.items, function (item) {
                         nx.each(this.content().toArray(), function (comp) {
                             if (comp.model() === item) {
@@ -836,18 +806,9 @@
                             }
                         }, this);
                     }, this);
-                }
-                else if (action === 'replace') {
-                    var oldItem = event.oldItem,
-                        newItem = event.newItem;
-
-                    nx.each(this.content().toArray(), function (comp) {
-                        if (comp.model() === oldItem) {
-                            comp.model(newItem);
-                        }
-                    }, this);
-                }
-                else if (action === 'sort') {
+                } else if (action === 'replace') {
+                    // XXX no need to handle if bind to model.value
+                } else if (action === 'sort') {
                     var comparator = event.comparator;
                     var sortedContent = this.content().toArray().sort(function (a, b) {
                         return comparator(a.model(), b.model());
@@ -856,8 +817,7 @@
                     nx.each(sortedContent, function (comp) {
                         comp.attach(this);
                     }, this);
-                }
-                else {
+                } else {
                     this._generateContent();
                 }
             }
