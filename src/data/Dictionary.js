@@ -3,17 +3,14 @@
 
     var DictionaryItem = nx.define({
         properties: {
-            key: {
-                get: function () {
-                    return this._key;
-                }
-            },
+            key: {},
             value: {
-                get: function () {
-                    return this._dict.getItem(this._key);
-                },
                 set: function (value) {
-                    this._dict.setItem(this._key, value);
+                    if (this._dict) {
+                        this._dict.setItem(this._key, value);
+                    } else {
+                        this._value = value;
+                    }
                 }
             }
         },
@@ -129,9 +126,8 @@
              * @param value {any}
              */
             setItem: function (key, value) {
-                var item = this._map[key] = new DictionaryItem(this, '' + key);
+                var item = this._map[key] = this._map[key] || new DictionaryItem(this, '' + key);
                 item._value = value;
-
                 return item;
             },
             /**
@@ -141,6 +137,7 @@
             removeItem: function (key) {
                 var item = this._map[key];
                 delete this._map[key];
+                item._dict = null;
                 return item;
             },
             /**
@@ -168,7 +165,6 @@
                 this.each(function (item) {
                     result.push(item);
                 });
-
                 return result;
             },
             /**
@@ -180,7 +176,6 @@
                 this.each(function (item) {
                     result[item.key()] = item.value();
                 });
-
                 return result;
             }
         }

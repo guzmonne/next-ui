@@ -3,6 +3,27 @@
     var Observable = nx.Observable;
     var Dictionary = nx.data.Dictionary;
 
+    var ObservableDictionaryItem = nx.define(Observable, {
+        properties: {
+            key: {},
+            value: {
+                set: function (value) {
+                    if (this._dict) {
+                        this._dict.setItem(this._key, value);
+                    } else {
+                        this._value = value;
+                    }
+                }
+            }
+        },
+        methods: {
+            init: function (dict, key) {
+                this._dict = dict;
+                this._key = key;
+            }
+        }
+    });
+
     /**
      * @class ObservableDictionary
      * @namespace nx.data
@@ -21,21 +42,28 @@
              */
             setItem: function (key, value) {
                 var map = this._map;
-                if (key in map) {
-                    var oldItem = map[key];
-                    var newItem = this.inherited(key, value);
+                var item = map[key],
+                    ov;
+                if (item) {
+                    ov = item.value;
+                    item._value = value;
+                    item.notify("value");
                     this.fire('change', {
                         action: 'replace',
-                        oldItem: oldItem,
-                        newItem: newItem
+                        item: map[key],
+                        oldValue: ov,
+                        newValue: value,
+                        // FIXME unnecessary
+                        oldItem: map[key],
+                        newItem: map[key]
                     });
-                }
-                else {
-                    var item = this.inherited(key, value);
+                } else {
+                    item = map[key] = new ObservableDictionaryItem(this, key);
+                    item._value = value;
                     this.notify('count');
                     this.fire('change', {
                         action: 'add',
-                        items: [item]
+                        items: [map[key]]
                     });
                 }
             },
@@ -48,6 +76,7 @@
                 if (key in map) {
                     var item = map[key];
                     delete map[key];
+                    item._dict = null;
                     this.notify('count');
                     this.fire('change', {
                         action: 'remove',
@@ -61,6 +90,9 @@
             clear: function () {
                 var items = this.toArray();
                 this._map = {};
+                nx.each(items, function (item) {
+                    item._dict = null;
+                });
                 this.notify('count');
                 this.fire('change', {
                     action: 'clear',
