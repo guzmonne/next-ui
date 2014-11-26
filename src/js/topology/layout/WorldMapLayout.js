@@ -58,10 +58,10 @@
         methods: {
             init: function (args) {
                 this.inherited(args);
-                if (!projection) {
+                if (!projection && d3) {
                     projection = d3.geo.equirectangular().translate([width / 2, height / 2]).precision(0.1);
+                    this.projection(projection);
                 }
-                this.projection(projection);
             },
             process: function (graph, config, callback) {
                 // load d3
@@ -101,6 +101,9 @@
             _process: function (graph, config, callback) {
                 var topo = this.topology();
                 topo.prependLayer('worldMap', 'nx.graphic.Topology.WorldMapLayer');
+
+
+                projection = d3.geo.equirectangular().translate([width / 2, height / 2]).precision(0.1);
 
                 var longitude = config.longitude || 'model.longitude',
                     latitude = config.latitude || 'model.latitude';
