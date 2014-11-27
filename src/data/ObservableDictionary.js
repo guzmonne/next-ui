@@ -41,7 +41,8 @@
              * @param value {any}
              */
             setItem: function (key, value) {
-                var map = this._map;
+                var map = this._map,
+                    items = this._items;
                 var item = map[key],
                     ov;
                 if (item) {
@@ -50,20 +51,23 @@
                     item.notify("value");
                     this.fire('change', {
                         action: 'replace',
-                        item: map[key],
+                        items: [item],
                         oldValue: ov,
                         newValue: value,
-                        // FIXME unnecessary
-                        oldItem: map[key],
-                        newItem: map[key]
+                        // FIXME actually unnecessary
+                        oldItem: item,
+                        newItem: item
                     });
                 } else {
                     item = map[key] = new ObservableDictionaryItem(this, key);
+                    items.push(item);
+                    item._dict = this;
                     item._value = value;
                     this.notify('count');
                     this.fire('change', {
                         action: 'add',
-                        items: [map[key]]
+                        index: items.length - 1,
+                        items: [item]
                     });
                 }
             },
@@ -73,26 +77,28 @@
              */
             removeItem: function (key) {
                 var map = this._map;
-                if (key in map) {
-                    var item = map[key];
-                    delete map[key];
-                    item._dict = null;
-                    this.notify('count');
-                    this.fire('change', {
-                        action: 'remove',
-                        items: [item]
-                    });
+                if (!(key in map)) {
+                    return;
                 }
+                var item = map[key];
+                var idx = this._items.indexOf(item);
+                delete map[key];
+                if (idx >= 0) {
+                    this._items.splice(idx, 1);
+                }
+                item._dict = null;
+                this.notify('count');
+                this.fire('change', {
+                    action: 'remove',
+                    items: [item]
+                });
+                return item;
             },
             /**
              * @method clear
              */
             clear: function () {
-                var items = this.toArray();
-                this._map = {};
-                nx.each(items, function (item) {
-                    item._dict = null;
-                });
+                var items = this.inherited();
                 this.notify('count');
                 this.fire('change', {
                     action: 'clear',

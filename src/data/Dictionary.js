@@ -63,12 +63,7 @@
              */
             count: {
                 get: function () {
-                    var count = 0;
-                    this.each(function () {
-                        count++;
-                    });
-
-                    return count;
+                    return this._items.length;
                 }
             },
             /**
@@ -93,13 +88,8 @@
         methods: {
             init: function (dict) {
                 var map = this._map = {};
-                if (dict) {
-                    nx.each(dict, function (value, key) {
-                        map[key] = new DictionaryItem(this, '' + key);
-                        map[key]._value = value;
-                    }, this);
-                }
-
+                var items = this._items = [];
+                this.setItems(dict);
                 this._keys = new KeyIterator(this);
                 this._values = new ValueIterator(this);
             },
@@ -126,17 +116,40 @@
              * @param value {any}
              */
             setItem: function (key, value) {
-                var item = this._map[key] = this._map[key] || new DictionaryItem(this, '' + key);
+                var item = this._map[key];
+                if (!item) {
+                    item = this._map[key] = new DictionaryItem(this, '' + key);
+                    this._items.push(item);
+                }
                 item._value = value;
                 return item;
+            },
+            /**
+             * @method setItems
+             * @param dict {Dictionary|Object}
+             */
+            setItems: function (dict) {
+                if (dict) {
+                    nx.each(dict, function (value, key) {
+                        this.setItem(key, value);
+                    }, this);
+                }
             },
             /**
              * @method removeItem
              * @param key {String}
              */
             removeItem: function (key) {
-                var item = this._map[key];
-                delete this._map[key];
+                var map = this._map;
+                if (!(key in map)) {
+                    return;
+                }
+                var item = map[key];
+                var idx = this._items.indexOf(item);
+                delete map[key];
+                if (idx >= 0) {
+                    this._items.splice(idx, 1);
+                }
                 item._dict = null;
                 return item;
             },
@@ -144,8 +157,12 @@
              * @method clear
              */
             clear: function () {
-                var items = this.toArray();
+                var items = this._items.slice();
                 this._map = {};
+                this._items = [];
+                nx.each(items, function (item) {
+                    item._dict = null;
+                });
                 return items;
             },
             /**
@@ -161,11 +178,7 @@
              * @returns {Array}
              */
             toArray: function () {
-                var result = [];
-                this.each(function (item) {
-                    result.push(item);
-                });
-                return result;
+                return this._items.slice();
             },
             /**
              * @method toObject
