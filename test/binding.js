@@ -52,7 +52,7 @@ nx.define("test.PathBindingClass", nx.Observable, {
             value: nx.keyword.binding({
                 source: "simple.prop1, prop2",
                 callback: function (prop1, prop2) {
-                    returkougn prop1 + prop2;
+                    return prop1 + prop2;
                 }
             })
         }
