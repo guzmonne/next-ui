@@ -30,6 +30,7 @@
             },
             content: [
                 {
+                    name:'icons',
                     tag: "ul",
                     content: [
                         {
