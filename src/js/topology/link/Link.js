@@ -62,38 +62,6 @@
                 }
             },
             /**
-             * Get/set link's source point label
-             * @property sourceLabel {String}
-             */
-            sourceLabel: {
-                set: function (inValue) {
-                    var label = this._processPropertyValue(inValue);
-                    var el = this.view('sourceLabel');
-                    if (label != null) {
-                        el.append();
-                    } else {
-                        el.remove();
-                    }
-                    this._sourceLabel = label;
-                }
-            },
-            /**
-             * Get/set link's target point label
-             * @property targetLabel {String}
-             */
-            targetLabel: {
-                set: function (inValue) {
-                    var label = this._processPropertyValue(inValue);
-                    var el = this.view('targetLabel');
-                    if (label != null) {
-                        el.append();
-                    } else {
-                        el.remove();
-                    }
-                    this._targetLabel = label;
-                }
-            },
-            /**
              * Set/get link's color
              * @property color {Color}
              */
@@ -161,26 +129,26 @@
             parentLinkSet: {
 
             },
-            /**
-             * Get link's source interface point position
-             * @property sourcePoint
-             */
-            sourcePoint: {
-                get: function () {
-                    var line = this.getPaddingLine();
-                    return line.start;
-                }
-            },
-            /**
-             * Get link's target interface point position
-             * @property targetPoint
-             */
-            targetPoint: {
-                get: function () {
-                    var line = this.getPaddingLine();
-                    return line.end;
-                }
-            },
+            ///**
+            // * Get link's source interface point position
+            // * @property sourcePoint
+            // */
+            //sourcePoint: {
+            //    get: function () {
+            //        var line = this.getPaddingLine();
+            //        return line.start;
+            //    }
+            //},
+            ///**
+            // * Get link's target interface point position
+            // * @property targetPoint
+            // */
+            //targetPoint: {
+            //    get: function () {
+            //        var line = this.getPaddingLine();
+            //        return line.end;
+            //    }
+            //},
             /**
              * Set/get link's usability
              * @property enable {Boolean}
@@ -246,50 +214,7 @@
                             'class': 'link-label'
                         }
                     }
-                },
-                //                {
-                //                    name: 'sourceLabel',
-                //                    type: 'nx.graphic.Text',
-                //                    props: {
-                //                        'alignment-baseline': 'text-before-edge',
-                //                        'text-anchor': 'start',
-                //                        'class': 'source-label'
-                //                    }
-                //                },
-                //                {
-                //                    name: 'targetLabel',
-                //                    type: 'nx.graphic.Text',
-                //                    props: {
-                //                        'alignment-baseline': 'text-before-edge',
-                //                        'text-anchor': 'end',
-                //                        'class': 'target-label'
-                //                    }
-                //                },
-                //                {
-                //                    name: 'disableLabel',
-                //                    type: 'nx.graphic.Group',
-                //                    props: {
-                //                        visible: false
-                //                    },
-                //                    content: [
-                //                        {
-                //                            type: 'nx.graphic.Circle',
-                //                            props: {
-                //                                r: 8,
-                //                                'class': 'disable-bg'
-                //                            }
-                //                        },
-                //                        {
-                //                            type: 'nx.graphic.Text',
-                //                            props: {
-                //                                'alignment-baseline': 'central',
-                //                                'text-anchor': 'middle',
-                //                                'class': 'disable-label',
-                //                                text: 'X'
-                //                            }
-                //                        }
-                //                    ]
-                //                }
+                }
             ]
         },
         methods: {
@@ -396,31 +321,6 @@
                     el.setTransform(point.x, point.y, this.stageScale());
                     this.view('labelText').set('text', this._label);
                 }
-
-                if (this._sourceLabel) {
-                    el = this.view('sourceLabel');
-                    point = this.sourcePoint();
-                    el.set('x', point.x);
-                    el.set('y', point.y);
-                    el.set('text', this._sourceLabel);
-                }
-
-
-                if (this._targetLabel) {
-                    el = this.view('targetLabel');
-                    point = this.targetPoint();
-                    el.set('x', point.x);
-                    el.set('y', point.y);
-                    el.set('text', this._targetLabel);
-                }
-
-
-                if (!this.enable()) {
-                    //                    el = this.view('disableLabel');
-                    //                    point = line.center().add(n);
-                    //                    el.setTransform(point.x, point.y);
-                }
-
             },
             _mousedown: function () {
                 if (this.enable()) {

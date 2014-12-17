@@ -1891,7 +1891,8 @@ var topoCase = [
             var paths = pathLayer.paths();
             nx.each(paths, function (path) {
                 pathLayer.removePath(path);
-            })
+            });
+            pathLayer.fadeOut(false);
 
         }
     },

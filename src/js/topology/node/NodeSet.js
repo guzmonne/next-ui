@@ -124,6 +124,12 @@
             },
             animation: {
                 value: true
+            },
+            expandable:{
+                value: true
+            },
+            collapsible:{
+                value: true
             }
         },
         view: {
@@ -192,41 +198,45 @@
                 //                this.view().visible(this.model().activated() && this.model().inheritedVisible());
             },
             expand: function (animation, callback, context) {
-                // remember the animation status
-                var _animation = this.animation();
-                this.animation(typeof animation === "boolean" ? animation : _animation);
-                // prepare to expand
-                this._collapsed = false;
-                this.selected(false);
-                this.model().activated(false);
                 this.fire('beforeExpandNode', this);
-                // expand
-                this.topology().expandNodes(this.nodes(), this.position(), function () {
-                    // set the result
-                    this.fire('expandNode', this);
-                    /* jslint -W030 */
-                    callback && callback.call(context, this, this);
-                }, this, this.animation());
-                // restore the animation
-                this.animation(_animation);
+                if(this.expandable()) {
+                    // remember the animation status
+                    var _animation = this.animation();
+                    this.animation(typeof animation === "boolean" ? animation : _animation);
+                    // prepare to expand
+                    this._collapsed = false;
+                    this.selected(false);
+                    this.model().activated(false);
+                    // expand
+                    this.topology().expandNodes(this.nodes(), this.position(), function () {
+                        // set the result
+                        this.fire('expandNode', this);
+                        /* jslint -W030 */
+                        callback && callback.call(context, this, this);
+                    }, this, this.animation());
+                    // restore the animation
+                    this.animation(_animation);
+                }
             },
             collapse: function (animation, callback, context) {
-                // remember the animation status
-                var _animation = this.animation();
-                this.animation(typeof animation === "boolean" ? animation : _animation);
-                // prepare to expand
-                this._collapsed = true;
-                this.selected(false);
-                this.model().activated(false);
                 this.fire('beforeCollapseNode');
-                this.topology().collapseNodes(this.nodes(), this.position(), function () {
-                    this.model().activated(true);
-                    this.fire('collapseNode', this);
-                    /* jslint -W030 */
-                    callback && callback.call(context, this, this);
-                }, this, this.animation());
-                // restore the animation
-                this.animation(_animation);
+                if(this.collapsible()) {
+                    // remember the animation status
+                    var _animation = this.animation();
+                    this.animation(typeof animation === "boolean" ? animation : _animation);
+                    // prepare to expand
+                    this._collapsed = true;
+                    this.selected(false);
+                    this.model().activated(false);
+                    this.topology().collapseNodes(this.nodes(), this.position(), function () {
+                        this.model().activated(true);
+                        this.fire('collapseNode', this);
+                        /* jslint -W030 */
+                        callback && callback.call(context, this, this);
+                    }, this, this.animation());
+                    // restore the animation
+                    this.animation(_animation);
+                }
             },
             expandNodes: function (callback, context) {
                 if (!this.model().activated()) {
