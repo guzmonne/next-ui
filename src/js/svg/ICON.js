@@ -9,24 +9,20 @@
     nx.define("nx.graphic.Icon", nx.graphic.Component, {
         view: {
             tag: 'svg:g',
-            content: [
-                {
-                    name: 'bgtext',
-                    tag: 'svg:text'
-                },
-                {
-                    name: 'text',
-                    tag: 'svg:text'
-                },
-                {
-                    tag: 'svg:g',
-                    name: 'image',
-                    content: {
-                        name: 'use',
-                        tag: 'svg:use'
-                    }
+            content: [{
+                name: 'bgtext',
+                tag: 'svg:text'
+            }, {
+                name: 'text',
+                tag: 'svg:text'
+            }, {
+                tag: 'svg:g',
+                name: 'image',
+                content: {
+                    name: 'use',
+                    tag: 'svg:use'
                 }
-            ]
+            }]
         },
         properties: {
             imageType: {
@@ -60,7 +56,7 @@
                         }
                         shapeEL.$dom.appendChild(document.createTextNode(icon.font[0]));
                         shapeEL.addClass('fontIcon iconShape');
-//
+                        //
 
                         //background font
 
@@ -183,11 +179,15 @@
                     this._showIcon = value;
 
                     if (this._color) {
-                        this.color(this._color);
+                        this.color(this._color, {
+                            force: true
+                        });
                     }
 
                     if (this._scale) {
-                        this.scale(this._scale);
+                        this.scale(this._scale, {
+                            force: true
+                        });
                     }
                 }
             }
