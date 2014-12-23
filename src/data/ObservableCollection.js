@@ -132,17 +132,109 @@
                     comparator: comp || function (a, b) {
                         if (a > b) {
                             return 1;
-                        }
-                        else if (a < b) {
+                        } else if (a < b) {
                             return -1;
-                        }
-                        else {
+                        } else {
                             return 0;
                         }
                     }
                 });
 
                 return result;
+            },
+            watchDiff: function (handler) {
+                var collection = this;
+                var resman = {
+                    objcache: [],
+                    idcache: {},
+                    findPair: function (item) {
+                        var i;
+                        for (i = 0; i < resman.objcache.length; i++) {
+                            if (item === resman.objcache[i][0]) {
+                                return i;
+                            }
+                        }
+                        return -1;
+                    },
+                    get: function (item) {
+                        if (item.__id__) {
+                            return resman.idcache[item.__id__];
+                        } else {
+                            var pair = resman.objcache[resman.findPair(item)];
+                            return pair && pair[1];
+                        }
+                    },
+                    set: function (item, res) {
+                        if (item.__id__) {
+                            if (resman.idcache[item.__id__]) {
+                                resman.idcache[item.__id__].call(collection);
+                            }
+                            if (res) {
+                                resman.idcache[item.__id__] = res;
+                            } else {
+                                delete resman.idcache[item.__id__];
+                            }
+                        } else {
+                            var pairidx = resman.findPair(item);
+                            var pair = resman.objcache[pairidx];
+                            if (pair) {
+                                if (pair[1] === res) {
+                                    return;
+                                }
+                                pair[1].call(collection);
+                                if (!res) {
+                                    resman.objcache.splice(pairidx, 1);
+                                } else {
+                                    pair[1] = res;
+                                }
+                            } else if (res) {
+                                pair = [item, res];
+                                resman.objcache.push(pair);
+                            }
+                        }
+                    },
+                    listener: function (sender, evt) {
+                        switch (evt.action) {
+                        case "add":
+                            nx.each(evt.items, function (item) {
+                                var res = handler(item);
+                                if (res) {
+                                    resman.set(item, res);
+                                }
+                            });
+                            break;
+                        case "remove":
+                        case "clear":
+                            nx.each(evt.items, function (item) {
+                                resman.set(item, null);
+                            });
+                            break;
+                        }
+                    },
+                    clear: function () {
+                        nx.each(resman.idcache, function (res, key) {
+                            res();
+                        });
+                        nx.each(resman.objcache, function (pair) {
+                            pair[1]();
+                        });
+                    }
+                };
+                // watch
+                collection.on("change", resman.listener);
+                nx.each(collection, function (item) {
+                    var res = handler(item);
+                    if (res) {
+                        resman.set(item, res);
+                    }
+                });
+                // return unwatcher
+                return {
+                    unwatch: function () {
+                        resman.clear();
+                        collection.off("change", resman.listener);
+                    }
+                };
             }
         }
     });
