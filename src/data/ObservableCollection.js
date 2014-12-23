@@ -142,11 +142,22 @@
 
                 return result;
             },
+            /**
+             * Apply a diff watcher, which handles each item in the collection, to the colleciton.
+             *
+             * @method watchDiff
+             * @param handler lambda(item) returning a rollback method
+             * @return unwatcher A Object with unwatch method.
+             */
             watchDiff: function (handler) {
                 var collection = this;
+                // resource (aka. rollback-methods) manager
                 var resman = {
+                    // retains item-vs-rollback-method pairs
                     objcache: [],
+                    // since NEXT objects have identified ID, map is used more often
                     idcache: {},
+                    // find pair index of indicated item in obj-cache
                     findPair: function (item) {
                         var i;
                         for (i = 0; i < resman.objcache.length; i++) {
@@ -156,6 +167,7 @@
                         }
                         return -1;
                     },
+                    // get the rollback method of given item
                     get: function (item) {
                         if (item.__id__) {
                             return resman.idcache[item.__id__];
@@ -164,6 +176,7 @@
                             return pair && pair[1];
                         }
                     },
+                    // set or remove(with null value) rollback method, will call the old rollback method if exists
                     set: function (item, res) {
                         if (item.__id__) {
                             if (resman.idcache[item.__id__]) {
@@ -193,6 +206,7 @@
                             }
                         }
                     },
+                    // collection change event listener
                     listener: function (sender, evt) {
                         switch (evt.action) {
                         case "add":
@@ -211,6 +225,7 @@
                             break;
                         }
                     },
+                    // call all rollback methods
                     clear: function () {
                         nx.each(resman.idcache, function (res, key) {
                             res();
@@ -220,8 +235,9 @@
                         });
                     }
                 };
-                // watch
+                // watch the further change of the collection
                 collection.on("change", resman.listener);
+                // and don't forget the existing items in the collection
                 nx.each(collection, function (item) {
                     var res = handler(item);
                     if (res) {
