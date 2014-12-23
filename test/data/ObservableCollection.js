@@ -200,7 +200,8 @@ test("watchDiff", function () {
     });
     coll1.add(1);
     watcher.unwatch();
-    // not notify anything
+    // not notify anything from here
     coll.add(coll2);
+    coll1.add(2);
     coll2.add(2);
 });
