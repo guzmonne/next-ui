@@ -53,6 +53,25 @@
                         }
                     }
                 }
+            },
+            condition: {
+                set: function (condition) {
+                    // type check
+                    if (condition && typeof condition !== "function") {
+                        return;
+                    }
+                    this._condition = condition;
+                    if (condition) {
+                        // remove duplicated items
+                        var data = this._data;
+                        var i, len = data.length;
+                        for (i = len - 1; i >= 0; i--) {
+                            if (!condition(data[i])) {
+                                this.removeAt(i);
+                            }
+                        }
+                    }
+                }
             }
         },
         methods: {
@@ -75,8 +94,10 @@
              */
             add: function (item) {
                 if (!this._unique || this.indexOf(item) == -1) {
-                    this._data.push(item);
-                    return item;
+                    if (!this._condition || this._condition(item)) {
+                        this._data.push(item);
+                        return item;
+                    }
                 }
                 return null;
             },
@@ -90,9 +111,20 @@
             addRange: function (iter) {
                 var data = this._data;
                 var i, items = Iterable.toArray(iter).slice();
-                for (i = items.length - 1; i >= 0; i--) {
-                    if (this.indexOf(items[i]) >= 0 || items.indexOf(items[i]) < i) {
-                        items.splice(i, 1);
+                // check for unique
+                if (this._unique) {
+                    for (i = items.length - 1; i >= 0; i--) {
+                        if (this.indexOf(items[i]) >= 0 || items.indexOf(items[i]) < i) {
+                            items.splice(i, 1);
+                        }
+                    }
+                }
+                // check for condition
+                if (this._condition) {
+                    for (i = items.length - 1; i >= 0; i--) {
+                        if (!this._condition(items[i])) {
+                            items.splice(i, 1);
+                        }
                     }
                 }
                 data.splice.apply(data, [data.length, 0].concat(items));
@@ -127,8 +159,10 @@
              */
             insert: function (item, index) {
                 if (!this._unique || this.indexOf(item) == -1) {
-                    this._data.splice(index, 0, item);
-                    return item;
+                    if (!this._condition || this._condition(item)) {
+                        this._data.splice(index, 0, item);
+                        return item;
+                    }
                 }
                 return null;
             },
@@ -141,9 +175,20 @@
             insertRange: function (iter, index) {
                 var data = this._data;
                 var i, items = Iterable.toArray(iter).slice();
-                for (i = items.length - 1; i >= 0; i--) {
-                    if (this.indexOf(items[i]) >= 0 || items.indexOf(items[i]) < i) {
-                        items.splice(i, 1);
+                // check for unique
+                if (this._unique) {
+                    for (i = items.length - 1; i >= 0; i--) {
+                        if (this.indexOf(items[i]) >= 0 || items.indexOf(items[i]) < i) {
+                            items.splice(i, 1);
+                        }
+                    }
+                }
+                // check for condition
+                if (this._condition) {
+                    for (i = items.length - 1; i >= 0; i--) {
+                        if (!this._condition(items[i])) {
+                            items.splice(i, 1);
+                        }
                     }
                 }
                 data.splice.apply(data, [index, 0].concat(items));
