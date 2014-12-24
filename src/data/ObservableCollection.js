@@ -16,14 +16,15 @@
              * @param item
              */
             add: function (item) {
-                this.inherited(item);
-                this.notify('count');
-                this.notify('length');
-                this.fire('change', {
-                    action: 'add',
-                    items: [item]
-                });
-
+                var item = this.inherited(item);
+                if (!this._unique || item !== null) {
+                    this.notify('count');
+                    this.notify('length');
+                    this.fire('change', {
+                        action: 'add',
+                        items: [item]
+                    });
+                }
                 return item;
             },
             /**
@@ -32,13 +33,14 @@
              */
             addRange: function (iter) {
                 var items = this.inherited(iter);
-                this.notify('count');
-                this.notify('length');
-                this.fire('change', {
-                    action: 'add',
-                    items: items
-                });
-
+                if (items.length) {
+                    this.notify('count');
+                    this.notify('length');
+                    this.fire('change', {
+                        action: 'add',
+                        items: items
+                    });
+                }
                 return items;
             },
             /**
@@ -47,14 +49,17 @@
              * @param index
              */
             insert: function (item, index) {
-                this.inherited(item, index);
-                this.notify('count');
-                this.notify('length');
-                this.fire('change', {
-                    action: 'add',
-                    items: [item],
-                    index: index
-                });
+                var item = this.inherited(item, index);
+                if (!this._unique || item !== null) {
+                    this.notify('count');
+                    this.notify('length');
+                    this.fire('change', {
+                        action: 'add',
+                        items: [item],
+                        index: index
+                    });
+                }
+                return item;
             },
             /**
              * @method insertRange
@@ -62,14 +67,17 @@
              * @param index
              */
             insertRange: function (iter, index) {
-                var result = this.inherited(iter, index);
-                this.notify('count');
-                this.notify('length');
-                this.fire('change', {
-                    action: 'add',
-                    items: result,
-                    index: index
-                });
+                var items = this.inherited(iter, index);
+                if (items.length) {
+                    this.notify('count');
+                    this.notify('length');
+                    this.fire('change', {
+                        action: 'add',
+                        items: items,
+                        index: index
+                    });
+                }
+                return items;
             },
             /**
              * @method remove
@@ -86,7 +94,6 @@
                         index: result
                     });
                 }
-
                 return result;
             },
             /**
@@ -104,7 +111,6 @@
                         index: index
                     });
                 }
-
                 return result;
             },
             /**
@@ -139,7 +145,6 @@
                         }
                     }
                 });
-
                 return result;
             },
             /**

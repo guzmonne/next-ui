@@ -185,6 +185,51 @@ test('sort', function () {
     deepEqual(col1.toArray(), [1, 2, 3, 5], "verfy sort result")
 });
 
+test("unique", function () {
+    var events = [];
+    var coll = new nx.data.ObservableCollection([1, 2, 3, 3]);
+    coll.on("change", function (coll, evt) {
+        events.push(evt);
+    });
+
+    coll.unique(true);
+    ok(coll.count() === 3, "Removed duplicated items");
+
+    ok(coll.add(4) === 4, "Add item success");
+    ok(coll.length() === 4, "Add item result correct");
+    ok(coll.add(4) === null, "Add duplicated item failed");
+    ok(coll.length() === 4, "Add duplicated item result correct");
+    ok(JSON.stringify(coll.addRange([4, 5, 6])) === JSON.stringify([5, 6]), "Duplicated item removed when adding range");
+    ok(coll.length() === 6, "Add range result correct");
+
+    ok(coll.insert(0, 0) === 0, "Insert item success");
+    ok(coll.length() === 7, "Insert item result correct");
+    ok(coll.insert(0, 0) === null, "Insert duplicated item failed");
+    ok(coll.length() === 7, "Insert duplicated item result correct");
+    ok(JSON.stringify(coll.insertRange([-1, -2, 0], 0)) === JSON.stringify([-1, -2]), "Duplicated item removed when inserting range");
+    ok(coll.length() === 9, "Insert range result correct");
+
+    ok(JSON.stringify(events) === JSON.stringify([{
+        action: "remove",
+        items: [3],
+        index: 3
+    }, {
+        action: "add",
+        items: [4]
+    }, {
+        action: "add",
+        items: [5, 6]
+    }, {
+        action: "add",
+        items: [0],
+        index: 0
+    }, {
+        action: "add",
+        items: [-1, -2],
+        index: 0
+    }]), "Events notified correct");
+});
+
 test("watchDiff", function () {
     expect(2);
     var coll = new nx.data.ObservableCollection();

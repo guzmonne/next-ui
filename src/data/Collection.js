@@ -17,6 +17,9 @@
             count: {
                 get: function () {
                     return this._data.length;
+                },
+                set: function () {
+                    throw new Error("Unable to set count of Collection");
                 }
             },
             /**
@@ -26,6 +29,28 @@
             length: {
                 get: function () {
                     return this._data.length;
+                },
+                set: function () {
+                    throw new Error("Unable to set length of Collection");
+                }
+            },
+            unique: {
+                set: function (unique) {
+                    // check if the unique status is change
+                    if ( !! this._unique === !! unique) {
+                        return;
+                    }
+                    this._unique = !! unique;
+                    if (unique) {
+                        // remove duplicated items
+                        var data = this._data;
+                        var i, len = data.length;
+                        for (i = len - 1; i > 0; i--) {
+                            if (this.indexOf(data[i]) < i) {
+                                this.removeAt(i);
+                            }
+                        }
+                    }
                 }
             }
         },
@@ -34,8 +59,7 @@
                 var data = this._data = [];
                 if (nx.is(iter, Iterable)) {
                     this._data = iter.toArray();
-                }
-                else {
+                } else {
                     Iterable.getIterator(iter)(function (item) {
                         data.push(item);
                     });
@@ -43,44 +67,54 @@
             },
             /**
              * Add an item.
+             *
              * @method add
              * @param item
+             * @return added item. Null if fail to add, e.g. duplicated add into unique collection.
              */
             add: function (item) {
-                this._data.push(item);
+                if (!this._unique || this.indexOf(item) == -1) {
+                    this._data.push(item);
+                    return item;
+                }
+                return null;
             },
             /**
-             * Add multiple items.
+             * Add multiple items. Will avoid duplicated items for unique collection.
+             *
              * @method addRange
              * @param iter
-             * @returns {*}
+             * @returns array of added items.
              */
             addRange: function (iter) {
                 var data = this._data;
-                var items = Iterable.toArray(iter);
+                var i, items = Iterable.toArray(iter).slice();
+                for (i = items.length - 1; i >= 0; i--) {
+                    if (this.indexOf(items[i]) >= 0 || items.indexOf(items[i]) < i) {
+                        items.splice(i, 1);
+                    }
+                }
                 data.splice.apply(data, [data.length, 0].concat(items));
-
                 return items;
             },
             /**
              * @method remove
              * @param item
-             * @returns {*}
+             * @returns Removed item's index, -1 if not found.
              */
             remove: function (item) {
                 var index = this.indexOf(item);
                 if (index >= 0) {
                     this._data.splice(index, 1);
                     return index;
-                }
-                else {
+                } else {
                     return -1;
                 }
             },
             /**
              * @method removeAt
              * @param index
-             * @returns {*}
+             * @returns Removed item.
              */
             removeAt: function (index) {
                 return this._data.splice(index, 1)[0];
@@ -91,7 +125,11 @@
              * @param index
              */
             insert: function (item, index) {
-                this._data.splice(index, 0, item);
+                if (!this._unique || this.indexOf(item) == -1) {
+                    this._data.splice(index, 0, item);
+                    return item;
+                }
+                return null;
             },
             /**
              * @method insertRange
@@ -101,9 +139,13 @@
              */
             insertRange: function (iter, index) {
                 var data = this._data;
-                var items = Iterable.toArray(iter);
+                var i, items = Iterable.toArray(iter).slice();
+                for (i = items.length - 1; i >= 0; i--) {
+                    if (this.indexOf(items[i]) >= 0 || items.indexOf(items[i]) < i) {
+                        items.splice(i, 1);
+                    }
+                }
                 data.splice.apply(data, [index, 0].concat(items));
-
                 return items;
             },
             /**
@@ -112,7 +154,6 @@
              */
             clear: function () {
                 var items = this._data.slice();
-
                 this._data.length = 0;
                 return items;
             },
@@ -134,6 +175,8 @@
                 return new Collection(this._data.slice(index, index + count));
             },
             /**
+             * Get the first index the given item appears in the collection, -1 if not found.
+             *
              * @method indexOf
              * @param item
              * @returns {*}
@@ -142,14 +185,12 @@
                 var data = this._data;
                 if (data.indexOf) {
                     return data.indexOf(item);
-                }
-                else {
+                } else {
                     for (var i = 0, length = data.length; i < length; i++) {
                         if (nx.compare(data[i], item) === 0) {
                             return i;
                         }
                     }
-
                     return -1;
                 }
             },
@@ -162,8 +203,7 @@
                 var data = this._data;
                 if (data.lastIndexOf) {
                     return data.lastIndexOf(item);
-                }
-                else {
+                } else {
                     for (var i = data.length - 1; i >= 0; i--) {
                         if (nx.compare(data[i], item) === 0) {
                             return i;
