@@ -54,19 +54,19 @@
                     }
                 }
             },
-            condition: {
-                set: function (condition) {
+            filter: {
+                set: function (filter) {
                     // type check
-                    if (condition && typeof condition !== "function") {
+                    if (filter && typeof filter !== "function") {
                         return;
                     }
-                    this._condition = condition;
-                    if (condition) {
+                    this._filter = filter;
+                    if (filter) {
                         // remove duplicated items
                         var data = this._data;
                         var i, len = data.length;
                         for (i = len - 1; i >= 0; i--) {
-                            if (!condition(data[i])) {
+                            if (!filter(data[i])) {
                                 this.removeAt(i);
                             }
                         }
@@ -94,7 +94,7 @@
              */
             add: function (item) {
                 if (!this._unique || this.indexOf(item) == -1) {
-                    if (!this._condition || this._condition(item)) {
+                    if (!this._filter || this._filter(item)) {
                         this._data.push(item);
                         return item;
                     }
@@ -119,10 +119,10 @@
                         }
                     }
                 }
-                // check for condition
-                if (this._condition) {
+                // check for filter
+                if (this._filter) {
                     for (i = items.length - 1; i >= 0; i--) {
-                        if (!this._condition(items[i])) {
+                        if (!this._filter(items[i])) {
                             items.splice(i, 1);
                         }
                     }
@@ -159,7 +159,7 @@
              */
             insert: function (item, index) {
                 if (!this._unique || this.indexOf(item) == -1) {
-                    if (!this._condition || this._condition(item)) {
+                    if (!this._filter || this._filter(item)) {
                         this._data.splice(index, 0, item);
                         return item;
                     }
@@ -183,10 +183,10 @@
                         }
                     }
                 }
-                // check for condition
-                if (this._condition) {
+                // check for filter
+                if (this._filter) {
                     for (i = items.length - 1; i >= 0; i--) {
-                        if (!this._condition(items[i])) {
+                        if (!this._filter(items[i])) {
                             items.splice(i, 1);
                         }
                     }

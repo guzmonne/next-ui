@@ -177,10 +177,10 @@ test("unique", function () {
     ok(coll.length() === 9, "Insert range result correct");
 });
 
-test("condition", function () {
+test("filter", function () {
     var coll = new nx.data.Collection([-1, 0, 1]);
 
-    coll.condition(function (item) {
+    coll.filter(function (item) {
         return item >= 0;
     });
     ok(coll.count() == 2, "Remove exist item success");
