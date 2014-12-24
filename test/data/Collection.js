@@ -176,27 +176,3 @@ test("unique", function () {
     ok(JSON.stringify(coll.insertRange([-1, -2, 0], 0)) === JSON.stringify([-1, -2]), "Duplicated item removed when inserting range");
     ok(coll.length() === 9, "Insert range result correct");
 });
-
-test("filter", function () {
-    var coll = new nx.data.Collection([-1, 0, 1]);
-
-    coll.filter(function (item) {
-        return item >= 0;
-    });
-    ok(coll.count() == 2, "Remove exist item success");
-
-    ok(coll.add(2) == 2, "Add item success");
-    ok(coll.length() === 3, "Add item result correct");
-    ok(coll.add(-2) === null, "Add bad item failed");
-    ok(coll.length() === 3, "Add bad item result correct");
-    ok(JSON.stringify(coll.addRange([-1, 0, 1])) === JSON.stringify([0, 1]), "Unmatched item removed when adding range");
-    ok(coll.length() === 5, "Add range result correct");
-
-    ok(coll.insert(10, 0) === 10, "Insert item success");
-    ok(coll.length() === 6, "Insert item result correct");
-    ok(coll.insert(-10, 0) === null, "Insert bad item failed");
-    ok(coll.length() === 6, "Insert bad item result correct");
-    ok(JSON.stringify(coll.insertRange([-11, 11, 0], 0)) === JSON.stringify([11, 0]), "Unmatched item removed when inserting range");
-    ok(coll.length() === 8, "Insert range result correct");
-
-});

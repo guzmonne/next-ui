@@ -53,25 +53,6 @@
                         }
                     }
                 }
-            },
-            filter: {
-                set: function (filter) {
-                    // type check
-                    if (filter && typeof filter !== "function") {
-                        return;
-                    }
-                    this._filter = filter;
-                    if (filter) {
-                        // remove duplicated items
-                        var data = this._data;
-                        var i, len = data.length;
-                        for (i = len - 1; i >= 0; i--) {
-                            if (!filter(data[i])) {
-                                this.removeAt(i);
-                            }
-                        }
-                    }
-                }
             }
         },
         methods: {
@@ -94,10 +75,8 @@
              */
             add: function (item) {
                 if (!this._unique || this.indexOf(item) == -1) {
-                    if (!this._filter || this._filter(item)) {
-                        this._data.push(item);
-                        return item;
-                    }
+                    this._data.push(item);
+                    return item;
                 }
                 return null;
             },
@@ -115,14 +94,6 @@
                 if (this._unique) {
                     for (i = items.length - 1; i >= 0; i--) {
                         if (this.indexOf(items[i]) >= 0 || items.indexOf(items[i]) < i) {
-                            items.splice(i, 1);
-                        }
-                    }
-                }
-                // check for filter
-                if (this._filter) {
-                    for (i = items.length - 1; i >= 0; i--) {
-                        if (!this._filter(items[i])) {
                             items.splice(i, 1);
                         }
                     }
@@ -159,10 +130,8 @@
              */
             insert: function (item, index) {
                 if (!this._unique || this.indexOf(item) == -1) {
-                    if (!this._filter || this._filter(item)) {
-                        this._data.splice(index, 0, item);
-                        return item;
-                    }
+                    this._data.splice(index, 0, item);
+                    return item;
                 }
                 return null;
             },
@@ -179,14 +148,6 @@
                 if (this._unique) {
                     for (i = items.length - 1; i >= 0; i--) {
                         if (this.indexOf(items[i]) >= 0 || items.indexOf(items[i]) < i) {
-                            items.splice(i, 1);
-                        }
-                    }
-                }
-                // check for filter
-                if (this._filter) {
-                    for (i = items.length - 1; i >= 0; i--) {
-                        if (!this._filter(items[i])) {
                             items.splice(i, 1);
                         }
                     }
