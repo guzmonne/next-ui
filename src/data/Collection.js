@@ -37,6 +37,7 @@
             unique: {
                 set: function (unique) {
                     // check if the unique status is change
+                    /* jshint -W018 */
                     if ( !! this._unique === !! unique) {
                         return;
                     }

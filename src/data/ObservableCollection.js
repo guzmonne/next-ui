@@ -16,7 +16,7 @@
              * @param item
              */
             add: function (item) {
-                var item = this.inherited(item);
+                item = this.inherited(item);
                 if (!this._unique || item !== null) {
                     this.notify('count');
                     this.notify('length');
@@ -49,7 +49,7 @@
              * @param index
              */
             insert: function (item, index) {
-                var item = this.inherited(item, index);
+                item = this.inherited(item, index);
                 if (!this._unique || item !== null) {
                     this.notify('count');
                     this.notify('length');
