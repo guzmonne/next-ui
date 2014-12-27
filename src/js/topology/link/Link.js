@@ -1,4 +1,4 @@
-(function (nx, global) {
+(function(nx, global) {
     var Vector = nx.geometry.Vector;
     var Line = nx.geometry.Line;
     /**
@@ -18,10 +18,10 @@
              * @property linkType {String}
              */
             linkType: {
-                get: function () {
+                get: function() {
                     return this._linkType !== undefined ? this._linkType : 'parallel';
                 },
-                set: function (inValue) {
+                set: function(inValue) {
                     var value = this._processPropertyValue(inValue);
                     if (this._linkType !== value) {
                         this._linkType = value;
@@ -50,7 +50,7 @@
              * @property label {String}
              */
             label: {
-                set: function (inValue) {
+                set: function(inValue) {
                     var label = this._processPropertyValue(inValue);
                     var el = this.view('label');
                     if (label != null) {
@@ -66,7 +66,7 @@
              * @property color {Color}
              */
             color: {
-                set: function (inValue) {
+                set: function(inValue) {
                     var value = this._processPropertyValue(inValue);
                     this.view('line').dom().setStyle('stroke', value);
                     this.view('path').dom().setStyle('stroke', value);
@@ -78,7 +78,7 @@
              * @property width {Number}
              */
             width: {
-                set: function (inValue) {
+                set: function(inValue) {
                     var value = this._processPropertyValue(inValue);
                     var width = (this._stageScale || 1) * value;
                     this.view('line').dom().setStyle('stroke-width', width);
@@ -87,7 +87,7 @@
                 }
             },
             stageScale: {
-                set: function (value) {
+                set: function(value) {
                     var width = (this._width || 1) * value;
                     this.view('line').dom().setStyle('stroke-width', width);
                     this.view('path').dom().setStyle('stroke-width', width);
@@ -101,7 +101,7 @@
              * @property dotted {Boolean}
              */
             dotted: {
-                set: function (inValue) {
+                set: function(inValue) {
                     var value = this._processPropertyValue(inValue);
                     if (value) {
                         this.view('path').dom().setStyle('stroke-dasharray', '2, 5');
@@ -116,7 +116,7 @@
              * @property style {Object}
              */
             style: {
-                set: function (inValue) {
+                set: function(inValue) {
                     var value = this._processPropertyValue(inValue);
                     this.view('line').dom().setStyles(value);
                     this.view('path').dom().setStyles(value);
@@ -154,10 +154,10 @@
              * @property enable {Boolean}
              */
             enable: {
-                get: function () {
+                get: function() {
                     return this._enable != null ? this._enable : true;
                 },
-                set: function (inValue) {
+                set: function(inValue) {
                     var value = this._processPropertyValue(inValue);
                     this._enable = value;
                     this.dom().setClass("disable", !value);
@@ -180,42 +180,47 @@
                 'class': 'link'
             },
             content: [{
-                    type: 'nx.graphic.Group',
-                    content: [{
-                        name: 'path',
-                        type: 'nx.graphic.Path',
-                        props: {
-                            'class': 'link'
-                        }
-                    }, {
-                        name: 'line',
-                        type: 'nx.graphic.Line',
-                        props: {
-                            'class': 'link'
-                        }
-                    }],
-                    events: {
-                        'mouseenter': '{#_mouseenter}',
-                        'mouseleave': '{#_mouseleave}',
-                        'mousedown': '{#_mousedown}',
-                        'touchstart': '{#_mousedown}',
-                        'mouseup': '{#_mouseup}',
-                        'touchend': '{#_mouseup}'
+                type: 'nx.graphic.Group',
+                content: [{
+                    name: 'path',
+                    type: 'nx.graphic.Path',
+                    props: {
+                        'class': 'link'
                     }
                 }, {
-                    name: 'label',
-                    type: 'nx.graphic.Group',
-                    content: {
-                        name: 'labelText',
-                        type: 'nx.graphic.Text',
-                        props: {
-                            'alignment-baseline': 'text-before-edge',
-                            'text-anchor': 'middle',
-                            'class': 'link-label'
-                        }
+                    name: 'line_bg',
+                    type: 'nx.graphic.Line',
+                    props: {
+                        'class': 'link_bg'
+                    }
+                }, {
+                    name: 'line',
+                    type: 'nx.graphic.Line',
+                    props: {
+                        'class': 'link'
+                    }
+                }],
+                events: {
+                    'mouseenter': '{#_mouseenter}',
+                    'mouseleave': '{#_mouseleave}',
+                    'mousedown': '{#_mousedown}',
+                    'touchstart': '{#_mousedown}',
+                    'mouseup': '{#_mouseup}',
+                    'touchend': '{#_mouseup}'
+                }
+            }, {
+                name: 'label',
+                type: 'nx.graphic.Group',
+                content: {
+                    name: 'labelText',
+                    type: 'nx.graphic.Text',
+                    props: {
+                        'alignment-baseline': 'text-before-edge',
+                        'text-anchor': 'middle',
+                        'class': 'link-label'
                     }
                 }
-            ]
+            }]
         },
         methods: {
 
@@ -223,7 +228,7 @@
              * Update link's path
              * @method update
              */
-            update: function () {
+            update: function() {
 
                 this.inherited();
 
@@ -233,13 +238,17 @@
                 var line = this.reverse() ? this.line().negate() : this.line();
                 var d;
 
+                var pathEL = this.view('path');
+                var lineEl = this.view('line');
+                var lineBGEl = this.view('line_bg');
+
                 if (this.drawMethod()) {
                     d = this.drawMethod().call(this, this.model(), this);
-                    this.view('path').setStyle('display', 'block');
-                    this.view('line').setStyle('display', 'none');
-                    this.view('path').set('d', d);
-                    this.view('path').dom().setStyle('stroke-width', width);
-
+                    pathEL.setStyle('display', 'block');
+                    pathEL.set('d', d);
+                    pathEL.dom().setStyle('stroke-width', width);
+                    lineEl.setStyle('display', 'none');
+                    lineBGEl.setStyle('display', 'none');
                 } else if (this.linkType() == 'curve') {
                     var path = [];
                     var n, point;
@@ -249,13 +258,12 @@
                     path.push('Q', point.x, point.y, line.end.x, line.end.y);
                     d = path.join(' ');
 
-                    this.view('path').setStyle('display', 'block');
-                    this.view('line').setStyle('display', 'none');
-                    this.view('path').set('d', d);
-                    this.view('path').dom().setStyle('stroke-width', width);
+                    pathEL.setStyle('display', 'block');
+                    pathEL.set('d', d);
+                    pathEL.dom().setStyle('stroke-width', width);
+                    lineEl.setStyle('display', 'none');
+                    lineBGEl.setStyle('display', 'none');
                 } else {
-                    var lineEl = this.view('line');
-                    var pathEL = this.view('path');
                     var newLine = line.translate(offset);
                     lineEl.sets({
                         x1: newLine.start.x,
@@ -263,20 +271,18 @@
                         x2: newLine.end.x,
                         y2: newLine.end.y
                     });
+                    lineBGEl.sets({
+                        x1: newLine.start.x,
+                        y1: newLine.start.y,
+                        x2: newLine.end.x,
+                        y2: newLine.end.y
+                    });
                     pathEL.setStyle('display', 'none');
                     lineEl.setStyle('display', 'block');
+                    lineBGEl.setStyle('display', 'block');
                     lineEl.setStyle('stroke-width', width);
+                    lineBGEl.setStyle('stroke-width', width * 4);
 
-                    //                    var path = [];
-                    //                    var n, point;
-                    //                    path.push('M', line.start.x, line.start.y);
-                    //                    path.push('L', line.end.x, line.end.y);
-                    //                    d = path.join(' ');
-                    //
-                    //                    pathEL.setStyle('display', 'block');
-                    //                    lineEl.setStyle('display', 'none');
-                    //                    pathEL.set('d', d);
-                    //                    lineEl.setStyle('stroke-width', width);
                 }
 
 
@@ -287,7 +293,7 @@
              * @method getPaddingLine
              * @returns {*}
              */
-            getPaddingLine: function () {
+            getPaddingLine: function() {
                 var _offset = this.offset() * offsetRadix;
                 var sourceSize = this.sourceNode().getBound(true);
                 var sourceRadius = Math.max(sourceSize.width, sourceSize.height) / 1.3;
@@ -302,7 +308,7 @@
              * @method getoffset
              * @returns {number}
              */
-            getOffset: function () {
+            getOffset: function() {
                 if (this.linkType() == 'parallel') {
                     return this.offsetPercentage() * this.offsetRadix() * this._stageScale;
                 } else {
@@ -310,7 +316,7 @@
                 }
 
             },
-            _updateLabel: function () {
+            _updateLabel: function() {
                 var el, point;
                 var _offset = this.getOffset();
                 var line = this.line();
@@ -322,7 +328,7 @@
                     this.view('labelText').set('text', this._label);
                 }
             },
-            _mousedown: function () {
+            _mousedown: function() {
                 if (this.enable()) {
                     /**
                      * Fired when mouse down on link
@@ -333,7 +339,7 @@
                     this.fire('pressLink');
                 }
             },
-            _mouseup: function () {
+            _mouseup: function() {
                 if (this.enable()) {
                     /**
                      * Fired when click link
@@ -344,7 +350,7 @@
                     this.fire('clickLink');
                 }
             },
-            _mouseleave: function () {
+            _mouseleave: function() {
                 if (this.enable()) {
                     /**
                      * Fired when mouse leave link
@@ -355,7 +361,7 @@
                     this.fire('leaveLink');
                 }
             },
-            _mouseenter: function () {
+            _mouseenter: function() {
                 if (this.enable()) {
                     /**
                      * Fired when mouse enter link
