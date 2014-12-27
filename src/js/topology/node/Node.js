@@ -76,6 +76,7 @@
              * @property labelVisibility {Boolean} true
              */
             labelVisibility: {
+                value: true,
                 set: function(inValue) {
                     var value = this._processPropertyValue(inValue);
                     var el = this.view('label');
