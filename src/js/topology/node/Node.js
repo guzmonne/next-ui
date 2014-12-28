@@ -16,12 +16,9 @@
                 set: function(inValue) {
                     var label = this._processPropertyValue(inValue);
                     var el = this.view('label');
+                    el.set('text', label);
                     if (label != null) {
-                        el.set('text', label);
-                        el.set('visible', true);
                         this.calcLabelPosition();
-                    } else {
-                        el.set('visible', false);
                     }
                     this._label = label;
                 }
