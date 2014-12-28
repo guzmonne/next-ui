@@ -93,7 +93,7 @@
                     }
 
                     if (value > 0.4) {
-                        this.view('label').set('visible', this._labelVisible == null ? true : this._labelVisible);
+                        this.view('label').set('visible', this._labelVisibility == null ? true : this._labelVisibility);
                     } else {
                         this.view('label').set('visible', false);
                     }
