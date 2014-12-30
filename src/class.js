@@ -12,8 +12,7 @@
      * @class nx.Object
      * @constructor
      */
-    function NXObject() {
-    }
+    function NXObject() {}
 
     var NXPrototype = NXObject.prototype = {
         constructor: NXObject,
@@ -55,8 +54,7 @@
             if (type) {
                 if (this instanceof type) {
                     return true;
-                }
-                else {
+                } else {
                     var mixins = this.__mixins__;
                     for (var i = 0, len = mixins.length; i < len; i++) {
                         var mixin = mixins[i];
@@ -90,8 +88,7 @@
             if (member !== undefined) {
                 if (member.__type__ == 'property') {
                     return member.call(this);
-                }
-                else {
+                } else {
                     return member;
                 }
             }
@@ -107,12 +104,10 @@
             if (member !== undefined) {
                 if (member.__type__ == 'property') {
                     return member.call(this, value);
-                }
-                else {
+                } else {
                     this[name] = value;
                 }
-            }
-            else {
+            } else {
                 this[name] = value;
             }
         },
@@ -162,13 +157,11 @@
          */
         on: function (name, handler, context) {
             var map = this.__listeners__;
-            var listeners = map[name] = map[name] || [
-                {
-                    owner: null,
-                    handler: null,
-                    context: null
-                }
-            ];
+            var listeners = map[name] = map[name] || [{
+                owner: null,
+                handler: null,
+                context: null
+            }];
 
             listeners.push({
                 owner: this,
@@ -196,8 +189,7 @@
                             break;
                         }
                     }
-                }
-                else {
+                } else {
                     listeners.length = 1;
                 }
             }
@@ -211,13 +203,11 @@
          */
         upon: function (name, handler, context) {
             var map = this.__listeners__;
-            var listeners = map[name] = map[name] || [
-                {
-                    owner: null,
-                    handler: null,
-                    context: null
-                }
-            ];
+            var listeners = map[name] = map[name] || [{
+                owner: null,
+                handler: null,
+                context: null
+            }];
 
             listeners[0] = {
                 owner: this,
@@ -290,13 +280,11 @@
         var exist = target[eventName] && target[eventName].__type__ == 'event';
         var fn = target[eventName] = function (handler, context) {
             var map = this.__listeners__;
-            var listeners = map[name] = map[name] || [
-                {
-                    owner: null,
-                    handler: null,
-                    context: null
-                }
-            ];
+            var listeners = map[name] = map[name] || [{
+                owner: null,
+                handler: null,
+                context: null
+            }];
 
             listeners[0] = {
                 owner: this,
@@ -345,14 +333,12 @@
                     }
                     if (nx.is(meta.value, "Function")) {
                         owner.set(name, meta.value.apply(owner, arguments));
-                    }
-                    else if (!meta.update && !meta.value) {
+                    } else if (!meta.update && !meta.value) {
                         owner.set(name, arguments[0]);
                     }
                 }
             });
-        }
-        else {
+        } else {
             defaultValue = meta.value;
         }
 
@@ -363,8 +349,7 @@
         var fn = function (value, params) {
             if (value === undefined && arguments.length === 0) {
                 return fn.__getter__.call(this, params);
-            }
-            else {
+            } else {
                 return fn.__setter__.call(this, value, params);
             }
         };
@@ -386,8 +371,7 @@
 
         if (nx.is(target, "Function") && target.__properties__ && !target.__static__) {
             target.prototype[name] = fn;
-        }
-        else {
+        } else {
             target[name] = fn;
         }
 
@@ -449,13 +433,11 @@
                     parent = type;
                     type = null;
                 }
-            }
-            else if (!parent) {
+            } else if (!parent) {
                 if (nx.is(type, 'Object')) {
                     members = type;
                     type = null;
-                }
-                else if (nx.is(type, 'Function')) {
+                } else if (nx.is(type, 'Function')) {
                     parent = type;
                     type = null;
                 }
@@ -521,16 +503,14 @@
             nx.each(Class.__defaults__, function (value, name) {
                 if (nx.is(value, "Function")) {
                     this["_" + name] = value.call(this);
-                }
-                else if (nx.is(value, nx.keyword.internal.Keyword)) {
+                } else if (nx.is(value, nx.keyword.internal.Keyword)) {
                     switch (value.type) {
-                        case "binding":
-                            // FIXME memory leak
-                            value.apply(this, name);
-                            break;
+                    case "binding":
+                        // FIXME memory leak
+                        value.apply(this, name);
+                        break;
                     }
-                }
-                else {
+                } else {
                     this["_" + name] = value;
                 }
             }, Class);
@@ -538,9 +518,14 @@
             if (methods.init) {
                 methods.init.call(Class);
             }
-        }
-        else {
+        } else {
             Class = function () {
+                // get the real arguments
+                var args = arguments[0];
+                if (Object.prototype.toString.call(args) !== "[object Arguments]") {
+                    args = arguments;
+                }
+
                 var mixins = this.__mixins__;
                 this.__id__ = instanceId++;
                 this.__listeners__ = {};
@@ -548,6 +533,7 @@
                 this.__watchers__ = this.__watchers__ || {};
                 this.__keyword_bindings__ = this.__keyword_bindings__ || [];
                 this.__keyword_watchers__ = this.__keyword_watchers__ || {};
+                this.__keyword_init__ = this.__keyword_init__ || [];
 
                 this.__initializing__ = true;
 
@@ -561,16 +547,14 @@
                 nx.each(Class.__defaults__, function (value, name) {
                     if (nx.is(value, "Function")) {
                         this["_" + name] = value.call(this);
-                    }
-                    else if (nx.is(value, nx.keyword.internal.Keyword)) {
+                    } else if (nx.is(value, nx.keyword.internal.Keyword)) {
                         // FIXME memory leak
                         // FIXME bind order
                         this.__keyword_bindings__.push({
                             name: name,
                             definition: value
                         });
-                    }
-                    else {
+                    } else {
                         this["_" + name] = value;
                     }
                 }, this);
@@ -581,13 +565,17 @@
                         return;
                     }
                     var meta = prop.__meta__,
-                        watcher = meta.watcher;
-                    if (watcher) {
+                        watcher = meta.watcher,
+                        init = meta.init;
+                    if (watcher && this.watch) {
                         if (nx.is(watcher, "String")) {
                             watcher = this[watcher];
                         }
                         this.watch(name, watcher.bind(this));
                         this.__keyword_watchers__[name] = watcher;
+                    }
+                    if (init) {
+                        this.__keyword_init__.push(init);
                     }
                 }, this);
 
@@ -595,8 +583,12 @@
                     binding.instance = binding.definition.apply(this, binding.name);
                 }, this);
 
+                nx.each(this.__keyword_init__, function (init) {
+                    init.apply(this, args);
+                }, this);
+
                 if (this.__ctor__) {
-                    this.__ctor__.apply(this, arguments);
+                    this.__ctor__.apply(this, args);
                 }
 
                 nx.each(this.__keyword_watchers__, function (watcher, name) {
@@ -610,8 +602,7 @@
                 this.__initializing__ = false;
             };
 
-            SuperClass = function () {
-            };
+            SuperClass = function () {};
 
             SuperClass.prototype = sup.prototype;
             prototype = new SuperClass();
