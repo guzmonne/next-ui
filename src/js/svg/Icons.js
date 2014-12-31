@@ -160,12 +160,12 @@
         collapse: {
             width: 16,
             height: 16,
-            font: ["\ue62e", "\ue62e"]
+            font: ["\ue62e", "\ue61d"]
         },
         expand: {
             width: 14,
             height: 14,
-            font: ["\ue62d", "\ue62d"]
+            font: ["\ue62d", "\ue61d"]
         },
         nodeset: {
             width: 32,
