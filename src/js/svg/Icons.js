@@ -176,6 +176,16 @@
             width: 48,
             height: 48,
             font: ["\ue633", "\ue633"]
+        },
+        unlinked:{
+            width: 32,
+            height: 32,
+            font: ["\ue646", "\ue61d"]
+        },
+        firewall:{
+            width: 32,
+            height: 32,
+            font: ["\ue647", "\ue648"]
         }
     };
 

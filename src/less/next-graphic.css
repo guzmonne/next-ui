@@ -18,6 +18,15 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+.n-icon-Unlinkdevice:before {
+  content: "\e646";
+}
+.n-icon-firewall:before {
+  content: "\e647";
+}
+.n-icon-firewallbg:before {
+  content: "\e648";
+}
 .n-icon-accesspointwithborder:before {
   content: "\e637";
 }
@@ -399,6 +408,9 @@
 .n-topology.n-topology-blue .link.disable line {
   stroke: #ccc !important;
   stroke-width: 1px;
+}
+.n-topology.n-topology-blue .link.disable .link_bg {
+  stroke: transparent !important;
 }
 .n-topology.n-topology-blue .link.link-selected path,
 .n-topology.n-topology-blue .link.link-selected line {
@@ -1088,6 +1100,9 @@
   stroke: #ccc !important;
   stroke-width: 1px;
 }
+.n-topology.n-topology-dark .link.disable .link_bg {
+  stroke: transparent !important;
+}
 .n-topology.n-topology-dark .link.link-selected path,
 .n-topology.n-topology-dark .link.link-selected line {
   stroke: #ccc;
@@ -1775,6 +1790,9 @@
 .n-topology.n-topology-green .link.disable line {
   stroke: #ccc !important;
   stroke-width: 1px;
+}
+.n-topology.n-topology-green .link.disable .link_bg {
+  stroke: transparent !important;
 }
 .n-topology.n-topology-green .link.link-selected path,
 .n-topology.n-topology-green .link.link-selected line {
@@ -2464,6 +2482,9 @@
   stroke: #ccc !important;
   stroke-width: 1px;
 }
+.n-topology.n-topology-slate .link.disable .link_bg {
+  stroke: transparent !important;
+}
 .n-topology.n-topology-slate .link.link-selected path,
 .n-topology.n-topology-slate .link.link-selected line {
   stroke: #ccc;
@@ -3151,6 +3172,9 @@
 .n-topology.n-topology-yellow .link.disable line {
   stroke: #ccc !important;
   stroke-width: 1px;
+}
+.n-topology.n-topology-yellow .link.disable .link_bg {
+  stroke: transparent !important;
 }
 .n-topology.n-topology-yellow .link.link-selected path,
 .n-topology.n-topology-yellow .link.link-selected line {
