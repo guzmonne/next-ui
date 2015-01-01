@@ -18,7 +18,7 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-.n-icon-Unlinkdevice:before {
+.n-icon-unlinked:before {
   content: "\e646";
 }
 .n-icon-firewall:before {
@@ -93,13 +93,13 @@
 .n-icon-minus:before {
   content: "\e62e";
 }
-.n-icon-GroupSbg:before {
+.n-icon-groupsbg:before {
   content: "\e62f";
 }
-.n-icon-GroupMbg:before {
+.n-icon-groupmbg:before {
   content: "\e630";
 }
-.n-icon-GroupLbg:before {
+.n-icon-grouplbg:before {
   content: "\e631";
 }
 .n-icon-fullscreen:before {
@@ -123,10 +123,10 @@
 .n-icon-wlcbg:before {
   content: "\e610";
 }
-.n-icon-unknowbg:before {
+.n-icon-unknownbg:before {
   content: "\e611";
 }
-.n-icon-unknow:before {
+.n-icon-unknown:before {
   content: "\e612";
 }
 .n-icon-switch:before {
@@ -183,13 +183,13 @@
 .n-icon-accesspointbg:before {
   content: "\e629";
 }
-.n-icon-GroupS:before {
+.n-icon-groups:before {
   content: "\e615";
 }
-.n-icon-GroupM:before {
+.n-icon-groupm:before {
   content: "\e616";
 }
-.n-icon-GroupL:before {
+.n-icon-groupl:before {
   content: "\e617";
 }
 .n-icon-zoomout-minus:before {
