@@ -84,12 +84,16 @@ if (!Function.prototype.bind) {
                 var length = target.length;
                 if (length >= 0) {
                     for (var i = 0; i < length; i++) {
-                        callback.call(context, target[i], i);
+                        if (callback.call(context, target[i], i) === false) {
+                            break;
+                        }
                     }
                 } else {
                     for (var key in target) {
                         if (target.hasOwnProperty(key)) {
-                            callback.call(context, target[key], key);
+                            if (callback.call(context, target[key], key) === false) {
+                                break;
+                            }
                         }
                     }
                 }
