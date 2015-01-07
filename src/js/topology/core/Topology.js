@@ -129,7 +129,7 @@
                     events: {
                         ':mousedown': '{#_pressStage}',
                         ':touchstart': '{#_pressStage}',
-                        'mouseup': '{#_clickStage}',
+                        'click': '{#_clickStage}',
                         'touchend': '{#_clickStage}',
                         'mousewheel': '{#_mousewheel}',
                         'DOMMouseScroll': '{#_mousewheel}',
