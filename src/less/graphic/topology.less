@@ -149,8 +149,12 @@
       cursor: pointer;
     }
 
-    path:hover, line:hover {
+    path.link:hover, line.link:hover {
       stroke: darken(@secondaryColor, 15.5%)
+    }
+
+    line.link_bg:hover ~ line{
+      stroke: darken(@secondaryColor, 15.5%) !important
     }
 
     .link-label {
@@ -179,11 +183,19 @@
       fill: #ccc;
     }
 
+    .link_bg{
+      stroke: transparent;
+    }
+
     &.disable {
       path, line {
         stroke: #ccc !important;
         stroke-width: 1px;
       }
+      .link_bg{
+        stroke: transparent !important;
+      }
+
     }
 
     &.link-selected {
@@ -196,7 +208,7 @@
   }
 
   .nodeset {
-    
+
     .selectedBG {
       fill: transparent;
       opacity: 0.8;
@@ -352,6 +364,8 @@
 	    stroke: #ccc;
 	}
     }
+
+
   }
 
   @media screen and (-webkit-min-device-pixel-ratio: 0) {

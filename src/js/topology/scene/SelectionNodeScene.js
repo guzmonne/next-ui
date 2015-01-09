@@ -1,4 +1,4 @@
-(function (nx, global) {
+(function(nx, global) {
 
     /**
      * Selection node scene
@@ -13,25 +13,25 @@
              * @property selectedNodes
              */
             selectedNodes: {
-                get: function () {
+                get: function() {
                     return this.topology().selectedNodes();
                 }
             }
         },
         methods: {
 
-            activate: function () {
+            activate: function() {
                 this.inherited();
                 var tooltipManager = this._tooltipManager;
                 tooltipManager.activated(false);
             },
-            deactivate: function () {
+            deactivate: function() {
                 this.inherited();
                 var tooltipManager = this._tooltipManager;
                 tooltipManager.activated(true);
             },
 
-            pressStage: function (sender, event) {
+            pressStage: function(sender, event) {
                 var selectedNodes = this.selectedNodes();
                 var multi = this._multi = event.metaKey || event.ctrlKey || event.shiftKey;
                 if (!multi) {
@@ -40,11 +40,11 @@
 
                 event.captureDrag(sender.stage().view(), this.topology().stage());
             },
-            enterNode: function () {
+            enterNode: function() {
 
             },
-            clickNode: function (sender, node) {},
-            dragStageStart: function (sender, event) {
+            clickNode: function(sender, node) {},
+            dragStageStart: function(sender, event) {
                 this.inherited(sender, event);
                 var selectedNodes = this.selectedNodes();
                 var multi = this._multi = event.metaKey || event.ctrlKey || event.shiftKey;
@@ -53,18 +53,18 @@
                 }
                 this._prevSelectedNodes = this.selectedNodes().toArray().slice();
             },
-            dragStage: function (sender, event) {
+            dragStage: function(sender, event) {
                 this.inherited(sender, event);
                 this.selectNodeByRect(this.rect.getBound());
             },
-            selectNode: function (sender, node) {
+            selectNode: function(sender, node) {
                 if (node.selected()) {
                     this._topo.selectedNodes().add(node);
                 } else {
                     this._topo.selectedNodes().remove(node);
                 }
             },
-            selectNodeSet: function (sender, nodeset) {
+            selectNodeSet: function(sender, nodeset) {
                 if (nodeset.selected()) {
                     this._topo.selectedNodes().add(nodeset);
                 } else {
@@ -73,7 +73,7 @@
             },
 
 
-            pressNode: function (sender, node) {
+            pressNode: function(sender, node) {
                 if (node.enable()) {
                     var selectedNodes = this.selectedNodes();
                     this._multi = event.metaKey || event.ctrlKey || event.shiftKey;
@@ -83,7 +83,7 @@
                     node.selected(!node.selected());
                 }
             },
-            pressNodeSet: function (sender, nodeSet) {
+            pressNodeSet: function(sender, nodeSet) {
                 if (nodeSet.enable()) {
                     var selectedNodes = this.selectedNodes();
                     this._multi = event.metaKey || event.ctrlKey || event.shiftKey;
@@ -93,8 +93,11 @@
                     nodeSet.selected(!nodeSet.selected());
                 }
             },
-            selectNodeByRect: function (bound) {
-                this.topology().eachNode(function (node) {
+            selectNodeByRect: function(bound) {
+                this.topology().eachNode(function(node) {
+                    if (node.model().type() == 'vertexSet' && !node.collapsed()) {
+                        return;
+                    }
                     var nodeBound = node.getBound();
                     // FIXME for firefox bug with g.getBoundingClientRect
                     if (nx.util.isFirefox()) {
@@ -127,13 +130,13 @@
                     }
                 }, this);
             },
-            collapseNodeSetGroup: function (sender, group) {
+            collapseNodeSetGroup: function(sender, group) {
 
             },
-            enterGroup: function (sender, group) {
+            enterGroup: function(sender, group) {
 
             },
-            _hittest: function (sourceBound, targetBound) {
+            _hittest: function(sourceBound, targetBound) {
                 var t = targetBound.top >= sourceBound.top && targetBound.top <= ((sourceBound.top + sourceBound.height)),
                     l = targetBound.left >= sourceBound.left && targetBound.left <= (sourceBound.left + sourceBound.width),
                     b = (sourceBound.top + sourceBound.height) >= (targetBound.top + targetBound.height) && (targetBound.top + targetBound.height) >= sourceBound.top,

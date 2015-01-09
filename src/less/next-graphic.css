@@ -18,6 +18,36 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+.n-icon-hostgroupbg:before {
+  content: "\e64c";
+}
+.n-icon-hostgroup:before {
+  content: "\e64d";
+}
+.n-icon-wirelesshost:before {
+  content: "\e64e";
+}
+.n-icon-wirelesshostwithborder-30:before {
+  content: "\e64f";
+}
+.n-icon-firewallwithboder:before {
+  content: "\e649";
+}
+.n-icon-unknowndevicewithborder:before {
+  content: "\e64a";
+}
+.n-icon-unlinkwithborder:before {
+  content: "\e64b";
+}
+.n-icon-unlinked:before {
+  content: "\e646";
+}
+.n-icon-firewall:before {
+  content: "\e647";
+}
+.n-icon-firewallbg:before {
+  content: "\e648";
+}
 .n-icon-accesspointwithborder:before {
   content: "\e637";
 }
@@ -78,19 +108,19 @@
 .n-icon-de-aggregation:before {
   content: "\e632";
 }
-.n-icon-plus:before {
+.n-icon-expand:before {
   content: "\e62d";
 }
-.n-icon-minus:before {
+.n-icon-collapse:before {
   content: "\e62e";
 }
-.n-icon-GroupSbg:before {
+.n-icon-groupsbg:before {
   content: "\e62f";
 }
-.n-icon-GroupMbg:before {
+.n-icon-groupmbg:before {
   content: "\e630";
 }
-.n-icon-GroupLbg:before {
+.n-icon-grouplbg:before {
   content: "\e631";
 }
 .n-icon-fullscreen:before {
@@ -114,10 +144,10 @@
 .n-icon-wlcbg:before {
   content: "\e610";
 }
-.n-icon-unknowbg:before {
+.n-icon-unknownbg:before {
   content: "\e611";
 }
-.n-icon-unknow:before {
+.n-icon-unknown:before {
   content: "\e612";
 }
 .n-icon-switch:before {
@@ -174,13 +204,13 @@
 .n-icon-accesspointbg:before {
   content: "\e629";
 }
-.n-icon-GroupS:before {
+.n-icon-groups:before {
   content: "\e615";
 }
-.n-icon-GroupM:before {
+.n-icon-groupm2:before {
   content: "\e616";
 }
-.n-icon-GroupL:before {
+.n-icon-groupl:before {
   content: "\e617";
 }
 .n-icon-zoomout-minus:before {
@@ -362,9 +392,12 @@
   fill: none;
   cursor: pointer;
 }
-.n-topology.n-topology-blue .link path:hover,
-.n-topology.n-topology-blue .link line:hover {
+.n-topology.n-topology-blue .link path.link:hover,
+.n-topology.n-topology-blue .link line.link:hover {
   stroke: #26a1c5;
+}
+.n-topology.n-topology-blue .link line.link_bg:hover ~ line {
+  stroke: #26a1c5 !important;
 }
 .n-topology.n-topology-blue .link .link-label {
   font-family: "Cisco Sans Reg";
@@ -389,10 +422,16 @@
 .n-topology.n-topology-blue .link .disable-bg {
   fill: #ccc;
 }
+.n-topology.n-topology-blue .link .link_bg {
+  stroke: transparent;
+}
 .n-topology.n-topology-blue .link.disable path,
 .n-topology.n-topology-blue .link.disable line {
   stroke: #ccc !important;
   stroke-width: 1px;
+}
+.n-topology.n-topology-blue .link.disable .link_bg {
+  stroke: transparent !important;
 }
 .n-topology.n-topology-blue .link.link-selected path,
 .n-topology.n-topology-blue .link.link-selected line {
@@ -1044,9 +1083,12 @@
   fill: none;
   cursor: pointer;
 }
-.n-topology.n-topology-dark .link path:hover,
-.n-topology.n-topology-dark .link line:hover {
+.n-topology.n-topology-dark .link path.link:hover,
+.n-topology.n-topology-dark .link line.link:hover {
   stroke: #068591;
+}
+.n-topology.n-topology-dark .link line.link_bg:hover ~ line {
+  stroke: #068591 !important;
 }
 .n-topology.n-topology-dark .link .link-label {
   font-family: "Cisco Sans Reg";
@@ -1071,10 +1113,16 @@
 .n-topology.n-topology-dark .link .disable-bg {
   fill: #ccc;
 }
+.n-topology.n-topology-dark .link .link_bg {
+  stroke: transparent;
+}
 .n-topology.n-topology-dark .link.disable path,
 .n-topology.n-topology-dark .link.disable line {
   stroke: #ccc !important;
   stroke-width: 1px;
+}
+.n-topology.n-topology-dark .link.disable .link_bg {
+  stroke: transparent !important;
 }
 .n-topology.n-topology-dark .link.link-selected path,
 .n-topology.n-topology-dark .link.link-selected line {
@@ -1726,9 +1774,12 @@
   fill: none;
   cursor: pointer;
 }
-.n-topology.n-topology-green .link path:hover,
-.n-topology.n-topology-green .link line:hover {
+.n-topology.n-topology-green .link path.link:hover,
+.n-topology.n-topology-green .link line.link:hover {
   stroke: #29bfc3;
+}
+.n-topology.n-topology-green .link line.link_bg:hover ~ line {
+  stroke: #29bfc3 !important;
 }
 .n-topology.n-topology-green .link .link-label {
   font-family: "Cisco Sans Reg";
@@ -1753,10 +1804,16 @@
 .n-topology.n-topology-green .link .disable-bg {
   fill: #ccc;
 }
+.n-topology.n-topology-green .link .link_bg {
+  stroke: transparent;
+}
 .n-topology.n-topology-green .link.disable path,
 .n-topology.n-topology-green .link.disable line {
   stroke: #ccc !important;
   stroke-width: 1px;
+}
+.n-topology.n-topology-green .link.disable .link_bg {
+  stroke: transparent !important;
 }
 .n-topology.n-topology-green .link.link-selected path,
 .n-topology.n-topology-green .link.link-selected line {
@@ -2408,9 +2465,12 @@
   fill: none;
   cursor: pointer;
 }
-.n-topology.n-topology-slate .link path:hover,
-.n-topology.n-topology-slate .link line:hover {
+.n-topology.n-topology-slate .link path.link:hover,
+.n-topology.n-topology-slate .link line.link:hover {
   stroke: #307889;
+}
+.n-topology.n-topology-slate .link line.link_bg:hover ~ line {
+  stroke: #307889 !important;
 }
 .n-topology.n-topology-slate .link .link-label {
   font-family: "Cisco Sans Reg";
@@ -2435,10 +2495,16 @@
 .n-topology.n-topology-slate .link .disable-bg {
   fill: #ccc;
 }
+.n-topology.n-topology-slate .link .link_bg {
+  stroke: transparent;
+}
 .n-topology.n-topology-slate .link.disable path,
 .n-topology.n-topology-slate .link.disable line {
   stroke: #ccc !important;
   stroke-width: 1px;
+}
+.n-topology.n-topology-slate .link.disable .link_bg {
+  stroke: transparent !important;
 }
 .n-topology.n-topology-slate .link.link-selected path,
 .n-topology.n-topology-slate .link.link-selected line {
@@ -3090,9 +3156,12 @@
   fill: none;
   cursor: pointer;
 }
-.n-topology.n-topology-yellow .link path:hover,
-.n-topology.n-topology-yellow .link line:hover {
+.n-topology.n-topology-yellow .link path.link:hover,
+.n-topology.n-topology-yellow .link line.link:hover {
   stroke: #55440e;
+}
+.n-topology.n-topology-yellow .link line.link_bg:hover ~ line {
+  stroke: #55440e !important;
 }
 .n-topology.n-topology-yellow .link .link-label {
   font-family: "Cisco Sans Reg";
@@ -3117,10 +3186,16 @@
 .n-topology.n-topology-yellow .link .disable-bg {
   fill: #ccc;
 }
+.n-topology.n-topology-yellow .link .link_bg {
+  stroke: transparent;
+}
 .n-topology.n-topology-yellow .link.disable path,
 .n-topology.n-topology-yellow .link.disable line {
   stroke: #ccc !important;
   stroke-width: 1px;
+}
+.n-topology.n-topology-yellow .link.disable .link_bg {
+  stroke: transparent !important;
 }
 .n-topology.n-topology-yellow .link.link-selected path,
 .n-topology.n-topology-yellow .link.link-selected line {

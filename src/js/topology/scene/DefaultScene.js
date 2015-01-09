@@ -171,7 +171,7 @@
                 if (event.shiftKey) {
                     nodeSet.selected(!nodeSet.selected());
                 } else {
-                    nodeSet.collapsed(!nodeSet.collapsed());
+                    nodeSet.collapsed(false);
                 }
             },
 

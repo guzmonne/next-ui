@@ -1,4 +1,4 @@
-(function (nx, global) {
+(function(nx, global) {
     /**
      * Node class
      * @class nx.graphic.Topology.Node
@@ -13,15 +13,12 @@
              * @property label
              */
             label: {
-                set: function (inValue) {
+                set: function(inValue) {
                     var label = this._processPropertyValue(inValue);
                     var el = this.view('label');
+                    el.set('text', label);
                     if (label != null) {
-                        el.set('text', label);
-                        el.set('visible', true);
                         this.calcLabelPosition();
-                    } else {
-                        el.set('visible', false);
                     }
                     this._label = label;
                 }
@@ -31,10 +28,10 @@
              * @method iconType {String}
              */
             iconType: {
-                get: function () {
+                get: function() {
                     return this.view('icon').get('iconType');
                 },
-                set: function (inValue) {
+                set: function(inValue) {
                     var value = this._processPropertyValue(inValue);
                     if (value && this._iconType !== value) {
                         this._iconType = value;
@@ -51,7 +48,7 @@
              * @property showIcon
              */
             showIcon: {
-                set: function (inValue) {
+                set: function(inValue) {
                     var value = this._processPropertyValue(inValue);
                     this._showIcon = value;
 
@@ -76,15 +73,16 @@
              * @property labelVisibility {Boolean} true
              */
             labelVisibility: {
-                set: function (inValue) {
+                value: true,
+                set: function(inValue) {
                     var value = this._processPropertyValue(inValue);
                     var el = this.view('label');
                     el.visible(value);
-                    this._labelVisible = value;
+                    this._labelVisibility = value;
                 }
             },
             revisionScale: {
-                set: function (value) {
+                set: function(value) {
                     var topo = this.topology();
                     var icon = this.view('icon');
                     icon.set('scale', value);
@@ -95,7 +93,7 @@
                     }
 
                     if (value > 0.4) {
-                        this.view('label').set('visible', this._labelVisible == null ? true : this._labelVisible);
+                        this.view('label').set('visible', this._labelVisibility == null ? true : this._labelVisibility);
                     } else {
                         this.view('label').set('visible', false);
                     }
@@ -114,7 +112,7 @@
              * @property color
              */
             color: {
-                set: function (inValue) {
+                set: function(inValue) {
                     var value = this._processPropertyValue(inValue);
                     //                    this.view('graphic').dom().setStyle('fill', value);
                     this.view('label').dom().setStyle('fill', value);
@@ -128,10 +126,10 @@
              * @property scale {Number}
              */
             scale: {
-                get: function () {
+                get: function() {
                     return this.view('graphic').scale();
                 },
-                set: function (inValue) {
+                set: function(inValue) {
                     var value = this._processPropertyValue(inValue);
                     this.view('graphic').setTransform(null, null, value);
                     this.calcLabelPosition(true);
@@ -140,7 +138,7 @@
 
 
             selectedRingRadius: {
-                get: function () {
+                get: function() {
                     var bound = this.getBound(true);
                     var radius = Math.max(bound.height, bound.width) / 2;
                     return radius + (this.selected() ? 10 : -4);
@@ -151,10 +149,10 @@
              * @property selected
              */
             selected: {
-                get: function () {
+                get: function() {
                     return this._selected || false;
                 },
-                set: function (inValue) {
+                set: function(inValue) {
                     var value = this._processPropertyValue(inValue);
                     if (this._selected == value) {
                         return false;
@@ -168,10 +166,10 @@
                 }
             },
             enable: {
-                get: function () {
+                get: function() {
                     return this._enable != null ? this._enable : true;
                 },
-                set: function (inValue) {
+                set: function(inValue) {
                     var value = this._processPropertyValue(inValue);
                     this._enable = value;
                     if (value) {
@@ -182,7 +180,7 @@
                 }
             },
             parentNodeSet: {
-                get: function () {
+                get: function() {
                     var vertexSet = this.model().parentVertexSet();
                     if (vertexSet) {
                         return this.topology().getNode(vertexSet.id());
@@ -191,12 +189,12 @@
                     }
                 }
             },
-            rootParentNodeSet: {
-                get: function () {
-                    var vertexSet = this.model().generatedRootVertexSet();
-                    if (vertexSet) {
-                        return this.topology().getNode(vertexSet.id());
-                    } else {
+            rootNodeSet: {
+                get: function() {
+                    var model = this.model();
+                    if (model.rootVertexSet()) {
+                        return this.topology().getNode(model.rootVertexSet().id());
+                    } {
                         return null;
                     }
                 }
@@ -208,54 +206,54 @@
                 'class': 'node'
             },
             content: [{
-                name: 'label',
-                type: 'nx.graphic.Text',
-                props: {
-                    'class': 'node-label',
-                    'alignment-baseline': 'central',
-                    y: 12
-                }
-            }, {
-                name: 'selectedBG',
-                type: 'nx.graphic.Circle',
-                props: {
-                    'class': 'selectedBG',
-                    'r': 26
-                }
-            }, {
-                type: 'nx.graphic.Group',
-                name: 'graphic',
-                content: [{
-                    name: 'icon',
-                    type: 'nx.graphic.Icon',
+                    name: 'label',
+                    type: 'nx.graphic.Text',
                     props: {
-                        'class': 'icon',
-                        'iconType': 'unknown',
-                        'showIcon': false,
-                        scale: 1
+                        'class': 'node-label',
+                        'alignment-baseline': 'central',
+                        y: 12
                     }
-                }],
-                events: {
-                    'mousedown': '{#_mousedown}',
-                    'mouseup': '{#_mouseup}',
+                }, {
+                    name: 'selectedBG',
+                    type: 'nx.graphic.Circle',
+                    props: {
+                        'class': 'selectedBG',
+                        'r': 26
+                    }
+                }, {
+                    type: 'nx.graphic.Group',
+                    name: 'graphic',
+                    content: [{
+                        name: 'icon',
+                        type: 'nx.graphic.Icon',
+                        props: {
+                            'class': 'icon',
+                            'iconType': 'unknown',
+                            'showIcon': false,
+                            scale: 1
+                        }
+                    }],
+                    events: {
+                        'mousedown': '{#_mousedown}',
+                        'mouseup': '{#_mouseup}',
 
-                    'mouseenter': '{#_mouseenter}',
-                    'mouseleave': '{#_mouseleave}',
+                        'mouseenter': '{#_mouseenter}',
+                        'mouseleave': '{#_mouseleave}',
 
-                    'dragstart': '{#_dragstart}',
-                    'dragmove': '{#_drag}',
-                    'dragend': '{#_dragend}'
+                        'dragstart': '{#_dragstart}',
+                        'dragmove': '{#_drag}',
+                        'dragend': '{#_dragend}'
+                    }
                 }
-            }
 
 
             ]
         },
         methods: {
-            translateTo: function (x, y, callback, context) {
+            translateTo: function(x, y, callback, context) {
                 var el = this.view();
                 var position = this.position();
-                el.setTransition(function () {
+                el.setTransition(function() {
                     this.position({
                         x: x,
                         y: y
@@ -278,21 +276,21 @@
              * @param onlyGraphic {Boolean} is is TRUE, will only get graphic's bound
              * @returns {*}
              */
-            getBound: function (onlyGraphic) {
+            getBound: function(onlyGraphic) {
                 if (onlyGraphic) {
                     return this.view('graphic').getBound();
                 } else {
                     return this.view().getBound();
                 }
             },
-            _mousedown: function (sender, event) {
+            _mousedown: function(sender, event) {
                 if (this.enable()) {
                     this._prevPosition = this.position();
                     event.captureDrag(this.view('graphic'), this.topology().stage());
                     this.fire('pressNode', event);
                 }
             },
-            _mouseup: function (sender, event) {
+            _mouseup: function(sender, event) {
                 if (this.enable()) {
                     var _position = this.position();
                     if (this._prevPosition && _position.x === this._prevPosition.x && _position.y === this._prevPosition.y) {
@@ -306,7 +304,7 @@
                     }
                 }
             },
-            _mouseenter: function (sender, event) {
+            _mouseenter: function(sender, event) {
                 if (this.enable()) {
                     if (!this.__enter && !this._nodeDragging) {
                         /**
@@ -322,7 +320,7 @@
 
 
             },
-            _mouseleave: function (sender, event) {
+            _mouseleave: function(sender, event) {
                 if (this.enable()) {
                     if (this.__enter && !this._nodeDragging) {
                         /**
@@ -336,7 +334,7 @@
                     }
                 }
             },
-            _dragstart: function (sender, event) {
+            _dragstart: function(sender, event) {
                 window.event = event;
                 this._nodeDragging = true;
                 if (this.enable()) {
@@ -349,7 +347,7 @@
                     this.fire('dragNodeStart', event);
                 }
             },
-            _drag: function (sender, event) {
+            _drag: function(sender, event) {
                 window.event = event;
                 if (this.enable()) {
                     /**
@@ -361,7 +359,7 @@
                     this.fire('dragNode', event);
                 }
             },
-            _dragend: function (sender, event) {
+            _dragend: function(sender, event) {
                 window.event = event;
                 this._nodeDragging = false;
                 if (this.enable()) {
@@ -376,9 +374,9 @@
                 }
             },
 
-            updateConnectedNodeLabelPosition: function () {
+            updateConnectedNodeLabelPosition: function() {
                 this.calcLabelPosition(true);
-                this.eachConnectedNode(function (node) {
+                this.eachConnectedNode(function(node) {
                     node.calcLabelPosition();
                 }, this);
             },
@@ -386,7 +384,7 @@
              * Set label to a node
              * @method calcLabelPosition
              */
-            calcLabelPosition: function (force) {
+            calcLabelPosition: function(force) {
                 if (this.enableSmartLabel()) {
 
                     if (force) {
@@ -402,7 +400,7 @@
                     this.updateByMaxObtuseAngle(this.labelAngle());
                 }
             },
-            _centralizedText: function () {
+            _centralizedText: function() {
 
 
                 //
@@ -416,7 +414,7 @@
                 var vectors = [];
 
 
-                nx.each(vertex.edgeSets(), function (edgeSet) {
+                nx.each(vertex.edgeSets(), function(edgeSet) {
                     if (edgeSet.sourceID() !== vertexID) {
                         vectors.push(edgeSet.line().dir.negate());
                     } else {
@@ -424,7 +422,7 @@
                     }
                 }, this);
 
-                nx.each(vertex.edgeSetCollections(), function (esc) {
+                nx.each(vertex.edgeSetCollections(), function(esc) {
                     if (esc.sourceID() !== vertexID) {
                         vectors.push(esc.line().dir.negate());
                     } else {
@@ -434,7 +432,7 @@
 
 
                 //sort line by angle;
-                vectors = vectors.sort(function (a, b) {
+                vectors = vectors.sort(function(a, b) {
                     return a.circumferentialAngle() - b.circumferentialAngle();
                 });
 
@@ -479,7 +477,7 @@
              * @method updateByMaxObtuseAngle
              * @param angle
              */
-            updateByMaxObtuseAngle: function (angle) {
+            updateByMaxObtuseAngle: function(angle) {
 
                 var el = this.view('label');
 
@@ -507,7 +505,7 @@
                 this._labelAngle = angle;
 
             },
-            dispose: function () {
+            dispose: function() {
                 clearTimeout(this._centralizedTextTimer);
                 this.inherited();
             }

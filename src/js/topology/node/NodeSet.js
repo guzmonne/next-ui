@@ -117,7 +117,7 @@
                     }
                     this._updateMinusIcon(value);
 
-                    if (this._labelVisible) {
+                    if (this._labelVisibility) {
                         this.view('label').set('visible', value > 0.4);
                     }
                 }

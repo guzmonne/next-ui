@@ -160,22 +160,42 @@
         collapse: {
             width: 16,
             height: 16,
-            font: ["\ue62e", "\ue62e"]
+            font: ["\ue62e", "\ue61d"]
         },
         expand: {
             width: 14,
             height: 14,
-            font: ["\ue62d", "\ue62d"]
+            font: ["\ue62d", "\ue61d"]
         },
-        nodeset: {
-            width: 32,
-            height: 32,
-            font: ["\ue617", "\ue63a"]
-        },
+        //nodeset: {
+        //    width: 32,
+        //    height: 32,
+        //    font: ["\ue617", "\ue63a"]
+        //},
         cloud: {
             width: 48,
             height: 48,
             font: ["\ue633", "\ue633"]
+        },
+        unlinked:{
+            width: 32,
+            height: 32,
+            font: ["\ue646", "\ue61d"]
+        },
+        firewall:{
+            width: 32,
+            height: 32,
+            font: ["\ue647", "\ue648"]
+        },
+        hostgroup:{
+            width: 32,
+            height: 32,
+            font: ["\ue64d", "\ue64c"]
+        },
+        wirelesshost:{
+            width: 32,
+            height: 32,
+            font: ["\ue64e", "\ue64c"]
         }
     };
 

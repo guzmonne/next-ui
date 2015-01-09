@@ -60,6 +60,14 @@
                     hidden.remove();
                 });
 
+                nx.each(stage.querySelectorAll('.selectedBG'), function (item) {
+                    item.remove();
+                });
+
+                nx.each(stage.querySelectorAll('[data-nx-type="nx.graphic.Topology.GroupsLayer"]'), function (item) {
+                    item.remove();
+                });
+
 
                 var svg = serializer.serializeToString(stage);
                 var svgString = '<svg width="' + this.width() + '" height="' + this.height() + '" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >' + svg + "</svg>";
