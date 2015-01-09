@@ -162,12 +162,21 @@
                 handler: null,
                 context: null
             }];
-
-            listeners.push({
+            var listener = {
                 owner: this,
                 handler: handler,
                 context: context || this
-            });
+            };
+
+            listeners.push(listener);
+            return {
+                off: function () {
+                    var idx = listeners.indexOf(listener);
+                    if (idx >= 0) {
+                        listeners.splice(idx, 1);
+                    }
+                }
+            };
         },
         /**
          * Remove an event handler.
