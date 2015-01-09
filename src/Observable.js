@@ -62,9 +62,17 @@
              * @param context
              */
             watch: function (names, handler, context) {
+                var unwatchers = [];
                 nx.each(names == '*' ? this.__properties__ : (nx.is(names, 'Array') ? names : [names]), function (name) {
-                    this._watch(name, handler, context);
+                    unwatchers.push(this._watch(name, handler, context));
                 }, this);
+                return {
+                    unwatch: function () {
+                        nx.each(unwatchers, function (unwatcher) {
+                            unwatcher.unwatch();
+                        });
+                    }
+                };
             },
             /**
              * @method unwatch
@@ -87,8 +95,7 @@
                     nx.each(this.__watchers__, function (value, name) {
                         this._notify(name, oldValue);
                     }, this);
-                }
-                else {
+                } else {
                     nx.each(nx.is(names, 'Array') ? names : [names], function (name) {
                         this._notify(name, oldValue);
                     }, this);
@@ -134,8 +141,7 @@
                         params.converter = Binding.converters[params.converter] || nx.path(window, params.converter);
                     }
 
-                }
-                else {
+                } else {
                     params = nx.clone(expr);
                     params.target = this;
                     params.targetPath = prop;
@@ -164,12 +170,13 @@
                 var map = this.__watchers__;
                 var watchers = map[name] = map[name] || [];
                 var property = this[name];
-
-                watchers.push({
+                var watcher = {
                     owner: this,
                     handler: handler,
                     context: context
-                });
+                };
+
+                watchers.push(watcher);
 
                 if (property && property.__type__ == 'property') {
                     if (!property._watched) {
@@ -196,6 +203,14 @@
                         property._watched = true;
                     }
                 }
+                return {
+                    unwatch: function () {
+                        var idx = watchers.indexOf(watcher);
+                        if (idx >= 0) {
+                            watchers.splice(idx, 1);
+                        }
+                    }
+                };
             },
             _unwatch: function (name, handler, context) {
                 var map = this.__watchers__;
@@ -211,8 +226,7 @@
                                 break;
                             }
                         }
-                    }
-                    else {
+                    } else {
                         watchers.length = 0;
                     }
                 }
@@ -264,8 +278,7 @@
             format: function (expr, target) {
                 if (expr) {
                     return expr.replace('{0}', target);
-                }
-                else {
+                } else {
                     return '';
                 }
             }
@@ -374,8 +387,7 @@
                         if (converter == 'auto') {
                             converter = bindingMeta && bindingMeta.converter;
                         }
-                    }
-                    else {
+                    } else {
                         if (bindingType == 'auto') {
                             bindingType = target.can(targetPath) ? 'event' : 'property';
                         }
@@ -428,8 +440,7 @@
                                 target.upon(targetPath, actualValue[key], actualValue);
                             }
                         };
-                    }
-                    else {
+                    } else {
                         this._updateTarget = function () {
                             var actualValue = this._actualValue;
                             if (converter) {
@@ -489,8 +500,7 @@
 
                         if (newSource.get) {
                             newSource = newSource.get(key);
-                        }
-                        else {
+                        } else {
                             newSource = newSource[key];
                         }
                     }
