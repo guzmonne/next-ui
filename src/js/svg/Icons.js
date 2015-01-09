@@ -186,6 +186,16 @@
             width: 32,
             height: 32,
             font: ["\ue647", "\ue648"]
+        },
+        hostgroup:{
+            width: 32,
+            height: 32,
+            font: ["\ue64d", "\ue64c"]
+        },
+        wirelesshost:{
+            width: 32,
+            height: 32,
+            font: ["\ue64e", "\ue64c"]
         }
     };
 
