@@ -167,11 +167,11 @@
             height: 14,
             font: ["\ue62d", "\ue61d"]
         },
-        nodeset: {
-            width: 32,
-            height: 32,
-            font: ["\ue617", "\ue63a"]
-        },
+        //nodeset: {
+        //    width: 32,
+        //    height: 32,
+        //    font: ["\ue617", "\ue63a"]
+        //},
         cloud: {
             width: 48,
             height: 48,
