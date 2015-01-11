@@ -1,22 +1,8 @@
-(function (nx, global) {
-
-
-
-
-
-    nx.dom.Document.ready(function () {
-//        if (document.body.firstChild) {
-//            document.body.insertBefore(nx.ui.PopupContainer.container().view().$dom, document.body.firstChild);
-//        } else {
-//            document.body.appendChild(nx.ui.PopupContainer.container().view().$dom);
-//        }
-    }, this);
-
-
-    setTimeout(function () {
-        if (document.body  && nx && nx.ui) {
-
-            var Container = nx.define(nx.ui.Component, {
+(function(nx, global) {
+    var Container;
+    (function() {
+        if (nx && nx.ui && !Container) {
+            Container = nx.define(nx.ui.Component, {
                 view: {
                     props: {
                         'class': 'nx n-popupContainer',
@@ -40,19 +26,20 @@
                 static: true,
                 properties: {
                     container: {
-                        value: function () {
+                        value: function() {
                             return new Container();
                         }
                     }
                 },
                 methods: {
-                    addPopup: function (popup) {
+                    addPopup: function(popup) {
                         this.container().view().dom().appendChild(popup.view().dom());
                     }
                 }
             });
+        }
 
-
+        if (document.body && nx && nx.ui) {
             if (document.body.firstChild) {
                 document.body.insertBefore(nx.ui.PopupContainer.container().view().dom().$dom, document.body.firstChild);
             } else {
@@ -61,7 +48,7 @@
         } else {
             setTimeout(arguments.callee, 10);
         }
-    }, 0);
+    })()
 
 
 })(nx, nx.global);
