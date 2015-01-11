@@ -48,7 +48,7 @@
         } else {
             setTimeout(arguments.callee, 10);
         }
-    })()
+    })();
 
 
 })(nx, nx.global);
