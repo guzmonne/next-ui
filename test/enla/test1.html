@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <!--<script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/NeXt-Core/lastSuccessfulBuild/artifact/dest/next-core.js"></script>-->
+    <!--<script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/NeXt-UI/lastSuccessfulBuild/artifact/dest/js/next-ui.js"></script>-->
+    <!--<link rel="stylesheet" href="http://10.75.161.96:8080/jenkins/job/NeXt-UI/lastSuccessfulBuild/artifact/dest/css/next-blue.css" />-->
+    <!--<link rel="stylesheet" href="http://10.75.161.96:8080/jenkins/job/Next-Graphic/lastSuccessfulBuild/artifact/dest/css/next-graphic.css" />-->
+    <!--<script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/Next-Graphic/lastSuccessfulBuild/artifact/dest/js/next-graphic.js"></script>-->
+    <script type="text/javascript" src="../../../next-core/dest/next-core.js"></script>
+    <script type="text/javascript" src="../../../next-ui/dest/js/next-ui.js"></script>
+    <link rel="stylesheet" href="../../src/less/next-graphic.css" />
+    <link rel="stylesheet" href="../../../next-ui/dest/css/next-blue.css" />
+    <script type="text/javascript" src="../../src/js/next-graphic.js"></script>
+    <script type="text/javascript" src="libs/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="js/Force.js"></script>
+    <script type="text/javascript" src="js/App.js"></script>
+
+
+    <style>
+        body,
+        html {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+
+
+
+
+</head>
+
+<body>
+
+
+    <script type="text/javascript">
+        var deviceTypeMapping = {
+            Distribution: 'switch',
+            'Border Router': 'router',
+            Access: 'accesspoint',
+            host: 'host',
+            cloud: 'cloud'
+        };
+
+
+        var colorMap = {
+            Distribution: '#000',
+            Core: '#f00',
+            'Border Router': '#00f',
+            Access: '#f0f',
+            cloud: '#0f0'
+        }
+
+
+        var topo = new nx.graphic.Topology({
+            adaptive: true,
+            identityKey: 'id',
+            nodeConfig: {
+                label: 'model.role',
+                iconType: function(model) {
+                    return deviceTypeMapping[model.get('role')];
+                },
+                color: function(model) {
+                    return colorMap[model.get('role')];
+                }
+            },
+            linkConfig: {
+                label: 'model.role'
+            },
+            showIcon: true,
+            enableSmartLabel: false,
+            enableGradualScaling: false,
+            //            supportMultipleLink: false,
+        });
+
+        topo.on("ready", function() {
+
+        });
+        topo.on("topologyGenerated", function() {
+            //            topo.optimizeLabel();
+        });
+
+        var app = new nx.ui.Application();
+        //    app.getContainer = function () {
+        //        return new nx.dom.Element(document.getElementById('topo'));
+        //    };
+        topo.attach(app);
+
+//        var file = 'data/5000.json';
+                        var file = 'data/47.json';
+
+        APP(file, function(data) {
+            console.log(data);
+            console.time('generate');
+            topo.setData(data);
+            console.timeEnd('generate');
+
+        })
+    </script>
+
+</body>
+
+</html>
