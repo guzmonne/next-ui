@@ -67,6 +67,11 @@
                     unwatchers.push(this._watch(name, handler, context));
                 }, this);
                 return {
+                    affect: function () {
+                        nx.each(unwatchers, function (unwatcher) {
+                            unwatcher.affect();
+                        });
+                    },
                     unwatch: function () {
                         nx.each(unwatchers, function (unwatcher) {
                             unwatcher.unwatch();
@@ -204,6 +209,10 @@
                     }
                 }
                 return {
+                    affect: function () {
+                        var value = this.get(name);
+                        watcher.handler.call(watcher.context, name, value, value, watcher.owner);
+                    },
                     unwatch: function () {
                         var idx = watchers.indexOf(watcher);
                         if (idx >= 0) {
