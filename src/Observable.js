@@ -210,8 +210,10 @@
                 }
                 return {
                     affect: function () {
-                        var value = this.get(name);
-                        watcher.handler.call(watcher.context, name, value, value, watcher.owner);
+                        var value = watcher.owner.get(name);
+                        if (watcher && watcher.handler) {
+                            watcher.handler.call(watcher.context, name, value, value, watcher.owner);
+                        }
                     },
                     unwatch: function () {
                         var idx = watchers.indexOf(watcher);

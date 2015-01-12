@@ -238,18 +238,20 @@ test('method watch/unwatch', function () {
 });
 
 test("method watch returns unwatcher", function () {
-    expect(5);
+    expect(8);
     var o = new observeObj1();
     var unwatcher;
     unwatcher = o.watch("prop1", function () {
         ok(true, "Notified single property");
     });
     o.prop1(nx.uuid());
+    unwatcher.affect();
     unwatcher.unwatch();
     o.prop1(nx.uuid());
     unwatcher = o.watch(["prop1", "prop2"], function () {
         ok(true, "Notified multiple property");
     });
+    unwatcher.affect();
     o.prop1(nx.uuid());
     o.prop2(nx.uuid());
     unwatcher.unwatch();
