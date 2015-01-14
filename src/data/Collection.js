@@ -229,6 +229,18 @@
                 return this.indexOf(item) >= 0;
             },
             /**
+             * Toggle item's existence.
+             * @method toggle
+             * @param item
+             */
+            toggle: function (item) {
+                if (this.contains(item)) {
+                    this.remove(item);
+                } else {
+                    this.add(item);
+                }
+            },
+            /**
              * @method sort
              * @param comp
              * @returns {Array}
