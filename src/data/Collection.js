@@ -233,11 +233,17 @@
              * @method toggle
              * @param item
              */
-            toggle: function (item) {
-                if (this.contains(item)) {
-                    this.remove(item);
-                } else {
+            toggle: function (item, existence) {
+                if (arguments.length <= 1) {
+                    if (this.contains(item)) {
+                        this.remove(item);
+                    } else {
+                        this.add(item);
+                    }
+                } else if (existence) {
                     this.add(item);
+                } else {
+                    this.remove(item);
                 }
             },
             /**
