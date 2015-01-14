@@ -1,7 +1,7 @@
 @font-face {
   font-family: 'next-font';
   src: url('../fonts/next-font.eot?-9scffx');
-  src: url('fonts/next-font.eot?#iefix-9scffx') format('embedded-opentype'), url('../fonts/next-font.woff?-9scffx') format('woff'), url('../fonts/next-font.ttf?-9scffx') format('truetype'), url('../fonts/next-font.svg?-9scffx#next-font') format('svg');
+  src: url('../fonts/next-font.eot?#iefix-9scffx') format('embedded-opentype'), url('../fonts/next-font.woff?-9scffx') format('woff'), url('../fonts/next-font.ttf?-9scffx') format('truetype'), url('../fonts/next-font.svg?-9scffx#next-font') format('svg');
   font-weight: normal;
   font-style: normal;
 }
