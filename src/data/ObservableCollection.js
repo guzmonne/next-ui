@@ -150,11 +150,11 @@
             /**
              * Apply a diff watcher, which handles each item in the collection, to the colleciton.
              *
-             * @method watchDiff
+             * @method monitor
              * @param handler lambda(item) returning a rollback method
              * @return unwatcher A Object with unwatch method.
              */
-            watchDiff: function (handler) {
+            monitor: function (handler) {
                 var collection = this;
                 // resource (aka. rollback-methods) manager
                 var resman = {

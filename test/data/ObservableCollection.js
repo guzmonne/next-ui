@@ -230,15 +230,15 @@ test("unique", function () {
     }]), "Events notified correct");
 });
 
-test("watchDiff", function () {
+test("monitor", function () {
     expect(2);
     var coll = new nx.data.ObservableCollection();
     var coll1 = new nx.data.ObservableCollection();
     var coll2 = new nx.data.ObservableCollection();
     coll.add(coll1);
-    var watcher = coll.watchDiff(function (item) {
+    var watcher = coll.monitor(function (item) {
         ok(item === coll1, "Exist item processed");
-        var res = item.watchDiff(function (item) {
+        var res = item.monitor(function (item) {
             ok(item === 1, "New item processed");
         });
         return res.unwatch;
