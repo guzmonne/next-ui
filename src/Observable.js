@@ -62,19 +62,19 @@
              * @param context
              */
             watch: function (names, handler, context) {
-                var unwatchers = [];
+                var resources = [];
                 nx.each(names == '*' ? this.__properties__ : (nx.is(names, 'Array') ? names : [names]), function (name) {
-                    unwatchers.push(this._watch(name, handler, context));
+                    resources.push(this._watch(name, handler, context));
                 }, this);
                 return {
                     affect: function () {
-                        nx.each(unwatchers, function (unwatcher) {
-                            unwatcher.affect();
+                        nx.each(resources, function (resource) {
+                            resource.affect();
                         });
                     },
-                    unwatch: function () {
-                        nx.each(unwatchers, function (unwatcher) {
-                            unwatcher.unwatch();
+                    release: function () {
+                        nx.each(resources, function (resource) {
+                            resource.release();
                         });
                     }
                 };
@@ -215,7 +215,7 @@
                             watcher.handler.call(watcher.context, name, value, value, watcher.owner);
                         }
                     },
-                    unwatch: function () {
+                    release: function () {
                         var idx = watchers.indexOf(watcher);
                         if (idx >= 0) {
                             watchers.splice(idx, 1);

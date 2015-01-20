@@ -246,7 +246,7 @@ test("method watch returns unwatcher", function () {
     });
     o.prop1(nx.uuid());
     unwatcher.affect();
-    unwatcher.unwatch();
+    unwatcher.release();
     o.prop1(nx.uuid());
     unwatcher = o.watch(["prop1", "prop2"], function () {
         ok(true, "Notified multiple property");
@@ -254,7 +254,7 @@ test("method watch returns unwatcher", function () {
     unwatcher.affect();
     o.prop1(nx.uuid());
     o.prop2(nx.uuid());
-    unwatcher.unwatch();
+    unwatcher.release();
     o.prop1(nx.uuid());
     o.prop2(nx.uuid());
     unwatcher = o.watch("*", function () {
@@ -262,7 +262,7 @@ test("method watch returns unwatcher", function () {
     });
     o.prop1(nx.uuid());
     o.prop2(nx.uuid());
-    unwatcher.unwatch();
+    unwatcher.release();
     o.prop1(nx.uuid());
     o.prop2(nx.uuid());
 });

@@ -170,7 +170,7 @@
 
             listeners.push(listener);
             return {
-                off: function () {
+                release: function () {
                     var idx = listeners.indexOf(listener);
                     if (idx >= 0) {
                         listeners.splice(idx, 1);

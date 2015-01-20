@@ -241,10 +241,10 @@ test("monitor", function () {
         var res = item.monitor(function (item) {
             ok(item === 1, "New item processed");
         });
-        return res.unwatch;
+        return res.release;
     });
     coll1.add(1);
-    watcher.unwatch();
+    watcher.release();
     // not notify anything from here
     coll.add(coll2);
     coll1.add(2);

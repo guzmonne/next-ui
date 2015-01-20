@@ -186,13 +186,13 @@ test("class event binding returns unbinder", function () {
         ok(true, "Base.event1 notified.");
     });
     base.fire("event1");
-    bound.off();
+    bound.release();
     base.fire("event1");
     bound = child.on("event1", function () {
         ok(true, "Child.event1 notified.");
     });
     child.fire("event1");
-    bound.off();
+    bound.release();
     child.fire("event1");
 });
 

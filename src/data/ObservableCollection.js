@@ -251,7 +251,7 @@
                 });
                 // return unwatcher
                 return {
-                    unwatch: function () {
+                    release: function () {
                         resman.clear();
                         collection.off("change", resman.listener);
                     }
