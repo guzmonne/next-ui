@@ -77,7 +77,7 @@
                         if (bgEL.$dom.firstChild) {
                             bgEL.$dom.removeChild(bgEL.$dom.firstChild);
                         }
-                        bgEL.$dom.appendChild(document.createTextNode('\ue612'));
+                        bgEL.$dom.appendChild(document.createTextNode('\ue61d'));
                         bgEL.addClass('fontIcon iconBG');
 
                         //compatible with before
@@ -116,6 +116,7 @@
                         this.view('text').dom().setStyle('fill', value);
                     }
                     this.view('bgtext').dom().setStyle('fill', this.showIcon() ? '' : value);
+                    this.view('image').dom().set('color', value);
                     this._color = value;
                 }
             },
@@ -171,6 +172,7 @@
                         } else {
                             img.setStyle('display', 'none');
                         }
+                        bgEL.setStyle('display', 'block');
                         bgEL.addClass('iconBGActive');
 
                         this.view().dom().removeClass('showIcon');
