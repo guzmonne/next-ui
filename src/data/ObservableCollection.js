@@ -97,9 +97,9 @@
                             indices: result
                         });
                     }
-		    return result;
+                    return result;
                 }
-                var result = this.inherited(item);
+                result = this.inherited(item);
                 if (result >= 0) {
                     this.notify('count');
                     this.notify('length');
