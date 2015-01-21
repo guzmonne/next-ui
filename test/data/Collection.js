@@ -66,6 +66,10 @@ test('func remove', function () {
     }
     col1.add(obj)
     equal(col1.remove(obj), 0, "verify remove obj")
+    // remove more
+    col1.addRange([1, 2, 3, 4]);
+    deepEqual(col1.remove(1, 3, 4), [0, 2, 3], "verify removed indices");
+    ok(col1.length() === 1 && col1.contains(2), "verify removed result");
 });
 
 test('func insert', function () {

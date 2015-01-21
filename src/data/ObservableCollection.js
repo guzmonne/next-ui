@@ -84,6 +84,21 @@
              * @param item
              */
             remove: function (item) {
+                var result;
+                if (arguments.length > 1) {
+                    item = Array.prototype.slice.call(arguments);
+                    result = this.inherited.apply(this, item);
+                    if (result.length) {
+                        this.notify('count');
+                        this.notify('length');
+                        this.fire('change', {
+                            action: 'remove',
+                            items: item,
+                            indices: result
+                        });
+                    }
+		    return result;
+                }
                 var result = this.inherited(item);
                 if (result >= 0) {
                     this.notify('count');
@@ -91,7 +106,8 @@
                     this.fire('change', {
                         action: 'remove',
                         items: [item],
-                        index: result
+                        index: result,
+                        indices: [result]
                     });
                 }
                 return result;
