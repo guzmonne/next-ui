@@ -107,6 +107,14 @@
              * @returns Removed item's index, -1 if not found.
              */
             remove: function (item) {
+                if (argument.length > 1) {
+                    var self = this;
+                    var indices = [];
+                    nx.each(arguments, function (item) {
+                        indices.push(self.remove(item));
+                    });
+		    return indices;
+                }
                 var index = this.indexOf(item);
                 if (index >= 0) {
                     this._data.splice(index, 1);
