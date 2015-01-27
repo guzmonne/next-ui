@@ -107,20 +107,24 @@
              * @returns Removed item's index, -1 if not found.
              */
             remove: function (item) {
+                var self = this;
+                var remove = function (item) {
+                    var index = self.indexOf(item);
+                    if (index >= 0) {
+                        self._data.splice(index, 1);
+                        return index;
+                    } else {
+                        return -1;
+                    }
+                };
                 if (arguments.length > 1) {
-                    var self = this;
                     var i, indices = [];
                     for (i = arguments.length - 1; i >= 0; i--) {
-                        indices.unshift(self.remove(arguments[i]));
+                        indices.unshift(remove(arguments[i]));
                     }
                     return indices;
-                }
-                var index = this.indexOf(item);
-                if (index >= 0) {
-                    this._data.splice(index, 1);
-                    return index;
                 } else {
-                    return -1;
+                    return remove(item);
                 }
             },
             /**
