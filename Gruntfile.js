@@ -27,6 +27,9 @@ module.exports = function (grunt) {
         jshint: {
             base: {
                 src: srcFiles
+            },
+            options:{
+                jshintrc: true
             }
         },
         qunit: {
