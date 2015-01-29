@@ -4,6 +4,7 @@
     "maxerr"        : 100,    // Maximum error before stopping.
 
 
-    "loopfunc"      : true  // Allow functions to be defined within loops.
+    "loopfunc"      : true,  // Allow functions to be defined within loops.
+    "expr"          : true
 
 }
