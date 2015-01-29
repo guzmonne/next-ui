@@ -29,7 +29,7 @@ module.exports = function (grunt) {
                 src: srcFiles
             },
             options:{
-                jshintrc: true
+                jshintrc: ".jshintrc"
             }
         },
         qunit: {
