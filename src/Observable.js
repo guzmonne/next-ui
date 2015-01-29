@@ -33,6 +33,101 @@
                 }
 
                 return property;
+            },
+            /**
+             *
+             * @method watch
+             * @param target The target observable object.
+             * @param path The path to be watched.
+             * @param listener The callback function accepting arguments list: (path, newvalue, oldvalue).
+             * @static
+             */
+            watch: function (o, path, listener, context) {
+                var keys = path.split(".");
+                var iterate = function (parent, idx) {
+                    if (parent && idx < keys.length) {
+                        var key = keys[idx];
+                        var child = nx.path(parent, key);
+                        if (parent.watch) {
+                            var pathRest = keys.slice(idx + 1).join(".");
+                            var iter = iterate(child, idx + 1);
+                            var watch = parent.watch(key, function (pname, pnewvalue, poldvalue) {
+                                var newvalue = pathRest ? nx.path(pnewvalue, pathRest) : pnewvalue;
+                                var oldvalue = pathRest ? nx.path(poldvalue, pathRest) : poldvalue;
+                                listener.call(context || o, path, newvalue, oldvalue);
+                                if (pnewvalue !== child) {
+                                    iter && iter.release();
+                                    child = pnewvalue;
+                                    iter = iterate(child, idx + 1);
+                                }
+                            });
+                            return {
+                                release: function () {
+                                    iter && iter.release();
+                                    watch.release();
+                                }
+                            };
+                        } else if (child) {
+                            return iterate(child, idx + 1);
+                        }
+                    }
+                    return {
+                        release: nx.idle
+                    };
+                }
+                var iter = iterate(o, 0);
+                return {
+                    release: iter.release,
+                    affect: function () {
+                        var value = nx.path(o, path);
+                        listener.call(context || o, path, value, value);
+                    }
+                };
+            },
+            /**
+             *
+             * @method monitor
+             * @param target The target observable object.
+             * @param path The path list to be watched.
+             * @param listener The callback function accepting arguments list: (value1, value2, value3, ..., changed_path).
+             * @static
+             */
+            monitor: function (target, paths, monitor) {
+                if (!target || !paths || !monitor) {
+                    return;
+                }
+                // apply the cascading
+                var i, deps;
+                if (nx.is(paths, "String")) {
+                    deps = paths.replace(/\s/g, "").split(",");
+                } else {
+                    deps = paths;
+                }
+                var resources = [],
+                    vals = [];
+                var affect = function (key) {
+                    var values = vals.slice();
+                    values.push(key);
+                    monitor.apply(target, values);
+                };
+                for (i = 0; i < deps.length; i++) {
+                    (function (idx) {
+                        vals[idx] = nx.path(target, deps[idx]);
+                        var resource = Observable.watch(target, deps[idx], function (path, value) {
+                            vals[idx] = value;
+                            affect(deps[idx]);
+                        });
+                        resources.push(resource);
+                    })(i);
+                }
+                return {
+                    affect: affect,
+                    release: function () {
+                        while (resources.length) {
+                            resources.shift().release();
+                        }
+                    }
+                };
             }
         },
         methods: {

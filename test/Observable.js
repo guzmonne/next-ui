@@ -320,6 +320,72 @@ test('method watch*/unwatch', function () {
     equal(handler2, 0)
 });
 
+test("static watch", function () {
+    var expected = [{
+        test: "Change inner value",
+        path: "prop1.prop1",
+        nv: "hello",
+        ov: "hahah"
+    }, {
+        test: "Change outer value",
+        path: "prop1.prop1",
+        nv: "yeah",
+        ov: "hello"
+    }];
+    expect(expected.length);
+    var o = new observeObj1;
+    var prop1 = new observeObj1;
+    o.prop1(prop1);
+    var watch = nx.Observable.watch(o, "prop1.prop1", function (path, nv, ov) {
+        ok(path === expected[0].path && nv === expected[0].nv && ov === expected[0].ov, expected[0].test);
+        expected.shift();
+    });
+    // change inner value
+    prop1.prop1("hello");
+    // change outer value
+    prop1 = new observeObj1;
+    prop1.prop1("yeah");
+    o.prop1(prop1);
+    // release
+    watch.release();
+    prop1.prop1("Nothing happened");
+    o.prop1("Nothing happened either");
+});
+
+test("static monitor", function () {
+    var expected = [{
+        test: "Change inner value",
+        values: ["hello", "hahah", "hahah", "hahah", "prop1.prop1"]
+    }, {
+        test: "Change outer value",
+        values: ["hahah", "hahah", "hahah", "hahah", "prop1.prop1"]
+    }, {
+        test: "Change outer value",
+        values: ["hahah", "hahah", "hahah", "hahah", "prop1.prop2"]
+    }, {
+        test: "Change another inner value",
+        values: ["hahah", "hahah", "hahah", "yes", "prop2.prop2"]
+    }];
+    expect(expected.length);
+    var o = new observeObj1;
+    var prop1 = new observeObj1;
+    var prop2 = new observeObj1;
+    o.prop1(prop1);
+    o.prop2(prop2);
+    var monitor = nx.Observable.monitor(o, "prop1.prop1, prop1.prop2, prop2.prop1, prop2.prop2", function (v11, v12, v21, v22, path) {
+        deepEqual([v11, v12, v21, v22, path], expected[0].values, expected[0].test);
+        expected.shift();
+    });
+    // change inner value
+    prop1.prop1("hello");
+    o.prop1(new observeObj1);
+    prop2.prop2("yes");
+    // release
+    monitor.release();
+    prop1.prop1("Nothing happened");
+    o.prop1("Nothing happened either");
+});
+
 test('method notify*', function () {
     var handler1 = 0;
     var handler2 = 0;
