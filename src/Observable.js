@@ -43,8 +43,6 @@
              * @static
              */
             watch: function (o, path, listener, context) {
-                /*jshint -W030 */
-                /*jshint -W083 */
                 var keys = path.split(".");
                 var iterate = function (parent, idx) {
                     if (parent && idx < keys.length) {
