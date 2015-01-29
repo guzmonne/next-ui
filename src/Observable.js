@@ -1,3 +1,4 @@
+/*ignore jslint start*/
 (function (nx) {
     /**
      * @class Observable
@@ -74,7 +75,7 @@
                     return {
                         release: nx.idle
                     };
-                }
+                };
                 var iter = iterate(o, 0);
                 return {
                     release: iter.release,
@@ -618,3 +619,4 @@
     });
 
 })(nx);
+/*ignore jslint end*/
