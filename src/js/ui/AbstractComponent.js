@@ -111,7 +111,7 @@
                 if (content !== undefined) {
                     setProperty(comp, 'content', content, comp, owner);
                 }
-            } else if (view !== undefined) {
+            } else {
                 comp = new DOMComponent('text', view);
             }
 
