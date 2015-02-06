@@ -54,7 +54,7 @@
     }
 
     function createComponent(view, owner) {
-        if (view) {
+        if (view || view === 0) {
             var comp;
             if (nx.is(view, 'Array')) {
                 comp = new DOMComponent('fragment');
