@@ -156,7 +156,7 @@
                         nx.each(value, function (v) {
                             createComponent(v, this.owner()).attach(this);
                         }, this);
-                    } else if (value) {
+                    } else if (value || value === 0) {
                         createComponent(value, this.owner()).attach(this);
                     }
                 }
