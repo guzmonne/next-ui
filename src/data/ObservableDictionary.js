@@ -104,6 +104,66 @@
                     action: 'clear',
                     items: items
                 });
+            },
+            /**
+             * Apply a diff watcher, which handles each key-item-pair in the collection, to the dictionary.
+             *
+             * @method monitor
+             * @param handler lambda(key, item) returning a rollback method
+             * @return unwatcher A Object with unwatch method.
+             */
+            monitor: function (callback) {
+                var dict = this;
+                var resmgr = {
+                    map: {},
+                    get: function (key) {
+                        return resmgr.map[key];
+                    },
+                    set: function (key, res) {
+                        var old = resmgr.get(key);
+                        old && old();
+                        if (res) {
+                            resmgr.map[key] = res;
+                        } else {
+                            delete resmgr.map[key];
+                        }
+                    },
+                    release: function () {
+                        var key, map = resmgr.map;
+                        for (key in map) {
+                            map[key]();
+                        }
+                    }
+                };
+                var listener = dict.on("change", function (target, evt) {
+                    var i, item, key, res;
+                    switch (evt.action) {
+                    case "replace":
+                    case "add":
+                        for (i = 0; i < evt.items.length; i++) {
+                            item = evt.items[i];
+                            key = item.key();
+                            res = callback(key, item.value());
+                            resmgr.set(key, res);
+                        }
+                        break;
+                    case "remove":
+                    case "clear":
+                        for (i = 0; i < evt.items.length; i++) {
+                            resmgr.set(evt.items[i].key(), null);
+                        }
+                        break;
+                    }
+                });
+                dict.each(function (value, key) {
+                    resmgr.set(key, callback(key, value));
+                });
+                return {
+                    release: function () {
+                        resmgr.release();
+                        listener.release();
+                    }
+                };
             }
         }
     });

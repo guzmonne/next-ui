@@ -171,7 +171,10 @@
              * @param [context] {Object}
              */
             each: function (callback, context) {
-                nx.each(this._map, callback, context);
+                context = context || this;
+                nx.each(this._map, function (item, key) {
+                    callback.call(context, item.value(), key);
+                });
             },
             /**
              * @method toArray

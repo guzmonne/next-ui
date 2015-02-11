@@ -73,3 +73,32 @@ test('handle dict events', function () {
     dict1.setItem("a", 3);
     dict1.clear();
 });
+
+
+test("monitor", function () {
+    expect(5);
+    var dict = new nx.data.ObservableDictionary();
+    var dict1 = new nx.data.ObservableDictionary();
+    var dict2 = new nx.data.ObservableDictionary();
+    dict.setItem("dict1", dict1);
+    var watcher = dict.monitor(function (key, value) {
+        ok(key === "dict1" && value === dict1, "Exist pair processed");
+        var res = value.monitor(function (key, value) {
+            ok(key === "dict2" && value === dict2, "New pair processed");
+            return function () {
+                ok(true, "inner released");
+            };
+        });
+        return function () {
+            res.release();
+            ok(true, "outer released");
+        };
+    });
+    dict1.setItem("dict2", dict2);
+    watcher.release();
+    ok(dict.getItem("dict1") === dict1 && dict1.getItem("dict2") === dict2);
+    // not notify anything from here
+    dict.setItem("dict2", dict2);
+    dict1.removeItem("dict1");
+    dict2.setItem("dict", dict);
+});
