@@ -112,7 +112,18 @@
              * @param handler lambda(key, item) returning a rollback method
              * @return unwatcher A Object with unwatch method.
              */
-            monitor: function (callback) {
+            monitor: function (keys, callback) {
+                // check parameter list
+                if (typeof keys === "string" && keys.indexOf(",") >= 0 || Object.prototype.toString.call(keys) === "[object Array]") {
+                    if (typeof keys === "string") {
+                        keys = keys.replace(/\s/g, "").split(",");
+                    }
+                    return this._monitor(keys, callback);
+                }
+                if (typeof keys === "function") {
+                    callback = keys;
+                    keys = null;
+                }
                 var dict = this;
                 var resmgr = {
                     map: {},
@@ -120,6 +131,9 @@
                         return resmgr.map[key];
                     },
                     set: function (key, res) {
+                        if (keys && keys !== key) {
+                            return;
+                        }
                         var old = resmgr.get(key);
                         old && old();
                         if (res) {
@@ -133,6 +147,15 @@
                         for (key in map) {
                             map[key]();
                         }
+                    },
+                    callback: function (key, value) {
+                        if (keys) {
+                            if (keys === key) {
+                                return callback(value);
+                            }
+                        } else {
+                            return callback(key, value);
+                        }
                     }
                 };
                 var listener = dict.on("change", function (target, evt) {
@@ -143,7 +166,7 @@
                         for (i = 0; i < evt.items.length; i++) {
                             item = evt.items[i];
                             key = item.key();
-                            res = callback(key, item.value());
+                            res = resmgr.callback(key, item.value());
                             resmgr.set(key, res);
                         }
                         break;
@@ -156,7 +179,8 @@
                     }
                 });
                 dict.each(function (item, key) {
-                    resmgr.set(key, callback(key, item.value()));
+                    var res = resmgr.callback(key, item.value());
+                    resmgr.set(key, res);
                 });
                 return {
                     release: function () {
@@ -164,6 +188,32 @@
                         listener.release();
                     }
                 };
+            },
+            _monitor: function (keys, callback) {
+                var self = this;
+                var resmgr = {
+                    values: keys.map(function (key) {
+                        return self.getItem(key);
+                    }),
+                    affect: function () {
+                        callback.apply(self, resmgr.values);
+                    }
+                };
+                var listener = this.on("change", function (dict, evt) {
+                    var idx, affect = false;
+                    for (i = 0; i < evt.items.length; i++) {
+                        item = evt.items[i];
+                        key = item.key();
+                        idx = keys.indexOf(key);
+                        if (idx >= 0) {
+                            resmgr.values[idx] = item.value();
+                            affect = true;
+                        }
+                    }
+                    affect && resmgr.affect();
+                });
+                resmgr.affect();
+                return listener;
             }
         }
     });

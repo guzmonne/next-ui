@@ -102,3 +102,44 @@ test("monitor", function () {
     dict1.removeItem("dict1");
     dict2.setItem("dict", dict);
 });
+
+test("monitor key", function () {
+    var dict = new nx.data.ObservableDictionary();
+    var dict1 = new nx.data.ObservableDictionary();
+    var dict2 = new nx.data.ObservableDictionary();
+    var watcher = dict.monitor("dict1", function (value) {
+        ok(value === dict1, "Exist pair processed");
+    });
+    dict.setItem("dict1", dict1);
+    dict.setItem("dict2", dict2);
+    watcher.release();
+    // not notify anything from here
+    dict.setItem("dict1", dict2);
+});
+
+test("monitor keys", function () {
+    var dict = new nx.data.ObservableDictionary({
+        a: 1,
+        b: 2
+    });
+    var count = 0;
+    var watcher = dict.monitor(["a", "b"], function (a, b) {
+        sum = a + b;
+        count++;
+    });
+    ok(sum === 3 && count === 1);
+    dict.setItem("a", 10);
+    ok(sum === 12 && count === 2);
+    dict.setItem("b", 22);
+    ok(sum === 32 && count === 3);
+    dict.setItems({
+        a: -1,
+        b: 1
+    });
+    // FIXME is better to call only once
+    ok(sum === 0);
+    watcher.release();
+    // not notify anything from here
+    dict.setItem("a", 11);
+    ok(sum === 0);
+});
