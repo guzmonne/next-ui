@@ -173,7 +173,7 @@
             each: function (callback, context) {
                 context = context || this;
                 nx.each(this._map, function (item, key) {
-                    callback.call(context, item.value(), key);
+                    callback.call(context, item, key);
                 });
             },
             /**

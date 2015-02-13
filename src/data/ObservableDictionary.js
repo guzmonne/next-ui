@@ -155,8 +155,8 @@
                         break;
                     }
                 });
-                dict.each(function (value, key) {
-                    resmgr.set(key, callback(key, value));
+                dict.each(function (item, key) {
+                    resmgr.set(key, callback(key, item.value()));
                 });
                 return {
                     release: function () {
