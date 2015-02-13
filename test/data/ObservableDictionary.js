@@ -122,11 +122,13 @@ test("monitor keys", function () {
         a: 1,
         b: 2
     });
-    var count = 0;
+    var sum, count = 0;
     var watcher = dict.monitor(["a", "b"], function (a, b) {
         sum = a + b;
         count++;
     });
+    ok(!sum && count === 0);
+    watcher.affect();
     ok(sum === 3 && count === 1);
     dict.setItem("a", 10);
     ok(sum === 12 && count === 2);
