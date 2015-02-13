@@ -213,9 +213,9 @@
                     affect && resmgr.affect();
                 });
                 return {
-		    affect: resmgr.affect,
-		    release: listener.release
-		};
+                    affect: resmgr.affect,
+                    release: listener.release
+                };
             }
         }
     });
