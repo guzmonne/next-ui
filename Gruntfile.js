@@ -15,7 +15,8 @@ module.exports = function (grunt) {
         "src/data/ObservableObject.js",
         "src/data/ObservableCollection.js",
         "src/data/ObservableDictionary.js",
-        "src/data/Query.js"
+        "src/data/Query.js",
+	"src/data/SortedMap.js"
     ];
 
     grunt.initConfig({
