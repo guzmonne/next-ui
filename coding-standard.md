@@ -15,6 +15,8 @@ NeXt代码规范
         |--js
         |--less
       |--test
+        |--unittest
+        |--autotest
       |--tutorial
       |--.gitignore
       |--files.json
@@ -56,10 +58,12 @@ NeXt代码规范
 # 语法
 1. 所有语句单独一行，每一行单独语句结尾必须带分号。
 2. if/while/for等表达式必须带花括号并且换行。
+3. 定义类必须放在函数闭包里面。
+4. 尽量只写一重三元表达式。
 
 # 变量
 1. 闭包变量：闭包变量采用驼峰式命名。如：`var myValue`
-2. 方法参数：方法参数采用驼峰式命名。如：`function (param, args)`
+2. 方法参数：方法参数采用驼峰式命名。如：`function (inParameter, inArgs)`
 3. 局部变量：方法内的局部变量采用下划线加驼峰式命名。如：`var _myVar`
 
 # 方法
