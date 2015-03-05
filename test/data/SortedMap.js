@@ -81,3 +81,56 @@ test("setValue", function () {
     ok(smap.getValueAt(0) === "a" && smap.getValueAt(1) === "A");
     ok(smap.getValue("a") === "a" && smap.getValue("A") === "A");
 });
+
+test("setValueAt", function () {
+    var smap = new nx.data.SortedMap([{
+        key: "a",
+        value: "A"
+    }, {
+        key: "A",
+        value: "a"
+    }]);
+    smap.setValueAt(0, "a");
+    smap.setValueAt(1, "A");
+    ok(smap.length() === 2);
+    ok(smap.getKeyAt(0) === "a" && smap.indexOf(1) === "A");
+    ok(smap.indexOf("a") === 0 && smap.indexOf("A") === 1);
+    ok(smap.getValueAt(0) === "a" && smap.getValueAt(1) === "A");
+    ok(smap.getValue("a") === "a" && smap.getValue("A") === "A");
+});
+
+test("sort", function () {
+    var smap = new nx.data.SortedMap([{
+        key: "A",
+        value: "a"
+    }]);
+    smap.setValue("A", "A");
+    smap.add("a", "a");
+    smap.sort(function (key1, val1, key2, val2) {
+        return key1 < key2;
+    });
+    ok(smap.length() === 2);
+    ok(smap.getKeyAt(0) === "a" && smap.indexOf(1) === "A");
+    ok(smap.indexOf("a") === 0 && smap.indexOf("A") === 1);
+    ok(smap.getValueAt(0) === "a" && smap.getValueAt(1) === "A");
+    ok(smap.getValue("a") === "a" && smap.getValue("A") === "A");
+});
+
+test("toArray", function () {
+    var smap = new nx.data.SortedMap([{
+        key: "A",
+        value: "a"
+    }]);
+    smap.setValue("A", "A");
+    smap.add("a", "a");
+    smap.sort(function (key1, val1, key2, val2) {
+        return key1 < key2;
+    });
+    deepEqual(smap.toArray(), [{
+        key: "a",
+        value: "a"
+    }, {
+        key: "A",
+        value: "A"
+    }]);
+});
