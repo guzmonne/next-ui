@@ -8,13 +8,22 @@
     nx.define('nx.data.SortedMap', {
         mixins: nx.Observable,
         events: ['change'],
+        properties: {
+            /**
+             * The length of SortedMap.
+             * @property length
+             */
+            length: {
+                value: 0
+            }
+        },
         methods: {
             /**
              * Add or insert an value with specified key and index.
              * @method add
              * @param key Specified key.
-             * @param value The value.
-             * @param index (Optional) Specified index.
+             * @param value (Optional) The value, default undefined.
+             * @param index (Optional) Specified index, default append.
              * @return The created entry.
              */
             add: function (key, value, index) {
@@ -28,7 +37,7 @@
              * @param key The key of value attempt to be removed.
              * @return Removed value.
              */
-            remove: function () {
+            remove: function (key) {
                 var value;
                 // TODO
                 return value;
@@ -36,44 +45,33 @@
             /**
              * Remove value from SortedMap by index.
              * @method removeAt
-             * @param index... The index of value attempt to be removed.
+             * @param index The index of value attempt to be removed.
              * @return Removed value.
              */
-            removeAt: function () {
+            removeAt: function (index) {
                 var value;
                 // TODO
                 return value;
             },
             /**
-             * Change a key.
-             * @method setKey
-             * @param key The old key to be set.
-             * @param newkey The new key to be set.
+             * Get the key at specified index.
+             * @method getKeyAt
+             * @param index The index.
+             * @return The key, null if not exists.
              */
-            setKey: function (key, newkey) {
+            getKeyAt: function (index) {
                 // TODO
+                return null;
             },
             /**
-             * Get an entry with specified key.
-             * @method getEntry
-             * @param key The entry's key.
-             * @return The entry.
+             * Get the index of specified key.
+             * @method indexOf
+             * @param key The key.
+             * @return The index, -1 if not exists.
              */
-            getEntry: function (key) {
-                var entry;
+            indexOf: function (key) {
                 // TODO
-                return entry;
-            },
-            /**
-             * Get an entry with specified index.
-             * @method getEntryAt
-             * @param index The entry's index.
-             * @return Removed values.
-             */
-            getEntryAt: function (index) {
-                var entry;
-                // TODO
-                return entry;
+                return -1;
             },
             /**
              * Get a value with specified key.
@@ -123,11 +121,21 @@
             },
             /**
              * Sort the SortedMap with a comparer function.
-	     * @method sort
-	     * @param comparer A function expecting arguments: key1, value1, key2, value2
+             * @method sort
+             * @param comparer A function expecting arguments: key1, value1, key2, value2
              */
             sort: function (comparer) {
                 // TODO
+            },
+            /**
+             * Get array of key-value pairs of all entries.
+             * @method toArray
+             * @return An array, each item of which is an object with key and value property.
+             */
+            toArray: function () {
+                var array = [];
+                // TODO
+                return array;
             }
         }
     });
