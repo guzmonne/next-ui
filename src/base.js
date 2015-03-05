@@ -77,6 +77,7 @@ if (!Function.prototype.bind) {
      * @param context {Object} The context object which act as 'this'.
      */
     nx.each = function (target, callback, context) {
+        /* jshint -W014 */
         if (target && callback) {
             if (target.__each__) {
                 target.__each__(callback, context);
