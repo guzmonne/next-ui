@@ -35,26 +35,30 @@
                 return property;
             },
             /**
-             *
+             * This method in order to watch the change of specified path of specified target.
+             * @static
              * @method watch
              * @param target The target observable object.
              * @param path The path to be watched.
-             * @param listener The callback function accepting arguments list: (path, newvalue, oldvalue).
-             * @static
+             * @param callback The callback function accepting arguments list: (path, newvalue, oldvalue).
+             * @param context (Optional) The context which the callback will be called with.
+             * @return Resource stub object, with release and affect methods.
+             *  <p>release: unwatch the current watching.</p>
+             *  <p>affect: invoke the callback with current value immediately.</p>
              */
-            watch: function (o, path, listener, context) {
-                var keys = path.split(".");
+            watch: function (target, path, callback, context) {
+                var keys = (typeof path === "string" ? path.split(".") : path);
                 var iterate = function (parent, idx) {
                     if (parent && idx < keys.length) {
                         var key = keys[idx];
                         var child = nx.path(parent, key);
                         if (parent.watch) {
-                            var pathRest = keys.slice(idx + 1).join(".");
+                            var rkeys = keys.slice(idx + 1);
                             var iter = iterate(child, idx + 1);
                             var watch = parent.watch(key, function (pname, pnewvalue, poldvalue) {
-                                var newvalue = pathRest ? nx.path(pnewvalue, pathRest) : pnewvalue;
-                                var oldvalue = pathRest ? nx.path(poldvalue, pathRest) : poldvalue;
-                                listener.call(context || o, path, newvalue, oldvalue);
+                                var newvalue = nx.path(pnewvalue, rkeys);
+                                var oldvalue = nx.path(poldvalue, rkeys);
+                                callback.call(context || target, path, newvalue, oldvalue);
                                 if (pnewvalue !== child) {
                                     iter && iter.release();
                                     child = pnewvalue;
@@ -75,47 +79,47 @@
                         release: nx.idle
                     };
                 };
-                var iter = iterate(o, 0);
+                var iter = iterate(target, 0);
                 return {
                     release: iter.release,
                     affect: function () {
-                        var value = nx.path(o, path);
-                        listener.call(context || o, path, value, value);
+                        var value = nx.path(target, path);
+                        callback.call(context || target, path, value, value);
                     }
                 };
             },
             /**
-             *
+             * Monitor several paths of target at the same time, any value change of any path will trigger the callback with all values of all paths.
+             * @static
              * @method monitor
              * @param target The target observable object.
-             * @param path The path list to be watched.
-             * @param listener The callback function accepting arguments list: (value1, value2, value3, ..., changed_path).
-             * @static
+             * @param pathlist The path list to be watched.
+             * @param callback The callback function accepting arguments list: (value1, value2, value3, ..., changed_path, changed_old_value).
+             * @return Resource stub object, with release and affect methods.
+             *  <p>release: release the current monitoring.</p>
+             *  <p>affect: invoke the callback with current values immediately.</p>
              */
-            monitor: function (target, paths, monitor) {
-                if (!target || !paths || !monitor) {
+            monitor: function (target, pathlist, callback) {
+                if (!target || !pathlist || !callback) {
                     return;
                 }
                 // apply the cascading
-                var i, deps;
-                if (nx.is(paths, "String")) {
-                    deps = paths.replace(/\s/g, "").split(",");
-                } else {
-                    deps = paths;
-                }
-                var resources = [],
-                    vals = [];
-                var affect = function (key) {
-                    var values = vals.slice();
-                    values.push(key);
-                    monitor.apply(target, values);
+                var i, paths, resources, values;
+                paths = typeof pathlist === "string" ? pathlist.replace(/\s/g, "").split(",") : pathlist;
+                resources = [];
+                values = [];
+                var affect = function (path, oldvalue) {
+                    var args = values.slice();
+                    args.push(path, oldvalue);
+                    callback.apply(target, args);
                 };
-                for (i = 0; i < deps.length; i++) {
+                for (i = 0; i < paths.length; i++) {
                     (function (idx) {
-                        vals[idx] = nx.path(target, deps[idx]);
-                        var resource = Observable.watch(target, deps[idx], function (path, value) {
-                            vals[idx] = value;
-                            affect(deps[idx]);
+                        values[idx] = nx.path(target, paths[idx]);
+                        var resource = Observable.watch(target, paths[idx], function (path, value) {
+                            var oldvalue = values[idx];
+                            values[idx] = value;
+                            affect(paths[idx], oldvalue);
                         });
                         resources.push(resource);
                     })(i);

@@ -407,10 +407,15 @@ if (!Function.prototype.bind) {
     nx.path = function (target, path, value) {
         var result = target;
         if (path) {
-            var tokens = path.split('.'),
-                token,
-                i = 0,
-                length = tokens.length;
+            var tokens, token, length, i = 0;
+            if (typeof path === "string") {
+                tokens = path.split(".");
+            } else if (isArray(path)) {
+                tokens = path;
+            } else {
+                return target;
+            }
+            length = tokens.length;
 
             if (value === undefined) {
                 for (; result && i < length; i++) {
