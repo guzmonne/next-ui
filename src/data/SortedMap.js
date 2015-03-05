@@ -4,6 +4,7 @@
      * @class SortedMap
      * @namespace nx.data
      * @uses nx.Observable
+     * @param data The initial data of SortedMap, which is an array of objects with properties "key" and "value".
      */
     nx.define('nx.data.SortedMap', {
         mixins: nx.Observable,
@@ -18,6 +19,9 @@
             }
         },
         methods: {
+            init: function (data) {
+                // TODO
+            },
             /**
              * Add or insert an value with specified key and index.
              * @method add

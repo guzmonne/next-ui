@@ -81,9 +81,13 @@ if (!Function.prototype.bind) {
             if (target.__each__) {
                 target.__each__(callback, context);
             } else {
-                var length = target.length;
-                if (length >= 0) {
-                    for (var i = 0; i < length; i++) {
+                // FIXME maybe some other array-like things missed here
+                if (isArray(target) // normal Array
+                    || Object.prototype.toString.call(target) === "[object Arguments]" // array-like: arguments
+                    || nx.global.NodeList && target instanceof NodeList // array-like: NodeList
+                    || nx.global.HTMLCollection && target instanceof HTMLCollection // array-like: HTMLCollection
+                ) {
+                    for (var i = 0, length = target.length; i < length; i++) {
                         if (callback.call(context, target[i], i) === false) {
                             break;
                         }
