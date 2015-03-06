@@ -31,9 +31,8 @@
              * @return The created entry.
              */
             add: function (key, value, index) {
-                var entry;
                 // TODO
-                return entry;
+                return value;
             },
             /**
              * Remove value(s) from SortedMap by key(s).

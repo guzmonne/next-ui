@@ -25,7 +25,8 @@ test("add", function () {
     smap.add("A", "a");
     ok(smap.length() === 1);
     ok(smap.getValue("A") === "a");
-    smap.add("a", "A", 0);
+    var result = smap.add("a", "A", 0);
+    ok(result === "A");
     ok(smap.length() === 2);
     ok(smap.getKeyAt(0) === "a" && smap.indexOf(1) === "A");
     ok(smap.indexOf("a") === 0 && smap.indexOf("A") === 1);
@@ -41,7 +42,8 @@ test("remove", function () {
         key: "A",
         value: "a"
     }]);
-    smap.remove("a");
+    var result = smap.remove("a");
+    ok(result === "A");
     ok(smap.length() === 1);
     ok(smap.getKeyAt(0) === "A");
     ok(smap.indexOf("A") === 0);
@@ -57,7 +59,8 @@ test("removeAt", function () {
         key: "A",
         value: "a"
     }]);
-    smap.removeAt(0);
+    var result = smap.removeAt(0);
+    ok(result === "A");
     ok(smap.length() === 1);
     ok(smap.getKeyAt(0) === "A");
     ok(smap.indexOf("A") === 0);
@@ -73,8 +76,9 @@ test("setValue", function () {
         key: "A",
         value: "a"
     }]);
-    smap.setValue("a", "a");
-    smap.setValue("A", "A");
+    var result1 = smap.setValue("a", "a");
+    var result2 = smap.setValue("A", "A");
+    ok(result1 === "a" && result2 === "A");
     ok(smap.length() === 2);
     ok(smap.getKeyAt(0) === "a" && smap.indexOf(1) === "A");
     ok(smap.indexOf("a") === 0 && smap.indexOf("A") === 1);
@@ -90,8 +94,9 @@ test("setValueAt", function () {
         key: "A",
         value: "a"
     }]);
-    smap.setValueAt(0, "a");
-    smap.setValueAt(1, "A");
+    var result1 = smap.setValueAt(0, "a");
+    var result2 = smap.setValueAt(1, "A");
+    ok(result1 === "a" && result2 === "A");
     ok(smap.length() === 2);
     ok(smap.getKeyAt(0) === "a" && smap.indexOf(1) === "A");
     ok(smap.indexOf("a") === 0 && smap.indexOf("A") === 1);
@@ -132,5 +137,86 @@ test("toArray", function () {
     }, {
         key: "A",
         value: "A"
+    }]);
+});
+
+/*
+ * Events tests start here
+ */
+
+test("event:add", function () {
+    var events = [];
+    var smap = new nx.data.SortedMap();
+    smap.on("change", function (sender, evt) {
+        events.push(evt);
+    });
+    smap.add("A", "a");
+    smap.add("a", "A", 0);
+    deepEqual(events, [{
+        action: "add",
+        index: 0,
+        key: "A",
+        value: "a"
+    }, {
+        action: "add",
+        index: 0,
+        key: "a",
+        value: "A"
+    }]);
+});
+
+test("event:remove", function () {
+    var events = [];
+    var smap = new nx.data.SortedMap([{
+        key: "a",
+        value: "A"
+    }, {
+        key: "A",
+        value: "a"
+    }]);
+    smap.on("change", function (sender, evt) {
+        events.push(evt);
+    });
+    smap.removeAt(0);
+    smap.remove("A");
+    deepEqual(events, [{
+        action: "remove",
+        index: 0,
+        key: "a",
+        value: "A"
+    }, {
+        action: "remove",
+        index: 0,
+        key: "A",
+        value: "a"
+    }]);
+});
+
+test("event:set", function () {
+    var events = [];
+    var smap = new nx.data.SortedMap([{
+        key: "a",
+        value: "a"
+    }, {
+        key: "A",
+        value: "A"
+    }]);
+    smap.on("change", function (sender, evt) {
+        events.push(evt);
+    });
+    smap.setValueAt(0, "A");
+    smap.setValue("A", "a");
+    deepEqual(events, [{
+        action: "set",
+        index: 0,
+        key: "a",
+        value: "A",
+        former: "a"
+    }, {
+        action: "set",
+        index: 1,
+        key: "A",
+        value: "a",
+        former: "A"
     }]);
 });
