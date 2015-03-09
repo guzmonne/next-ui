@@ -22,14 +22,11 @@
         },
         methods: {
             init: function (data) {
+                data = data || [];
                 var b = this.__validateData(data);
                 if (b) {
-                    this._data = data || [];
+                    this._data = data;
                     this._map = {};
-                    //set default _comparer
-                    this._comparer = function (a, b) {
-                        return (a.key > b.key) ? 1 : ((b.key > a.key) ? -1 : 0);
-                    }
 
                     //init _map
                     var self = this;
@@ -38,9 +35,6 @@
                         map[item.key] = item;
                     });
 
-
-                    //init order
-                    this.sort();
                 } else {
                     throw Error('init data are invalid!');
                 }
@@ -75,7 +69,6 @@
                 };
                 this._map[key] = item;
                 this._data.splice(index, 0, item);
-                this.sort();
                 return value;
             },
             /**
@@ -233,11 +226,7 @@
              * @param comparer A function expecting arguments: key1, value1, key2, value2
              */
             sort: function (comparer) {
-                comparer = comparer || this._comparer;
-
                 this._data.sort(comparer);
-
-                this._comparer = comparer;
             },
             /**
              * Get array of key-value pairs of all entries.
