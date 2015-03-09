@@ -141,6 +141,29 @@ test("toArray", function () {
 });
 
 /*
+ * Properties tests start here
+ */
+
+test("property:length", function () {
+    expect(3);
+    var smap = new nx.data.SortedMap([{
+        key: "A",
+        value: "A"
+    }]);
+    smap.watch("length", function (pname, pvalue) {
+        ok(true);
+    });
+    smap.setValue("A", "a");
+    smap.add("a", "a", 0);
+    smap.setValueAt(0, "A");
+    smap.remove("A");
+    smap.removeAt(0);
+    smap.sort(function (key1, val1, key2, val2) {
+        return key1 < key2;
+    });
+});
+
+/*
  * Events tests start here
  */
 
