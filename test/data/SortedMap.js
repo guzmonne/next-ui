@@ -14,7 +14,7 @@ test("init with data", function () {
         value: "a"
     }]);
     ok(smap.length() === 2);
-    ok(smap.getKeyAt(0) === "a" && smap.indexOf(1) === "A");
+    ok(smap.getKeyAt(0) === "a" && smap.getKeyAt(1) === "A");
     ok(smap.indexOf("a") === 0 && smap.indexOf("A") === 1);
     ok(smap.getValueAt(0) === "A" && smap.getValueAt(1) === "a");
     ok(smap.getValue("a") === "A" && smap.getValue("A") === "a");
@@ -28,7 +28,7 @@ test("add", function () {
     var result = smap.add("a", "A", 0);
     ok(result === "A");
     ok(smap.length() === 2);
-    ok(smap.getKeyAt(0) === "a" && smap.indexOf(1) === "A");
+    ok(smap.getKeyAt(0) === "a" && smap.getKeyAt(1) === "A");
     ok(smap.indexOf("a") === 0 && smap.indexOf("A") === 1);
     ok(smap.getValueAt(0) === "A" && smap.getValueAt(1) === "a");
     ok(smap.getValue("a") === "A" && smap.getValue("A") === "a");
@@ -80,7 +80,7 @@ test("setValue", function () {
     var result2 = smap.setValue("A", "A");
     ok(result1 === "a" && result2 === "A");
     ok(smap.length() === 2);
-    ok(smap.getKeyAt(0) === "a" && smap.indexOf(1) === "A");
+    ok(smap.getKeyAt(0) === "a" && smap.getKeyAt(1) === "A");
     ok(smap.indexOf("a") === 0 && smap.indexOf("A") === 1);
     ok(smap.getValueAt(0) === "a" && smap.getValueAt(1) === "A");
     ok(smap.getValue("a") === "a" && smap.getValue("A") === "A");
@@ -98,7 +98,7 @@ test("setValueAt", function () {
     var result2 = smap.setValueAt(1, "A");
     ok(result1 === "a" && result2 === "A");
     ok(smap.length() === 2);
-    ok(smap.getKeyAt(0) === "a" && smap.indexOf(1) === "A");
+    ok(smap.getKeyAt(0) === "a" && smap.getKeyAt(1) === "A");
     ok(smap.indexOf("a") === 0 && smap.indexOf("A") === 1);
     ok(smap.getValueAt(0) === "a" && smap.getValueAt(1) === "A");
     ok(smap.getValue("a") === "a" && smap.getValue("A") === "A");
@@ -115,7 +115,7 @@ test("sort", function () {
         return key1 < key2;
     });
     ok(smap.length() === 2);
-    ok(smap.getKeyAt(0) === "a" && smap.indexOf(1) === "A");
+    ok(smap.getKeyAt(0) === "a" && smap.getKeyAt(1) === "A");
     ok(smap.indexOf("a") === 0 && smap.indexOf("A") === 1);
     ok(smap.getValueAt(0) === "a" && smap.getValueAt(1) === "A");
     ok(smap.getValue("a") === "a" && smap.getValue("A") === "A");
