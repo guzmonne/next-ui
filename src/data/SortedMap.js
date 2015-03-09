@@ -95,7 +95,7 @@
                         this._data.splice(idx, 1);
                         delete this._map[key];
                     } else {
-                        throw 'key:' + key + ' has been found in the _map but not exists in the _data!';
+                        throw 'key:"' + key + '" has been found in the _map but not exists in the _data!';
                     }
                 }
 
@@ -108,20 +108,38 @@
              * @return Removed value.
              */
             removeAt: function (index) {
-                var value, item;
+                var value, item = this.__getItemAt(index);
 
-                var sliceArgs = [index, index + 1];
-                if (index === -1) {
-                    sliceArgs.splice(-1, 1);
-                }
-                var sliceArray = Array.prototype.slice.apply(this._data, sliceArgs);
-                if (sliceArray.length === 1) {
-                    item = sliceArray[0];
+                if (item !== undefined) {
+                    value = item.value;
                     this._data.splice(index, 1);
                     delete this._map[item.key];
                 }
 
                 return value;
+            },
+            /**
+             * get the item of this._data by index
+             * @param index
+             * @returns {*}
+             * @private
+             */
+            __getItemAt: function (index) {
+                var item;
+                if (index > -1) {
+                    item = this._data[index];
+                } else {
+                    var sliceArgs = [index, index + 1];
+                    if (index === -1) {
+                        sliceArgs.splice(-1, 1);
+                    }
+                    var sliceArray = Array.prototype.slice.apply(this._data, sliceArgs);
+                    if (sliceArray.length === 1) {
+                        item = sliceArray[0];
+                    }
+                }
+
+                return item;
             },
             /**
              * Get the key at specified index.
@@ -130,7 +148,7 @@
              * @return The key, null if not exists.
              */
             getKeyAt: function (index) {
-                var item = this._data[index], key;
+                var item = this.__getItemAt(index), key;
                 if (item) {
                     key = item.key;
                 }
@@ -170,8 +188,14 @@
              * @return The new value.
              */
             setValue: function (key, value) {
-                var value;
-                // TODO
+                var item = this._map[key];
+                if (item !== undefined) {
+                    item.value = value;
+                } else {
+                    value = false;
+                    throw Error('the key:"' + key + '" dos not exists!');
+                }
+
                 return value;
             },
             /**
@@ -181,8 +205,12 @@
              * @return The value.
              */
             getValueAt: function (index) {
-                var value;
-                // TODO
+                var value, item = this.__getItemAt(index);
+
+                if (item !== undefined) {
+                    value = item.value;
+                }
+
                 return value;
             },
             /**
@@ -193,8 +221,10 @@
              * @return The new value.
              */
             setValueAt: function (index, value) {
-                var value;
-                // TODO
+                var item = this.__getItemAt(index);
+                if (item !== undefined) {
+                    item.value = value;
+                }
                 return value;
             },
             /**
@@ -215,9 +245,7 @@
              * @return An array, each item of which is an object with key and value property.
              */
             toArray: function () {
-                var array = [];
-                // TODO
-                return array;
+                return this._data;
             }
         }
     });
