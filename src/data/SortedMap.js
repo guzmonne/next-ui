@@ -226,7 +226,9 @@
              * @param comparer A function expecting arguments: key1, value1, key2, value2
              */
             sort: function (comparer) {
-                this._data.sort(comparer);
+                this._data.sort(function (item1, item2) {
+                    return comparer.call(null, item1.key, item1.value, item2.key, item2.value);
+                });
             },
             /**
              * Get array of key-value pairs of all entries.
