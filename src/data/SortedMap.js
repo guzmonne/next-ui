@@ -15,12 +15,50 @@
              * @property length
              */
             length: {
-                value: 0
+                get: function () {
+                    return this._data.length;
+                }
             }
         },
         methods: {
             init: function (data) {
-                // TODO
+                var b = this.__validateData(data);
+                if (b) {
+                    this._data = data || [];
+                    this._map = {};
+                    //set default _comparer
+                    this._comparer = function (a, b) {
+                        return (a.key > b.key) ? 1 : ((b.key > a.key) ? -1 : 0);
+                    }
+
+                    //init _map
+                    var self = this;
+                    nx.each(data, function (item) {
+                        var map = self._map;
+                        map[item.key] = item;
+                    });
+
+
+                    //init order
+                    this.sort();
+                } else {
+                    throw Error('init data are invalid!');
+                }
+            },
+            __validateData: function (data) {
+                var b = true;
+                if (!nx.is(data, 'Array')) {
+                    b = false;
+                } else {
+                    nx.each(data, function (item) {
+                        if (item.key === undefined || item.value === undefined) {
+                            b = false;
+                            return false;
+                        }
+                    });
+                }
+
+                return b;
             },
             /**
              * Add or insert an value with specified key and index.
@@ -31,7 +69,13 @@
              * @return The created entry.
              */
             add: function (key, value, index) {
-                // TODO
+                var item = {
+                    key: key,
+                    value: value
+                };
+                this._map[key] = item;
+                this._data.splice(index, 0, item);
+                this.sort();
                 return value;
             },
             /**
@@ -41,8 +85,20 @@
              * @return Removed value.
              */
             remove: function (key) {
-                var value;
-                // TODO
+                var value, item;
+
+                item = this._map[key];
+                if (item !== undefined) {
+                    var idx = this._data.indexOf(item);
+                    if (idx > -1) {
+                        value = item.value;
+                        this._data.splice(idx, 1);
+                        delete this._map[key];
+                    } else {
+                        throw 'key:' + key + ' has been found in the _map but not exists in the _data!';
+                    }
+                }
+
                 return value;
             },
             /**
@@ -52,8 +108,19 @@
              * @return Removed value.
              */
             removeAt: function (index) {
-                var value;
-                // TODO
+                var value, item;
+
+                var sliceArgs = [index, index + 1];
+                if (index === -1) {
+                    sliceArgs.splice(-1, 1);
+                }
+                var sliceArray = Array.prototype.slice.apply(this._data, sliceArgs);
+                if (sliceArray.length === 1) {
+                    item = sliceArray[0];
+                    this._data.splice(index, 1);
+                    delete this._map[item.key];
+                }
+
                 return value;
             },
             /**
@@ -63,8 +130,11 @@
              * @return The key, null if not exists.
              */
             getKeyAt: function (index) {
-                // TODO
-                return null;
+                var item = this._data[index], key;
+                if (item) {
+                    key = item.key;
+                }
+                return key;
             },
             /**
              * Get the index of specified key.
@@ -73,8 +143,11 @@
              * @return The index, -1 if not exists.
              */
             indexOf: function (key) {
-                // TODO
-                return -1;
+                var item = this._map[key], idx = -1;
+                if (item !== undefined) {
+                    idx = this._data.indexOf(item);
+                }
+                return idx;
             },
             /**
              * Get a value with specified key.
@@ -83,8 +156,10 @@
              * @return The value.
              */
             getValue: function (key) {
-                var value;
-                // TODO
+                var item = this._map[key], value;
+                if (item !== undefined) {
+                    value = item.value;
+                }
                 return value;
             },
             /**
@@ -128,7 +203,11 @@
              * @param comparer A function expecting arguments: key1, value1, key2, value2
              */
             sort: function (comparer) {
-                // TODO
+                comparer = comparer || this._comparer;
+
+                this._data.sort(comparer);
+
+                this._comparer = comparer;
             },
             /**
              * Get array of key-value pairs of all entries.
