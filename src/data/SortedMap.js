@@ -68,6 +68,9 @@
                     value: value
                 };
                 this._map[key] = item;
+                if (index === undefined) {
+                    index = this._data.length;
+                }
                 this._data.splice(index, 0, item);
                 return value;
             },
@@ -114,7 +117,7 @@
             /**
              * get the item of this._data by index
              * @param index
-             * @returns {*}
+             * @returns {Object} item
              * @private
              */
             __getItemAt: function (index) {
