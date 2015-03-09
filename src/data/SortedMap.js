@@ -33,9 +33,9 @@
 
                     //init _map
                     var self = this;
-                    nx.each(data, function (d) {
+                    nx.each(data, function (item) {
                         var map = self._map;
-                        map[d.key] = d;
+                        map[item.key] = item;
                     });
 
 
@@ -50,8 +50,8 @@
                 if (!nx.is(data, 'Array')) {
                     b = false;
                 } else {
-                    nx.each(data, function (data) {
-                        if (data.key === undefined || data.value === undefined) {
+                    nx.each(data, function (item) {
+                        if (item.key === undefined || item.value === undefined) {
                             b = false;
                             return false;
                         }
@@ -69,12 +69,12 @@
              * @return The created entry.
              */
             add: function (key, value, index) {
-                var obj = {
+                var item = {
                     key: key,
                     value: value
                 };
-                this._map[key] = obj;
-                this._data.splice(index, 0, obj);
+                this._map[key] = item;
+                this._data.splice(index, 0, item);
                 this.sort();
                 return value;
             },
@@ -85,12 +85,13 @@
              * @return Removed value.
              */
             remove: function (key) {
-                var value;
+                var value, item;
 
-                value = this._map[key];
-                if (value !== undefined) {
-                    var idx = this._data.indexOf(value);
+                item = this._map[key];
+                if (item !== undefined) {
+                    var idx = this._data.indexOf(item);
                     if (idx > -1) {
+                        value = item.value;
                         this._data.splice(idx, 1);
                         delete this._map[key];
                     } else {
@@ -107,7 +108,7 @@
              * @return Removed value.
              */
             removeAt: function (index) {
-                var value;
+                var value, item;
 
                 var sliceArgs = [index, index + 1];
                 if (index === -1) {
@@ -115,9 +116,9 @@
                 }
                 var sliceArray = Array.prototype.slice.apply(this._data, sliceArgs);
                 if (sliceArray.length === 1) {
-                    value = sliceArray[0];
+                    item = sliceArray[0];
                     this._data.splice(index, 1);
-                    delete this._map[value.key];
+                    delete this._map[item.key];
                 }
 
                 return value;
@@ -129,9 +130,9 @@
              * @return The key, null if not exists.
              */
             getKeyAt: function (index) {
-                var value = this._data[index], key;
-                if (value) {
-                    key = value.key;
+                var item = this._data[index], key;
+                if (item) {
+                    key = item.key;
                 }
                 return key;
             },
@@ -142,8 +143,11 @@
              * @return The index, -1 if not exists.
              */
             indexOf: function (key) {
-                // TODO
-                return -1;
+                var item = this._map[key], idx = -1;
+                if (item !== undefined) {
+                    idx = this._data.indexOf(item);
+                }
+                return idx;
             },
             /**
              * Get a value with specified key.
@@ -152,8 +156,10 @@
              * @return The value.
              */
             getValue: function (key) {
-                var value;
-                // TODO
+                var item = this._map[key], value;
+                if (item !== undefined) {
+                    value = item.value;
+                }
                 return value;
             },
             /**
