@@ -22,14 +22,11 @@
         },
         methods: {
             init: function (data) {
+                data = data || [];
                 var b = this.__validateData(data);
                 if (b) {
-                    this._data = data || [];
+                    this._data = data;
                     this._map = {};
-                    //set default _comparer
-                    this._comparer = function (a, b) {
-                        return (a.key > b.key) ? 1 : ((b.key > a.key) ? -1 : 0);
-                    }
 
                     //init _map
                     var self = this;
@@ -38,9 +35,6 @@
                         map[item.key] = item;
                     });
 
-
-                    //init order
-                    this.sort();
                 } else {
                     throw Error('init data are invalid!');
                 }
@@ -74,8 +68,10 @@
                     value: value
                 };
                 this._map[key] = item;
+                if (index === undefined) {
+                    index = this._data.length;
+                }
                 this._data.splice(index, 0, item);
-                this.sort();
                 return value;
             },
             /**
@@ -95,7 +91,7 @@
                         this._data.splice(idx, 1);
                         delete this._map[key];
                     } else {
-                        throw 'key:' + key + ' has been found in the _map but not exists in the _data!';
+                        throw 'key:"' + key + '" has been found in the _map but not exists in the _data!';
                     }
                 }
 
@@ -108,20 +104,38 @@
              * @return Removed value.
              */
             removeAt: function (index) {
-                var value, item;
+                var value, item = this.__getItemAt(index);
 
-                var sliceArgs = [index, index + 1];
-                if (index === -1) {
-                    sliceArgs.splice(-1, 1);
-                }
-                var sliceArray = Array.prototype.slice.apply(this._data, sliceArgs);
-                if (sliceArray.length === 1) {
-                    item = sliceArray[0];
+                if (item !== undefined) {
+                    value = item.value;
                     this._data.splice(index, 1);
                     delete this._map[item.key];
                 }
 
                 return value;
+            },
+            /**
+             * get the item of this._data by index
+             * @param index
+             * @returns {Object} item
+             * @private
+             */
+            __getItemAt: function (index) {
+                var item;
+                if (index > -1) {
+                    item = this._data[index];
+                } else {
+                    var sliceArgs = [index, index + 1];
+                    if (index === -1) {
+                        sliceArgs.splice(-1, 1);
+                    }
+                    var sliceArray = Array.prototype.slice.apply(this._data, sliceArgs);
+                    if (sliceArray.length === 1) {
+                        item = sliceArray[0];
+                    }
+                }
+
+                return item;
             },
             /**
              * Get the key at specified index.
@@ -130,7 +144,7 @@
              * @return The key, null if not exists.
              */
             getKeyAt: function (index) {
-                var item = this._data[index], key;
+                var item = this.__getItemAt(index), key;
                 if (item) {
                     key = item.key;
                 }
@@ -170,8 +184,14 @@
              * @return The new value.
              */
             setValue: function (key, value) {
-                var value;
-                // TODO
+                var item = this._map[key];
+                if (item !== undefined) {
+                    item.value = value;
+                } else {
+                    value = false;
+                    throw Error('the key:"' + key + '" dos not exists!');
+                }
+
                 return value;
             },
             /**
@@ -181,8 +201,12 @@
              * @return The value.
              */
             getValueAt: function (index) {
-                var value;
-                // TODO
+                var value, item = this.__getItemAt(index);
+
+                if (item !== undefined) {
+                    value = item.value;
+                }
+
                 return value;
             },
             /**
@@ -193,8 +217,10 @@
              * @return The new value.
              */
             setValueAt: function (index, value) {
-                var value;
-                // TODO
+                var item = this.__getItemAt(index);
+                if (item !== undefined) {
+                    item.value = value;
+                }
                 return value;
             },
             /**
@@ -203,11 +229,9 @@
              * @param comparer A function expecting arguments: key1, value1, key2, value2
              */
             sort: function (comparer) {
-                comparer = comparer || this._comparer;
-
-                this._data.sort(comparer);
-
-                this._comparer = comparer;
+                this._data.sort(function (item1, item2) {
+                    return comparer.call(null, item1.key, item1.value, item2.key, item2.value);
+                });
             },
             /**
              * Get array of key-value pairs of all entries.
@@ -215,9 +239,7 @@
              * @return An array, each item of which is an object with key and value property.
              */
             toArray: function () {
-                var array = [];
-                // TODO
-                return array;
+                return this._data;
             }
         }
     });
