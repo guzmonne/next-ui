@@ -236,12 +236,12 @@ test("event:set", function () {
         index: 0,
         key: "a",
         value: "A",
-        former: "a"
+        oldValue: "a"
     }, {
         action: "set",
         index: 1,
         key: "A",
         value: "a",
-        former: "A"
+        oldValue: "A"
     }], "Events happened");
 });

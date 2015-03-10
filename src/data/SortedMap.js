@@ -78,6 +78,13 @@
                     index = this._data.length;
                 }
                 this._data.splice(index, 0, item);
+                this.notify('length');
+                this.fire('change', {
+                    action: "add",
+                    index: index,
+                    key: key,
+                    value: value
+                });
                 return value;
             },
             /**
@@ -96,6 +103,13 @@
                         value = item.value;
                         this._data.splice(idx, 1);
                         delete this._map[key];
+                        this.notify('length');
+                        this.fire('change', {
+                            action: "remove",
+                            index: idx,
+                            key: key,
+                            value: value
+                        });
                     } else {
                         throw 'key:"' + key + '" has been found in the _map but not exists in the _data!';
                     }
@@ -116,6 +130,13 @@
                     value = item.value;
                     this._data.splice(index, 1);
                     delete this._map[item.key];
+                    this.notify('length');
+                    this.fire('change', {
+                        action: "remove",
+                        index: index,
+                        key: item.key,
+                        value: value
+                    });
                 }
 
                 return value;
@@ -190,7 +211,16 @@
             setValue: function (key, value) {
                 var item = this._map[key];
                 if (item !== undefined) {
+                    var oldValue = item.value;
+                    var idx = this._data.indexOf(item);
                     item.value = value;
+                    this.fire('change', {
+                        action: "set",
+                        index: idx,
+                        key: key,
+                        value: value,
+                        oldValue: oldValue
+                    });
                 } else {
                     value = false;
                     throw Error('the key:"' + key + '" dos not exists!');
@@ -223,7 +253,15 @@
             setValueAt: function (index, value) {
                 var item = this.__getItemAt(index);
                 if (item !== undefined) {
+                    var oldValue = item.value;
                     item.value = value;
+                    this.fire('change', {
+                        action: "set",
+                        index: index,
+                        key: item.key,
+                        value: value,
+                        oldValue: oldValue
+                    });
                 }
                 return value;
             },
