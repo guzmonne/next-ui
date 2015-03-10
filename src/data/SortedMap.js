@@ -39,6 +39,12 @@
                     throw Error('init data are invalid!');
                 }
             },
+            /**
+             * validate the init args
+             * @param data
+             * @returns {boolean}
+             * @private
+             */
             __validateData: function (data) {
                 var b = true;
                 if (!nx.is(data, 'Array')) {
@@ -116,7 +122,7 @@
             },
             /**
              * get the item of this._data by index
-             * @param index
+             * @param index Support negative number
              * @returns {Object} item
              * @private
              */
@@ -130,9 +136,7 @@
                         sliceArgs.splice(-1, 1);
                     }
                     var sliceArray = Array.prototype.slice.apply(this._data, sliceArgs);
-                    if (sliceArray.length === 1) {
-                        item = sliceArray[0];
-                    }
+                    item = sliceArray[0];
                 }
 
                 return item;
