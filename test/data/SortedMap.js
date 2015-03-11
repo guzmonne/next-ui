@@ -142,6 +142,53 @@ test("toArray", function () {
     }], "Returned array");
 });
 
+test("Value types", function () {
+    var map = {
+        Object1: {
+            name: "obj1"
+        },
+        Object2: {
+            name: "obj2"
+        },
+        Null: null,
+        Undefined: undefined,
+        String: "Hello",
+        BlankString: "",
+        Number: 10,
+        NumberZero: 0,
+        Array1: ["arr1"],
+        Array2: ["arr2"],
+        EmptyArray: []
+    };
+    var smap = new nx.data.SortedMap();
+    nx.each(map, function (value, key) {
+        smap.add(key, value);
+        ok(smap.getValue(key) === value, "Value stored correctly with type: " + key);
+    });
+    nx.each(map, function (value, key) {
+        var result = smap.remove(key);
+        ok(result === value, "Value removed correctly with type: " + key);
+    });
+});
+
+test("Key types", function () {
+    var keys = [null, undefined, "", "string", arguments.callee, 0, 10, [],
+        [], {}, {}
+    ];
+    var values = [];
+    nx.each(keys, function () {
+        values.push(nx.uuid());
+    });
+    var smap = new nx.data.SortedMap();
+    nx.each(keys, function (key, index) {
+        smap.add(key, values[index]);
+        ok(smap.getKeyAt(index) === key, "Key type supported: " + Object.prototype.toString.call(key) + " " + JSON.stringify(key));
+    });
+    nx.each(keys, function (key, index) {
+        ok(smap.getValue(key) === values[index], "Value stored with key type: " + Object.prototype.toString.call(key) + " " + JSON.stringify(key));
+    });
+});
+
 /*
  * Properties tests start here
  */
