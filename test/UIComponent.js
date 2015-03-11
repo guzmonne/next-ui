@@ -143,6 +143,37 @@ nx.define("qw.template", nx.ui.Component, {
     }
 });
 
+nx.define("qw.template_dict", nx.ui.Component, {
+    view: [{
+        tag: 'ul',
+        name: 'test',
+        props: {
+            template: [{
+                tag: 'li',
+                props: {
+                    style: 'color:red'
+                },
+                content: '{key}'
+            }, {
+                tag: 'li',
+                content: '{value}'
+            }],
+            items: '{#items}'
+
+        }
+    }],
+    properties: {
+        items: null
+    },
+    methods: {
+        refresh: function () {
+            var tmp = this.items();
+            this.items(null);
+            this.items(tmp);
+        }
+    }
+});
+
 function compareHTML(actual, expect) {
     if (!nx.is(actual, 'String')) {
         if (nx.is(actual.view, 'Function')) {
@@ -599,6 +630,37 @@ test('template-ObservableCollection-clear', function () {
     equal(obj.resolve('test').resolve('@root').$dom.childElementCount, 0, "check dom");
     obj.destroy();
 })
+
+test('template-ObservableDictionary', function () {
+    var obj = new qw.template_dict();
+    var data = new nx.data.ObservableDictionary({
+        a: 1,
+        b: 2,
+        c: 3
+    });
+    obj.attach(app);
+    obj.items(data);
+    var templateContainer = obj.resolve('test').content();
+    compareHTML(templateContainer.getItem(0).content().getItem(0), '<li style="color:red">a</li>', "Bound key");
+    compareHTML(templateContainer.getItem(0).content().getItem(1), '<li>1</li>', "Bound value");
+    equal(templateContainer.count(), 3, "check template count");
+    equal(obj.resolve('test').resolve('@root').$dom.childElementCount, 6, "check dom count");
+    data.setItem("d", 4);
+    compareHTML(templateContainer.getItem(3).content().getItem(0), '<li style="color:red">d</li>', "Bound key of new item");
+    compareHTML(templateContainer.getItem(3).content().getItem(1), '<li>4</li>', "Bound value of new item");
+    equal(templateContainer.count(), 4, "check template count after add");
+    equal(obj.resolve('test').resolve('@root').$dom.childElementCount, 8, "check dom count after add");
+    data.removeItem("c");
+    compareHTML(templateContainer.getItem(2).content().getItem(0), '<li style="color:red">d</li>', "Bound key after remove");
+    compareHTML(templateContainer.getItem(2).content().getItem(1), '<li>4</li>', "Bound value after remove");
+    equal(templateContainer.count(), 3, "check template count after remove");
+    equal(obj.resolve('test').resolve('@root').$dom.childElementCount, 6, "check dom count after remove");
+    data.setItem("d", 3);
+    compareHTML(templateContainer.getItem(2).content().getItem(1), '<li>3</li>', "Bound value after set");
+    equal(templateContainer.count(), 3, "check template count after set");
+    equal(obj.resolve('test').resolve('@root').$dom.childElementCount, 6, "check dom count after set");
+    obj.destroy();
+});
 
 
 var numsObj = nx.define(nx.Observable, {

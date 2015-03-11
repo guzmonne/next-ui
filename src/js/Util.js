@@ -25,6 +25,41 @@
     var stylePropCache = {};
     var styleNameCache = {};
 
+    nx.ready = function (clz) {
+        var callback;
+        if (typeof clz === "string") {
+            clz = nx.path(global, clz);
+        }
+        if (typeof clz === "function") {
+            if (clz.__classId__) {
+                var App = nx.define(nx.ui.Application, {
+                    properties: {
+                        comp: {
+                            value: function () {
+                                return new clz();
+                            }
+                        }
+                    },
+                    methods: {
+                        start: function () {
+                            this.comp().attach(this);
+                        },
+                        stop: function () {
+                            this.comp().detach(this);
+                        }
+                    }
+                });
+                callback = function () {
+                    var app = new App();
+                    app.start();
+                };
+            } else {
+                callback = clz;
+            }
+            window.addEventListener("load", callback);
+        }
+    };
+
     /**
      * This is Util
      * @class nx.Util
@@ -75,8 +110,7 @@
                     if (inName in styleNameCache) {
                         return styleNameCache[inName];
                     }
-                }
-                else {
+                } else {
                     if (inName in stylePropCache) {
                         return stylePropCache[inName];
                     }
