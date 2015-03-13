@@ -148,17 +148,7 @@
              * @private
              */
             __getItemAt: function (index) {
-                var item;
-                if (index > -1) {
-                    item = this._data[index];
-                } else {
-                    var sliceArgs = [index, index + 1];
-                    if (index === -1) {
-                        sliceArgs.splice(-1, 1);
-                    }
-                    var sliceArray = Array.prototype.slice.apply(this._data, sliceArgs);
-                    item = sliceArray[0];
-                }
+                var item = this._data[index > -1 ? index : this._data.length + index];
 
                 return item;
             },
