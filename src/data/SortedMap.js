@@ -202,7 +202,7 @@
                 return value;
             },
             /**
-             * Change value of speicifed key.
+             * Change value of specified key.
              * @method setValue
              * @param key The key attempt to be changed.
              * @param value The new value.
