@@ -114,7 +114,7 @@ test("sort", function () {
     smap.setValue("A", "A");
     smap.add("a", "a");
     smap.sort(function (key1, val1, key2, val2) {
-        return key1 < key2;
+        return key1 < key2 ? 1 : (key1 > key2 ? -1 : 0);
     });
     ok(smap.length() === 2, "Length");
     ok(smap.getKeyAt(0) === "a" && smap.getKeyAt(1) === "A", "Keys");
@@ -131,7 +131,7 @@ test("toArray", function () {
     smap.setValue("A", "A");
     smap.add("a", "a");
     smap.sort(function (key1, val1, key2, val2) {
-        return key1 < key2;
+        return key1 < key2 ? 1 : (key1 > key2 ? -1 : 0);
     });
     deepEqual(smap.toArray(), [{
         key: "a",
