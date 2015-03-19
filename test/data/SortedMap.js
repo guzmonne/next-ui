@@ -82,8 +82,8 @@ test("setIndex", function () {
     ok(smap.length() === 2, "Length");
     ok(smap.getKeyAt(0) === "a" && smap.getKeyAt(1) === "A", "Keys");
     ok(smap.indexOf("a") === 0 && smap.indexOf("A") === 1, "Indices");
-    ok(smap.getValueAt(0) === "a" && smap.getValueAt(1) === "A", "Indices' values");
-    ok(smap.getValue("a") === "a" && smap.getValue("A") === "A", "Keys' values");
+    ok(smap.getValueAt(0) === "A" && smap.getValueAt(1) === "a", "Indices' values");
+    ok(smap.getValue("a") === "A" && smap.getValue("A") === "a", "Keys' values");
 });
 
 test("setValue", function () {
@@ -330,7 +330,6 @@ test("event:reorder", function () {
         action: "reorder",
         oldIndex: 0,
         index: 1,
-        key: "A",
-        value: "a"
+        key: "A"
     }], "Events happened");
 });

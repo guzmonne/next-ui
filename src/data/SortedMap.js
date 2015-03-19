@@ -212,7 +212,6 @@
                         oldValue: oldValue
                     });
                 } else {
-                    value = false;
                     throw Error('the key:"' + key + '" dos not exists!');
                 }
 
@@ -256,6 +255,28 @@
                 return value;
             },
             /**
+             * change the order of specific Item by key
+             * @param key
+             * @param index
+             */
+            setIndex: function (key, index) {
+                var idx = this.indexOf(key), result = true;
+                if (idx != -1 && index !== idx) {
+                    var rtn = this._data.splice(idx, 1);
+                    this._data.splice(index, 0, rtn[0]);
+                    this.fire('change', {
+                        action: 'reorder',
+                        index: index,
+                        oldIndex: idx,
+                        key: key
+                    });
+                } else {
+                    result = false;
+                }
+
+                return result;
+            },
+            /**
              * Sort the SortedMap with a comparer function.
              * @method sort
              * @param comparer A function expecting arguments: key1, value1, key2, value2
@@ -271,7 +292,34 @@
              * @return An array, each item of which is an object with key and value property.
              */
             toArray: function () {
-                return this._data;
+                var arr = this._data.slice(0);
+                for (var i = 0, len = arr.length; i < len; i++) {
+                    arr[i] = nx.clone(arr[i]);
+                }
+                return arr;
+            },
+            /**
+             * support iterator for the callback which has three params:k,v,index
+             * @param callback
+             */
+            each: function (callback) {
+                var arr = this.toArray();
+                for (var i = 0, len = arr.length; i < len; i++) {
+                    var item = arr[i];
+                    callback.call(this, item.key, item.value, i);
+                }
+            },
+            /**
+             * adapt to the nx.each, which has two params for the callback:k,v
+             * @param callback
+             * @private
+             */
+            __each__: function (callback) {
+                var arr = this.toArray();
+                for (var i = 0, len = arr.length; i < len; i++) {
+                    var item = arr[i];
+                    callback.call(this, item.key, item.value);
+                }
             }
         }
     });
