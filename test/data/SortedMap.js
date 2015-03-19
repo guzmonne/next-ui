@@ -70,6 +70,22 @@ test("removeAt", function () {
     ok(smap.getValue("A") === "a", "Key's value");
 });
 
+test("setIndex", function () {
+    var smap = new nx.data.SortedMap([{
+        key: "A",
+        value: "a"
+    }, {
+        key: "a",
+        value: "A"
+    }]);
+    smap.setIndex("a", 0);
+    ok(smap.length() === 2, "Length");
+    ok(smap.getKeyAt(0) === "a" && smap.getKeyAt(1) === "A", "Keys");
+    ok(smap.indexOf("a") === 0 && smap.indexOf("A") === 1, "Indices");
+    ok(smap.getValueAt(0) === "a" && smap.getValueAt(1) === "A", "Indices' values");
+    ok(smap.getValue("a") === "a" && smap.getValue("A") === "A", "Keys' values");
+});
+
 test("setValue", function () {
     var smap = new nx.data.SortedMap([{
         key: "a",
@@ -292,5 +308,29 @@ test("event:set", function () {
         key: "A",
         value: "a",
         oldValue: "A"
+    }], "Events happened");
+});
+
+test("event:reorder", function () {
+    var events = [];
+    var smap = new nx.data.SortedMap([{
+        key: "A",
+        value: "a"
+    }, {
+        key: "a",
+        value: "A"
+    }]);
+    smap.on("change", function (sender, evt) {
+        events.push(evt);
+    });
+    smap.setIndex("A", 1);
+    // since 'A' set its index to 1, 'a' automatically become index 0, so this operation will cause no event
+    smap.setIndex("a", 0);
+    deepEqual(events, [{
+        action: "reorder",
+        oldIndex: 0,
+        index: 1,
+        key: "A",
+        value: "a"
     }], "Events happened");
 });
