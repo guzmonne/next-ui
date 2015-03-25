@@ -144,12 +144,12 @@
                 this.eachVertex(this.generateVertex, this);
                 //                console.timeEnd('vertex');
 
+                this.eachVertexSet(this.generateVertexSet, this);
+
                 //                console.time('edgeSet');
                 this.eachEdgeSet(this.generateEdgeSet, this);
                 //                console.timeEnd('edgeSet');
 
-
-                this.eachVertexSet(this.generateVertexSet, this);
 
                 this.eachVertexSet(function (vertexSet) {
                     vertexSet.activated(true, {

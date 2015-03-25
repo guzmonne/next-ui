@@ -44,7 +44,7 @@
                 return edgeSet;
             },
             generateEdgeSet: function (edgeSet) {
-                if (!edgeSet.generated() && edgeSet.source().generated() && edgeSet.target().generated()) {
+                if (!edgeSet.generated()) {
                     edgeSet.generated(true);
                     edgeSet.on('updateCoordinate', this._updateEdgeSetCoordinate, this);
                     /**

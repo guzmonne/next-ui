@@ -39,23 +39,28 @@
                     return this._activated !== undefined ? this._activated : true;
                 },
                 set: function (value) {
-//                    var graph = this.graph();
-//                    this.eachEdge(function (edge) {
-//                        if (edge.type() == 'edge') {
-//                            if (value) {
-//                                graph.fire('removeEdge', edge);
-//                            } else {
-//                                graph.fire('addEdge', edge);
-//                            }
-//                        } else if (edge.type() == 'edgeSet') {
-//                            if (value) {
-//                                graph.fire('removeEdgeSet', edge);
-//                            } else {
-//                                graph.fire('addEdgeSet', edge);
-//                            }
-//                        }
-//                    }, this);
-//                    this._activated = value;
+                    var graph = this.graph();
+                    nx.each(this.edgeSets(),function(edgeSet){
+                        edgeSet.activated(value, {
+                            force: true
+                        });
+                    });
+                    //this.eachEdge(function (edge) {
+                    //    if (edge.type() == 'edge') {
+                    //        if (value) {
+                    //            graph.fire('removeEdge', edge);
+                    //        } else {
+                    //            graph.fire('addEdge', edge);
+                    //        }
+                    //    } else if (edge.type() == 'edgeSet') {
+                    //        if (value) {
+                    //            graph.fire('removeEdgeSet', edge);
+                    //        } else {
+                    //            graph.fire('addEdgeSet', edge);
+                    //        }
+                    //    }
+                    //}, this);
+                    this._activated = value;
                 }
             }
         },

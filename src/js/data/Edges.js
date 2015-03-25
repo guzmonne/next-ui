@@ -181,7 +181,7 @@
                 }
             },
             generateEdge: function (edge) {
-                if (!edge.generated() && edge.source().generated() && edge.target().generated()) {
+                if (!edge.generated()) { //&& edge.source().generated() && edge.target().generated()
                     edge.on('updateCoordinate', this._updateEdgeCoordinate, this);
 
                     /**

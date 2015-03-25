@@ -262,11 +262,6 @@
 
                     minus.setTransform(iconSize.width * iconScale / 2, iconSize.height * iconScale / 2);
 
-                    //if (nx.util.isFirefox()) {
-                    //    minus.setTransform(iconSize.width * iconScale / 2, iconSize.height * iconScale / 2);
-                    //} else {
-                    //
-                    //}
                 } else {
                     minus.setTransform(0, 0);
                 }

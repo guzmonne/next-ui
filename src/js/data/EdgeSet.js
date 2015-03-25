@@ -36,6 +36,7 @@
                         if (value) {
                             graph.removeEdge(id, false);
                         } else {
+                            debugger;
                             graph.generateEdge(edge);
                         }
                     }, this);

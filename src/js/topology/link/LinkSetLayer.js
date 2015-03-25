@@ -194,7 +194,8 @@
              */
             getLinkSet: function (sourceVertexID, targetVertexID) {
                 var topo = this.topology();
-                var edgeSet = topo.graph().getEdgeSetBySourceAndTarget(sourceVertexID, targetVertexID);
+                var graph = topo.graph();
+                var edgeSet = graph.getEdgeSetBySourceAndTarget(sourceVertexID, targetVertexID) || graph.getEdgeSetCollectionBySourceAndTarget(sourceVertexID, targetVertexID);
                 if (edgeSet) {
                     return this.getLinkSetByLinkKey(edgeSet.linkKey());
                 } else {

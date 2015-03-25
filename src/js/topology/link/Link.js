@@ -237,7 +237,6 @@
                 var width = (this._width || 1) * (this._stageScale || 1);
                 var line = this.reverse() ? this.line().negate() : this.line();
                 var d;
-
                 var pathEL = this.view('path');
                 var lineEl = this.view('line');
                 var lineBGEl = this.view('line_bg');
