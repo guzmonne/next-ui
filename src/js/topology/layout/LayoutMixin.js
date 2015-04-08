@@ -1,10 +1,21 @@
-(function (nx, global) {
+(function(nx, global) {
     /**
      * Layout mixin class
      * @class nx.graphic.Topology.LayoutMixin
      * @module nx.graphic.Topology
      */
-    nx.define("nx.graphic.Topology.LayoutMixin", {
+
+
+    var layouts = {
+        'force': 'nx.graphic.Topology.NeXtForceLayout',
+        'USMap': 'nx.graphic.Topology.USMapLayout',
+        //'WorldMap': nx.graphic.Topology.WorldMapLayout,
+        'hierarchicalLayout': 'nx.graphic.Topology.WorldMapLayout',
+        'enterpriseNetworkLayout': 'nx.graphic.Topology.EnterpriseNetworkLayout'
+    };
+
+
+    var CLS = nx.define("nx.graphic.Topology.LayoutMixin", {
         events: [],
         properties: {
             /**
@@ -12,7 +23,7 @@
              * @property  layoutMap
              */
             layoutMap: {
-                value: function () {
+                value: function() {
                     return {};
                 }
             },
@@ -32,14 +43,26 @@
             }
         },
         methods: {
-            initLayout: function () {
-                this.registerLayout('force', new nx.graphic.Topology.NeXtForceLayout());
-                this.registerLayout('USMap', new nx.graphic.Topology.USMapLayout());
-                this.registerLayout('WorldMap', new nx.graphic.Topology.WorldMapLayout());
-                this.registerLayout('hierarchicalLayout', new nx.graphic.Topology.HierarchicalLayout());
-                this.registerLayout('enterpriseNetworkLayout', new nx.graphic.Topology.EnterpriseNetworkLayout());
+            initLayout: function() {
 
+                var layouts = nx.extend({},layouts,nx.graphic.Topology.layouts);
 
+                nx.each(layouts, function(cls, name) {
+                    var instance;
+                    if (nx.is(cls, 'Function')) {
+                        instance = new cls();
+                    } else {
+                        var clz = nx.path(global, cls);
+                        if (!clz) {
+                            throw "Error on instance node class";
+                        } else {
+                            instance = new clz();
+                        }
+                    }
+
+                    this.registerLayout(name, instance);
+
+                }, this);
             },
             /**
              * Register a layout
@@ -47,7 +70,7 @@
              * @param name {String} layout name
              * @param cls {Object} layout class instance
              */
-            registerLayout: function (name, cls) {
+            registerLayout: function(name, cls) {
                 var layoutMap = this.layoutMap();
                 layoutMap[name] = cls;
 
@@ -61,7 +84,7 @@
              * @param name {String}
              * @returns {*}
              */
-            getLayout: function (name) {
+            getLayout: function(name) {
                 var layoutMap = this.layoutMap();
                 return layoutMap[name];
             },
@@ -71,7 +94,7 @@
              * @param inConfig {Object} layout config object
              * @param callback {Function} callback for after apply a layout
              */
-            activateLayout: function (inName, inConfig, callback) {
+            activateLayout: function(inName, inConfig, callback) {
                 var layoutMap = this.layoutMap();
                 var name = inName || this.layoutType();
                 var config = inConfig || this.layoutConfig();
@@ -80,7 +103,7 @@
                     this.layoutType(name);
                 }
             },
-            deactivateLayout: function (name) {
+            deactivateLayout: function(name) {
 
             }
         }

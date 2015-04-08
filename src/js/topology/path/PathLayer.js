@@ -17,9 +17,6 @@
             paths: {
                 value: function () {
                     return [];
-                },
-                get: function () {
-                    return this._paths.slice();
                 }
             }
         },

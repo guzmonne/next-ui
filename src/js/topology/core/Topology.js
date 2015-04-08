@@ -1,4 +1,4 @@
-(function (nx, global) {
+(function(nx, global) {
     /**
      * Topology base class
 
@@ -71,26 +71,27 @@
                 'cantAggregateNodesInDifferentNodeSet': 'Can\'t aggregate nodes in different nodeSet'
             },
             extensions: [],
-            registerExtension: function (cls) {
+            registerExtension: function(cls) {
                 var prototype = Topology.prototype;
                 var classPrototype = cls.prototype;
 
                 Topology.extensions.push(cls);
 
-                nx.each(cls.__events__, function (name) {
+                nx.each(cls.__events__, function(name) {
                     extendEvent(prototype, name);
                 });
 
-                nx.each(cls.__properties__, function (name) {
+                nx.each(cls.__properties__, function(name) {
                     extendProperty(prototype, name, classPrototype[name].__meta__);
                 });
 
-                nx.each(cls.__methods__, function (name) {
+                nx.each(cls.__methods__, function(name) {
                     if (name !== 'init') {
                         extendMethod(prototype, name, classPrototype[name]);
                     }
                 });
-            }
+            },
+            layouts: {}
         },
         mixins: [
             nx.graphic.Topology.Config,
@@ -115,8 +116,7 @@
                     height: "{#height}"
                 }
             },
-            content: [
-                {
+            content: [{
                     name: "stage",
                     type: "nx.graphic.Stage",
                     props: {
@@ -140,16 +140,14 @@
                         'stageTransitionEnd': '{#_stageTransitionEnd}'
 
                     }
-                },
-                {
+                }, {
                     name: 'nav',
                     type: 'nx.graphic.Topology.Nav',
                     props: {
                         visible: '{#showNavigation}',
                         showIcon: '{#showIcon,direction=<>}'
                     }
-                },
-                {
+                }, {
                     name: 'loading',
                     props: {
                         'class': 'n-topology-loading'
@@ -164,13 +162,13 @@
                         }
                     }
                 },
-//                {
-//                    type: 'nx.graphic.Topology.Thumbnail',
-//                    props: {
-//                        width: "{#width}",
-//                        height: "{#height}"
-//                    }
-//                },
+                //                {
+                //                    type: 'nx.graphic.Topology.Thumbnail',
+                //                    props: {
+                //                        width: "{#width}",
+                //                        height: "{#height}"
+                //                    }
+                //                },
                 {
                     name: 'img',
                     tag: 'img',
@@ -179,8 +177,7 @@
                             'display': 'none'
                         }
                     }
-                },
-                {
+                }, {
                     name: 'canvas',
                     tag: 'canvas',
                     props: {
@@ -198,10 +195,9 @@
                 'keydown': '{#_key}'
             }
         },
-        properties: {
-        },
+        properties: {},
         methods: {
-            init: function (args) {
+            init: function(args) {
                 this.inherited(args);
                 this.sets(args);
 
@@ -213,7 +209,7 @@
                 this.initLayout();
 
 
-                nx.each(Topology.extensions, function (cls) {
+                nx.each(Topology.extensions, function(cls) {
                     var ctor = cls.__ctor__;
                     if (ctor) {
                         ctor.call(this);
@@ -222,7 +218,7 @@
 
 
             },
-            attach: function (args) {
+            attach: function(args) {
                 this.inherited(args);
                 this._adaptiveTimer();
             },
@@ -230,14 +226,14 @@
              * Clear all layer's content
              * @method clear
              */
-            clear: function () {
+            clear: function() {
                 this.status('cleared');
                 if (this._nodesAnimation) {
                     this._nodesAnimation.stop();
                 }
                 this.graph().clear();
                 this.tooltipManager().closeAll();
-                nx.each(this.layers(), function (layer, name) {
+                nx.each(this.layers(), function(layer, name) {
                     layer.clear();
                 });
                 this.blockEvent(false);
@@ -246,12 +242,12 @@
                     this.status('appended');
                 }
             },
-            dispose: function () {
+            dispose: function() {
                 this.status('disposed');
                 this.tooltipManager().dispose();
                 this.graph().dispose();
 
-                nx.each(this.layers(), function (layer) {
+                nx.each(this.layers(), function(layer) {
                     layer.dispose();
                 });
                 this.blockEvent(false);

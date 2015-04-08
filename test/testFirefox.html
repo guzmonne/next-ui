@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script type="text/javascript" src="../../next-core/dest/next-core.js"></script>
+    <script type="text/javascript" src="../../next-ui/dest/js/next-ui.js"></script>
+    <script type="text/javascript" src="../src/js/next-graphic.js"></script>
+    <link rel="stylesheet" href="../../next-ui/dest/css/next-blue.css"/>
+    <link rel="stylesheet" href="../src/less/next-graphic.css"/>
+</head>
+
+
+<style>
+    body,html{
+        height: 100%;
+    }
+</style>
+
+<body>
+
+
+</body>
+
+<script type="text/javascript">
+    var topologyData = {
+        "nodes": [{
+            "id": "0",
+            "label": "openflow:10",
+            "group": "switch",
+            "value": 20,
+            "title": "Name: <b>openflow:10</b><br>Type: Switch"
+        }, {
+            "id": "1",
+            "label": "openflow:11",
+            "group": "switch",
+            "value": 20,
+            "title": "Name: <b>openflow:11</b><br>Type: Switch"
+        }, {
+            "id": "2",
+            "label": "openflow:3",
+            "group": "switch",
+            "value": 20,
+            "title": "Name: <b>openflow:3</b><br>Type: Switch"
+        }, {
+            "id": "3",
+            "label": "openflow:4",
+            "group": "switch",
+            "value": 20,
+            "title": "Name: <b>openflow:4</b><br>Type: Switch"
+        }, {
+            "id": "4",
+            "label": "openflow:1",
+            "group": "switch",
+            "value": 20,
+            "title": "Name: <b>openflow:1</b><br>Type: Switch"
+        }, {
+            "id": "5",
+            "label": "openflow:2",
+            "group": "switch",
+            "value": 20,
+            "title": "Name: <b>openflow:2</b><br>Type: Switch"
+        }, {
+            "id": "6",
+            "label": "openflow:31",
+            "group": "switch",
+            "value": 20,
+            "title": "Name: <b>openflow:31</b><br>Type: Switch"
+        }, {
+            "id": "7",
+            "label": "openflow:30",
+            "group": "switch",
+            "value": 20,
+            "title": "Name: <b>openflow:30</b><br>Type: Switch"
+        }, {
+            "id": "8",
+            "label": "openflow:23",
+            "group": "switch",
+            "value": 20,
+            "title": "Name: <b>openflow:23</b><br>Type: Switch"
+        }, {
+            "id": "9",
+            "label": "openflow:24",
+            "group": "switch",
+            "value": 20,
+            "title": "Name: <b>openflow:24</b><br>Type: Switch"
+        }, {
+            "id": "10",
+            "label": "openflow:25",
+            "group": "switch",
+            "value": 20,
+            "title": "Name: <b>openflow:25</b><br>Type: Switch"
+        }, {
+            "id": "11",
+            "label": "openflow:26",
+            "group": "switch",
+            "value": 20,
+            "title": "Name: <b>openflow:26</b><br>Type: Switch"
+        }, {
+            "id": "12",
+            "label": "openflow:27",
+            "group": "switch",
+            "value": 20,
+            "title": "Name: <b>openflow:27</b><br>Type: Switch"
+        }, {
+            "id": "13",
+            "label": "openflow:28",
+            "group": "switch",
+            "value": 20,
+            "title": "Name: <b>openflow:28</b><br>Type: Switch"
+        }, {
+            "id": "14",
+            "label": "openflow:29",
+            "group": "switch",
+            "value": 20,
+            "title": "Name: <b>openflow:29</b><br>Type: Switch"
+        }, {
+            "id": "15",
+            "label": "openflow:8",
+            "group": "switch",
+            "value": 20,
+            "title": "Name: <b>openflow:8</b><br>Type: Switch"
+        }, {
+            "id": "16",
+            "label": "openflow:7",
+            "group": "switch",
+            "value": 20,
+            "title": "Name: <b>openflow:7</b><br>Type: Switch"
+        }, {
+            "id": "17",
+            "label": "openflow:6",
+            "group": "switch",
+            "value": 20,
+            "title": "Name: <b>openflow:6</b><br>Type: Switch"
+        }, {
+            "id": "18",
+            "label": "openflow:5",
+            "group": "switch",
+            "value": 20,
+            "title": "Name: <b>openflow:5</b><br>Type: Switch"
+        }, {
+            "id": "19",
+            "label": "openflow:9",
+            "group": "switch",
+            "value": 20,
+            "title": "Name: <b>openflow:9</b><br>Type: Switch"
+        }, {
+            "id": "20",
+            "label": "openflow:21",
+            "group": "switch",
+            "value": 20,
+            "title": "Name: <b>openflow:21</b><br>Type: Switch"
+        }, {
+            "id": "21",
+            "label": "openflow:22",
+            "group": "switch",
+            "value": 20,
+            "title": "Name: <b>openflow:22</b><br>Type: Switch"
+        }, {
+            "id": "22",
+            "label": "openflow:20",
+            "group": "switch",
+            "value": 20,
+            "title": "Name: <b>openflow:20</b><br>Type: Switch"
+        }, {
+            "id": "23",
+            "label": "openflow:19",
+            "group": "switch",
+            "value": 20,
+            "title": "Name: <b>openflow:19</b><br>Type: Switch"
+        }, {
+            "id": "24",
+            "label": "openflow:18",
+            "group": "switch",
+            "value": 20,
+            "title": "Name: <b>openflow:18</b><br>Type: Switch"
+        }, {
+            "id": "25",
+            "label": "openflow:17",
+            "group": "switch",
+            "value": 20,
+            "title": "Name: <b>openflow:17</b><br>Type: Switch"
+        }, {
+            "id": "26",
+            "label": "openflow:16",
+            "group": "switch",
+            "value": 20,
+            "title": "Name: <b>openflow:16</b><br>Type: Switch"
+        }, {
+            "id": "27",
+            "label": "openflow:15",
+            "group": "switch",
+            "value": 20,
+            "title": "Name: <b>openflow:15</b><br>Type: Switch"
+        }, {
+            "id": "28",
+            "label": "openflow:14",
+            "group": "switch",
+            "value": 20,
+            "title": "Name: <b>openflow:14</b><br>Type: Switch"
+        }, {
+            "id": "29",
+            "label": "openflow:13",
+            "group": "switch",
+            "value": 20,
+            "title": "Name: <b>openflow:13</b><br>Type: Switch"
+        }, {
+            "id": "30",
+            "label": "openflow:12",
+            "group": "switch",
+            "value": 20,
+            "title": "Name: <b>openflow:12</b><br>Type: Switch"
+        }],
+        "links": [{
+            "source": 23,
+            "target": 20
+        }, {
+            "source": 23,
+            "target": 22
+        }, {
+            "source": 9,
+            "target": 21
+        }, {
+            "source": 8,
+            "target": 21
+        }, {
+            "source": 24,
+            "target": 25
+        }, {
+            "source": 24,
+            "target": 21
+        }, {
+            "source": 24,
+            "target": 23
+        }, {
+            "source": 26,
+            "target": 28
+        }, {
+            "source": 25,
+            "target": 4
+        }, {
+            "source": 25,
+            "target": 24
+        }, {
+            "source": 25,
+            "target": 10
+        }, {
+            "source": 23,
+            "target": 24
+        }, {
+            "source": 22,
+            "target": 23
+        }, {
+            "source": 30,
+            "target": 1
+        }, {
+            "source": 4,
+            "target": 5
+        }, {
+            "source": 4,
+            "target": 25
+        }, {
+            "source": 21,
+            "target": 8
+        }, {
+            "source": 21,
+            "target": 9
+        }, {
+            "source": 21,
+            "target": 24
+        }, {
+            "source": 20,
+            "target": 23
+        }, {
+            "source": 29,
+            "target": 1
+        }, {
+            "source": 27,
+            "target": 28
+        }, {
+            "source": 28,
+            "target": 27
+        }, {
+            "source": 28,
+            "target": 26
+        }, {
+            "source": 28,
+            "target": 0
+        }, {
+            "source": 14,
+            "target": 6
+        }, {
+            "source": 14,
+            "target": 10
+        }, {
+            "source": 14,
+            "target": 7
+        }, {
+            "source": 18,
+            "target": 3
+        }, {
+            "source": 3,
+            "target": 18
+        }, {
+            "source": 3,
+            "target": 17
+        }, {
+            "source": 3,
+            "target": 2
+        }, {
+            "source": 2,
+            "target": 3
+        }, {
+            "source": 2,
+            "target": 5
+        }, {
+            "source": 2,
+            "target": 16
+        }, {
+            "source": 5,
+            "target": 0
+        }, {
+            "source": 5,
+            "target": 2
+        }, {
+            "source": 5,
+            "target": 4
+        }, {
+            "source": 6,
+            "target": 14
+        }, {
+            "source": 17,
+            "target": 3
+        }, {
+            "source": 0,
+            "target": 1
+        }, {
+            "source": 1,
+            "target": 0
+        }, {
+            "source": 0,
+            "target": 5
+        }, {
+            "source": 0,
+            "target": 28
+        }, {
+            "source": 1,
+            "target": 29
+        }, {
+            "source": 1,
+            "target": 30
+        }, {
+            "source": 16,
+            "target": 19
+        }, {
+            "source": 16,
+            "target": 2
+        }, {
+            "source": 16,
+            "target": 15
+        }, {
+            "source": 19,
+            "target": 16
+        }, {
+            "source": 13,
+            "target": 11
+        }, {
+            "source": 10,
+            "target": 11
+        }, {
+            "source": 7,
+            "target": 14
+        }, {
+            "source": 10,
+            "target": 25
+        }, {
+            "source": 10,
+            "target": 14
+        }, {
+            "source": 11,
+            "target": 13
+        }, {
+            "source": 12,
+            "target": 11
+        }, {
+            "source": 11,
+            "target": 12
+        }, {
+            "source": 11,
+            "target": 10
+        }, {
+            "source": 15,
+            "target": 16
+        }]
+    };
+
+
+
+    topo = new nx.graphic.Topology({
+        adaptive: true,
+        nodeConfig: {
+            label: 'model.label',
+            iconType: 'router'
+        },
+        dataProcessor: 'force',
+        identityKey: 'id',
+        showIcon: true,
+        theme: 'yellow',
+        enableSmartNode: false,
+        tooltipManagerConfig: {
+            //nodeTooltipContentClass: 'CustomTooltip'
+        }
+    });
+
+
+    topo.on('ready',function(){
+        topo.data(topologyData);
+    })
+
+    var app = new nx.ui.Application();
+    topo.attach(app);
+</script>
+
+
+
+</html>
