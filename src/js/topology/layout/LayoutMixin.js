@@ -6,11 +6,11 @@
      */
 
 
-    var layouts = {
+    var __layouts = {
         'force': 'nx.graphic.Topology.NeXtForceLayout',
         'USMap': 'nx.graphic.Topology.USMapLayout',
         //'WorldMap': nx.graphic.Topology.WorldMapLayout,
-        'hierarchicalLayout': 'nx.graphic.Topology.WorldMapLayout',
+        'hierarchicalLayout': 'nx.graphic.Topology.HierarchicalLayout',
         'enterpriseNetworkLayout': 'nx.graphic.Topology.EnterpriseNetworkLayout'
     };
 
@@ -45,7 +45,7 @@
         methods: {
             initLayout: function() {
 
-                var layouts = nx.extend({},layouts,nx.graphic.Topology.layouts);
+                var layouts = nx.extend({},__layouts,nx.graphic.Topology.layouts);
 
                 nx.each(layouts, function(cls, name) {
                     var instance;
