@@ -42,7 +42,7 @@
 
     var readyController = {
         initReady: function (inHandler) {
-            readyService.addQueue(inHandler);//save the event
+            readyService.addQueue(inHandler); //save the event
             return readyController.isReady();
         },
         fireReady: function () {
@@ -54,8 +54,7 @@
             // continually check to see if the document is ready
             try {
                 readyService.setTopFrame(global.frameElement === null && document.documentElement);
-            } catch (e) {
-            }
+            } catch (e) {}
         },
         doScrollCheck: function () {
             var topFrame = readyService.getTopFrame();
@@ -191,13 +190,11 @@
              */
             on: function (name, handler, context) {
                 var map = this.__listeners__;
-                var listeners = map[name] = map[name] || [
-                    {
-                        owner: null,
-                        handler: null,
-                        context: null
-                    }
-                ];
+                var listeners = map[name] = map[name] || [{
+                    owner: null,
+                    handler: null,
+                    context: null
+                }];
 
                 listeners.push({
                     owner: this,
@@ -206,6 +203,13 @@
                 });
 
                 this._attachDocumentListeners(name);
+
+                var self;
+                return {
+                    release: function () {
+                        self.off(name, handler, context);
+                    }
+                };
             },
             /**
              * Remove an event handler.
@@ -227,8 +231,7 @@
                                 break;
                             }
                         }
-                    }
-                    else {
+                    } else {
                         listeners.length = 1;
                     }
                 }
@@ -242,13 +245,11 @@
              */
             upon: function (name, handler, context) {
                 var map = this.__listeners__;
-                var listeners = map[name] = map[name] || [
-                    {
-                        owner: null,
-                        handler: null,
-                        context: null
-                    }
-                ];
+                var listeners = map[name] = map[name] || [{
+                    owner: null,
+                    handler: null,
+                    context: null
+                }];
 
                 listeners[0] = {
                     owner: this,
@@ -335,8 +336,7 @@
                 var uri = Document.resolveNS(ns);
                 if (uri) {
                     return new Element(document.createElementNS(uri, tag));
-                }
-                else {
+                } else {
                     throw new Error('The namespace ' + ns + ' is not registered.');
                 }
             },
@@ -349,8 +349,7 @@
             wrap: function (dom) {
                 if (nx.is(dom, Node)) {
                     return dom;
-                }
-                else {
+                } else {
 
                 }
             },

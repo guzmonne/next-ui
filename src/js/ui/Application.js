@@ -59,7 +59,7 @@
                     this._attachGlobalListeners(name);
                 }
 
-                this.inherited(name, handler, context);
+                return this.inherited(name, handler, context);
             },
             upon: function (name, handler, context) {
                 if (!this.can(name)) {

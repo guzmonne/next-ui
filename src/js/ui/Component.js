@@ -106,9 +106,9 @@
             },
             on: function (name, handler, context) {
                 if (this.can(name)) {
-                    this.inherited(name, handler, context);
+                    return this.inherited(name, handler, context);
                 } else {
-                    this.view().on(name, handler, context);
+                    return this.view().on(name, handler, context);
                 }
             },
             upon: function (name, handler, context) {

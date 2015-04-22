@@ -652,11 +652,11 @@
             },
             on: function (name, handler, context) {
                 this._attachDomListener(name);
-                this.inherited(name, handler, context);
+                return this.inherited(name, handler, context);
             },
             upon: function (name, handler, context) {
                 this._attachDomListener(name);
-                this.inherited(name, handler, context);
+                return this.inherited(name, handler, context);
             },
             dispose: function () {
                 var root = this.resolve('@root');
