@@ -346,7 +346,7 @@
                 if (map[name]) {
                     nx.each(map[name].slice(), function (watcher) {
                         if (watcher && watcher.handler) {
-                            watcher.handler.call(watcher.context, name, this.get(name), oldValue, watcher.owner);
+                            watcher.handler.call(watcher.context || watcher.owner, name, this.get(name), oldValue, watcher.owner);
                         }
                     }, this);
                 }
