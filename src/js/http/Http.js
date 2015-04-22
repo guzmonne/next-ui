@@ -235,7 +235,7 @@
     hc.get({
         url:'data.json',
         data: '',
-        isQueue: true,
+        //isQueue: true,
         success: function (sender, data){
             console.log('success-1');
         },
@@ -253,7 +253,7 @@
     hc.get({
         url:'data.json',
         data: '',
-        isQueue: true,
+        //isQueue: true,
         success: function (sender, data){
             console.log('success');
         },
@@ -272,7 +272,7 @@
     hc.get({
         url:'data.json',
         data: '',
-        isQueue: true,
+        //isQueue: true,
         success: function (sender, data){
             console.log('success');
         },
@@ -291,7 +291,7 @@
     hc.get({
         url:'data.json',
         data: '',
-        isQueue: true,
+        //isQueue: true,
         success: function (sender, data){
             console.log('success');
         },
@@ -309,7 +309,7 @@
     hc.get({
         url:'data.json',
         data: '',
-        isQueue: true,
+        //isQueue: true,
         success: function (sender, data){
             console.log('success-1');
         },
@@ -327,7 +327,7 @@
     hc.get({
         url:'data.json',
         data: '',
-        isQueue: true,
+        //isQueue: true,
         success: function (sender, data){
             console.log('success');
         },
@@ -346,7 +346,7 @@
     hc.get({
         url:'data.json',
         data: '',
-        isQueue: true,
+        //isQueue: true,
         success: function (sender, data){
             console.log('success');
         },
@@ -365,7 +365,7 @@
     hc.get({
         url:'data.json',
         data: '',
-        isQueue: true,
+        //isQueue: true,
         success: function (sender, data){
             console.log('success');
         },
