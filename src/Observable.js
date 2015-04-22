@@ -311,7 +311,7 @@
                     affect: function () {
                         var value = watcher.owner.get(name);
                         if (watcher && watcher.handler) {
-                            watcher.handler.call(watcher.context, name, value, value, watcher.owner);
+                            watcher.handler.call(watcher.context || watcher.owner, name, value, value, watcher.owner);
                         }
                     },
                     release: function () {
