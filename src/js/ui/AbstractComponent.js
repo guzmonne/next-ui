@@ -167,10 +167,10 @@
              */
             model: {
                 get: function () {
-                    return this._model || this._inheritedModel;
+                    return this._model_was_set ? this._model : this._inheritedModel;
                 },
                 set: function (value, inherited) {
-                    if (inherited && this._model !== undefined) {
+                    if (inherited && this._model_was_set) {
                         return false;
                     }
 
@@ -178,6 +178,7 @@
                         this._inheritedModel = value;
                     } else {
                         this._model = value;
+                        this._model_was_set = true;
                     }
 
                     this._content.each(function (c) {
@@ -185,10 +186,6 @@
                             c.model(value, true);
                         }
                     });
-
-                    if (inherited && this._model) {
-                        return false;
-                    }
                 }
             },
             /**
