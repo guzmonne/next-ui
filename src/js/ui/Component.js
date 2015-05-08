@@ -10,7 +10,7 @@
         properties: {
             model: {
                 get: function () {
-                    return this._model || this._inheritedModel;
+                    return this._model === undefined ? this._inheritedModel : this._model;
                 },
                 set: function (value, inherited) {
                     if (inherited) {
