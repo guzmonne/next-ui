@@ -21,7 +21,7 @@ nx.define('observeObj1', nx.Observable, {
         },
         b4: {
             value: "12"
-            //binding:{direction:"<>"}
+                //binding:{direction:"<>"}
         }
     },
     methods: {
@@ -207,9 +207,9 @@ test('method watch/unwatch', function () {
     var testObj1 = new observeObj11;
     //add 2 watch for prop1
     var watchh1, watchh2
-        testObj1.watch("prop1", watchh1 = function (name, value) {
-            handler1 += 1;
-        });
+    testObj1.watch("prop1", watchh1 = function (name, value) {
+        handler1 += 1;
+    });
     ok(testObj1.prop1._watched)
     equal(testObj1.__watchers__.prop1.length, 1)
 
@@ -265,6 +265,23 @@ test("method watch returns unwatcher", function () {
     unwatcher.release();
     o.prop1(nx.uuid());
     o.prop2(nx.uuid());
+});
+
+test('method notify with unwatch', function () {
+    expect(1);
+    var o = new observeObj1();
+    o.prop1(true);
+    o.watch("prop1", function (pname, pvalue) {
+        if (!pvalue) {
+            o.unwatch("prop1");
+            o = null;
+        }
+    });
+    o.watch("prop1", function (pname, pvalue) {
+        ok(o.prop1());
+    });
+    o.prop1(false);
+    ok(!o, "No error");
 });
 
 test('method watch*/unwatch', function () {

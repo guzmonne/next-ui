@@ -342,13 +342,14 @@
                 }
             },
             _notify: function (name, oldValue) {
-                var map = this.__watchers__;
-                if (map[name]) {
-                    nx.each(map[name].slice(), function (watcher) {
-                        if (watcher && watcher.handler) {
-                            watcher.handler.call(watcher.context || watcher.owner, name, this.get(name), oldValue, watcher.owner);
-                        }
-                    }, this);
+                var i, watcher, calling, existing = this.__watchers__[name];
+                calling = existing ? existing.slice() : [];
+                for (i = 0; i < calling.length; i++) {
+                    watcher = calling[i];
+                    if (watcher && watcher.handler && (watcher === existing[i] || existing.indexOf(watcher) >= 0)) {
+                        watcher.handler.call(watcher.context || watcher.owner, name, this.get(name), oldValue, watcher.owner);
+                    }
+
                 }
             }
         }

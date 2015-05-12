@@ -231,17 +231,14 @@
          * @param [data] {*}
          */
         fire: function (name, data) {
-            var listeners = this.__listeners__[name],
-                listener, result;
-            if (listeners) {
-                listeners = listeners.slice();
-                for (var i = 0, length = listeners.length; i < length; i++) {
-                    listener = listeners[i];
-                    if (listener && listener.handler) {
-                        result = listener.handler.call(listener.context, listener.owner, data);
-                        if (result === false) {
-                            return false;
-                        }
+            var i, listener, result, calling, existing = this.__listeners__[name];
+            calling = existing ? existing.slice() : [];
+            for (i = 0, length = calling.length; i < length; i++) {
+                listener = calling[i];
+                if (listener && listener.handler && (existing[i] === listener || existing.indexOf(listener) >= 0)) {
+                    result = listener.handler.call(listener.context, listener.owner, data);
+                    if (result === false) {
+                        return false;
                     }
                 }
             }

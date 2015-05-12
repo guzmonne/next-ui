@@ -177,6 +177,21 @@ test('class events', function () {
     ok(n8 == 1 && n9 == 1, 'inherit event handlers');
 });
 
+test("class event unlistening", function () {
+    expect(1);
+    var o = new test.MyBaseClass();
+    var listener1, listener2;
+    listener1 = o.on("event1", function () {
+        o.off("event1");
+        o = null;
+    });
+    listener2 = o.on("event1", function () {
+        ok(o.prop1());
+    });
+    o.fire("event1");
+    ok("No error");
+});
+
 test("class event binding returns unbinder", function () {
     expect(2);
     var base = new test.MyBaseClass();
