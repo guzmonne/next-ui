@@ -231,7 +231,7 @@
          * @param [data] {*}
          */
         fire: function (name, data) {
-            var i, listener, result, calling, existing = this.__listeners__[name];
+            var i, length, listener, result, calling, existing = this.__listeners__[name];
             calling = existing ? existing.slice() : [];
             for (i = 0, length = calling.length; i < length; i++) {
                 listener = calling[i];

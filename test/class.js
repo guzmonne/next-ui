@@ -189,7 +189,7 @@ test("class event unlistening", function () {
         ok(o.prop1());
     });
     o.fire("event1");
-    ok("No error");
+    ok(!o, "No error");
 });
 
 test("class event binding returns unbinder", function () {
