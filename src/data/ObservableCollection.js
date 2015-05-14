@@ -454,7 +454,7 @@
                             item: item,
                             previousCount: previousCount,
                             count: count
-                        }
+                        };
                         if (previousCount > count) {
                             this.fire('decrease', event);
                         } else {
@@ -816,12 +816,12 @@
                 var counter = new EXPORT.Counter();
                 var monitors = [];
                 var increaseHandler = counter.on("increase", function (o, evt) {
-                    if (evt.count == 1) {
+                    if (evt.count === 1) {
                         target.add(evt.item);
                     }
                 });
                 var decreaseHandler = counter.on("decrease", function (o, evt) {
-                    if (evt.count == 0) {
+                    if (evt.count === 0) {
                         target.remove(evt.item);
                     }
                 });
@@ -1082,7 +1082,7 @@
                     while (tokens.length) {
                         token = tokens.shift();
                         if (token === ")") {
-                            while (opr = oprstack.pop()) {
+                            while ((opr = oprstack.pop())) {
                                 if (opr === "(") {
                                     break;
                                 }
