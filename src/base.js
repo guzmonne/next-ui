@@ -28,8 +28,8 @@ if (!Function.prototype.bind) {
 
 
     var isArray = Array.isArray || function (target) {
-            return target && target.constructor === Array;
-        };
+        return target && target.constructor === Array;
+    };
     var isPojo = function (obj) {
         var hasown = Object.prototype.hasOwnProperty;
         if (!obj || Object.prototype.toString(obj) !== "[object Object]" || obj.nodeType || obj === window) {
@@ -459,6 +459,10 @@ if (!Function.prototype.bind) {
     };
 
     nx.idle = function () {};
+
+    nx.identity = function (i) {
+        return i;
+    };
 
     nx.uuid = function () {
         return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
