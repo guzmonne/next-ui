@@ -2,7 +2,7 @@
     // Settings
     "passfail"      : false,  // Stop on first error.
     "maxerr"        : 100,    // Maximum error before stopping.
-    "no-cond-assign" : 0,
+
 
     "loopfunc"      : true,  // Allow functions to be defined within loops.
     "expr"          : true
