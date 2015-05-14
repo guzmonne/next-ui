@@ -1082,7 +1082,7 @@
                     while (tokens.length) {
                         token = tokens.shift();
                         if (token === ")") {
-                            while ((opr = oprstack.pop())) {
+                            while (opr = oprstack.pop()) {
                                 if (opr === "(") {
                                     break;
                                 }
