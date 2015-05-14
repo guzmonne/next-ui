@@ -976,7 +976,7 @@
                         bound = false;
                         res.release();
                     }
-                }
+                };
             },
             /**
              * Affect target to be the equivalent collection of the first empty collection or the last collection.
