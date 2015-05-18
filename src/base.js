@@ -21,20 +21,6 @@ var nx = {
             };
         };
     }
-    if (Object.prototype.toString.call(null) !== "[object Null]") {
-        Object.prototype.toString = (function () {
-            var toString = Object.prototype.toString;
-            return function () {
-                if (this === null) {
-                    return "[object Null]";
-                } else if (this === undefined) {
-                    return "[object Undefined]";
-                } else {
-                    return toString.call(this);
-                }
-            };
-        })();
-    }
 })();
 
 

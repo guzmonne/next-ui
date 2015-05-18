@@ -45,6 +45,15 @@
              * @return Count of the item.
              */
             getCount: function (item) {
+                // XXX PhantomJS bug
+                if (Object.prototype.toString.call(null) !== "[object Null]") {
+                    if (item === null) {
+                        return this._null;
+                    } else if (item === undefined) {
+                        return this._undefined;
+                    }
+                }
+                // check the type
                 switch (Object.prototype.toString.call(item)) {
                 case "[object Null]":
                     return this._null;
@@ -73,6 +82,14 @@
              * @return Set result count.
              */
             setCount: function (item, count) {
+                // XXX PhantomJS bug
+                if (Object.prototype.toString.call(null) !== "[object Null]") {
+                    if (item === null) {
+                        this._null = count;
+                    } else if (item === undefined) {
+                        this._undefined = count;
+                    }
+                }
                 // XXX optimizable for obj-map
                 var previousCount = this.getCount(item);
                 // check if change happening
