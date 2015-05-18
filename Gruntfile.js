@@ -10,6 +10,7 @@ module.exports = function (grunt) {
         "src/Iterable.js",
         "src/Observable.js",
         "src/Serializable.js",
+        "src/data/Counter.js",
         "src/data/Collection.js",
         "src/data/Dictionary.js",
         "src/data/ObservableObject.js",
