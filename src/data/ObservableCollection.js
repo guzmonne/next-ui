@@ -905,7 +905,10 @@
                     }
                     return [opr, opn1, opn2];
                 };
-                return function (tokens, priors) {
+                return function (tokens) {
+                    if (typeof tokens === "string") {
+                        tokens = tokens.match(REGEXP_TOKENS);
+                    }
                     tokens = tokens.concat([")"]);
                     var token, opr, oprstack = [];
                     var opn, opnstack = [];
