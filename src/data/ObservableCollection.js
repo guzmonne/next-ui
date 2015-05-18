@@ -408,7 +408,7 @@
                             if (item.__id__) {
                                 return this._nxomap[item.__id__] || 0;
                             } else {
-                                return EXPORT.getArrayMapValue(this._objmap, item) || 0;
+                                return EXPORT.Counter.getArrayMapValue(this._objmap, item) || 0;
                             }
                         }
                     },
@@ -445,7 +445,7 @@
                             if (item.__id__) {
                                 this._nxomap[item.__id__] = count;
                             } else {
-                                EXPORT.setArrayMapValue(this._objmap, item, count);
+                                EXPORT.Counter.setArrayMapValue(this._objmap, item, count);
                             }
                             break;
                         }
@@ -511,10 +511,10 @@
                         })[0];
                     },
                     getArrayMapValue: function (map, key) {
-                        return (EXPORT._getArrayMapItem(map, key) || {}).value;
+                        return (EXPORT.Counter._getArrayMapItem(map, key) || {}).value;
                     },
                     setArrayMapValue: function (map, key, value) {
-                        var item = EXPORT._getArrayMapItem(map, key);
+                        var item = EXPORT.Counter._getArrayMapItem(map, key);
                         if (!item) {
                             map.push({
                                 key: key,
