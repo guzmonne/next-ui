@@ -909,6 +909,7 @@
                     tokens = tokens.concat([")"]);
                     var token, opr, oprstack = [];
                     var opn, opnstack = [];
+                    var operands = [];
                     while (tokens.length) {
                         token = tokens.shift();
                         if (token === ")") {
@@ -923,6 +924,9 @@
                             oprstack.push(token);
                         } else if (token.match(REGEXP_OPN)) {
                             opnstack.push(token);
+                            if (operands.indexOf(token) == -1) {
+                                operands.push(token);
+                            }
                         } else if (token.match(REGEXP_OPR)) {
                             while (oprstack.length) {
                                 opr = oprstack.pop();
@@ -935,6 +939,9 @@
                             }
                             oprstack.push(token);
                         }
+                    }
+                    if (opnstack[0]) {
+                        opnstack[0].operands = operands;
                     }
                     return opnstack[0];
                 };
