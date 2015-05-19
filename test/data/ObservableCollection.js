@@ -527,7 +527,7 @@ test("static or", function () {
 
 test("static expression priority", function () {
     var expression = "A && B || C && DA ^ DB | DC & ( DC1 & DC2 & DC3)";
-    var tree = nx.data.ObservableCollection.buildExpressionTree(expression.match(/&&|\|\||&|\||\^|-|\(|\)|\w+/g));
+    var tree = nx.data.ObservableCollection.buildExpressionTree(expression);
     deepEqual(tree, ["||", ["&&", "A", "B"],
         ["&&", "C", ["|", ["^", "DA", "DB"],
             ["&", "DC", ["&", "DC1", "DC2", "DC3"]]
