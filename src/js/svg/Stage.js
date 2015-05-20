@@ -38,6 +38,7 @@
             }],
             events: {
                 'mousedown': '{#_mousedown}',
+                'touchstart': '{#_mousedown}',
                 'dragstart': '{#_dragstart}',
                 'dragmove': '{#_drag}',
                 'dragend': '{#_dragend}'

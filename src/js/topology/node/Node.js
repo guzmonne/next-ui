@@ -235,6 +235,7 @@
                     }],
                     events: {
                         'mousedown': '{#_mousedown}',
+                        'touchstart': '{#_mousedown}',
                         'mouseup': '{#_mouseup}',
 
                         'mouseenter': '{#_mouseenter}',

@@ -133,7 +133,6 @@
                         'touchend': '{#_clickStage}',
                         'mousewheel': '{#_mousewheel}',
                         'DOMMouseScroll': '{#_mousewheel}',
-                        'touchmove': '{#_mousewheel}',
                         'dragStageStart': '{#_dragStageStart}',
                         'dragStage': '{#_dragStage}',
                         'dragStageEnd': '{#_dragStageEnd}',

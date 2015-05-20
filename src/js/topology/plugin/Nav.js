@@ -88,7 +88,8 @@
                                     title: "Zoom out"
                                 },
                                 events: {
-                                    'click': '{#_in}'
+                                    //'click': '{#_in}',
+                                    'touchend': '{#_in}'
                                 }
                             }, {
                                 name: 'zoomout',
@@ -98,7 +99,8 @@
                                     title: "Zoom in"
                                 },
                                 events: {
-                                    'click': '{#_out}'
+                                    //'click': '{#_out}',
+                                    'touchend': '{#_out}'
                                 }
                             }
 
@@ -111,7 +113,8 @@
                             title: "Zoom by selection"
                         },
                         events: {
-                            'click': '{#_zoombyselection}'
+                            'click': '{#_zoombyselection}',
+                            'touchend': '{#_zoombyselection}'
                         }
                     }, {
                         tag: 'li',
@@ -121,7 +124,8 @@
                             title: "Fit stage"
                         },
                         events: {
-                            'click': '{#_fit}'
+                            'click': '{#_fit}',
+                            'touchend': '{#_fit}'
                         }
                     },
                     //                        {
@@ -161,7 +165,8 @@
                             title: 'Aggregation'
                         },
                         events: {
-                            'click': '{#_agr}'
+                            'click': '{#_agr}',
+                            'touchend': '{#_agr}'
                         }
                     }, {
                         tag: 'li',
@@ -171,7 +176,8 @@
                             title: 'Enter full screen mode'
                         },
                         events: {
-                            'click': '{#_full}'
+                            'click': '{#_full}',
+                            'touchend': '{#_full}'
                         }
                     }, {
                         tag: 'li',
@@ -184,7 +190,8 @@
                             },
                             events: {
                                 mouseenter: "{#_openPopover}",
-                                mouseleave: "{#_closePopover}"
+                                mouseleave: "{#_closePopover}",
+                                //touchend: "{#_togglePopover}"
                             }
                         }, {
                             name: 'settingPopover',
@@ -241,7 +248,8 @@
                                         checked: true
                                     },
                                     events: {
-                                        click: '{#_toggleNodeLabel}'
+                                        click: '{#_toggleNodeLabel}',
+                                        touchend: '{#_toggleNodeLabel}'
                                     }
                                 }]
                             }, {
@@ -291,7 +299,8 @@
 
                                 ],
                                 events: {
-                                    'click': '{#_switchTheme}'
+                                    'click': '{#_switchTheme}',
+                                    'touchend': '{#_switchTheme}'
                                 }
                             }, {
                                 name: 'customize'
@@ -461,9 +470,18 @@
             _closeSettingPanel: function() {
                 this.view('icon').dom().removeClass('n-topology-nav-setting-icon-selected');
             },
+            _togglePopover: function() {
+                var popover = this.view("settingPopover");
+                if (popover._closed) {
+                    popover.open();
+                }else{
+                    popover.close();
+                }
+            },
             _switchTheme: function(sender, event) {
                 this.topology().theme(event.target.value);
             },
+
             _toggleNodeLabel: function(sender, events) {
                 var checked = sender.get('checked');
                 this.topology().eachNode(function(node) {

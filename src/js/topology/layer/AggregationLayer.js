@@ -82,7 +82,7 @@
                             ],
                             events: {
                                 'mousedown': '{#_mousedown}',
-                                'touchend': '{#_mousedown}'
+                                'touchstart': '{#_mousedown}'
                             }
                         }
                     }

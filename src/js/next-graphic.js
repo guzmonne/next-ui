@@ -42,6 +42,7 @@
         "src/js/svg/Text.js",
         "src/js/svg/Triangle.js",
         "src/js/svg/BezierCurves.js",
+        "src/js/svg/Arc.js",
 
         "src/js/geometry/MatrixSupport.js",
         "src/js/geometry/Matrix.js",

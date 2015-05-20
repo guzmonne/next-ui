@@ -1,4 +1,4 @@
-(function (nx, global) {
+(function(nx, global) {
 
     /**
      * ObservableGraph class
@@ -30,11 +30,17 @@
             groupBy: {}
         },
         methods: {
-            init: function (args) {
+            init: function(args) {
                 this.inherited(args);
                 this.nodeSet([]);
                 this.nodes([]);
                 this.links([]);
+
+                this.sets(args);
+
+                if (args && args.data) {
+                    this.setData(args.data);
+                }
 
             },
             /**
@@ -42,7 +48,7 @@
              * @method setData
              * @param {Object} inData
              */
-            setData: function (inData) {
+            setData: function(inData) {
 
                 var data = this.processData(this.getJSON(inData));
                 //
@@ -58,7 +64,7 @@
                  */
                 this.fire('setData', inData);
             },
-            subordinates: function (vertex, callback) {
+            subordinates: function(vertex, callback) {
                 // argument type overload
                 if (typeof vertex === "function") {
                     callback = vertex;
@@ -70,13 +76,13 @@
                     result = nx.util.values(vertex.vertices()).concat(nx.util.values(vertex.vertexSet()));
                 } else {
                     result = [];
-                    nx.each(this.vertices(), function (pair) {
+                    nx.each(this.vertices(), function(pair) {
                         var vertex = pair.value();
                         if (!vertex.parentVertexSet()) {
                             result.push(vertex);
                         }
                     }.bind(this));
-                    nx.each(this.vertexSets(), function (pair) {
+                    nx.each(this.vertexSets(), function(pair) {
                         var vertex = pair.value();
                         if (!vertex.parentVertexSet()) {
                             result.push(vertex);
@@ -94,19 +100,19 @@
              * @method insertData
              * @param {Object} inData
              */
-            insertData: function (inData) {
+            insertData: function(inData) {
 
-//                var data = this.processData(inData);
+                //                var data = this.processData(inData);
                 var data = inData;
-                nx.each(inData.nodes, function (node) {
+                nx.each(inData.nodes, function(node) {
                     this.addVertex(node);
                 }, this);
 
-                nx.each(inData.links, function (link) {
+                nx.each(inData.links, function(link) {
                     this.addEdge(link);
                 }, this);
 
-                nx.each(inData.nodeSet, function (nodeSet) {
+                nx.each(inData.nodeSet, function(nodeSet) {
                     this.addVertexSet(nodeSet);
                 }, this);
 
@@ -120,7 +126,7 @@
                 this.fire('insertData', data);
 
             },
-            _generate: function (data) {
+            _generate: function(data) {
                 //
                 this.nodes(data.nodes);
                 this.links(data.links);
@@ -151,7 +157,7 @@
                 //                console.timeEnd('edgeSet');
 
 
-                this.eachVertexSet(function (vertexSet) {
+                this.eachVertexSet(function(vertexSet) {
                     vertexSet.activated(true, {
                         force: true
                     });
@@ -176,7 +182,7 @@
              * @returns {Object}
              */
 
-            getData: function () {
+            getData: function() {
                 return {
                     nodes: this.nodes(),
                     links: this.links(),
@@ -190,7 +196,7 @@
              * @param [inData]
              * @returns {{nodes: Array, links: Array,nodeSet:Array}}
              */
-            getJSON: function (inData) {
+            getJSON: function(inData) {
                 var data = inData || this.getData();
                 var obj = {
                     nodes: [],
@@ -199,7 +205,7 @@
 
 
                 if (nx.is(data.nodes, nx.data.ObservableCollection)) {
-                    nx.each(data.nodes, function (n) {
+                    nx.each(data.nodes, function(n) {
                         if (nx.is(n, nx.data.ObservableObject)) {
                             obj.nodes.push(n.gets());
                         } else {
@@ -207,12 +213,12 @@
                         }
                     });
                 } else {
-                    obj.nodes = inData.nodes;
+                    obj.nodes = data.nodes;
                 }
 
 
                 if (nx.is(data.links, nx.data.ObservableCollection)) {
-                    nx.each(data.links, function (n) {
+                    nx.each(data.links, function(n) {
                         if (nx.is(n, nx.data.ObservableObject)) {
                             obj.links.push(n.gets());
                         } else {
@@ -220,13 +226,13 @@
                         }
                     });
                 } else {
-                    obj.links = inData.links;
+                    obj.links = data.links;
                 }
 
                 if (data.nodeSet) {
                     if (nx.is(data.nodeSet, nx.data.ObservableCollection)) {
                         obj.nodeSet = [];
-                        nx.each(data.nodeSet, function (n) {
+                        nx.each(data.nodeSet, function(n) {
                             if (nx.is(n, nx.data.ObservableObject)) {
                                 obj.nodeSet.push(n.gets());
                             } else {
@@ -247,7 +253,7 @@
              * @returns {{x: number, y: number, width: number, height: number, maxX: number, maxY: number}}
              */
 
-            getBound: function (invertices) {
+            getBound: function(invertices) {
 
                 var min_x, max_x, min_y, max_y;
 
@@ -266,7 +272,7 @@
                 }
 
 
-                nx.each(vertices, function (vertex, index) {
+                nx.each(vertices, function(vertex, index) {
                     x = vertex.get ? vertex.get('x') : vertex.x;
                     y = vertex.get ? vertex.get('y') : vertex.y;
                     min_x = Math.min(min_x, x || 0);
@@ -287,11 +293,54 @@
                 };
             },
 
+            getHierarchicalStructure: function() {
+                var json = this.getJSON();
+                var tree = {};
+                var hierarchical = [];
+                var identityKey = this.identityKey();
+
+                nx.each(json.nodes, function(node, index) {
+                    var id = nx.path(node, identityKey);
+                    var obj = {
+                        id: id,
+                        children: []
+                    };
+                    hierarchical.push(obj);
+                    tree[id] = obj;
+                });
+
+                nx.each(json.nodeSet, function(ns, index) {
+                    var id = nx.path(ns, identityKey);
+                    var obj = {
+                        id: id,
+                        children: []
+                    };
+                    ns.nodes.forEach(function(nodeID) {
+                        if (tree[nodeID]) {
+                            if (~(index = hierarchical.indexOf(tree[nodeID]))) {
+                                hierarchical.splice(index, 1);
+                            }
+                            obj.children.push(tree[nodeID]);
+                        } else {
+                            obj.children.push({
+                                id: nodeID,
+                                children: []
+                            });
+
+                        }
+                    });
+
+                    hierarchical.push(obj);
+                    tree[id] = obj;
+                });
+                return hierarchical;
+            },
+
             /**
              * Clear graph data
              * @method clear
              */
-            clear: function () {
+            clear: function() {
 
                 this.nodeSet([]);
                 this.links([]);
@@ -299,7 +348,7 @@
 
                 this.fire('clear');
             },
-            dispose: function () {
+            dispose: function() {
                 this.clear();
                 this.inherited();
             }

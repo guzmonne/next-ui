@@ -1,4 +1,4 @@
-(function (nx, global) {
+(function(nx, global) {
     /**
      * Global drag manager
 
@@ -84,10 +84,14 @@
             }
         },
         methods: {
-            init: function () {
+            init: function() {
                 window.addEventListener('mousedown', this._capture_mousedown.bind(this), true);
                 window.addEventListener('mousemove', this._capture_mousemove.bind(this), true);
                 window.addEventListener('mouseup', this._capture_mouseup.bind(this), true);
+                window.addEventListener('touchstart', this._capture_mousedown.bind(this), true);
+                window.addEventListener('touchmove', this._capture_mousemove.bind(this), true);
+                window.addEventListener('touchend', this._capture_mouseup.bind(this), true);
+
             },
             /**
              * Start drag event capture
@@ -95,8 +99,8 @@
              * @param evt {Event} original dom event
              * @returns {function(this:nx.graphic.DragManager)}
              */
-            start: function (evt) {
-                return function (node, referrer) {
+            start: function(evt) {
+                return function(node, referrer) {
                     // make sure only one node can capture the "drag" event
                     if (node && !this.node()) {
                         // FIXME may not be right on global
@@ -108,9 +112,12 @@
                         var bound, track = [];
                         bound = referrer.getBoundingClientRect();
                         this.track(track);
-                        track.push([evt.pageX - document.body.scrollLeft - bound.left, evt.pageY - document.body.scrollTop - bound.top]);
+                        var pageX = (evt.touches && evt.touches.length) ? evt.touches[0].pageX : evt.pageX;
+                        var pageY = (evt.touches && evt.touches.length) ? evt.touches[0].pageY : evt.pageY;
+                        var current = [pageX - document.body.scrollLeft - bound.left, pageY - document.body.scrollTop - bound.top];
+                        track.push(current);
                         track[0].time = evt.timeStamp;
-                        evt.dragCapture = function () {};
+                        evt.dragCapture = function() {};
                         return true;
                     }
                 }.bind(this);
@@ -120,7 +127,7 @@
              * @method move
              * @param evt {Event} original dom event
              */
-            move: function (evt) {
+            move: function(evt) {
                 var node = this.node();
                 if (node) {
                     // attach to the event
@@ -138,7 +145,7 @@
              * @method end
              * @param evt {Event} original dom event
              */
-            end: function (evt) {
+            end: function(evt) {
                 var node = this.node();
                 if (node) {
                     // attach to the event
@@ -153,10 +160,12 @@
                     this.dragging(false);
                 }
             },
-            _makeDragData: function (evt) {
+            _makeDragData: function(evt) {
                 var track = this.track();
                 var bound = this.referrer().getBoundingClientRect();
-                var current = [evt.pageX - document.body.scrollLeft - bound.left, evt.pageY - document.body.scrollTop - bound.top],
+                var pageX = (evt.touches && evt.touches.length) ? evt.touches[0].pageX : evt.pageX;
+                var pageY = (evt.touches && evt.touches.length) ? evt.touches[0].pageY : evt.pageY;
+                var current = [pageX - document.body.scrollLeft - bound.left, pageY - document.body.scrollTop - bound.top],
                     origin = track[0],
                     last = track[track.length - 1];
                 current.time = evt.timeStamp;
@@ -176,20 +185,26 @@
                     track: track
                 };
             },
-            _capture_mousedown: function (evt) {
+            _capture_mousedown: function(evt) {
                 if (evt.captureDrag) {
                     this._lastDragCapture = evt.captureDrag;
                 }
-                if (evt.type === "mousedown") {
+                if (evt.type === "mousedown" || evt.type === "touchstart") {
                     evt.captureDrag = this.start(evt);
                 } else {
-                    evt.captureDrag = function () {};
+                    evt.captureDrag = function() {};
                 }
             },
-            _capture_mousemove: function (evt) {
+            _capture_mousemove: function(evt) {
                 this.move(evt);
+                var node = this.node();
+                if (node) {
+                    evt.stopPropagation();
+                    evt.preventDefault();
+                    return false;
+                }
             },
-            _capture_mouseup: function (evt) {
+            _capture_mouseup: function(evt) {
                 this.end(evt);
             }
         }

@@ -134,6 +134,7 @@
                         },
                         events: {
                             'mousedown': '{#_number_mouseup}',
+                            'touchstart': '{#_number_mouseup}',
                             'mouseenter': '{#_number_mouseenter}',
                             'mouseleave': '{#_number_mouseleave}'
                         }

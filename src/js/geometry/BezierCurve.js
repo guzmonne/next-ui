@@ -119,6 +119,27 @@
                         left: left,
                         right: right
                     };
+                },
+                through: function (points, grade) {
+                    // get default grade
+                    if (grade === undefined) {
+                        grade = points.length - 1;
+                    }
+                    // check if grade is too low
+                    if (grade < 2) {
+                        return null;
+                    }
+                    // TODO generalized algorithm for all grade
+                    var anchors = [];
+                    if (grade === 2) {
+                        var A = points[0];
+                        var B = points[2];
+                        var X = points[1];
+                        var O = [(A[0] + B[0]) / 2, (A[1] + B[1]) / 2];
+                        var XX = [X[0] * 2 - O[0], X[1] * 2 - O[1]];
+                        anchors.push(A, XX, B);
+                    }
+                    return anchors;
                 }
             };
         })()
