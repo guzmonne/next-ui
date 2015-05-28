@@ -200,13 +200,23 @@
                     }
                 };
                 var listener = this.on("change", function (dict, evt) {
-                    var idx, affect = false;
+                    var idx, key, item, hasValue, affect = false;
+                    switch (evt.action) {
+                    case "replace":
+                    case "add":
+                        hasValue = true;
+                        break;
+                    case "remove":
+                    case "clear":
+                        hasValue = false;
+                        break;
+                    }
                     for (i = 0; i < evt.items.length; i++) {
                         item = evt.items[i];
                         key = item.key();
                         idx = keys.indexOf(key);
                         if (idx >= 0) {
-                            resmgr.values[idx] = item.value();
+                            resmgr.values[idx] = hasValue ? item.value() : undefined;
                             affect = true;
                         }
                     }
