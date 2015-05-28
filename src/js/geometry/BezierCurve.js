@@ -26,7 +26,7 @@
                     last = 0,
                     result = [];
                 for (i = 0; i < points.length; i++) {
-                    if (typeof points[i] !== "number" || points[i] <= last || points[i] >= 1) {
+                    if (typeof points[i] !== "number" || points[i] <= last || points[i] > 1) {
                         throw "Invalid bread point list: " + points.join(",");
                     }
                     result.push((points[i] - last) / (1 - last));
@@ -34,6 +34,13 @@
                 }
                 return result;
             }
+
+            function quadLength(t, start, control_1, control_2, end) {
+                /* Formula from Wikipedia article on Bezier curves. */
+                return start * (1.0 - t) * (1.0 - t) * (1.0 - t) + 3.0 * control_1 * (1.0 - t) * (1.0 - t) * t + 3.0 * control_2 * (1.0 - t) * t * t + end * t * t * t;
+            }
+
+
             return {
                 slice: function(bezier, from, to) {
                     if (from === 0) {
@@ -120,7 +127,7 @@
                         right: right
                     };
                 },
-                through: function (points, grade) {
+                through: function(points, grade) {
                     // get default grade
                     if (grade === undefined) {
                         grade = points.length - 1;
@@ -140,6 +147,53 @@
                         anchors.push(A, XX, B);
                     }
                     return anchors;
+                },
+                locationAlongCurve: function(bezier, distance) {
+                    var t;
+                    var steps = 1000;
+                    var length = 0.0;
+                    var previous_dot = [];
+                    var start = bezier[0];
+                    if (!distance) {
+                        return 0;
+                    }
+                    for (var i = 0; i <= steps; i++) {
+                        t = i / steps;
+                        var x = quadLength(t, start[0], bezier[1][0], bezier[2][0], bezier[3][0]);
+                        var y = quadLength(t, start[1], bezier[1][1], bezier[2][1], bezier[3][1]);
+                        if (i > 0) {
+                            var x_diff = x - previous_dot[0];
+                            var y_diff = y - previous_dot[1];
+                            var gap = Math.sqrt(x_diff * x_diff + y_diff * y_diff);
+                            if (length < distance && distance < length + gap) {
+                                return i / steps;
+                            } else {
+                                length += gap;
+                            }
+                        }
+                        previous_dot = [x, y];
+                    }
+                    return NaN;
+                },
+                getLength: function(bezier) {
+                    var t;
+                    var steps = 1000;
+                    var length = 0.0;
+                    var previous_dot = [];
+                    var start = bezier[0];
+                    for (var i = 0; i <= steps; i++) {
+                        t = i / steps;
+                        var x = quadLength(t, start[0], bezier[1][0], bezier[2][0], bezier[3][0]);
+                        var y = quadLength(t, start[1], bezier[1][1], bezier[2][1], bezier[3][1]);
+                        if (i > 0) {
+                            var x_diff = x - previous_dot[0];
+                            var y_diff = y - previous_dot[1];
+
+                            length += Math.sqrt(x_diff * x_diff + y_diff * y_diff);
+                        }
+                        previous_dot = [x, y];
+                    }
+                    return length;
                 }
             };
         })()
