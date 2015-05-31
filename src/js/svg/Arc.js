@@ -92,6 +92,9 @@
                     }
                 }
             },
+            thickness: {
+                value: null
+            },
             centerPoint: {
                 value: function() {
                     return {
@@ -104,7 +107,7 @@
         methods: {
             init: function(args) {
                 this.inherited(args);
-                this.watch(['innerRadius', 'outerRadius', 'startAngle', 'endAngle', 'clockwies'], function(prop, value) {
+                this.watch(['innerRadius', 'outerRadius', 'startAngle', 'endAngle', 'clockwies', 'thickness'], function(prop, value) {
                     if (this._outerRadius && (this._startAngle || this._endAngle)) {
                         this._updates();
                     }
@@ -112,8 +115,9 @@
             },
             _updates: function() {
                 var delta = Math.PI / 180 * (this._clockwies ? -1 : 1);
+                var thickness = this._thickness;
                 var innerRadius = this._innerRadius;
-                var outerRadius = this._outerRadius;
+                var outerRadius = this._outerRadius || innerRadius + thickness;
                 var startAngle = Math.min(this._startAngle, this._endAngle) * delta;
                 var endAngle = Math.max(this._startAngle, this._endAngle) * delta;
                 var gapRadius = outerRadius - innerRadius;

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
+    <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/NeXt-Core/lastSuccessfulBuild/artifact/dest/next-core.js"></script>
+    <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/NeXt-UI/lastSuccessfulBuild/artifact/dest/js/next-ui.js"></script>
+    <!--<script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/Next-Graphic/lastSuccessfulBuild/artifact/dest/js/next-graphic.js"></script>-->
+    <Script Type="text/javascript" src="../../src/js/next-graphic.js"></script>
+    <!--<link rel="stylesheet" href="http://10.75.161.96:8080/jenkins/job/NeXt-UI/lastSuccessfulBuild/artifact/dest/css/next-blue.css"/>-->
+    <link rel="stylesheet" href="../../src/less/next-graphic.css" />
+</head>
+
+<body>
+    <style>
+        body,
+        html,
+        #test1 {
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        line {
+            stroke: #f0f;
+        }
+    </style>
+    <div id="test1" style=""></div>
+
+
+    <script type="text/javascript">
+        var Arc = nx.define(nx.ui.Component, {
+            properties: {
+                arc: {
+                    get: function() {
+                        return this.view('arc');
+                    }
+                },
+                ir: {
+                    value: 120
+                },
+                or: {
+                    value: 135
+                }
+            },
+            view: {
+                content: {
+                    name: "stage",
+                    type: "nx.graphic.Stage",
+                    props: {
+                        width: 800,
+                        height: 800
+                    },
+                    content: [{
+                            type: 'nx.graphic.Line',
+                            props: {
+                                x1: 0,
+                                y1: 100,
+                                x2: 300,
+                                y2: 100
+                            }
+                        }, {
+                            type: 'nx.graphic.Line',
+                            props: {
+                                x1: 100,
+                                y1: 0,
+                                x2: 100,
+                                y2: 300
+                            }
+                        }, {
+                            type: 'nx.graphic.Group',
+                            props: {
+                                translateX: 100,
+                                translateY: 100
+                            },
+                            content: [{
+                                    name: 'arc',
+                                    type: 'nx.graphic.Arc',
+                                    props: {
+                                        clockwies: false,
+                                        startAngle: 54,
+                                        endAngle: 254,
+                                        innerRadius: 30,
+                                        outerRadius: 80
+
+                                    }
+                                }, {
+                                    type: 'nx.graphic.Circle',
+                                    props: {
+                                        r: '5',
+                                        fill: '#f00',
+                                        cx: '{#arc.innerStartPoint.x}',
+                                        cy: '{#arc.innerStartPoint.y}'
+                                    }
+                                }, {
+                                    type: 'nx.graphic.Circle',
+                                    props: {
+                                        r: 5,
+                                        fill: '#f00',
+                                        cx: '{#arc.outerStartPoint.x}',
+                                        cy: '{#arc.outerStartPoint.y}'
+                                    }
+                                }, {
+                                    type: 'nx.graphic.Circle',
+                                    props: {
+                                        r: 5,
+                                        fill: '#f00',
+                                        cx: '{#arc.innerEndPoint.x}',
+                                        cy: '{#arc.innerEndPoint.y}'
+                                    }
+                                }, {
+                                    type: 'nx.graphic.Circle',
+                                    props: {
+                                        r: 5,
+                                        fill: '#f00',
+                                        cx: '{#arc.outerEndPoint.x}',
+                                        cy: '{#arc.outerEndPoint.y}'
+                                    }
+                                }, {
+                                    type: 'nx.graphic.Circle',
+                                    props: {
+                                        r: 5,
+                                        fill: '#ff0',
+                                        cx: '{#arc.innerCenterPoint.x}',
+                                        cy: '{#arc.innerCenterPoint.y}'
+                                    }
+                                }, {
+                                    type: 'nx.graphic.Circle',
+                                    props: {
+                                        r: 5,
+                                        fill: '#f00',
+                                        cx: '{#arc.outerCenterPoint.x}',
+                                        cy: '{#arc.outerCenterPoint.y}'
+                                    }
+                                }, {
+                                    type: 'nx.graphic.Circle',
+                                    props: {
+                                        r: 5,
+                                        fill: '#f00',
+                                        cx: '{#arc.centerPoint.x}',
+                                        cy: '{#arc.centerPoint.y}'
+                                    }
+                                }
+
+                            ]
+                        }
+
+
+                    ]
+                }
+            }
+        });
+
+
+        var arc = new Arc();
+
+        var app = new nx.ui.Application();
+        app.container(document.getElementById('test1'));
+        arc.attach(app);
+
+
+        //        arc.view('arc').animate({
+        //            to: {
+        //                startAngle: 180,
+        //                endAngle: 278
+        //            },
+        //            duration:550
+        //        });
+
+
+
+        setInterval(function() {
+//            var a = arc.view('arc');
+//            var _angle = a.startAngle();
+//            var angle = a.endAngle();
+//            a.endAngle(angle + 3);
+//            a.startAngle(_angle + 2);
+        }, 10)
+    </script>
+</body>
+
+</html>

@@ -303,16 +303,24 @@
                     var id = nx.path(node, identityKey);
                     var obj = {
                         id: id,
+                        data: node,
                         children: []
                     };
                     hierarchical.push(obj);
                     tree[id] = obj;
                 });
 
+                var nodeSetData = {};
+                nx.each(json.nodeSet, function(ns, index) {
+                    var id = nx.path(ns, identityKey);
+                    nodeSetData[id] = ns;
+                });
+
                 nx.each(json.nodeSet, function(ns, index) {
                     var id = nx.path(ns, identityKey);
                     var obj = {
                         id: id,
+                        data: ns,
                         children: []
                     };
                     ns.nodes.forEach(function(nodeID) {
@@ -324,9 +332,9 @@
                         } else {
                             obj.children.push({
                                 id: nodeID,
+                                data: nodeSetData[nodeID],
                                 children: []
                             });
-
                         }
                     });
 

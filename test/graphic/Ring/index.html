@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
+    <script type="text/javascript" src="../../../../next-core/dest/next-core.js"></script>
+    <script type="text/javascript" src="../../../../next-ui/dest/js/next-ui.js"></script>
+    <Script Type="text/javascript" src="../../../src/js/next-graphic.js"></script>
+    <link rel="stylesheet" href="../../../src/less/next-graphic.css" />
+
+
+    <script type="text/javascript" src="js/util/util.js"></script>
+
+
+    <link rel="stylesheet" href="style/style.css" />
+
+    <!--data-->
+    <script type="text/javascript" src="js/data/simple.js"></script>
+    <script type="text/javascript" src="js/model/Partition.js"></script>
+
+    <script type="text/javascript" src="js/viewmodel/RingChartVM.js"></script>
+    <script type="text/javascript" src="js/viewmodel/RingVM.js"></script>
+    <script type="text/javascript" src="js/viewmodel/RingItemVM.js"></script>
+
+    <script type="text/javascript" src="js/view/RinChart.js"></script>
+    <script type="text/javascript" src="js/view/Ring.js"></script>
+    <script type="text/javascript" src="js/view/RingItem.js"></script>
+    <script type="text/javascript" src="js/view/RootRing.js"></script>
+    <script type="text/javascript" src="js/view/RootRingItem.js"></script>
+    <script type="text/javascript" src="js/view/SecondRing.js"></script>
+    <script type="text/javascript" src="js/view/SecondRingItem.js"></script>
+    <script type="text/javascript" src="js/view/ThirdRing.js"></script>
+    <script type="text/javascript" src="js/view/ThirdRingItem.js"></script>
+
+</head>
+
+<body>
+    <div id="app"></div>
+</body>
+
+<script type="text/javascript">
+    var colorTable = ['#C3A5E4', '#75C6EF', '#CBDA5C', '#2CC86F', '#ACAEB1 '];
+
+    //model
+    //    var graph = new nx.data.ObservableGraph({
+    //        identityKey: 'id',
+    //        data: data
+    //    });
+    //    var hierarchical = graph.getHierarchicalStructure();
+
+    var hierarchical = generateTree(3, 0, 3);
+
+    var partition = new nx.data.Partition({
+        data: hierarchical,
+        valuer: function(item) {
+            return item.value;
+        }
+    });
+
+
+    //vm
+    var vm = new RingChartVM({
+        startAngle: 54,
+        endAngle: 306,
+        innerRadius: 120,
+        outerRadius: 140,
+        color: function(item, vm) {
+            if(item.depth == 0){
+                return colorTable[(item.depth + vm.model().index()) % 4];
+            }else{
+                return colorTable[3];
+            }
+
+        }
+    });
+    vm.partition(partition);
+
+    //view
+    var ringChart = new RingChart();
+
+    //bind
+    ringChart.model(vm);
+
+    var app = new nx.ui.Application();
+    app.container(document.getElementById('app'));
+    ringChart.attach(app);
+
+    x1 = vm._ring._rings[0];
+    x2 = x1._ring._rings[0];
+
+
+    rr = ringChart.view('rootRing');
+</script>
+
+<svg style="visibility: hidden">
+    <defs>
+        <filter id="blurFilter" x="-20" y="-20" width="200" height="200">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="2" />
+        </filter>
+    </defs>
+</svg>
+
+</html>

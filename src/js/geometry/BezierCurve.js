@@ -175,6 +175,33 @@
                     }
                     return NaN;
                 },
+                positionAlongCurve: function(bezier, distance) {
+                    var t;
+                    var steps = 1000;
+                    var length = 0.0;
+                    var previous_dot = null;
+                    var start = bezier[0];
+                    if (!distance) {
+                        return 0;
+                    }
+                    for (var i = 0; i <= steps; i++) {
+                        t = i / steps;
+                        var x = quadLength(t, start[0], bezier[1][0], bezier[2][0], bezier[3][0]);
+                        var y = quadLength(t, start[1], bezier[1][1], bezier[2][1], bezier[3][1]);
+                        if (i > 0) {
+                            var x_diff = x - previous_dot[0];
+                            var y_diff = y - previous_dot[1];
+                            var gap = Math.sqrt(x_diff * x_diff + y_diff * y_diff);
+                            if (length < distance && distance < length + gap) {
+                                return  [x, y];
+                            } else {
+                                length += gap;
+                            }
+                        }
+                        previous_dot = [x, y];
+                    }
+                    return NaN;
+                },
                 getLength: function(bezier) {
                     var t;
                     var steps = 1000;
