@@ -226,19 +226,17 @@
                 var element = this.$dom;
                 var args = arguments,
                     classList = element.classList;
-                if (classList) {
-                    if (nx.Env.support('classList')) {
-                        if (args.length === 1 && args[0].search(rBlank) > -1) {
-                            args = args[0].split(rBlank);
-                        }
-                        return classList.add.apply(classList, args);
+                if (nx.Env.support('classList')) {
+                    if (args.length === 1 && args[0].search(rBlank) > -1) {
+                        args = args[0].split(rBlank);
                     }
-                } else {
-                    if (!this.hasClass(args[0])) {
-                        var curCls = element.className;
-                        /* jslint -W093 */
-                        return element.className = curCls ? (curCls + ' ' + args[0]) : args[0];
-                    }
+                    return classList.add.apply(classList, args);
+                }
+            } else {
+                if (!this.hasClass(args[0])) {
+                    var curCls = element.className;
+                    /* jslint -W093 */
+                    return element.className = curCls ? (curCls + ' ' + args[0]) : args[0];
                 }
             },
             /**
