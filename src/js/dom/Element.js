@@ -1,11 +1,21 @@
 (function (nx) {
-    var global = nx.global, document = global.document, env = nx.Env, util = nx.Util;
-    var rTableElement = /^t(?:able|d|h)$/i, rBlank = /\s+/, borderMap = {
+    var global = nx.global,
+        document = global.document,
+        env = nx.Env,
+        util = nx.Util;
+    var rTableElement = /^t(?:able|d|h)$/i,
+        rBlank = /\s+/,
+        borderMap = {
             thin: '2px',
             medium: '4px',
             thick: '6px'
-        }, isGecko = env.engine().name === 'gecko';
-    var MARGIN = 'margin', PADDING = 'padding', BORDER = 'border', POSITION = 'position', FIXED = 'fixed';
+        },
+        isGecko = env.engine().name === 'gecko';
+    var MARGIN = 'margin',
+        PADDING = 'padding',
+        BORDER = 'border',
+        POSITION = 'position',
+        FIXED = 'fixed';
 
     var Collection = nx.data.Collection;
     //======attrHooks start======//
@@ -47,7 +57,7 @@
         checked: 'checked'
     };
     //registerAttrHooks for Element
-    (function registerAttrHooks () {
+    (function registerAttrHooks() {
 
         //baseAttrHooks
         nx.each(baseAttrHooks, function (hookValue, hookKey) {
@@ -80,7 +90,7 @@
     }());
 
 
-    function getClsPos (inElement, inClassName) {
+    function getClsPos(inElement, inClassName) {
         return (' ' + inElement.className + ' ').indexOf(' ' + inClassName + ' ');
     }
 
@@ -102,11 +112,11 @@
                 if (name === 'text') {
                     return this.getText();
                 } else
-                    if (name == 'html') {
-                        return this.getHtml();
-                    } else {
-                        return this.getAttribute(name);
-                    }
+                if (name == 'html') {
+                    return this.getHtml();
+                } else {
+                    return this.getAttribute(name);
+                }
             },
             /**
              * Set an attribute for an element
@@ -118,11 +128,11 @@
                 if (name === 'text') {
                     this.setText(value);
                 } else
-                    if (name == 'html') {
-                        this.setHtml(value);
-                    } else {
-                        this.setAttribute(name, value);
-                    }
+                if (name == 'html') {
+                    this.setHtml(value);
+                } else {
+                    this.setAttribute(name, value);
+                }
             },
             /**
              * Get an element by selector.
@@ -141,7 +151,9 @@
              * @returns {nx.data.Collection}
              */
             selectAll: function (inSelector) {
-                var elements = this.$dom.querySelectorAll(inSelector), i = 0, element = elements[i];
+                var elements = this.$dom.querySelectorAll(inSelector),
+                    i = 0,
+                    element = elements[i];
                 var nxElements = new Collection();
                 for (; element; i++) {
                     element = elements[i];
@@ -212,13 +224,15 @@
              */
             addClass: function () {
                 var element = this.$dom;
-                var args = arguments, classList = element.classList;
+                var args = arguments,
+                    classList = element.classList;
                 if (classList) {
-                if (nx.Env.support('classList')) {
-                    if (args.length === 1 && args[0].search(rBlank) > -1) {
-                        args = args[0].split(rBlank);
+                    if (nx.Env.support('classList')) {
+                        if (args.length === 1 && args[0].search(rBlank) > -1) {
+                            args = args[0].split(rBlank);
+                        }
+                        return classList.add.apply(classList, args);
                     }
-                    return classList.add.apply(classList, args);
                 } else {
                     if (!this.hasClass(args[0])) {
                         var curCls = element.className;
@@ -226,354 +240,362 @@
                         return element.className = curCls ? (curCls + ' ' + args[0]) : args[0];
                     }
                 }
-            }
-        },
-        /**
-         * Remove class from element
-         * @method removeClass
-         * @returns {*}
-         */
-        removeClass: function () {
-            var element = this.$dom;
-            if (!element) {
-                return;
-            }
-            if (nx.Env.support('classList')) {
-                var classList = this.$dom.classList;
-                if (classList){
-                    return classList.remove.apply(classList, arguments);
+            },
+            /**
+             * Remove class from element
+             * @method removeClass
+             * @returns {*}
+             */
+            removeClass: function () {
+                var element = this.$dom;
+                if (!element) {
+                    return;
                 }
-            } else {
-                var curCls = element.className, index = getClsPos(element, arguments[0]), className = arguments[0];
-                if (index > -1) {
-                    if (index === 0) {
-                        if (curCls !== className) {
-                            className = className + ' ';
-                        }
-                    } else {
-                        className = ' ' + className;
+                if (nx.Env.support('classList')) {
+                    var classList = this.$dom.classList;
+                    if (classList) {
+                        return classList.remove.apply(classList, arguments);
                     }
-                    element.className = curCls.replace(className, '');
-                }
-            }
-        },
-        /**
-         * Toggle a class on element
-         * @method toggleClass
-         * @param inClassName
-         * @returns {*}
-         */
-        toggleClass: function (inClassName) {
-            var element = this.$dom;
-            if (nx.Env.support('classList')) {
-                return this.$dom.classList.toggle(inClassName);
-            } else {
-                if (this.hasClass(inClassName)) {
-                    this.removeClass(inClassName);
                 } else {
-                    this.addClass(inClassName);
+                    var curCls = element.className,
+                        index = getClsPos(element, arguments[0]),
+                        className = arguments[0];
+                    if (index > -1) {
+                        if (index === 0) {
+                            if (curCls !== className) {
+                                className = className + ' ';
+                            }
+                        } else {
+                            className = ' ' + className;
+                        }
+                        element.className = curCls.replace(className, '');
+                    }
                 }
-            }
-        },
-        /**
-         * Get document
-         * @method getDocument
-         * @returns {*}
-         */
-        getDocument: function () {
-            var element = this.$dom;
-            var doc = document;
-            if (element) {
-                doc = (element.nodeType === 9) ? element : // element === document
-                    element.ownerDocument || // element === DOM node
+            },
+            /**
+             * Toggle a class on element
+             * @method toggleClass
+             * @param inClassName
+             * @returns {*}
+             */
+            toggleClass: function (inClassName) {
+                var element = this.$dom;
+                if (nx.Env.support('classList')) {
+                    return this.$dom.classList.toggle(inClassName);
+                } else {
+                    if (this.hasClass(inClassName)) {
+                        this.removeClass(inClassName);
+                    } else {
+                        this.addClass(inClassName);
+                    }
+                }
+            },
+            /**
+             * Get document
+             * @method getDocument
+             * @returns {*}
+             */
+            getDocument: function () {
+                var element = this.$dom;
+                var doc = document;
+                if (element) {
+                    doc = (element.nodeType === 9) ? element : // element === document
+                        element.ownerDocument || // element === DOM node
                         element.document; // element === window
-            }
-            return doc;
-        },
-        /**
-         * Get window
-         * @method getWindow
-         * @returns {DocumentView|window|*}
-         */
-        getWindow: function () {
-            var doc = this.getDocument();
-            return doc.defaultView || doc.parentWindow || global;
-        },
-        /**
-         * Get root element
-         * @method getRoot
-         * @returns {Element}
-         */
-        getRoot: function () {
-            return env.strict() ? document.documentElement : document.body;
-        },
-        /**
-         * Get element position information
-         * @method getBound
-         * @returns {{top: number, right: Number, bottom: Number, left: number, width: Number, height: Number}}
-         */
-        getBound: function () {
-            var box = this.$dom.getBoundingClientRect(), root = this.getRoot(), clientTop = root.clientTop || 0, clientLeft = root.clientLeft || 0;
-            return {
-                top: box.top - clientTop,
-                right: box.right,
-                bottom: box.bottom,
-                left: box.left - clientLeft,
-                width: box.width,
-                height: box.height
-            };
-        },
-        /**
-         * Get margin distance information
-         * @method margin
-         * @param inDirection
-         * @returns {*}
-         */
-        margin: function (inDirection) {
-            return this._getBoxWidth(MARGIN, inDirection);
-        },
-        /**
-         * Get padding distance information
-         * @method padding
-         * @param inDirection
-         * @returns {*}
-         */
-        padding: function (inDirection) {
-            return this._getBoxWidth(PADDING, inDirection);
-        },
-        /**
-         * Get border width information
-         * @method border
-         * @param inDirection
-         * @returns {*}
-         */
-        border: function (inDirection) {
-            return this._getBoxWidth(BORDER, inDirection);
-        },
-        /**
-         * Get offset information
-         * @method getOffset
-         * @returns {{top: number, left: number}}
-         */
-        getOffset: function () {
-            var box = this.$dom.getBoundingClientRect(), root = this.getRoot(), clientTop = root.clientTop || 0, clientLeft = root.clientLeft || 0;
-            return {
-                'top': box.top + (global.pageYOffset || root.scrollTop) - clientTop,
-                'left': box.left + (global.pageXOffset || root.scrollLeft) - clientLeft
-            };
-        },
-        /**
-         * Set offset style
-         * @method setOffset
-         * @param inStyleObj
-         */
-        setOffset: function (inStyleObj) {
-            var elPosition = this.getStyle(POSITION), styleObj = inStyleObj;
-            var scrollXY = {
-                left: Math.max((global.pageXOffset || 0), root.scrollLeft),
-                top: Math.max((global.pageYOffset || 0), root.scrollTop)
-            };
-            if (elPosition === FIXED) {
-                styleObj = {
-                    left: parseFloat(styleObj) + scrollXY.scrollX,
-                    top: parseFloat(styleObj) + scrollXY.scrollY
-                };
-            }
-            this.setStyles(styleObj);
-        },
-        /**
-         * Has in line style
-         * @method hasStyle
-         * @param inName
-         * @returns {boolean}
-         */
-        hasStyle: function (inName) {
-            var cssText = this.$dom.style.cssText;
-            return cssText.indexOf(inName + ':') > -1;
-        },
-        /**
-         * Get computed style
-         * @method getStyle
-         * @param inName
-         * @param isInline
-         * @returns {*}
-         */
-        getStyle: function (inName, isInline) {
-            var property = util.getStyleProperty(inName);
-            if (isInline) {
-                return this.$dom.style[property];
-            } else {
-                var styles = getComputedStyle(this.$dom, null);
-                return styles[property] || '';
-            }
-        },
-        /**
-         * Set style for element
-         * @method setStyle
-         * @param inName
-         * @param inValue
-         */
-        setStyle: function (inName, inValue) {
-            var property = util.getStyleProperty(inName);
-            this.$dom.style[property] = util.getStyleValue(inName, inValue);
-        },
-        /**
-         * Remove inline style
-         * @method removeStyle
-         * @param inName
-         */
-        removeStyle: function (inName) {
-            var property = util.getStyleProperty(inName, true);
-            this.$dom.style.removeProperty(property);
-        },
-        /**
-         * Set style by style object
-         * @method setStyles
-         * @param inStyles
-         */
-        setStyles: function (inStyles) {
-            this.$dom.style.cssText += util.getCssText(inStyles);
-        },
-        /**
-         * Get attribute
-         * @method getAttribute
-         * @param inName
-         * @returns {*}
-         */
-        getAttribute: function (inName) {
-            var hook = attrHooks[inName];
-            if (hook) {
-                if (hook.get) {
-                    return hook.get(this.$dom);
-                } else {
-                    return this.$dom.getAttribute(hook);
                 }
-            }
-            return this.$dom.getAttribute(inName);
-        },
-        /**
-         * Set attribute
-         * @method setAttribute
-         * @param inName
-         * @param inValue
-         * @returns {*}
-         */
-        setAttribute: function (inName, inValue) {
-            if (inValue !== null && inValue !== undefined) {
+                return doc;
+            },
+            /**
+             * Get window
+             * @method getWindow
+             * @returns {DocumentView|window|*}
+             */
+            getWindow: function () {
+                var doc = this.getDocument();
+                return doc.defaultView || doc.parentWindow || global;
+            },
+            /**
+             * Get root element
+             * @method getRoot
+             * @returns {Element}
+             */
+            getRoot: function () {
+                return env.strict() ? document.documentElement : document.body;
+            },
+            /**
+             * Get element position information
+             * @method getBound
+             * @returns {{top: number, right: Number, bottom: Number, left: number, width: Number, height: Number}}
+             */
+            getBound: function () {
+                var box = this.$dom.getBoundingClientRect(),
+                    root = this.getRoot(),
+                    clientTop = root.clientTop || 0,
+                    clientLeft = root.clientLeft || 0;
+                return {
+                    top: box.top - clientTop,
+                    right: box.right,
+                    bottom: box.bottom,
+                    left: box.left - clientLeft,
+                    width: box.width,
+                    height: box.height
+                };
+            },
+            /**
+             * Get margin distance information
+             * @method margin
+             * @param inDirection
+             * @returns {*}
+             */
+            margin: function (inDirection) {
+                return this._getBoxWidth(MARGIN, inDirection);
+            },
+            /**
+             * Get padding distance information
+             * @method padding
+             * @param inDirection
+             * @returns {*}
+             */
+            padding: function (inDirection) {
+                return this._getBoxWidth(PADDING, inDirection);
+            },
+            /**
+             * Get border width information
+             * @method border
+             * @param inDirection
+             * @returns {*}
+             */
+            border: function (inDirection) {
+                return this._getBoxWidth(BORDER, inDirection);
+            },
+            /**
+             * Get offset information
+             * @method getOffset
+             * @returns {{top: number, left: number}}
+             */
+            getOffset: function () {
+                var box = this.$dom.getBoundingClientRect(),
+                    root = this.getRoot(),
+                    clientTop = root.clientTop || 0,
+                    clientLeft = root.clientLeft || 0;
+                return {
+                    'top': box.top + (global.pageYOffset || root.scrollTop) - clientTop,
+                    'left': box.left + (global.pageXOffset || root.scrollLeft) - clientLeft
+                };
+            },
+            /**
+             * Set offset style
+             * @method setOffset
+             * @param inStyleObj
+             */
+            setOffset: function (inStyleObj) {
+                var elPosition = this.getStyle(POSITION),
+                    styleObj = inStyleObj;
+                var scrollXY = {
+                    left: Math.max((global.pageXOffset || 0), root.scrollLeft),
+                    top: Math.max((global.pageYOffset || 0), root.scrollTop)
+                };
+                if (elPosition === FIXED) {
+                    styleObj = {
+                        left: parseFloat(styleObj) + scrollXY.scrollX,
+                        top: parseFloat(styleObj) + scrollXY.scrollY
+                    };
+                }
+                this.setStyles(styleObj);
+            },
+            /**
+             * Has in line style
+             * @method hasStyle
+             * @param inName
+             * @returns {boolean}
+             */
+            hasStyle: function (inName) {
+                var cssText = this.$dom.style.cssText;
+                return cssText.indexOf(inName + ':') > -1;
+            },
+            /**
+             * Get computed style
+             * @method getStyle
+             * @param inName
+             * @param isInline
+             * @returns {*}
+             */
+            getStyle: function (inName, isInline) {
+                var property = util.getStyleProperty(inName);
+                if (isInline) {
+                    return this.$dom.style[property];
+                } else {
+                    var styles = getComputedStyle(this.$dom, null);
+                    return styles[property] || '';
+                }
+            },
+            /**
+             * Set style for element
+             * @method setStyle
+             * @param inName
+             * @param inValue
+             */
+            setStyle: function (inName, inValue) {
+                var property = util.getStyleProperty(inName);
+                this.$dom.style[property] = util.getStyleValue(inName, inValue);
+            },
+            /**
+             * Remove inline style
+             * @method removeStyle
+             * @param inName
+             */
+            removeStyle: function (inName) {
+                var property = util.getStyleProperty(inName, true);
+                this.$dom.style.removeProperty(property);
+            },
+            /**
+             * Set style by style object
+             * @method setStyles
+             * @param inStyles
+             */
+            setStyles: function (inStyles) {
+                this.$dom.style.cssText += util.getCssText(inStyles);
+            },
+            /**
+             * Get attribute
+             * @method getAttribute
+             * @param inName
+             * @returns {*}
+             */
+            getAttribute: function (inName) {
                 var hook = attrHooks[inName];
                 if (hook) {
-                    if (hook.set) {
-                        return hook.set(this.$dom, inValue);
+                    if (hook.get) {
+                        return hook.get(this.$dom);
                     } else {
-                        return this.$dom.setAttribute(hook, inValue);
+                        return this.$dom.getAttribute(hook);
                     }
                 }
-                return this.$dom.setAttribute(inName, inValue);
-            }
-        },
-        /**
-         * Remove attribute
-         * @method removeAttribute
-         * @param inName
-         */
-        removeAttribute: function (inName) {
-            this.$dom.removeAttribute(baseAttrHooks[inName] || inName);
-        },
-        /**
-         * Get all attributes
-         * @method getAttributes
-         * @returns {{}}
-         */
-        getAttributes: function () {
-            var attrs = {};
-            nx.each(this.$dom.attributes, function (attr) {
-                attrs[attr.name] = attr.value;
-            });
-            return attrs;
-        },
-        /**
-         * Set attributes
-         * @method setAttributes
-         * @param attrs
-         */
-        setAttributes: function (attrs) {
-            nx.each(attrs, function (value, key) {
-                this.setAttribute(key, value);
-            }, this);
-        },
-        /**
-         * Get inner text
-         * @method getText
-         * @returns {*}
-         */
-        getText: function () {
-            return this.$dom.textContent;
-        },
-        /**
-         * Set inner text
-         * @method setText
-         * @param text
-         */
-        setText: function (text) {
-            this.$dom.textContent = text;
-        },
-        /**
-         * Get inner html
-         * @method getHtml
-         * @returns {*|string}
-         */
-        getHtml: function () {
-            return this.$dom.innerHTML;
-        },
-        /**
-         * Set inner html
-         * @method setHtml
-         * @param html
-         */
-        setHtml: function (html) {
-            this.$dom.innerHTML = html;
-        },
-        /**
-         * Add event listener
-         * @method addEventListener
-         * @param name
-         * @param listener
-         * @param useCapture
-         */
-        addEventListener: function (name, listener, useCapture) {
-            this.$dom.addEventListener(name, listener, useCapture || false);
-        },
-        /**
-         * Remove event listener
-         * @method removeEventListener
-         * @param name
-         * @param listener
-         * @param useCapture
-         */
-        removeEventListener: function (name, listener, useCapture) {
-            this.$dom.removeEventListener(name, listener, useCapture || false);
-        },
-        _getBoxWidth: function (inBox, inDirection) {
-            var boxWidth, styleResult;
-            var element = this.$dom;
-            switch (inBox) {
-            case PADDING:
-            case MARGIN:
-                styleResult = this.getStyle(inBox + "-" + inDirection);
-                boxWidth = parseFloat(styleResult);
-                break;
-            default:
-                styleResult = this.getStyle('border-' + inDirection + '-width');
-                if (isGecko) {
-                    if (rTableElement.test(element.tagName)) {
-                        styleResult = 0;
+                return this.$dom.getAttribute(inName);
+            },
+            /**
+             * Set attribute
+             * @method setAttribute
+             * @param inName
+             * @param inValue
+             * @returns {*}
+             */
+            setAttribute: function (inName, inValue) {
+                if (inValue !== null && inValue !== undefined) {
+                    var hook = attrHooks[inName];
+                    if (hook) {
+                        if (hook.set) {
+                            return hook.set(this.$dom, inValue);
+                        } else {
+                            return this.$dom.setAttribute(hook, inValue);
+                        }
                     }
+                    return this.$dom.setAttribute(inName, inValue);
                 }
-                boxWidth = parseFloat(styleResult) || borderMap[styleResult];
+            },
+            /**
+             * Remove attribute
+             * @method removeAttribute
+             * @param inName
+             */
+            removeAttribute: function (inName) {
+                this.$dom.removeAttribute(baseAttrHooks[inName] || inName);
+            },
+            /**
+             * Get all attributes
+             * @method getAttributes
+             * @returns {{}}
+             */
+            getAttributes: function () {
+                var attrs = {};
+                nx.each(this.$dom.attributes, function (attr) {
+                    attrs[attr.name] = attr.value;
+                });
+                return attrs;
+            },
+            /**
+             * Set attributes
+             * @method setAttributes
+             * @param attrs
+             */
+            setAttributes: function (attrs) {
+                nx.each(attrs, function (value, key) {
+                    this.setAttribute(key, value);
+                }, this);
+            },
+            /**
+             * Get inner text
+             * @method getText
+             * @returns {*}
+             */
+            getText: function () {
+                return this.$dom.textContent;
+            },
+            /**
+             * Set inner text
+             * @method setText
+             * @param text
+             */
+            setText: function (text) {
+                this.$dom.textContent = text;
+            },
+            /**
+             * Get inner html
+             * @method getHtml
+             * @returns {*|string}
+             */
+            getHtml: function () {
+                return this.$dom.innerHTML;
+            },
+            /**
+             * Set inner html
+             * @method setHtml
+             * @param html
+             */
+            setHtml: function (html) {
+                this.$dom.innerHTML = html;
+            },
+            /**
+             * Add event listener
+             * @method addEventListener
+             * @param name
+             * @param listener
+             * @param useCapture
+             */
+            addEventListener: function (name, listener, useCapture) {
+                this.$dom.addEventListener(name, listener, useCapture || false);
+            },
+            /**
+             * Remove event listener
+             * @method removeEventListener
+             * @param name
+             * @param listener
+             * @param useCapture
+             */
+            removeEventListener: function (name, listener, useCapture) {
+                this.$dom.removeEventListener(name, listener, useCapture || false);
+            },
+            _getBoxWidth: function (inBox, inDirection) {
+                var boxWidth, styleResult;
+                var element = this.$dom;
+                switch (inBox) {
+                case PADDING:
+                case MARGIN:
+                    styleResult = this.getStyle(inBox + "-" + inDirection);
+                    boxWidth = parseFloat(styleResult);
+                    break;
+                default:
+                    styleResult = this.getStyle('border-' + inDirection + '-width');
+                    if (isGecko) {
+                        if (rTableElement.test(element.tagName)) {
+                            styleResult = 0;
+                        }
+                    }
+                    boxWidth = parseFloat(styleResult) || borderMap[styleResult];
+                }
+                return boxWidth || 0;
             }
-            return boxWidth || 0;
         }
-    }
-});
+    });
 })
 (nx);
