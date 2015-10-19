@@ -148,7 +148,17 @@
                         }
                     }
                 }]
-            }]
+            }],
+            events: {
+                dblclick: "{#_onDblclick}"
+            }
+        },
+        methods: {
+            _onDblclick: function (sender, evt) {
+                if (this._node) {
+                    this.topology().removeNode(this._node.id());
+                }
+            }
         }
     });
 
