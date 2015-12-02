@@ -146,7 +146,7 @@
              * Get node by id
              * @param id
              * @returns {*}
-             * @method getNode
+             * @method getNodeSet
              */
             getNodeSet: function (id) {
                 return this.nodeSetDictionary().getItem(id);

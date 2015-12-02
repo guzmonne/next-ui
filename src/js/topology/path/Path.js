@@ -386,6 +386,7 @@
                 return pos1.x == pos2.x && pos1.y == pos2.y;
             },
             dispose: function () {
+                this.edgeIdCollection().clear();
                 nx.each(this.nodes, function (node) {
                     node.off('updateNodeCoordinate', this.draw, this);
                 }, this);

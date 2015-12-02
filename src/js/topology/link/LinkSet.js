@@ -1,4 +1,4 @@
-(function(nx, global) {
+(function (nx, global) {
 
     var Vector = nx.geometry.Vector;
     var Line = nx.geometry.Line;
@@ -19,10 +19,10 @@
              * @property linkType {String}
              */
             linkType: {
-                get: function() {
+                get: function () {
                     return this._linkType || 'parallel';
                 },
-                set: function(inValue) {
+                set: function (inValue) {
                     var value = this._processPropertyValue(inValue);
                     if (this._linkType !== value) {
                         this._linkType = value;
@@ -38,9 +38,9 @@
              * @readOnly
              */
             links: {
-                get: function() {
+                get: function () {
                     var links = {};
-                    this.eachLink(function(link, id) {
+                    this.eachLink(function (link, id) {
                         links[id] = link;
                     }, this);
                     return links;
@@ -51,16 +51,29 @@
              * @property color
              */
             color: {
-                set: function(inValue) {
+                set: function (inValue) {
                     var value = this._processPropertyValue(inValue);
-                    this.view('numBg').dom().setStyle('fill', value);
+                    this.view('numBg').dom().setStyle('stroke', value);
                     this.view('path').dom().setStyle('stroke', value);
                     this._color = value;
                 }
             },
+            /**
+             * Set/get link's width
+             * @property width {Number}
+             */
+            width: {
+                set: function (inValue) {
+                    var value = this._processPropertyValue(inValue);
+                    var width = (this._stageScale || 1) * value;
+                    this.view('path').dom().setStyle('stroke-width', width);
+                    this._width = value;
+                }
+            },
             stageScale: {
-                set: function(value) {
-                    this.view('path').dom().setStyle('stroke-width', value);
+                set: function (value) {
+                    var width = (this._width || 1) * value;
+                    this.view('path').dom().setStyle('stroke-width', width);
                     this.view('number').setTransform(null, null, value);
                     /* jshint -W030 */
                     this.model() && this._updateLinksOffset();
@@ -72,14 +85,14 @@
              * @property enable {Boolean}
              */
             enable: {
-                get: function() {
+                get: function () {
                     return this._enable === undefined ? true : this._enable;
                 },
-                set: function(inValue) {
+                set: function (inValue) {
                     var value = this._processPropertyValue(inValue);
                     this.dom().setClass("disable", !value);
                     this._enable = value;
-                    this.eachLink(function(link) {
+                    this.eachLink(function (link) {
                         link.enable(value);
                     });
                 }
@@ -95,7 +108,7 @@
                 value: true
             },
             revisionScale: {
-                set: function(value) {
+                set: function (value) {
                     var strokeWidth = value < 0.6 ? 8 : 12;
                     this.view('numBg').dom().setStyle('stroke-width', strokeWidth);
 
@@ -117,45 +130,43 @@
                 'class': 'link-set'
             },
             content: [{
-                    name: 'path',
-                    type: 'nx.graphic.Line',
+                name: 'path',
+                type: 'nx.graphic.Line',
+                props: {
+                    'class': 'link-set-bg'
+                }
+            }, {
+                name: 'number',
+                type: 'nx.graphic.Group',
+                content: [{
+                    name: 'numBg',
+                    type: 'nx.graphic.Rect',
                     props: {
-                        'class': 'link-set-bg'
+                        'class': 'link-set-circle',
+                        height: 1
+                    },
+                    events: {
+                        'mousedown': '{#_number_mouseup}',
+                        'touchstart': '{#_number_mouseup}',
+                        'mouseenter': '{#_number_mouseenter}',
+                        'mouseleave': '{#_number_mouseleave}'
                     }
                 }, {
-                    name: 'number',
-                    type: 'nx.graphic.Group',
-                    content: [{
-                        name: 'numBg',
-                        type: 'nx.graphic.Rect',
-                        props: {
-                            'class': 'link-set-circle',
-                            height: 1
-                        },
-                        events: {
-                            'mousedown': '{#_number_mouseup}',
-                            'touchstart': '{#_number_mouseup}',
-                            'mouseenter': '{#_number_mouseenter}',
-                            'mouseleave': '{#_number_mouseleave}'
-                        }
-                    }, {
-                        name: 'num',
-                        type: 'nx.graphic.Text',
-                        props: {
-                            'class': 'link-set-text',
-                            y: 1
-                        }
-                    }]
-                }
-
-            ]
+                    name: 'num',
+                    type: 'nx.graphic.Text',
+                    props: {
+                        'class': 'link-set-text',
+                        y: 1
+                    }
+                }]
+            }]
         },
         methods: {
-            setModel: function(model, isUpdate) {
+            setModel: function (model, isUpdate) {
                 this.inherited(model, isUpdate);
                 this.setBinding('activated', 'model.activated,direction=<>', this);
             },
-            update: function() {
+            update: function () {
                 if (this._activated) {
                     var line = this.line();
                     this.view('path').sets({
@@ -173,7 +184,7 @@
              * Update linkSet
              * @property updateLinkSet
              */
-            updateLinkSet: function() {
+            updateLinkSet: function () {
                 var value = this._processPropertyValue(this.collapsedRule());
                 this.model().activated(value, {
                     force: true
@@ -208,11 +219,11 @@
              * @param callback {Function}
              * @param context {Object}
              */
-            eachLink: function(callback, context) {
+            eachLink: function (callback, context) {
                 var topo = this.topology();
                 var model = this.model();
 
-                nx.each(model.edges(), function(edge, id) {
+                nx.each(model.edges(), function (edge, id) {
                     var link = topo.getLink(id);
                     if (link) {
                         callback.call(context || this, link, id);
@@ -220,7 +231,7 @@
                 });
             },
 
-            _updateLinkNumber: function() {
+            _updateLinkNumber: function () {
                 var edges = Object.keys(this.model().edges());
                 var numEl = this.view('num');
                 var numBg = this.view('numBg');
@@ -245,12 +256,12 @@
                 }
 
             },
-            _updateLinksOffset: function() {
+            _updateLinksOffset: function () {
                 if (!this._activated) {
                     var links = this.links();
                     var offset = (Object.keys(links).length - 1) / 2;
                     var index = 0;
-                    nx.each(links, function(link, id) {
+                    nx.each(links, function (link, id) {
                         link.offsetPercentage(index++ * -1 + offset);
                         link.update();
                     }, this);
@@ -280,7 +291,7 @@
             },
 
 
-            _number_mousedown: function(sender, event) {
+            _number_mousedown: function (sender, event) {
                 if (this.enable()) {
                     /**
                      * Fired when press number element
@@ -291,7 +302,7 @@
                     this.fire('pressLinkSetNumber', event);
                 }
             },
-            _number_mouseup: function(sender, event) {
+            _number_mouseup: function (sender, event) {
                 if (this.enable()) {
                     /**
                      * Fired when click number element
@@ -302,7 +313,7 @@
                     this.fire('clickLinkSetNumber', event);
                 }
             },
-            _number_mouseleave: function(sender, event) {
+            _number_mouseleave: function (sender, event) {
                 if (this.enable()) {
                     /**
                      * Fired when mouse leave number element
@@ -313,7 +324,7 @@
                     this.fire('numberleave', event);
                 }
             },
-            _number_mouseenter: function(sender, event) {
+            _number_mouseenter: function (sender, event) {
                 if (this.enable()) {
                     /**
                      * Fired when mouse enter number element

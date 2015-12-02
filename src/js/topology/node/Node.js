@@ -1,4 +1,4 @@
-(function(nx, global) {
+(function (nx, global) {
     /**
      * Node class
      * @class nx.graphic.Topology.Node
@@ -13,7 +13,7 @@
              * @property label
              */
             label: {
-                set: function(inValue) {
+                set: function (inValue) {
                     var label = this._processPropertyValue(inValue);
                     var el = this.view('label');
                     el.set('text', label);
@@ -28,10 +28,10 @@
              * @method iconType {String}
              */
             iconType: {
-                get: function() {
+                get: function () {
                     return this.view('icon').get('iconType');
                 },
-                set: function(inValue) {
+                set: function (inValue) {
                     var value = this._processPropertyValue(inValue);
                     if (value && this._iconType !== value) {
                         this._iconType = value;
@@ -48,7 +48,7 @@
              * @property showIcon
              */
             showIcon: {
-                set: function(inValue) {
+                set: function (inValue) {
                     var value = this._processPropertyValue(inValue);
                     this._showIcon = value;
 
@@ -74,7 +74,7 @@
              */
             labelVisibility: {
                 value: true,
-                set: function(inValue) {
+                set: function (inValue) {
                     var value = this._processPropertyValue(inValue);
                     var el = this.view('label');
                     el.visible(value);
@@ -82,7 +82,7 @@
                 }
             },
             revisionScale: {
-                set: function(value) {
+                set: function (value) {
                     var topo = this.topology();
                     var icon = this.view('icon');
                     icon.set('scale', value);
@@ -112,7 +112,7 @@
              * @property color
              */
             color: {
-                set: function(inValue) {
+                set: function (inValue) {
                     var value = this._processPropertyValue(inValue);
                     //                    this.view('graphic').dom().setStyle('fill', value);
                     this.view('label').dom().setStyle('fill', value);
@@ -126,10 +126,10 @@
              * @property scale {Number}
              */
             scale: {
-                get: function() {
+                get: function () {
                     return this.view('graphic').scale();
                 },
-                set: function(inValue) {
+                set: function (inValue) {
                     var value = this._processPropertyValue(inValue);
                     this.view('graphic').setTransform(null, null, value);
                     this.calcLabelPosition(true);
@@ -138,7 +138,7 @@
 
 
             selectedRingRadius: {
-                get: function() {
+                get: function () {
                     var bound = this.getBound(true);
                     var radius = Math.max(bound.height, bound.width) / 2;
                     return radius + (this.selected() ? 10 : -4);
@@ -149,10 +149,10 @@
              * @property selected
              */
             selected: {
-                get: function() {
+                get: function () {
                     return this._selected || false;
                 },
-                set: function(inValue) {
+                set: function (inValue) {
                     var value = this._processPropertyValue(inValue);
                     if (this._selected == value) {
                         return false;
@@ -166,10 +166,10 @@
                 }
             },
             enable: {
-                get: function() {
+                get: function () {
                     return this._enable != null ? this._enable : true;
                 },
-                set: function(inValue) {
+                set: function (inValue) {
                     var value = this._processPropertyValue(inValue);
                     this._enable = value;
                     if (value) {
@@ -180,7 +180,7 @@
                 }
             },
             parentNodeSet: {
-                get: function() {
+                get: function () {
                     var vertexSet = this.model().parentVertexSet();
                     if (vertexSet) {
                         return this.topology().getNode(vertexSet.id());
@@ -190,7 +190,7 @@
                 }
             },
             rootNodeSet: {
-                get: function() {
+                get: function () {
                     var model = this.model();
                     if (model.rootVertexSet()) {
                         return this.topology().getNode(model.rootVertexSet().id());
@@ -251,10 +251,10 @@
             ]
         },
         methods: {
-            translateTo: function(x, y, callback, context) {
+            translateTo: function (x, y, callback, context) {
                 var el = this.view();
                 var position = this.position();
-                el.setTransition(function() {
+                el.setTransition(function () {
                     this.position({
                         x: x,
                         y: y
@@ -277,21 +277,21 @@
              * @param onlyGraphic {Boolean} is is TRUE, will only get graphic's bound
              * @returns {*}
              */
-            getBound: function(onlyGraphic) {
+            getBound: function (onlyGraphic) {
                 if (onlyGraphic) {
                     return this.view('graphic').getBound();
                 } else {
                     return this.view().getBound();
                 }
             },
-            _mousedown: function(sender, event) {
+            _mousedown: function (sender, event) {
                 if (this.enable()) {
                     this._prevPosition = this.position();
                     event.captureDrag(this.view('graphic'), this.topology().stage());
                     this.fire('pressNode', event);
                 }
             },
-            _mouseup: function(sender, event) {
+            _mouseup: function (sender, event) {
                 if (this.enable()) {
                     var _position = this.position();
                     if (this._prevPosition && _position.x === this._prevPosition.x && _position.y === this._prevPosition.y) {
@@ -305,7 +305,7 @@
                     }
                 }
             },
-            _mouseenter: function(sender, event) {
+            _mouseenter: function (sender, event) {
                 if (this.enable()) {
                     if (!this.__enter && !this._nodeDragging) {
                         /**
@@ -321,7 +321,7 @@
 
 
             },
-            _mouseleave: function(sender, event) {
+            _mouseleave: function (sender, event) {
                 if (this.enable()) {
                     if (this.__enter && !this._nodeDragging) {
                         /**
@@ -335,7 +335,7 @@
                     }
                 }
             },
-            _dragstart: function(sender, event) {
+            _dragstart: function (sender, event) {
                 window.event = event;
                 this._nodeDragging = true;
                 if (this.enable()) {
@@ -348,7 +348,7 @@
                     this.fire('dragNodeStart', event);
                 }
             },
-            _drag: function(sender, event) {
+            _drag: function (sender, event) {
                 window.event = event;
                 if (this.enable()) {
                     /**
@@ -360,7 +360,7 @@
                     this.fire('dragNode', event);
                 }
             },
-            _dragend: function(sender, event) {
+            _dragend: function (sender, event) {
                 window.event = event;
                 this._nodeDragging = false;
                 if (this.enable()) {
@@ -375,9 +375,9 @@
                 }
             },
 
-            updateConnectedNodeLabelPosition: function() {
+            updateConnectedNodeLabelPosition: function () {
                 this.calcLabelPosition(true);
-                this.eachConnectedNode(function(node) {
+                this.eachConnectedNode(function (node) {
                     node.calcLabelPosition();
                 }, this);
             },
@@ -385,8 +385,8 @@
              * Set label to a node
              * @method calcLabelPosition
              */
-            calcLabelPosition: function(force) {
-                if (this.enableSmartLabel()) {
+            calcLabelPosition: function (force) {
+                if (this.topology().enableSmartLabel()) {
 
                     if (force) {
                         this._centralizedText();
@@ -398,10 +398,11 @@
                     }
 
                 } else {
-                    this.updateByMaxObtuseAngle(this.labelAngle());
+                    var dflt = this.topology().nodeConfig().labelAngle;
+                    this.updateByMaxObtuseAngle(dflt >= 0 ? dflt : this.labelAngle());
                 }
             },
-            _centralizedText: function() {
+            _centralizedText: function () {
 
 
                 //
@@ -415,7 +416,7 @@
                 var vectors = [];
 
 
-                nx.each(vertex.edgeSets(), function(edgeSet) {
+                nx.each(vertex.edgeSets(), function (edgeSet) {
                     if (edgeSet.sourceID() !== vertexID) {
                         vectors.push(edgeSet.line().dir.negate());
                     } else {
@@ -423,7 +424,7 @@
                     }
                 }, this);
 
-                nx.each(vertex.edgeSetCollections(), function(esc) {
+                nx.each(vertex.edgeSetCollections(), function (esc) {
                     if (esc.sourceID() !== vertexID) {
                         vectors.push(esc.line().dir.negate());
                     } else {
@@ -433,7 +434,7 @@
 
 
                 //sort line by angle;
-                vectors = vectors.sort(function(a, b) {
+                vectors = vectors.sort(function (a, b) {
                     return a.circumferentialAngle() - b.circumferentialAngle();
                 });
 
@@ -478,7 +479,7 @@
              * @method updateByMaxObtuseAngle
              * @param angle
              */
-            updateByMaxObtuseAngle: function(angle) {
+            updateByMaxObtuseAngle: function (angle) {
 
                 var el = this.view('label');
 
@@ -506,7 +507,7 @@
                 this._labelAngle = angle;
 
             },
-            dispose: function() {
+            dispose: function () {
                 clearTimeout(this._centralizedTextTimer);
                 this.inherited();
             }

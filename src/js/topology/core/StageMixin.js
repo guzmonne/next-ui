@@ -114,7 +114,7 @@
 
                 } else {
                     var timer = setInterval(function () {
-                        if (nx.dom.Document.body().contains(self.view().dom())) {
+                        if (self.dom() && nx.dom.Document.body().contains(self.dom())) {
                             clearInterval(timer);
                             this._adaptToContainer();
                             this.status('appended');
