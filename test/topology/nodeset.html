@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Example</title>
+    <link rel="stylesheet" href="../../next-ui/dest/css/next-blue.css"/>
+    <link rel="stylesheet" href="../src/less/next-graphic.css"/>
+    <script src="../../next-ui/lib/jquery/jquery-1.10.2.min.js"></script>
+    <script src="../../next-core/dest/next-core.js"></script>
+    <script src="../../next-ui/dest/js/next-ui.js"></script>
+    <script type="text/javascript" src="../lib/GraphGenerator.js"></script>
+    <script type="text/javascript" src="../src/js/next-graphic.js"></script>
+
+
+</head>
+<style>
+    html, body {
+        padding: 0px;
+        height: 100%;
+        width: 100%;
+    }
+
+    .row, #topo, #list {
+        height: 100%;
+    }
+</style>
+<body>
+
+
+<div class="row">
+
+    <div id="topo" class="col-md-10"></div>
+    <div id="list" class="col-md-2" style="padding: 30px; background: #000 ">
+
+
+        <span style="color: #fff">Node Label</span>
+
+        <div class="btn-group" style="display: inline-block; width: 120px; margin-left: 12px;">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                ID <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu" id="labels">
+                <li><a href="#" value="role">Role</a></li>
+                <li><a href="#" value="id">ID</a></li>
+                <li><a href="#" value="label">Label</a></li>
+            </ul>
+        </div>
+
+
+    </div>
+</div>
+
+
+<script type="text/javascript">
+
+
+    var topologyData = {
+        nodes: [
+            {"id": 0, "x": 410, "y": 100, "name": "12K-1"},
+            {"id": 1, "x": 410, "y": 280, "name": "12K-2"},
+            {"id": 2, "x": 660, "y": 280, "name": "Of-9k-03"},
+            {"id": 3, "x": 660, "y": 100, "name": "Of-9k-02"},
+            {"id": 4, "x": 180, "y": 190, "name": "Of-9k-01"}
+        ],
+        links: [
+            {"source": 0, "target": 1},
+            {"source": 1, "target": 2},
+            {"source": 1, "target": 3},
+            {"source": 4, "target": 1},
+            {"source": 2, "target": 3},
+            {"source": 2, "target": 0},
+            {"source": 0, "target": 4},
+            {"source": 0, "target": 3},
+            {"source": 0, "target": 3},
+            {"source": 0, "target": 3},
+//            {"source": 0, "target": 3},
+//            {"source": 0, "target": 3},
+//            {"source": 0, "target": 3},
+//            {"source": 0, "target": 3},
+//            {"source": 0, "target": 3},
+//            {"source": 0, "target": 3},
+//            {"source": 0, "target": 3},
+//            {"source": 0, "target": 3}
+        ],
+        nodeSet: [
+            {id: 5, type: 'nodeSet', nodes: [2, 3], root: 2, "x": 660, "y": 190, "name": "Node set 1", iconType: 'router'},
+            {id: 6, type: 'nodeSet', nodes: [1, 5], root: 1, "x": 410, "y": 190, "name": "Node set 2", iconType: 'groupS'},
+//            {id: 7, type: 'nodeSet', nodes: [6, 0], root: 0, "x": 410, "y": 280, "name": "Node set 3", iconType: 'groupM'},
+//            {id: 8, type: 'nodeSet', nodes: [7, 4], root: 4, "x": 410, "y": 280, "name": "Node set 4", iconType: 'groupL'}
+        ]
+    };
+
+
+    var topo = new nx.graphic.Topology({
+        adaptive: true,
+        identityKey: 'id',
+        enableProjection: false,
+        nodeConfig: {
+            label: 'model.id',
+            iconType: 'model.deviceType'
+        },
+        nodeSetConfig: {
+            label: 'model.id',
+            iconType: 'model.iconType'
+        },
+        enableSmartLabel: false,
+        enableGradualScaling: false,
+        showIcon: true,
+        theme: 'yellow',
+        data: topologyData
+    });
+
+    var groupsLayer = topo.getLayer('groups');
+
+    nx.define("NodeSetScene", nx.graphic.Topology.DefaultScene, {
+        methods: {
+            expandNodeSet: function (sender, nodeSet) {
+                this.inherited(sender, nodeSet);
+                setTimeout(function () {
+                    nodeSet.group = groupsLayer.addGroup({
+                        shapeType: 'nodeSetPolygon',
+                        nodeSet: nodeSet,
+                        nodes: nodeSet.nodes(),
+                        label: nodeSet.label()
+                    });
+
+                    nodeSet.group.draw();
+                }, 900)
+
+            },
+            collapseNodeSet: function (sender, nodeSet) {
+                this.inherited(sender, nodeSet);
+                groupsLayer.removeGroup(nodeSet.group);
+                delete  nodeSet.group;
+                nodeSet.visible(true);
+                topo.fit();
+            }
+        }
+
+
+    });
+
+    topo.registerScene('nodeset', 'NodeSetScene');
+    topo.activateScene('nodeset');
+    var app = new nx.ui.Application();
+    app.container(document.getElementById('topo'));
+    topo.attach(app);
+
+
+    $(function () {
+        $('#labels a').click(function () {
+            var value = $(this).attr('value');
+            topo.eachNode(function (node) {
+                nx.util.setProperty(node, 'label', 'model.' + value);
+            })
+        })
+    })
+
+</script>
+
+
+</body>
+</html>

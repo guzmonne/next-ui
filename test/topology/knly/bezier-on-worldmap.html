@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Test</title>
+    <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/NeXt-UI/ws/lib/jquery/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/NeXt-Core/lastSuccessfulBuild/artifact/dest/next-core.js"></script>
+    <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/NeXt-UI/lastSuccessfulBuild/artifact/dest/js/next-ui.js"></script>
+    <!--<script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/Next-Graphic/lastSuccessfulBuild/artifact/dest/js/next-graphic.js"></script>-->
+    <script type="text/javascript" src="../../src/js/next-graphic.js"></script>
+    <link rel="stylesheet" href="http://10.75.161.96:8080/jenkins/job/NeXt-UI/lastSuccessfulBuild/artifact/dest/css/next-blue.css" />
+    <link rel="stylesheet" href="../../src/less/next-graphic.css" />
+    <script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
+    <script type="text/javascript" src="http://d3js.org/topojson.v1.min.js"></script>
+    <script type="text/javascript" src="../raphael-min.js"></script>
+    <script type="text/javascript" src="../../lib/GraphGenerator.js"></script>
+
+
+</head>
+
+<body>
+    <style>
+        html,
+        body {
+            padding: 0px;
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+    <script>
+        var topologyData =
+
+         {
+            "nodes": [{
+                "function": "core",
+                "name": "sjc",
+                "latitude": 36.78601481376208,
+                "ipaddress": "30.30.30.30",
+                "isisarea": "72",
+                "site": "sjc",
+                "longitude": -121.33407013182129,
+                "protected": "F",
+                "active": "T",
+                "type": "physical"
+            }, {
+                "function": "core",
+                "name": "p1",
+                "latitude": 61.7074216,
+                "ipaddress": "30.30.30.30",
+                "isisarea": "72",
+                "site": "sjc",
+                "longitude": -56.5509893,
+                "protected": "F",
+                "active": "T",
+                "type": "physical"
+            }, {
+                "function": "core",
+                "name": "p2",
+                "latitude": 0.1693067,
+                "ipaddress": "30.30.30.30",
+                "isisarea": "72",
+                "site": "sjc",
+                "longitude": 49.4749635,
+                "protected": "F",
+                "active": "T",
+                "type": "physical"
+            }, {
+                "function": "core",
+                "name": "shanghai",
+                "latitude": 31.224349,
+                "ipaddress": "30.30.30.30",
+                "isisarea": "72",
+                "site": "sjc",
+                "longitude": 121.4767528,
+                "protected": "F",
+                "active": "T",
+                "type": "physical"
+            }],
+            "links": [{
+                "source": "shanghai",
+                "targetInterface": "GigabitEthernet0/0/0/1",
+                "target": "sjc",
+                "sourceInterface": "GigabitEthernet0/0/0/5",
+                "bezierControlPointSource": {
+                    latitude: 0.1693067,
+                    longitude: 49.4749635
+                },
+                "bezierControlPointTarget": {
+                    latitude: 61.7074216,
+                    longitude: -56.5509893
+                }
+            }]
+        };
+        var colorTable = ['#C3A5E4', '#75C6EF', '#CBDA5C', '#ACAEB1 ', '#2CC86F'];
+        var width = 960;
+        var height = 480;
+        var projection;
+        var topo = new nx.graphic.Topology({
+            adaptive: true,
+            nodeConfig: {
+                label: 'model.name',
+                color: function () {
+                    return colorTable[Math.round(Math.random() * 4)];
+                }
+            },
+            linkConfig: {
+                color: function () {
+                    return colorTable[Math.round(Math.random() * 4)];
+                },
+                drawMethod: function (model, link) {
+                    var line = model.line();
+                    var path = [];
+                    if (model.get("bezierControlPointSource") && model.get("bezierControlPointTarget")) {
+                        var p1 = model.get("bezierControlPointSource");
+                        var p2 = model.get("bezierControlPointTarget");
+                        p1 = projection([p1.longitude, p1.latitude]);
+                        p2 = projection([p2.longitude, p2.latitude]);
+                        path.push("M", line.start.x, line.start.y, "C", p1[0], p1[1], p2[0], p2[1], line.end.x, line.end.y);
+                    } else {
+                        path.push("M", line.start.x, line.start.y, "L", line.end.x, line.end.y);
+                    }
+                    return path.join(" ");
+                }
+            },
+            nodeSetConfig: {
+                label: 'model.name'
+            },
+            showIcon: false,
+            identityKey: 'name',
+            layoutType: 'WorldMap',
+            layoutConfig: {
+                longitude: 'model.longitude',
+                latitude: 'model.latitude',
+                worldTopoJson: 'lib/world-smaller.json'
+            },
+            data: topologyData
+        });
+        projection = topo.getLayout("WorldMap").projection();
+
+
+        topo.on('topologyGenerated', function () {
+            var generator = function () {
+                var link = topo.getLinkSet('sea', 'min').links()[0];
+                var totalLength = link.view('path').dom().$dom.getTotalLength;
+
+                var model = link.model();
+                var line = model.line();
+                var curvePoint1Position = model.get("curvePoint1Position");
+                var curvePoint2Position = model.get("curvePoint2Position");
+                var bezier = [
+                    [
+                        [line.start.x, line.start.y],
+                        [curvePoint1Position[0], curvePoint1Position[1]]
+                    ],
+                    [
+                        [curvePoint1Position[0], curvePoint1Position[1]],
+                        [curvePoint2Position[0], curvePoint2Position[1]]
+                    ],
+                    [
+                        [curvePoint2Position[0], curvePoint2Position[1]],
+                        [line.end.x, line.end.y]
+                    ]
+                ];
+
+
+                var group = nx.geometry.BezierCurve.separate(bezier, 0.9);
+
+
+                var path = [];
+                var leftPath = group.left;
+                path.push("M", leftPath[0][0][0], ",", leftPath[0][0][1]);
+                path.push("C", leftPath[0][1][0], leftPath[0][1][1], ",", leftPath[2][0][0], leftPath[2][0][1]);
+                path.push(leftPath[2][1][0], ",", leftPath[2][1][1]);
+                return path.join(" ");
+            };
+
+            var nodes = [topo.getNode('sea'), topo.getNode('min')];
+            var path = new nx.graphic.Topology.BasePath({
+                nodes: nodes,
+                pathGenerator: generator,
+                pathStyle: {
+                    'stroke': '#75C6EF',
+                    'stroke-width': '5px',
+                    fill: 'none'
+                }
+            });
+            var pathLayer = topo.getLayer("paths");
+            pathLayer.addPath(path);
+        });
+
+
+        var app = new nx.ui.Application();
+        topo.attach(app);
+    </script>
+
+</body>
+
+</html>

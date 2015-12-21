@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
+    <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/NeXt-Core/lastSuccessfulBuild/artifact/dest/next-core.js"></script>
+    <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/NeXt-UI/lastSuccessfulBuild/artifact/dest/js/next-ui.js"></script>
+    <!--<script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/Next-Graphic/lastSuccessfulBuild/artifact/dest/js/next-graphic.js"></script>-->
+    <Script Type="text/javascript" src="../../../src/js/next-graphic.js"></script>
+    <!--<link rel="stylesheet" href="http://10.75.161.96:8080/jenkins/job/NeXt-UI/lastSuccessfulBuild/artifact/dest/css/next-blue.css"/>-->
+    <link rel="stylesheet" href="../../../src/less/next-graphic.css" />
+</head>
+
+<body>
+    <style>
+        body,
+        html,
+        #test1 {
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        line {
+            stroke: #f0f;
+        }
+        text {
+            alignment-baseline: central
+        }
+    </style>
+    <div id="test1" style=""></div>
+
+
+    <script type="text/javascript">
+        nx.define('Arc',nx.ui.Component, {
+            properties: {
+                arc: {
+                    get: function() {
+                        return this.view('arc');
+                    }
+                },
+                ir1: {
+                    value: 120
+                },
+                or1: {
+                    value: 135
+                },
+                ir2: {
+                    value: 140
+                },
+                or2: {
+                    value: 155
+                }
+            },
+            view: {
+                content: {
+                    name: "stage",
+                    type: "nx.graphic.Stage",
+                    props: {
+                        width: 800,
+                        height: 800
+                    },
+                    content: [
+                        {
+                            type: 'nx.graphic.Group',
+                            props: {
+                                translateX: 300,
+                                translateY: 300
+                            },
+                            content: [{
+                                type: 'nx.graphic.Group',
+                                content: [{
+                                    name: 'arc1',
+                                    type: 'nx.graphic.Arc',
+                                    props: {
+                                        clockwies: false,
+                                        startAngle: 54,
+                                        endAngle: 114,
+                                        innerRadius: '{#ir1}',
+                                        outerRadius: '{#or1}'
+                                    }
+                                }, {
+                                    type: 'nx.graphic.Group',
+                                    props: {
+                                        items: [1, 2, 3],
+                                        template: {
+                                            type: 'nx.graphic.Arc',
+                                            props: {
+                                                startAngle: 54,
+                                                endAngle: 114,
+                                                innerRadius: '{#ir2}',
+                                                outerRadius: '{#or2}'
+                                            }
+                                        }
+                                    },
+                                    events: {
+                                        contententer: '{#_createArc}'
+                                    }
+                                }]
+                            }, {
+                                name: 'arc2',
+                                type: 'nx.graphic.Arc',
+                                props: {
+                                    clockwies: false,
+                                    startAngle: 115,
+                                    endAngle: 185,
+                                    innerRadius: '{#ir1}',
+                                    outerRadius: '{#or1}'
+
+                                }
+                            }, {
+                                name: 'arc3',
+                                type: 'nx.graphic.Arc',
+                                props: {
+                                    clockwies: false,
+                                    startAngle: 186,
+                                    endAngle: 306,
+                                    innerRadius: '{#ir1}',
+                                    outerRadius: '{#or1}'
+                                }
+                            }
+
+                            ]
+                        }, {
+                            type: 'nx.graphic.Group',
+                            props: {
+                                translateX: 300,
+                                translateY: 300
+                            },
+                            content: [{
+                                type: 'nx.graphic.Arc',
+                                props: {
+                                    clockwies: false,
+                                    startAngle: 54,
+                                    endAngle: 74,
+                                    innerRadius: '{#ir2}',
+                                    outerRadius: '{#or2}',
+                                    fill: '#f00'
+                                }
+                            }, {
+                                type: 'nx.graphic.Arc',
+                                props: {
+                                    clockwies: false,
+                                    startAngle: 75,
+                                    endAngle: 94,
+                                    innerRadius: '{#ir2}',
+                                    outerRadius: '{#or2}',
+                                    fill: '#f0f'
+
+                                }
+                            }, {
+                                type: 'nx.graphic.Arc',
+                                props: {
+                                    clockwies: false,
+                                    startAngle: 95,
+                                    endAngle: 114,
+                                    innerRadius: '{#ir2}',
+                                    outerRadius: '{#or2}',
+                                    fill: '#00f'
+
+                                }
+                            }, {
+                                type: 'nx.graphic.Arc',
+                                props: {
+                                    clockwies: false,
+                                    startAngle: 115,
+                                    endAngle: 155,
+                                    innerRadius: '{#ir2}',
+                                    outerRadius: '{#or2}'
+
+                                }
+                            }, {
+                                type: 'nx.graphic.Arc',
+                                props: {
+                                    clockwies: false,
+                                    startAngle: 156,
+                                    endAngle: 175,
+                                    innerRadius: '{#ir2}',
+                                    outerRadius: '{#or2}'
+
+                                }
+                            }, {
+                                type: 'nx.graphic.Arc',
+                                props: {
+                                    clockwies: false,
+                                    startAngle: 176,
+                                    endAngle: 185,
+                                    innerRadius: '{#ir2}',
+                                    outerRadius: '{#or2}'
+
+                                }
+                            }, {
+                                type: 'nx.graphic.Arc',
+                                props: {
+                                    clockwies: false,
+                                    startAngle: 186,
+                                    endAngle: 215,
+                                    innerRadius: '{#ir2}',
+                                    outerRadius: '{#or2}'
+                                }
+                            }, {
+                                type: 'nx.graphic.Arc',
+                                props: {
+                                    clockwies: false,
+                                    startAngle: 216,
+                                    endAngle: 245,
+                                    innerRadius: '{#ir2}',
+                                    outerRadius: '{#or2}'
+                                }
+                            }, {
+                                type: 'nx.graphic.Arc',
+                                props: {
+                                    clockwies: false,
+                                    startAngle: 246,
+                                    endAngle: 275,
+                                    innerRadius: '{#ir2}',
+                                    outerRadius: '{#or2}'
+                                }
+                            }, {
+                                type: 'nx.graphic.Arc',
+                                props: {
+                                    clockwies: false,
+                                    startAngle: 276,
+                                    endAngle: 306,
+                                    innerRadius: '{#ir2}',
+                                    outerRadius: '{#or2}'
+                                }
+                            }
+
+                            ]
+                        }, {
+                            type: 'nx.graphic.Group',
+                            props: {
+                                translateX: 300,
+                                translateY: 300
+                            },
+                            content: [{
+                                type: 'nx.graphic.Text',
+                                props: {
+                                    text: 'Group1',
+                                    translateX: 180,
+                                    translateY: -100
+                                }
+                            }, {
+                                type: 'nx.graphic.Text',
+                                props: {
+                                    text: 'Group2',
+                                    translateX: 180,
+                                    translateY: 0
+                                }
+                            }, {
+                                type: 'nx.graphic.Text',
+                                props: {
+                                    text: 'Group3',
+                                    translateX: 180,
+                                    translateY: 100
+                                }
+                            }]
+                        }, {
+                            type: 'nx.graphic.Group',
+                            props: {
+                                translateX: 300,
+                                translateY: 300
+                            },
+                            content: [{
+                                name: 'line1',
+                                type: 'nx.graphic.Path',
+                                props: {
+                                    fill: 'transparent',
+                                    stroke: '#f00'
+                                }
+                            }, {
+                                name: 'line2',
+                                type: 'nx.graphic.Path',
+                                props: {
+                                    fill: 'transparent',
+                                    stroke: '#f00'
+                                }
+                            }, {
+                                name: 'line3',
+                                type: 'nx.graphic.Path',
+                                props: {
+                                    fill: 'transparent',
+                                    stroke: '#f00'
+                                }
+                            }]
+                        }]
+                }
+            },
+            methods: {
+                attach: function(parent, index) {
+                    this.inherited(parent, index);
+
+                    var gapStartPoint = this.view('arc1').innerStartPoint();
+                    var gapEndPoint = this.view('arc3').innerEndPoint();
+                    var gap = gapStartPoint.y - gapEndPoint.y;
+                    var perGap = gap / 4;
+
+                    var points, d;
+
+                    //lin1
+
+                    var arc3 = this.view('arc3');
+                    var arc3innerCenterPoint = arc3.innerCenterPoint();
+
+                    points = nx.geometry.BezierCurve.through([
+                        [arc3innerCenterPoint.x, arc3innerCenterPoint.y],
+                        [gapStartPoint.x, gapEndPoint.y + perGap],
+                        [180, -100]
+                    ]);
+
+                    d = ['M', points[0][0], points[0][1]];
+                    d.push('Q', points[1][0], points[1][1]);
+                    d.push(points[2][0], points[2][1]);
+
+                    this.view('line1').set('d', d.join(' '));
+
+
+                    //lin1
+
+                    var arc2 = this.view('arc2');
+                    var arc2innerCenterPoint = arc2.innerCenterPoint();
+
+                    points = nx.geometry.BezierCurve.through([
+                        [arc2innerCenterPoint.x, arc2innerCenterPoint.y],
+                        [gapStartPoint.x, gapEndPoint.y + perGap * 2],
+                        [180, 0]
+                    ]);
+
+                    d = ['M', points[0][0], points[0][1]];
+                    d.push('Q', points[1][0], points[1][1]);
+                    d.push(points[2][0], points[2][1]);
+
+                    this.view('line2').set('d', d.join(' '));
+
+                    //lin1
+
+                    var arc1 = this.view('arc1');
+                    var arc1innerCenterPoint = arc1.innerCenterPoint();
+
+                    points = nx.geometry.BezierCurve.through([
+                        [arc1innerCenterPoint.x, arc1innerCenterPoint.y],
+                        [gapStartPoint.x, gapEndPoint.y + perGap * 3],
+                        [180, 100]
+                    ]);
+
+                    d = ['M', points[0][0], points[0][1]];
+                    d.push('Q', points[1][0], points[1][1]);
+                    d.push(points[2][0], points[2][1]);
+
+                    this.view('line3').set('d', d.join(' '));
+
+
+
+                },
+                _createArc: function(sender, args) {
+                    console.log(args);
+                }
+            }
+        });
+
+
+        var arc = new Arc();
+
+        var app = new nx.ui.Application();
+        app.container(document.getElementById('test1'));
+        arc.attach(app);
+
+
+        //        arc.view('arc').animate({
+        //            to: {
+        //                startAngle: 180,
+        //                endAngle: 278
+        //            },
+        //            duration:550
+        //        });
+
+
+
+        //        setInterval(function() {
+        //            var a = arc.view('arc');
+        //            var _angle = a.startAngle();
+        //            var angle = a.endAngle();
+        //            a.endAngle(angle + 3);
+        //            a.startAngle(_angle + 2);
+        //        }, 10)
+    </script>
+</body>
+
+</html>

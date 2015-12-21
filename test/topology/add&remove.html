@@ -1,0 +1,166 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <title>Add/remove node and link</title>
+    <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/NeXt-UI/ws/lib/jquery/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/NeXt-Core/lastSuccessfulBuild/artifact/dest/next-core.js"></script>
+    <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/NeXt-UI/lastSuccessfulBuild/artifact/dest/js/next-ui.js"></script>
+    <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/UI_Component/lastSuccessfulBuild/artifact/dest/js/next-components.js"></script>
+    <link rel="stylesheet" href="http://10.75.161.96:8080/jenkins/job/NeXt-UI/lastSuccessfulBuild/artifact/dest/css/next-blue.css"/>
+    <script type="text/javascript" src="../lib/GraphGenerator.js"></script>
+    <link rel="stylesheet" href="../src/less/next-graphic.css"/>
+    <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/Next-Graphic/lastSuccessfulBuild/artifact/dest/js/next-graphic.js"></script>
+    <!--<script type="text/javascript" src="../src/js/next-graphic.js"></script>-->
+    <style type="text/css">
+        body, html {
+            height: 100%;
+        }
+
+        .row {
+            height: 100%
+        }
+
+        #topo {
+            height: 100%;
+        }
+
+    </style>
+</head>
+<body>
+<div id="topo" class="col-md-8"></div>
+<div id="list" class="col-md-4">
+    <h2>Add Node</h2>
+
+
+    <div class="form-group">
+        <label for="ani">Node ID</label>
+        <input type="text" class="form-control" id="ani" placeholder="Node ID" value="5">
+    </div>
+    <button type="submit" class="btn btn-default" id="an">Add Node</button>
+
+    <h2>Add link</h2>
+
+
+    <div class="form-group">
+        <label for="">Source Node ID</label>
+        <input type="text" class="form-control" id="alsi" placeholder="Source Node ID" value="0">
+    </div>
+    <div class="form-group">
+        <label for="">Target Node ID</label>
+        <input type="text" class="form-control" id="alti" placeholder="Target Node ID" value="4">
+    </div>
+    <button type="submit" class="btn btn-default" id="al">Add link</button>
+
+
+    <h2>Remove Node</h2>
+
+
+    <div class="form-group">
+        <label for="">Node ID</label>
+        <input type="text" class="form-control" id="rni" placeholder="Node ID">
+    </div>
+    <button type="submit" class="btn btn-default" id="rn">Remove Node</button>
+
+
+    <h2>Remove Link</h2>
+
+
+    <div class="form-group">
+        <label for="">Link ID</label>
+        <input type="text" class="form-control" id="rli" placeholder="Link ID">
+    </div>
+    <button type="submit" class="btn btn-default" id="rl">Remove Link</button>
+
+</div>
+<script type="text/javascript">
+
+
+    var topologyData = {
+        nodes: [
+            {"id": 0, "x": 410, "y": 100, "name": "12K-1"},
+            {"id": 1, "x": 410, "y": 280, "name": "12K-2"},
+            {"id": 2, "x": 660, "y": 280, "name": "Of-9k-03"},
+            {"id": 3, "x": 660, "y": 100, "name": "Of-9k-02"},
+            {"id": 4, "x": 180, "y": 190, "name": "Of-9k-01"}
+        ],
+        links: [
+            {"source": 0, "target": 1},
+            {"source": 1, "target": 2},
+            {"source": 1, "target": 3},
+            {"source": 4, "target": 1},
+            {"source": 2, "target": 3},
+            {"source": 2, "target": 0},
+            {"source": 0, "target": 4},
+            {"source": 0, "target": 4},
+            {"source": 0, "target": 4},
+            {"source": 0, "target": 3}
+        ]
+    };
+    var topo = new nx.graphic.Topology({
+        adaptive: true,
+        identityKey: 'id',
+        nodeConfig: {
+            label: 'model.id'
+        },
+        linkConfig: {
+            label: 'model.id'
+        },
+        showIcon: true,
+        data: topologyData
+    });
+
+    topo.on("ready", function () {
+
+    });
+
+    var app = new nx.ui.Application();
+    app.getContainer = function () {
+        return new nx.dom.Element(document.getElementById('topo'));
+    };
+    topo.attach(app);
+
+
+    $(function () {
+
+
+        $("#an").click(function () {
+
+            topo.addNode({
+                id: $("#ani").val() || null,
+                x: Math.floor(Math.random() * 100),
+                y: Math.floor(Math.random() * 100)
+            });
+            topo.fit();
+        });
+
+
+        $("#al").click(function () {
+
+            if ($("#alsi").val() != "" && $("#alti").val() != "")
+                topo.addLink({
+                    source: $("#alsi").val(),
+                    target: $("#alti").val()
+                });
+            topo.fit();
+        });
+
+
+        $("#rn").click(function () {
+
+            topo.removeNode($("#rni").val());
+            topo.fit();
+        });
+
+        $("#rl").click(function () {
+
+            topo.removeLink($("#rli").val());
+            topo.fit();
+        });
+
+    })
+
+
+</script>
+</body>
+</html>

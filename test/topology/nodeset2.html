@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Example</title>
+    <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/NeXt-UI/ws/lib/jquery/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/NeXt-Core/lastSuccessfulBuild/artifact/dest/next-core.js"></script>
+    <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/NeXt-UI/lastSuccessfulBuild/artifact/dest/js/next-ui.js"></script>
+    <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/Next-Graphic/lastSuccessfulBuild/artifact/dest/js/next-graphic.js"></script>
+    <!--<script type="text/javascript" src="../src/js/next-graphic.js"></script>-->
+    <link rel="stylesheet" href="http://10.75.161.96:8080/jenkins/job/NeXt-UI/lastSuccessfulBuild/artifact/dest/css/next-blue.css"/>
+    <link rel="stylesheet" href="../src/less/next-graphic.css"/>
+
+
+</head>
+<style>
+    html, body {
+        padding: 0px;
+        height: 100%;
+        width: 100%;
+    }
+
+    .row, #topo, #list {
+        height: 100%;
+    }
+</style>
+<body>
+
+
+<div class="row">
+
+    <div id="topo" class="col-md-10"></div>
+    <div id="list" class="col-md-2" style="padding: 30px; background: #000 ">
+
+
+        <span style="color: #fff">Node Label</span>
+
+        <div class="btn-group" style="display: inline-block; width: 120px; margin-left: 12px;">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                ID <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu" id="labels">
+                <li><a href="#" value="role">Role</a></li>
+                <li><a href="#" value="id">ID</a></li>
+                <li><a href="#" value="label">Label</a></li>
+            </ul>
+        </div>
+
+
+    </div>
+</div>
+
+
+<script type="text/javascript">
+
+
+    var topo = new nx.graphic.Topology({
+        adaptive: true,
+        identityKey: 'id',
+        nodeConfig: {
+            label: 'model.label'
+        },
+        nodeSetConfig: {
+            label: 'model.label'
+        },
+        enableSmartLabel: false,
+        enableGradualScaling: false,
+        supportMultipleLink: false,
+        showIcon: true
+    });
+
+    var groupsLayer = topo.getLayer('groups');
+
+    nx.define("NodeSetScene", nx.graphic.Topology.DefaultScene, {
+        methods: {
+            expandNodeSet: function (sender, nodeSet) {
+                this.inherited(sender, nodeSet);
+                setTimeout(function () {
+                    var group = nodeSet.group = groupsLayer.addGroup({
+                        shapeType: 'nodeSetPolygon',
+                        nodeSet: nodeSet,
+                        nodes: nodeSet.nodes(),
+                        label: nodeSet.label()
+                    });
+                    group.hide(true);
+                }, 900)
+
+            },
+            collapseNodeSet: function (sender, nodeSet) {
+                this.inherited(sender, nodeSet);
+                groupsLayer.removeGroup(nodeSet.group);
+                delete  nodeSet.group;
+                nodeSet.visible(true);
+                topo.fit();
+            }
+        }
+
+
+    });
+
+    topo.registerScene('nodeset', 'NodeSetScene');
+    //topo.activateScene('nodeset');
+    var app = new nx.ui.Application();
+    app.container(document.getElementById('topo'));
+    topo.attach(app);
+
+
+    $.getJSON('topoJSON2.json', function (d) {
+        topo.data(d);
+    });
+
+
+    $(function () {
+        $('#labels a').click(function () {
+            var value = $(this).attr('value');
+            topo.eachNode(function (node) {
+                nx.util.setProperty(node, 'label', 'model.' + value);
+            })
+        })
+    })
+
+</script>
+
+
+</body>
+</html>

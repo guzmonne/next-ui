@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Test</title>
+    <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/NeXt-UI/ws/lib/jquery/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/NeXt-Core/lastSuccessfulBuild/artifact/dest/next-core.js"></script>
+    <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/NeXt-UI/lastSuccessfulBuild/artifact/dest/js/next-ui.js"></script>
+    <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/Next-Graphic/lastSuccessfulBuild/artifact/dest/js/next-graphic.js"></script>
+    <!--<script type="text/javascript" src="../src/js/next-graphic.js"></script>-->
+    <link rel="stylesheet" href="http://10.75.161.96:8080/jenkins/job/NeXt-UI/lastSuccessfulBuild/artifact/dest/css/next-blue.css"/>
+    <script type="text/javascript" src="../lib/GraphGenerator.js"></script>
+    <link rel="stylesheet" href="../src/less/next-graphic.css"/>
+</head>
+<body>
+<style>
+    html, body {
+        padding: 0px;
+        height: 100%;
+        width: 100%;
+    }
+</style>
+<script>
+
+
+    var g = new GraphGenerator();
+    g.generate(50);
+
+    var index = 0;
+    var topologyData = {nodes: g.nodes, links: g.links};
+    var colorTable = ['#C3A5E4', '#75C6EF', '#CBDA5C', '#ACAEB1 ', '#2CC86F'];
+    var icons = Object.keys(nx.graphic.Icons.icons);
+    var topo = new nx.graphic.Topology({
+        adaptive: true,
+        identityKey: 'id',
+        dataProcessor: 'force',
+        nodeConfig: {
+            label: function () {
+                return icons[++index % icons.length];
+            },
+            iconType: function () {
+                return icons[index % icons.length];
+            },
+            color: function (node, model) {
+                return colorTable[Math.floor(Math.random() * 5)];
+            }
+        },
+        nodeSetConfig: {
+            label: 'model.label'
+        },
+        enableGradualScaling: false,
+        theme: 'yellow',
+        showIcon: true,
+        data: topologyData
+    });
+
+    nx.DEBUG = true;
+
+    var app = new nx.ui.Application();
+    topo.attach(app);
+
+
+</script>
+
+</body>
+</html>

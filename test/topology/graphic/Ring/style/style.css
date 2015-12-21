@@ -1,0 +1,75 @@
+body,
+html {
+    padding: 0;
+    margin: 0;
+    background: #333;
+}
+.ring-text-path {
+    fill: transparent;
+    stroke: #fff;
+}
+.ring-text {
+    font-family: "Cisco Sans Extra Light", arial;
+    font-size: 16px;
+    alignment-baseline: central;
+    fill: #0096d6;
+    transition: all 0.6s ease;
+    opacity: 1;
+    /*text-anchor: middle;*/
+}
+.ring-text.current {
+    text-anchor: middle;
+    font-size: 20px;
+}
+.ring-text.n-hidden {
+    display: block !important;
+    opacity: 0;
+}
+.ring-axl {
+    stroke: #48ff68;
+    display: none;
+}
+.recoverBtn {
+    fill: #75C6EF;
+    transition: all 0.6s ease;
+    opacity: 0;
+    cursor: pointer;
+}
+.recoverBtn.visible {
+    opacity: 1;
+
+}
+.recoverBtn:hover{
+    /*filter: url(#blurFilter);*/
+}
+[data-name="ringItem"] > path {
+    transition: all 0.6s ease;
+    cursor: pointer;
+}
+[data-name="ringItem"][data-visible="false"] > path {
+    fill: #999 !important;
+}
+.secondRingItem {
+    transition: all 0.6s ease;
+}
+.secondRingItem.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+[data-name="ThirdRing"] {
+    opacity: 0;
+    transition: all 0.6s ease;
+}
+[data-name="ThirdRing"].visible{
+    opacity: 1;
+    filter: none;
+}
+[data-name="SecondRing"]{
+    transition: all 0.6s ease;
+    opacity: 1;
+    cursor: pointer;
+}
+[data-name="SecondRing"].n-hidden{
+    display: block !important;
+    opacity: 0;
+}

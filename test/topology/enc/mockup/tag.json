@@ -1,0 +1,38 @@
+{"response": [
+    {
+        "id": "586ca1d2-77b6-43dd-a27d-9ec3c8165f73",
+        "tag": "iaintest",
+        "networkDeviceId": "1d9e8675-11d9-4d91-a0a3-02ccea57a85a",
+        "attributeInfo": {}
+    },
+    {
+        "id": "586ca1d2-77b6-43dd-a27d-9ec3c8165f73",
+        "tag": "iaintest",
+        "networkDeviceId": "4f03ea9e-2c81-4738-9cfa-22a2a8621287",
+        "attributeInfo": {}
+    },
+    {
+        "id": "d5a0bd15-fe41-42dc-b382-d89a3f3c35f6",
+        "tag": "abdd",
+        "networkDeviceId": "a09205cf-77ad-41ee-8286-df962ebbe30e",
+        "attributeInfo": {}
+    },
+    {
+        "id": "d5a0bd15-fe41-42dc-b382-d89a3f3c35f6",
+        "tag": "abdd",
+        "networkDeviceId": "9fdc1d39-b86d-4950-ac98-0e250b0010ee",
+        "attributeInfo": {}
+    },
+    {
+        "id": "53e4cebb-e363-46ab-afb3-9ba8b58d4023",
+        "tag": "sadflkkkkkk",
+        "networkDeviceId": "a09205cf-77ad-41ee-8286-df962ebbe30e",
+        "attributeInfo": {}
+    },
+    {
+        "id": "53e4cebb-e363-46ab-afb3-9ba8b58d4023",
+        "tag": "sadflkkkkkk",
+        "networkDeviceId": "9fdc1d39-b86d-4950-ac98-0e250b0010ee",
+        "attributeInfo": {}
+    }
+], "version": "0.0"}

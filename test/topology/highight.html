@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Example</title>
+
+    <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/NeXt-UI/ws/lib/jquery/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/NeXt-Core/lastSuccessfulBuild/artifact/dest/next-core.js"></script>
+    <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/NeXt-UI/lastSuccessfulBuild/artifact/dest/js/next-ui.js"></script>
+    <link rel="stylesheet" href="http://10.75.161.96:8080/jenkins/job/NeXt-UI/lastSuccessfulBuild/artifact/dest/css/next-blue.css"/>
+    <script type="text/javascript" src="../lib/GraphGenerator.js"></script>
+    <link rel="stylesheet" href="../src/less/next-graphic.css"/>
+    <!--<script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/Next-Graphic/lastSuccessfulBuild/artifact/dest/js/next-graphic.js"></script>-->
+    <script type="text/javascript" src="../src/js/next-graphic.js"></script>
+</head>
+<style>
+    html, body {
+        padding: 0px;
+        height: 100%;
+        width: 100%;
+    }
+
+    .row, #topo, #list {
+        height: 100%;
+    }
+</style>
+<body>
+
+
+<div class="row">
+
+    <div id="topo" class="col-md-9"></div>
+    <div id="list" class="col-md-3" style="">
+        <h2>Search Node</h2>
+
+
+        <div class="form-group">
+            <input type="text" class="form-control" id="ani" placeholder="Node ID">
+        </div>
+
+
+    </div>
+</div>
+
+<script type="text/javascript">
+
+
+    var topologyData = {
+        nodes: [
+            {"id": 0, "x": 410, "y": 100, "name": "12K-1"},
+            {"id": 1, "x": 410, "y": 280, "name": "12K-2"},
+            {"id": 2, "x": 660, "y": 280, "name": "Of-9k-03"},
+            {"id": 3, "x": 660, "y": 100, "name": "Of-9k-02"},
+            {"id": 4, "x": 180, "y": 190, "name": "Of-9k-01"}
+        ],
+        links: [
+            {"source": 0, "target": 1},
+            {"source": 1, "target": 2},
+            {"source": 1, "target": 3},
+            {"source": 4, "target": 1},
+            {"source": 2, "target": 3},
+            {"source": 2, "target": 0},
+            {"source": 0, "target": 4},
+            {"source": 0, "target": 3},
+            {"source": 0, "target": 3},
+            {"source": 0, "target": 3},
+            {"source": 0, "target": 3},
+            {"source": 0, "target": 3},
+            {"source": 0, "target": 3},
+            {"source": 0, "target": 3},
+            {"source": 0, "target": 3},
+            {"source": 0, "target": 3},
+            {"source": 0, "target": 3},
+            {"source": 0, "target": 3}
+        ]
+    };
+
+
+    var g = new GraphGenerator();
+    g.generate(200);
+
+    var topologyData2 = {nodes: g.nodes, links: g.links};
+
+
+    var topo = new nx.graphic.Topology({
+        adaptive: true,
+        dataProcessor: 'force',
+        identityKey: 'id',
+        nodeConfig: {
+            label: 'model.name'
+        },
+        showIcon: true,
+        data: topologyData
+    });
+
+
+    var app = new nx.ui.Application();
+    app.container(document.getElementById('topo'));
+    topo.attach(app);
+
+
+    $(function () {
+        //get nodes layer
+        var nl = topo.getLayer('nodes');
+        //get nodes layer's highlightElement collection
+        var highlightedElements = nl.highlightedElements();
+        $('#ani')
+                .on('input', function () {
+                    var value = this.value;
+                    //reset nodes layer's all hightlight
+                    highlightedElements.clear();
+                    topo.eachNode(function (node) {
+                        var label = node.label();
+                        if (label && label.indexOf(value) !== -1) {
+                            //highlight node
+                            highlightedElements.add(node);
+                        }
+                    });
+                })
+                .on('keyup', function () {
+                    var value = this.value;
+                    if (value.length == 1) {
+                        //fade out all layer
+                        nx.each(topo.layers(), function (layer) {
+                            layer.fadeOut(true);
+                        }, this);
+                    } else if (value.length == 0) {
+                        //recover fade out
+                        nx.each(topo.layers(), function (layer) {
+                            layer.recover(true);
+                        }, this);
+
+                        //recover all
+                        topo.recoverHighlight();
+
+                    }
+                });
+    });
+
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
+    <script type="text/javascript"
+            src="http://10.75.161.96:8080/jenkins/job/NeXt-Core/lastSuccessfulBuild/artifact/dest/next-core.js"></script>
+    <script type="text/javascript"
+            src="http://10.75.161.96:8080/jenkins/job/NeXt-UI/lastSuccessfulBuild/artifact/dest/js/next-ui.js"></script>
+    <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/Next-Graphic/lastSuccessfulBuild/artifact/dest/js/next-graphic.js"></script>
+    <!--<Script Type="text/javascript" src="../../src/js/next-graphic.js"></script>-->
+    <!--<link rel="stylesheet" href="http://10.75.161.96:8080/jenkins/job/NeXt-UI/lastSuccessfulBuild/artifact/dest/css/next-blue.css"/>-->
+    <link rel="stylesheet" href="../../src/less/next-graphic.css"/>
+    <Script Type="text/javascript" src="libs/hammer.min.js"></script>
+</head>
+<body>
+<style>
+    body, html, #test1 {
+        height: 100%;
+        padding: 0;
+        margin: 0;
+    }
+</style>
+<div id="test1" style=""></div>
+</body>
+
+<Script Type="text/javascript">
+    var myElement = document.getElementById('test1');
+
+
+    var topologyData = {
+        nodes: [{
+            "id": 0,
+            "x": 410,
+            "y": 100,
+            "name": "12K-1"
+        }, {
+            "id": 1,
+            "x": 410,
+            "y": 280,
+            "name": "12K-2"
+        }, {
+            "id": 2,
+            "x": 660,
+            "y": 280,
+            "name": "Of-9k-03"
+        }, {
+            "id": 3,
+            "x": 660,
+            "y": 100,
+            "name": "Of-9k-02"
+        }, {
+            "id": 4,
+            "x": 180,
+            "y": 190,
+            "name": "Of-9k-01"
+        }],
+        links: [{
+            "source": 0,
+            "target": 1,
+            "id": 0,
+            x: true
+        }, {
+            "source": 1,
+            "target": 2,
+            "id": 1
+        }, {
+            "source": 1,
+            "target": 3,
+            "id": 2
+        }, {
+            "source": 4,
+            "target": 1,
+            "id": 3
+        }, {
+            "source": 2,
+            "target": 3,
+            "id": 4
+        }, {
+            "source": 2,
+            "target": 0,
+            "id": 5
+        }, {
+            "source": 2,
+            "target": 0,
+            "id": 6
+        }, {
+            "source": 0,
+            "target": 4,
+            "id": 7
+        }, {
+            "source": 0,
+            "target": 3,
+            "id": 8
+        }, {
+            "source": 0,
+            "target": 3,
+            "id": 9
+        }, {
+            "source": 0,
+            "target": 3,
+            "id": 10
+        }, {
+            "source": 0,
+            "target": 3,
+            "id": 11
+        }, {
+            "source": 0,
+            "target": 3,
+            "id": 12
+        }, {
+            "source": 0,
+            "target": 3,
+            "id": 13
+        }, {
+            "source": 0,
+            "target": 3,
+            "id": 14
+        }, {
+            "source": 0,
+            "target": 3,
+            "id": 15
+        }, {
+            "source": 0,
+            "target": 3,
+            "id": 16
+        }, {
+            "source": 0,
+            "target": 3,
+            "id": 17
+        }, {
+            "source": 0,
+            "target": 3,
+            "id": 18
+        }, {
+            "source": 1,
+            "target": 2
+        }, {
+            "source": 1,
+            "target": 2
+        }, {
+            "source": 1,
+            "target": 2
+        }, {
+            "source": 1,
+            "target": 2
+        }, {
+            "source": 1,
+            "target": 2
+        }, {
+            "source": 1,
+            "target": 2
+        }, {
+            "source": 1,
+            "target": 2
+        }, {
+            "source": 1,
+            "target": 2
+        }]
+    };
+
+    //        nx.graphic.Topology.LinkSetLayer.defaultConfig.collapsedRule = function(){
+    //            return false;
+    //        }
+
+    var topo = new nx.graphic.Topology({
+        adaptive: true,
+        nodeConfig: {
+            label: 'model.id'
+        },
+        nodeSetConfig: {
+            label: 'model.id'
+        },
+        linkConfig: {},
+        showIcon: true,
+        data: topologyData
+    });
+
+    nx.DEBUG = true;
+
+
+    topo.on('topologyGenerated', function () {
+
+        //                        x = topo.getLinkSet(2,5);
+        //                        x.collapsedRule(false)
+        //                        x.updateLinkSet();
+    })
+
+
+    var app = new nx.ui.Application();
+    app.container(myElement);
+    topo.attach(app);
+
+
+    var mc = new Hammer.Manager(myElement);
+
+    // create a pinch and rotate recognizer
+    // these require 2 pointers
+    var pinch = new Hammer.Pinch();
+    var rotate = new Hammer.Rotate();
+
+    // we want to detect both the same time
+    //    pinch.recognizeWith(rotate);
+
+    // add to the Manager
+    mc.add([pinch, rotate]);
+    mc.add(new Hammer.Pan({direction: Hammer.DIRECTION_ALL, threshold: 0}));
+
+    var previousScale = 1;
+    var previousPan = {x: 0, y: 0};
+    var preventPan = false;
+    mc.on("pinch pan", function (ev) {
+        console.log(ev);
+        if (ev.type == 'pinch') {
+//            myElement.style.transform = 'scale('+ev.scale+')';
+            var stage = topo.stage();
+            var currentScale = stage._matrix[0][0];
+//            stage.disableUpdateStageScale(true);
+
+//            debugger;
+            stage.applyStageScale(ev.scale - previousScale + 1, [ev.center.x, ev.center.y]);
+            previousScale = ev.scale;
+            if(ev.srcEvent.type == 'touchend'){
+                preventPan = true;
+            }
+        }
+
+        if (ev.type == 'pan' && !preventPan) {
+            console.log(ev);
+            var stage = topo.stage();
+            stage.applyTranslate(ev.deltaX - previousPan.x, ev.deltaY - previousPan.y);
+            previousPan = {x:ev.deltaX,y:ev.deltaY};
+            if(ev.srcEvent.type == 'touchend'){
+                previousPan = {x: 0, y: 0}
+            }
+        }
+    });
+
+
+    mc.on("pan", function (ev) {
+
+
+    });
+    topo.on('zoomend', function () {
+        previousScale = 1;
+        preventPan = false;
+        console.log(1);
+    })
+
+
+</script>
+</html>

@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Example</title>
+    <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/NeXt-UI/ws/lib/jquery/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/NeXt-Core/lastSuccessfulBuild/artifact/dest/next-core.js"></script>
+    <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/NeXt-UI/lastSuccessfulBuild/artifact/dest/js/next-ui.js"></script>
+    <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/Next-Graphic/lastSuccessfulBuild/artifact/dest/js/next-graphic.js"></script>
+    <!--<script type="text/javascript" src="../src/js/next-graphic.js"></script>-->
+    <link rel="stylesheet" href="http://10.75.161.96:8080/jenkins/job/NeXt-UI/lastSuccessfulBuild/artifact/dest/css/next-blue.css"/>
+    <link rel="stylesheet" href="../src/less/next-graphic.css"/>
+</head>
+<style>
+    html, body {
+        padding: 0px;
+        height: 100%;
+        width: 100%;
+    }
+
+    .node-label {
+        font-size: 9px;
+    }
+
+    .row {
+        height: 100%
+    }
+
+    #topo {
+        height: 100%;
+    }
+</style>
+<body>
+<div id="topo" class="col-md-8"></div>
+<div id="list" class="col-md-4">
+
+
+</div>
+<script type="text/javascript">
+
+    var data = {"response": {"nodes": [
+        {"deviceType": "SWITCH", "label": "SDN-CAMPUS-C4K", "id": "d925cff0-8584-4586-bdd9-2f272dc520c6", "x": 429, "y": 425, "ip": "40.0.0.2", "softwareVersion": "03.03.02.SG", "fixed": true, "role": "Core", "nodeType": "device", "deviceRoleOrigin": "auto", "aclApplied": true},
+        {"deviceType": "SWITCH", "label": "SDN-CAMPUS-C3850", "id": "5cc86e42-d436-4487-b967-6f32f46e2f94", "x": -1834, "y": 162, "ip": "40.0.0.3", "softwareVersion": "03.03.02.SE", "osType": "cat3k_caa-universalk9.SPA.03.03.02.SE.150-1.EZ2.bin", "fixed": true, "role": "Access", "nodeType": "device", "deviceRoleOrigin": "auto", "aclApplied": true},
+        {"deviceType": "SWITCH", "label": "SDN-CAMPUS-N7K", "id": "a86d5806-c230-4770-a04c-d11b8f843170", "x": 413, "y": -135, "ip": "40.0.0.1", "softwareVersion": "6.2(6)", "osType": "bootflash:///n7000-s2-dk9.6.2.6.bin", "fixed": true, "role": "Core", "nodeType": "device", "deviceRoleOrigin": "auto", "aclApplied": true},
+        {"deviceType": "SWITCH", "label": "SDN-CAMPUS-C3850-STACK", "id": "d0197b29-e337-4a24-961c-b230d9b85f1d", "x": 2898, "y": -1556, "ip": "40.0.0.4", "softwareVersion": "03.03.02.SE", "osType": "cat3k_caa-universalk9.SPA.03.03.02.SE.150-1.EZ2.bin", "fixed": true, "role": "Core", "nodeType": "device", "deviceRoleOrigin": "manual", "aclApplied": true},
+        {"deviceType": "asr", "label": "SDN-CAMPUS-ASR1002", "id": "34b1df3c-9871-4323-b6fa-0207a812f54f", "x": 2961, "y": 1458, "ip": "40.0.1.1", "softwareVersion": "15.2(4)S3", "osType": "asr1000rp1-adventerprisek9.03.07.03.S.152-4.S3.bin", "fixed": true, "role": "Distribution", "nodeType": "device", "deviceRoleOrigin": "manual", "aclApplied": true},
+        {"deviceType": "WIRED", "label": "40.0.0.15", "id": "b93b025c-36e4-4a0c-9c78-5dbc1895ced1", "x": -2894, "y": 885, "ip": "40.0.0.15", "fixed": true, "role": "", "nodeType": "host", "userId": "admin"},
+        {"label": "40.0.0.23", "id": "282a797e-b605-4fb1-8bd9-cfbd5c9fcd59", "x": 2288, "y": -1321, "ip": "40.0.0.23", "fixed": true, "role": "", "nodeType": "host", "userId": "admin"},
+        {"deviceType": "WIRED", "label": "40.0.0.21", "id": "b42d3c91-f36b-4a0f-ad37-5a58ea92e80b", "x": 4156, "y": -1031, "ip": "40.0.0.21", "fixed": true, "role": "", "nodeType": "host", "userId": "admin"},
+        {"deviceType": "WIRED", "label": "40.0.0.22", "id": "c252d68d-169f-46c0-ac34-219059b52998", "x": 2726, "y": -823, "ip": "40.0.0.22", "fixed": true, "role": "", "nodeType": "host", "userId": "admin"},
+        {"deviceType": "WIRED", "label": "40.0.0.24", "id": "f475aa99-9dfd-49f4-86ad-010099d9e1f1", "x": 3288, "y": -819, "ip": "40.0.0.24", "fixed": true, "role": "", "nodeType": "host", "userId": "admin"},
+        {"deviceType": "WIRED", "label": "40.0.0.12", "id": "a572c1c8-cd1a-4b5e-b4c2-08247eac8985", "x": -1441, "y": 1459, "ip": "40.0.0.12", "fixed": true, "role": "", "nodeType": "host", "userId": "admin"},
+        {"deviceType": "WIRED", "label": "40.0.0.13", "id": "77b5c0a8-278b-4ce0-9cda-ce0b6ff998a6", "x": -2590, "y": 1509, "ip": "40.0.0.13", "fixed": true, "role": "", "nodeType": "host", "userId": "admin"}
+    ], "links": [
+        {"id": "6c1a1c69-887f-4898-a59d-ff15d573a416", "source": "a86d5806-c230-4770-a04c-d11b8f843170", "startPortID": "54937b12-4e09-4189-a546-258cc0934f6b", "target": "34b1df3c-9871-4323-b6fa-0207a812f54f", "endPortID": "10d0bf0b-f08a-44ce-b792-b219e19a6aba", "linkStatus": "UP"},
+        {"id": "3fe59ede-1c56-4401-8883-72b9f10016b0", "source": "d925cff0-8584-4586-bdd9-2f272dc520c6", "startPortID": "49b6eb1a-3953-499b-912a-25e57cb0b60f", "target": "34b1df3c-9871-4323-b6fa-0207a812f54f", "endPortID": "06c0fca0-2b0d-41c9-932d-f4d2ac594696", "linkStatus": "UP"},
+        {"id": "d657d1a2-c8ff-423c-bb38-77c52441ad8a", "source": "d925cff0-8584-4586-bdd9-2f272dc520c6", "startPortID": "88db436f-1ed6-4791-a7f6-f7960dd2c74e", "target": "a86d5806-c230-4770-a04c-d11b8f843170", "endPortID": "fae2df9e-7719-4820-b5e2-dbc2e6f55245", "linkStatus": "UP"},
+        {"id": "438f7ed1-ec57-461a-bafe-80d0d5fb6203", "source": "5cc86e42-d436-4487-b967-6f32f46e2f94", "startPortID": "341f4e81-4dd5-4d51-82a6-4a56e915d060", "target": "a86d5806-c230-4770-a04c-d11b8f843170", "endPortID": "8a6681ac-f851-4e9a-ad11-4c6a8d5847b3", "linkStatus": "UP"},
+        {"id": "7619b759-8291-4095-b4ec-f81c563b5265", "source": "5cc86e42-d436-4487-b967-6f32f46e2f94", "startPortID": "0765e638-81d6-4d76-a859-6f86e7fe5f1e", "target": "d925cff0-8584-4586-bdd9-2f272dc520c6", "endPortID": "e8098e43-edea-4b6e-b349-22225ccb5de6", "linkStatus": "UP"},
+        {"id": "49278cef-bd38-4258-af33-5627fc164f59", "source": "d0197b29-e337-4a24-961c-b230d9b85f1d", "startPortID": "979c561d-1763-4a0d-b3e2-3bc149cafa05", "target": "a86d5806-c230-4770-a04c-d11b8f843170", "endPortID": "c5dc67ee-99c1-4fac-9aff-6272ccd17b69", "linkStatus": "UP"},
+        {"id": "e8ad53ee-ab93-4eae-8491-0bf0b9d44142", "source": "d0197b29-e337-4a24-961c-b230d9b85f1d", "startPortID": "043a5c83-7eb5-4422-a99f-ef193d708984", "target": "d925cff0-8584-4586-bdd9-2f272dc520c6", "endPortID": "eae09003-471e-46b9-a036-b5805cb4a68a", "linkStatus": "UP"},
+        {"source": "5cc86e42-d436-4487-b967-6f32f46e2f94", "startPortID": "51ba35af-1a4f-4538-a711-cc797206caa7", "target": "b93b025c-36e4-4a0c-9c78-5dbc1895ced1", "endPortID": "", "linkStatus": "UP"},
+        {"source": "d0197b29-e337-4a24-961c-b230d9b85f1d", "startPortID": "b5ed01e2-91c1-4926-9fb2-cdbb4fc1383a", "target": "282a797e-b605-4fb1-8bd9-cfbd5c9fcd59", "endPortID": "", "linkStatus": "UP"},
+        {"source": "d0197b29-e337-4a24-961c-b230d9b85f1d", "startPortID": "b5ed01e2-91c1-4926-9fb2-cdbb4fc1383a", "target": "b42d3c91-f36b-4a0f-ad37-5a58ea92e80b", "endPortID": "", "linkStatus": "UP"},
+        {"source": "d0197b29-e337-4a24-961c-b230d9b85f1d", "startPortID": "2e067c05-3e9b-4c5a-8131-8753b732aee5", "target": "c252d68d-169f-46c0-ac34-219059b52998", "endPortID": "", "linkStatus": "UP"},
+        {"source": "d0197b29-e337-4a24-961c-b230d9b85f1d", "startPortID": "335d9571-ff27-4203-b09a-679659ca71f9", "target": "f475aa99-9dfd-49f4-86ad-010099d9e1f1", "endPortID": "", "linkStatus": "UP"},
+        {"source": "5cc86e42-d436-4487-b967-6f32f46e2f94", "startPortID": "b884a6e4-585e-48a2-af81-05fbfbe83d1e", "target": "a572c1c8-cd1a-4b5e-b4c2-08247eac8985", "endPortID": "", "linkStatus": "UP"},
+        {"source": "5cc86e42-d436-4487-b967-6f32f46e2f94", "startPortID": "b884a6e4-585e-48a2-af81-05fbfbe83d1e", "target": "77b5c0a8-278b-4ce0-9cda-ce0b6ff998a6", "endPortID": "", "linkStatus": "UP"}
+    ], "nodeSet": [
+        {"id": "89278d93-d8ab-438d-a8b2-7b3aa9ee89b7", "deviceType": "access", "x": -1834, "y": 162, "root": "5cc86e42-d436-4487-b967-6f32f46e2f94", "nodes": ["b93b025c-36e4-4a0c-9c78-5dbc1895ced1", "a572c1c8-cd1a-4b5e-b4c2-08247eac8985", "77b5c0a8-278b-4ce0-9cda-ce0b6ff998a6", "5cc86e42-d436-4487-b967-6f32f46e2f94"], "name": "host-SDN-CAMPUS-C3850"},
+        {"id": "d7d9b2de-a283-4326-ac7e-8895af4a4872", "deviceType": "access", "x": 2898, "y": -1556, "root": "d0197b29-e337-4a24-961c-b230d9b85f1d", "nodes": ["282a797e-b605-4fb1-8bd9-cfbd5c9fcd59", "b42d3c91-f36b-4a0f-ad37-5a58ea92e80b", "c252d68d-169f-46c0-ac34-219059b52998", "f475aa99-9dfd-49f4-86ad-010099d9e1f1", "d0197b29-e337-4a24-961c-b230d9b85f1d"], "name": "host-SDN-CAMPUS-C3850-STACK"},
+        {"id": "2259365c-2411-43b5-a75c-e56970e43777", "deviceType": "core", "x": 429, "y": 425, "root": "d925cff0-8584-4586-bdd9-2f272dc520c6", "nodes": ["34b1df3c-9871-4323-b6fa-0207a812f54f", "89278d93-d8ab-438d-a8b2-7b3aa9ee89b7", "d7d9b2de-a283-4326-ac7e-8895af4a4872", "d925cff0-8584-4586-bdd9-2f272dc520c6"], "name": "distribution-SDN-CAMPUS-C4K"},
+        {"id": "15", "deviceType": "core",  "x": 413, "y": -135, "root": "a86d5806-c230-4770-a04c-d11b8f843170", "nodes": ["a86d5806-c230-4770-a04c-d11b8f843170", "2259365c-2411-43b5-a75c-e56970e43777"], "name": "2259365c-2411-43b5-a75c-e56970e43777-SDN-CAMPUS-N7K"}
+    ]}, "version": "0.0"}
+
+
+    var deviceTypeMapping = {
+        SWITCH: 'switch',
+        ROUTER: 'router',
+        AP: 'accesspoint',
+        UNKNOWN: 'unknown',
+        asr: 'nexus5000',
+        WIRED: 'host',
+        access: 'accesspoint',
+        core: 'groupm'
+    };
+
+
+    var topo = new nx.graphic.Topology({
+        adaptive: true,
+        identityKey: 'id',
+//        dataProcessor: 'force',
+        nodeConfig: {
+            label: 'model.label',
+            iconType: function (model) {
+                return deviceTypeMapping[model.get('deviceType')];
+            }
+        },
+        nodeSetConfig: {
+            label: 'model.name',
+            iconType: function (model) {
+                return deviceTypeMapping[model.get('deviceType')];
+            }
+        },
+        enableGradualScaling: false,
+        showIcon: true,
+        theme: 'green'
+    });
+
+
+    var App = nx.define(nx.ui.Application, {
+        methods: {
+            getContainer: function (child) {
+                if (nx.is(child.owner(), nx.graphic.Topology)) {
+                    return new nx.dom.Element(document.getElementById('topo'));
+                } else {
+                    return new nx.dom.Element(document.getElementById('list'))
+                }
+            },
+            start: function () {
+                this.topo = topo;
+                topo.on('topologyGenerated', this._main, this);
+                topo.data(data.response);
+                topo.attach(app);
+            },
+            _main: function (topo) {
+                var nodeSetCollection = topo.getLayer('nodeSet').nodeSetCollection();
+                var list = new List();
+                list.items(nodeSetCollection);
+                list.attach(this);
+            }
+        }
+    });
+
+
+    nx.define('List', nx.ui.Component, {
+        properties: {
+            items: {}
+        },
+        view: [
+            {
+                tag: 'h1',
+                content: 'NodeSet'
+            },
+            {
+                tag: 'button',
+                content: 'Expand All',
+                props: {
+                    'class': 'btn btn-warning'
+                },
+                events: {
+                    'click': '{#_expandAll}'
+                }
+            },
+            {
+                tag: 'h5',
+                content: 'Private API, not public'
+            },
+            {
+                tag: 'h3',
+                content: 'NodeSet List'
+            },
+            {
+                tag: 'ul',
+                props: {
+                    'class': 'list-group',
+                    items: '{#items}',
+                    template: {
+                        tag: 'li',
+                        props: {
+                            'class': 'list-group-item form-group'
+                        },
+                        content: [
+                            {
+                                tag: 'label',
+                                content: [
+                                    {
+                                        tag: 'input',
+                                        props: {
+                                            type: 'checkbox',
+                                            'checked': '{value.collapsed,direction=<>}'
+                                        }
+                                    },
+                                    {
+                                        tag: 'span',
+                                        content: '{key}'
+                                    },
+                                    {
+                                        tag: 'a',
+                                        props: {
+                                            'class': 'glyphicon glyphicon-trash'
+                                        },
+                                        events: {
+                                            'click': '{#_del}'
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+
+                }
+            }
+        ],
+        methods: {
+            _del: function (sender, event) {
+                var nodeSet = sender.model().value();
+                topo.deleteNodeSet(nodeSet);
+                topo.fit();
+            },
+            _expandAll: function () {
+                topo.expandAll();
+            }
+        }
+    });
+
+
+    var app = new App();
+    app.start();
+
+</script>
+
+
+</body>
+</html>

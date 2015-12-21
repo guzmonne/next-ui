@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <!--<script type="text/javascript" src="us.js"></script>-->
+</head>
+
+<body>
+
+    <script type="text/javascript">
+
+
+        var m=Math.PI,p=2*m,r=m/2,y=m/180,A=180/m;function B(d){return d}rebind=function(d,a){for(var e=1,c=arguments.length,b;++e<c;)d[b=arguments[e]]=C(d,a,a[b]);return d};function C(d,a,e){return function(){var c=e.apply(a,arguments);return c===a?d:c}}var D=function(d){return function(a,e){return{b:function(c,b){var f=a(c,b);d(c=f[0],b=f[1])&&e.b(c,b)}}}}(function(){return!0});function I(d){return function(a,e){return a+=d,[a>m?a-p:a<-m?a+p:a,e]}}
+        function J(d,a,e,c){return function(b){return{b:function(f,k){d<=f&&f<=e&&a<=k&&k<=c&&b.b(f,k)}}}}function K(d,a){function e(c,b){return c=d(c,b),a(c[0],c[1])}d.a&&a.a&&(e.a=function(c,b){return c=a.a(c,b),c&&d.a(c[0],c[1])});return e}
+        USProjection=function(){function d(a){var c=a[0];a=a[1];b=null;(k(c,a),b)||(t(c,a),b)||u(c,a);return b}var a=L().rotate([96,0]).c([-.6,38.7]).g([29.5,45.5]).scale(1070),e=L().rotate([154,0]).c([-2,58.5]).g([55,65]),c=L().rotate([157,0]).c([-3,19.9]).g([8,18]),b,f={b:function(a,c){b=[a,c]}},k,t,u;d.a=function(d){var b=a.scale(),f=a.translate(),h=(d[0]-f[0])/b,b=(d[1]-f[1])/b;return(.12<=b&&.234>b&&-.425<=h&&-.214>h?e:.166<=b&&.234>b&&-.214<=h&&-.115>h?c:a).a(d)};d.stream=function(){return{}};d.scale=
+                function(b){if(!arguments.length)return a.scale();a.scale(b);e.scale(.35*b);c.scale(b);return d.translate(a.translate())};d.translate=function(b){if(!arguments.length)return a.translate();var g=a.scale(),l=+b[0],h=+b[1];k=a.translate(b).f([[l-.455*g,h-.238*g],[l+.455*g,h+.238*g]]).stream(f).b;t=e.translate([l-.307*g,h+.201*g]).f([[l-.425*g+1E-6,h+.12*g+1E-6],[l-.214*g-1E-6,h+.234*g-1E-6]]).stream(f).b;u=c.translate([l-.205*g,h+.212*g]).f([[l-.214*g+1E-6,h+.166*g+1E-6],[l-.115*g-1E-6,h+.234*g-1E-6]]).stream(f).b;
+            return d};return d.scale(1070)};function M(d){function a(a){return{b:function(c,b){c=d(c,b);a.b(c[0],c[1])}}}return function(d){return a(d)}}function N(d){return{b:d}}
+        function O(){var d=P;function a(a){a=t(a[0]*y,a[1]*y);return[a[0]*n+v,w-a[1]*n]}function e(a){return(a=t.a((a[0]-v)/n,(w-a[1])/n))&&[a[0]*A,a[1]*A]}function c(){var a=I(x);a.a=I(-x);t=K(k=a,f);a=f(h,z);v=g-a[0]*n;w=l+a[1]*n;return b()}function b(){q&&(q.valid=!1,q=null);return a}var f,k,t,u=M(function(a,b){a=f(a,b);return[a[0]*n+v,w-a[1]*n]}),n=150,g=480,l=250,h=0,z=0,x=0,E=0,F=0,v,w,G=B,H=null,q;a.stream=function(a){q&&(q.valid=!1);q=Q(D(k,u(G(a))));q.valid=!0;return q};a.f=function(a){if(!arguments.length)return H;
+            G=(H=a)?J(a[0][0],a[0][1],a[1][0],a[1][1]):B;return b()};a.scale=function(a){if(!arguments.length)return n;n=+a;return c()};a.translate=function(a){if(!arguments.length)return[g,l];g=+a[0];l=+a[1];return c()};a.c=function(a){if(!arguments.length)return[h*A,z*A];h=a[0]%360*y;z=a[1]%360*y;return c()};a.rotate=function(a){if(!arguments.length)return[x*A,E*A,F*A];x=a[0]%360*y;E=a[1]%360*y;F=2<a.length?a[2]%360*y:0;return c()};rebind(a,u,"precision");return function(){f=d.apply(this,arguments);a.a=f.a&&
+        e;return c()}}function Q(d){return N(function(a,e){d.b(a*y,e*y)})}function L(){var d=0,a=m/3,e=O(),c=e(d,a);c.g=function(b){return arguments.length?e(d=b[0]*m/180,a=b[1]*m/180):[d/m*180,a/m*180]};return c}
+        function P(d,a){function e(a,c){var d=Math.sqrt(f-2*b*Math.sin(c))/b;return[d*Math.sin(a*=b),k-d*Math.cos(a)]}var c=Math.sin(d),b=(c+Math.sin(a))/2,f=1+c*(2*b-c),k=Math.sqrt(f)/b;e.a=function(a,c){var d=k-c,e=(f-(a*a+d*d)*b*b)/(2*b);return[Math.atan2(a,d)/b,1<e?r:-1>e?-r:Math.asin(e)]};return e}
+
+
+        var NXprojection = USProjection();
+        NXprojection.invert =NXprojection.a;
+
+
+//        var R=USProjection();console.log(-149.8286774,63.391326);console.log(R([-149.8286774,63.391326]));console.log(R.a([170.4926778790028,432.70880620792]));
+
+        console.log(-149.8286774, 63.391326)
+        console.log(NXprojection([-149.8286774, 63.391326]));
+        console.log(NXprojection.invert([170.4926778790028, 432.70880620792]));
+    </script>
+
+</body>
+
+</html>

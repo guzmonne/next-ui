@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Example</title>
+    <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/NeXt-UI/ws/lib/jquery/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/NeXt-Core/lastSuccessfulBuild/artifact/dest/next-core.js"></script>
+    <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/NeXt-UI/lastSuccessfulBuild/artifact/dest/js/next-ui.js"></script>
+    <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/Next-Graphic/lastSuccessfulBuild/artifact/dest/js/next-graphic.js"></script>
+    <!--<script type="text/javascript" src="../src/js/next-graphic.js"></script>-->
+    <link rel="stylesheet" href="http://10.75.161.96:8080/jenkins/job/NeXt-UI/lastSuccessfulBuild/artifact/dest/css/next-blue.css"/>
+    <link rel="stylesheet" href="../src/less/next-graphic.css"/>
+</head>
+<style>
+    html, body {
+        padding: 0px;
+        height: 100%;
+        width: 100%;
+    }
+</style>
+<body>
+<script type="text/javascript">
+
+    var url = 'ws://10.75.161.96:8000/ws';
+
+    var topo = new nx.graphic.Topology({
+        adaptive: true,
+        identityKey: 'index',
+        nodeConfig: {
+            label: 'model.id',
+            iconType:'model.device_type'
+        },
+        showIcon: true
+    });
+
+
+    var App = nx.define(nx.ui.Application, {
+        methods: {
+            start: function () {
+                topo.attach(app);
+                topo.showLoading();
+
+                var ws = new WebSocket(url);
+                ws.onopen = function (socket) {
+                    console.log('open');
+                    ws.send('overlay_id=phy');
+                };
+                ws.onmessage = function (msg) {
+                    console.log('message', msg.data);
+                    var data = JSON.parse(msg.data);
+                    if (data.graph) {
+                        topo.data({
+                            nodes: data.nodes,
+                            links: data.links
+                        });
+                        topo.hideLoading();
+                    }
+                };
+                ws.onclose = function (socket) {
+                    console.log('close');
+                };
+
+            }
+        }
+    });
+
+    var app = new App();
+    app.start();
+
+</script>
+
+
+</body>
+</html>

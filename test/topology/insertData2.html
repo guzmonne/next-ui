@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Example</title>
+    <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/NeXt-UI/ws/lib/jquery/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/NeXt-Core/lastSuccessfulBuild/artifact/dest/next-core.js"></script>
+    <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/NeXt-UI/lastSuccessfulBuild/artifact/dest/js/next-ui.js"></script>
+    <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/UI_Component/lastSuccessfulBuild/artifact/dest/js/next-components.js"></script>
+    <link rel="stylesheet" href="http://10.75.161.96:8080/jenkins/job/NeXt-UI/lastSuccessfulBuild/artifact/dest/css/next-blue.css"/>
+    <script type="text/javascript" src="../lib/GraphGenerator.js"></script>
+    <link rel="stylesheet" href="../src/less/next-graphic.css"/>
+    <!--<script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/Next-Graphic/lastSuccessfulBuild/artifact/dest/js/next-graphic.js"></script>-->
+    <script type="text/javascript" src="../src/js/next-graphic.js"></script>
+
+</head>
+<style>
+    html, body {
+        padding: 0px;
+        height: 100%;
+        width: 100%;
+    }
+
+    .row,  #list {
+        height: 100%;
+    }
+
+    #topo{
+        height: 100%;
+    }
+</style>
+<body>
+
+
+<div class="row">
+
+    <div id="topo" class="col-md-10"></div>
+
+    <div id="list" class="col-md-2" style="padding: 30px; background: #000 ">
+        <h1>Insert</h1>
+        <button id="insert">Insert Data</button>
+        <h1>Re layout</h1>
+        <button id="relayout">Re-layout</button>
+        <h1>Remove</h1>
+        <input type="text" value="1" id="nodeID"/>
+        <button id="remove">Remove</button>
+        <h1>Highlight</h1>
+        <input type="text" value="1" id="highLightNodeID"/>
+        <button id="highlight">Highlight</button>
+
+    </div>
+    <div id="topo2" class="col-md-10"></div>
+</div>
+
+
+<script type="text/javascript">
+
+
+    var topologyData = {
+        "nodes": [
+            {
+                "NETWORK_DEVICE_ID": 0,
+                "x": 410,
+                "y": 100,
+                "HOSTNAME": "12K-1",
+                "TYPE": "server",
+                "memory": "80"
+            },
+            {
+                "NETWORK_DEVICE_ID": 1,
+                "x": 410,
+                "y": 280,
+                "HOSTNAME": "12K-2",
+                "TYPE": "switch",
+                "memory": "43"
+            },
+            {
+                "NETWORK_DEVICE_ID": 2,
+                "x": 660,
+                "y": 280,
+                "HOSTNAME": "Of-9k-03",
+                "TYPE": "pc",
+                "memory": "13"
+            },
+            {
+                "NETWORK_DEVICE_ID": 3,
+                "x": 660,
+                "y": 100,
+                "HOSTNAME": "Of-9k-02",
+                "TYPE": "router",
+                "memory": "24"
+            },
+            {
+                "NETWORK_DEVICE_ID": 4,
+                "x": 180,
+                "y": 190,
+                "HOSTNAME": "Of-9k-01",
+                "TYPE": "openflow",
+                "memory": "37"
+            }
+        ],
+        "links": [
+            {
+                "source": 0,
+                "target": 1
+            },
+            {
+                "source": 1,
+                "target": 2
+            },
+            {
+                "source": 1,
+                "target": 3
+            },
+            {
+                "source": 4,
+                "target": 1
+            },
+            {
+                "source": 2,
+                "target": 3
+            },
+            {
+                "source": 2,
+                "target": 0
+            },
+            {
+                "source": 0,
+                "target": 4
+            },
+            {
+                "source": 0,
+                "target": 3
+            }
+        ]
+    }
+
+    var myTopo1 = new nx.graphic.Topology({
+        adaptive: true,
+        identityKey: 'NETWORK_DEVICE_ID',
+//        dataProcessor: 'force',
+        nodeConfig: {
+            label: 'model.id'
+        },
+        theme: 'yellow',
+        showIcon: true
+    });
+
+
+    var app = new nx.ui.Application();
+    app.container(document.getElementById('topo'));
+    myTopo1.attach(app);
+
+
+
+
+
+
+
+    $("#insert").click(function () {
+        myTopo1.recover(true);
+        myTopo1.insertData(topologyData);
+    });
+
+
+    $('#relayout').click(function () {
+        myTopo1.activateLayout('force', null, function () {
+            myTopo1.layoutType(null);
+        });
+    });
+
+
+    $('#remove').click(function () {
+        myTopo1.removeNode($('#nodeID').val());
+    });
+
+    $('#highlight').click(function () {
+        myTopo1.recover(true);
+        myTopo1.highlightRelatedNode(myTopo1.getNode($('#highLightNodeID').val()));
+    });
+
+
+</script>
+
+
+</body>
+</html>

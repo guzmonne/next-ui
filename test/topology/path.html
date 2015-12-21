@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Test</title>
+    <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/NeXt-UI/ws/lib/jquery/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/NeXt-Core/lastSuccessfulBuild/artifact/dest/next-core.js"></script>
+    <script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/NeXt-UI/lastSuccessfulBuild/artifact/dest/js/next-ui.js"></script>
+    <!--<script type="text/javascript" src="http://10.75.161.96:8080/jenkins/job/Next-Graphic/lastSuccessfulBuild/artifact/dest/js/next-graphic.js"></script>-->
+    <link rel="stylesheet" href="http://10.75.161.96:8080/jenkins/job/NeXt-UI/lastSuccessfulBuild/artifact/dest/css/next-blue.css" />
+    <link rel="stylesheet" href="http://10.75.161.96:8080/jenkins/job/Next-Graphic/lastSuccessfulBuild/artifact/dest/css/next-graphic.css" />
+
+    <script type="text/javascript" src="../src/js/next-graphic.js"></script>
+</head>
+
+<body>
+    <style>
+        html,
+        body {
+            padding: 0px;
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+    <script>
+        var topologyData = {
+            nodes: [{
+                "id": 0,
+                "x": 410,
+                "y": 100,
+                "name": "12K-1"
+            }, {
+                "id": 1,
+                "x": 410,
+                "y": 280,
+                "name": "12K-2"
+            }, {
+                "id": 2,
+                "x": 660,
+                "y": 280,
+                "name": "Of-9k-03"
+            }, {
+                "id": 3,
+                "x": 660,
+                "y": 100,
+                "name": "Of-9k-02"
+            }, {
+                "id": 4,
+                "x": 180,
+                "y": 190,
+                "name": "Of-9k-01"
+            }],
+            links: [{
+                "source": 0,
+                "target": 1,
+                "id": 0,
+                x: true
+            }, {
+                "source": 1,
+                "target": 2,
+                "id": 1
+            }, {
+                "source": 1,
+                "target": 3,
+                "id": 2
+            }, {
+                "source": 4,
+                "target": 1,
+                "id": 3
+            }, {
+                "source": 2,
+                "target": 3,
+                "id": 4
+            }, {
+                "source": 2,
+                "target": 0,
+                "id": 5
+            }, {
+                "source": 2,
+                "target": 0,
+                "id": 6
+            }, {
+                "source": 0,
+                "target": 4,
+                "id": 7
+            }, {
+                "source": 0,
+                "target": 3,
+                "id": 8
+            }, {
+                "source": 0,
+                "target": 3,
+                "id": 9
+            }, {
+                "source": 0,
+                "target": 3,
+                "id": 10
+            }, {
+                "source": 0,
+                "target": 3,
+                "id": 11
+            }, {
+                "source": 0,
+                "target": 3,
+                "id": 12
+            }, {
+                "source": 0,
+                "target": 3,
+                "id": 13
+            }, {
+                "source": 0,
+                "target": 3,
+                "id": 14
+            }, {
+                "source": 0,
+                "target": 3,
+                "id": 15
+            }, {
+                "source": 0,
+                "target": 3,
+                "id": 16
+            }, {
+                "source": 0,
+                "target": 3,
+                "id": 17
+            }, {
+                "source": 0,
+                "target": 3,
+                "id": 18
+            }, {
+                "source": 1,
+                "target": 2
+            }, {
+                "source": 1,
+                "target": 2
+            }, {
+                "source": 1,
+                "target": 2
+            }, {
+                "source": 1,
+                "target": 2
+            }, {
+                "source": 1,
+                "target": 2
+            }, {
+                "source": 1,
+                "target": 2
+            }, {
+                "source": 1,
+                "target": 2
+            }, {
+                "source": 1,
+                "target": 2
+            }]
+        };
+
+
+
+        var topo = new nx.graphic.Topology({
+            adaptive: true,
+            nodeConfig: {
+                label: 'model.id'
+            },
+            nodeSetConfig: {
+                label: 'model.id'
+            },
+            linkConfig: {
+
+            },
+            showIcon: true
+        });
+
+        nx.DEBUG = true;
+
+        topo.on('ready', function() {
+            topo.data(topologyData);
+        });
+
+
+        topo.on('topologyGenerated', function() {
+
+            var generator = function() {
+                var nodes = this.nodes();
+                var coodinates = nodes.map(function(node) {
+                    return [node.x(), node.y()]
+                });
+                return "M" + coodinates.join(" L ");
+            };
+
+            // get all related nodes
+            var nodes = [topo.getNode('1'), topo.getNode('3'), topo.getNode('2')];
+            //define a basic path
+            path = new nx.graphic.Topology.BasePath({
+                nodes: nodes,
+                pathGenerator: generator,
+                pathStyle: {
+                    'stroke': '#a9C631',
+                    'stroke-width': '5px',
+                    fill: 'none'
+                },
+                model: {
+                    uuid: '123'
+                }
+            });
+
+            var pathLayer = topo.getLayer("paths");
+            pathLayer.addPath(path);
+
+
+        });
+
+        function removePath(uuid, topo) {
+            var pathLayer = topo.getLayer("paths");
+            var paths = pathLayer.get('paths');
+            if (paths.length) {
+                nx.each(paths, function(path) {
+                    var _uuid = path.model().uuid;
+                    if (_uuid == uuid) {
+                        pathLayer.removePath(uuid);
+                    }
+                });
+            }
+        }
+
+        topo.on('clickNode', function(sender, node) {
+            var pathLayer = topo.getLayer("paths");
+            var paths = pathLayer.get('paths');
+            if (paths.length) {
+                pathLayer.removePath(paths[paths.length - 1]);
+            }
+        });
+
+
+        var app = new nx.ui.Application();
+        topo.attach(app);
+    </script>
+
+</body>
+
+</html>
