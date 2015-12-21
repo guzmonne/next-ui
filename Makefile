@@ -30,22 +30,37 @@ FILES_TEST_BASE = \
 	test/base/data/ObservableDictionary.js \
 	test/base/data/SortedMap.js
 
-FILES_SRC_WEB = 
+FILES_SRC_WEB = \
+	src/web/js/Env.js \
+        src/web/js/Util.js \
+        src/web/js/HttpClient.js \
+        src/web/js/dom/Node.js \
+        src/web/js/dom/Text.js \
+        src/web/js/dom/Element.js \
+        src/web/js/dom/Fragment.js \
+        src/web/js/dom/Document.js \
+        src/web/js/ui/SimpleComponent.js \
+        src/web/js/ui/AbstractComponent.js \
+        src/web/js/ui/Component.js \
+        src/web/js/ui/Application.js
 
-FILES_TEST_WEB = 
+FILES_TEST_WEB = \
+	test/web/ComponentBase.js \
+	UIComponent.js \
+	element.js
 
 FILES_SRC_TOPOLOGY = 
 
 FILES_TEST_TOPOLOGY = 
 
-all: FORCE next-base next-ui next-graphic
+all: FORCE next-base next-web next-graphic
 
 clean: FORCE
 	@rm -rf work/dist/* work/test/* work/meta/*
 
 test: FORCE \
 	work/dist/next-base-test-report.xml \
-	work/dist/next-ui-test-report.xml \
+	work/dist/next-web-test-report.xml \
 	work/dist/next-graphic-test-report.xml
 
 work/meta:
@@ -82,7 +97,7 @@ work/dist/next-base.min.js: FORCE work/dist/next-base.js
 
 work/dist/next-base-docs: FORCE work/dist
 	@echo -n "Base: generate docs ... "
-	@yuidoc next-base/ -q -c work/bin/yuidoc.json -o work/dist/next-base-docs
+	@yuidoc src/base/ -q -c work/bin/yuidoc.json -o work/dist/next-base-docs
 	@echo "Done."
 
 work/test/next-base.html: FORCE work/test
@@ -115,7 +130,7 @@ work/dist/next-web.min.js: FORCE work/dist/next-web.js
 
 work/dist/next-web-docs: FORCE work/dist
 	@echo -n "Web: generate docs ... "
-	@yuidoc next-web/ -q -c work/bin/yuidoc.json -o work/dist/next-web-docs
+	@yuidoc src/web/ -q -c work/bin/yuidoc.json -o work/dist/next-web-docs
 	@echo "Done."
 
 work/test/next-web.html: FORCE work/test
@@ -148,7 +163,7 @@ work/dist/next-topology.min.js: FORCE work/dist/next-topology.js
 
 work/dist/next-topology-docs: FORCE work/dist
 	@echo -n "Topology: generate docs ... "
-	@yuidoc next-topology/ -q -c work/bin/yuidoc.json -o work/dist/next-topology-docs
+	@yuidoc src/topology/ -q -c work/bin/yuidoc.json -o work/dist/next-topology-docs
 	@echo "Done."
 
 work/test/next-topology.html: FORCE work/test
