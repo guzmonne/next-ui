@@ -1,0 +1,9 @@
+# Build instructions:
++ sudo apt-get install nodejs
++ sudo apt-get install phantomjs
++ sudo apt-get install node-less
++ sudo npm install yuidocjs -g
++ sudo npm install uglify -g
++ sudo npm install node-getopt -g
++ make clean
++ make

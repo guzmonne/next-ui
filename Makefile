@@ -157,7 +157,7 @@ FILES_SRC_TOPOLOGY = \
 FILES_TEST_TOPOLOGY = \
 	test/topology/data.js
 
-all: FORCE next-base next-web next-topology
+all: FORCE next-base next-web next-topology next-resources
 
 clean: FORCE
 	@rm -rf work/dist/* work/test/*
@@ -247,7 +247,8 @@ next-topology: FORCE \
 	work/dist/next-topology-test-report.xml \
 	work/dist/next-topology.js \
 	work/dist/next-topology.min.js \
-	work/dist/next-topology-docs
+	work/dist/next-topology-docs \
+	work/dist/next-topology-example
 
 work/dist/next-topology.js: FORCE work/dist
 	@echo -n "Topology: package ... "
@@ -273,3 +274,32 @@ work/test/next-topology.html: FORCE work/test
 work/dist/next-topology-test-report.xml: FORCE work/dist work/test/next-topology.html
 	@echo -n "Topology: test ... "
 	@node work/bin/phantom-autotest.js work/test/next-topology.html -s work/dist/next-topology-test-report.png -r work/dist/next-topology-test-report.xml
+
+work/dist/next-topology-example: FORCE work/dist
+	@echo -n "Topology: update example ... "
+	@rm -rf work/dist/next-topology-example
+	@cp -R src/topology-example work/dist/next-topology-example # TODO more
+	@echo "Done."
+
+## resources
+
+next-resources: FORCE work/dist/resources
+
+work/dist/resources: FORCE work/dist
+	@echo -n "Resources: update ... "
+	@mkdir -p work/dist/resources
+	@cp -R resources/fonts work/dist/resources
+	@mkdir -p work/dist/resources/web
+	@lessc resources/web/themes/blue/next.less > work/dist/resources/web/next-blue.css
+	@lessc resources/web/themes/green/next.less > work/dist/resources/web/next-green.css
+	@lessc resources/web/themes/dark/next.less > work/dist/resources/web/next-dark.css
+	@lessc resources/web/themes/slate/next.less > work/dist/resources/web/next-slate.css
+	@lessc resources/web/themes/yellow/next.less > work/dist/resources/web/next-yellow.css
+	@lessc resources/web/themes/blue/next-componentlized.less > work/dist/resources/web/next-blue-componentlized.css
+	@lessc resources/web/themes/green/next-componentlized.less > work/dist/resources/web/next-green-componentlized.css
+	@lessc resources/web/themes/dark/next-componentlized.less > work/dist/resources/web/next-dark-componentlized.css
+	@lessc resources/web/themes/slate/next-componentlized.less > work/dist/resources/web/next-slate-componentlized.css
+	@lessc resources/web/themes/yellow/next-componentlized.less > work/dist/resources/web/next-yellow-componentlized.css
+	@mkdir -p work/dist/resources/topology
+	@lessc resources/topology/next-topology.less > work/dist/resources/topology/next-topology.css
+	@echo "Done."

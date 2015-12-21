@@ -6,13 +6,6 @@
         "url": "index.html"
     },
     "files": {
-        "src/topology/example/topology/lib/HighLightCode/prettify.js": {
-            "name": "src/topology/example/topology/lib/HighLightCode/prettify.js",
-            "modules": {},
-            "classes": {},
-            "fors": {},
-            "namespaces": {}
-        },
         "src/topology/js/core/Component.js": {
             "name": "src/topology/js/core/Component.js",
             "modules": {},
@@ -837,35 +830,6 @@
             "classes": {},
             "fors": {},
             "namespaces": {}
-        },
-        "src/topology/model/TopologyEdge.js": {
-            "name": "src/topology/model/TopologyEdge.js",
-            "modules": {
-                "nx.graphic.topology": 1
-            },
-            "classes": {
-                "nx.graphic.topology.model.TopologyEdge": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
-        "src/topology/model/TopologyModel.js": {
-            "name": "src/topology/model/TopologyModel.js",
-            "modules": {},
-            "classes": {
-                "nx.graphic.topology.model.TopologyModel": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
-        "src/topology/model/TopologyVertex.js": {
-            "name": "src/topology/model/TopologyVertex.js",
-            "modules": {},
-            "classes": {
-                "nx.graphic.topology.model.TopologyVertex": 1
-            },
-            "fors": {},
-            "namespaces": {}
         }
     },
     "modules": {
@@ -953,7 +917,9 @@
         },
         "nx.graphic.Topology": {
             "name": "nx.graphic.Topology",
-            "submodules": {},
+            "submodules": {
+                "undefined": 1
+            },
             "classes": {
                 "nx.graphic.Topology.GroupsLayer": 1,
                 "nx.graphic.Topology.Layer": 1,
@@ -1021,20 +987,6 @@
             "file": "src/topology/js/topology/group/RectGroup.js",
             "line": 3,
             "description": "Polygon shape group class"
-        },
-        "nx.graphic.topology": {
-            "name": "nx.graphic.topology",
-            "submodules": {},
-            "classes": {
-                "nx.graphic.topology.model.TopologyEdge": 1,
-                "nx.graphic.topology.model.TopologyModel": 1,
-                "nx.graphic.topology.model.TopologyVertex": 1
-            },
-            "fors": {},
-            "namespaces": {},
-            "tag": "module",
-            "file": "src/topology/model/TopologyVertex.js",
-            "line": 2
         }
     },
     "classes": {
@@ -2193,425 +2145,9 @@
             "line": 3,
             "description": "Popup z-index mamager",
             "static": 1
-        },
-        "nx.graphic.topology.model.TopologyEdge": {
-            "name": "nx.graphic.topology.model.TopologyEdge",
-            "shortname": "nx.graphic.topology.model.TopologyEdge",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "nx.graphic.topology",
-            "namespace": "",
-            "file": "src/topology/model/TopologyEdge.js",
-            "line": 2
-        },
-        "nx.graphic.topology.model.TopologyModel": {
-            "name": "nx.graphic.topology.model.TopologyModel",
-            "shortname": "nx.graphic.topology.model.TopologyModel",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "nx.graphic.topology",
-            "namespace": "",
-            "file": "src/topology/model/TopologyModel.js",
-            "line": 3
-        },
-        "nx.graphic.topology.model.TopologyVertex": {
-            "name": "nx.graphic.topology.model.TopologyVertex",
-            "shortname": "nx.graphic.topology.model.TopologyVertex",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "nx.graphic.topology",
-            "namespace": "",
-            "file": "src/topology/model/TopologyVertex.js",
-            "line": 2
         }
     },
     "classitems": [
-        {
-            "file": "src/topology/example/topology/lib/HighLightCode/prettify.js",
-            "line": 16,
-            "fileoverview": "some functions for browser-side pretty printing of code contained in html.\n\n<p>\nFor a fairly comprehensive set of languages see the\n<a href=\"http://google-code-prettify.googlecode.com/svn/trunk/README.html#langs\">README</a>\nfile that came with this source.  At a minimum, the lexer should work on a\nnumber of languages including C and friends, Java, Python, Bash, SQL, HTML,\nXML, CSS, Javascript, and Makefiles.  It works passably on Ruby, PHP and Awk\nand a subset of Perl, but, because of commenting conventions, doesn't work on\nSmalltalk, Lisp-like, or CAML-like languages without an explicit lang class.\n<p>\nUsage: <ol>\n<li> include this source file in an html page via\n  {@code <script type=\"text/javascript\" src=\"/path/to/prettify.js\"></script>}\n<li> define style rules.  See the example page for examples.\n<li> mark the {@code <pre>} and {@code <code>} tags in your source with\n   {@code class=prettyprint.}\n   You can also use the (html deprecated) {@code <xmp>} tag, but the pretty\n   printer needs to do more substantial DOM manipulations to support that, so\n   some css styles may not be preserved.\n</ol>\nThat's it.  I wanted to keep the API as simple as possible, so there's no\nneed to specify which language the code is in, but if you wish, you can add\nanother class to the {@code <pre>} or {@code <code>} element to specify the\nlanguage, as in {@code <pre class=\"prettyprint lang-java\">}.  Any class that\nstarts with \"lang-\" followed by a file extension, specifies the file type.\nSee the \"lang-*.js\" files in this directory for code that implements\nper-language file handlers.\n<p>\nChange log:<br>\ncbeust, 2006/08/22\n<blockquote>\n  Java annotations (start with \"@\") are now captured as literals (\"lit\")\n</blockquote>",
-            "requires": [
-                "console"
-            ],
-            "class": "nx.graphic.Component"
-        },
-        {
-            "file": "src/topology/example/topology/lib/HighLightCode/prettify.js",
-            "line": 58,
-            "description": "Split {@code prettyPrint} into multiple timeouts so as not to interfere with\nUI events.\nIf set to {@code false}, {@code prettyPrint()} is synchronous.",
-            "class": "nx.graphic.Component"
-        },
-        {
-            "file": "src/topology/example/topology/lib/HighLightCode/prettify.js",
-            "line": 114,
-            "description": "token style for a string literal",
-            "itemtype": "property",
-            "name": "",
-            "final": "",
-            "class": "nx.graphic.Component"
-        },
-        {
-            "file": "src/topology/example/topology/lib/HighLightCode/prettify.js",
-            "line": 119,
-            "description": "token style for a keyword",
-            "itemtype": "property",
-            "name": "",
-            "final": "",
-            "class": "nx.graphic.Component"
-        },
-        {
-            "file": "src/topology/example/topology/lib/HighLightCode/prettify.js",
-            "line": 124,
-            "description": "token style for a comment",
-            "itemtype": "property",
-            "name": "",
-            "final": "",
-            "class": "nx.graphic.Component"
-        },
-        {
-            "file": "src/topology/example/topology/lib/HighLightCode/prettify.js",
-            "line": 129,
-            "description": "token style for a type",
-            "itemtype": "property",
-            "name": "",
-            "final": "",
-            "class": "nx.graphic.Component"
-        },
-        {
-            "file": "src/topology/example/topology/lib/HighLightCode/prettify.js",
-            "line": 134,
-            "description": "token style for a literal value.  e.g. 1, null, true.",
-            "itemtype": "property",
-            "name": "",
-            "final": "",
-            "class": "nx.graphic.Component"
-        },
-        {
-            "file": "src/topology/example/topology/lib/HighLightCode/prettify.js",
-            "line": 139,
-            "description": "token style for a punctuation string.",
-            "itemtype": "property",
-            "name": "",
-            "final": "",
-            "class": "nx.graphic.Component"
-        },
-        {
-            "file": "src/topology/example/topology/lib/HighLightCode/prettify.js",
-            "line": 144,
-            "description": "token style for a punctuation string.",
-            "itemtype": "property",
-            "name": "",
-            "final": "",
-            "class": "nx.graphic.Component"
-        },
-        {
-            "file": "src/topology/example/topology/lib/HighLightCode/prettify.js",
-            "line": 150,
-            "description": "token style for an sgml tag.",
-            "itemtype": "property",
-            "name": "",
-            "final": "",
-            "class": "nx.graphic.Component"
-        },
-        {
-            "file": "src/topology/example/topology/lib/HighLightCode/prettify.js",
-            "line": 155,
-            "description": "token style for a markup declaration such as a DOCTYPE.",
-            "itemtype": "property",
-            "name": "",
-            "final": "",
-            "class": "nx.graphic.Component"
-        },
-        {
-            "file": "src/topology/example/topology/lib/HighLightCode/prettify.js",
-            "line": 160,
-            "description": "token style for embedded source.",
-            "itemtype": "property",
-            "name": "",
-            "final": "",
-            "class": "nx.graphic.Component"
-        },
-        {
-            "file": "src/topology/example/topology/lib/HighLightCode/prettify.js",
-            "line": 165,
-            "description": "token style for an sgml attribute name.",
-            "itemtype": "property",
-            "name": "",
-            "final": "",
-            "class": "nx.graphic.Component"
-        },
-        {
-            "file": "src/topology/example/topology/lib/HighLightCode/prettify.js",
-            "line": 170,
-            "description": "token style for an sgml attribute value.",
-            "itemtype": "property",
-            "name": "",
-            "final": "",
-            "class": "nx.graphic.Component"
-        },
-        {
-            "file": "src/topology/example/topology/lib/HighLightCode/prettify.js",
-            "line": 176,
-            "description": "A class that indicates a section of markup that is not code, e.g. to allow\nembedding of line numbers within code listings.",
-            "itemtype": "property",
-            "name": "",
-            "final": "",
-            "class": "nx.graphic.Component"
-        },
-        {
-            "file": "src/topology/example/topology/lib/HighLightCode/prettify.js",
-            "line": 185,
-            "description": "A set of tokens that can precede a regular expression literal in\njavascript\nhttp://web.archive.org/web/20070717142515/http://www.mozilla.org/js/language/js20/rationale/syntax.html\nhas the full list, but I've removed ones that might be problematic when\nseen in languages that don't support regular expression literals.\n\n<p>Specifically, I've removed any keywords that can't precede a regexp\nliteral in a syntactically legal javascript program, and I've removed the\n\"in\" keyword since it's not a keyword in many languages, and might be used\nas a count of inches.\n\n<p>The link a above does not accurately describe EcmaScript rules since\nit fails to distinguish between (a=++/b/i) and (a++/b/i) but it works\nvery well in practice.",
-            "access": "private",
-            "tagname": "",
-            "itemtype": "property",
-            "name": "",
-            "final": "",
-            "class": "nx.graphic.Component"
-        },
-        {
-            "file": "src/topology/example/topology/lib/HighLightCode/prettify.js",
-            "line": 213,
-            "description": "Given a group of {@link RegExp}s, returns a {@code RegExp} that globally\nmatches the union of the sets of strings matched by the input RegExp.\nSince it matches globally, if the input strings have a start-of-input\nanchor (/^.../), it is ignored for the purposes of unioning.",
-            "params": [
-                {
-                    "name": "regexs",
-                    "description": "non multiline, non-global regexs.",
-                    "type": "Array.<RegExp>"
-                }
-            ],
-            "return": {
-                "description": "a global regex.",
-                "type": "RegExp"
-            },
-            "class": "nx.graphic.Component"
-        },
-        {
-            "file": "src/topology/example/topology/lib/HighLightCode/prettify.js",
-            "line": 450,
-            "description": "Split markup into a string of source code and an array mapping ranges in\nthat string to the text nodes in which they appear.\n\n<p>\nThe HTML DOM structure:</p>\n<pre>\n(Element   \"p\"\n  (Element \"b\"\n    (Text  \"print \"))       ; #1\n  (Text    \"'Hello '\")      ; #2\n  (Element \"br\")            ; #3\n  (Text    \"  + 'World';\")) ; #4\n</pre>\n<p>\ncorresponds to the HTML\n{@code <p><b>print </b>'Hello '<br>  + 'World';</p>}.</p>\n\n<p>\nIt will produce the output:</p>\n<pre>\n{\n  sourceCode: \"print 'Hello '\\n  + 'World';\",\n  //                 1         2\n  //       012345678901234 5678901234567\n  spans: [0, #1, 6, #2, 14, #3, 15, #4]\n}\n</pre>\n<p>\nwhere #1 is a reference to the {@code \"print \"} text node above, and so\non for the other text nodes.\n</p>\n\n<p>\nThe {@code} spans array is an array of pairs.  Even elements are the start\nindices of substrings, and odd elements are the text nodes (or BR elements)\nthat contain the text for those substrings.\nSubstrings continue until the next index or the end of the source.\n</p>",
-            "params": [
-                {
-                    "name": "node",
-                    "description": "an HTML DOM subtree containing source-code.",
-                    "type": "Node"
-                }
-            ],
-            "return": {
-                "description": "source code and the text nodes in which they occur.",
-                "type": "Object"
-            },
-            "class": "nx.graphic.Component"
-        },
-        {
-            "file": "src/topology/example/topology/lib/HighLightCode/prettify.js",
-            "line": 551,
-            "description": "Apply the given language handler to sourceCode and add the resulting\ndecorations to out.",
-            "params": [
-                {
-                    "name": "basePos",
-                    "description": "the index of sourceCode within the chunk of source\n   whose decorations are already present on out.",
-                    "type": "Number"
-                }
-            ],
-            "class": "nx.graphic.Component"
-        },
-        {
-            "file": "src/topology/example/topology/lib/HighLightCode/prettify.js",
-            "line": 569,
-            "description": "Given an element, if it contains only one child element and any text nodes\nit contains contain only space characters, return the sole child element.\nOtherwise returns undefined.\n<p>\nThis is meant to return the CODE element in {@code <pre><code ...>} when\nthere is a single child element that contains all the non-space textual\ncontent, but not to return anything where there are multiple child elements\nas in {@code <pre><code>...</code><code>...</code></pre>} or when there\nis textual content.",
-            "class": "nx.graphic.Component"
-        },
-        {
-            "file": "src/topology/example/topology/lib/HighLightCode/prettify.js",
-            "line": 593,
-            "description": "The lexing function interprets the patterns to find token boundaries and\nreturns a decoration list of the form\n[index_0, style_0, index_1, style_1, ..., index_n, style_n]\nwhere index_n is an index into the sourceCode, and style_n is a style\nconstant like PR_PLAIN.  index_n-1 <= index_n, and style_n-1 applies to\nall characters in sourceCode[index_n-1:index_n].\n\nThe stylePatterns is a list whose elements have the form\n[style : string, pattern : RegExp, DEPRECATED, shortcut : string].\n\nStyle is a style constant like PR_PLAIN, or can be a string of the\nform 'lang-FOO', where FOO is a language extension describing the\nlanguage of the portion of the token in $1 after pattern executes.\nE.g., if style is 'lang-lisp', and group 1 contains the text\n'(hello (world))', then that portion of the token will be passed to the\nregistered lisp handler for formatting.\nThe text before and after group 1 will be restyled using this decorator\nso decorators should take care that this doesn't result in infinite\nrecursion.  For example, the HTML lexer rule for SCRIPT elements looks\nsomething like ['lang-js', /<[s]cript>(.+?)<\\/script>/].  This may match\n'<script>foo()<\\/script>', which would cause the current decorator to\nbe called with '<script>' which would not match the same rule since\ngroup 1 must not be empty, so it would be instead styled as PR_TAG by\nthe generic tag rule.  The handler registered for the 'js' extension would\nthen be called with 'foo()', and finally, the current decorator would\nbe called with '<\\/script>' which would not match the original rule and\nso the generic tag rule would identify it as a tag.\n\nPattern must only match prefixes, and if it matches a prefix, then that\nmatch is considered a token with the same style.\n\nContext is applied to the last non-whitespace, non-comment token\nrecognized.\n\nShortcut is an optional string of characters, any of which, if the first\ncharacter, gurantee that this pattern and only this pattern matches.",
-            "params": [
-                {
-                    "name": "shortcutStylePatterns",
-                    "description": "patterns that always start with\n  a known character.  Must have a shortcut string.",
-                    "type": "Array"
-                },
-                {
-                    "name": "fallthroughStylePatterns",
-                    "description": "patterns that will be tried in\n  order if the shortcut ones fail.  May have shortcuts.",
-                    "type": "Array"
-                }
-            ],
-            "return": {
-                "description": "a\n  function that takes source code and returns a list of decorations.",
-                "type": "Function (Object)"
-            },
-            "class": "nx.graphic.Component"
-        },
-        {
-            "file": "src/topology/example/topology/lib/HighLightCode/prettify.js",
-            "line": 667,
-            "description": "Lexes job.sourceCode and produces an output array job.decorations of\nstyle classes preceded by the position at which they start in\njob.sourceCode in order.",
-            "params": [
-                {
-                    "name": "job",
-                    "description": "an object like <pre>{\n   sourceCode: {string} sourceText plain text,\n   basePos: {int} position of job.sourceCode in the larger chunk of\n       sourceCode.\n}</pre>",
-                    "type": "Object"
-                }
-            ],
-            "class": "nx.graphic.Component"
-        },
-        {
-            "file": "src/topology/example/topology/lib/HighLightCode/prettify.js",
-            "line": 680,
-            "description": "are style markers (e.g., PR_COMMENT) that run from that position until\nthe end.",
-            "type": "{Array.<number|string>}",
-            "class": "nx.graphic.Component"
-        },
-        {
-            "file": "src/topology/example/topology/lib/HighLightCode/prettify.js",
-            "line": 767,
-            "description": "This code treats \", ', and ` as string delimiters, and \\ as a string\n escape.  It does not recognize perl's qq() style strings.\n It has no special handling for double delimiter escapes as in basic, or\n the tripled delimiters used in python, but should work on those regardless\n although in those cases a single string literal may be broken up into\n multiple adjacent string literals.\nIt recognizes C, C++, and shell style comments.",
-            "params": [
-                {
-                    "name": "options",
-                    "description": "a set of optional parameters.",
-                    "type": "Object"
-                }
-            ],
-            "return": {
-                "description": "a function that examines the source code\n     in the input job and builds the decoration list.",
-                "type": "Function (Object)"
-            },
-            "class": "nx.graphic.Component"
-        },
-        {
-            "file": "src/topology/example/topology/lib/HighLightCode/prettify.js",
-            "line": 832,
-            "itemtype": "property",
-            "name": "",
-            "final": "",
-            "class": "nx.graphic.Component"
-        },
-        {
-            "file": "src/topology/example/topology/lib/HighLightCode/prettify.js",
-            "line": 901,
-            "description": "Given a DOM subtree, wraps it in a list, and puts each line into its own\nlist item.",
-            "params": [
-                {
-                    "name": "node",
-                    "description": "modified in place.  Its content is pulled into an\n    HTMLOListElement, and each line is moved into a separate list item.\n    This requires cloning elements, so the input might not have unique\n    IDs after numbering.",
-                    "type": "Node"
-                }
-            ],
-            "class": "nx.graphic.Component"
-        },
-        {
-            "file": "src/topology/example/topology/lib/HighLightCode/prettify.js",
-            "line": 1049,
-            "description": "Breaks {@code job.sourceCode} around style boundaries in\n{@code job.decorations} and modifies {@code job.sourceNode} in place.",
-            "params": [
-                {
-                    "name": "job",
-                    "description": "like <pre>{\n   sourceCode: {string} source as plain text,\n   spans: {Array.<number|Node>} alternating span start indices into source\n      and the text node or element (e.g. {@code <BR>}) corresponding to that\n      span.\n   decorations: {Array.<number|string} an array of style classes preceded\n      by the position at which they start in job.sourceCode in order\n}</pre>",
-                    "type": "Object"
-                }
-            ],
-            "access": "private",
-            "tagname": "",
-            "class": "nx.graphic.Component"
-        },
-        {
-            "file": "src/topology/example/topology/lib/HighLightCode/prettify.js",
-            "line": 1159,
-            "class": "nx.graphic.Component"
-        },
-        {
-            "file": "src/topology/example/topology/lib/HighLightCode/prettify.js",
-            "line": 1161,
-            "params": [
-                {
-                    "name": "handler",
-                    "description": "a function from source code to a list\n     of decorations.  Takes a single argument job which describes the\n     state of the computation.   The single parameter has the form\n     {@code {\n       sourceCode: {string} as plain text.\n       decorations: {Array.<number|string>} an array of style classes\n                    preceded by the position at which they start in\n                    job.sourceCode in order.\n                    The language handler should assigned this field.\n       basePos: {int} the position of source in the larger source chunk.\n                All positions in the output decorations array are relative\n                to the larger source chunk.\n     } }",
-                    "type": "Function (Object)"
-                },
-                {
-                    "name": "fileExtensions",
-                    "description": "",
-                    "type": "Array.<string>"
-                }
-            ],
-            "class": "nx.graphic.Component"
-        },
-        {
-            "file": "src/topology/example/topology/lib/HighLightCode/prettify.js",
-            "line": 1302,
-            "class": "nx.graphic.Component"
-        },
-        {
-            "file": "src/topology/example/topology/lib/HighLightCode/prettify.js",
-            "line": 1321,
-            "params": [
-                {
-                    "name": "sourceCodeHtml",
-                    "description": "The HTML to pretty print.",
-                    "type": "String"
-                },
-                {
-                    "name": "opt_langExtension",
-                    "description": "The language name to use.\n    Typically, a filename extension like 'cpp' or 'java'.",
-                    "type": "String"
-                },
-                {
-                    "name": "opt_numberLines",
-                    "description": "True to number lines,\n    or the 1-indexed number of the first line in sourceCodeHtml.",
-                    "type": "Number|boolean"
-                }
-            ],
-            "class": "nx.graphic.Component"
-        },
-        {
-            "file": "src/topology/example/topology/lib/HighLightCode/prettify.js",
-            "line": 1440,
-            "description": "Find all the {@code <pre>} and {@code <code>} tags in the DOM with\n{@code class=prettyprint} and prettify them.",
-            "params": [
-                {
-                    "name": "opt_whenDone",
-                    "description": "if specified, called when the last entry\n    has been finished.",
-                    "type": "Function?"
-                }
-            ],
-            "class": "nx.graphic.Component"
-        },
-        {
-            "file": "src/topology/example/topology/lib/HighLightCode/prettify.js",
-            "line": 1448,
-            "description": "Pretty print a chunk of code.",
-            "params": [
-                {
-                    "name": "sourceCodeHtml",
-                    "description": "code as html",
-                    "type": "String"
-                }
-            ],
-            "return": {
-                "description": "code as html, but prettier",
-                "type": "String"
-            },
-            "class": "nx.graphic.Component"
-        },
-        {
-            "file": "src/topology/example/topology/lib/HighLightCode/prettify.js",
-            "line": 1455,
-            "description": "Contains functions for creating and registering new language handlers.",
-            "type": "{Object}",
-            "class": "nx.graphic.Component"
-        },
         {
             "file": "src/topology/js/core/Component.js",
             "line": 34,
@@ -9944,22 +9480,18 @@
             "file": "src/topology/js/util/Animation.js",
             "line": 2,
             "link": "http://dev.chromium.org/developers/design-documents/requestanimationframe-implementation",
-            "class": "nx.graphic.topology.model.TopologyEdge",
+            "class": "",
             "module": "nx.graphic.Topology"
         },
         {
             "file": "src/topology/js/util/query.js",
             "line": 139,
             "doctype": "MarkDown\noptions:\n- options.array [any*]\n  - the target array\n- options.select: function(any){return boolean;}\n  - *optional*\n  - pre-filter of the array\n- options.aggregate: {grouper:grouper,aggregater:aggregater} or [proplist, aggregater] or [prop, prop, ..., aggregater]\n  - *optional*\n  - proplist: \"prop,prop,...\"\n  - prop: property name on array items\n  - grouper: map an array item into a string key\n  - aggregater: function(mapped){return aggregated}\n- options.mapping: function(item){return newitem}\n  - *optional*\n- options.orderby: proplist or [prop, prop, ...]\n  - *optional*",
-            "class": "nx.graphic.topology.model.TopologyEdge",
+            "class": "",
             "module": "nx.graphic.Topology"
         }
     ],
     "warnings": [
-        {
-            "message": "unknown tag: fileoverview",
-            "line": " src/topology/example/topology/lib/HighLightCode/prettify.js:16"
-        },
         {
             "message": "replacing incorrect tag: extend with extends",
             "line": " src/topology/js/core/Component.js:26"
@@ -10599,82 +10131,6 @@
         {
             "message": "unknown tag: doctype",
             "line": " src/topology/js/util/query.js:139"
-        },
-        {
-            "message": "Missing item type",
-            "line": " src/topology/example/topology/lib/HighLightCode/prettify.js:16"
-        },
-        {
-            "message": "Missing item type\nSplit {@code prettyPrint} into multiple timeouts so as not to interfere with\nUI events.\nIf set to {@code false}, {@code prettyPrint()} is synchronous.",
-            "line": " src/topology/example/topology/lib/HighLightCode/prettify.js:58"
-        },
-        {
-            "message": "Missing item type\nGiven a group of {@link RegExp}s, returns a {@code RegExp} that globally\nmatches the union of the sets of strings matched by the input RegExp.\nSince it matches globally, if the input strings have a start-of-input\nanchor (/^.../), it is ignored for the purposes of unioning.",
-            "line": " src/topology/example/topology/lib/HighLightCode/prettify.js:213"
-        },
-        {
-            "message": "Missing item type\nSplit markup into a string of source code and an array mapping ranges in\nthat string to the text nodes in which they appear.\n\n<p>\nThe HTML DOM structure:</p>\n<pre>\n(Element   \"p\"\n  (Element \"b\"\n    (Text  \"print \"))       ; #1\n  (Text    \"'Hello '\")      ; #2\n  (Element \"br\")            ; #3\n  (Text    \"  + 'World';\")) ; #4\n</pre>\n<p>\ncorresponds to the HTML\n{@code <p><b>print </b>'Hello '<br>  + 'World';</p>}.</p>\n\n<p>\nIt will produce the output:</p>\n<pre>\n{\n  sourceCode: \"print 'Hello '\\n  + 'World';\",\n  //                 1         2\n  //       012345678901234 5678901234567\n  spans: [0, #1, 6, #2, 14, #3, 15, #4]\n}\n</pre>\n<p>\nwhere #1 is a reference to the {@code \"print \"} text node above, and so\non for the other text nodes.\n</p>\n\n<p>\nThe {@code} spans array is an array of pairs.  Even elements are the start\nindices of substrings, and odd elements are the text nodes (or BR elements)\nthat contain the text for those substrings.\nSubstrings continue until the next index or the end of the source.\n</p>",
-            "line": " src/topology/example/topology/lib/HighLightCode/prettify.js:450"
-        },
-        {
-            "message": "Missing item type\nApply the given language handler to sourceCode and add the resulting\ndecorations to out.",
-            "line": " src/topology/example/topology/lib/HighLightCode/prettify.js:551"
-        },
-        {
-            "message": "Missing item type\nGiven an element, if it contains only one child element and any text nodes\nit contains contain only space characters, return the sole child element.\nOtherwise returns undefined.\n<p>\nThis is meant to return the CODE element in {@code <pre><code ...>} when\nthere is a single child element that contains all the non-space textual\ncontent, but not to return anything where there are multiple child elements\nas in {@code <pre><code>...</code><code>...</code></pre>} or when there\nis textual content.",
-            "line": " src/topology/example/topology/lib/HighLightCode/prettify.js:569"
-        },
-        {
-            "message": "Missing item type\nThe lexing function interprets the patterns to find token boundaries and\nreturns a decoration list of the form\n[index_0, style_0, index_1, style_1, ..., index_n, style_n]\nwhere index_n is an index into the sourceCode, and style_n is a style\nconstant like PR_PLAIN.  index_n-1 <= index_n, and style_n-1 applies to\nall characters in sourceCode[index_n-1:index_n].\n\nThe stylePatterns is a list whose elements have the form\n[style : string, pattern : RegExp, DEPRECATED, shortcut : string].\n\nStyle is a style constant like PR_PLAIN, or can be a string of the\nform 'lang-FOO', where FOO is a language extension describing the\nlanguage of the portion of the token in $1 after pattern executes.\nE.g., if style is 'lang-lisp', and group 1 contains the text\n'(hello (world))', then that portion of the token will be passed to the\nregistered lisp handler for formatting.\nThe text before and after group 1 will be restyled using this decorator\nso decorators should take care that this doesn't result in infinite\nrecursion.  For example, the HTML lexer rule for SCRIPT elements looks\nsomething like ['lang-js', /<[s]cript>(.+?)<\\/script>/].  This may match\n'<script>foo()<\\/script>', which would cause the current decorator to\nbe called with '<script>' which would not match the same rule since\ngroup 1 must not be empty, so it would be instead styled as PR_TAG by\nthe generic tag rule.  The handler registered for the 'js' extension would\nthen be called with 'foo()', and finally, the current decorator would\nbe called with '<\\/script>' which would not match the original rule and\nso the generic tag rule would identify it as a tag.\n\nPattern must only match prefixes, and if it matches a prefix, then that\nmatch is considered a token with the same style.\n\nContext is applied to the last non-whitespace, non-comment token\nrecognized.\n\nShortcut is an optional string of characters, any of which, if the first\ncharacter, gurantee that this pattern and only this pattern matches.",
-            "line": " src/topology/example/topology/lib/HighLightCode/prettify.js:593"
-        },
-        {
-            "message": "Missing item type\nLexes job.sourceCode and produces an output array job.decorations of\nstyle classes preceded by the position at which they start in\njob.sourceCode in order.",
-            "line": " src/topology/example/topology/lib/HighLightCode/prettify.js:667"
-        },
-        {
-            "message": "Missing item type\nare style markers (e.g., PR_COMMENT) that run from that position until\nthe end.",
-            "line": " src/topology/example/topology/lib/HighLightCode/prettify.js:680"
-        },
-        {
-            "message": "Missing item type\nThis code treats \", ', and ` as string delimiters, and \\ as a string\n escape.  It does not recognize perl's qq() style strings.\n It has no special handling for double delimiter escapes as in basic, or\n the tripled delimiters used in python, but should work on those regardless\n although in those cases a single string literal may be broken up into\n multiple adjacent string literals.\nIt recognizes C, C++, and shell style comments.",
-            "line": " src/topology/example/topology/lib/HighLightCode/prettify.js:767"
-        },
-        {
-            "message": "Missing item type\nGiven a DOM subtree, wraps it in a list, and puts each line into its own\nlist item.",
-            "line": " src/topology/example/topology/lib/HighLightCode/prettify.js:901"
-        },
-        {
-            "message": "Missing item type\nBreaks {@code job.sourceCode} around style boundaries in\n{@code job.decorations} and modifies {@code job.sourceNode} in place.",
-            "line": " src/topology/example/topology/lib/HighLightCode/prettify.js:1049"
-        },
-        {
-            "message": "Missing item type",
-            "line": " src/topology/example/topology/lib/HighLightCode/prettify.js:1159"
-        },
-        {
-            "message": "Missing item type",
-            "line": " src/topology/example/topology/lib/HighLightCode/prettify.js:1161"
-        },
-        {
-            "message": "Missing item type",
-            "line": " src/topology/example/topology/lib/HighLightCode/prettify.js:1302"
-        },
-        {
-            "message": "Missing item type",
-            "line": " src/topology/example/topology/lib/HighLightCode/prettify.js:1321"
-        },
-        {
-            "message": "Missing item type\nFind all the {@code <pre>} and {@code <code>} tags in the DOM with\n{@code class=prettyprint} and prettify them.",
-            "line": " src/topology/example/topology/lib/HighLightCode/prettify.js:1440"
-        },
-        {
-            "message": "Missing item type\nPretty print a chunk of code.",
-            "line": " src/topology/example/topology/lib/HighLightCode/prettify.js:1448"
-        },
-        {
-            "message": "Missing item type\nContains functions for creating and registering new language handlers.",
-            "line": " src/topology/example/topology/lib/HighLightCode/prettify.js:1455"
         },
         {
             "message": "Missing item type\nProcess graph data",

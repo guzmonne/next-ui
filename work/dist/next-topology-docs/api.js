@@ -74,9 +74,6 @@ YUI.add("yuidoc-meta", function(Y) {
         "nx.graphic.Topology.WorldMapLayout",
         "nx.graphic.Topology.ZoomBySelection",
         "nx.graphic.Triangle",
-        "nx.graphic.topology.model.TopologyEdge",
-        "nx.graphic.topology.model.TopologyModel",
-        "nx.graphic.topology.model.TopologyVertex",
         "nx.ui.Popover",
         "nx.ui.Popup",
         "nx.ui.PopupContainer",
@@ -88,7 +85,6 @@ YUI.add("yuidoc-meta", function(Y) {
         "nx.graphic",
         "nx.graphic.Topology",
         "nx.graphic.Topology.Group",
-        "nx.graphic.topology",
         "nx.math"
     ],
     "allModules": [
@@ -111,10 +107,6 @@ YUI.add("yuidoc-meta", function(Y) {
             "displayName": "nx.graphic.Topology",
             "name": "nx.graphic.Topology",
             "description": "Topology basic layer class"
-        },
-        {
-            "displayName": "nx.graphic.topology",
-            "name": "nx.graphic.topology"
         },
         {
             "displayName": "nx.graphic.Topology.Group",
