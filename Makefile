@@ -1,19 +1,18 @@
 FILES_SRC_BASE = \
-        src/base/base.js \
-        src/base/class.js \
+	src/base/base.js \
+	src/base/class.js \
 	src/base/keyword.js \
-        src/base/Comparable.js \
-        src/base/Deferrable.js \
-        src/base/Iterable.js \
-        src/base/Observable.js \
-        src/base/Serializable.js \
-        src/base/data/Counter.js \
-        src/base/data/Collection.js \
-        src/base/data/Dictionary.js \
-        src/base/data/ObservableObject.js \
-        src/base/data/ObservableCollection.js \
-        src/base/data/ObservableDictionary.js \
-        src/base/data/Query.js \
+	src/base/Comparable.js \
+	src/base/Iterable.js \
+	src/base/Observable.js \
+	src/base/Serializable.js \
+	src/base/data/Counter.js \
+	src/base/data/Collection.js \
+	src/base/data/Dictionary.js \
+	src/base/data/ObservableObject.js \
+	src/base/data/ObservableCollection.js \
+	src/base/data/ObservableDictionary.js \
+	src/base/data/Query.js \
 	src/base/data/SortedMap.js
 
 FILES_TEST_BASE = \
@@ -32,24 +31,25 @@ FILES_TEST_BASE = \
 
 FILES_SRC_WEB = \
 	src/web/js/Env.js \
-        src/web/js/Util.js \
-        src/web/js/HttpClient.js \
-        src/web/js/dom/Node.js \
-        src/web/js/dom/Text.js \
-        src/web/js/dom/Element.js \
-        src/web/js/dom/Fragment.js \
-        src/web/js/dom/Document.js \
-        src/web/js/ui/SimpleComponent.js \
-        src/web/js/ui/AbstractComponent.js \
-        src/web/js/ui/Component.js \
-        src/web/js/ui/Application.js
+	src/web/js/Util.js \
+	src/web/js/HttpClient.js \
+	src/web/js/dom/Node.js \
+	src/web/js/dom/Text.js \
+	src/web/js/dom/Element.js \
+	src/web/js/dom/Fragment.js \
+	src/web/js/dom/Document.js \
+	src/web/js/ui/SimpleComponent.js \
+	src/web/js/ui/AbstractComponent.js \
+	src/web/js/ui/Component.js \
+	src/web/js/ui/Application.js
 
 FILES_TEST_WEB = \
+	test/web/test.js \
 	test/web/ComponentBase.js \
-	UIComponent.js \
-	element.js
+	test/web/UIComponent.js \
+	test/web/element.js
 
-FILES_SRC_TOPOLOGY = 
+FILES_SRC_TOPOLOGY = \
 	src/topology/js/util/util.js \
 	src/topology/js/util/query.js \
 	src/topology/js/util/Animation.js \
@@ -113,7 +113,6 @@ FILES_SRC_TOPOLOGY =
 	src/topology/js/topology/core/Categories.js \
 	src/topology/js/topology/core/Topology.js \
 	src/topology/js/topology/layer/Layer.js \
-	src/topology/js/topology/layer/TripleLayer.js \
 	src/topology/js/topology/node/NodeWatcher.js \
 	src/topology/js/topology/node/AbstractNode.js \
 	src/topology/js/topology/node/Node.js \
@@ -155,23 +154,18 @@ FILES_SRC_TOPOLOGY =
 	src/topology/js/topology/extension/graphic/OptimizeLabel.js \
 	src/topology/js/topology/extension/graphic/FillStage.js
 
-FILES_TEST_TOPOLOGY = 
+FILES_TEST_TOPOLOGY = \
+	test/topology/data.js
 
 all: FORCE next-base next-web next-topology
 
 clean: FORCE
-	@rm -rf work/dist/* work/test/* work/meta/*
+	@rm -rf work/dist/* work/test/*
 
 test: FORCE \
 	work/dist/next-base-test-report.xml \
 	work/dist/next-web-test-report.xml \
 	work/dist/next-topology-test-report.xml
-
-work/meta:
-	@mkdir -p work/meta
-
-meta: FORCE work/meta
-	@node work/bin/next-project.js $(shell pwd) work/meta
 
 work/test:
 	@mkdir -p work/test

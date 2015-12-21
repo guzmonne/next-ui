@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>src/web/js/http/Http.js - Next graph</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="icon" href="../assets/favicon.ico">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+                <h1><img src="../assets/css/logo.png" title="Next graph" width="117" height="52"></h1>
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 0.1</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+                    <h2 class="off-left">APIs</h2>
+                    <div id="api-tabview" class="tabview">
+                        <ul class="tabs">
+                            <li><a href="#api-classes">Classes</a></li>
+                            <li><a href="#api-modules">Modules</a></li>
+                        </ul>
+                
+                        <div id="api-tabview-filter">
+                            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+                        </div>
+                
+                        <div id="api-tabview-panel">
+                            <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/nx.dom.Document.html">nx.dom.Document</a></li>
+                                <li><a href="../classes/nx.dom.Element.html">nx.dom.Element</a></li>
+                                <li><a href="../classes/nx.dom.Fragment.html">nx.dom.Fragment</a></li>
+                                <li><a href="../classes/nx.dom.Node.html">nx.dom.Node</a></li>
+                                <li><a href="../classes/nx.dom.Text.html">nx.dom.Text</a></li>
+                                <li><a href="../classes/nx.http.XHR.html">nx.http.XHR</a></li>
+                                <li><a href="../classes/nx.http.XHRPool.html">nx.http.XHRPool</a></li>
+                                <li><a href="../classes/nx.nx.JSON.html">nx.nx.JSON</a></li>
+                                <li><a href="../classes/nx.task.nx.http.HttpClient.html">nx.task.nx.http.HttpClient</a></li>
+                                <li><a href="../classes/nx.task.Task.html">nx.task.Task</a></li>
+                                <li><a href="../classes/nx.task.TaskList.html">nx.task.TaskList</a></li>
+                                <li><a href="../classes/nx.ui.Application.html">nx.ui.Application</a></li>
+                                <li><a href="../classes/nx.ui.Collection.html">nx.ui.Collection</a></li>
+                                <li><a href="../classes/nx.ui.Component.html">nx.ui.Component</a></li>
+                                <li><a href="../classes/nx.ui.CssClass.html">nx.ui.CssClass</a></li>
+                                <li><a href="../classes/nx.ui.CssStyle.html">nx.ui.CssStyle</a></li>
+                                <li><a href="../classes/nx.ui.DOMComponent.html">nx.ui.DOMComponent</a></li>
+                                <li><a href="../classes/nx.ui.nx.Env.html">nx.ui.nx.Env</a></li>
+                                <li><a href="../classes/nx.ui.nx.HttpClient.html">nx.ui.nx.HttpClient</a></li>
+                                <li><a href="../classes/nx.ui.nx.Util.html">nx.ui.nx.Util</a></li>
+                            </ul>
+                
+                            <ul id="api-modules" class="apis modules">
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+                    Show:
+                    <label for="api-show-inherited">
+                        <input type="checkbox" id="api-show-inherited" checked>
+                        Inherited
+                    </label>
+            
+                    <label for="api-show-protected">
+                        <input type="checkbox" id="api-show-protected">
+                        Protected
+                    </label>
+            
+                    <label for="api-show-private">
+                        <input type="checkbox" id="api-show-private">
+                        Private
+                    </label>
+                    <label for="api-show-deprecated">
+                        <input type="checkbox" id="api-show-deprecated">
+                        Deprecated
+                    </label>
+            
+                </div>
+            
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+<h1 class="file-heading">File: src/web/js/http/Http.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+(function (nx) {
+    /**
+     * XHR: XmlHttpRequest
+     * @class nx.http.XHR
+     * @constructor
+     */
+    var XHR = nx.define(&#x27;nx.http.XHR&#x27;,{
+        properties: {
+            url: &#x27;&#x27;,
+            data: {
+                value: &#x27;&#x27;,
+                set: function (value){
+                    this._data = value;
+                },
+                get: function (){
+                    return nx.is(this._data,&#x27;Object&#x27;) ? JSON.stringify(this._data) : this._data;
+                }
+            },
+            method: &#x27;GET&#x27;,
+            asyns: true,
+            username: null,
+            password: null,
+            requestHeader: {
+                value: {
+                    &#x27;X-Requested-With&#x27;: &#x27;XMLHttpRequest&#x27;,
+                    &#x27;Content-type&#x27;: &#x27;application/json&#x27;
+                },
+                get: function(){
+                    return this._requestHeader;
+                },
+                set: function (value){
+                    this._requestHeader = value;
+                }
+            },
+            timeoutTime: 2e4,
+            isRunning: {
+                value: false,
+                get: function (){ return this._isRunning; }
+            },
+            timeoutID: null,
+            XMLHttpRequest: {
+                value: null,
+                get: function(){
+                    if (this._XMLHttpRequest){ return this._XMLHttpRequest; }
+                    if (!nx.global.ActiveXObject){ return this._XMLHttpRequest= new XMLHttpRequest(); }
+                    var e = &quot;MSXML2.XMLHTTP&quot;, t = [&quot;Microsoft.XMLHTTP&quot;, e, e + &quot;.3.0&quot;, e + &quot;.4.0&quot;, e + &quot;.5.0&quot;, e + &quot;.6.0&quot;], _len = t.length;
+                    for (var n = _len - 1; n &gt; -1; n--) { try { return this._XMLHttpRequest = new ActiveXObject(t[n]); } catch (r) { continue; }; };
+                }
+            }
+        },
+        events: [&#x27;before&#x27;, &#x27;after&#x27;, &#x27;success&#x27;, &#x27;error&#x27;, &#x27;complete&#x27;, &#x27;timeout&#x27; ],
+        methods: {
+            _onStateChange: function (){
+                var _XHR = this.XMLHttpRequest();
+                if (_XHR.readyState == 4) {
+                    var e = _XHR.status, t = _XHR.responseText, _ct = _XHR.getResponseHeader(&#x27;Content-Type&#x27;);
+                    if (e &gt;= 400 &amp;&amp; e &lt; 500) { this.fire(&#x27;error&#x27;, &#x27;Client Error Code: &#x27;+e); return; }
+                    if (e &gt;= 500) { this.fire(&#x27;error&#x27;, &#x27;Server Error code: &#x27;+e); return; }
+                    t = (_ct&amp;&amp;_ct.indexOf(&#x27;application/json&#x27;)&gt;=0)?JSON.parse(t):t;
+                    if (e == 200) {
+                        this.fire(&#x27;success&#x27;, t);
+                    } else {
+                        this.fire(&#x27;error&#x27;, t);
+                    }
+                    this._onComplete(_XHR);
+                    return t;
+                }
+            },
+            _onComplete: function(data){
+                clearTimeout(this.timeoutID());
+                this._isRunning = false;
+                this.fire(&#x27;complete&#x27;, data);
+            },
+            _exec: function (f, context, args){ return function () { return f.apply(context, args); }; },
+            _initRequestHeader: function (RH, args){ for(var k in args){ RH.setRequestHeader(k, args[k]); }; },
+            resetEvents: function(){
+                this.off(&#x27;before&#x27;);
+                this.off(&#x27;after&#x27;);
+                this.off(&#x27;success&#x27;);
+                this.off(&#x27;error&#x27;);
+                this.off(&#x27;complete&#x27;);
+                this.off(&#x27;timeout&#x27;);
+            },
+            default: function(config){
+                this.sets(config);
+            },
+            send: function (config){
+                if (this.isRunning()){ return; }
+                this._isRunning = true;
+                this.default(config);
+                var _XHR = this.XMLHttpRequest(), _self = this;
+                this.timeoutID(setTimeout(function(){
+                    if(_self.isRunning()){
+                        _XHR.abort();
+                        _self.fire(&#x27;timeout&#x27;, this);
+                        _self._onComplete(&#x27;timeout&#x27;);
+                    }
+                }, this.timeoutTime()));
+                if (this.fire(&#x27;before&#x27;, this)!=false&amp;&amp;this.url()){
+                    if (this._method == &#x27;POST&#x27;) {
+                        _XHR.open(&quot;POST&quot;, this.url(), this.asyns());
+                        _XHR.onreadystatechange = this._exec(this._onStateChange, _self);
+                        this._initRequestHeader(_XHR, this.requestHeader());
+                        _XHR.send(this.data());
+                    } else {
+                        _XHR.open(this._method, this.url() + &quot;?&quot; + this.data(), this.asyns());
+                        _XHR.onreadystatechange = this._exec(this._onStateChange, _self);
+                        _XHR.send(null);
+                    }
+                    if(!this.asyns()){
+                        this._onComplete(_XHR);
+                    }
+                }else {
+                    this._onComplete(_XHR);
+                }
+            },
+            abort: function (){
+                if(this.XMLHttpRequest()){
+                    this.XMLHttpRequest().abort();
+                }
+            }
+        }
+    });
+
+    /**
+     * XHRPool: XmlHttpRequestPool
+     * @class nx.http.XHRPool
+     * @constructor
+     */
+    var XHRPool = nx.define(&#x27;nx.http.XHRPool&#x27;,{
+        static: true,
+        properties: {
+            max: 3,
+            count: {
+                get: function (){ return this._data.length;  }
+            }
+        },
+        methods: {
+            init: function (){
+                this._data = [];
+            },
+            getInstance: function (){
+                for(var i= 0, _len = this._data.length; i&lt;_len; i++){
+                    if(!this._data[i].isRunning()){ return this._data[i].resetEvents(), this._data[i]; }
+                }
+                if(this.count()&gt;=this.max()){
+                    return null;
+                }else {
+                    return (function(context){ var _xhr = new nx.http.XHR(); context._data.push(_xhr); return _xhr; })(this);
+                }
+            }
+        }
+    });
+
+
+    /**
+     * HttpClient: HttpClient
+     * @class nx.http.HttpClient
+     * @namespace nx.task
+     */
+    var HttpClient = nx.define(&#x27;nx.http.HttpClient&#x27;, nx.task.TaskList, {
+        properties: {
+            timeoutTime: 1000
+        },
+        methods: {
+            init: function(config){
+                this.sets(config);
+                this.inherited();
+            },
+            request: function (value, callback){
+                var _xhr = XHRPool.getInstance();
+                if (_xhr){
+                    nx.each(value, function(v, k){
+                        if(typeof v==&#x27;function&#x27;){
+                            _xhr.on(k, v, this);
+                        }
+                    }, this);
+                    callback?callback(_xhr):void(0);
+                    _xhr.send(value);
+                }else {
+                    var _self = this;
+                    setTimeout(function (){ _self.request(value, callback); }, _self.timeoutTime());
+                }
+            },
+            push: function (value){
+                var _task = value, _self = this;
+                if (typeof value === &#x27;object&#x27;&amp;&amp;!value.isQueue){
+                    this.request(value);
+                }else {
+                    if(!(value instanceof nx.task.Task)&amp;&amp;typeof value === &#x27;object&#x27;) {
+                        _task = new nx.task.Task({
+                            action: function (){
+                                _self.request(value, function (XHR){
+                                    XHR.upon(&#x27;complete&#x27;, function (sender, data){
+                                        setTimeout(function(){_task.taskList().next();},1000);
+                                    }, this);
+                                });
+                            }
+                        });
+                    }
+                    if(_task instanceof nx.task.Task){
+                        _task.taskList(this);
+                        var _lt = this.lastTask();
+                        if(_lt){ _lt.next(_task); }
+                        this.lastTask(_task);
+                        _task.pre(_lt);
+                        this._data.push(_task);
+                    }else {
+                        throw new Error(&#x27;Error Parameter&#x27;);
+                    }
+                }
+                return this;
+            },
+            get: function (value){
+                return value.method = &#x27;GET&#x27;, this.push(value);
+            },
+            post: function (value){
+                return value.method = &#x27;POST&#x27;, this.push(value);
+            },
+            put: function (value){
+                return value.method = &#x27;PUT&#x27;, this.push(value);
+            },
+            delete: function (value){
+                return value.method = &#x27;DELETE&#x27;, this.push(value);
+            }
+        }
+    });
+
+
+
+
+    var hc = new HttpClient();
+    hc.on(&#x27;running&#x27;, function(){ console.log(&#x27;run&#x27;); });
+
+    hc.get({
+        url:&#x27;data.json&#x27;,
+        data: &#x27;&#x27;,
+        //isQueue: true,
+        success: function (sender, data){
+            console.log(&#x27;success-1&#x27;);
+        },
+        error: function (sender, data){
+            console.log(&#x27;error&#x27;);
+        },
+        complete: function(sender, data){
+            console.log(&#x27;complete&#x27;);
+        },
+        timeout: function (){
+            console.log(&#x27;timeout&#x27;);
+        }
+    });
+
+    hc.get({
+        url:&#x27;data.json&#x27;,
+        data: &#x27;&#x27;,
+        //isQueue: true,
+        success: function (sender, data){
+            console.log(&#x27;success&#x27;);
+        },
+        error: function (sender, data){
+            console.log(&#x27;error&#x27;);
+        },
+        complete: function(sender, data){
+            console.log(&#x27;complete&#x27;);
+        },
+        timeout: function (){
+            console.log(&#x27;timeout&#x27;);
+        }
+    });
+
+
+    hc.get({
+        url:&#x27;data.json&#x27;,
+        data: &#x27;&#x27;,
+        //isQueue: true,
+        success: function (sender, data){
+            console.log(&#x27;success&#x27;);
+        },
+        error: function (sender, data){
+            console.log(&#x27;error&#x27;);
+        },
+        complete: function(sender, data){
+            console.log(&#x27;complete&#x27;);
+        },
+        timeout: function (){
+            console.log(&#x27;timeout&#x27;);
+        }
+    });
+
+
+    hc.get({
+        url:&#x27;data.json&#x27;,
+        data: &#x27;&#x27;,
+        //isQueue: true,
+        success: function (sender, data){
+            console.log(&#x27;success&#x27;);
+        },
+        error: function (sender, data){
+            console.log(&#x27;error&#x27;);
+        },
+        complete: function(sender, data){
+            console.log(&#x27;complete&#x27;);
+        },
+        timeout: function (){
+            console.log(&#x27;timeout&#x27;);
+        }
+    });
+
+    hc.get({
+        url:&#x27;data.json&#x27;,
+        data: &#x27;&#x27;,
+        //isQueue: true,
+        success: function (sender, data){
+            console.log(&#x27;success-1&#x27;);
+        },
+        error: function (sender, data){
+            console.log(&#x27;error&#x27;);
+        },
+        complete: function(sender, data){
+            console.log(&#x27;complete&#x27;);
+        },
+        timeout: function (){
+            console.log(&#x27;timeout&#x27;);
+        }
+    });
+
+    hc.get({
+        url:&#x27;data.json&#x27;,
+        data: &#x27;&#x27;,
+        //isQueue: true,
+        success: function (sender, data){
+            console.log(&#x27;success&#x27;);
+        },
+        error: function (sender, data){
+            console.log(&#x27;error&#x27;);
+        },
+        complete: function(sender, data){
+            console.log(&#x27;complete&#x27;);
+        },
+        timeout: function (){
+            console.log(&#x27;timeout&#x27;);
+        }
+    });
+
+
+    hc.get({
+        url:&#x27;data.json&#x27;,
+        data: &#x27;&#x27;,
+        //isQueue: true,
+        success: function (sender, data){
+            console.log(&#x27;success&#x27;);
+        },
+        error: function (sender, data){
+            console.log(&#x27;error&#x27;);
+        },
+        complete: function(sender, data){
+            console.log(&#x27;complete&#x27;);
+        },
+        timeout: function (){
+            console.log(&#x27;timeout&#x27;);
+        }
+    });
+
+
+    hc.get({
+        url:&#x27;data.json&#x27;,
+        data: &#x27;&#x27;,
+        //isQueue: true,
+        success: function (sender, data){
+            console.log(&#x27;success&#x27;);
+        },
+        error: function (sender, data){
+            console.log(&#x27;error&#x27;);
+        },
+        complete: function(sender, data){
+            console.log(&#x27;complete&#x27;);
+        },
+        timeout: function (){
+            console.log(&#x27;timeout&#x27;);
+        }
+    });
+
+
+})(nx);
+    </pre>
+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

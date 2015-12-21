@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>src/topology/js/data/Edges.js - Next graph</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="icon" href="../assets/favicon.ico">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+                <h1><img src="../assets/css/logo.png" title="Next graph" width="117" height="52"></h1>
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 0.1</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+                    <h2 class="off-left">APIs</h2>
+                    <div id="api-tabview" class="tabview">
+                        <ul class="tabs">
+                            <li><a href="#api-classes">Classes</a></li>
+                            <li><a href="#api-modules">Modules</a></li>
+                        </ul>
+                
+                        <div id="api-tabview-filter">
+                            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+                        </div>
+                
+                        <div id="api-tabview-panel">
+                            <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/nx.data.Convex.html">nx.data.Convex</a></li>
+                                <li><a href="../classes/nx.data.Edge.html">nx.data.Edge</a></li>
+                                <li><a href="../classes/nx.data.EdgeSet.html">nx.data.EdgeSet</a></li>
+                                <li><a href="../classes/nx.data.EdgeSetCollection.html">nx.data.EdgeSetCollection</a></li>
+                                <li><a href="../classes/nx.data.Force.html">nx.data.Force</a></li>
+                                <li><a href="../classes/nx.data.ObservableGraph.html">nx.data.ObservableGraph</a></li>
+                                <li><a href="../classes/nx.data.ObservableGraph.ForceProcessor.html">nx.data.ObservableGraph.ForceProcessor</a></li>
+                                <li><a href="../classes/nx.data.Vertex.html">nx.data.Vertex</a></li>
+                                <li><a href="../classes/nx.data.VertexSet.html">nx.data.VertexSet</a></li>
+                                <li><a href="../classes/nx.geometry.BezierCurve.html">nx.geometry.BezierCurve</a></li>
+                                <li><a href="../classes/nx.geometry.Line.html">nx.geometry.Line</a></li>
+                                <li><a href="../classes/nx.geometry.Math.html">nx.geometry.Math</a></li>
+                                <li><a href="../classes/nx.geometry.Matrix.html">nx.geometry.Matrix</a></li>
+                                <li><a href="../classes/nx.geometry.nx.graphic.Arc.html">nx.geometry.nx.graphic.Arc</a></li>
+                                <li><a href="../classes/nx.geometry.Vector.html">nx.geometry.Vector</a></li>
+                                <li><a href="../classes/nx.graphic.BezierCurves.html">nx.graphic.BezierCurves</a></li>
+                                <li><a href="../classes/nx.graphic.Circle.html">nx.graphic.Circle</a></li>
+                                <li><a href="../classes/nx.graphic.Component.html">nx.graphic.Component</a></li>
+                                <li><a href="../classes/nx.graphic.DragManager.html">nx.graphic.DragManager</a></li>
+                                <li><a href="../classes/nx.graphic.Group.html">nx.graphic.Group</a></li>
+                                <li><a href="../classes/nx.graphic.Icon.html">nx.graphic.Icon</a></li>
+                                <li><a href="../classes/nx.graphic.Icons.html">nx.graphic.Icons</a></li>
+                                <li><a href="../classes/nx.graphic.Image.html">nx.graphic.Image</a></li>
+                                <li><a href="../classes/nx.graphic.Line.html">nx.graphic.Line</a></li>
+                                <li><a href="../classes/nx.graphic.LinkSetTooltipContent.html">nx.graphic.LinkSetTooltipContent</a></li>
+                                <li><a href="../classes/nx.graphic.LinkTooltipContent.html">nx.graphic.LinkTooltipContent</a></li>
+                                <li><a href="../classes/nx.graphic.NodeTooltipContent.html">nx.graphic.NodeTooltipContent</a></li>
+                                <li><a href="../classes/nx.graphic.Path.html">nx.graphic.Path</a></li>
+                                <li><a href="../classes/nx.graphic.Polygon.html">nx.graphic.Polygon</a></li>
+                                <li><a href="../classes/nx.graphic.Rect.html">nx.graphic.Rect</a></li>
+                                <li><a href="../classes/nx.graphic.Stage.html">nx.graphic.Stage</a></li>
+                                <li><a href="../classes/nx.graphic.Text.html">nx.graphic.Text</a></li>
+                                <li><a href="../classes/nx.graphic.Topology.html">nx.graphic.Topology</a></li>
+                                <li><a href="../classes/nx.graphic.Topology.AbstractLink.html">nx.graphic.Topology.AbstractLink</a></li>
+                                <li><a href="../classes/nx.graphic.Topology.AbstractNode.html">nx.graphic.Topology.AbstractNode</a></li>
+                                <li><a href="../classes/nx.graphic.Topology.Categories.html">nx.graphic.Topology.Categories</a></li>
+                                <li><a href="../classes/nx.graphic.Topology.CircleGroup.html">nx.graphic.Topology.CircleGroup</a></li>
+                                <li><a href="../classes/nx.graphic.Topology.Config.html">nx.graphic.Topology.Config</a></li>
+                                <li><a href="../classes/nx.graphic.Topology.DefaultScene.html">nx.graphic.Topology.DefaultScene</a></li>
+                                <li><a href="../classes/nx.graphic.Topology.Event.html">nx.graphic.Topology.Event</a></li>
+                                <li><a href="../classes/nx.graphic.Topology.Graph.html">nx.graphic.Topology.Graph</a></li>
+                                <li><a href="../classes/nx.graphic.Topology.GroupItem.html">nx.graphic.Topology.GroupItem</a></li>
+                                <li><a href="../classes/nx.graphic.Topology.GroupsLayer.html">nx.graphic.Topology.GroupsLayer</a></li>
+                                <li><a href="../classes/nx.graphic.Topology.Layer.html">nx.graphic.Topology.Layer</a></li>
+                                <li><a href="../classes/nx.graphic.Topology.LayoutMixin.html">nx.graphic.Topology.LayoutMixin</a></li>
+                                <li><a href="../classes/nx.graphic.Topology.Link.html">nx.graphic.Topology.Link</a></li>
+                                <li><a href="../classes/nx.graphic.Topology.LinkMixin.html">nx.graphic.Topology.LinkMixin</a></li>
+                                <li><a href="../classes/nx.graphic.Topology.LinkSet.html">nx.graphic.Topology.LinkSet</a></li>
+                                <li><a href="../classes/nx.graphic.Topology.LinksLayer.html">nx.graphic.Topology.LinksLayer</a></li>
+                                <li><a href="../classes/nx.graphic.topology.model.TopologyEdge.html">nx.graphic.topology.model.TopologyEdge</a></li>
+                                <li><a href="../classes/nx.graphic.topology.model.TopologyModel.html">nx.graphic.topology.model.TopologyModel</a></li>
+                                <li><a href="../classes/nx.graphic.topology.model.TopologyVertex.html">nx.graphic.topology.model.TopologyVertex</a></li>
+                                <li><a href="../classes/nx.graphic.Topology.NeXtForceLayout.html">nx.graphic.Topology.NeXtForceLayout</a></li>
+                                <li><a href="../classes/nx.graphic.Topology.Node.html">nx.graphic.Topology.Node</a></li>
+                                <li><a href="../classes/nx.graphic.Topology.NodeMixin.html">nx.graphic.Topology.NodeMixin</a></li>
+                                <li><a href="../classes/nx.graphic.Topology.NodeSet.html">nx.graphic.Topology.NodeSet</a></li>
+                                <li><a href="../classes/nx.graphic.Topology.NodesLayer.html">nx.graphic.Topology.NodesLayer</a></li>
+                                <li><a href="../classes/nx.graphic.Topology.Path.html">nx.graphic.Topology.Path</a></li>
+                                <li><a href="../classes/nx.graphic.Topology.PathLayer.html">nx.graphic.Topology.PathLayer</a></li>
+                                <li><a href="../classes/nx.graphic.Topology.PolygonGroup.html">nx.graphic.Topology.PolygonGroup</a></li>
+                                <li><a href="../classes/nx.graphic.Topology.RectGroup.html">nx.graphic.Topology.RectGroup</a></li>
+                                <li><a href="../classes/nx.graphic.Topology.Scene.html">nx.graphic.Topology.Scene</a></li>
+                                <li><a href="../classes/nx.graphic.Topology.SceneMixin.html">nx.graphic.Topology.SceneMixin</a></li>
+                                <li><a href="../classes/nx.graphic.Topology.SelectionNodeScene.html">nx.graphic.Topology.SelectionNodeScene</a></li>
+                                <li><a href="../classes/nx.graphic.Topology.SelectionScene.html">nx.graphic.Topology.SelectionScene</a></li>
+                                <li><a href="../classes/nx.graphic.Topology.StageMixin.html">nx.graphic.Topology.StageMixin</a></li>
+                                <li><a href="../classes/nx.graphic.Topology.ThreeDLayer.html">nx.graphic.Topology.ThreeDLayer</a></li>
+                                <li><a href="../classes/nx.graphic.Topology.Thumbnail.html">nx.graphic.Topology.Thumbnail</a></li>
+                                <li><a href="../classes/nx.graphic.Topology.Tooltip.html">nx.graphic.Topology.Tooltip</a></li>
+                                <li><a href="../classes/nx.graphic.Topology.TooltipManager.html">nx.graphic.Topology.TooltipManager</a></li>
+                                <li><a href="../classes/nx.graphic.Topology.TooltipMixin.html">nx.graphic.Topology.TooltipMixin</a></li>
+                                <li><a href="../classes/nx.graphic.Topology.TooltipPolicy.html">nx.graphic.Topology.TooltipPolicy</a></li>
+                                <li><a href="../classes/nx.graphic.Topology.USMapLayout.html">nx.graphic.Topology.USMapLayout</a></li>
+                                <li><a href="../classes/nx.graphic.Topology.WorldMapLayout.html">nx.graphic.Topology.WorldMapLayout</a></li>
+                                <li><a href="../classes/nx.graphic.Topology.ZoomBySelection.html">nx.graphic.Topology.ZoomBySelection</a></li>
+                                <li><a href="../classes/nx.graphic.Triangle.html">nx.graphic.Triangle</a></li>
+                                <li><a href="../classes/nx.ui.Popover.html">nx.ui.Popover</a></li>
+                                <li><a href="../classes/nx.ui.Popup.html">nx.ui.Popup</a></li>
+                                <li><a href="../classes/nx.ui.PopupContainer.html">nx.ui.PopupContainer</a></li>
+                                <li><a href="../classes/nx.widget.ZIndexManager.html">nx.widget.ZIndexManager</a></li>
+                            </ul>
+                
+                            <ul id="api-modules" class="apis modules">
+                                <li><a href="../modules/nx.data.html">nx.data</a></li>
+                                <li><a href="../modules/nx.geometry.html">nx.geometry</a></li>
+                                <li><a href="../modules/nx.graphic.html">nx.graphic</a></li>
+                                <li><a href="../modules/nx.graphic.Topology.html">nx.graphic.Topology</a></li>
+                                <li><a href="../modules/nx.graphic.topology.html">nx.graphic.topology</a></li>
+                                <li><a href="../modules/nx.graphic.Topology.Group.html">nx.graphic.Topology.Group</a></li>
+                                <li><a href="../modules/nx.math.html">nx.math</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+                    Show:
+                    <label for="api-show-inherited">
+                        <input type="checkbox" id="api-show-inherited" checked>
+                        Inherited
+                    </label>
+            
+                    <label for="api-show-protected">
+                        <input type="checkbox" id="api-show-protected">
+                        Protected
+                    </label>
+            
+                    <label for="api-show-private">
+                        <input type="checkbox" id="api-show-private">
+                        Private
+                    </label>
+                    <label for="api-show-deprecated">
+                        <input type="checkbox" id="api-show-deprecated">
+                        Deprecated
+                    </label>
+            
+                </div>
+            
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+<h1 class="file-heading">File: src/topology/js/data/Edges.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+(function (nx, global) {
+
+    nx.define(&#x27;nx.data.ObservableGraph.Edges&#x27;, nx.data.ObservableObject, {
+        events: [&#x27;addEdge&#x27;, &#x27;removeEdge&#x27;, &#x27;deleteEdge&#x27;, &#x27;updateEdge&#x27;, &#x27;updateEdgeCoordinate&#x27;],
+        properties: {
+            links: {
+                get: function () {
+                    return this._links || [];
+                },
+                set: function (value) {
+
+                    if (this._links &amp;&amp; nx.is(this._links, nx.data.ObservableCollection)) {
+                        this._links.off(&#x27;change&#x27;, this._linksCollectionProcessor, this);
+                    }
+
+                    this.edgeSetCollections().clear();
+
+                    this.edgeSets().clear();
+
+                    this.edges().clear();
+
+
+                    if (nx.is(value, nx.data.ObservableCollection)) {
+                        value.on(&#x27;change&#x27;, this._linksCollectionProcessor, this);
+                        value.each(function (value) {
+                            this._addEdge(value);
+                        }, this);
+                        this._links = value;
+                    } else if (value) {
+                        nx.each(value, this._addEdge, this);
+                        this._links = value.slice();
+                    }
+
+
+                }
+            },
+            edgeFilter: {},
+            edges: {
+                value: function () {
+                    var edges = new nx.data.ObservableDictionary();
+                    edges.on(&#x27;change&#x27;, function (sender, args) {
+                        var action = args.action;
+                        var items = args.items;
+                        if (action == &#x27;clear&#x27;) {
+                            nx.each(items, function (item) {
+                                this.deleteEdge(item.key());
+                            }, this);
+                        }
+                    }, this);
+                    return edges;
+                }
+            }
+        },
+        methods: {
+            /**
+             * Add edge to Graph
+             * @method addEdge
+             * @param {JSON} data Vertex original data
+             * @param {Object} [config] Config object
+             * @returns {nx.data.Edge}
+             */
+            addEdge: function (data, config) {
+                var links = this.links();
+                var edges = this.edges();
+                var edge;
+
+                if (data.source == null || data.target == null) {
+                    return undefined;
+                }
+
+
+                if (nx.is(links, nx.data.ObservableCollection)) {
+                    links.add(data);
+                    // todo, handler when the data error,
+                    edge = edges.getItem(edges.count() - 1);
+                }
+                else {
+                    edge = this._addEdge(data);
+                    if (edge) {
+                        links.push(data);
+                    }
+                }
+
+                if (!edge) {
+                    return null;
+                }
+
+                if (config) {
+                    edge.sets(config);
+                }
+
+                //update edgeSet
+                var edgeSet = edge.parentEdgeSet();
+                if (!edgeSet.generated()) {
+                    this.generateEdgeSet(edgeSet);
+                }
+                else {
+                    this.updateEdgeSet(edgeSet);
+                }
+
+                return edge;
+            },
+            _addEdge: function (data) {
+                var edges = this.edges();
+                var identityKey = this.identityKey();
+                var source, target, sourceID, targetID;
+
+
+                if (data.source == null || data.target == null) {
+                    return undefined;
+                }
+
+
+                sourceID = nx.path(data, &#x27;source&#x27;) != null ? nx.path(data, &#x27;source&#x27;) : data.source;
+                source = this.vertices().getItem(sourceID); // || this.vertexSets().getItem(sourceID);
+
+
+                targetID = nx.path(data, &#x27;target&#x27;) != null ? nx.path(data, &#x27;target&#x27;) : data.source;
+                target = this.vertices().getItem(targetID); // || this.vertexSets().getItem(targetID);
+
+
+                if (source &amp;&amp; target) {
+                    var edge = new nx.data.Edge(data);
+                    var id = nx.path(data, &#x27;id&#x27;) != null ? nx.path(data, &#x27;id&#x27;) : edge.__id__;
+
+                    if (edges.getItem(id)) {
+                        return null;
+                    }
+
+
+                    edge.sets({
+                        id: id,
+                        source: source,
+                        target: target,
+                        sourceID: sourceID,
+                        targetID: targetID,
+                        graph: this
+                    });
+
+                    edge.attachEvent();
+
+                    edges.setItem(id, edge);
+
+                    var edgeSet = this.getEdgeSetBySourceAndTarget(sourceID, targetID);
+                    if (!edgeSet) {
+                        edgeSet = this._addEdgeSet({
+                            source: source,
+                            target: target,
+                            sourceID: sourceID,
+                            targetID: targetID
+                        });
+                    }
+                    else {
+                        edgeSet.updated(true);
+                    }
+
+                    edge.sets({
+                        linkKey: edgeSet.linkKey(),
+                        reverseLinkKey: edgeSet.reverseLinkKey()
+                    });
+
+                    edgeSet.addEdge(edge);
+                    edge.parentEdgeSet(edgeSet);
+                    edge.reverse(sourceID !== edgeSet.sourceID());
+
+
+                    var edgeFilter = this.edgeFilter();
+                    if (edgeFilter &amp;&amp; nx.is(edgeFilter, Function)) {
+                        var result = edgeFilter.call(this, data, edge);
+                        edge.visible(result === false);
+                    }
+
+                    return edge;
+
+                }
+                else {
+                    if (console) {
+                        console.warn(&#x27;source node or target node is not defined, or linkMappingKey value error&#x27;, data, source, target);
+                    }
+                    return undefined;
+                }
+            },
+            generateEdge: function (edge) {
+                if (!edge.generated()) { //&amp;&amp; edge.source().generated() &amp;&amp; edge.target().generated()
+                    edge.on(&#x27;updateCoordinate&#x27;, this._updateEdgeCoordinate, this);
+
+                    /**
+                     * @event addEdge
+                     * @param sender {Object}  Trigger instance
+                     * @param {nx.data.Edge} edge Edge object
+                     */
+                    this.fire(&#x27;addEdge&#x27;, edge);
+                    edge.generated(true);
+                }
+            },
+            /**
+             * Remove edge from Graph
+             * @method removeEdge
+             * @param id {String} edge id
+             * @param isUpdateEdgeSet {Boolean}
+             */
+            removeEdge: function (id, isUpdateEdgeSet) {
+                var edge = this.edges().getItem(id);
+                if (!edge) {
+                    return false;
+                }
+                edge.generated(false);
+                edge.off(&#x27;updateCoordinate&#x27;, this._updateEdgeCoordinate, this);
+                /**
+                 * @event removeEdge
+                 * @param sender {Object}  Trigger instance
+                 * @param {nx.data.Edge} edge Edge object
+                 */
+                this.fire(&#x27;removeEdge&#x27;, edge);
+
+                if (isUpdateEdgeSet !== false) {
+                    var edgeSet = edge.parentEdgeSet();
+                    this.updateEdgeSet(edgeSet);
+                }
+            },
+            deleteEdge: function (id, isUpdateEdgeSet) {
+
+                var edge = this.getEdge(id);
+                if (!edge) {
+                    return false;
+                }
+
+                var links = this.links();
+                if (nx.is(links, nx.data.ObservableCollection)) {
+                    links.removeAt(edge.getData());
+                }
+                else {
+                    var index = links.indexOf(edge.getData());
+                    if (index != -1) {
+                        links.splice(index, 1);
+                    }
+                    this._deleteEdge(id, isUpdateEdgeSet);
+                }
+
+            },
+            _deleteEdge: function (id, isUpdateEdgeSet) {
+                var edge = this.getEdge(id);
+                if (!edge) {
+                    return false;
+                }
+                edge.off(&#x27;updateCoordinate&#x27;, this._updateEdgeCoordinate, this);
+
+                //update parent
+                if (isUpdateEdgeSet !== false) {
+                    var edgeSet = edge.parentEdgeSet();
+                    edgeSet.removeEdge(id);
+                    this.updateEdgeSet(edgeSet);
+                }
+
+                /**
+                 * @event deleteEdge
+                 * @param sender {Object} Trigger instance
+                 * @param {nx.data.Edge} edge Edge object
+                 */
+                this.fire(&#x27;deleteEdge&#x27;, edge);
+
+                this.edges().removeItem(id);
+
+                edge.dispose();
+
+            },
+            _updateEdgeCoordinate: function (sender, args) {
+                this.fire(&#x27;updateEdgeCoordinate&#x27;, sender);
+            },
+            getEdge: function (id) {
+                return this.edges().getItem(id);
+            },
+            /**
+             * Get edges by source vertex id and target vertex id
+             * @method getEdgesBySourceAndTarget
+             * @param source {nx.data.Vertex|Number|String} could be vertex object or id
+             * @param target {nx.data.Vertex|Number|String} could be vertex object or id
+             * @returns {Array}
+             */
+            getEdgesBySourceAndTarget: function (source, target) {
+                var edgeSet = this.getEdgeSetBySourceAndTarget(source, target);
+                return edgeSet &amp;&amp; edgeSet.getEdges();
+            },
+            /**
+             * Get edges which are connected to passed vertices
+             * @method getEdgesByVertices
+             * @param inVertices
+             * @returns {Array}
+             */
+            getEdgesByVertices: function (inVertices) {
+                //                var edges = [];
+                //                nx.each(inVertices, function (vertex) {
+                //                    edges = edges.concat(vertex.edges);
+                //                    edges = edges.concat(vertex.reverseEdges);
+                //                });
+                //
+                //
+                //                return util.uniq(edges);
+            },
+
+            /**
+             * Get edges which&#x27;s source and target vertex are both in the passed vertices
+             * @method getInternalEdgesByVertices
+             * @param inVertices
+             * @returns {Array}
+             */
+
+            getInternalEdgesByVertices: function (inVertices) {
+                //                var edges = [];
+                //                var verticesMap = {};
+                //                var internalEdges = [];
+                //                nx.each(inVertices, function (vertex) {
+                //                    edges = edges.concat(vertex.edges);
+                //                    edges = edges.concat(vertex.reverseEdges);
+                //                    verticesMap[vertex.id()] = vertex;
+                //                });
+                //
+                //                nx.each(edges, function (edge) {
+                //                    if (verticesMap[edge.sourceID()] !== undefined &amp;&amp; verticesMap[edge.targetID()] !== undefined) {
+                //                        internalEdges.push(edge);
+                //                    }
+                //                });
+                //
+                //
+                //                return internalEdges;
+
+            },
+            /**
+             * Get edges which&#x27;s  just one of source or target vertex in the passed vertices. All edges connected ourside of passed vertices
+             * @method getInternalEdgesByVertices
+             * @param inVertices
+             * @returns {Array}
+             */
+            getExternalEdgesByVertices: function (inVertices) {
+                //                var edges = [];
+                //                var verticesMap = {};
+                //                var externalEdges = [];
+                //                nx.each(inVertices, function (vertex) {
+                //                    edges = edges.concat(vertex.edges);
+                //                    edges = edges.concat(vertex.reverseEdges);
+                //                    verticesMap[vertex.id()] = vertex;
+                //                });
+                //
+                //                nx.each(edges, function (edge) {
+                //                    if (verticesMap[edge.sourceID()] === undefined || verticesMap[edge.targetID()] === undefined) {
+                //                        externalEdges.push(edge);
+                //                    }
+                //                });
+                //
+                //
+                //                return externalEdges;
+
+            },
+            _linksCollectionProcessor: function (sender, args) {
+                var items = args.items;
+                var action = args.action;
+                if (action == &#x27;add&#x27;) {
+                    nx.each(items, function (data) {
+                        var edge = this._addEdge(data);
+                        //update edgeSet
+                        var edgeSet = edge.parentEdgeSet();
+                        if (!edgeSet.generated()) {
+                            this.generateEdgeSet(edgeSet);
+                        }
+                        else {
+                            this.updateEdgeSet(edgeSet);
+                        }
+                    }, this);
+                }
+                else if (action == &#x27;remove&#x27;) {
+                    var ids = [];
+                    // get all edges should be delete
+                    this.edges().each(function (item, id) {
+                        var edge = item.value();
+                        if (items.indexOf(edge.getData()) != -1) {
+                            ids.push(edge.id());
+                        }
+                    }, this);
+                    nx.each(ids, function (id) {
+                        this._deleteEdge(id);
+                    }, this);
+
+                }
+                else if (action == &#x27;clear&#x27;) {
+                    this.edges().clear();
+                }
+            }
+        }
+    });
+
+
+})(nx, nx.global);
+
+    </pre>
+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

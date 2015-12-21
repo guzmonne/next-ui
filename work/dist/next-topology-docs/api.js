@@ -1,0 +1,131 @@
+YUI.add("yuidoc-meta", function(Y) {
+   Y.YUIDoc = { meta: {
+    "classes": [
+        "nx.data.Convex",
+        "nx.data.Edge",
+        "nx.data.EdgeSet",
+        "nx.data.EdgeSetCollection",
+        "nx.data.Force",
+        "nx.data.ObservableGraph",
+        "nx.data.ObservableGraph.ForceProcessor",
+        "nx.data.Vertex",
+        "nx.data.VertexSet",
+        "nx.geometry.BezierCurve",
+        "nx.geometry.Line",
+        "nx.geometry.Math",
+        "nx.geometry.Matrix",
+        "nx.geometry.Vector",
+        "nx.geometry.nx.graphic.Arc",
+        "nx.graphic.BezierCurves",
+        "nx.graphic.Circle",
+        "nx.graphic.Component",
+        "nx.graphic.DragManager",
+        "nx.graphic.Group",
+        "nx.graphic.Icon",
+        "nx.graphic.Icons",
+        "nx.graphic.Image",
+        "nx.graphic.Line",
+        "nx.graphic.LinkSetTooltipContent",
+        "nx.graphic.LinkTooltipContent",
+        "nx.graphic.NodeTooltipContent",
+        "nx.graphic.Path",
+        "nx.graphic.Polygon",
+        "nx.graphic.Rect",
+        "nx.graphic.Stage",
+        "nx.graphic.Text",
+        "nx.graphic.Topology",
+        "nx.graphic.Topology.AbstractLink",
+        "nx.graphic.Topology.AbstractNode",
+        "nx.graphic.Topology.Categories",
+        "nx.graphic.Topology.CircleGroup",
+        "nx.graphic.Topology.Config",
+        "nx.graphic.Topology.DefaultScene",
+        "nx.graphic.Topology.Event",
+        "nx.graphic.Topology.Graph",
+        "nx.graphic.Topology.GroupItem",
+        "nx.graphic.Topology.GroupsLayer",
+        "nx.graphic.Topology.Layer",
+        "nx.graphic.Topology.LayoutMixin",
+        "nx.graphic.Topology.Link",
+        "nx.graphic.Topology.LinkMixin",
+        "nx.graphic.Topology.LinkSet",
+        "nx.graphic.Topology.LinksLayer",
+        "nx.graphic.Topology.NeXtForceLayout",
+        "nx.graphic.Topology.Node",
+        "nx.graphic.Topology.NodeMixin",
+        "nx.graphic.Topology.NodeSet",
+        "nx.graphic.Topology.NodesLayer",
+        "nx.graphic.Topology.Path",
+        "nx.graphic.Topology.PathLayer",
+        "nx.graphic.Topology.PolygonGroup",
+        "nx.graphic.Topology.RectGroup",
+        "nx.graphic.Topology.Scene",
+        "nx.graphic.Topology.SceneMixin",
+        "nx.graphic.Topology.SelectionNodeScene",
+        "nx.graphic.Topology.SelectionScene",
+        "nx.graphic.Topology.StageMixin",
+        "nx.graphic.Topology.ThreeDLayer",
+        "nx.graphic.Topology.Thumbnail",
+        "nx.graphic.Topology.Tooltip",
+        "nx.graphic.Topology.TooltipManager",
+        "nx.graphic.Topology.TooltipMixin",
+        "nx.graphic.Topology.TooltipPolicy",
+        "nx.graphic.Topology.USMapLayout",
+        "nx.graphic.Topology.WorldMapLayout",
+        "nx.graphic.Topology.ZoomBySelection",
+        "nx.graphic.Triangle",
+        "nx.graphic.topology.model.TopologyEdge",
+        "nx.graphic.topology.model.TopologyModel",
+        "nx.graphic.topology.model.TopologyVertex",
+        "nx.ui.Popover",
+        "nx.ui.Popup",
+        "nx.ui.PopupContainer",
+        "nx.widget.ZIndexManager"
+    ],
+    "modules": [
+        "nx.data",
+        "nx.geometry",
+        "nx.graphic",
+        "nx.graphic.Topology",
+        "nx.graphic.Topology.Group",
+        "nx.graphic.topology",
+        "nx.math"
+    ],
+    "allModules": [
+        {
+            "displayName": "nx.data",
+            "name": "nx.data",
+            "description": "ObservableGraph class"
+        },
+        {
+            "displayName": "nx.geometry",
+            "name": "nx.geometry",
+            "description": "Mathematics Line class"
+        },
+        {
+            "displayName": "nx.graphic",
+            "name": "nx.graphic",
+            "description": "SVG Arc component"
+        },
+        {
+            "displayName": "nx.graphic.Topology",
+            "name": "nx.graphic.Topology",
+            "description": "Topology basic layer class"
+        },
+        {
+            "displayName": "nx.graphic.topology",
+            "name": "nx.graphic.topology"
+        },
+        {
+            "displayName": "nx.graphic.Topology.Group",
+            "name": "nx.graphic.Topology.Group",
+            "description": "Polygon shape group class"
+        },
+        {
+            "displayName": "nx.math",
+            "name": "nx.math",
+            "description": "Mathematics Line class"
+        }
+    ]
+} };
+});
