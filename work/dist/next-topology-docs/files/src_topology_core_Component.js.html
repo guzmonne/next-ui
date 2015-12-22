@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>src/topology/core/Component.js - Next graph</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="icon" href="../assets/favicon.ico">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+                <h1><img src="../assets/css/logo.png" title="Next graph" width="117" height="52"></h1>
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 0.1</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+                    <h2 class="off-left">APIs</h2>
+                    <div id="api-tabview" class="tabview">
+                        <ul class="tabs">
+                            <li><a href="#api-classes">Classes</a></li>
+                            <li><a href="#api-modules">Modules</a></li>
+                        </ul>
+                
+                        <div id="api-tabview-filter">
+                            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+                        </div>
+                
+                        <div id="api-tabview-panel">
+                            <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/nx.data.Convex.html">nx.data.Convex</a></li>
+                                <li><a href="../classes/nx.data.Edge.html">nx.data.Edge</a></li>
+                                <li><a href="../classes/nx.data.EdgeSet.html">nx.data.EdgeSet</a></li>
+                                <li><a href="../classes/nx.data.EdgeSetCollection.html">nx.data.EdgeSetCollection</a></li>
+                                <li><a href="../classes/nx.data.Force.html">nx.data.Force</a></li>
+                                <li><a href="../classes/nx.data.ObservableGraph.html">nx.data.ObservableGraph</a></li>
+                                <li><a href="../classes/nx.data.ObservableGraph.ForceProcessor.html">nx.data.ObservableGraph.ForceProcessor</a></li>
+                                <li><a href="../classes/nx.data.Vertex.html">nx.data.Vertex</a></li>
+                                <li><a href="../classes/nx.data.VertexSet.html">nx.data.VertexSet</a></li>
+                                <li><a href="../classes/nx.geometry.BezierCurve.html">nx.geometry.BezierCurve</a></li>
+                                <li><a href="../classes/nx.geometry.Line.html">nx.geometry.Line</a></li>
+                                <li><a href="../classes/nx.geometry.Math.html">nx.geometry.Math</a></li>
+                                <li><a href="../classes/nx.geometry.Matrix.html">nx.geometry.Matrix</a></li>
+                                <li><a href="../classes/nx.geometry.nx.graphic.Arc.html">nx.geometry.nx.graphic.Arc</a></li>
+                                <li><a href="../classes/nx.geometry.Vector.html">nx.geometry.Vector</a></li>
+                                <li><a href="../classes/nx.graphic.BezierCurves.html">nx.graphic.BezierCurves</a></li>
+                                <li><a href="../classes/nx.graphic.Circle.html">nx.graphic.Circle</a></li>
+                                <li><a href="../classes/nx.graphic.Component.html">nx.graphic.Component</a></li>
+                                <li><a href="../classes/nx.graphic.DragManager.html">nx.graphic.DragManager</a></li>
+                                <li><a href="../classes/nx.graphic.Group.html">nx.graphic.Group</a></li>
+                                <li><a href="../classes/nx.graphic.Icon.html">nx.graphic.Icon</a></li>
+                                <li><a href="../classes/nx.graphic.Icons.html">nx.graphic.Icons</a></li>
+                                <li><a href="../classes/nx.graphic.Image.html">nx.graphic.Image</a></li>
+                                <li><a href="../classes/nx.graphic.Line.html">nx.graphic.Line</a></li>
+                                <li><a href="../classes/nx.graphic.LinkSetTooltipContent.html">nx.graphic.LinkSetTooltipContent</a></li>
+                                <li><a href="../classes/nx.graphic.LinkTooltipContent.html">nx.graphic.LinkTooltipContent</a></li>
+                                <li><a href="../classes/nx.graphic.NodeTooltipContent.html">nx.graphic.NodeTooltipContent</a></li>
+                                <li><a href="../classes/nx.graphic.Path.html">nx.graphic.Path</a></li>
+                                <li><a href="../classes/nx.graphic.Polygon.html">nx.graphic.Polygon</a></li>
+                                <li><a href="../classes/nx.graphic.Rect.html">nx.graphic.Rect</a></li>
+                                <li><a href="../classes/nx.graphic.Stage.html">nx.graphic.Stage</a></li>
+                                <li><a href="../classes/nx.graphic.Text.html">nx.graphic.Text</a></li>
+                                <li><a href="../classes/nx.graphic.Topology.html">nx.graphic.Topology</a></li>
+                                <li><a href="../classes/nx.graphic.Topology.AbstractLink.html">nx.graphic.Topology.AbstractLink</a></li>
+                                <li><a href="../classes/nx.graphic.Topology.AbstractNode.html">nx.graphic.Topology.AbstractNode</a></li>
+                                <li><a href="../classes/nx.graphic.Topology.Categories.html">nx.graphic.Topology.Categories</a></li>
+                                <li><a href="../classes/nx.graphic.Topology.CircleGroup.html">nx.graphic.Topology.CircleGroup</a></li>
+                                <li><a href="../classes/nx.graphic.Topology.Config.html">nx.graphic.Topology.Config</a></li>
+                                <li><a href="../classes/nx.graphic.Topology.DefaultScene.html">nx.graphic.Topology.DefaultScene</a></li>
+                                <li><a href="../classes/nx.graphic.Topology.Event.html">nx.graphic.Topology.Event</a></li>
+                                <li><a href="../classes/nx.graphic.Topology.Graph.html">nx.graphic.Topology.Graph</a></li>
+                                <li><a href="../classes/nx.graphic.Topology.GroupItem.html">nx.graphic.Topology.GroupItem</a></li>
+                                <li><a href="../classes/nx.graphic.Topology.GroupsLayer.html">nx.graphic.Topology.GroupsLayer</a></li>
+                                <li><a href="../classes/nx.graphic.Topology.Layer.html">nx.graphic.Topology.Layer</a></li>
+                                <li><a href="../classes/nx.graphic.Topology.LayoutMixin.html">nx.graphic.Topology.LayoutMixin</a></li>
+                                <li><a href="../classes/nx.graphic.Topology.Link.html">nx.graphic.Topology.Link</a></li>
+                                <li><a href="../classes/nx.graphic.Topology.LinkMixin.html">nx.graphic.Topology.LinkMixin</a></li>
+                                <li><a href="../classes/nx.graphic.Topology.LinkSet.html">nx.graphic.Topology.LinkSet</a></li>
+                                <li><a href="../classes/nx.graphic.Topology.LinksLayer.html">nx.graphic.Topology.LinksLayer</a></li>
+                                <li><a href="../classes/nx.graphic.Topology.NeXtForceLayout.html">nx.graphic.Topology.NeXtForceLayout</a></li>
+                                <li><a href="../classes/nx.graphic.Topology.Node.html">nx.graphic.Topology.Node</a></li>
+                                <li><a href="../classes/nx.graphic.Topology.NodeMixin.html">nx.graphic.Topology.NodeMixin</a></li>
+                                <li><a href="../classes/nx.graphic.Topology.NodeSet.html">nx.graphic.Topology.NodeSet</a></li>
+                                <li><a href="../classes/nx.graphic.Topology.NodesLayer.html">nx.graphic.Topology.NodesLayer</a></li>
+                                <li><a href="../classes/nx.graphic.Topology.Path.html">nx.graphic.Topology.Path</a></li>
+                                <li><a href="../classes/nx.graphic.Topology.PathLayer.html">nx.graphic.Topology.PathLayer</a></li>
+                                <li><a href="../classes/nx.graphic.Topology.PolygonGroup.html">nx.graphic.Topology.PolygonGroup</a></li>
+                                <li><a href="../classes/nx.graphic.Topology.RectGroup.html">nx.graphic.Topology.RectGroup</a></li>
+                                <li><a href="../classes/nx.graphic.Topology.Scene.html">nx.graphic.Topology.Scene</a></li>
+                                <li><a href="../classes/nx.graphic.Topology.SceneMixin.html">nx.graphic.Topology.SceneMixin</a></li>
+                                <li><a href="../classes/nx.graphic.Topology.SelectionNodeScene.html">nx.graphic.Topology.SelectionNodeScene</a></li>
+                                <li><a href="../classes/nx.graphic.Topology.SelectionScene.html">nx.graphic.Topology.SelectionScene</a></li>
+                                <li><a href="../classes/nx.graphic.Topology.StageMixin.html">nx.graphic.Topology.StageMixin</a></li>
+                                <li><a href="../classes/nx.graphic.Topology.ThreeDLayer.html">nx.graphic.Topology.ThreeDLayer</a></li>
+                                <li><a href="../classes/nx.graphic.Topology.Thumbnail.html">nx.graphic.Topology.Thumbnail</a></li>
+                                <li><a href="../classes/nx.graphic.Topology.Tooltip.html">nx.graphic.Topology.Tooltip</a></li>
+                                <li><a href="../classes/nx.graphic.Topology.TooltipManager.html">nx.graphic.Topology.TooltipManager</a></li>
+                                <li><a href="../classes/nx.graphic.Topology.TooltipMixin.html">nx.graphic.Topology.TooltipMixin</a></li>
+                                <li><a href="../classes/nx.graphic.Topology.TooltipPolicy.html">nx.graphic.Topology.TooltipPolicy</a></li>
+                                <li><a href="../classes/nx.graphic.Topology.USMapLayout.html">nx.graphic.Topology.USMapLayout</a></li>
+                                <li><a href="../classes/nx.graphic.Topology.WorldMapLayout.html">nx.graphic.Topology.WorldMapLayout</a></li>
+                                <li><a href="../classes/nx.graphic.Topology.ZoomBySelection.html">nx.graphic.Topology.ZoomBySelection</a></li>
+                                <li><a href="../classes/nx.graphic.Triangle.html">nx.graphic.Triangle</a></li>
+                                <li><a href="../classes/nx.ui.Popover.html">nx.ui.Popover</a></li>
+                                <li><a href="../classes/nx.ui.Popup.html">nx.ui.Popup</a></li>
+                                <li><a href="../classes/nx.ui.PopupContainer.html">nx.ui.PopupContainer</a></li>
+                                <li><a href="../classes/nx.widget.ZIndexManager.html">nx.widget.ZIndexManager</a></li>
+                            </ul>
+                
+                            <ul id="api-modules" class="apis modules">
+                                <li><a href="../modules/nx.data.html">nx.data</a></li>
+                                <li><a href="../modules/nx.geometry.html">nx.geometry</a></li>
+                                <li><a href="../modules/nx.graphic.html">nx.graphic</a></li>
+                                <li><a href="../modules/nx.graphic.Topology.html">nx.graphic.Topology</a></li>
+                                <li><a href="../modules/nx.graphic.Topology.Group.html">nx.graphic.Topology.Group</a></li>
+                                <li><a href="../modules/nx.math.html">nx.math</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+                    Show:
+                    <label for="api-show-inherited">
+                        <input type="checkbox" id="api-show-inherited" checked>
+                        Inherited
+                    </label>
+            
+                    <label for="api-show-protected">
+                        <input type="checkbox" id="api-show-protected">
+                        Protected
+                    </label>
+            
+                    <label for="api-show-private">
+                        <input type="checkbox" id="api-show-private">
+                        Private
+                    </label>
+                    <label for="api-show-deprecated">
+                        <input type="checkbox" id="api-show-deprecated">
+                        Deprecated
+                    </label>
+            
+                </div>
+            
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+<h1 class="file-heading">File: src/topology/core/Component.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+(function (nx, global) {
+
+    nx.Object.delegateEvent = function (source, sourceEvent, target, targetEvent) {
+        if (!target.can(targetEvent)) {
+            source.on(sourceEvent, function (sender, event) {
+                target.fire(targetEvent, event);
+            });
+            nx.Object.extendEvent(target, targetEvent);
+        }
+    };
+
+
+    //http://www.timotheegroleau.com/Flash/experiments/easing_function_generator.htm
+
+    var ease = function (t, b, c, d) {
+        var ts = (t /= d) * t;
+        var tc = ts * t;
+        return b + c * (-0.6475 * tc * ts + 0.7975 * ts * ts + -2.3 * tc + 3.2 * ts + -0.05 * t);
+    };
+
+    var cssHook = {
+        transform: &#x27;webkitTransform&#x27;
+    };
+
+
+    /**
+     * Base class of graphic component
+     * @class nx.graphic.Component
+     * @extend nx.ui.Component
+     * @module nx.graphic
+     */
+
+    nx.define(&#x27;nx.graphic.Component&#x27;, nx.ui.Component, {
+        /**
+         * Fire when drag start
+         * @event dragstart
+         * @param sender {Object}  Trigger instance
+         * @param event {Object} original event object
+         */
+        /**
+         * Fire when drag move
+         * @event dragmove
+         * @param sender {Object}  Trigger instance
+         * @param event {Object} original event object , include delta[x,y] for the shift
+         */
+        /**
+         * Fire when drag end
+         * @event dragend
+         * @param sender {Object}  Trigger instance
+         * @param event {Object} original event object
+         */
+        events: [&#x27;dragstart&#x27;, &#x27;dragmove&#x27;, &#x27;dragend&#x27;],
+        properties: {
+            /**
+             * Set/get x translate
+             * @property translateX
+             */
+            translateX: {
+                set: function (value) {
+                    this.setTransform(value);
+                }
+            },
+            /**
+             * Set/get y translate
+             * @property translateY
+             */
+            translateY: {
+                set: function (value) {
+                    this.setTransform(null, value);
+                }
+            },
+            /**
+             * Set/get scale
+             * @property scale
+             */
+            scale: {
+                set: function (value) {
+                    this.setTransform(null, null, value);
+                }
+            },
+            /**
+             * Set/get translate, it set/get as {x:number,y:number}
+             * @property translate
+             */
+            translate: {
+                get: function () {
+                    return {
+                        x: this._translateX || 0,
+                        y: this._translateY || 0
+                    };
+                },
+                set: function (value) {
+                    this.setTransform(value.x, value.y);
+                }
+            },
+            /**
+             * Set/get element&#x27;s visibility
+             * @property visible
+             */
+            visible: {
+                get: function () {
+                    return this._visible !== undefined ? this._visible : true;
+                },
+                set: function (value) {
+                    if (this.view()) {
+                        if (value) {
+                            this.view().dom().removeClass(&#x27;n-hidden&#x27;);
+                        } else {
+                            this.view().dom().addClass(&#x27;n-hidden&#x27;);
+                        }
+
+                    }
+                    this._visible = value;
+                }
+            },
+            /**
+             * Set/get css class
+             * @property class
+             */
+            &#x27;class&#x27;: {
+                get: function () {
+                    return this._class !== undefined ? this._class : &#x27;&#x27;;
+                },
+                set: function (value) {
+                    if (this._class !== value) {
+                        this._class = value;
+                        this.dom().addClass(value);
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+            }
+        },
+        view: {},
+        methods: {
+            init: function (args) {
+                this.inherited(args);
+                this.sets(args);
+            },
+            /**
+             * Set component&#x27;s transform
+             * @method setTransform
+             * @param [translateX] {Number} x axle translate
+             * @param [translateY] {Number} y axle translate
+             * @param [scale] {Number} element&#x27;s scale
+             * @param [duration=0] {Number} transition time, unite is second
+             */
+            setTransform: function (translateX, translateY, scale, duration) {
+
+                var tx = parseFloat(translateX != null ? translateX : this._translateX || 0);
+                var ty = parseFloat(translateY != null ? translateY : this._translateY || 0);
+                var scl = parseFloat(scale != null ? scale : this._scale || 1);
+
+                this.setStyle(&#x27;transform&#x27;, &#x27; matrix(&#x27; + scl + &#x27;,&#x27; + 0 + &#x27;,&#x27; + 0 + &#x27;,&#x27; + scl + &#x27;,&#x27; + tx + &#x27;, &#x27; + ty + &#x27;)&#x27;, duration);
+                //this.setStyle(&#x27;transform&#x27;, &#x27; translate(&#x27; + tx + &#x27;px, &#x27; + ty + &#x27;px) scale(&#x27; + scl + &#x27;)&#x27;, duration);
+
+                this.dom().$dom.setAttribute(&#x27;transform&#x27;, &#x27; translate(&#x27; + tx + &#x27;, &#x27; + ty + &#x27;) scale(&#x27; + scl + &#x27;)&#x27;);
+
+                this._translateX = tx;
+                this._translateY = ty;
+                this._scale = scl;
+            },
+            /**
+             * Set component&#x27;s css style
+             * @method setStyle
+             * @param key {String} css key
+             * @param value {*} css value
+             * @param [duration=0] {Number} set transition time
+             * @param [callback]
+             * @param [context]
+             */
+            setStyle: function (key, value, duration, callback, context) {
+                if (duration) {
+                    this.setTransition(callback, context, duration);
+                } else if (callback) {
+                    setTimeout(function () {
+                        callback.call(context || this);
+                    }, 0);
+                }
+
+
+                //todo optimize
+                var dom = this.dom().$dom;
+                dom.style[key] = value;
+
+                if (cssHook[key]) {
+                    dom.style[cssHook[key]] = value;
+                }
+            },
+            setTransition: function (callback, context, duration) {
+                var el = this.dom();
+                if (duration) {
+                    el.setStyle(&#x27;transition&#x27;, &#x27;all &#x27; + duration + &#x27;s ease&#x27;);
+                    this.on(&#x27;transitionend&#x27;, function fn() {
+                        if (callback) {
+                            callback.call(context || this);
+                        }
+                        el.setStyle(&#x27;transition&#x27;, &#x27;&#x27;);
+                        this.off(&#x27;transitionend&#x27;, fn, this);
+                    }, this);
+                } else {
+                    el.setStyle(&#x27;transition&#x27;, &#x27;&#x27;);
+                    if (callback) {
+                        setTimeout(function () {
+                            callback.call(context || this);
+                        }, 0);
+                    }
+                }
+            },
+            /**
+             * Append component&#x27;s element to parent node or other dom element
+             * @param [parent] {nx.graphic.Component}
+             * @method append
+             */
+            append: function (parent) {
+                var parentElement;
+                if (parent) {
+                    parentElement = this._parentElement = parent.view().dom();
+                } else {
+                    parentElement = this._parentElement = this._parentElement || this.view().dom().parentNode(); //|| this.parent().view();
+                }
+                if (parentElement &amp;&amp; parentElement.$dom &amp;&amp; this._resources &amp;&amp; this.view() &amp;&amp; !parentElement.contains(this.view().dom())) {
+                    parentElement.appendChild(this.view().dom());
+                }
+            },
+            /**
+             * Remove component&#x27;s element from dom tree
+             * @method remove
+             */
+            remove: function () {
+                var parentElement = this._parentElement = this._parentElement || this.view().dom().parentNode();
+                if (parentElement &amp;&amp; this._resources &amp;&amp; this.view()) {
+                    parentElement.removeChild(this.view().dom());
+                }
+            },
+            /**
+             * Get component&#x27;s bound, delegate element&#x27;s getBoundingClientRect function
+             * @method getBound
+             * @returns {*|ClientRect}
+             */
+            getBound: function () {
+
+                //console.log(this.dom().$dom.getBoundingClientRect())
+                //debugger;
+                return this.dom().$dom.getBoundingClientRect();
+            },
+            /**
+             * Hide component
+             * @method hide
+             */
+            hide: function () {
+                this.visible(false);
+            },
+            /**
+             * Show component
+             * @method show
+             */
+            show: function () {
+                this.visible(true);
+            },
+            /**
+             * Set animation for element,pass a config to this function
+             * {
+             *      to :{
+             *          attr1:value,
+             *          attr2:value,
+             *          ...
+             *      },
+             *      duration:Number,
+             *      complete:Function
+             * }
+             * @method animate
+             * @param config {JSON}
+             */
+            animate: function (config) {
+                var self = this;
+                var aniMap = [];
+                var el = this.view();
+                nx.each(config.to, function (value, key) {
+                    var oldValue = this.has(key) ? this.get(key) : el.getStyle(key);
+                    aniMap.push({
+                        key: key,
+                        oldValue: oldValue,
+                        newValue: value
+                    });
+                }, this);
+
+                if (this._ani) {
+                    this._ani.stop();
+                    this._ani.dispose();
+                    delete this._ani;
+                }
+
+                var ani = this._ani = new nx.graphic.Animation({
+                    duration: config.duration || 1000,
+                    context: config.context || this
+                });
+                ani.callback(function (progress) {
+                    nx.each(aniMap, function (item) {
+                        var value = item.oldValue + (item.newValue - item.oldValue) * progress;
+                        //                        var value = ease(progress, item.oldValue, item.newValue - item.oldValue, 1);
+                        self.set(item.key, value);
+                    });
+                    //console.log(progress);
+                });
+
+                if (config.complete) {
+                    ani.complete(config.complete);
+                }
+                ani.on(&quot;complete&quot;, function fn() {
+                    /**
+                     * Fired when animation completed
+                     * @event animationCompleted
+                     * @param sender {Object}  Trigger instance
+                     * @param event {Object} original event object
+                     */
+                    this.fire(&quot;animationCompleted&quot;);
+                    ani.dispose();
+                    delete this._ani;
+                }, this);
+                ani.start();
+            },
+            _processPropertyValue: function (propertyValue) {
+                var value = propertyValue;
+                if (nx.is(propertyValue, &#x27;Function&#x27;)) {
+                    value = propertyValue.call(this, this.model(), this);
+                }
+                return value;
+            },
+            dispose: function () {
+                if (this._resources &amp;&amp; this._resources[&#x27;@root&#x27;]) {
+                    this.view().dom().$dom.remove();
+                }
+                this.inherited();
+            }
+        }
+    });
+
+})(nx, nx.global);
+
+    </pre>
+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

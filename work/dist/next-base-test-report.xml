@@ -1,207 +1,207 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="file:///home/knly/Documents/js/next/merge/next/work/test/next-base.html" hostname="localhost" tests="590" failures="0" errors="0" time="0.112" timestamp="2015-12-21T08:29:56Z">
-<testsuite id="0" name="base.js" hostname="localhost" tests="43" failures="0" errors="0" time="0.008" timestamp="2015-12-21T08:29:56Z">
-<testcase name="nx.extend" tests="6" failures="0" errors="0" time="0.003" timestamp="2015-12-21T08:29:56Z">
+<testsuites name="file:///home/knly/Documents/js/next/merge/next/work/test/next-base.html" hostname="localhost" tests="590" failures="0" errors="0" time="0.112" timestamp="2015-12-22T02:03:04Z">
+<testsuite id="0" name="base.js" hostname="localhost" tests="43" failures="0" errors="0" time="0.008" timestamp="2015-12-22T02:03:04Z">
+<testcase name="nx.extend" tests="6" failures="0" errors="0" time="0.003" timestamp="2015-12-22T02:03:04Z">
 </testcase>
-<testcase name="nx.each" tests="1" failures="0" errors="0" time="0" timestamp="2015-12-21T08:29:56Z">
+<testcase name="nx.each" tests="1" failures="0" errors="0" time="0" timestamp="2015-12-22T02:03:04Z">
 </testcase>
-<testcase name="nx.each" tests="1" failures="0" errors="0" time="0.001" timestamp="2015-12-21T08:29:56Z">
+<testcase name="nx.each" tests="1" failures="0" errors="0" time="0.001" timestamp="2015-12-22T02:03:04Z">
 </testcase>
-<testcase name="nx.each" tests="1" failures="0" errors="0" time="0" timestamp="2015-12-21T08:29:56Z">
+<testcase name="nx.each" tests="1" failures="0" errors="0" time="0" timestamp="2015-12-22T02:03:04Z">
 </testcase>
-<testcase name="nx.each" tests="1" failures="0" errors="0" time="0" timestamp="2015-12-21T08:29:56Z">
+<testcase name="nx.each" tests="1" failures="0" errors="0" time="0" timestamp="2015-12-22T02:03:04Z">
 </testcase>
-<testcase name="nx.each" tests="1" failures="0" errors="0" time="0.001" timestamp="2015-12-21T08:29:56Z">
+<testcase name="nx.each" tests="1" failures="0" errors="0" time="0.001" timestamp="2015-12-22T02:03:04Z">
 </testcase>
-<testcase name="nx.each" tests="1" failures="0" errors="0" time="0" timestamp="2015-12-21T08:29:56Z">
+<testcase name="nx.each" tests="1" failures="0" errors="0" time="0" timestamp="2015-12-22T02:03:04Z">
 </testcase>
-<testcase name="nx.is" tests="1" failures="0" errors="0" time="0" timestamp="2015-12-21T08:29:56Z">
+<testcase name="nx.is" tests="1" failures="0" errors="0" time="0" timestamp="2015-12-22T02:03:04Z">
 </testcase>
-<testcase name="nx.is" tests="10" failures="0" errors="0" time="0.001" timestamp="2015-12-21T08:29:56Z">
+<testcase name="nx.is" tests="10" failures="0" errors="0" time="0.001" timestamp="2015-12-22T02:03:04Z">
 </testcase>
-<testcase name="nx.path" tests="20" failures="0" errors="0" time="0.002" timestamp="2015-12-21T08:29:56Z">
-</testcase>
-</testsuite>
-<testsuite id="1" name="class.js" hostname="localhost" tests="49" failures="0" errors="0" time="0.007" timestamp="2015-12-21T08:29:56Z">
-<testcase name="define a class" tests="9" failures="0" errors="0" time="0" timestamp="2015-12-21T08:29:56Z">
-</testcase>
-<testcase name="class events" tests="6" failures="0" errors="0" time="0.001" timestamp="2015-12-21T08:29:56Z">
-</testcase>
-<testcase name="class event unlistening" tests="1" failures="0" errors="0" time="0.001" timestamp="2015-12-21T08:29:56Z">
-</testcase>
-<testcase name="class event binding returns unbinder" tests="2" failures="0" errors="0" time="0" timestamp="2015-12-21T08:29:56Z">
-</testcase>
-<testcase name="class properties" tests="8" failures="0" errors="0" time="0.001" timestamp="2015-12-21T08:29:56Z">
-</testcase>
-<testcase name="class methods" tests="4" failures="0" errors="0" time="0.001" timestamp="2015-12-21T08:29:56Z">
-</testcase>
-<testcase name="static class" tests="6" failures="0" errors="0" time="0" timestamp="2015-12-21T08:29:56Z">
-</testcase>
-<testcase name="Object.extendProperty" tests="5" failures="0" errors="0" time="0.001" timestamp="2015-12-21T08:29:56Z">
-</testcase>
-<testcase name="property watcher basic" tests="2" failures="0" errors="0" time="0.001" timestamp="2015-12-21T08:29:56Z">
-</testcase>
-<testcase name="property watcher" tests="4" failures="0" errors="0" time="0.001" timestamp="2015-12-21T08:29:56Z">
-</testcase>
-<testcase name="property init" tests="2" failures="0" errors="0" time="0" timestamp="2015-12-21T08:29:56Z">
+<testcase name="nx.path" tests="20" failures="0" errors="0" time="0.002" timestamp="2015-12-22T02:03:04Z">
 </testcase>
 </testsuite>
-<testsuite id="2" name="binding.js" hostname="localhost" tests="29" failures="0" errors="0" time="0.005" timestamp="2015-12-21T08:29:56Z">
-<testcase name="keyword binding" tests="6" failures="0" errors="0" time="0.002" timestamp="2015-12-21T08:29:56Z">
+<testsuite id="1" name="class.js" hostname="localhost" tests="49" failures="0" errors="0" time="0.007" timestamp="2015-12-22T02:03:04Z">
+<testcase name="define a class" tests="9" failures="0" errors="0" time="0" timestamp="2015-12-22T02:03:04Z">
 </testcase>
-<testcase name="keyword binding with path" tests="6" failures="0" errors="0" time="0.001" timestamp="2015-12-21T08:29:56Z">
+<testcase name="class events" tests="6" failures="0" errors="0" time="0.001" timestamp="2015-12-22T02:03:04Z">
 </testcase>
-<testcase name="keyword binding dependencies with path" tests="8" failures="0" errors="0" time="0.001" timestamp="2015-12-21T08:29:56Z">
+<testcase name="class event unlistening" tests="1" failures="0" errors="0" time="0.001" timestamp="2015-12-22T02:03:04Z">
 </testcase>
-<testcase name="keyword binding on collection" tests="9" failures="0" errors="0" time="0.001" timestamp="2015-12-21T08:29:56Z">
+<testcase name="class event binding returns unbinder" tests="2" failures="0" errors="0" time="0" timestamp="2015-12-22T02:03:04Z">
 </testcase>
-</testsuite>
-<testsuite id="3" name="nx.Observable" hostname="localhost" tests="56" failures="0" errors="0" time="0.01" timestamp="2015-12-21T08:29:56Z">
-<testcase name="method get" tests="2" failures="0" errors="0" time="0.001" timestamp="2015-12-21T08:29:56Z">
+<testcase name="class properties" tests="8" failures="0" errors="0" time="0.001" timestamp="2015-12-22T02:03:04Z">
 </testcase>
-<testcase name="method override get" tests="1" failures="0" errors="0" time="0" timestamp="2015-12-21T08:29:56Z">
+<testcase name="class methods" tests="4" failures="0" errors="0" time="0.001" timestamp="2015-12-22T02:03:04Z">
 </testcase>
-<testcase name="method set" tests="6" failures="0" errors="0" time="0.001" timestamp="2015-12-21T08:29:56Z">
+<testcase name="static class" tests="6" failures="0" errors="0" time="0" timestamp="2015-12-22T02:03:04Z">
 </testcase>
-<testcase name="method override set" tests="3" failures="0" errors="0" time="0" timestamp="2015-12-21T08:29:56Z">
+<testcase name="Object.extendProperty" tests="5" failures="0" errors="0" time="0.001" timestamp="2015-12-22T02:03:04Z">
 </testcase>
-<testcase name="method watch/unwatch" tests="9" failures="0" errors="0" time="0.001" timestamp="2015-12-21T08:29:56Z">
+<testcase name="property watcher basic" tests="2" failures="0" errors="0" time="0.001" timestamp="2015-12-22T02:03:04Z">
 </testcase>
-<testcase name="method watch returns unwatcher" tests="8" failures="0" errors="0" time="0.001" timestamp="2015-12-21T08:29:56Z">
+<testcase name="property watcher" tests="4" failures="0" errors="0" time="0.001" timestamp="2015-12-22T02:03:04Z">
 </testcase>
-<testcase name="method notify with unwatch" tests="1" failures="0" errors="0" time="0" timestamp="2015-12-21T08:29:56Z">
-</testcase>
-<testcase name="method watch*/unwatch" tests="6" failures="0" errors="0" time="0.001" timestamp="2015-12-21T08:29:56Z">
-</testcase>
-<testcase name="method watch*/unwatch" tests="2" failures="0" errors="0" time="0" timestamp="2015-12-21T08:29:56Z">
-</testcase>
-<testcase name="static watch" tests="2" failures="0" errors="0" time="0.001" timestamp="2015-12-21T08:29:56Z">
-</testcase>
-<testcase name="static monitor" tests="4" failures="0" errors="0" time="0.002" timestamp="2015-12-21T08:29:56Z">
-</testcase>
-<testcase name="method notify*" tests="4" failures="0" errors="0" time="0" timestamp="2015-12-21T08:29:56Z">
-</testcase>
-<testcase name="method setBinding" tests="8" failures="0" errors="0" time="0.002" timestamp="2015-12-21T08:29:56Z">
+<testcase name="property init" tests="2" failures="0" errors="0" time="0" timestamp="2015-12-22T02:03:04Z">
 </testcase>
 </testsuite>
-<testsuite id="4" name="Counter" hostname="localhost" tests="99" failures="0" errors="0" time="0.003" timestamp="2015-12-21T08:29:56Z">
-<testcase name="Storage test" tests="99" failures="0" errors="0" time="0.003" timestamp="2015-12-21T08:29:56Z">
+<testsuite id="2" name="binding.js" hostname="localhost" tests="29" failures="0" errors="0" time="0.005" timestamp="2015-12-22T02:03:04Z">
+<testcase name="keyword binding" tests="6" failures="0" errors="0" time="0.002" timestamp="2015-12-22T02:03:04Z">
+</testcase>
+<testcase name="keyword binding with path" tests="6" failures="0" errors="0" time="0.001" timestamp="2015-12-22T02:03:04Z">
+</testcase>
+<testcase name="keyword binding dependencies with path" tests="8" failures="0" errors="0" time="0.001" timestamp="2015-12-22T02:03:04Z">
+</testcase>
+<testcase name="keyword binding on collection" tests="9" failures="0" errors="0" time="0.001" timestamp="2015-12-22T02:03:04Z">
 </testcase>
 </testsuite>
-<testsuite id="5" name="nx.data.Collection" hostname="localhost" tests="49" failures="0" errors="0" time="0.006" timestamp="2015-12-21T08:29:56Z">
-<testcase name="init a collection" tests="5" failures="0" errors="0" time="0.001" timestamp="2015-12-21T08:29:56Z">
+<testsuite id="3" name="nx.Observable" hostname="localhost" tests="56" failures="0" errors="0" time="0.01" timestamp="2015-12-22T02:03:04Z">
+<testcase name="method get" tests="2" failures="0" errors="0" time="0.001" timestamp="2015-12-22T02:03:04Z">
 </testcase>
-<testcase name="func add" tests="3" failures="0" errors="0" time="0" timestamp="2015-12-21T08:29:56Z">
+<testcase name="method override get" tests="1" failures="0" errors="0" time="0" timestamp="2015-12-22T02:03:04Z">
 </testcase>
-<testcase name="func addRange" tests="2" failures="0" errors="0" time="0.001" timestamp="2015-12-21T08:29:56Z">
+<testcase name="method set" tests="6" failures="0" errors="0" time="0" timestamp="2015-12-22T02:03:04Z">
 </testcase>
-<testcase name="func remove" tests="5" failures="0" errors="0" time="0.001" timestamp="2015-12-21T08:29:56Z">
+<testcase name="method override set" tests="3" failures="0" errors="0" time="0.001" timestamp="2015-12-22T02:03:04Z">
 </testcase>
-<testcase name="func insert" tests="3" failures="0" errors="0" time="0" timestamp="2015-12-21T08:29:56Z">
+<testcase name="method watch/unwatch" tests="9" failures="0" errors="0" time="0.001" timestamp="2015-12-22T02:03:04Z">
 </testcase>
-<testcase name="func insertRange" tests="4" failures="0" errors="0" time="0.001" timestamp="2015-12-21T08:29:56Z">
+<testcase name="method watch returns unwatcher" tests="8" failures="0" errors="0" time="0.001" timestamp="2015-12-22T02:03:04Z">
 </testcase>
-<testcase name="func getRange" tests="4" failures="0" errors="0" time="0" timestamp="2015-12-21T08:29:56Z">
+<testcase name="method notify with unwatch" tests="1" failures="0" errors="0" time="0" timestamp="2015-12-22T02:03:04Z">
 </testcase>
-<testcase name="func indexof" tests="4" failures="0" errors="0" time="0.001" timestamp="2015-12-21T08:29:56Z">
+<testcase name="method watch*/unwatch" tests="6" failures="0" errors="0" time="0.001" timestamp="2015-12-22T02:03:04Z">
 </testcase>
-<testcase name="func lastindexof" tests="4" failures="0" errors="0" time="0" timestamp="2015-12-21T08:29:56Z">
+<testcase name="method watch*/unwatch" tests="2" failures="0" errors="0" time="0" timestamp="2015-12-22T02:03:04Z">
 </testcase>
-<testcase name="func toArray" tests="2" failures="0" errors="0" time="0.001" timestamp="2015-12-21T08:29:56Z">
+<testcase name="static watch" tests="2" failures="0" errors="0" time="0.001" timestamp="2015-12-22T02:03:04Z">
 </testcase>
-<testcase name="unique" tests="13" failures="0" errors="0" time="0" timestamp="2015-12-21T08:29:56Z">
+<testcase name="static monitor" tests="4" failures="0" errors="0" time="0.001" timestamp="2015-12-22T02:03:04Z">
 </testcase>
-</testsuite>
-<testsuite id="6" name="ObservableCollection.js" hostname="localhost" tests="138" failures="0" errors="0" time="0.029" timestamp="2015-12-21T08:29:56Z">
-<testcase name="func add" tests="9" failures="0" errors="0" time="0.001" timestamp="2015-12-21T08:29:56Z">
+<testcase name="method notify*" tests="4" failures="0" errors="0" time="0.001" timestamp="2015-12-22T02:03:04Z">
 </testcase>
-<testcase name="func addRange" tests="6" failures="0" errors="0" time="0.004" timestamp="2015-12-21T08:29:56Z">
-</testcase>
-<testcase name="func remove" tests="9" failures="0" errors="0" time="0.001" timestamp="2015-12-21T08:29:56Z">
-</testcase>
-<testcase name="func insert" tests="7" failures="0" errors="0" time="0" timestamp="2015-12-21T08:29:56Z">
-</testcase>
-<testcase name="func insertRange" tests="10" failures="0" errors="0" time="0.001" timestamp="2015-12-21T08:29:56Z">
-</testcase>
-<testcase name="sort" tests="3" failures="0" errors="0" time="0.001" timestamp="2015-12-21T08:29:56Z">
-</testcase>
-<testcase name="unique" tests="14" failures="0" errors="0" time="0.001" timestamp="2015-12-21T08:29:56Z">
-</testcase>
-<testcase name="monitor" tests="2" failures="0" errors="0" time="0.001" timestamp="2015-12-21T08:29:56Z">
-</testcase>
-<testcase name="func select" tests="16" failures="0" errors="0" time="0.002" timestamp="2015-12-21T08:29:56Z">
-</testcase>
-<testcase name="func calculate" tests="4" failures="0" errors="0" time="0.007" timestamp="2015-12-21T08:29:56Z">
-</testcase>
-<testcase name="static cross" tests="6" failures="0" errors="0" time="0.001" timestamp="2015-12-21T08:29:56Z">
-</testcase>
-<testcase name="static union" tests="7" failures="0" errors="0" time="0.001" timestamp="2015-12-21T08:29:56Z">
-</testcase>
-<testcase name="static complement" tests="9" failures="0" errors="0" time="0.001" timestamp="2015-12-21T08:29:56Z">
-</testcase>
-<testcase name="static symmetric difference" tests="10" failures="0" errors="0" time="0.001" timestamp="2015-12-21T08:29:56Z">
-</testcase>
-<testcase name="static and" tests="10" failures="0" errors="0" time="0.001" timestamp="2015-12-21T08:29:56Z">
-</testcase>
-<testcase name="static or" tests="12" failures="0" errors="0" time="0.002" timestamp="2015-12-21T08:29:56Z">
-</testcase>
-<testcase name="static expression priority" tests="1" failures="0" errors="0" time="0.001" timestamp="2015-12-21T08:29:56Z">
-</testcase>
-<testcase name="static Calculation expression syntax" tests="1" failures="0" errors="0" time="0" timestamp="2015-12-21T08:29:56Z">
-</testcase>
-<testcase name="static Calculation" tests="2" failures="0" errors="0" time="0.002" timestamp="2015-12-21T08:29:56Z">
+<testcase name="method setBinding" tests="8" failures="0" errors="0" time="0.002" timestamp="2015-12-22T02:03:04Z">
 </testcase>
 </testsuite>
-<testsuite id="7" name="Dictionary.js" hostname="localhost" tests="18" failures="0" errors="0" time="0.002" timestamp="2015-12-21T08:29:56Z">
-<testcase name="init dict" tests="5" failures="0" errors="0" time="0.001" timestamp="2015-12-21T08:29:56Z">
-</testcase>
-<testcase name="change dict" tests="13" failures="0" errors="0" time="0.001" timestamp="2015-12-21T08:29:56Z">
+<testsuite id="4" name="Counter" hostname="localhost" tests="99" failures="0" errors="0" time="0.003" timestamp="2015-12-22T02:03:04Z">
+<testcase name="Storage test" tests="99" failures="0" errors="0" time="0.003" timestamp="2015-12-22T02:03:04Z">
 </testcase>
 </testsuite>
-<testsuite id="8" name="ObservableDictionary.js" hostname="localhost" tests="30" failures="0" errors="0" time="0.005" timestamp="2015-12-21T08:29:56Z">
-<testcase name="init a dict" tests="5" failures="0" errors="0" time="0.001" timestamp="2015-12-21T08:29:56Z">
+<testsuite id="5" name="nx.data.Collection" hostname="localhost" tests="49" failures="0" errors="0" time="0.006" timestamp="2015-12-22T02:03:04Z">
+<testcase name="init a collection" tests="5" failures="0" errors="0" time="0.001" timestamp="2015-12-22T02:03:04Z">
 </testcase>
-<testcase name="handle dict events" tests="13" failures="0" errors="0" time="0.001" timestamp="2015-12-21T08:29:56Z">
+<testcase name="func add" tests="3" failures="0" errors="0" time="0" timestamp="2015-12-22T02:03:04Z">
 </testcase>
-<testcase name="monitor" tests="5" failures="0" errors="0" time="0.001" timestamp="2015-12-21T08:29:56Z">
+<testcase name="func addRange" tests="2" failures="0" errors="0" time="0.001" timestamp="2015-12-22T02:03:04Z">
 </testcase>
-<testcase name="monitor key" tests="1" failures="0" errors="0" time="0.001" timestamp="2015-12-21T08:29:56Z">
+<testcase name="func remove" tests="5" failures="0" errors="0" time="0" timestamp="2015-12-22T02:03:04Z">
 </testcase>
-<testcase name="monitor keys" tests="6" failures="0" errors="0" time="0.001" timestamp="2015-12-21T08:29:56Z">
+<testcase name="func insert" tests="3" failures="0" errors="0" time="0.001" timestamp="2015-12-22T02:03:04Z">
+</testcase>
+<testcase name="func insertRange" tests="4" failures="0" errors="0" time="0" timestamp="2015-12-22T02:03:04Z">
+</testcase>
+<testcase name="func getRange" tests="4" failures="0" errors="0" time="0.001" timestamp="2015-12-22T02:03:04Z">
+</testcase>
+<testcase name="func indexof" tests="4" failures="0" errors="0" time="0.001" timestamp="2015-12-22T02:03:04Z">
+</testcase>
+<testcase name="func lastindexof" tests="4" failures="0" errors="0" time="0" timestamp="2015-12-22T02:03:04Z">
+</testcase>
+<testcase name="func toArray" tests="2" failures="0" errors="0" time="0" timestamp="2015-12-22T02:03:04Z">
+</testcase>
+<testcase name="unique" tests="13" failures="0" errors="0" time="0.001" timestamp="2015-12-22T02:03:04Z">
 </testcase>
 </testsuite>
-<testsuite id="9" name="SortedMap" hostname="localhost" tests="79" failures="0" errors="0" time="0.009" timestamp="2015-12-21T08:29:56Z">
-<testcase name="init" tests="1" failures="0" errors="0" time="0" timestamp="2015-12-21T08:29:56Z">
+<testsuite id="6" name="ObservableCollection.js" hostname="localhost" tests="138" failures="0" errors="0" time="0.029" timestamp="2015-12-22T02:03:04Z">
+<testcase name="func add" tests="9" failures="0" errors="0" time="0.001" timestamp="2015-12-22T02:03:04Z">
 </testcase>
-<testcase name="init with data" tests="5" failures="0" errors="0" time="0.001" timestamp="2015-12-21T08:29:56Z">
+<testcase name="func addRange" tests="6" failures="0" errors="0" time="0.003" timestamp="2015-12-22T02:03:04Z">
 </testcase>
-<testcase name="add" tests="9" failures="0" errors="0" time="0" timestamp="2015-12-21T08:29:56Z">
+<testcase name="func remove" tests="9" failures="0" errors="0" time="0.001" timestamp="2015-12-22T02:03:04Z">
 </testcase>
-<testcase name="remove" tests="6" failures="0" errors="0" time="0.001" timestamp="2015-12-21T08:29:56Z">
+<testcase name="func insert" tests="7" failures="0" errors="0" time="0.001" timestamp="2015-12-22T02:03:04Z">
 </testcase>
-<testcase name="removeAt" tests="6" failures="0" errors="0" time="0" timestamp="2015-12-21T08:29:56Z">
+<testcase name="func insertRange" tests="10" failures="0" errors="0" time="0.001" timestamp="2015-12-22T02:03:04Z">
 </testcase>
-<testcase name="setIndex" tests="5" failures="0" errors="0" time="0.001" timestamp="2015-12-21T08:29:56Z">
+<testcase name="sort" tests="3" failures="0" errors="0" time="0.001" timestamp="2015-12-22T02:03:04Z">
 </testcase>
-<testcase name="setValue" tests="6" failures="0" errors="0" time="0" timestamp="2015-12-21T08:29:56Z">
+<testcase name="unique" tests="14" failures="0" errors="0" time="0" timestamp="2015-12-22T02:03:04Z">
 </testcase>
-<testcase name="setValueAt" tests="6" failures="0" errors="0" time="0" timestamp="2015-12-21T08:29:56Z">
+<testcase name="monitor" tests="2" failures="0" errors="0" time="0.001" timestamp="2015-12-22T02:03:04Z">
 </testcase>
-<testcase name="sort" tests="5" failures="0" errors="0" time="0.001" timestamp="2015-12-21T08:29:56Z">
+<testcase name="func select" tests="16" failures="0" errors="0" time="0.002" timestamp="2015-12-22T02:03:04Z">
 </testcase>
-<testcase name="toArray" tests="1" failures="0" errors="0" time="0" timestamp="2015-12-21T08:29:56Z">
+<testcase name="func calculate" tests="4" failures="0" errors="0" time="0.007" timestamp="2015-12-22T02:03:04Z">
 </testcase>
-<testcase name="Value types" tests="22" failures="0" errors="0" time="0.001" timestamp="2015-12-21T08:29:56Z">
+<testcase name="static cross" tests="6" failures="0" errors="0" time="0.001" timestamp="2015-12-22T02:03:04Z">
 </testcase>
-<testcase name="property:length" tests="3" failures="0" errors="0" time="0.001" timestamp="2015-12-21T08:29:56Z">
+<testcase name="static union" tests="7" failures="0" errors="0" time="0.001" timestamp="2015-12-22T02:03:04Z">
 </testcase>
-<testcase name="event:add" tests="1" failures="0" errors="0" time="0" timestamp="2015-12-21T08:29:56Z">
+<testcase name="static complement" tests="9" failures="0" errors="0" time="0.001" timestamp="2015-12-22T02:03:04Z">
 </testcase>
-<testcase name="event:remove" tests="1" failures="0" errors="0" time="0.001" timestamp="2015-12-21T08:29:56Z">
+<testcase name="static symmetric difference" tests="10" failures="0" errors="0" time="0.001" timestamp="2015-12-22T02:03:04Z">
 </testcase>
-<testcase name="event:set" tests="1" failures="0" errors="0" time="0" timestamp="2015-12-21T08:29:56Z">
+<testcase name="static and" tests="10" failures="0" errors="0" time="0.001" timestamp="2015-12-22T02:03:04Z">
 </testcase>
-<testcase name="event:reorder" tests="1" failures="0" errors="0" time="0.001" timestamp="2015-12-21T08:29:56Z">
+<testcase name="static or" tests="12" failures="0" errors="0" time="0.002" timestamp="2015-12-22T02:03:04Z">
+</testcase>
+<testcase name="static expression priority" tests="1" failures="0" errors="0" time="0" timestamp="2015-12-22T02:03:04Z">
+</testcase>
+<testcase name="static Calculation expression syntax" tests="1" failures="0" errors="0" time="0.001" timestamp="2015-12-22T02:03:04Z">
+</testcase>
+<testcase name="static Calculation" tests="2" failures="0" errors="0" time="0.002" timestamp="2015-12-22T02:03:04Z">
+</testcase>
+</testsuite>
+<testsuite id="7" name="Dictionary.js" hostname="localhost" tests="18" failures="0" errors="0" time="0.002" timestamp="2015-12-22T02:03:04Z">
+<testcase name="init dict" tests="5" failures="0" errors="0" time="0.001" timestamp="2015-12-22T02:03:04Z">
+</testcase>
+<testcase name="change dict" tests="13" failures="0" errors="0" time="0.001" timestamp="2015-12-22T02:03:04Z">
+</testcase>
+</testsuite>
+<testsuite id="8" name="ObservableDictionary.js" hostname="localhost" tests="30" failures="0" errors="0" time="0.004" timestamp="2015-12-22T02:03:04Z">
+<testcase name="init a dict" tests="5" failures="0" errors="0" time="0.001" timestamp="2015-12-22T02:03:04Z">
+</testcase>
+<testcase name="handle dict events" tests="13" failures="0" errors="0" time="0.001" timestamp="2015-12-22T02:03:04Z">
+</testcase>
+<testcase name="monitor" tests="5" failures="0" errors="0" time="0.001" timestamp="2015-12-22T02:03:04Z">
+</testcase>
+<testcase name="monitor key" tests="1" failures="0" errors="0" time="0" timestamp="2015-12-22T02:03:04Z">
+</testcase>
+<testcase name="monitor keys" tests="6" failures="0" errors="0" time="0.001" timestamp="2015-12-22T02:03:04Z">
+</testcase>
+</testsuite>
+<testsuite id="9" name="SortedMap" hostname="localhost" tests="79" failures="0" errors="0" time="0.01" timestamp="2015-12-22T02:03:04Z">
+<testcase name="init" tests="1" failures="0" errors="0" time="0.001" timestamp="2015-12-22T02:03:04Z">
+</testcase>
+<testcase name="init with data" tests="5" failures="0" errors="0" time="0" timestamp="2015-12-22T02:03:04Z">
+</testcase>
+<testcase name="add" tests="9" failures="0" errors="0" time="0.001" timestamp="2015-12-22T02:03:04Z">
+</testcase>
+<testcase name="remove" tests="6" failures="0" errors="0" time="0.001" timestamp="2015-12-22T02:03:04Z">
+</testcase>
+<testcase name="removeAt" tests="6" failures="0" errors="0" time="0" timestamp="2015-12-22T02:03:04Z">
+</testcase>
+<testcase name="setIndex" tests="5" failures="0" errors="0" time="0.001" timestamp="2015-12-22T02:03:04Z">
+</testcase>
+<testcase name="setValue" tests="6" failures="0" errors="0" time="0" timestamp="2015-12-22T02:03:04Z">
+</testcase>
+<testcase name="setValueAt" tests="6" failures="0" errors="0" time="0.001" timestamp="2015-12-22T02:03:04Z">
+</testcase>
+<testcase name="sort" tests="5" failures="0" errors="0" time="0" timestamp="2015-12-22T02:03:04Z">
+</testcase>
+<testcase name="toArray" tests="1" failures="0" errors="0" time="0.001" timestamp="2015-12-22T02:03:04Z">
+</testcase>
+<testcase name="Value types" tests="22" failures="0" errors="0" time="0.001" timestamp="2015-12-22T02:03:04Z">
+</testcase>
+<testcase name="property:length" tests="3" failures="0" errors="0" time="0" timestamp="2015-12-22T02:03:04Z">
+</testcase>
+<testcase name="event:add" tests="1" failures="0" errors="0" time="0.001" timestamp="2015-12-22T02:03:04Z">
+</testcase>
+<testcase name="event:remove" tests="1" failures="0" errors="0" time="0" timestamp="2015-12-22T02:03:04Z">
+</testcase>
+<testcase name="event:set" tests="1" failures="0" errors="0" time="0.001" timestamp="2015-12-22T02:03:04Z">
+</testcase>
+<testcase name="event:reorder" tests="1" failures="0" errors="0" time="0" timestamp="2015-12-22T02:03:04Z">
 </testcase>
 </testsuite>
 </testsuites>

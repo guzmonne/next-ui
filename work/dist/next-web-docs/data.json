@@ -6,8 +6,8 @@
         "url": "index.html"
     },
     "files": {
-        "src/web/js/dom/Document.js": {
-            "name": "src/web/js/dom/Document.js",
+        "src/web/dom/Document.js": {
+            "name": "src/web/dom/Document.js",
             "modules": {},
             "classes": {
                 "nx.dom.Document": 1
@@ -15,8 +15,8 @@
             "fors": {},
             "namespaces": {}
         },
-        "src/web/js/dom/Element.js": {
-            "name": "src/web/js/dom/Element.js",
+        "src/web/dom/Element.js": {
+            "name": "src/web/dom/Element.js",
             "modules": {},
             "classes": {
                 "nx.dom.Element": 1
@@ -24,8 +24,8 @@
             "fors": {},
             "namespaces": {}
         },
-        "src/web/js/dom/Fragment.js": {
-            "name": "src/web/js/dom/Fragment.js",
+        "src/web/dom/Fragment.js": {
+            "name": "src/web/dom/Fragment.js",
             "modules": {},
             "classes": {
                 "nx.dom.Fragment": 1
@@ -33,8 +33,8 @@
             "fors": {},
             "namespaces": {}
         },
-        "src/web/js/dom/Node.js": {
-            "name": "src/web/js/dom/Node.js",
+        "src/web/dom/Node.js": {
+            "name": "src/web/dom/Node.js",
             "modules": {},
             "classes": {
                 "nx.dom.Node": 1
@@ -42,8 +42,8 @@
             "fors": {},
             "namespaces": {}
         },
-        "src/web/js/dom/Text.js": {
-            "name": "src/web/js/dom/Text.js",
+        "src/web/dom/Text.js": {
+            "name": "src/web/dom/Text.js",
             "modules": {},
             "classes": {
                 "nx.dom.Text": 1
@@ -51,8 +51,8 @@
             "fors": {},
             "namespaces": {}
         },
-        "src/web/js/http/Http.js": {
-            "name": "src/web/js/http/Http.js",
+        "src/web/http/Http.js": {
+            "name": "src/web/http/Http.js",
             "modules": {},
             "classes": {
                 "nx.http.XHR": 1,
@@ -64,8 +64,8 @@
                 "nx.task": 1
             }
         },
-        "src/web/js/http/JSON.js": {
-            "name": "src/web/js/http/JSON.js",
+        "src/web/http/JSON.js": {
+            "name": "src/web/http/JSON.js",
             "modules": {},
             "classes": {
                 "nx.nx.JSON": 1
@@ -75,8 +75,8 @@
                 "nx": 1
             }
         },
-        "src/web/js/http/Task.js": {
-            "name": "src/web/js/http/Task.js",
+        "src/web/http/Task.js": {
+            "name": "src/web/http/Task.js",
             "modules": {},
             "classes": {
                 "nx.task.TaskList": 1,
@@ -87,8 +87,8 @@
                 "nx.task": 1
             }
         },
-        "src/web/js/ui/AbstractComponent.js": {
-            "name": "src/web/js/ui/AbstractComponent.js",
+        "src/web/ui/AbstractComponent.js": {
+            "name": "src/web/ui/AbstractComponent.js",
             "modules": {},
             "classes": {
                 "nx.ui.Collection": 1,
@@ -101,8 +101,8 @@
                 "nx.ui": 1
             }
         },
-        "src/web/js/ui/Application.js": {
-            "name": "src/web/js/ui/Application.js",
+        "src/web/ui/Application.js": {
+            "name": "src/web/ui/Application.js",
             "modules": {},
             "classes": {
                 "nx.ui.Application": 1
@@ -112,8 +112,8 @@
                 "nx.ui": 1
             }
         },
-        "src/web/js/ui/Component.js": {
-            "name": "src/web/js/ui/Component.js",
+        "src/web/ui/Component.js": {
+            "name": "src/web/ui/Component.js",
             "modules": {},
             "classes": {
                 "nx.ui.Component": 1
@@ -123,8 +123,8 @@
                 "nx.ui": 1
             }
         },
-        "src/web/js/Env.js": {
-            "name": "src/web/js/Env.js",
+        "src/web/Env.js": {
+            "name": "src/web/Env.js",
             "modules": {},
             "classes": {
                 "nx.ui.nx.Env": 1
@@ -132,8 +132,8 @@
             "fors": {},
             "namespaces": {}
         },
-        "src/web/js/HttpClient.js": {
-            "name": "src/web/js/HttpClient.js",
+        "src/web/HttpClient.js": {
+            "name": "src/web/HttpClient.js",
             "modules": {},
             "classes": {
                 "nx.ui.nx.HttpClient": 1
@@ -141,8 +141,8 @@
             "fors": {},
             "namespaces": {}
         },
-        "src/web/js/Util.js": {
-            "name": "src/web/js/Util.js",
+        "src/web/Util.js": {
+            "name": "src/web/Util.js",
             "modules": {},
             "classes": {
                 "nx.ui.nx.Util": 1
@@ -161,7 +161,7 @@
             "extensions": [],
             "plugin_for": [],
             "extension_for": [],
-            "file": "src/web/js/dom/Document.js",
+            "file": "src/web/dom/Document.js",
             "line": 127,
             "description": "Document Element",
             "is_constructor": 1
@@ -174,7 +174,7 @@
             "extensions": [],
             "plugin_for": [],
             "extension_for": [],
-            "file": "src/web/js/dom/Element.js",
+            "file": "src/web/dom/Element.js",
             "line": 98,
             "description": "Dom Element",
             "is_constructor": 1
@@ -187,7 +187,7 @@
             "extensions": [],
             "plugin_for": [],
             "extension_for": [],
-            "file": "src/web/js/dom/Fragment.js",
+            "file": "src/web/dom/Fragment.js",
             "line": 4,
             "description": "Dom Fragment",
             "is_constructor": 1
@@ -200,7 +200,7 @@
             "extensions": [],
             "plugin_for": [],
             "extension_for": [],
-            "file": "src/web/js/dom/Node.js",
+            "file": "src/web/dom/Node.js",
             "line": 3,
             "description": "Dom Node",
             "is_constructor": 1
@@ -213,7 +213,7 @@
             "extensions": [],
             "plugin_for": [],
             "extension_for": [],
-            "file": "src/web/js/dom/Text.js",
+            "file": "src/web/dom/Text.js",
             "line": 2,
             "description": "Text Node",
             "is_constructor": 1
@@ -226,7 +226,7 @@
             "extensions": [],
             "plugin_for": [],
             "extension_for": [],
-            "file": "src/web/js/http/Http.js",
+            "file": "src/web/http/Http.js",
             "line": 2,
             "description": "XHR: XmlHttpRequest",
             "is_constructor": 1
@@ -239,7 +239,7 @@
             "extensions": [],
             "plugin_for": [],
             "extension_for": [],
-            "file": "src/web/js/http/Http.js",
+            "file": "src/web/http/Http.js",
             "line": 125,
             "description": "XHRPool: XmlHttpRequestPool",
             "is_constructor": 1
@@ -253,7 +253,7 @@
             "plugin_for": [],
             "extension_for": [],
             "namespace": "nx.task",
-            "file": "src/web/js/http/Http.js",
+            "file": "src/web/http/Http.js",
             "line": 156,
             "description": "HttpClient: HttpClient"
         },
@@ -266,7 +266,7 @@
             "plugin_for": [],
             "extension_for": [],
             "namespace": "nx",
-            "file": "src/web/js/http/JSON.js",
+            "file": "src/web/http/JSON.js",
             "line": 3,
             "description": "JSON: JSON"
         },
@@ -279,7 +279,7 @@
             "plugin_for": [],
             "extension_for": [],
             "namespace": "nx.task",
-            "file": "src/web/js/http/Task.js",
+            "file": "src/web/http/Task.js",
             "line": 3,
             "description": "TaskList: tasklist"
         },
@@ -292,7 +292,7 @@
             "plugin_for": [],
             "extension_for": [],
             "namespace": "nx.task",
-            "file": "src/web/js/http/Task.js",
+            "file": "src/web/http/Task.js",
             "line": 79,
             "description": "Task"
         },
@@ -305,7 +305,7 @@
             "plugin_for": [],
             "extension_for": [],
             "namespace": "nx.ui",
-            "file": "src/web/js/ui/AbstractComponent.js",
+            "file": "src/web/ui/AbstractComponent.js",
             "line": 124,
             "extends": "nx.Observable"
         },
@@ -318,7 +318,7 @@
             "plugin_for": [],
             "extension_for": [],
             "namespace": "nx.ui",
-            "file": "src/web/js/ui/AbstractComponent.js",
+            "file": "src/web/ui/AbstractComponent.js",
             "line": 383,
             "extends": "nx.Observable",
             "internal": ""
@@ -332,7 +332,7 @@
             "plugin_for": [],
             "extension_for": [],
             "namespace": "nx.ui",
-            "file": "src/web/js/ui/AbstractComponent.js",
+            "file": "src/web/ui/AbstractComponent.js",
             "line": 439,
             "extends": "nx.Observable",
             "internal": ""
@@ -346,7 +346,7 @@
             "plugin_for": [],
             "extension_for": [],
             "namespace": "nx.ui",
-            "file": "src/web/js/ui/AbstractComponent.js",
+            "file": "src/web/ui/AbstractComponent.js",
             "line": 463,
             "extends": "nx.ui.AbstractComponent",
             "internal": ""
@@ -360,7 +360,7 @@
             "plugin_for": [],
             "extension_for": [],
             "namespace": "nx.ui",
-            "file": "src/web/js/ui/Application.js",
+            "file": "src/web/ui/Application.js",
             "line": 5,
             "extends": "nx.ui.AbstractComponent"
         },
@@ -373,7 +373,7 @@
             "plugin_for": [],
             "extension_for": [],
             "namespace": "nx.ui",
-            "file": "src/web/js/ui/Component.js",
+            "file": "src/web/ui/Component.js",
             "line": 4,
             "extends": "nx.ui.AbstractComponent"
         },
@@ -386,7 +386,7 @@
             "plugin_for": [],
             "extension_for": [],
             "namespace": "nx.ui",
-            "file": "src/web/js/Env.js",
+            "file": "src/web/Env.js",
             "line": 226,
             "description": "Environment and check behavior support",
             "is_constructor": 1
@@ -400,7 +400,7 @@
             "plugin_for": [],
             "extension_for": [],
             "namespace": "nx.ui",
-            "file": "src/web/js/HttpClient.js",
+            "file": "src/web/HttpClient.js",
             "line": 2,
             "description": "Ajax http client",
             "is_constructor": 1
@@ -414,7 +414,7 @@
             "plugin_for": [],
             "extension_for": [],
             "namespace": "nx.ui",
-            "file": "src/web/js/Util.js",
+            "file": "src/web/Util.js",
             "line": 63,
             "description": "This is Util",
             "is_constructor": 1
@@ -422,7 +422,7 @@
     },
     "classitems": [
         {
-            "file": "src/web/js/dom/Document.js",
+            "file": "src/web/dom/Document.js",
             "line": 135,
             "description": "Get/set next cssStyle sheet",
             "itemtype": "property",
@@ -432,7 +432,7 @@
             "class": "nx.dom.Document"
         },
         {
-            "file": "src/web/js/dom/Document.js",
+            "file": "src/web/dom/Document.js",
             "line": 151,
             "description": "Get document root element",
             "itemtype": "property",
@@ -442,7 +442,7 @@
             "class": "nx.dom.Document"
         },
         {
-            "file": "src/web/js/dom/Document.js",
+            "file": "src/web/dom/Document.js",
             "line": 162,
             "description": "Get next body element",
             "itemtype": "property",
@@ -452,7 +452,7 @@
             "class": "nx.dom.Document"
         },
         {
-            "file": "src/web/js/dom/Document.js",
+            "file": "src/web/dom/Document.js",
             "line": 184,
             "description": "Add an event handler.",
             "itemtype": "method",
@@ -478,7 +478,7 @@
             "class": "nx.dom.Document"
         },
         {
-            "file": "src/web/js/dom/Document.js",
+            "file": "src/web/dom/Document.js",
             "line": 214,
             "description": "Remove an event handler.",
             "itemtype": "method",
@@ -505,7 +505,7 @@
             "class": "nx.dom.Document"
         },
         {
-            "file": "src/web/js/dom/Document.js",
+            "file": "src/web/dom/Document.js",
             "line": 239,
             "description": "Add a single event handler.",
             "itemtype": "method",
@@ -531,7 +531,7 @@
             "class": "nx.dom.Document"
         },
         {
-            "file": "src/web/js/dom/Document.js",
+            "file": "src/web/dom/Document.js",
             "line": 262,
             "description": "Trigger an event.",
             "itemtype": "method",
@@ -552,7 +552,7 @@
             "class": "nx.dom.Document"
         },
         {
-            "file": "src/web/js/dom/Document.js",
+            "file": "src/web/dom/Document.js",
             "line": 284,
             "description": "Register html tag namespace",
             "itemtype": "method",
@@ -570,7 +570,7 @@
             "class": "nx.dom.Document"
         },
         {
-            "file": "src/web/js/dom/Document.js",
+            "file": "src/web/dom/Document.js",
             "line": 293,
             "description": "Get a tag namespace value",
             "itemtype": "method",
@@ -588,7 +588,7 @@
             "class": "nx.dom.Document"
         },
         {
-            "file": "src/web/js/dom/Document.js",
+            "file": "src/web/dom/Document.js",
             "line": 302,
             "description": "Create document fragment",
             "itemtype": "method",
@@ -600,7 +600,7 @@
             "class": "nx.dom.Document"
         },
         {
-            "file": "src/web/js/dom/Document.js",
+            "file": "src/web/dom/Document.js",
             "line": 310,
             "description": "Create element",
             "itemtype": "method",
@@ -618,7 +618,7 @@
             "class": "nx.dom.Document"
         },
         {
-            "file": "src/web/js/dom/Document.js",
+            "file": "src/web/dom/Document.js",
             "line": 319,
             "description": "Create text node.",
             "itemtype": "method",
@@ -636,7 +636,7 @@
             "class": "nx.dom.Document"
         },
         {
-            "file": "src/web/js/dom/Document.js",
+            "file": "src/web/dom/Document.js",
             "line": 328,
             "description": "Create element by namespace",
             "itemtype": "method",
@@ -658,7 +658,7 @@
             "class": "nx.dom.Document"
         },
         {
-            "file": "src/web/js/dom/Document.js",
+            "file": "src/web/dom/Document.js",
             "line": 343,
             "description": "Wrap dom element to next element",
             "itemtype": "method",
@@ -676,7 +676,7 @@
             "class": "nx.dom.Document"
         },
         {
-            "file": "src/web/js/dom/Document.js",
+            "file": "src/web/dom/Document.js",
             "line": 356,
             "description": "Get document position information",
             "itemtype": "method",
@@ -688,7 +688,7 @@
             "class": "nx.dom.Document"
         },
         {
-            "file": "src/web/js/dom/Document.js",
+            "file": "src/web/dom/Document.js",
             "line": 382,
             "description": "Dom ready",
             "itemtype": "method",
@@ -702,7 +702,7 @@
             "class": "nx.dom.Document"
         },
         {
-            "file": "src/web/js/dom/Document.js",
+            "file": "src/web/dom/Document.js",
             "line": 395,
             "description": "Add a rule to next style sheet",
             "itemtype": "method",
@@ -728,7 +728,7 @@
             "class": "nx.dom.Document"
         },
         {
-            "file": "src/web/js/dom/Document.js",
+            "file": "src/web/dom/Document.js",
             "line": 406,
             "description": "insert a rule to next style sheet",
             "itemtype": "method",
@@ -750,7 +750,7 @@
             "class": "nx.dom.Document"
         },
         {
-            "file": "src/web/js/dom/Document.js",
+            "file": "src/web/dom/Document.js",
             "line": 416,
             "description": "Delete a rule from next style sheet at last line",
             "itemtype": "method",
@@ -768,7 +768,7 @@
             "class": "nx.dom.Document"
         },
         {
-            "file": "src/web/js/dom/Document.js",
+            "file": "src/web/dom/Document.js",
             "line": 425,
             "description": "Remove a rule from next style sheet",
             "itemtype": "method",
@@ -790,7 +790,7 @@
             "class": "nx.dom.Document"
         },
         {
-            "file": "src/web/js/dom/Document.js",
+            "file": "src/web/dom/Document.js",
             "line": 435,
             "description": "Add multi rules",
             "itemtype": "method",
@@ -804,7 +804,7 @@
             "class": "nx.dom.Document"
         },
         {
-            "file": "src/web/js/dom/Document.js",
+            "file": "src/web/dom/Document.js",
             "line": 445,
             "description": "Delete all rules",
             "itemtype": "method",
@@ -812,7 +812,7 @@
             "class": "nx.dom.Document"
         },
         {
-            "file": "src/web/js/dom/Element.js",
+            "file": "src/web/dom/Element.js",
             "line": 105,
             "description": "Get an attribute from element",
             "itemtype": "method",
@@ -830,7 +830,7 @@
             "class": "nx.dom.Element"
         },
         {
-            "file": "src/web/js/dom/Element.js",
+            "file": "src/web/dom/Element.js",
             "line": 121,
             "description": "Set an attribute for an element",
             "itemtype": "method",
@@ -848,7 +848,7 @@
             "class": "nx.dom.Element"
         },
         {
-            "file": "src/web/js/dom/Element.js",
+            "file": "src/web/dom/Element.js",
             "line": 137,
             "description": "Get an element by selector.",
             "itemtype": "method",
@@ -866,7 +866,7 @@
             "class": "nx.dom.Element"
         },
         {
-            "file": "src/web/js/dom/Element.js",
+            "file": "src/web/dom/Element.js",
             "line": 147,
             "description": "Get a collection by selector",
             "itemtype": "method",
@@ -884,7 +884,7 @@
             "class": "nx.dom.Element"
         },
         {
-            "file": "src/web/js/dom/Element.js",
+            "file": "src/web/dom/Element.js",
             "line": 164,
             "description": "Focus an element",
             "itemtype": "method",
@@ -892,7 +892,7 @@
             "class": "nx.dom.Element"
         },
         {
-            "file": "src/web/js/dom/Element.js",
+            "file": "src/web/dom/Element.js",
             "line": 171,
             "description": "Blur form an element",
             "itemtype": "method",
@@ -900,7 +900,7 @@
             "class": "nx.dom.Element"
         },
         {
-            "file": "src/web/js/dom/Element.js",
+            "file": "src/web/dom/Element.js",
             "line": 178,
             "description": "Show an element",
             "itemtype": "method",
@@ -908,7 +908,7 @@
             "class": "nx.dom.Element"
         },
         {
-            "file": "src/web/js/dom/Element.js",
+            "file": "src/web/dom/Element.js",
             "line": 185,
             "description": "Hide an element",
             "itemtype": "method",
@@ -916,7 +916,7 @@
             "class": "nx.dom.Element"
         },
         {
-            "file": "src/web/js/dom/Element.js",
+            "file": "src/web/dom/Element.js",
             "line": 192,
             "description": "Whether the element has the class",
             "itemtype": "method",
@@ -934,7 +934,7 @@
             "class": "nx.dom.Element"
         },
         {
-            "file": "src/web/js/dom/Element.js",
+            "file": "src/web/dom/Element.js",
             "line": 206,
             "description": "Set css class existence for element",
             "itemtype": "method",
@@ -956,7 +956,7 @@
             "class": "nx.dom.Element"
         },
         {
-            "file": "src/web/js/dom/Element.js",
+            "file": "src/web/dom/Element.js",
             "line": 220,
             "description": "Add class for element",
             "itemtype": "method",
@@ -968,7 +968,7 @@
             "class": "nx.dom.Element"
         },
         {
-            "file": "src/web/js/dom/Element.js",
+            "file": "src/web/dom/Element.js",
             "line": 240,
             "description": "Remove class from element",
             "itemtype": "method",
@@ -980,7 +980,7 @@
             "class": "nx.dom.Element"
         },
         {
-            "file": "src/web/js/dom/Element.js",
+            "file": "src/web/dom/Element.js",
             "line": 271,
             "description": "Toggle a class on element",
             "itemtype": "method",
@@ -998,7 +998,7 @@
             "class": "nx.dom.Element"
         },
         {
-            "file": "src/web/js/dom/Element.js",
+            "file": "src/web/dom/Element.js",
             "line": 289,
             "description": "Get document",
             "itemtype": "method",
@@ -1010,7 +1010,7 @@
             "class": "nx.dom.Element"
         },
         {
-            "file": "src/web/js/dom/Element.js",
+            "file": "src/web/dom/Element.js",
             "line": 304,
             "description": "Get window",
             "itemtype": "method",
@@ -1022,7 +1022,7 @@
             "class": "nx.dom.Element"
         },
         {
-            "file": "src/web/js/dom/Element.js",
+            "file": "src/web/dom/Element.js",
             "line": 313,
             "description": "Get root element",
             "itemtype": "method",
@@ -1034,7 +1034,7 @@
             "class": "nx.dom.Element"
         },
         {
-            "file": "src/web/js/dom/Element.js",
+            "file": "src/web/dom/Element.js",
             "line": 321,
             "description": "Get element position information",
             "itemtype": "method",
@@ -1046,7 +1046,7 @@
             "class": "nx.dom.Element"
         },
         {
-            "file": "src/web/js/dom/Element.js",
+            "file": "src/web/dom/Element.js",
             "line": 340,
             "description": "Get margin distance information",
             "itemtype": "method",
@@ -1064,7 +1064,7 @@
             "class": "nx.dom.Element"
         },
         {
-            "file": "src/web/js/dom/Element.js",
+            "file": "src/web/dom/Element.js",
             "line": 349,
             "description": "Get padding distance information",
             "itemtype": "method",
@@ -1082,7 +1082,7 @@
             "class": "nx.dom.Element"
         },
         {
-            "file": "src/web/js/dom/Element.js",
+            "file": "src/web/dom/Element.js",
             "line": 358,
             "description": "Get border width information",
             "itemtype": "method",
@@ -1100,7 +1100,7 @@
             "class": "nx.dom.Element"
         },
         {
-            "file": "src/web/js/dom/Element.js",
+            "file": "src/web/dom/Element.js",
             "line": 367,
             "description": "Get offset information",
             "itemtype": "method",
@@ -1112,7 +1112,7 @@
             "class": "nx.dom.Element"
         },
         {
-            "file": "src/web/js/dom/Element.js",
+            "file": "src/web/dom/Element.js",
             "line": 382,
             "description": "Set offset style",
             "itemtype": "method",
@@ -1126,7 +1126,7 @@
             "class": "nx.dom.Element"
         },
         {
-            "file": "src/web/js/dom/Element.js",
+            "file": "src/web/dom/Element.js",
             "line": 402,
             "description": "Has in line style",
             "itemtype": "method",
@@ -1144,7 +1144,7 @@
             "class": "nx.dom.Element"
         },
         {
-            "file": "src/web/js/dom/Element.js",
+            "file": "src/web/dom/Element.js",
             "line": 412,
             "description": "Get computed style",
             "itemtype": "method",
@@ -1166,7 +1166,7 @@
             "class": "nx.dom.Element"
         },
         {
-            "file": "src/web/js/dom/Element.js",
+            "file": "src/web/dom/Element.js",
             "line": 428,
             "description": "Set style for element",
             "itemtype": "method",
@@ -1184,7 +1184,7 @@
             "class": "nx.dom.Element"
         },
         {
-            "file": "src/web/js/dom/Element.js",
+            "file": "src/web/dom/Element.js",
             "line": 438,
             "description": "Remove inline style",
             "itemtype": "method",
@@ -1198,7 +1198,7 @@
             "class": "nx.dom.Element"
         },
         {
-            "file": "src/web/js/dom/Element.js",
+            "file": "src/web/dom/Element.js",
             "line": 447,
             "description": "Set style by style object",
             "itemtype": "method",
@@ -1212,7 +1212,7 @@
             "class": "nx.dom.Element"
         },
         {
-            "file": "src/web/js/dom/Element.js",
+            "file": "src/web/dom/Element.js",
             "line": 455,
             "description": "Get attribute",
             "itemtype": "method",
@@ -1230,7 +1230,7 @@
             "class": "nx.dom.Element"
         },
         {
-            "file": "src/web/js/dom/Element.js",
+            "file": "src/web/dom/Element.js",
             "line": 472,
             "description": "Set attribute",
             "itemtype": "method",
@@ -1252,7 +1252,7 @@
             "class": "nx.dom.Element"
         },
         {
-            "file": "src/web/js/dom/Element.js",
+            "file": "src/web/dom/Element.js",
             "line": 492,
             "description": "Remove attribute",
             "itemtype": "method",
@@ -1266,7 +1266,7 @@
             "class": "nx.dom.Element"
         },
         {
-            "file": "src/web/js/dom/Element.js",
+            "file": "src/web/dom/Element.js",
             "line": 500,
             "description": "Get all attributes",
             "itemtype": "method",
@@ -1277,7 +1277,7 @@
             "class": "nx.dom.Element"
         },
         {
-            "file": "src/web/js/dom/Element.js",
+            "file": "src/web/dom/Element.js",
             "line": 512,
             "description": "Set attributes",
             "itemtype": "method",
@@ -1291,7 +1291,7 @@
             "class": "nx.dom.Element"
         },
         {
-            "file": "src/web/js/dom/Element.js",
+            "file": "src/web/dom/Element.js",
             "line": 522,
             "description": "Get inner text",
             "itemtype": "method",
@@ -1303,7 +1303,7 @@
             "class": "nx.dom.Element"
         },
         {
-            "file": "src/web/js/dom/Element.js",
+            "file": "src/web/dom/Element.js",
             "line": 530,
             "description": "Set inner text",
             "itemtype": "method",
@@ -1317,7 +1317,7 @@
             "class": "nx.dom.Element"
         },
         {
-            "file": "src/web/js/dom/Element.js",
+            "file": "src/web/dom/Element.js",
             "line": 538,
             "description": "Get inner html",
             "itemtype": "method",
@@ -1329,7 +1329,7 @@
             "class": "nx.dom.Element"
         },
         {
-            "file": "src/web/js/dom/Element.js",
+            "file": "src/web/dom/Element.js",
             "line": 546,
             "description": "Set inner html",
             "itemtype": "method",
@@ -1343,7 +1343,7 @@
             "class": "nx.dom.Element"
         },
         {
-            "file": "src/web/js/dom/Element.js",
+            "file": "src/web/dom/Element.js",
             "line": 554,
             "description": "Add event listener",
             "itemtype": "method",
@@ -1365,7 +1365,7 @@
             "class": "nx.dom.Element"
         },
         {
-            "file": "src/web/js/dom/Element.js",
+            "file": "src/web/dom/Element.js",
             "line": 564,
             "description": "Remove event listener",
             "itemtype": "method",
@@ -1387,7 +1387,7 @@
             "class": "nx.dom.Element"
         },
         {
-            "file": "src/web/js/dom/Fragment.js",
+            "file": "src/web/dom/Fragment.js",
             "line": 11,
             "description": "Get collection child nodes.",
             "return": {
@@ -1397,7 +1397,7 @@
             "class": "nx.dom.Fragment"
         },
         {
-            "file": "src/web/js/dom/Node.js",
+            "file": "src/web/dom/Node.js",
             "line": 10,
             "description": "Set $dom as an attribute for node",
             "params": [
@@ -1409,7 +1409,7 @@
             "class": "nx.dom.Node"
         },
         {
-            "file": "src/web/js/dom/Node.js",
+            "file": "src/web/dom/Node.js",
             "line": 17,
             "description": "Whether target is current dom element",
             "params": [
@@ -1425,7 +1425,7 @@
             "class": "nx.dom.Node"
         },
         {
-            "file": "src/web/js/dom/Node.js",
+            "file": "src/web/dom/Node.js",
             "line": 30,
             "description": "Whether target is a element",
             "return": {
@@ -1435,7 +1435,7 @@
             "class": "nx.dom.Node"
         },
         {
-            "file": "src/web/js/dom/Node.js",
+            "file": "src/web/dom/Node.js",
             "line": 37,
             "description": "Get current element's index",
             "return": {
@@ -1445,7 +1445,7 @@
             "class": "nx.dom.Node"
         },
         {
-            "file": "src/web/js/dom/Node.js",
+            "file": "src/web/dom/Node.js",
             "line": 53,
             "description": "Get the index child element",
             "params": [
@@ -1461,7 +1461,7 @@
             "class": "nx.dom.Node"
         },
         {
-            "file": "src/web/js/dom/Node.js",
+            "file": "src/web/dom/Node.js",
             "line": 69,
             "description": "Compare dom element position",
             "params": [
@@ -1477,7 +1477,7 @@
             "class": "nx.dom.Node"
         },
         {
-            "file": "src/web/js/dom/Node.js",
+            "file": "src/web/dom/Node.js",
             "line": 77,
             "description": "Get first element child",
             "return": {
@@ -1487,7 +1487,7 @@
             "class": "nx.dom.Node"
         },
         {
-            "file": "src/web/js/dom/Node.js",
+            "file": "src/web/dom/Node.js",
             "line": 84,
             "description": "Get last element child",
             "return": {
@@ -1497,7 +1497,7 @@
             "class": "nx.dom.Node"
         },
         {
-            "file": "src/web/js/dom/Node.js",
+            "file": "src/web/dom/Node.js",
             "line": 91,
             "description": "Get previous element",
             "return": {
@@ -1507,7 +1507,7 @@
             "class": "nx.dom.Node"
         },
         {
-            "file": "src/web/js/dom/Node.js",
+            "file": "src/web/dom/Node.js",
             "line": 98,
             "description": "Get next element",
             "return": {
@@ -1517,7 +1517,7 @@
             "class": "nx.dom.Node"
         },
         {
-            "file": "src/web/js/dom/Node.js",
+            "file": "src/web/dom/Node.js",
             "line": 105,
             "description": "Get parent element",
             "return": {
@@ -1527,7 +1527,7 @@
             "class": "nx.dom.Node"
         },
         {
-            "file": "src/web/js/dom/Node.js",
+            "file": "src/web/dom/Node.js",
             "line": 112,
             "description": "Get element children",
             "return": {
@@ -1537,7 +1537,7 @@
             "class": "nx.dom.Node"
         },
         {
-            "file": "src/web/js/dom/Node.js",
+            "file": "src/web/dom/Node.js",
             "line": 123,
             "description": "Clone an element node",
             "params": [
@@ -1553,7 +1553,7 @@
             "class": "nx.dom.Node"
         },
         {
-            "file": "src/web/js/dom/Node.js",
+            "file": "src/web/dom/Node.js",
             "line": 131,
             "description": "Whether the element has child.",
             "params": [
@@ -1569,7 +1569,7 @@
             "class": "nx.dom.Node"
         },
         {
-            "file": "src/web/js/dom/Node.js",
+            "file": "src/web/dom/Node.js",
             "line": 139,
             "description": "Adds a node to the end of the list of children of a specified parent node",
             "params": [
@@ -1581,7 +1581,7 @@
             "class": "nx.dom.Node"
         },
         {
-            "file": "src/web/js/dom/Node.js",
+            "file": "src/web/dom/Node.js",
             "line": 146,
             "description": "Inserts the specified node before a reference element as a child of the current node",
             "params": [
@@ -1597,7 +1597,7 @@
             "class": "nx.dom.Node"
         },
         {
-            "file": "src/web/js/dom/Node.js",
+            "file": "src/web/dom/Node.js",
             "line": 154,
             "description": "Removes a child node from the DOM",
             "params": [
@@ -1609,13 +1609,13 @@
             "class": "nx.dom.Node"
         },
         {
-            "file": "src/web/js/dom/Node.js",
+            "file": "src/web/dom/Node.js",
             "line": 163,
             "description": "Remove all child nodes",
             "class": "nx.dom.Node"
         },
         {
-            "file": "src/web/js/ui/AbstractComponent.js",
+            "file": "src/web/ui/AbstractComponent.js",
             "line": 132,
             "description": "Create component by json view.",
             "itemtype": "method",
@@ -1625,7 +1625,7 @@
             "namespace": "nx.ui"
         },
         {
-            "file": "src/web/js/ui/AbstractComponent.js",
+            "file": "src/web/ui/AbstractComponent.js",
             "line": 141,
             "itemtype": "property",
             "name": "count",
@@ -1634,7 +1634,7 @@
             "namespace": "nx.ui"
         },
         {
-            "file": "src/web/js/ui/AbstractComponent.js",
+            "file": "src/web/ui/AbstractComponent.js",
             "line": 164,
             "itemtype": "property",
             "name": "model",
@@ -1643,7 +1643,7 @@
             "namespace": "nx.ui"
         },
         {
-            "file": "src/web/js/ui/AbstractComponent.js",
+            "file": "src/web/ui/AbstractComponent.js",
             "line": 191,
             "itemtype": "property",
             "name": "owner",
@@ -1652,7 +1652,7 @@
             "namespace": "nx.ui"
         },
         {
-            "file": "src/web/js/ui/AbstractComponent.js",
+            "file": "src/web/ui/AbstractComponent.js",
             "line": 198,
             "itemtype": "property",
             "name": "parent",
@@ -1661,7 +1661,7 @@
             "namespace": "nx.ui"
         },
         {
-            "file": "src/web/js/ui/AbstractComponent.js",
+            "file": "src/web/ui/AbstractComponent.js",
             "line": 212,
             "description": "Attach the component to parent.",
             "itemtype": "method",
@@ -1680,7 +1680,7 @@
             "namespace": "nx.ui"
         },
         {
-            "file": "src/web/js/ui/AbstractComponent.js",
+            "file": "src/web/ui/AbstractComponent.js",
             "line": 252,
             "description": "Detach the component from parent.",
             "itemtype": "method",
@@ -1689,7 +1689,7 @@
             "namespace": "nx.ui"
         },
         {
-            "file": "src/web/js/ui/AbstractComponent.js",
+            "file": "src/web/ui/AbstractComponent.js",
             "line": 282,
             "description": "Register a resource.",
             "itemtype": "method",
@@ -1712,7 +1712,7 @@
             "namespace": "nx.ui"
         },
         {
-            "file": "src/web/js/ui/AbstractComponent.js",
+            "file": "src/web/ui/AbstractComponent.js",
             "line": 295,
             "description": "Unregister a resource.",
             "itemtype": "method",
@@ -1727,7 +1727,7 @@
             "namespace": "nx.ui"
         },
         {
-            "file": "src/web/js/ui/AbstractComponent.js",
+            "file": "src/web/ui/AbstractComponent.js",
             "line": 306,
             "description": "Resolve a resource.",
             "itemtype": "method",
@@ -1746,7 +1746,7 @@
             "namespace": "nx.ui"
         },
         {
-            "file": "src/web/js/ui/AbstractComponent.js",
+            "file": "src/web/ui/AbstractComponent.js",
             "line": 318,
             "description": "Get the container for component.",
             "itemtype": "method",
@@ -1765,7 +1765,7 @@
             "namespace": "nx.ui"
         },
         {
-            "file": "src/web/js/ui/AbstractComponent.js",
+            "file": "src/web/ui/AbstractComponent.js",
             "line": 334,
             "description": "Dispose the component.",
             "itemtype": "method",
@@ -1774,7 +1774,7 @@
             "namespace": "nx.ui"
         },
         {
-            "file": "src/web/js/ui/AbstractComponent.js",
+            "file": "src/web/ui/AbstractComponent.js",
             "line": 352,
             "description": "Destroy the component.",
             "itemtype": "method",
@@ -1783,7 +1783,7 @@
             "namespace": "nx.ui"
         },
         {
-            "file": "src/web/js/ui/AbstractComponent.js",
+            "file": "src/web/ui/AbstractComponent.js",
             "line": 360,
             "description": "Template method for component attach.",
             "itemtype": "method",
@@ -1792,7 +1792,7 @@
             "namespace": "nx.ui"
         },
         {
-            "file": "src/web/js/ui/AbstractComponent.js",
+            "file": "src/web/ui/AbstractComponent.js",
             "line": 365,
             "description": "Template method for component detach.",
             "itemtype": "method",
@@ -1801,7 +1801,7 @@
             "namespace": "nx.ui"
         },
         {
-            "file": "src/web/js/ui/AbstractComponent.js",
+            "file": "src/web/ui/AbstractComponent.js",
             "line": 370,
             "description": "Template method for child component attach.",
             "itemtype": "method",
@@ -1810,7 +1810,7 @@
             "namespace": "nx.ui"
         },
         {
-            "file": "src/web/js/ui/AbstractComponent.js",
+            "file": "src/web/ui/AbstractComponent.js",
             "line": 375,
             "description": "Template method for child component detach.",
             "itemtype": "method",
@@ -1819,7 +1819,7 @@
             "namespace": "nx.ui"
         },
         {
-            "file": "src/web/js/ui/AbstractComponent.js",
+            "file": "src/web/ui/AbstractComponent.js",
             "line": 472,
             "itemtype": "property",
             "name": "class",
@@ -1828,7 +1828,7 @@
             "namespace": "nx.ui"
         },
         {
-            "file": "src/web/js/ui/AbstractComponent.js",
+            "file": "src/web/ui/AbstractComponent.js",
             "line": 501,
             "itemtype": "property",
             "name": "style",
@@ -1837,7 +1837,7 @@
             "namespace": "nx.ui"
         },
         {
-            "file": "src/web/js/ui/AbstractComponent.js",
+            "file": "src/web/ui/AbstractComponent.js",
             "line": 520,
             "itemtype": "property",
             "name": "template",
@@ -1845,7 +1845,7 @@
             "namespace": "nx.ui"
         },
         {
-            "file": "src/web/js/ui/AbstractComponent.js",
+            "file": "src/web/ui/AbstractComponent.js",
             "line": 532,
             "itemtype": "property",
             "name": "items",
@@ -1853,7 +1853,7 @@
             "namespace": "nx.ui"
         },
         {
-            "file": "src/web/js/ui/AbstractComponent.js",
+            "file": "src/web/ui/AbstractComponent.js",
             "line": 552,
             "itemtype": "property",
             "name": "value",
@@ -1861,7 +1861,7 @@
             "namespace": "nx.ui"
         },
         {
-            "file": "src/web/js/ui/AbstractComponent.js",
+            "file": "src/web/ui/AbstractComponent.js",
             "line": 566,
             "itemtype": "property",
             "name": "states",
@@ -1869,7 +1869,7 @@
             "namespace": "nx.ui"
         },
         {
-            "file": "src/web/js/ui/AbstractComponent.js",
+            "file": "src/web/ui/AbstractComponent.js",
             "line": 572,
             "itemtype": "property",
             "name": "dom",
@@ -1877,7 +1877,7 @@
             "namespace": "nx.ui"
         },
         {
-            "file": "src/web/js/ui/Application.js",
+            "file": "src/web/ui/Application.js",
             "line": 35,
             "description": "Start the application.",
             "itemtype": "method",
@@ -1886,7 +1886,7 @@
             "namespace": "nx.ui"
         },
         {
-            "file": "src/web/js/ui/Application.js",
+            "file": "src/web/ui/Application.js",
             "line": 42,
             "description": "Stop the application.",
             "itemtype": "method",
@@ -1895,7 +1895,7 @@
             "namespace": "nx.ui"
         },
         {
-            "file": "src/web/js/Env.js",
+            "file": "src/web/Env.js",
             "line": 234,
             "description": "Document mode",
             "itemtype": "property",
@@ -1906,7 +1906,7 @@
             "namespace": "nx.ui"
         },
         {
-            "file": "src/web/js/Env.js",
+            "file": "src/web/Env.js",
             "line": 243,
             "description": "Document compatMode",
             "itemtype": "property",
@@ -1917,7 +1917,7 @@
             "namespace": "nx.ui"
         },
         {
-            "file": "src/web/js/Env.js",
+            "file": "src/web/Env.js",
             "line": 252,
             "description": "User agent string",
             "itemtype": "property",
@@ -1928,7 +1928,7 @@
             "namespace": "nx.ui"
         },
         {
-            "file": "src/web/js/Env.js",
+            "file": "src/web/Env.js",
             "line": 261,
             "description": "Browser render model CSS1Compat",
             "itemtype": "property",
@@ -1939,7 +1939,7 @@
             "namespace": "nx.ui"
         },
         {
-            "file": "src/web/js/Env.js",
+            "file": "src/web/Env.js",
             "line": 270,
             "description": "If it is secure",
             "itemtype": "property",
@@ -1950,7 +1950,7 @@
             "namespace": "nx.ui"
         },
         {
-            "file": "src/web/js/Env.js",
+            "file": "src/web/Env.js",
             "line": 279,
             "description": "Get operating system information",
             "itemtype": "property",
@@ -1961,7 +1961,7 @@
             "namespace": "nx.ui"
         },
         {
-            "file": "src/web/js/Env.js",
+            "file": "src/web/Env.js",
             "line": 288,
             "description": "Get specific prefix",
             "itemtype": "property",
@@ -1972,7 +1972,7 @@
             "namespace": "nx.ui"
         },
         {
-            "file": "src/web/js/Env.js",
+            "file": "src/web/Env.js",
             "line": 297,
             "description": "Get browser's render engine information",
             "itemtype": "property",
@@ -1983,7 +1983,7 @@
             "namespace": "nx.ui"
         },
         {
-            "file": "src/web/js/Env.js",
+            "file": "src/web/Env.js",
             "line": 306,
             "description": "Get basic browser information",
             "itemtype": "property",
@@ -1994,7 +1994,7 @@
             "namespace": "nx.ui"
         },
         {
-            "file": "src/web/js/Env.js",
+            "file": "src/web/Env.js",
             "line": 315,
             "description": "Get keyboard key code map.",
             "itemtype": "property",
@@ -2005,7 +2005,7 @@
             "namespace": "nx.ui"
         },
         {
-            "file": "src/web/js/Env.js",
+            "file": "src/web/Env.js",
             "line": 326,
             "description": "Whether the property is support",
             "itemtype": "method",
@@ -2024,7 +2024,7 @@
             "namespace": "nx.ui"
         },
         {
-            "file": "src/web/js/Env.js",
+            "file": "src/web/Env.js",
             "line": 335,
             "description": "Support map for debug",
             "itemtype": "method",
@@ -2037,7 +2037,7 @@
             "namespace": "nx.ui"
         },
         {
-            "file": "src/web/js/Env.js",
+            "file": "src/web/Env.js",
             "line": 343,
             "description": "Register a support item",
             "itemtype": "method",
@@ -2056,7 +2056,7 @@
             "namespace": "nx.ui"
         },
         {
-            "file": "src/web/js/HttpClient.js",
+            "file": "src/web/HttpClient.js",
             "line": 10,
             "description": "Ajax send.",
             "itemtype": "method",
@@ -2071,7 +2071,7 @@
             "namespace": "nx.ui"
         },
         {
-            "file": "src/web/js/HttpClient.js",
+            "file": "src/web/HttpClient.js",
             "line": 37,
             "description": "Get request",
             "itemtype": "method",
@@ -2091,7 +2091,7 @@
             "namespace": "nx.ui"
         },
         {
-            "file": "src/web/js/HttpClient.js",
+            "file": "src/web/HttpClient.js",
             "line": 51,
             "description": "Post request",
             "itemtype": "method",
@@ -2115,7 +2115,7 @@
             "namespace": "nx.ui"
         },
         {
-            "file": "src/web/js/HttpClient.js",
+            "file": "src/web/HttpClient.js",
             "line": 67,
             "description": "Put request",
             "itemtype": "method",
@@ -2139,7 +2139,7 @@
             "namespace": "nx.ui"
         },
         {
-            "file": "src/web/js/HttpClient.js",
+            "file": "src/web/HttpClient.js",
             "line": 83,
             "description": "Delete request",
             "itemtype": "method",
@@ -2159,7 +2159,7 @@
             "namespace": "nx.ui"
         },
         {
-            "file": "src/web/js/Util.js",
+            "file": "src/web/Util.js",
             "line": 71,
             "description": "Get a string which is join by an style object.",
             "itemtype": "method",
@@ -2178,7 +2178,7 @@
             "namespace": "nx.ui"
         },
         {
-            "file": "src/web/js/Util.js",
+            "file": "src/web/Util.js",
             "line": 84,
             "description": "Get real value of the style name.",
             "itemtype": "method",
@@ -2201,7 +2201,7 @@
             "namespace": "nx.ui"
         },
         {
-            "file": "src/web/js/Util.js",
+            "file": "src/web/Util.js",
             "line": 101,
             "description": "Get compatible css property.",
             "itemtype": "method",
@@ -2224,7 +2224,7 @@
             "namespace": "nx.ui"
         },
         {
-            "file": "src/web/js/Util.js",
+            "file": "src/web/Util.js",
             "line": 136,
             "description": "Lower camel case.",
             "itemtype": "method",
@@ -2243,7 +2243,7 @@
             "namespace": "nx.ui"
         },
         {
-            "file": "src/web/js/Util.js",
+            "file": "src/web/Util.js",
             "line": 146,
             "description": "Upper camel case.",
             "itemtype": "method",
@@ -2262,7 +2262,7 @@
             "namespace": "nx.ui"
         },
         {
-            "file": "src/web/js/Util.js",
+            "file": "src/web/Util.js",
             "line": 157,
             "description": "Decode camel case to '-' model.",
             "itemtype": "method",
@@ -2281,7 +2281,7 @@
             "namespace": "nx.ui"
         },
         {
-            "file": "src/web/js/Util.js",
+            "file": "src/web/Util.js",
             "line": 168,
             "description": "Upper first word of a string.",
             "itemtype": "method",
@@ -2303,327 +2303,327 @@
     "warnings": [
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " src/web/js/dom/Document.js:293"
+            "line": " src/web/dom/Document.js:293"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " src/web/js/dom/Document.js:302"
+            "line": " src/web/dom/Document.js:302"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " src/web/js/dom/Document.js:310"
+            "line": " src/web/dom/Document.js:310"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " src/web/js/dom/Document.js:319"
+            "line": " src/web/dom/Document.js:319"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " src/web/js/dom/Document.js:328"
+            "line": " src/web/dom/Document.js:328"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " src/web/js/dom/Document.js:343"
+            "line": " src/web/dom/Document.js:343"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " src/web/js/dom/Document.js:356"
+            "line": " src/web/dom/Document.js:356"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " src/web/js/dom/Document.js:395"
+            "line": " src/web/dom/Document.js:395"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " src/web/js/dom/Document.js:406"
+            "line": " src/web/dom/Document.js:406"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " src/web/js/dom/Document.js:416"
+            "line": " src/web/dom/Document.js:416"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " src/web/js/dom/Document.js:425"
+            "line": " src/web/dom/Document.js:425"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " src/web/js/dom/Element.js:105"
+            "line": " src/web/dom/Element.js:105"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " src/web/js/dom/Element.js:137"
+            "line": " src/web/dom/Element.js:137"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " src/web/js/dom/Element.js:147"
+            "line": " src/web/dom/Element.js:147"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " src/web/js/dom/Element.js:192"
+            "line": " src/web/dom/Element.js:192"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " src/web/js/dom/Element.js:206"
+            "line": " src/web/dom/Element.js:206"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " src/web/js/dom/Element.js:220"
+            "line": " src/web/dom/Element.js:220"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " src/web/js/dom/Element.js:240"
+            "line": " src/web/dom/Element.js:240"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " src/web/js/dom/Element.js:271"
+            "line": " src/web/dom/Element.js:271"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " src/web/js/dom/Element.js:289"
+            "line": " src/web/dom/Element.js:289"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " src/web/js/dom/Element.js:304"
+            "line": " src/web/dom/Element.js:304"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " src/web/js/dom/Element.js:313"
+            "line": " src/web/dom/Element.js:313"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " src/web/js/dom/Element.js:321"
+            "line": " src/web/dom/Element.js:321"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " src/web/js/dom/Element.js:340"
+            "line": " src/web/dom/Element.js:340"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " src/web/js/dom/Element.js:349"
+            "line": " src/web/dom/Element.js:349"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " src/web/js/dom/Element.js:358"
+            "line": " src/web/dom/Element.js:358"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " src/web/js/dom/Element.js:367"
+            "line": " src/web/dom/Element.js:367"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " src/web/js/dom/Element.js:402"
+            "line": " src/web/dom/Element.js:402"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " src/web/js/dom/Element.js:412"
+            "line": " src/web/dom/Element.js:412"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " src/web/js/dom/Element.js:455"
+            "line": " src/web/dom/Element.js:455"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " src/web/js/dom/Element.js:472"
+            "line": " src/web/dom/Element.js:472"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " src/web/js/dom/Element.js:500"
+            "line": " src/web/dom/Element.js:500"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " src/web/js/dom/Element.js:522"
+            "line": " src/web/dom/Element.js:522"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " src/web/js/dom/Element.js:538"
+            "line": " src/web/dom/Element.js:538"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " src/web/js/dom/Fragment.js:11"
+            "line": " src/web/dom/Fragment.js:11"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " src/web/js/dom/Node.js:17"
+            "line": " src/web/dom/Node.js:17"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " src/web/js/dom/Node.js:30"
+            "line": " src/web/dom/Node.js:30"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " src/web/js/dom/Node.js:37"
+            "line": " src/web/dom/Node.js:37"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " src/web/js/dom/Node.js:53"
+            "line": " src/web/dom/Node.js:53"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " src/web/js/dom/Node.js:69"
+            "line": " src/web/dom/Node.js:69"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " src/web/js/dom/Node.js:77"
+            "line": " src/web/dom/Node.js:77"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " src/web/js/dom/Node.js:84"
+            "line": " src/web/dom/Node.js:84"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " src/web/js/dom/Node.js:91"
+            "line": " src/web/dom/Node.js:91"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " src/web/js/dom/Node.js:98"
+            "line": " src/web/dom/Node.js:98"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " src/web/js/dom/Node.js:105"
+            "line": " src/web/dom/Node.js:105"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " src/web/js/dom/Node.js:112"
+            "line": " src/web/dom/Node.js:112"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " src/web/js/dom/Node.js:123"
+            "line": " src/web/dom/Node.js:123"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " src/web/js/dom/Node.js:131"
+            "line": " src/web/dom/Node.js:131"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " src/web/js/ui/AbstractComponent.js:306"
+            "line": " src/web/ui/AbstractComponent.js:306"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " src/web/js/ui/AbstractComponent.js:318"
+            "line": " src/web/ui/AbstractComponent.js:318"
         },
         {
             "message": "unknown tag: internal",
-            "line": " src/web/js/ui/AbstractComponent.js:383"
+            "line": " src/web/ui/AbstractComponent.js:383"
         },
         {
             "message": "unknown tag: internal",
-            "line": " src/web/js/ui/AbstractComponent.js:439"
+            "line": " src/web/ui/AbstractComponent.js:439"
         },
         {
             "message": "unknown tag: internal",
-            "line": " src/web/js/ui/AbstractComponent.js:463"
+            "line": " src/web/ui/AbstractComponent.js:463"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " src/web/js/Env.js:326"
+            "line": " src/web/Env.js:326"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " src/web/js/Env.js:335"
+            "line": " src/web/Env.js:335"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " src/web/js/Util.js:71"
+            "line": " src/web/Util.js:71"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " src/web/js/Util.js:84"
+            "line": " src/web/Util.js:84"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " src/web/js/Util.js:101"
+            "line": " src/web/Util.js:101"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " src/web/js/Util.js:136"
+            "line": " src/web/Util.js:136"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " src/web/js/Util.js:146"
+            "line": " src/web/Util.js:146"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " src/web/js/Util.js:157"
+            "line": " src/web/Util.js:157"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " src/web/js/Util.js:168"
+            "line": " src/web/Util.js:168"
         },
         {
             "message": "Missing item type\nGet collection child nodes.",
-            "line": " src/web/js/dom/Fragment.js:11"
+            "line": " src/web/dom/Fragment.js:11"
         },
         {
             "message": "Missing item type\nSet $dom as an attribute for node",
-            "line": " src/web/js/dom/Node.js:10"
+            "line": " src/web/dom/Node.js:10"
         },
         {
             "message": "Missing item type\nWhether target is current dom element",
-            "line": " src/web/js/dom/Node.js:17"
+            "line": " src/web/dom/Node.js:17"
         },
         {
             "message": "Missing item type\nWhether target is a element",
-            "line": " src/web/js/dom/Node.js:30"
+            "line": " src/web/dom/Node.js:30"
         },
         {
             "message": "Missing item type\nGet current element's index",
-            "line": " src/web/js/dom/Node.js:37"
+            "line": " src/web/dom/Node.js:37"
         },
         {
             "message": "Missing item type\nGet the index child element",
-            "line": " src/web/js/dom/Node.js:53"
+            "line": " src/web/dom/Node.js:53"
         },
         {
             "message": "Missing item type\nCompare dom element position",
-            "line": " src/web/js/dom/Node.js:69"
+            "line": " src/web/dom/Node.js:69"
         },
         {
             "message": "Missing item type\nGet first element child",
-            "line": " src/web/js/dom/Node.js:77"
+            "line": " src/web/dom/Node.js:77"
         },
         {
             "message": "Missing item type\nGet last element child",
-            "line": " src/web/js/dom/Node.js:84"
+            "line": " src/web/dom/Node.js:84"
         },
         {
             "message": "Missing item type\nGet previous element",
-            "line": " src/web/js/dom/Node.js:91"
+            "line": " src/web/dom/Node.js:91"
         },
         {
             "message": "Missing item type\nGet next element",
-            "line": " src/web/js/dom/Node.js:98"
+            "line": " src/web/dom/Node.js:98"
         },
         {
             "message": "Missing item type\nGet parent element",
-            "line": " src/web/js/dom/Node.js:105"
+            "line": " src/web/dom/Node.js:105"
         },
         {
             "message": "Missing item type\nGet element children",
-            "line": " src/web/js/dom/Node.js:112"
+            "line": " src/web/dom/Node.js:112"
         },
         {
             "message": "Missing item type\nClone an element node",
-            "line": " src/web/js/dom/Node.js:123"
+            "line": " src/web/dom/Node.js:123"
         },
         {
             "message": "Missing item type\nWhether the element has child.",
-            "line": " src/web/js/dom/Node.js:131"
+            "line": " src/web/dom/Node.js:131"
         },
         {
             "message": "Missing item type\nAdds a node to the end of the list of children of a specified parent node",
-            "line": " src/web/js/dom/Node.js:139"
+            "line": " src/web/dom/Node.js:139"
         },
         {
             "message": "Missing item type\nInserts the specified node before a reference element as a child of the current node",
-            "line": " src/web/js/dom/Node.js:146"
+            "line": " src/web/dom/Node.js:146"
         },
         {
             "message": "Missing item type\nRemoves a child node from the DOM",
-            "line": " src/web/js/dom/Node.js:154"
+            "line": " src/web/dom/Node.js:154"
         },
         {
             "message": "Missing item type\nRemove all child nodes",
-            "line": " src/web/js/dom/Node.js:163"
+            "line": " src/web/dom/Node.js:163"
         }
     ]
 }
