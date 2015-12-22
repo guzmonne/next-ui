@@ -10,8 +10,11 @@ https://developer.cisco.com/site/neXt/
 
 We require these tools in your system to build the project.
 
-+ GNU Coreutils
-+ GNU Make
++ GNU
+++ Coreutils
+++ Findutils
+++ SED
+++ Make
 + NodeJS & NPM
 + PhantomJS
 + LESSC
