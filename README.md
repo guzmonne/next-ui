@@ -10,27 +10,27 @@ https://developer.cisco.com/site/neXt/
 
 We require these tools in your system to build the project.
 
-+ GNU
-++ Coreutils
-++ Findutils
-++ SED
-++ Make
-+ NodeJS & NPM
-+ PhantomJS
-+ LESSC
-+ YUIDoc
-+ Node-Uglify
+* GNU
+  * Coreutils
+  * Findutils
+  * SED
+  * Make
+* NodeJS & NPM
+* PhantomJS
+* LESSC
+* YUIDoc
+* Node-Uglify
 
 ### For Debian/Ubuntu
 
-+ sudo apt-get install nodejs
-+ sudo apt-get install phantomjs
-+ sudo apt-get install node-less
-+ sudo npm install yuidocjs -g
-+ sudo npm install uglify -g
-+ sudo npm install node-getopt -g
-+ make clean
-+ make
+* sudo apt-get install nodejs
+* sudo apt-get install phantomjs
+* sudo apt-get install node-less
+* sudo npm install yuidocjs -g
+* sudo npm install uglify -g
+* sudo npm install node-getopt -g
+* make clean
+* make
 
 ## Key Features
 
