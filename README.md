@@ -34,6 +34,12 @@ We require these tools in your system to build the project.
 
 ### For Mac OS X with Brew
 
+If you do not have [Homebrew](http://brew.sh), use this command to install it:
+
+```
+ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+```
+
 * brew install node
 * npm install -g node-getopt
 * npm install -g yuidocjs
