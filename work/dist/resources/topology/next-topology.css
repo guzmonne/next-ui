@@ -15,7 +15,6 @@
   text-transform: none;
   line-height: 1;
   /* Better Font Rendering =========== */
-
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -262,10 +261,9 @@
 .n-topology.n-topology-blue {
   position: relative;
   overflow: hidden;
-  background: #ffffff;
+  background: #fff;
   -webkit-transition: background 0.6s;
   /* For Safari 3.1 to 6.0 */
-
   transition: background 0.6s;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -279,7 +277,6 @@
 .n-topology.n-topology-blue .n-topology-fit {
   -webkit-transition: all 0.6s linear !important;
   /* For Safari 3.1 to 6.0 */
-
   transition: all 0.6s linear !important;
 }
 .n-topology.n-topology-blue .n-topology-fit .node,
@@ -288,7 +285,6 @@
 .n-topology.n-topology-blue .n-topology-fit .linkSet {
   -webkit-transition: all 0.9s linear !important;
   /* For Safari 3.1 to 6.0 */
-
   transition: all 0.9s linear !important;
 }
 .n-topology.n-topology-blue.n-topology-loading svg,
@@ -317,7 +313,7 @@
   stroke: #0386d2;
 }
 .n-topology.n-topology-blue defs [fill*='#FFFFFF'] {
-  fill: #ffffff;
+  fill: #fff;
 }
 .n-topology.n-topology-blue .n-svg {
   border: none;
@@ -339,13 +335,11 @@
   text-transform: none;
   line-height: 1;
   /* Better Font Rendering =========== */
-
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 .n-topology.n-topology-blue text {
   /* Better Font Rendering =========== */
-
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -353,7 +347,7 @@
   cursor: pointer;
 }
 .n-topology.n-topology-blue .iconBG {
-  fill: #ffffff;
+  fill: #fff;
 }
 .n-topology.n-topology-blue .iconBGActive {
   fill: #0386d2;
@@ -452,7 +446,7 @@
   pointer-events: none;
 }
 .n-topology.n-topology-blue .nodeset .dot {
-  fill: #ffffff;
+  fill: #fff;
   stroke: #0386d2;
   stroke-width: 1;
 }
@@ -478,16 +472,16 @@
   stroke: #ccc;
 }
 .n-topology.n-topology-blue .nodeset .iconBG {
-  fill: #ffffff;
+  fill: #fff;
 }
 .n-topology.n-topology-blue .nodeset .iconBGActive {
-  fill: #ffffff;
+  fill: #fff;
 }
 .n-topology.n-topology-blue .nodeset .iconBGActive ~ .iconShape {
   display: block !important;
 }
 .n-topology.n-topology-blue .nodeset .indicator .iconBG {
-  fill: #ffffff;
+  fill: #fff;
 }
 .n-topology.n-topology-blue .nodeset .indicator .iconBG:hover {
   fill: #0386d2;
@@ -529,7 +523,6 @@
   opacity: 0;
   -webkit-transition: opacity 0.3s linear;
   /* For Safari 3.1 to 6.0 */
-
   transition: opacity 0.3s linear;
 }
 .n-topology.n-topology-blue .group.aggregationGroup.fade-active-item {
@@ -550,7 +543,7 @@
 }
 .n-topology.n-topology-blue .link-set-text {
   font-family: "Cisco Sans Reg";
-  fill: #ffffff;
+  fill: #fff;
   text-anchor: middle;
   dominant-baseline: central;
   font-size: 12px;
@@ -566,7 +559,6 @@
 @media screen and (-webkit-min-device-pixel-ratio: 0) {
   .n-topology.n-topology-blue {
     /* Safari only override */
-  
   }
   .n-topology.n-topology-blue ::i-block-chrome,
   .n-topology.n-topology-blue .link-set-circle {
@@ -643,7 +635,6 @@
 .n-topology.n-topology-blue .n-topology-nav span {
   -webkit-transition: all 0.6s;
   /* For Safari 3.1 to 6.0 */
-
   transition: all 0.6s;
 }
 .n-topology.n-topology-blue .n-topology-nav > ul {
@@ -658,7 +649,6 @@
   margin-top: 5px;
   -webkit-transition: all 0.6s;
   /* For Safari 3.1 to 6.0 */
-
   transition: all 0.6s;
 }
 .n-topology.n-topology-blue .n-topology-nav-mode {
@@ -675,7 +665,6 @@
   cursor: pointer;
   -webkit-transition: all 0.6s;
   /* For Safari 3.1 to 6.0 */
-
   transition: all 0.6s;
   background: #eaeaea;
   margin-top: -2px;
@@ -692,13 +681,13 @@
   background: #0386d2 !important;
 }
 .n-topology.n-topology-blue .n-topology-nav-mode-selected span {
-  color: #ffffff;
+  color: #fff;
 }
 .n-topology.n-topology-blue .n-topology-nav-mode-selected:hover {
   background: #0386d2 !important;
 }
 .n-topology.n-topology-blue .n-topology-nav-mode-selected:hover span {
-  color: #ffffff !important;
+  color: #fff !important;
 }
 .n-topology.n-topology-blue .n-topology-nav-zoom {
   position: relative;
@@ -805,7 +794,6 @@
   line-height: 1;
   -webkit-transition: none 0 !important;
   /* For Safari 3.1 to 6.0 */
-
   transition: none 0 !important;
 }
 .n-topology.n-topology-blue .n-topology-nav-setting:hover {
@@ -964,10 +952,9 @@
 .n-topology.n-topology-dark {
   position: relative;
   overflow: hidden;
-  background: #000000;
+  background: #000;
   -webkit-transition: background 0.6s;
   /* For Safari 3.1 to 6.0 */
-
   transition: background 0.6s;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -981,7 +968,6 @@
 .n-topology.n-topology-dark .n-topology-fit {
   -webkit-transition: all 0.6s linear !important;
   /* For Safari 3.1 to 6.0 */
-
   transition: all 0.6s linear !important;
 }
 .n-topology.n-topology-dark .n-topology-fit .node,
@@ -990,7 +976,6 @@
 .n-topology.n-topology-dark .n-topology-fit .linkSet {
   -webkit-transition: all 0.9s linear !important;
   /* For Safari 3.1 to 6.0 */
-
   transition: all 0.9s linear !important;
 }
 .n-topology.n-topology-dark.n-topology-loading svg,
@@ -1019,7 +1004,7 @@
   stroke: #00a9ff;
 }
 .n-topology.n-topology-dark defs [fill*='#FFFFFF'] {
-  fill: #000000;
+  fill: #000;
 }
 .n-topology.n-topology-dark .n-svg {
   border: none;
@@ -1041,13 +1026,11 @@
   text-transform: none;
   line-height: 1;
   /* Better Font Rendering =========== */
-
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 .n-topology.n-topology-dark text {
   /* Better Font Rendering =========== */
-
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -1055,7 +1038,7 @@
   cursor: pointer;
 }
 .n-topology.n-topology-dark .iconBG {
-  fill: #000000;
+  fill: #000;
 }
 .n-topology.n-topology-dark .iconBGActive {
   fill: #00a9ff;
@@ -1154,7 +1137,7 @@
   pointer-events: none;
 }
 .n-topology.n-topology-dark .nodeset .dot {
-  fill: #000000;
+  fill: #000;
   stroke: #00a9ff;
   stroke-width: 1;
 }
@@ -1180,16 +1163,16 @@
   stroke: #ccc;
 }
 .n-topology.n-topology-dark .nodeset .iconBG {
-  fill: #000000;
+  fill: #000;
 }
 .n-topology.n-topology-dark .nodeset .iconBGActive {
-  fill: #000000;
+  fill: #000;
 }
 .n-topology.n-topology-dark .nodeset .iconBGActive ~ .iconShape {
   display: block !important;
 }
 .n-topology.n-topology-dark .nodeset .indicator .iconBG {
-  fill: #000000;
+  fill: #000;
 }
 .n-topology.n-topology-dark .nodeset .indicator .iconBG:hover {
   fill: #00a9ff;
@@ -1231,7 +1214,6 @@
   opacity: 0;
   -webkit-transition: opacity 0.3s linear;
   /* For Safari 3.1 to 6.0 */
-
   transition: opacity 0.3s linear;
 }
 .n-topology.n-topology-dark .group.aggregationGroup.fade-active-item {
@@ -1252,7 +1234,7 @@
 }
 .n-topology.n-topology-dark .link-set-text {
   font-family: "Cisco Sans Reg";
-  fill: #000000;
+  fill: #000;
   text-anchor: middle;
   dominant-baseline: central;
   font-size: 12px;
@@ -1268,7 +1250,6 @@
 @media screen and (-webkit-min-device-pixel-ratio: 0) {
   .n-topology.n-topology-dark {
     /* Safari only override */
-  
   }
   .n-topology.n-topology-dark ::i-block-chrome,
   .n-topology.n-topology-dark .link-set-circle {
@@ -1345,7 +1326,6 @@
 .n-topology.n-topology-dark .n-topology-nav span {
   -webkit-transition: all 0.6s;
   /* For Safari 3.1 to 6.0 */
-
   transition: all 0.6s;
 }
 .n-topology.n-topology-dark .n-topology-nav > ul {
@@ -1360,7 +1340,6 @@
   margin-top: 5px;
   -webkit-transition: all 0.6s;
   /* For Safari 3.1 to 6.0 */
-
   transition: all 0.6s;
 }
 .n-topology.n-topology-dark .n-topology-nav-mode {
@@ -1377,7 +1356,6 @@
   cursor: pointer;
   -webkit-transition: all 0.6s;
   /* For Safari 3.1 to 6.0 */
-
   transition: all 0.6s;
   background: #333333;
   margin-top: -2px;
@@ -1394,13 +1372,13 @@
   background: #00a9ff !important;
 }
 .n-topology.n-topology-dark .n-topology-nav-mode-selected span {
-  color: #000000;
+  color: #000;
 }
 .n-topology.n-topology-dark .n-topology-nav-mode-selected:hover {
   background: #00a9ff !important;
 }
 .n-topology.n-topology-dark .n-topology-nav-mode-selected:hover span {
-  color: #000000 !important;
+  color: #000 !important;
 }
 .n-topology.n-topology-dark .n-topology-nav-zoom {
   position: relative;
@@ -1507,7 +1485,6 @@
   line-height: 1;
   -webkit-transition: none 0 !important;
   /* For Safari 3.1 to 6.0 */
-
   transition: none 0 !important;
 }
 .n-topology.n-topology-dark .n-topology-nav-setting:hover {
@@ -1666,10 +1643,9 @@
 .n-topology.n-topology-green {
   position: relative;
   overflow: hidden;
-  background: #ffffff;
+  background: #fff;
   -webkit-transition: background 0.6s;
   /* For Safari 3.1 to 6.0 */
-
   transition: background 0.6s;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -1683,7 +1659,6 @@
 .n-topology.n-topology-green .n-topology-fit {
   -webkit-transition: all 0.6s linear !important;
   /* For Safari 3.1 to 6.0 */
-
   transition: all 0.6s linear !important;
 }
 .n-topology.n-topology-green .n-topology-fit .node,
@@ -1692,7 +1667,6 @@
 .n-topology.n-topology-green .n-topology-fit .linkSet {
   -webkit-transition: all 0.9s linear !important;
   /* For Safari 3.1 to 6.0 */
-
   transition: all 0.9s linear !important;
 }
 .n-topology.n-topology-green.n-topology-loading svg,
@@ -1721,7 +1695,7 @@
   stroke: #26999e;
 }
 .n-topology.n-topology-green defs [fill*='#FFFFFF'] {
-  fill: #ffffff;
+  fill: #fff;
 }
 .n-topology.n-topology-green .n-svg {
   border: none;
@@ -1743,13 +1717,11 @@
   text-transform: none;
   line-height: 1;
   /* Better Font Rendering =========== */
-
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 .n-topology.n-topology-green text {
   /* Better Font Rendering =========== */
-
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -1757,7 +1729,7 @@
   cursor: pointer;
 }
 .n-topology.n-topology-green .iconBG {
-  fill: #ffffff;
+  fill: #fff;
 }
 .n-topology.n-topology-green .iconBGActive {
   fill: #26999e;
@@ -1856,7 +1828,7 @@
   pointer-events: none;
 }
 .n-topology.n-topology-green .nodeset .dot {
-  fill: #ffffff;
+  fill: #fff;
   stroke: #26999e;
   stroke-width: 1;
 }
@@ -1882,16 +1854,16 @@
   stroke: #ccc;
 }
 .n-topology.n-topology-green .nodeset .iconBG {
-  fill: #ffffff;
+  fill: #fff;
 }
 .n-topology.n-topology-green .nodeset .iconBGActive {
-  fill: #ffffff;
+  fill: #fff;
 }
 .n-topology.n-topology-green .nodeset .iconBGActive ~ .iconShape {
   display: block !important;
 }
 .n-topology.n-topology-green .nodeset .indicator .iconBG {
-  fill: #ffffff;
+  fill: #fff;
 }
 .n-topology.n-topology-green .nodeset .indicator .iconBG:hover {
   fill: #26999e;
@@ -1933,7 +1905,6 @@
   opacity: 0;
   -webkit-transition: opacity 0.3s linear;
   /* For Safari 3.1 to 6.0 */
-
   transition: opacity 0.3s linear;
 }
 .n-topology.n-topology-green .group.aggregationGroup.fade-active-item {
@@ -1954,7 +1925,7 @@
 }
 .n-topology.n-topology-green .link-set-text {
   font-family: "Cisco Sans Reg";
-  fill: #ffffff;
+  fill: #fff;
   text-anchor: middle;
   dominant-baseline: central;
   font-size: 12px;
@@ -1970,7 +1941,6 @@
 @media screen and (-webkit-min-device-pixel-ratio: 0) {
   .n-topology.n-topology-green {
     /* Safari only override */
-  
   }
   .n-topology.n-topology-green ::i-block-chrome,
   .n-topology.n-topology-green .link-set-circle {
@@ -2047,7 +2017,6 @@
 .n-topology.n-topology-green .n-topology-nav span {
   -webkit-transition: all 0.6s;
   /* For Safari 3.1 to 6.0 */
-
   transition: all 0.6s;
 }
 .n-topology.n-topology-green .n-topology-nav > ul {
@@ -2062,7 +2031,6 @@
   margin-top: 5px;
   -webkit-transition: all 0.6s;
   /* For Safari 3.1 to 6.0 */
-
   transition: all 0.6s;
 }
 .n-topology.n-topology-green .n-topology-nav-mode {
@@ -2079,7 +2047,6 @@
   cursor: pointer;
   -webkit-transition: all 0.6s;
   /* For Safari 3.1 to 6.0 */
-
   transition: all 0.6s;
   background: #eaeaea;
   margin-top: -2px;
@@ -2096,13 +2063,13 @@
   background: #26999e !important;
 }
 .n-topology.n-topology-green .n-topology-nav-mode-selected span {
-  color: #ffffff;
+  color: #fff;
 }
 .n-topology.n-topology-green .n-topology-nav-mode-selected:hover {
   background: #26999e !important;
 }
 .n-topology.n-topology-green .n-topology-nav-mode-selected:hover span {
-  color: #ffffff !important;
+  color: #fff !important;
 }
 .n-topology.n-topology-green .n-topology-nav-zoom {
   position: relative;
@@ -2209,7 +2176,6 @@
   line-height: 1;
   -webkit-transition: none 0 !important;
   /* For Safari 3.1 to 6.0 */
-
   transition: none 0 !important;
 }
 .n-topology.n-topology-green .n-topology-nav-setting:hover {
@@ -2371,7 +2337,6 @@
   background: #223343;
   -webkit-transition: background 0.6s;
   /* For Safari 3.1 to 6.0 */
-
   transition: background 0.6s;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -2385,7 +2350,6 @@
 .n-topology.n-topology-slate .n-topology-fit {
   -webkit-transition: all 0.6s linear !important;
   /* For Safari 3.1 to 6.0 */
-
   transition: all 0.6s linear !important;
 }
 .n-topology.n-topology-slate .n-topology-fit .node,
@@ -2394,7 +2358,6 @@
 .n-topology.n-topology-slate .n-topology-fit .linkSet {
   -webkit-transition: all 0.9s linear !important;
   /* For Safari 3.1 to 6.0 */
-
   transition: all 0.9s linear !important;
 }
 .n-topology.n-topology-slate.n-topology-loading svg,
@@ -2417,10 +2380,10 @@
   pointer-events: all;
 }
 .n-topology.n-topology-slate defs .bg {
-  fill: #ffffff;
+  fill: #fff;
 }
 .n-topology.n-topology-slate defs .stroke {
-  stroke: #ffffff;
+  stroke: #fff;
 }
 .n-topology.n-topology-slate defs [fill*='#FFFFFF'] {
   fill: #223343;
@@ -2435,7 +2398,7 @@
 }
 .n-topology.n-topology-slate .fontIcon {
   font-family: 'next-font';
-  fill: #ffffff;
+  fill: #fff;
   alignment-baseline: central;
   text-anchor: middle;
   speak: none;
@@ -2445,13 +2408,11 @@
   text-transform: none;
   line-height: 1;
   /* Better Font Rendering =========== */
-
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 .n-topology.n-topology-slate text {
   /* Better Font Rendering =========== */
-
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -2462,7 +2423,7 @@
   fill: #223343;
 }
 .n-topology.n-topology-slate .iconBGActive {
-  fill: #ffffff;
+  fill: #fff;
 }
 .n-topology.n-topology-slate .node:not(.node-selected) .selectedBG {
   display: none;
@@ -2475,11 +2436,11 @@
   pointer-events: none;
 }
 .n-topology.n-topology-slate .node .dot {
-  fill: #ffffff;
+  fill: #fff;
 }
 .n-topology.n-topology-slate .node text.node-label {
   font-family: "Cisco Sans Reg";
-  fill: #ffffff;
+  fill: #fff;
   pointer-events: none;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -2513,18 +2474,18 @@
 }
 .n-topology.n-topology-slate .link .link-label {
   font-family: "Cisco Sans Reg";
-  fill: #ffffff;
+  fill: #fff;
   font-size: 12px;
 }
 .n-topology.n-topology-slate .link .source-abel {
   font-family: "Cisco Sans Reg";
-  fill: #ffffff;
+  fill: #fff;
   opacity: 0.8;
   font-size: 12px;
 }
 .n-topology.n-topology-slate .link .target-label {
   font-family: "Cisco Sans Reg";
-  fill: #ffffff;
+  fill: #fff;
   opacity: 0.8;
   font-size: 12px;
 }
@@ -2559,19 +2520,19 @@
 }
 .n-topology.n-topology-slate .nodeset .dot {
   fill: #223343;
-  stroke: #ffffff;
+  stroke: #fff;
   stroke-width: 1;
 }
 .n-topology.n-topology-slate .nodeset .icon {
   cursor: pointer;
 }
 .n-topology.n-topology-slate .nodeset .bg {
-  fill: #ffffff;
+  fill: #fff;
   pointer-events: none;
 }
 .n-topology.n-topology-slate .nodeset text.node-label {
   font-family: "Cisco Sans Reg";
-  fill: #ffffff;
+  fill: #fff;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -2596,7 +2557,7 @@
   fill: #223343;
 }
 .n-topology.n-topology-slate .nodeset .indicator .iconBG:hover {
-  fill: #ffffff;
+  fill: #fff;
 }
 .n-topology.n-topology-slate .nodeset .indicator .iconShape {
   fill: #e6e6e6;
@@ -2635,7 +2596,6 @@
   opacity: 0;
   -webkit-transition: opacity 0.3s linear;
   /* For Safari 3.1 to 6.0 */
-
   transition: opacity 0.3s linear;
 }
 .n-topology.n-topology-slate .group.aggregationGroup.fade-active-item {
@@ -2649,8 +2609,8 @@
   stroke-width: 2px;
 }
 .n-topology.n-topology-slate .link-set-circle {
-  fill: #ffffff;
-  stroke: #ffffff;
+  fill: #fff;
+  stroke: #fff;
   stroke-width: 16px;
   stroke-linejoin: round;
 }
@@ -2672,7 +2632,6 @@
 @media screen and (-webkit-min-device-pixel-ratio: 0) {
   .n-topology.n-topology-slate {
     /* Safari only override */
-  
   }
   .n-topology.n-topology-slate ::i-block-chrome,
   .n-topology.n-topology-slate .link-set-circle {
@@ -2693,8 +2652,8 @@
   pointer-events: none;
 }
 .n-topology.n-topology-slate .selectionRect {
-  stroke: #ffffff;
-  fill: #ffffff;
+  stroke: #fff;
+  fill: #fff;
   fill-opacity: 0.1;
   pointer-events: none;
 }
@@ -2702,13 +2661,13 @@
   max-width: none !important;
 }
 .n-topology.n-topology-slate .aggregationGroup .aggregationText {
-  fill: #ffffff;
+  fill: #fff;
   font-size: 12px;
 }
 .n-topology.n-topology-slate .aggregationGroup .aggregationRect {
-  fill: #ffffff;
+  fill: #fff;
   opacity: 0.2;
-  stroke: #ffffff;
+  stroke: #fff;
   stroke-width: 3;
   stroke-linejoin: round;
   pointer-events: none;
@@ -2749,7 +2708,6 @@
 .n-topology.n-topology-slate .n-topology-nav span {
   -webkit-transition: all 0.6s;
   /* For Safari 3.1 to 6.0 */
-
   transition: all 0.6s;
 }
 .n-topology.n-topology-slate .n-topology-nav > ul {
@@ -2764,7 +2722,6 @@
   margin-top: 5px;
   -webkit-transition: all 0.6s;
   /* For Safari 3.1 to 6.0 */
-
   transition: all 0.6s;
 }
 .n-topology.n-topology-slate .n-topology-nav-mode {
@@ -2781,13 +2738,12 @@
   cursor: pointer;
   -webkit-transition: all 0.6s;
   /* For Safari 3.1 to 6.0 */
-
   transition: all 0.6s;
   background: #446787;
   margin-top: -2px;
 }
 .n-topology.n-topology-slate .n-topology-nav-mode li:hover span {
-  color: #ffffff;
+  color: #fff;
 }
 .n-topology.n-topology-slate .n-topology-nav-mode span {
   color: #888888;
@@ -2795,13 +2751,13 @@
   font-size: 18px;
 }
 .n-topology.n-topology-slate .n-topology-nav-mode-selected {
-  background: #ffffff !important;
+  background: #fff !important;
 }
 .n-topology.n-topology-slate .n-topology-nav-mode-selected span {
   color: #223343;
 }
 .n-topology.n-topology-slate .n-topology-nav-mode-selected:hover {
-  background: #ffffff !important;
+  background: #fff !important;
 }
 .n-topology.n-topology-slate .n-topology-nav-mode-selected:hover span {
   color: #223343 !important;
@@ -2911,7 +2867,6 @@
   line-height: 1;
   -webkit-transition: none 0 !important;
   /* For Safari 3.1 to 6.0 */
-
   transition: none 0 !important;
 }
 .n-topology.n-topology-slate .n-topology-nav-setting:hover {
@@ -2965,7 +2920,7 @@
   list-style: none;
 }
 .n-topology.n-topology-slate .n-topology-loading li:after {
-  background: #ffffff;
+  background: #fff;
 }
 .n-topology.n-topology-slate .n-topology-loading li:nth-child(1) {
   -webkit-transform: rotate(0deg);
@@ -3070,10 +3025,9 @@
 .n-topology.n-topology-yellow {
   position: relative;
   overflow: hidden;
-  background: #000000;
+  background: #000;
   -webkit-transition: background 0.6s;
   /* For Safari 3.1 to 6.0 */
-
   transition: background 0.6s;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -3087,7 +3041,6 @@
 .n-topology.n-topology-yellow .n-topology-fit {
   -webkit-transition: all 0.6s linear !important;
   /* For Safari 3.1 to 6.0 */
-
   transition: all 0.6s linear !important;
 }
 .n-topology.n-topology-yellow .n-topology-fit .node,
@@ -3096,7 +3049,6 @@
 .n-topology.n-topology-yellow .n-topology-fit .linkSet {
   -webkit-transition: all 0.9s linear !important;
   /* For Safari 3.1 to 6.0 */
-
   transition: all 0.9s linear !important;
 }
 .n-topology.n-topology-yellow.n-topology-loading svg,
@@ -3125,7 +3077,7 @@
   stroke: #ffc200;
 }
 .n-topology.n-topology-yellow defs [fill*='#FFFFFF'] {
-  fill: #000000;
+  fill: #000;
 }
 .n-topology.n-topology-yellow .n-svg {
   border: none;
@@ -3147,13 +3099,11 @@
   text-transform: none;
   line-height: 1;
   /* Better Font Rendering =========== */
-
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 .n-topology.n-topology-yellow text {
   /* Better Font Rendering =========== */
-
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -3161,7 +3111,7 @@
   cursor: pointer;
 }
 .n-topology.n-topology-yellow .iconBG {
-  fill: #000000;
+  fill: #000;
 }
 .n-topology.n-topology-yellow .iconBGActive {
   fill: #ffc200;
@@ -3260,7 +3210,7 @@
   pointer-events: none;
 }
 .n-topology.n-topology-yellow .nodeset .dot {
-  fill: #000000;
+  fill: #000;
   stroke: #ffc200;
   stroke-width: 1;
 }
@@ -3286,16 +3236,16 @@
   stroke: #ccc;
 }
 .n-topology.n-topology-yellow .nodeset .iconBG {
-  fill: #000000;
+  fill: #000;
 }
 .n-topology.n-topology-yellow .nodeset .iconBGActive {
-  fill: #000000;
+  fill: #000;
 }
 .n-topology.n-topology-yellow .nodeset .iconBGActive ~ .iconShape {
   display: block !important;
 }
 .n-topology.n-topology-yellow .nodeset .indicator .iconBG {
-  fill: #000000;
+  fill: #000;
 }
 .n-topology.n-topology-yellow .nodeset .indicator .iconBG:hover {
   fill: #ffc200;
@@ -3337,7 +3287,6 @@
   opacity: 0;
   -webkit-transition: opacity 0.3s linear;
   /* For Safari 3.1 to 6.0 */
-
   transition: opacity 0.3s linear;
 }
 .n-topology.n-topology-yellow .group.aggregationGroup.fade-active-item {
@@ -3358,7 +3307,7 @@
 }
 .n-topology.n-topology-yellow .link-set-text {
   font-family: "Cisco Sans Reg";
-  fill: #000000;
+  fill: #000;
   text-anchor: middle;
   dominant-baseline: central;
   font-size: 12px;
@@ -3374,7 +3323,6 @@
 @media screen and (-webkit-min-device-pixel-ratio: 0) {
   .n-topology.n-topology-yellow {
     /* Safari only override */
-  
   }
   .n-topology.n-topology-yellow ::i-block-chrome,
   .n-topology.n-topology-yellow .link-set-circle {
@@ -3451,7 +3399,6 @@
 .n-topology.n-topology-yellow .n-topology-nav span {
   -webkit-transition: all 0.6s;
   /* For Safari 3.1 to 6.0 */
-
   transition: all 0.6s;
 }
 .n-topology.n-topology-yellow .n-topology-nav > ul {
@@ -3466,7 +3413,6 @@
   margin-top: 5px;
   -webkit-transition: all 0.6s;
   /* For Safari 3.1 to 6.0 */
-
   transition: all 0.6s;
 }
 .n-topology.n-topology-yellow .n-topology-nav-mode {
@@ -3483,7 +3429,6 @@
   cursor: pointer;
   -webkit-transition: all 0.6s;
   /* For Safari 3.1 to 6.0 */
-
   transition: all 0.6s;
   background: #333333;
   margin-top: -2px;
@@ -3500,13 +3445,13 @@
   background: #ffc200 !important;
 }
 .n-topology.n-topology-yellow .n-topology-nav-mode-selected span {
-  color: #000000;
+  color: #000;
 }
 .n-topology.n-topology-yellow .n-topology-nav-mode-selected:hover {
   background: #ffc200 !important;
 }
 .n-topology.n-topology-yellow .n-topology-nav-mode-selected:hover span {
-  color: #000000 !important;
+  color: #000 !important;
 }
 .n-topology.n-topology-yellow .n-topology-nav-zoom {
   position: relative;
@@ -3613,7 +3558,6 @@
   line-height: 1;
   -webkit-transition: none 0 !important;
   /* For Safari 3.1 to 6.0 */
-
   transition: none 0 !important;
 }
 .n-topology.n-topology-yellow .n-topology-nav-setting:hover {
@@ -3890,7 +3834,6 @@
 .n-transition {
   -webkit-transition: all 0.4 !important;
   /* For Safari 3.1 to 6.0 */
-
   transition: all 0.4s !important;
 }
 .n-moveCursor {
@@ -3921,10 +3864,8 @@
 .clearfix:after {
   content: " ";
   /* 1 */
-
   display: table;
   /* 2 */
-
 }
 .clearfix:after {
   clear: both;
@@ -3975,7 +3916,7 @@
   white-space: nowrap;
   padding: 6px 12px;
   font-size: 14px;
-  line-height: 1.428571429;
+  line-height: 1.42857143;
   border-radius: 4px;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -3990,7 +3931,7 @@
 }
 .btn:hover,
 .btn:focus {
-  color: #333333;
+  color: #333;
   text-decoration: none;
 }
 .btn:active,
@@ -4011,16 +3952,16 @@ fieldset[disabled] .btn {
   box-shadow: none;
 }
 .btn-default {
-  color: #333333;
-  background-color: #ffffff;
-  border-color: #cccccc;
+  color: #333;
+  background-color: #fff;
+  border-color: #ccc;
 }
 .btn-default:hover,
 .btn-default:focus,
 .btn-default:active,
 .btn-default.active,
 .open .dropdown-toggle.btn-default {
-  color: #333333;
+  color: #333;
   background-color: #ebebeb;
   border-color: #adadad;
 }
@@ -4044,11 +3985,11 @@ fieldset[disabled] .btn-default:active,
 .btn-default.disabled.active,
 .btn-default[disabled].active,
 fieldset[disabled] .btn-default.active {
-  background-color: #ffffff;
-  border-color: #cccccc;
+  background-color: #fff;
+  border-color: #ccc;
 }
 .btn-primary {
-  color: #ffffff;
+  color: #fff;
   background-color: #0386d2;
   border-color: #0376b9;
 }
@@ -4057,7 +3998,7 @@ fieldset[disabled] .btn-default.active {
 .btn-primary:active,
 .btn-primary.active,
 .open .dropdown-toggle.btn-primary {
-  color: #ffffff;
+  color: #fff;
   background-color: #026caa;
   border-color: #024f7d;
 }
@@ -4085,7 +4026,7 @@ fieldset[disabled] .btn-primary.active {
   border-color: #0376b9;
 }
 .btn-warning {
-  color: #ffffff;
+  color: #fff;
   background-color: #f2ad4e;
   border-color: #f0a236;
 }
@@ -4094,7 +4035,7 @@ fieldset[disabled] .btn-primary.active {
 .btn-warning:active,
 .btn-warning.active,
 .open .dropdown-toggle.btn-warning {
-  color: #ffffff;
+  color: #fff;
   background-color: #ef9b28;
   border-color: #d98510;
 }
@@ -4122,7 +4063,7 @@ fieldset[disabled] .btn-warning.active {
   border-color: #f0a236;
 }
 .btn-danger {
-  color: #ffffff;
+  color: #fff;
   background-color: #da534f;
   border-color: #d63e3a;
 }
@@ -4131,7 +4072,7 @@ fieldset[disabled] .btn-warning.active {
 .btn-danger:active,
 .btn-danger.active,
 .open .dropdown-toggle.btn-danger {
-  color: #ffffff;
+  color: #fff;
   background-color: #d3322d;
   border-color: #ae2825;
 }
@@ -4159,7 +4100,7 @@ fieldset[disabled] .btn-danger.active {
   border-color: #d63e3a;
 }
 .btn-success {
-  color: #ffffff;
+  color: #fff;
   background-color: #5cb85c;
   border-color: #4cae4c;
 }
@@ -4168,7 +4109,7 @@ fieldset[disabled] .btn-danger.active {
 .btn-success:active,
 .btn-success.active,
 .open .dropdown-toggle.btn-success {
-  color: #ffffff;
+  color: #fff;
   background-color: #47a447;
   border-color: #398439;
 }
@@ -4196,7 +4137,7 @@ fieldset[disabled] .btn-success.active {
   border-color: #4cae4c;
 }
 .btn-info {
-  color: #ffffff;
+  color: #fff;
   background-color: #5bc1df;
   border-color: #46b9db;
 }
@@ -4205,7 +4146,7 @@ fieldset[disabled] .btn-success.active {
 .btn-info:active,
 .btn-info.active,
 .open .dropdown-toggle.btn-info {
-  color: #ffffff;
+  color: #fff;
   background-color: #39b4d8;
   border-color: #259bbe;
 }
@@ -4296,7 +4237,7 @@ input[type="button"].btn-block {
   width: 100%;
 }
 .btn-default .caret {
-  border-top-color: #333333;
+  border-top-color: #333;
 }
 .btn-primary .caret,
 .btn-success .caret,
@@ -4306,7 +4247,7 @@ input[type="button"].btn-block {
   border-top-color: #fff;
 }
 .dropup .btn-default .caret {
-  border-bottom-color: #333333;
+  border-bottom-color: #333;
 }
 .dropup .btn-primary .caret,
 .dropup .btn-success .caret,
@@ -4350,10 +4291,8 @@ input[type="button"].btn-block {
 .btn-toolbar:after {
   content: " ";
   /* 1 */
-
   display: table;
   /* 2 */
-
 }
 .btn-toolbar:after {
   clear: both;
@@ -4362,10 +4301,8 @@ input[type="button"].btn-block {
 .btn-toolbar:after {
   content: " ";
   /* 1 */
-
   display: table;
   /* 2 */
-
 }
 .btn-toolbar:after {
   clear: both;
@@ -4469,10 +4406,8 @@ input[type="button"].btn-block {
 .btn-group-vertical > .btn-group:after {
   content: " ";
   /* 1 */
-
   display: table;
   /* 2 */
-
 }
 .btn-group-vertical > .btn-group:after {
   clear: both;
@@ -4481,10 +4416,8 @@ input[type="button"].btn-block {
 .btn-group-vertical > .btn-group:after {
   content: " ";
   /* 1 */
-
   display: table;
   /* 2 */
-
 }
 .btn-group-vertical > .btn-group:after {
   clear: both;
@@ -4548,9 +4481,9 @@ input[type="button"].btn-block {
   max-width: 276px;
   padding: 1px;
   text-align: left;
-  background-color: #ffffff;
+  background-color: #fff;
   background-clip: padding-box;
-  border: 1px solid #cccccc;
+  border: 1px solid #ccc;
   border: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: 6px;
   -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
@@ -4602,7 +4535,7 @@ input[type="button"].btn-block {
   left: 50%;
   margin-left: -11px;
   border-bottom-width: 0;
-  border-top-color: #999999;
+  border-top-color: #999;
   border-top-color: rgba(0, 0, 0, 0.25);
   bottom: -11px;
 }
@@ -4611,14 +4544,14 @@ input[type="button"].btn-block {
   bottom: 1px;
   margin-left: -10px;
   border-bottom-width: 0;
-  border-top-color: #ffffff;
+  border-top-color: #fff;
 }
 .popover.right .arrow {
   top: 50%;
   left: -11px;
   margin-top: -11px;
   border-left-width: 0;
-  border-right-color: #999999;
+  border-right-color: #999;
   border-right-color: rgba(0, 0, 0, 0.25);
 }
 .popover.right .arrow:after {
@@ -4626,13 +4559,13 @@ input[type="button"].btn-block {
   left: 1px;
   bottom: -10px;
   border-left-width: 0;
-  border-right-color: #ffffff;
+  border-right-color: #fff;
 }
 .popover.bottom .arrow {
   left: 50%;
   margin-left: -11px;
   border-top-width: 0;
-  border-bottom-color: #999999;
+  border-bottom-color: #999;
   border-bottom-color: rgba(0, 0, 0, 0.25);
   top: -11px;
 }
@@ -4641,20 +4574,21 @@ input[type="button"].btn-block {
   top: 1px;
   margin-left: -10px;
   border-top-width: 0;
-  border-bottom-color: #ffffff;
+  border-bottom-color: #fff;
 }
 .popover.left .arrow {
   top: 50%;
   right: -11px;
   margin-top: -11px;
   border-right-width: 0;
-  border-left-color: #999999;
+  border-left-color: #999;
   border-left-color: rgba(0, 0, 0, 0.25);
 }
 .popover.left .arrow:after {
   content: " ";
   right: 1px;
   border-right-width: 0;
-  border-left-color: #ffffff;
+  border-left-color: #fff;
   bottom: -10px;
 }
+
