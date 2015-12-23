@@ -40,6 +40,8 @@ We require these tools in your system to build the project.
 * npm install -g uglify
 * npm install -g less
 * npm install -g phantom phantomjs
+* make clean
+* make
 
 ## Key Features
 
