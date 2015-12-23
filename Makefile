@@ -290,16 +290,16 @@ work/dist/resources: FORCE work/dist
 	@mkdir -p work/dist/resources
 	@cp -R resources/fonts work/dist/resources
 	@mkdir -p work/dist/resources/web
-	@lessc resources/web/themes/blue/next.less > work/dist/resources/web/next-blue.css
-	@lessc resources/web/themes/green/next.less > work/dist/resources/web/next-green.css
-	@lessc resources/web/themes/dark/next.less > work/dist/resources/web/next-dark.css
-	@lessc resources/web/themes/slate/next.less > work/dist/resources/web/next-slate.css
-	@lessc resources/web/themes/yellow/next.less > work/dist/resources/web/next-yellow.css
-	@lessc resources/web/themes/blue/next-componentlized.less > work/dist/resources/web/next-blue-componentlized.css
-	@lessc resources/web/themes/green/next-componentlized.less > work/dist/resources/web/next-green-componentlized.css
-	@lessc resources/web/themes/dark/next-componentlized.less > work/dist/resources/web/next-dark-componentlized.css
-	@lessc resources/web/themes/slate/next-componentlized.less > work/dist/resources/web/next-slate-componentlized.css
-	@lessc resources/web/themes/yellow/next-componentlized.less > work/dist/resources/web/next-yellow-componentlized.css
+	@node work/bin/next-less.js resources/web/themes/blue/next.less > work/dist/resources/web/next-blue.css
+	@node work/bin/next-less.js resources/web/themes/green/next.less > work/dist/resources/web/next-green.css
+	@node work/bin/next-less.js resources/web/themes/dark/next.less > work/dist/resources/web/next-dark.css
+	@node work/bin/next-less.js resources/web/themes/slate/next.less > work/dist/resources/web/next-slate.css
+	@node work/bin/next-less.js resources/web/themes/yellow/next.less > work/dist/resources/web/next-yellow.css
+	@node work/bin/next-less.js resources/web/themes/blue/next-componentlized.less > work/dist/resources/web/next-blue-componentlized.css
+	@node work/bin/next-less.js resources/web/themes/green/next-componentlized.less > work/dist/resources/web/next-green-componentlized.css
+	@node work/bin/next-less.js resources/web/themes/dark/next-componentlized.less > work/dist/resources/web/next-dark-componentlized.css
+	@node work/bin/next-less.js resources/web/themes/slate/next-componentlized.less > work/dist/resources/web/next-slate-componentlized.css
+	@node work/bin/next-less.js resources/web/themes/yellow/next-componentlized.less > work/dist/resources/web/next-yellow-componentlized.css
 	@mkdir -p work/dist/resources/topology
-	@lessc resources/topology/next-topology.less > work/dist/resources/topology/next-topology.css
+	@node work/bin/next-less.js resources/topology/next-topology.less > work/dist/resources/topology/next-topology.css
 	@echo "Done."

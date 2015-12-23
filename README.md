@@ -24,13 +24,22 @@ We require these tools in your system to build the project.
 ### For Debian/Ubuntu
 
 * sudo apt-get install nodejs
-* sudo apt-get install phantomjs
-* sudo apt-get install node-less
-* sudo npm install yuidocjs -g
-* sudo npm install uglify -g
-* sudo npm install node-getopt -g
+* sudo npm install -g node-getopt
+* sudo npm install -g yuidocjs
+* sudo npm install -g uglify
+* sudo npm install -g less
+* sudo npm install -g phantom phantomjs
 * make clean
 * make
+
+### For Mac OS X with Brew
+
+* brew install node
+* npm install -g node-getopt
+* npm install -g yuidocjs
+* npm install -g uglify
+* npm install -g less
+* npm install -g phantom phantomjs
 
 ## Key Features
 
