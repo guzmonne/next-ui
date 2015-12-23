@@ -16,10 +16,10 @@ We require these tools in your system to build the project.
   * SED
   * Make
 * NodeJS & NPM
-* PhantomJS
-* LESSC
-* YUIDoc
-* Node-Uglify
+  * PhantomJS
+  * LESS
+  * YUIDoc
+  * Uglify
 
 ### For Debian/Ubuntu
 
