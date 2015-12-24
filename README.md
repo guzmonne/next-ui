@@ -22,25 +22,35 @@ We require these tools in your system to build the project.
   * Uglify
 
 ### For Debian/Ubuntu
-
+Install the required software:
 * sudo apt-get install nodejs
 * sudo npm install -g node-getopt
 * sudo npm install -g yuidocjs
 * sudo npm install -g uglify
 * sudo npm install -g less
 * sudo npm install -g phantom phantomjs
+ 
+Build the project:
 * make clean
 * make
 
 ### For Mac OS X with Brew
+Install the required software:
 
+If you do not have [Homebrew](http://brew.sh), use this command to install it:
+
+```
+ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+```
 * brew install gnu-sed
 * brew install node
-* npm install -g node-getopt
-* npm install -g yuidocjs
-* npm install -g uglify
-* npm install -g less
-* npm install -g phantom phantomjs
+* sudo npm install -g node-getopt
+* sudo npm install -g yuidocjs
+* sudo npm install -g uglify
+* sudo npm install -g less
+* sudo npm install -g phantom phantomjs
+
+Build the project:
 * make clean
 * make
 
