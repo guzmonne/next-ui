@@ -34,6 +34,7 @@ We require these tools in your system to build the project.
 
 ### For Mac OS X with Brew
 
+* brew install gnu-sed
 * brew install node
 * npm install -g node-getopt
 * npm install -g yuidocjs
