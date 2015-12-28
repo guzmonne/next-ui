@@ -75,9 +75,15 @@ Are you NeXt?
 * Installed hjs-webpack to bootstrap Webpack configuration
 * Installed loader dependencies to compile the code.
 
+## ES2015 Build Process
+
+* Clone the repo
+* Run `npm install`
+* Run `npm start` to have a webpack hot-reloading server or run `npm build` to compile and minify the code.
+
 ## Notes
 
-* To build the final product you can run `npm run build`. Currently the command is configured to run over Powershell on Windows. See `package.json` and change the `prebuild` script to: `rmdir /Q /S public && mkdir public`.
+* To build the final product you can run `npm run build`. Currently the command is configured to run over Powershell on Windows. See `package.json` and change the `prebuild` script to: `rm -r public && mkdir public`.
 
 ## Team
 
