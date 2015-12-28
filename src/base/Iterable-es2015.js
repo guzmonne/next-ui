@@ -84,6 +84,6 @@ var Iterable = nx.define('nx.Iterable', {
       return this.each(callback, context);
     }
   }
-});
+}, null, {global: false});
 
 export {Iterable}

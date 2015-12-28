@@ -472,4 +472,10 @@ nx.uuid = function () {
   }).toUpperCase();
 };
 
-export {nx as nx};
+/*
+  Export nx to the global object
+ */
+//var root = getRootObject();
+//root.nx = nx;
+
+export {nx};

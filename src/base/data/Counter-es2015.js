@@ -202,6 +202,6 @@ var EXPORT = nx.define("nx.data.Counter", {
       return value;
     }
   }
-});
+}, null, {global: false});
 
 export {EXPORT as Counter};

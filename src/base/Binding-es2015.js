@@ -275,6 +275,6 @@ var Binding = nx.define('nx.Binding', Observable, {
       this._actualValue = newSource;
     }
   }
-});
+}, {global: false});
 
 export {Binding};

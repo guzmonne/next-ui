@@ -1,5 +1,5 @@
-// getRootObject function
 import getRootObject from './root.js';
+
 // NX
 import {nx} from './base/nx-es2015.js';
 // Define main classes in nx
@@ -10,7 +10,4 @@ import {Binding} from './base/Binding-es2015.js';
 import {Counter} from './base/data/Counter-es2015.js';
 
 var root = getRootObject();
-
 root.nx = nx;
-
-root.classes = {Iterable, Observable, Binding, Counter};

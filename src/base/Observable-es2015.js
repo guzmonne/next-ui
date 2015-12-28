@@ -354,6 +354,6 @@ var Observable = nx.define('nx.Observable', {
       }
     }
   }
-});
+}, null, {global: false});
 
 export {Observable};

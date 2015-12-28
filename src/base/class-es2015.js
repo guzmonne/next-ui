@@ -427,9 +427,16 @@ function extendMethod(target, name, method) {
  * @param [type] {String}
  * @param [parent] {Function}
  * @param [members] {Object}
+ * HACK
+ * @param [options] {Object}
  * @returns {Function}
  */
-function define(type, parent, members) {
+// This line was modified by this hack to be able to
+// copy the class through the nx.path() method but saving
+// it directly into the nx object, instead of rellaying
+// on the nx global object.
+function define(type, parent, members, options = {} /* Hack Parameter*/) {
+
   if (!members) {
     if (nx.is(parent, 'Object')) {
       members = parent;
@@ -684,7 +691,10 @@ function define(type, parent, members) {
   }
 
   if (type) {
-    nx.path(global, type, Class);
+    if (options.global === false)
+      nx.path(nx, type.replace('nx.', ''), Class);
+    else
+      nx.path(global, type, Class);
   }
 
   classes[Class.__classId__] = Class;
@@ -698,10 +708,6 @@ function define(type, parent, members) {
 //nx.define = define;
 //nx.classes = classes;
 
-/*
- Export nx with extended features from class.
- Also, extend define, classes, and NXObject individually.
- */
 export {NXObject};
 export {classes};
 export {define};
