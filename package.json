@@ -1,0 +1,46 @@
+{
+  "name": "next-ui-es2015",
+  "version": "1.0.0",
+  "description": "Cisco NextUI port built with ES2015",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/guzmonne/next-ui.git"
+  },
+  "keywords": [
+    "CISCO",
+    "NPM",
+    "NodeJS",
+    "NextUI",
+    "D3"
+  ],
+  "author": "Guzman Monne",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/guzmonne/next-ui/issues"
+  },
+  "homepage": "https://github.com/guzmonne/next-ui#readme",
+  "dependencies": {
+    "hjs-webpack": "^6.0.0",
+    "webpack": "^1.12.9",
+    "webpack-dev-server": "^1.14.0"
+  },
+  "devDependencies": {
+    "autoprefixer": "^6.2.2",
+    "babel": "^6.3.26",
+    "babel-core": "^6.3.26",
+    "babel-loader": "^6.2.0",
+    "css-loader": "^0.23.1",
+    "file-loader": "^0.8.5",
+    "less": "^2.5.3",
+    "less-loader": "^2.2.2",
+    "style-loader": "^0.13.0",
+    "url-loader": "^0.5.7"
+  }
+}

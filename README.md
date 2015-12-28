@@ -69,6 +69,16 @@ Build the project:
 
 Are you NeXt?
 
+## ES2015 Changes
+
+* Initialized as npm module
+* Installed hjs-webpack to bootstrap Webpack configuration
+* Installed loader dependencies to compile the code.
+
+## Notes
+
+* To build the final product you can run `npm run build`. Currently the command is configured to run over Powershell on Windows. See `package.json` and uncomment the line before the `build` command to run it on OSX or Linux.
+
 ## Team
 
 * Kang Li (lkang2@cisco.com)
