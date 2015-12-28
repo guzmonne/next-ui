@@ -4,7 +4,7 @@ import {nx} from './nx-es2015.js';
  * @class Iterable
  * @namespace nx
  */
-var Iterable = nx.define('nx.Iterable', {
+export var Iterable = nx.define('nx.Iterable', {
   statics: {
     /**
      * Get the iteration function from an iterable object.
@@ -85,5 +85,3 @@ var Iterable = nx.define('nx.Iterable', {
     }
   }
 }, null, {global: false});
-
-export {Iterable}

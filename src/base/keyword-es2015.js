@@ -3,7 +3,7 @@
  */
 // We change this line to declare the nx.keyword key on nx-es2015.js file
 //var keyword = nx.keyword = nx.keyword || {
-var keyword = {
+export var keyword = {
   binding: function (source, callback, async) {
     var context = false;
     if (typeof source !== "string") {
@@ -186,5 +186,3 @@ var keyword = {
     })()
   }
 };
-
-export {keyword}

@@ -4,7 +4,7 @@ import {nx} from './nx-es2015.js';
  * @class Observable
  * @namespace nx
  */
-var Observable = nx.define('nx.Observable', {
+export var Observable = nx.define('nx.Observable', {
   statics: {
     extendProperty: function extendProperty(target, name, meta) {
       var property = nx.Object.extendProperty(target, name, meta);
@@ -355,5 +355,3 @@ var Observable = nx.define('nx.Observable', {
     }
   }
 }, null, {global: false});
-
-export {Observable};

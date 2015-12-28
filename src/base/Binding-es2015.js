@@ -10,7 +10,7 @@
 import {nx} from './nx-es2015.js';
 import {Observable} from './Observable-es2015.js';
 
-var Binding = nx.define('nx.Binding', Observable, {
+export var Binding = nx.define('nx.Binding', Observable, {
   statics: {
     converters: {
       boolean: {
@@ -276,5 +276,3 @@ var Binding = nx.define('nx.Binding', Observable, {
     }
   }
 }, {global: false});
-
-export {Binding};
