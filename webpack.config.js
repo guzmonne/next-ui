@@ -2,7 +2,7 @@ var getConfig = require('hjs-webpack');
 
 module.exports = getConfig({
   // entry point for the app
-  in: 'src/base/base-es2015.js',
+  in: 'src/app.js',
   // output directory
   out: 'public',
   // remove and recreate public folder on build

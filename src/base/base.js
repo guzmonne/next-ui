@@ -10,7 +10,6 @@ var nx = {
     }).call(null)
 };
 
-
 // prepare for cross browser
 (function () {
     if (!Function.prototype.bind) {

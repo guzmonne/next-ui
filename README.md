@@ -77,7 +77,7 @@ Are you NeXt?
 
 ## Notes
 
-* To build the final product you can run `npm run build`. Currently the command is configured to run over Powershell on Windows. See `package.json` and uncomment the line before the `build` command to run it on OSX or Linux.
+* To build the final product you can run `npm run build`. Currently the command is configured to run over Powershell on Windows. See `package.json` and change the `prebuild` script to: `rmdir /Q /S public && mkdir public`.
 
 ## Team
 
