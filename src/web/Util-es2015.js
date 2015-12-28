@@ -178,4 +178,4 @@ export var Util = nx.define('nx.Util', {
       return inString.charAt(0).toUpperCase() + inString.slice(1);
     }
   }
-}, null, {global: true});
+}, null, {global: false});
